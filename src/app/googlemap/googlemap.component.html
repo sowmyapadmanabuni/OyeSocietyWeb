@@ -1,0 +1,16 @@
+<!-- <p>googlemap works!</p> -->
+<!-- <p *ngIf="map.distance>=0"><strong>You are {{map.distance}}km away</strong></p>  -->
+<div *ngIf="lat && lng">
+    <agm-map #gm [latitude]="lat" [longitude]="lng" [zoom]="13" [mapTypeId]="'roadmap'">
+            <agm-marker *ngFor="let marker of map.cords" [iconUrl]="marker.markerUrl" [latitude]="marker.appLatitude"
+                [longitude]="marker.appLongitude" (mouseOver)="onMouseOver(infoWindow,gm)"
+                (mouseOut)="onMouseOut(infoWindow,gm)">
+                <agm-info-window [disableAutoPan]="false" #infoWindow>
+                    <p><strong>{{marker.appName}}</strong></p>
+                    <p><strong>{{marker.mapAdress}}</strong></p>
+                </agm-info-window>
+            </agm-marker>
+            <agm-direction *ngIf="map.dir" [origin]="map.dir.origin" [destination]="map.dir.destination"
+                [avoidTolls]='true'></agm-direction>
+    </agm-map>
+<div>

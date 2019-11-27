@@ -1,0 +1,89 @@
+.w-100{width: 200px;margin: 0px auto;display: flex;}
+.test-cont{padding: 0px 100px;}
+.testi{
+display: flex;
+flex-direction: inherit;
+justify-content: space-evenly;
+align-items: center;
+}
+a{color:#000 !important;font-weight: 400 !important}
+.contrl{display: flex;flex-direction: column;justify-content: space-around;align-items: center;}
+.nav-tabs>li>a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+     border: none;
+    border-radius: 4px 4px 0 0;
+    font-weight: 600 !important;
+}
+.b-right{border-right: 2px solid #e2dede8c;border-left: 2px solid #e2dede8c;}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{color: #0c0c0c !important;
+cursor: default;
+background-color: #efeeee;
+border: 2px solid #c1c1c5;
+border-radius: 30px;
+width: 40px;
+height: 40px;
+padding: 10px 15px;
+cursor: pointer;}
+.nav-tabs>li>a:hover{color: #0c0c0c !important;
+cursor: default;
+background-color: #efeeee;
+border: 2px solid #c1c1c5;
+border-radius: 30px;
+width: 40px;
+height: 40px;
+padding: 10px 15px;
+cursor: pointer;}
+.nav-tabs{border:none}
+.benifit-row{display: flex;flex-direction:column;margin: 40px 0px;padding: 0px 40px;justify-content: center;align-items: center}
+.benifit-col{justify-content: center;align-items: center;display: flex;flex-direction: column;padding-top: 25px;}
+
+.test_title
+{
+font-size: 16px !important;
+font-weight: 900;
+}
+.test_designation
+{
+font-size: 15px !important;
+font-weight: 900;
+}
+.test_desc
+{
+font-size: 15px !important;
+font-weight: 300;
+}
+.benifits{text-align: center;padding: 20px 0px;}
+.bg-grey{background: #f9f6f6;padding: 30px 0px !important;}  
+.carousel-indicators .active{background:#f1883b;width: 17px;height: 17px;}
+.carousel-indicators li{background:#FFB81A;width: 14px;height: 14px;}
+.carousel-indicators{bottom:-22px}
+.carousel-indicators{display: block}
+@media screen and (max-width: 560px) and (min-width: 240px) {
+.w-100
+{   
+margin-left: auto !important;
+margin-right: auto !important;
+width: 50% !important;
+display:flex;
+}
+.carousel-control-prev,.carousel-control-next{display: none}
+.test_title,.test_designation,.blue{text-align: center !important}
+.test_desc{text-align: center !important;padding-top: 20px}
+
+}
+@media screen and (max-width: 1185px) and (min-width: 240px) {
+
+.test-cont{padding: 0px 0px;}
+
+}
+@media only screen and (min-width: 240px) and (max-width:767px)  
+{
+img{width: none;}
+.b-right{border: none !important}
+}
+@media only screen and (min-width: 240px) and (max-width:567px)  
+{
+.testi{flex-direction: column}
+.desc-main{    margin: 0px 30px;}
+}

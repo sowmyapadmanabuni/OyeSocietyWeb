@@ -1,0 +1,208 @@
+<div class="container-fluid bg np">
+        <div class="col-sm-9">
+            <!--Profile section-->
+            <app-left-bar></app-left-bar>
+
+            <!--Profile section-->
+    
+            <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+    
+                <!--Dashboard icons start-->
+                <div class="col-md-12 m-t-30 dash">
+                        <ul class="nav nav-pills">
+                                <li><a (click)="goToBlocks()">Blocks</a></li>
+                                <li class="active"><a (click)="goToUnits()">Units</a></li>
+                                
+                        </ul>
+                    <div class="enroll">
+                            <span class="purple" style="font-size: 24px;font-weight: 500;">Units Management</span>
+                        <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-plus"
+                                aria-hidden="true"></i> Add Units</button>
+                        
+                    </div>
+                    <div class="dash-row">
+    
+                        <table id="example" class="table table-striped table-bordered dataTable no-footer"
+                            style="width:100%" role="grid" aria-describedby="example_info">
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Association Name</th>
+                                    <th>Property Name</th>
+                                    <th>Locality</th>
+                                    <th>No of Blocks</th>
+                                    <th>No of Units</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>61</td>
+                                    <td>2011/04/25</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+    
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Garrett Winters</td>
+                                    <td>Accountant</td>
+                                    <td>Tokyo</td>
+                                    <td>63</td>
+                                    <td>2011/07/25</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Ashton Cox</td>
+                                    <td>Junior Technical Author</td>
+                                    <td>San Francisco</td>
+                                    <td>66</td>
+                                    <td>2009/01/12</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Cedric Kelly</td>
+                                    <td>Senior Javascript Developer</td>
+                                    <td>Edinburgh</td>
+                                    <td>22</td>
+                                    <td>2012/03/29</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Airi Satou</td>
+                                    <td>Accountant</td>
+                                    <td>Tokyo</td>
+                                    <td>33</td>
+                                    <td>2008/11/28</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Brielle Williamson</td>
+                                    <td>Integration Specialist</td>
+                                    <td>New York</td>
+                                    <td>61</td>
+                                    <td>2012/12/02</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Herrod Chandler</td>
+                                    <td>Sales Assistant</td>
+                                    <td>San Francisco</td>
+                                    <td>59</td>
+                                    <td>2012/08/06</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>Rhona Davidson</td>
+                                    <td>Integration Specialist</td>
+                                    <td>Tokyo</td>
+                                    <td>55</td>
+                                    <td>2010/10/14</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>Colleen Hurst</td>
+                                    <td>Javascript Developer</td>
+                                    <td>San Francisco</td>
+                                    <td>39</td>
+                                    <td>2009/09/15</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>Sonya Frost</td>
+                                    <td>Software Engineer</td>
+                                    <td>Edinburgh</td>
+                                    <td>23</td>
+                                    <td>2008/12/13</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>11</td>
+                                    <td>Jena Gaines</td>
+                                    <td>Office Manager</td>
+                                    <td>London</td>
+                                    <td>30</td>
+                                    <td>2008/12/19</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td>Quinn Flynn</td>
+                                    <td>Support Lead</td>
+                                    <td>Edinburgh</td>
+                                    <td>22</td>
+                                    <td>2013/03/03</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>13</td>
+                                    <td>Charde Marshall</td>
+                                    <td>Regional Director</td>
+                                    <td>San Francisco</td>
+                                    <td>36</td>
+                                    <td>2008/10/16</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>14</td>
+                                    <td>Haley Kennedy</td>
+                                    <td>Senior Marketing Designer</td>
+                                    <td>London</td>
+                                    <td>43</td>
+                                    <td>2012/12/18</td>
+                                    <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
+                                            aria-hidden="true"></i></td>
+                                </tr>
+    
+                            </tbody>
+    
+                        </table>
+    
+                    </div>
+                </div>
+                <!--Dashboard icons end-->
+    
+            </div>
+    
+        </div>
+         <!--rightBar start-->
+         <app-right-bar></app-right-bar>
+         <!--rightBar end-->
+    </div>
+    
+    
+    <ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            This is a modal.
+        </div>
+    </ng-template>

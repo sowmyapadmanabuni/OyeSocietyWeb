@@ -1,0 +1,20 @@
+img{    width: 100%;}
+#myCarousel{width: 80%;margin: 0px auto;margin-top: 50px;}
+.left,.right{background-image: none !important}
+#right{right: -75px;position: absolute;top: 111px;}
+#left{left: -75px;position: absolute;top: 111px;}
+.carousel-indicators{display: none}
+.carousel-inner{    padding: 0px 1px;} 
+.bimage{width:500px}
+#list{box-shadow: 0px 0px 2px 2px #ededed;padding: 30px;}
+/* .left{background-image: none !important;top: 35px;bottom: 0;left: -102px;} */
+.shad{box-shadow: 0px 3px 9px -1px #8a8686;padding: 30px;}
+.safety{display: flex;    margin: 30px 0px 0px 0px;justify-content: space-between;background: #f5f2f2b5;padding: 50px !important;}
+@media only screen and (min-width: 240px) and (max-width:765px)  
+{
+    .carousel-indicators{display: block;bottom: -27px;}
+    .left,.right{display: none;}
+    .carousel-indicators li{background: chocolate}
+    .carousel-indicators .active{background: red}
+    #list{margin-top:40px}
+}

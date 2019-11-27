@@ -1,0 +1,9 @@
+<div class="carousel"  *ngFor="let image of carouselImages">
+  <!-- {{appImgCount}} -->
+    <a class="carousel-item" *ngFor="let img of image.appImage" (click)="getCarouselName(img,$event)">
+      <img [src]="img">
+    </a>
+</div>
+
+            
+                 

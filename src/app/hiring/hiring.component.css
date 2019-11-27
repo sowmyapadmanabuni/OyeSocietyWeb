@@ -1,0 +1,14 @@
+body{background:none !important}
+.hrtitle{font-size: 40px !important;font-weight: 300 !important;}
+.benifits{text-align: center}
+.bg-grey{background: #f9f6f6}
+.benifit-row{display: flex;margin: 40px 0px;padding: 0px 40px;}
+.benifit-col{flex-basis: 200px;}
+.pl{padding-left: 30px;}
+img{width: 100%;}
+a{color: #fff !important;text-emphasis: none;}
+/* media Query start*/
+@media only screen and (min-width: 240px) and (max-width:767px)  
+{
+img{width: none;}
+}

@@ -1,0 +1,119 @@
+<div class="container-fluid np">
+        <div class="col-sm-9 np">
+                <!--Profile section-->
+
+                <app-left-bar></app-left-bar>
+
+                <!--Profile section-->
+
+                <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
+                        <!--Search Drop Down start -->
+                        <div class="col-sm-12 search">
+                                <div class="dropdown search-dropd">
+                                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                                                data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
+                                                <span class="caret"></span></button>
+                                        <ul class="dropdown-menu fullw">
+                                                <li (click)="loadAssociation(association['asAsnName'])" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
+                                        </ul>
+                                </div>
+                                <div class="dropdown search-dropd">
+                                        <button class="btn btn-primary dropdown-toggle sdm" type="button"
+                                                data-toggle="dropdown">{{globalService.currentUnitId}}
+                                                <span class="caret"></span></button>
+                                        <ul class="dropdown-menu fullw">
+                                                <li (click)="loadUnit(unt['unUniName'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
+                                        </ul>
+                                </div>
+                        </div>
+                        <!--Search Drop Down End -->
+                        <!--choice heading row start-->
+                        <div class="col-sm-12 make">
+                                <h3 class="purple">Manyata Association</h3>
+                        </div>
+                        <!--choice heading row end-->
+                        <!--Dashboard icons start-->
+                        <div class="col-md-12 m-t-30 dash">
+                                <div class="dash-row">
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/asso_amount_due.png">
+                                                </div>
+                                                <div>
+                                                        <div class="number">{{(amount=='0'?'0':amount)}}</div>
+                                                        <div>Association <br>Amount Due</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/amount_due_self.png">
+                                                </div>
+                                                <div>
+                                                        <div class="number">0</div>
+                                                        <div>Amount Due</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/vehicles.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
+                                                        <div>Vehicles</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/Group 1750.png">
+                                                </div>
+                                                <div>
+                                                        <div class="number">0</div>
+                                                        <div>Documents</div>
+                                                </div>
+                                        </div>
+
+                                </div>
+                                <div class="dash-row">
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/members.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
+                                                        <div>Members</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/vicitors.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
+                                                        <div>Visitors</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/staff.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalStaffs=='0'?'0':totalStaffs)}}</div>
+                                                        <div>Staff</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/ticket.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalTickets=='0'?'0':totalTickets)}}</div>
+                                                        <div>Tickets</div>
+                                                </div>
+                                        </div>
+
+                                </div>
+                        </div>
+                        <!--Dashboard icons end-->
+
+                </div>
+
+        </div>
+        <!--rightBar start-->
+        <app-right-bar></app-right-bar>
+        <!--rightBar end-->
+</div>

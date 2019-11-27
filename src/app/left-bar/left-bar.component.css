@@ -1,0 +1,13 @@
+.profile{display: flex;flex-direction: column;justify-content: center;align-items: center;}
+.profile>div{padding: 8px 0px;}
+@media only screen and (min-width: 230px) and (max-width: 992px)  {
+    .profile{flex-direction: row;justify-content: space-evenly;}
+  .b-l{border:none !important}
+  }
+
+  #firstname {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 75px;
+  }

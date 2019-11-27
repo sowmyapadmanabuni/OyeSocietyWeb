@@ -1,0 +1,20 @@
+export class Viewexpense {
+    constructor(private exid,
+                private unUniIden,
+                private exApplTO,
+                private exDate,
+                private expAmnt,
+                private exDesc,
+                private mgrName,
+                private exHead,
+                private exType,
+                private pmid,
+                private inNumber,
+                private EXDDNo,
+                private EXDDDate,
+                private poid,
+                private inGenDate,
+                private exPyCopy,
+                private exRecurr,
+                private blBlockID){}
+}

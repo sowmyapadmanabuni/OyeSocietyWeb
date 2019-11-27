@@ -1,0 +1,83 @@
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    margin: 0px 0px 30px 0px;
+    display: flex;
+    justify-content: center;
+
+  }
+ .contdetails{    
+    background: #EFEFEF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 26px solid #EFEFEF;
+    padding-left: 46px;
+    height: 358px;   
+} 
+.bor-line{border: 2px solid gainsboro;padding:0px}
+.p-30{padding: 40px 38px;}
+.contdetails >p{
+  color: #151414;
+  font-weight: 300 !important;
+  font-size: 22px;
+  padding-top: 30px;
+}
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 14px;
+    border-right:3px solid #f1eded;
+    padding: 15px 50px;
+    color: #696767;
+}
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #4bb4c1;
+    color:#fff !important;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #4bb4c1;
+    color:#fff !important;
+
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    /* display: none; */
+    padding: 6px 12px;
+    border-top: none;
+  }
+  @media screen and (max-width: 760px) and (min-width: 540px) {
+    .tab button 
+    {
+      font-size: 13px;
+      padding: 10px 28px;
+          }
+
+    
+  }
+  @media screen and (max-width: 540px) and (min-width: 240px) {
+    .tab button 
+    {
+      font-size: 13px;
+      padding: 10px 28px;
+      border: 1px solid #f1eded;
+     }
+     .contdetails{border:none !important}
+
+   
+    .tab{
+      flex-direction: column;
+    }
+  }

@@ -1,0 +1,29 @@
+.search-results{
+box-shadow: 1px 1px 8px 2px #04040440;
+border-radius: 30px 0px 0px 0px;
+background: #f8f8f8;
+padding: 30px 0px !important;
+}
+a{text-decoration: none;cursor: pointer;color:#000 !important}
+.search-res-row{   display: flex;justify-content: flex-start;align-items: center;padding-left: 30px;}
+.search-res-row2{   display: flex;justify-content: flex-start;align-items: baseline;padding-left: 30px;padding-bottom: 20px;}
+.icons-row{display: flex;
+flex-direction: column;
+font-size: 12px;
+font-weight: 600;margin-right: 55px;
+align-items: center;}
+.icon{width: 50px;}
+.flat-list-row{padding: 11px 0px 10px 0px !important;color: #000;}
+.p-t-45{padding-top: 20px !important;}
+.f-des{padding-left: 10px;font-weight: 500;}
+@media only screen and (min-width: 340px) and (max-width: 992px)  {
+    .search-results{margin-top:0px}
+  
+  }
+  @media only screen and (min-width: 770px) and (max-width: 2000px)  {
+    .p-r-n{padding-right:0px}
+  
+  }
+  @media only screen and (min-width: 240px) and (max-width: 640px)  {
+    .search-results{border-radius: 30px !important}
+  }

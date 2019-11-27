@@ -1,0 +1,132 @@
+<div class="container-fluid p-40">
+    <!--Search Filter start-->
+    <div class="col-sm-3">
+        <h3 class="job-head">Search For Job</h3>
+        <div class="form-group fgm-r">
+            <label>Enter Job Title</label>
+            <input class="form-control" type="text" name="jobTitle" [(ngModel)]="jobTitle" #jobTittleControl='ngModel'  required>
+            <p class="alerts" *ngIf="jobTittleControl.invalid && jobTittleControl.touched">Job Title is Required</p>
+        </div>
+        <label>Select Department</label>
+        <div class="select form-group fgm-r">
+            <select class="form-control" name="jobDepartment" [(ngModel)]="jobDepartment">
+                <option>Mobile Development</option>
+                <option>Web Development</option>
+                <option>Tab Development</option>
+                <option>System Development</option>
+                <option>Business analyst</option>
+                <option>Support</option>
+                <option>Front End Development</option>
+            </select>
+        </div>
+        <label>Select Location</label>
+        <div class="select form-group fgm-r">
+            <select class="form-control" name="jobLocation" [(ngModel)]="jobLocation">
+                <option>Bengaluru</option>
+                <option>Mangalore</option>
+                <option>Mumbai</option>
+                <option>Belgaum</option>
+                <option>Gadag</option>
+                <option>Mysore</option>
+                <option>Yelhanka</option>
+            </select>
+        </div>
+        <label>Select Experience</label>
+        <div class="select form-group fgm-r">
+            <select class="form-control" name="jobExperience" [(ngModel)]="jobExperience">
+                <option value="1">1 years</option>
+                <option value="2">2 years</option>
+                <option value="3">3 years</option>
+                <option value="4">4 years</option>
+            </select>
+        </div>
+        <label>Select Employee Type</label>
+        <div class="select form-group fgm-r">
+            <select class="form-control" name="jobType" [(ngModel)]="jobType">
+                <option>Full Time</option>
+                <option>Part Time</option>
+                <option>Half Time</option>
+                <option>Excess Time</option>
+            </select>
+        </div>
+        <button class="cont-bt" (click)="Searchjobs(applyjob)">Search</button>
+    </div>
+    <!--Search Filter end-->
+
+    <!--Search Result Tables -->
+    <div class="col-sm-9 b-left">
+        <h3 class="job-head">Current Job Openings</h3>
+        <p>Thanks for checking out our job openings, Apply below if you see something that interests you. Dont't see the
+            position you want <span (click)="openModelnewJob(applyjob)" class="orange">Apply here</span></p>
+        <table id="example" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Experience</th>
+                    <th>Department</th>
+                    <th>Location</th>
+                    <th>Employee Type</th>
+                    <th>Job Posted On</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let jobs of jobDetailslist | orderBy: order :false">
+                    <td (click)="openModal(applyjob,jobs.jobId)">{{jobs.jobTitle}}</td>
+                    <td>{{jobs.jobExp}} years</td>
+                    <td>{{jobs.department}}</td>
+                    <td>{{jobs.location}}</td>
+                    <td>{{jobs.employeeType}}</td>
+                    <td>{{jobs.postDate}}</td>
+                    <td (click)="openModal(applyjob,jobs.jobId)" class="apply" >Apply Now</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <!--Search Result Tables -->
+</div>
+
+<!--Contact us pop up box-->
+<ng-template #applyjob>
+
+        <div class="modal-header" style="background: #82808026">
+                <h4 class="modal-title" style="text-align:center">Job Application</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+        <div class="modal-body">
+                <div class="container-fluid">
+
+                        <div class="col-sm-12 np">
+                                <div class="form-group request-form-field">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" name="userName" [(ngModel)]="userName" #uNameControl='ngModel' required>
+                                        <p class="alerts" *ngIf="uNameControl.invalid && uNameControl.touched">Job Title is Required</p>
+                                </div>
+                                <div class="form-group request-form-field">
+                                        <label>Phone</label>
+                                        <input type="text" class="form-control" name="userPhone" [(ngModel)]="userPhone" #uPhoneControl='ngModel' required>
+                                        <p class="alerts" *ngIf="uPhoneControl.invalid && uPhoneControl.touched">Job Title is Required</p>
+                                </div>
+                                <div class="form-group request-form-field">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" name="userEmail" [(ngModel)]="userEmail" #uEmailControl='ngModel' required>
+                                        <p class="alerts" *ngIf="uEmailControl.invalid && uEmailControl.touched">Job Title is Required</p>
+                                </div>
+                                <div class="form-group request-form-field">
+                                        <label>Position</label>
+                                        <input *ngIf="filteredPopJoblegth" type="text" name="" class="form-control" [(ngModel)]="formJobTitle" disabled>
+                                        <input *ngIf="!filteredPopJoblegth" type="text" name="" class="form-control" [(ngModel)]="formJobTitle">
+                                </div>
+                                
+                        </div>
+                        <!--contact details part-->
+                        <div><button class="cont-bt" (click)="ApplyJob()">Send</button></div>
+
+                </div>
+        </div>
+
+</ng-template>
+<!--Contact us pop up box-->

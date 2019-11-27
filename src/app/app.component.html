@@ -1,0 +1,49 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<!-- Toolbar -->
+<div class="topnav" id="myTopnav">
+  <div> <a (click)='toggleDashboard()'><img src="../assets/OyeSociety.png"></a></div>
+  <div style="margin-top: -30px;">
+    <a routerLink="home" class="active"></a>
+    <a routerLink="hiring" class="hire">We are hiring</a>
+    <div class="dropdown">
+      <button class="dropbtn">Our Brands
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="#">OyeHomes</a>
+        <a href="#">OyeSociety</a>
+        <a href="#">OyeOH</a>
+        <a href="#">OyeSmile</a>
+        <a href="#">OyeWallet</a>
+      </div>
+    </div>
+    <a routerLink="clients">Clients</a> 
+    <a routerLink="location">Locations</a>
+    <a routerLink="blogs">Blogs</a>
+    <a routerLink="testimonials">Testimonials</a>
+    <a routerLink="about">About Us</a>
+    <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
+  </div>
+</div>
+<!--heading start-->
+<div class="col-sm-12 head">
+  <p class="wel">Welcome to</p>
+  <img src="../assets/header_img.png" style="width: 265px;">
+
+  <!--<h2 class="title-orange">OyeHomes</h2> -->
+</div>
+<!--heading end-->
+<router-outlet></router-outlet>
+<!-- <app-chat></app-chat> -->
+<!-- Footer -->
+<footer>
+  <app-footer></app-footer>
+</footer>

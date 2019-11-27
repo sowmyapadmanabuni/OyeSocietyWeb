@@ -1,0 +1,485 @@
+<div class="container-fluid bg np">
+    <div class="col-sm-9">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <h3 class="black">Association Management</h3>
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <div class="enroll">
+                    <div>
+                        <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-plus"
+                                aria-hidden="true"></i> Enroll Association</button>
+                        <button class="btn-primary-purple"><i class="fa fa-handshake-o" aria-hidden="true"></i>
+                            Join Association</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Search</label>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
+                </div>
+                <div class="dash-row">                     
+                      <table class="table table-striped" [mfData]="associations | search:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <thead>
+                          <tr>
+                            <th style="width: 20%">
+                              S.No.
+                            </th>
+                            <th style="width: 10%">
+                              <mfDefaultSorter by="asAsnName">Association Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 10%">
+                              <mfDefaultSorter by="asPrpName">Property Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 10%">
+                              <mfDefaultSorter by="asAddress">Locality</mfDefaultSorter>
+                            </th>
+                            <th style="width: 10%">
+                              <mfDefaultSorter by="asNofBlks">No of Blocks</mfDefaultSorter>
+                            </th>
+                            <th style="width: 10%">
+                              <mfDefaultSorter by="asNofUnit">No of Units</mfDefaultSorter>
+                            </th>
+                            <th style="width: 10%">
+                                Action
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                              <ng-container *ngIf="item == -1">
+                                <td colspan="4" align="center">No Data Found</td>
+                              </ng-container>
+                            <ng-container *ngIf="item!=-1">
+                                <td>{{(i+1)}}</td>
+                                <td>{{item['asAsnName']}}</td>
+                                <td>{{item['asPrpName']}}</td>
+                                <td>{{item['asAddress']}}</td>
+                                <td>{{item['asNofBlks']}}</td>
+                                <td>{{item['asNofUnit']}}</td>
+                                <td>
+                                    <i class="fa fa-eye" style="cursor: pointer;" title="ViewAssociation"
+                                        (click)="openViewAssociation(viewreceiptmodal,item.asAsnName,item.asPrpName,item.asAddress,item.asNofUnit,item.asCountry,item.asPinCode,item.asState,item.asPrpType,item.asNofBlks,item.asRegrNum,item.asAsnLogo,item.asCity,item.aspanNum,item.aspanDoc,item.asAssnID,item.asgstNo)"></i> |
+                                    <i (click)="OpenModal(template,item.asAsnName,item.asCountry,item.asAddress,item.asCity,item.asState,item.asPinCode,item.asPrpType,item.asPrpName,item.asNofBlks,item.asNofUnit,item.amType,item.noofAmenities,item.baBName,item.baIFSC,item.baActNo,item.baActType,item.asAssnID)"
+                                        class="fa fa-pencil" style="cursor: pointer;" title="EditAssociation"></i>
+                                </td>
+                            </ng-container>
+                            </tr>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="4">
+                                <mfBootstrapPaginator></mfBootstrapPaginator>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                </div>
+            </div>
+            <!--Dashboard icons end-->
+
+        </div>
+
+    </div>
+    <!--rightBar start-->
+    <app-right-bar></app-right-bar>
+    <!--rightBar end-->
+</div>
+
+<ng-template #template1>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        This is a modal.
+    </div>
+</ng-template>
+
+<ng-template #viewreceiptmodal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">View association</h5>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" style="border:2px solid #b33951; padding:5px;">
+                <div class="col-sm-12">
+                    <h5 class="text-center">Association Name : <strong>{{associationname}}</strong></h5>
+                    <br>
+                    <h5 style="color:#b33951">Enroll Information</h5>
+                    <br>
+                </div>
+                <div class="col-sm-4">
+                    <p>Association name :{{associationname}}</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Uploaded File : <span>{{file}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Country : <span>{{country}}</span></p>
+                </div>
+                <br>
+                <div class="col-sm-12"></div>
+                <div class="col-sm-4">
+                    <p>PinCode : <span>{{pincode}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>State : <span>{{State}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>City : <span>{{city}}</span></p>
+                </div>
+
+                <br>
+                <div class="col-sm-12"></div>
+                <div class="col-sm-4">
+                    <p>Property Type : <span>{{propertyType}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>PropertyName : <span>{{propertyName}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Locality : <span>{{locality}}</span></p>
+                </div>
+
+                <div class="col-sm-12">
+                </div>
+                <div class="col-sm-12">
+                    <h5 style="color:#b33951">Blocks & Unit details</h5>
+                </div>
+                <!-- <div class="col-sm-4">
+                           <p>State : <span>{{State}}</span></p>
+                       </div> -->
+                <br>
+                <br>
+                <!-- <div class="col-sm-4">
+                               <p>Property Type : <span>{{propertyType}}</span></p>
+                           </div> -->
+                <div class="col-sm-4">
+                    <p>No of Units : <span>{{NoofUnits}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>TotalNoBlocks : <span>{{blocks}}</span></p>
+                </div>
+                <!-- <div class="col-sm-12">
+                                    <hr>
+                               </div>
+           
+                               <div class="col-sm-4">
+                                   <p>Pan details : <span>{{State}}</span></p>
+                               </div>
+                               <div class="col-sm-4">
+                                       <p>Registration details : <span>{{regno}}</span></p>
+                                   </div>
+                                   <div class="col-sm-4">
+                                        <p>TotalNoBlocks : <span>{{blocks}}</span></p>
+                                    </div> -->
+                <div class="col-sm-12">
+
+                </div>
+                <div class="col-sm-12">
+                    <h5 style="color:#b33951">Pan and Registration details</h5>
+                </div>
+                <!-- <div class="col-sm-4">
+                                           <p>State : <span>{{State}}</span></p>
+                                       </div> -->
+                <br>
+                <br>
+                <!-- <div class="col-sm-4">
+                                               <p>Property Type : <span>{{propertyType}}</span></p>
+                                           </div> -->
+                <div class="col-sm-4">
+                    <p>Pan or reg Number : <span>{{panno}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>GSTNumber : <span>{{gstno}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Uploaded Pan : <span>{{pandoc}}</span></p>
+                </div>
+
+                <div class="col-sm-12">
+                </div>
+
+                <div class="col-sm-12">
+                    <h5 style="color:#b33951">Bank Information</h5>
+                </div>
+                <br>
+                <br>
+                <div class="col-sm-4">
+                    <p>Bank Name: <span>{{BankName}}</span></p>
+                </div>
+                <br>
+                <br>
+                <div class="col-sm-4">
+                    <p>IFSC : <span>{{IFSC}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Account Number : <span>{{AccountNumber}}</span></p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Account Type: <span>{{accountType}}</span></p>
+                </div>
+                <div class="col-sm-12">
+
+                </div>
+                <div class="col-sm-12">
+                    <h5 style="color:#b33951">Amenities</h5>
+                </div>
+                <br>
+                <br>
+                <div class="col-sm-4">
+                    <p>Amenity Type: <span>{{amenityType}}</span></p>
+                </div>
+                <br>
+                <br>
+                <div class="col-sm-4">
+                    <p>Amenity Number : <span>{{amenityNo}}</span></p>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #template>
+    <div class="modal-content">
+  
+      <div class="modal-header">
+        <h4 class="modal-title pull-right">Edit Association</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12" style="width: 90%; margin-left: 3%;">
+            <form name="editAssociation" autocomplete="off">
+              <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                  <div class="from-group">
+                    <p>Association Name : <strong>{{ASAsnName}}</strong></p>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-xs-12"></div>
+                <div class="col-sm-4 col-xs-12" style="text-align:pull-right">
+                  <p>Date : <strong>{{newdate | date: "d/M/y"}}</strong></p>
+                </div>
+              </div>
+  
+               <div> 
+                <div class="row">
+                  <br>
+                  <div class="col-sm-1 col-xs-12"></div>
+                  <div class="col-sm-11  col-xs-12">
+                    <h4 class="headingOrange">Edit Association</h4>
+                    
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : associationnameControl.invalid && associationnameControl.touched}">
+                      <label>Association Name <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="ASAsnName" [(ngModel)]="ASAsnName" #associationnameControl='ngModel'
+                         required />
+                        <p class="alerts" *ngIf="associationnameControl.invalid && associationnameControl.touched">Association Name is required</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : countryControl.invalid && countryControl.touched}">
+                      <label>Country <span class="red">*</span></label>
+                      <select class="form-control" name="ASCountry" [(ngModel)]="ASCountry" #countryControl="ngModel" (change)="openPANfield()" style="font-family: Quicksand" >
+                          <option ng-disabled="true" ng-selected="true" [value]="">Select Country</option>
+                          <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+                      </select>
+                      <p class="alerts" *ngIf="countryControl.invalid && countryControl.touched"> Please Select country</p>      
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : addressControl.invalid && addressControl.touched}">
+                      <label>Address<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="ASAddress" [(ngModel)]="ASAddress"
+                        #addressControl='ngModel' placeholder="Address" pattern="[a-zA-Z0-9-]*" required />
+                        <p class="alerts" *ngIf="addressControl.invalid && addressControl.touched">Address is required</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : cityControl.invalid && cityControl.touched}">
+                      <label>City<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="ASCity" [(ngModel)]="ASCity"
+                        #cityControl='ngModel' placeholder="City" pattern="[a-zA-Z0-9-]*" required />
+                        <p class="alerts" *ngIf="cityControl.invalid && cityControl.touched">City is required</p>
+                    </div>
+                  </div>    
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : stateControl.invalid && stateControl.touched}">
+                      <label>State<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="ASState" [(ngModel)]="ASState"
+                        #stateControl='ngModel' placeholder="State" pattern="[a-zA-Z0-9-]*" required />
+                        <p class="alerts" *ngIf="stateControl.invalid && stateControl.touched">State is required</p>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : pincodeControl.invalid && pincodeControl.touched}">
+                      <label>PinCode<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="ASPinCode" [(ngModel)]="ASPinCode"
+                        #pincodeControl='ngModel'  placeholder="PinCode" pattern="[a-zA-Z0-9-]*" required />
+                        <p class="alerts" *ngIf="stateControl.invalid && stateControl.touched">State is required</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : propTypeControl.invalid && propTypeControl.touched}">
+                      <label>Property Type <span class="red">*</span></label>
+                      <select class="form-control" name="ASPropType" [(ngModel)]="ASPrpType" #propTypeControl="ngModel" style="font-family: Quicksand">
+                          <option ng-disabled="true" ng-selected="true" [value]="">Select Property Type</option>
+                          <option *ngFor="let propertyType of propertyTypes" [value]="propertyType.name">{{propertyType.displayName}}</option>
+                      </select>
+                      <p class="alerts" *ngIf="propTypeControl.invalid && propTypeControl.touched"> Please Select property type</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : propNameControl.invalid && propNameControl.touched}">
+                      <label>Property Name <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="ASPrpName" [(ngModel)]="ASPrpName"
+                        #propNameControl='ngModel' placeholder="Property Name" pattern="[a-zA-Z0-9-]*" required />
+                        <p class="alerts" *ngIf="propNameControl.invalid && propNameControl.touched">Property Name is required</p>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                    [ngClass]="{'has-error' : noblockControl.invalid && noblockControl.touched}">
+                    <label>No Of Blocks <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="ASNofBlks" [(ngModel)]="ASNofBlks"
+                      #noblockControl='ngModel' pattern="[0-9]*" placeholder="No Of Blocks" required />
+                      <p class="alerts" *ngIf="noblockControl.invalid && noblockControl.touched">Number Of Blocks is required</p>
+                  </div>
+                  </div>
+  
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                    [ngClass]="{'has-error' : nounitControl.invalid && nounitControl.touched}">
+                    <label>No Of Units <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="ASNofUnit" [(ngModel)]="ASNofUnit"
+                      #nounitControl='ngModel' pattern="[0-9]*" placeholder="No Of Units" required />
+                      <p class="alerts" *ngIf="nounitControl.invalid && nounitControl.touched">Number Of Units is required</p>
+                  </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                    [ngClass]="{'has-error' : amenitytypeControl.invalid && amenitytypeControl.touched}">
+                    <label>Amenity Type <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="AMType" [(ngModel)]="AMType"
+                      #amenitytypeControl='ngModel' placeholder="Amenity Type" pattern="[a-zA-Z0-9-]*" required />
+                      <p class="alerts" *ngIf="amenitytypeControl.invalid && amenitytypeControl.touched">Amenity Name is required</p>
+                  </div>
+                  </div>
+  
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group"
+                      [ngClass]="{'has-error' : noofamenityControl.invalid && noofamenityControl.touched}">
+                      <label>No Of Amenities <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="NoofAmenities" [(ngModel)]="NoofAmenities"
+                        #noofamenityControl='ngModel' pattern="[0-9]*" placeholder="No Of Amenities" required />
+                        <p class="alerts" *ngIf="noofamenityControl.invalid && noofamenityControl.touched">No Of Amenities are required</p>
+                    </div>
+                  </div>
+                </div>
+  
+
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                    [ngClass]="{'has-error' : banknameControl.invalid && banknameControl.touched}">
+                    <label>Bank Name <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="BABName" [(ngModel)]="BABName"
+                      #banknameControl='ngModel' placeholder="Bank Name" pattern="[A-Za-z\s]+" required />
+                      <p class="alerts" *ngIf="banknameControl.invalid && banknameControl.touched">Bank Name is required</p>
+                  </div>
+                  </div>
+  
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group"
+                      [ngClass]="{'has-error' : bankifscControl.invalid && bankifscControl.touched}">
+                      <label>IFSC <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="BAIFSC" [(ngModel)]="BAIFSC"
+                        #bankifscControl='ngModel' placeholder="Bank IFSC" pattern="^[A-Za-z]{4}[a-zA-Z0-9]{7}$" required />
+                        <small>Ex: PAAA1111111</small>
+                        <p class="alerts" *ngIf="bankifscControl.invalid && bankifscControl.touched">IFSC is required</p>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="form-group"
+                      [ngClass]="{'has-error' : accountnumberControl.invalid && accountnumberControl.touched}">
+                      <label>Account Number <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="BAActNo" [(ngModel)]="BAActNo"
+                        #accountnumberControl='ngModel' placeholder="Account Number" pattern="[a-zA-Z0-9-]*" required />
+                        <p class="alerts" *ngIf="accountnumberControl.invalid && accountnumberControl.touched">Account Number is required</p>
+                    </div>
+                    </div>
+    
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                        [ngClass]="{'has-error' : accounttypeControl.invalid && accounttypeControl.touched}">
+                        <label>Account Type <span class="red">*</span></label>
+                        <select class="form-control" name="ASPropType" [(ngModel)]="ASPrpType" #accounttypeControl="ngModel" style="font-family: Quicksand">
+                            <option ng-disabled="true" ng-selected="true" [value]="">Select Account Type</option>
+                            <option *ngFor="let accounttype of accountTypes" [value]="accounttype.name">{{accounttype.displayName}}</option>
+                            <p class="alerts" *ngIf="accounttypeControl.invalid && accounttypeControl.touched">Account Type is required</p>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+
+                  <div class="from-group">
+                    <div class="form-group pull-right">
+                      <br>
+                      <button type="submit" style="background-color: orange !important" class="btn btn-primary" 
+                        (click)="UpdateAssociation()">Update</button>
+                    </div>
+                  </div>
+  
+  
+                </div>
+              
+             </form> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
