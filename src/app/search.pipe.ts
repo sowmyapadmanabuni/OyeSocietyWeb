@@ -11,60 +11,56 @@ export class SearchPipe implements PipeTransform {
 
   }
 
-  transform(items: any[], searchText: string): any[] {
+  transform(items: any[], searchBy:any[], searchText: string): any[] {
     if (this.isObjNull(items)) return [-1];
     if (this.isObjNull(searchText)) return items;
     this.searchKeyword = searchText.toLowerCase();
-    let res = items.filter(o => this.checkAgainstProperty(o.asAsnName));
-    if (res.length === 0) {
-      res = items.filter(o => this.checkAgainstProperty(o.asPrpName));
-      if (res.length === 0) {
-        res = items.filter(o => this.checkAgainstProperty(o.asAddress));
-        if (res.length === 0) {
-          res = items.filter(o => this.checkAgainstProperty(o.asNofBlks.toString()));
-          if (res.length === 0) {
-            res = items.filter(o => this.checkAgainstProperty(o.asNofUnit.toString()));
-            if (res.length === 0) { return [-1]; }
+    if (items.length) {
+      this.Result = items.filter(o => {  
+        for (let i=0; i<searchBy.length; i++) {
+          let k =  searchBy[i];
+          let cval = isNaN(o[k]) ? o[k] : o[k].toString();
+          if (!this.checkAgainstProperty(cval)) {
+            continue;
+          } else {
+            return true;
           }
         }
-
-      }
+      })
     }
-
-
-    return res;
+    return this.Result;
   }
 
   private checkAgainstProperty(property: any): boolean {
-    let value: boolean = false;
+  let value: boolean = false;
 
-    if (!this.isNullOrWhiteSpace(property)) {
-      if (property.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) {
-        value = true;
-      }
+  if (!this.isNullOrWhiteSpace(property)) {
+    if (property.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) {
+      value = true;
     }
-
-    return value;
   }
+
+  return value;
+}
 
   public isObjNull(obj: any, isNumber = false): boolean {
-    let value: boolean = true;
+  let value: boolean = true;
 
-    if (!isNumber && obj && obj != undefined && obj != null)
-      value = false;
-    else if (isNumber && obj != undefined && obj != null)
-      value = false;
+  if (!isNumber && obj && obj != undefined && obj != null)
+    value = false;
+  else if (isNumber && obj != undefined && obj != null)
+    value = false;
 
-    return value;
-  }
+  return value;
+}
 
   public isNullOrWhiteSpace(obj: string): boolean {
-    let value: boolean = true;
+  let value: boolean = true;
 
-    if (!this.isObjNull(obj) && obj.trim() != "")
-      value = false;
+  if (!this.isObjNull(obj) && obj.trim() != "")
+    value = false;
 
-    return value;
-  }
+  return value;
+}
 
 }
