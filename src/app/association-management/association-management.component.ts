@@ -14,10 +14,8 @@ import { OrderPipe } from 'ngx-order-pipe';
 import {DashBoardService} from '../../services/dash-board.service';
 import {HomeService} from '../../services/home.service';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { mergeMapTo } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 declare var $: any;
-
 
 
 @Component({
@@ -317,13 +315,60 @@ export class AssociationManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   ngAfterViewInit() {
+    $(document).ready(function () {
+      $('#example').DataTable();
+    });
 
+    $(document).ready(function () {
+
+      var navListItems = $('div.setup-panel div a'),
+        allWells = $('.setup-content'),
+        allNextBtn = $('.nextBtn');
+
+      allWells.hide();
+
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          $item.addClass('btn-success');
+          allWells.hide();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      });
+
+      allNextBtn.click(function () {
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for (var i = 0; i < curInputs.length; i++) {
+          if (!curInputs[i].validity.valid) {
+            isValid = false;
+            $(curInputs[i]).closest(".form-group").addClass("has-error");
+          }
+        }
+
+        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+      });
+
+      $('div.setup-panel div a.btn-success').trigger('click');
+    });
   }
   
   pageChanged(event: any): void {
     this.page = event.page;
   }
+  enblEnrlAsnVew(){
     
+  }
   viewassociation(repviewreceiptmodalit: any) {
     console.log(JSON.stringify(repviewreceiptmodalit));
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
