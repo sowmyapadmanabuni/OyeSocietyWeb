@@ -25,6 +25,9 @@ export class ViewAssociationService {
   associationId:any;
   asNofBlks:any;
   asNofUnit:any;
+  enrlAsnEnbled:boolean;
+  vewAsnEnbled:boolean;
+  joinAsnEbld:boolean;
 
   onUpLoad(fd: FormData) {
     //let headers = this.getHttpheaders();

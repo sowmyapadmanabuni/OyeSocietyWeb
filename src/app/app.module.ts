@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,21 +26,27 @@ import { JobsComponent } from './jobs/jobs.component';
 import { GooglemapComponent } from './googlemap/googlemap.component';
 import { AgmDirectionModule } from 'agm-direction';
 import { AssociationManagementComponent } from './association-management/association-management.component';
+import { ExpenseManagementComponent } from './expense-management/expense-management.component';
+import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
 import { UnitsComponent } from './units/units.component';
 import { LeftBarComponent } from './left-bar/left-bar.component';
 import { RightBarComponent } from './right-bar/right-bar.component';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { DataTablesModule } from 'angular-datatables';
-import {DataTableModule} from "angular-6-datatable";
+import { DataTableModule } from "angular-6-datatable";
 import { SearchPipe } from './search.pipe';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ToastrModule } from 'ngx-toastr';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    InvoicesComponent,
     RequestformComponent,
     HiringComponent,
     JwPaginationComponent,
@@ -53,6 +60,7 @@ export const firebaseConfig = environment.firebaseConfig;
     JobsComponent,
     GooglemapComponent,
     AssociationManagementComponent,
+    ExpenseManagementComponent,
     BlocksComponent,
     UnitsComponent,
     LeftBarComponent,
@@ -61,22 +69,26 @@ export const firebaseConfig = environment.firebaseConfig;
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     OrderModule,
     FormsModule,
     Routing,
-    AgmDirectionModule, 
+    AgmDirectionModule,
     NgxPaginationModule,
     DataTablesModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
     AgmCoreModule.forRoot({
-      apiKey:environment.googleMapsKey,
+      apiKey: environment.googleMapsKey,
       libraries: ['geometry']
-        }),
+    }),
     ModalModule.forRoot(),
-  DataTableModule
+    BsDatepickerModule.forRoot(),
+    DataTableModule,
+    ToastrModule.forRoot(),
+    ProgressbarModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

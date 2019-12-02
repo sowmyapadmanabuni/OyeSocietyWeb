@@ -1,0 +1,486 @@
+<div class="container-fluid bg np">
+    <div class="col-sm-9">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <span class="black">Expense For Manyata Association</span>
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <div class="switch">
+                    <ul class="nav nav-pills">
+                        <li class="active"><a (click)="goToExpense()">Expenses</a></li>
+                        <li><a (click)="goToInvoice()">Invoice</a></li>
+                        <li><a (click)="goToReceipts()">Receipts</a></li>
+                    </ul>
+                </div>
+                <div class="enroll">
+                    <div class="dropdown search-dropd">
+                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                            data-toggle="dropdown">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu fullw">
+                            <li *ngFor='let item of allBlocksLists' (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])"><a>{{item['blBlkName']}}</a></li>
+                        </ul>
+                    </div>
+
+                    <div [hidden]="blockID == ''" class="dropdown search-dropd">
+                      <button class="btn btn-primary dropdown-toggle sdm br" type="button" data-toggle="dropdown">{{Invoiced}}
+                        <span class="caret"></span></button>
+                      <ul class="dropdown-menu fullw">
+                        <li *ngFor='let item of invoiced' (click)="GetexpenseListByInvoiceID(item['name'])"><a>{{item['displayName']}}</a>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <button class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
+                            aria-hidden="true"></i> Generate invoice</button>
+                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-plus"
+                            aria-hidden="true"></i> Add Expense</button>
+                </div>
+                <div>
+                    <label>Search</label>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
+                </div>
+                <div class="dash-row">
+                    <table class="table table-striped" [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="exHead">Expense Head</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="exApplTO">Applicability</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="unUniIden">Unit Name</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="exIsInvD">Invoiced</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="exDate">Date Added</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="expAmnt">Amount</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    Added By
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                                <th><input type="checkbox" [(ngModel)]='togglegenerateinv' (click)='toggleGenerateInv()'/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="4" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{(i+1)}}</td>
+                                    <td>{{item['exHead']}}</td>
+                                    <td>{{item['exApplTO']}}</td>
+                                    <td>{{item['unUniIden']}}</td>
+                                    <td>
+                                        <span style="margin-left: 13px;" *ngIf="item.exIsInvD == true"> YES</span>
+                                        <span style="margin-left: 13px;" *ngIf="item.exIsInvD == false"> NO</span>
+                                    </td>
+                                    <td>{{item.exDate | date:"d/M/y"}}</td>
+                                    <td>{{'₹ '+item.expAmnt}}</td>
+                                    <td>{{dashboardservice.acfName | titlecase}}</td>
+                                    <td>
+                                        <i (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID)" title="EditExpense" class="fa fa-eye"></i> | <i (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash" title="DeleteExpense"></i>
+                                    </td>
+                                    <td><input type="checkbox" [(ngModel)]='item.checkedForGenerateInvoice'
+                                            (change)="getSelectedInv(item['exid'],item.checkedForGenerateInvoice)" />
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <!--Dashboard icons end-->
+        </div>
+    </div>
+    <!--rightBar start-->
+    <app-right-bar></app-right-bar>
+    <!--rightBar end-->
+</div>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        This is a modal.
+    </div>
+</ng-template>
+
+<ng-template #editexpensetemplate>
+    <div class="modal-content">
+  
+      <div class="modal-header">
+        <h4 class="modal-title pull-left" style="padding-left:15px;">Edit Expense</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12">
+            <form name="editExpense" autocomplete="off">
+              <div class="row">
+                <div class="col-sm-6">
+                    <p style="margin-left: 14px;">Association Name : <strong>{{assnName}}</strong></p>
+                </div>
+                <div class="col-sm-3" style="text-align:pull-right">
+                  <p>Date : <strong>{{todayDate | date: "d/M/y"}}</strong></p>
+                </div>
+                <div class="col-sm-3" style="text-align:pull-right">
+                  <p>Invoice : <strong>{{editexpensedata.inNumber}}</strong></p>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <hr>
+              </div>
+                <div class="col-sm-12">
+                  <h5 class="headingOrange">Edit Expense Head</h5>
+                </div>
+                <div class="col-sm-12">
+                  <hr>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-sm-3 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : purchaserderControl.invalid && purchaserderControl.touched}">
+                      <label>PO Number <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="POID" [(ngModel)]="editexpensedata.POID"
+                        #purchaserderControl='ngModel' (change)='poDetails()' required>
+                        <option disabled="true" selected="true" value="">Select PO Number </option>
+                        <option *ngFor='let order of purchaseOrders' [value]="order['poid']">
+                          {{order['poid']}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-3 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : bpidControl.invalid && bpidControl.touched}">
+                      <label>Budget Projection Identifier<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="BPIden" [(ngModel)]="BPIden" #bpidControl='ngModel'
+                        disabled="true" required />
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-sm-3 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : remainingapprovedbudgetControl.invalid && remainingapprovedbudgetControl.touched}">
+                      <label>Remaining Approved Budget<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="EXRABudg" [(ngModel)]="EXRABudg"
+                        #remainingapprovedbudgetControl='ngModel' disabled="true" required />
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-3 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : preferredvendorControl.invalid && preferredvendorControl.touched}">
+                      <label>Vendor Name<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="VNName" [(ngModel)]="VNName"
+                        #preferredvendorControl='ngModel' disabled="true" required />
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-3 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : estimatedamountControl.invalid && estimatedamountControl.touched}">
+                      <label>PO Value<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="POEAmnt" [(ngModel)]="POEAmnt"
+                        #estimatedamountControl='ngModel' disabled="true" required />
+                    </div>
+                  </div>
+                </div> -->
+  
+                <div class="row" style="padding-left:15px;padding-right:15px;">
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : expenseheadControl.invalid && expenseheadControl.touched}">
+                      <label>Expense Head <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="EXHead" [(ngModel)]="editexpensedata.EXHead"
+                        #expenseheadControl='ngModel' required>
+                        <option disabled="true" selected="true" value="">Select Expense Head
+                        </option>
+                        <option *ngFor='let item of expenseHead' [value]="item['displayName']">
+                          {{item['displayName']}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : descriptionControl.invalid && descriptionControl.touched}">
+                      <label>Expense Description <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="EXDesc" [value]="editexpensedata.EXDesc"
+                        [(ngModel)]="editexpensedata.EXDesc" placeholder="Expense Description "
+                        #descriptionControl='ngModel' required />
+                      <p class="alerts" *ngIf="descriptionControl.invalid && descriptionControl.touched">
+                        Please Enter Expense Description</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : expenserecurrencetypeControl.invalid && expenserecurrencetypeControl.touched}">
+                      <label>Expense Recurrence Type <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="EXRecurr"
+                        [(ngModel)]="editexpensedata.EXRecurr" #expenserecurrencetypeControl='ngModel' required>
+                        <option disabled="true" selected="true" value="">Select Expense Type
+                        </option>
+                        <option *ngFor='let item of categories' [value]="item['displayName']">
+                          {{item['displayName']}}
+                        </option>
+                      </select>
+                      <p class="alerts"
+                        *ngIf="expenserecurrencetypeControl.invalid && expenserecurrencetypeControl.touched">
+                        Please Select Expense Recurrence Type</p>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row" style="padding-left:15px;padding-right:15px;">
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : applicabletoControl.invalid && applicabletoControl.touched}">
+                      <label>Applicable to Unit <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="EXApplTO"
+                        [(ngModel)]="editexpensedata.EXApplTO" #applicabletoControl='ngModel'
+                        (change)="applicableTo(editexpensedata.EXApplTO)" required>
+                        <option disabled="true" selected="true" value="">Select Applicable to Unit *
+                        </option>
+                        <option *ngFor='let item of applicabltToUnits' [value]="item['name']">
+                          {{item['displayName']}}
+                        </option>
+                      </select>
+                      <p class="alerts" *ngIf="applicabletoControl.invalid && applicabletoControl.touched">
+                        Please Select Applicable to Unit</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : expensetypeControl.invalid && expensetypeControl.touched}">
+                      <label>Expense Type <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="EXType" [(ngModel)]="editexpensedata.EXType"
+                        #expensetypeControl='ngModel' required>
+                        <option disabled="true" selected="true" value="">Select Expense Type
+                        </option>
+                        <option *ngFor='let item of expensecategories' [value]="item['displayName']">
+                          {{item['displayName']}}
+                        </option>
+                      </select>
+                      <p class="alerts" *ngIf="expensetypeControl.invalid && expensetypeControl.touched">
+                        Please Select Expense Type</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : paybymethodControl.invalid && paybymethodControl.touched}">
+                      <label>Select Payment Method <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="PMID" [(ngModel)]="editexpensedata.PMID"
+                        #paybymethodControl='ngModel' (change)="showMethod(editexpensedata.PMID)" required>
+                        <option disabled="true" selected="true" value="">Select Method *</option>
+                        <option *ngFor='let item of methodArray' [value]="item['id']">
+                          {{item['displayName']}}
+                        </option>
+                      </select>
+                      <p class="alerts" *ngIf="paybymethodControl.invalid && paybymethodControl.touched">
+                        Please Select Method</p>
+                    </div>
+                  </div>
+                </div> 
+                <div class="row" style="padding-left:15px;padding-right:15px;">
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
+                      <label>Amount Paid <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="EXPAmnt" [value]="editexpensedata.EXPAmnt"
+                        [(ngModel)]="editexpensedata.EXPAmnt" #amountControl='ngModel' placeholder="Amount" required
+                        pattern="^[0-9]*$" />
+  
+                      <div *ngIf="amountControl.invalid && amountControl.touched">
+                        <p class="alerts" *ngIf="amountControl.errors.required">Please Enter Amount
+                        </p>
+                        <p class="alerts" *ngIf="amountControl.errors.pattern">Please Enter Valid
+                          Amount</p>
+                      </div>
+                    </div>
+                  </div>
+               
+  
+               
+                  <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All'">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : distributionControl.invalid && distributionControl.touched}">
+                      <label>Select Distribution Type <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="EXDisType"
+                        [(ngModel)]="editexpensedata.EXDisType" #distributionControl='ngModel' required>
+                        <option disabled="true" selected="true" value="">Select Distribution Type
+                        </option>
+                        <option *ngFor='let item of distributionTypes' [value]="item['name']">
+                          {{item['name']}}
+                        </option>
+                      </select>
+                      <p class="alerts" *ngIf="distributionControl.invalid && distributionControl.touched">
+                        Please Select Distribution Type</p>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4 col-xs-12" [hidden]="applies != 'Single'">
+                    <div class="form-group" [ngClass]="{'has-error' : unitControl.invalid && unitControl.touched}">
+                      <label>Select Unit <span class="red">*</span></label>
+                      <select class="ui dropdown search methodDropdown" name="unUniIden"
+                        [(ngModel)]="editexpensedata.unUniIden" #unitControl='ngModel' required>
+                        <option disabled="true" selected="true" value="">Select Unit </option>
+                        <option *ngFor='let item of ascUnit' [value]="item['unUniIden']">
+                          {{item['unUniName']}}
+                        </option>
+                      </select>
+                      <p class="alerts" *ngIf="unitControl.invalid && unitControl.touched"> Please
+                        Select Unit</p>
+                    </div>
+                  </div>
+  
+                </div>
+  
+                <div class="row" *ngIf="checkField == 'Cheque'" style="padding-left:15px;padding-right:15px;">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : editchequenoControl.invalid && editchequenoControl.touched}">
+                      <label>Cheque No <span class="red"></span></label>
+                      <input type="text" class="form-control" name="EXChqNo" [(ngModel)]="editexpensedata.EXChqNo"
+                        #editchequenoControl='ngModel' placeholder="Cheque No " required pattern="^[a-zA-Z0-9]*$" />
+  
+                      <div *ngIf="editchequenoControl.invalid && editchequenoControl.touched">
+                        <p class="alerts" *ngIf="editchequenoControl.errors.required">Please Enter Valid Cheque No</p>
+                        <p class="alerts" *ngIf="editchequenoControl.errors.pattern">Special characters not allowed</p>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : chequedateControl.invalid && chequedateControl.touched}">
+                      <label>Cheque Date <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="EXChqDate" #chequedateControl='ngModel'
+                        placeholder="Cheque Date" required [(ngModel)]="editexpensedata.EXChqDate" #dp="bsDatepicker"
+                        bsDatepicker [bsConfig]='bsConfig' [(bsValue)]="editexpensedata.EXChqDate" [minDate]="minDate" placement="top"/>
+                      <p class="alerts" *ngIf="chequedateControl.invalid && chequedateControl.touched"> Please Select
+                        Cheque Date</p>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row" *ngIf="checkField == 'DemandDraft'" style="padding-left:15px;padding-right:15px;">
+  
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : ddnoControl.invalid && ddnoControl.touched}">
+                      <label>Demand Draft No <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="ddno" [(ngModel)]="ddno" placeholder="Demand Draft No"
+                        #ddnoControl='ngModel' required pattern="^[a-zA-Z0-9]*$" />
+  
+                      <div *ngIf="ddnoControl.invalid && ddnoControl.touched">
+                        <p class="alerts" *ngIf="ddnoControl.errors.required">Please Enter Demand Draft No</p>
+                        <p class="alerts" *ngIf="ddnoControl.errors.pattern">Special characters not allowed</p>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : demandDraftDateControl.invalid && demandDraftDateControl.touched}">
+                      <label>Demand Draft Date <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="DemandDraftDate" #demandDraftDateControl='ngModel'
+                        placeholder="Demand Draft Date" required [bsConfig]="bsConfig" [(ngModel)]="DemandDraftDate"
+                        #dp="bsDatepicker" [bsConfig]='bsConfig' bsDatepicker [(bsValue)]="DemandDraftDate" [minDate]="minDemandDraftDate" placement="top"/>
+                      <p class="alerts" *ngIf="demandDraftDateControl.invalid && demandDraftDateControl.touched"> Please
+                        Select
+                        DemandDraft Date</p>
+                    </div>
+                  </div>
+  
+                </div>
+  
+                <div class="row" style="padding-left:15px;padding-right:15px;">
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : expendituredateControl.invalid && expendituredateControl.touched}">
+                      <label>Expenditure Date <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="EXDate" #expendituredateControl='ngModel'
+                        placeholder="Expenditure Date " required [(ngModel)]="editexpensedata.EXDate"
+                        bsDatepicker [bsConfig]='bsConfig' placement="top"/>
+                      <p class="alerts" *ngIf="expendituredateControl.invalid && expendituredateControl.touched">
+                        Please Select Expenditure Date</p>
+  
+                    </div>
+                  </div>
+                
+  
+                
+                  <div class="col-sm-8 col-xs-12">
+                    <div class="row">
+                      <label>Invoice / Payment Copy<span class="red"></span></label>
+                    </div>
+                    <div class="row">
+                        <img id="imgthumbnail" src="../../assets/images/default_thumbnail.png" style="position: absolute;left: 77%;" width="44px" height="32px" alt="">
+                      <input type="file" id="uploadFileinput" class="form-control" (change)='onFileSelected($event)' />
+                      <button class="btn btn-primary" (click)='onUpLoad()'
+                        style="position:absolute;margin-left:93%;top:34%">
+                        <i class="fa fa-cloud-upload"></i>
+                      </button>
+                      <button style="position: absolute;top:35%;left:86%" class="btn btn-danger" (click)='removeSelectedfile()'><i class="fa fa-trash"></i> </button>
+                    </div>
+                    <div *ngIf='dynamic > 0' class="row mb-2">
+                      <progressbar [animate]="false" [value]="dynamic" type="success"><b>{{dynamic}}%</b></progressbar>
+                    </div>
+  
+                    <small class="pull-left">Upload File of Max 2MB and formats allowed are: PNG, JPG. JPEG and
+                      PDF</small>
+                  </div>
+                </div>
+  
+  
+                
+                  <div class="from-group">
+                    <div class="form-group pull-right" style="padding-right:15px;">
+                      <br>
+                      <button type="submit" style="background-color: orange !important" class="btn btn-primary" (click)="modalRef.hide()"
+                        (click)="updateExpense()">Update</button>
+                    </div>
+                  </div>
+  
+               
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

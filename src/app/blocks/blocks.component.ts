@@ -122,7 +122,6 @@ export class BlocksComponent implements OnInit {
     this.config.currentPage = event;
   }
 
-
   ngOnInit() {
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
@@ -332,8 +331,7 @@ export class BlocksComponent implements OnInit {
     });
 
     Swal.fire({
-      title: 'Block Created Successfuly',
-
+      title: 'Block Created Successfuly'
     })
   }//createBlock function ends
 
@@ -459,6 +457,7 @@ export class BlocksComponent implements OnInit {
       console.log("Done");
       console.log(JSON.stringify(res));
       console.log('editblockdata', editblockdata);
+      this.modalRef.hide();
       Swal.fire({
         title: 'Block Updated Successfuly',
       }).then(
@@ -466,7 +465,6 @@ export class BlocksComponent implements OnInit {
 
           if (result.value) {
             //this.form.reset();
-            this.modalRef.hide();
             this.getBlockDetails();
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             this.router.navigate(['']);

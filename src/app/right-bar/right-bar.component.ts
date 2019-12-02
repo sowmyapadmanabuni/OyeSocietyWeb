@@ -25,4 +25,16 @@ export class RightBarComponent implements OnInit {
   goToUnits(){
     this.router.navigate(['units']);
   }
+  goToExpense(){
+    this.router.navigate(['expense']);
+  }
+  goToInvoice(){
+    this.router.navigate(['invoice']);
+  }
+  goToReceipts(){
+    this.router.navigate(['receipts']);
+  }
+  goToVehicles(){
+    this.router.navigate(['vehicles']);
+  }
 }

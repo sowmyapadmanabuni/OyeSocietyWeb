@@ -15,34 +15,34 @@
               Join Association</button>
           </div>
         </div>
-        <div>
+        <div *ngIf='viewAssnService.vewAsnEnbled'>
           <label>Search</label>
           <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
         </div>
-        <div class="dash-row">
-          <table class="table table-striped" [mfData]="associations | search:searchTxt" #mf="mfDataTable"
+        <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row">
+          <table class="table table-striped" [mfData]="associations | search:['asAsnName', 'asPrpName', 'asAddress','asNofBlks','asNofUnit']:searchTxt" #mf="mfDataTable"
             [mfRowsOnPage]="10">
             <thead>
               <tr>
-                <th style="width: 20%">
+                <th>
                   S.No.
                 </th>
-                <th style="width: 10%">
+                <th>
                   <mfDefaultSorter by="asAsnName">Association Name</mfDefaultSorter>
                 </th>
-                <th style="width: 10%">
+                <th>
                   <mfDefaultSorter by="asPrpName">Property Name</mfDefaultSorter>
                 </th>
-                <th style="width: 10%">
+                <th>
                   <mfDefaultSorter by="asAddress">Locality</mfDefaultSorter>
                 </th>
-                <th style="width: 10%">
+                <th>
                   <mfDefaultSorter by="asNofBlks">No of Blocks</mfDefaultSorter>
                 </th>
-                <th style="width: 10%">
+                <th>
                   <mfDefaultSorter by="asNofUnit">No of Units</mfDefaultSorter>
                 </th>
-                <th style="width: 10%">
+                <th>
                   Action
                 </th>
               </tr>
@@ -81,7 +81,7 @@
       </div>
       <!--Dashboard icons end-->
       <!--Enroll Association form Starts-->
-      <div class="col-sm-12">
+      <div *ngIf='viewAssnService.enrlAsnEnbled' class="col-sm-12">
 
         <div class="row">
           <div class="stepwizard">

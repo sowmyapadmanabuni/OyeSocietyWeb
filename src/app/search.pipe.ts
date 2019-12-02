@@ -4,58 +4,32 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'search'
 })
 export class SearchPipe implements PipeTransform {
-  transform(itemList: any, searchKeyword: string) {
-    if (!itemList)
-      return [];
-    if (!searchKeyword)
-      return itemList;
-    let filteredList = [];
-    if (itemList.length > 0) {
-      searchKeyword = searchKeyword.toLowerCase();
-      itemList.forEach(item => {
-        //Object.values(item) => gives the list of all the property values of the 'item' object
-        let propValueList = Object.values(item);
-        for (let i = 0; i < propValueList.length; i++) {
-          if (propValueList[i]) {
-            if (propValueList[i].toString().toLowerCase().indexOf(searchKeyword) > -1) {
-              filteredList.push(item);
-              break;
-            }
-          }
-        }
-      });
-    }
-    return filteredList;
-  }
- /* private searchKeyword: string = "";
+  
+  private searchKeyword: string = "";
   private Result = [];
 
   constructor() {
 
   }
 
-  transform(items: any[], searchText: string): any[] {
+  transform(items: any[], searchBy: any[], searchText: string): any[] {
     if (this.isObjNull(items)) return [-1];
     if (this.isObjNull(searchText)) return items;
     this.searchKeyword = searchText.toLowerCase();
-    let res = items.filter(o => this.checkAgainstProperty(o.asAsnName));
-    if (res.length === 0) {
-      res = items.filter(o => this.checkAgainstProperty(o.asPrpName));
-      if (res.length === 0) {
-        res = items.filter(o => this.checkAgainstProperty(o.asAddress));
-        if (res.length === 0) {
-          res = items.filter(o => this.checkAgainstProperty(o.asNofBlks.toString()));
-          if (res.length === 0) {
-            res = items.filter(o => this.checkAgainstProperty(o.asNofUnit.toString()));
-            if (res.length === 0) { return [-1]; }
+    if (items.length) {
+      this.Result = items.filter(o => {
+        for (let i = 0; i < searchBy.length; i++) {
+          let k = searchBy[i];
+          let cval = isNaN(o[k]) ? o[k] : o[k].toString();
+          if (!this.checkAgainstProperty(cval)) {
+            continue;
+          } else {
+            return true;
           }
         }
-
-      }
+      })
     }
-
-
-    return res;
+    return this.Result;
   }
 
   private checkAgainstProperty(property: any): boolean {
@@ -89,5 +63,5 @@ export class SearchPipe implements PipeTransform {
 
     return value;
   }
-*/
+
 }
