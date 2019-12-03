@@ -15,6 +15,7 @@ import { ExpenseManagementComponent } from './expense-management/expense-managem
 import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
 import { UnitsComponent } from './units/units.component';
+import { ReceiptsComponent } from './receipts/receipts.component';
 
 const routes: Routes = [
     { path: '',redirectTo:'home', pathMatch: 'full'},
@@ -32,6 +33,7 @@ const routes: Routes = [
     { path: 'expense', component:ExpenseManagementComponent},
     { path: 'blocks', component:BlocksComponent},
     { path: 'invoice', component:InvoicesComponent},
+    { path: 'receipts', component:ReceiptsComponent},
     { path: 'units', component:UnitsComponent}
 ]
 @NgModule({
