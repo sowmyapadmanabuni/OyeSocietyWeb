@@ -210,8 +210,9 @@ export class AssociationManagementComponent implements OnInit {
     private dashboardservice:DashBoardService,
     private homeservice:HomeService,
     private afMessaging: AngularFireMessaging) {
-    //this.userlist = this.obj;
-    //pagination
+    this.viewAssnService.enrlAsnEnbled=false;
+    this.viewAssnService.vewAsnEnbled=true;
+    this.viewAssnService.joinAsnEbld=false;
     this.isLargefile = false;
     this.isnotValidformat = false;
     this.disableButton = false;
@@ -315,59 +316,19 @@ export class AssociationManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   ngAfterViewInit() {
-    $(document).ready(function () {
-      $('#example').DataTable();
-    });
 
-    $(document).ready(function () {
-
-      var navListItems = $('div.setup-panel div a'),
-        allWells = $('.setup-content'),
-        allNextBtn = $('.nextBtn');
-
-      allWells.hide();
-
-      navListItems.click(function (e) {
-        e.preventDefault();
-        var $target = $($(this).attr('href')),
-          $item = $(this);
-
-        if (!$item.hasClass('disabled')) {
-          navListItems.removeClass('btn-success').addClass('btn-default');
-          $item.addClass('btn-success');
-          allWells.hide();
-          $target.show();
-          $target.find('input:eq(0)').focus();
-        }
-      });
-
-      allNextBtn.click(function () {
-        var curStep = $(this).closest(".setup-content"),
-          curStepBtn = curStep.attr("id"),
-          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
-          isValid = true;
-
-        $(".form-group").removeClass("has-error");
-        for (var i = 0; i < curInputs.length; i++) {
-          if (!curInputs[i].validity.valid) {
-            isValid = false;
-            $(curInputs[i]).closest(".form-group").addClass("has-error");
-          }
-        }
-
-        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
-      });
-
-      $('div.setup-panel div a.btn-success').trigger('click');
-    });
+    this.toggleStepWizrd()
   }
   
   pageChanged(event: any): void {
     this.page = event.page;
   }
-  enblEnrlAsnVew(){
-    
+  enblEnrlAsnVew() {
+    //console.log('test');
+    //alert('test');
+    this.toggleStepWizrd();
+    this.viewAssnService.enrlAsnEnbled=true;
+    this.viewAssnService.vewAsnEnbled=false;
   }
   viewassociation(repviewreceiptmodalit: any) {
     console.log(JSON.stringify(repviewreceiptmodalit));
@@ -1239,7 +1200,50 @@ this.crtAssn.newBAActType='';
           Object.assign({}, { class: 'gray modal-lg' }));
       }
 
+  toggleStepWizrd() {
+    $(document).ready(function () {
 
+      var navListItems = $('div.setup-panel div a'),
+        allWells = $('.setup-content'),
+        allNextBtn = $('.nextBtn');
+
+      allWells.hide();
+
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          $item.addClass('btn-success');
+          allWells.hide();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      });
+
+      allNextBtn.click(function () {
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for (var i = 0; i < curInputs.length; i++) {
+          if (!curInputs[i].validity.valid) {
+            isValid = false;
+            $(curInputs[i]).closest(".form-group").addClass("has-error");
+          }
+        }
+
+        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+      });
+
+      $('div.setup-panel div a.btn-success').trigger('click');
+    });
+  }
 
    OpenModals(jointemplate: TemplateRef<any>,unUnitID) {
      console.log(unUnitID);

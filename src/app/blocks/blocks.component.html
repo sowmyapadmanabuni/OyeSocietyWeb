@@ -25,22 +25,22 @@
                         <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                     </div>
                     <div class="dash-row">
-                        <table class="table table-striped" [mfData]="allBlocksLists | search:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped" [mfData]="allBlocksLists | search:['blBlkName', 'blBlkType', 'blNofUnit']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
-                                    <th style="width: 20%">
+                                    <th>
                                         S.No.
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="blBlkName">Block Name</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="blBlkType">Block Type</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="blNofUnit">No Of Units</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         Action
                                     </th>
                                 </tr>
@@ -139,3 +139,341 @@
             </div>
         </div>
     </div>
+
+    <ng-template #editBlocktemplate>
+        <div class="modal-content">
+    
+            <div class="modal-header">
+                <h4 class="modal-title pull-right" style="padding-left:15px;">Edit Block</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form name="editAssociation" autocomplete="off">
+                            <div class="row">
+                                <div class="col-sm-8 ">
+                                    <div class="from-group" style="padding-left:15px">
+                                        <p>Association Name : <strong>{{assnName}}</strong></p>
+                                    </div>
+                                </div>
+    
+                                <div class="col-sm-4" style="padding-right:15px;">
+                                    <p>Date : <strong> {{myDate | date: 'dd/MM/yyyy'}}
+                                        </strong></p>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-12">
+                                <h5 style="color:#e59400;">Blocks details</h5>
+                            </div>
+                            <br>
+                            <div class="row" style="padding-left:15px;padding-right:15px;">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
+                                        <label id=label1>Block Name<span class="red">*</span> </label>
+                                        <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
+                                            [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
+                                            placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
+                                        <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
+                                            name is required
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group"
+                                            [ngClass]="{'was-validated' : blocktypeControl.invalid && blocktypeControl.touched}">
+                                            <label id=label2>Block Type<span class="red">*</span></label>
+         
+                                                <input list="type" class="form-control" name="BLBlkType" [(ngModel)]="BLBlkType"
+                                                #blocktypeControl='ngModel' placeholder="Block Type" required>
+                                                <datalist id="type">
+                                                <option value="">Select Frequency</option>
+                                                <option *ngFor="let blktype of blocktypes" [value]="blktype['name']">
+                                                  {{blktype['displayName']}}
+                                                </option>
+                                              </datalist>
+         
+                                            <p class="alerts" *ngIf="blocktypeControl.invalid && blocktypeControl.touched">Valid
+                                                block type is
+                                                required</p>
+                                        </div>
+                                    </div>
+    
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : noofunitsControl.invalid && noofunitsControl.touched}">
+                                        <label id=label3>No of Units<span class="red">*</span></label>
+                                        <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
+                                            [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
+                                            placeholder="No Of Units" pattern="[0-9]*" required />
+                                        <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
+                                            units are required
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-12">
+                                <h5 style="color:#e59400;">Manager details</h5>
+                            </div>
+                            <br>
+                            <div class="row" style="padding-left:15px;padding-right:15px;">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : managernameControl.invalid && managernameControl.touched}">
+                                        <label id=label4>Manager Name<span class="red">*</span></label>
+                                        <input type="text" name="BLMgrName" id="input4" autocomplete='BLMgrName'
+                                            [(ngModel)]="BLMgrName" #managernameControl="ngModel" class="form-control"
+                                            placeholder="Manager Name" pattern="[a-zA-Z]*" required />
+                                        <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">
+                                            Manager name is
+                                            required</p>
+                                    </div>
+                                </div>
+    
+    
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : managernumberControl.invalid && managernumberControl.touched}">
+                                        <label id=label5>Manager Mobile Number<span class="red">*</span></label>
+                                        <input type="text" name="BLMgrMobile" id="input5" autocomplete='BLMgrMobile'
+                                            [(ngModel)]="BLMgrMobile" #managernumberControl="ngModel" class="form-control"
+                                            placeholder="Manager Mobile Number" minlength=10 maxlength=10 pattern="[0-9]*"
+                                            required (keypress)=_keyPress($event) />
+                                        <p class="alerts"
+                                            *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager
+                                            mobile
+                                            number is
+                                            required</p>
+                                    </div>
+                                </div>
+    
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : manageremailControl.invalid && manageremailControl.touched}">
+                                        <label id=label6>Manager Email Id<span class="red">*</span></label>
+                                        <input type="text" name="BLMgrEmail" id="input6" autocomplete='BLMgrEmail'
+                                            [(ngModel)]="BLMgrEmail" #manageremailControl="ngModel" class="form-control"
+                                            placeholder="Manager Email Id"
+                                            pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+                                            required />
+                                        <p class="alerts"
+                                            *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager
+                                            email-id is
+                                            required
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-12">
+                                <h5 style="color:#e59400;">Maintenance details</h5>
+                            </div>
+                            <br>
+                            <div class="row" style="padding-left:15px;padding-right:15px;">
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Select Rate <span class="red">*</span></label> <br>
+                                        <input type="checkbox" name="rate" [(ngModel)]="rate" (change)="checkRate(rate)"
+                                            value="flatRatevalue">
+                                        <label>Flat Rate Value</label>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="rate" [(ngModel)]="rate1" (change)="checkRate1(rate1)"
+                                            value="dimension">
+                                        <label>Dimension Based</label>
+                                    </div>
+                                </div>
+    
+                                <div class="col-sm-3 col-xs-12" *ngIf="addRate == 'flatRatevalue'">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : flatRatevalueControl.invalid && flatRatevalueControl.touched}">
+                                        <label>Flat Rate Value<span class="red">*</span></label>
+                                        <input class="form-control" type="text" name="ASMtFRate" [(ngModel)]="ASMtFRate"
+                                            placeholder="Value" #flatRatevalueControl='ngModel'
+                                            pattern="^[+-]?((\.\d+)|(\d+(\.\d+)?))$" required>
+                                        <p class="alerts"
+                                            *ngIf="flatRatevalueControl.invalid && flatRatevalueControl.touched">Invalid
+                                            flat rate
+                                        </p>
+                                        <small>Amount to be charged</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-12" *ngIf="addRate1 == 'dimension'">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : maintenanceValueControl.invalid && maintenanceValueControl.touched}">
+                                        <label>Maintenance Value<span class="red">*</span></label>
+                                        <input class="form-control" type="text" name="ASMtDimBs"
+                                            #maintenanceValueControl='ngModel' [(ngModel)]="ASMtDimBs"
+                                            placeholder="Maintenance Value " required pattern="^[0-9]+(\.[0-9]{1,2})?$">
+                                        <p class="alerts"
+                                            *ngIf="maintenanceValueControl.invalid && maintenanceValueControl.touched">
+                                            Invalid
+                                            Maintenance Value
+                                        </p>
+                                        <small>Rate (SQFT / SQMTR) </small>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="row" style="padding-left:15px;padding-right:15px;">
+    
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : measurementsControl.invalid && measurementsControl.touched}">
+                                        <label>Unit of Measurement<span class="red">*</span></label>
+                                        <input class="form-control" type="text" required name="ASUniMsmt"
+                                            autocomplete="ASUniMsmt" [(ngModel)]="ASUniMsmt" #measurementsControl='ngModel'
+                                            placeholder="Measurement Type">
+                                        <p class="alerts"
+                                            *ngIf="measurementsControl.invalid && measurementsControl.touched">Invalid
+                                            Measurement
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Invoice Creation Frequency<span class="red">*</span> <span
+                                                    class="red">*</span></label>
+                                            <input list="invoice" class="form-control" name="ASIcRFreq"
+                                                [(ngModel)]="ASIcRFreq" #frequencyControl='ngModel' placeholder="Invoice Creation Frequency" required>
+                                                <datalist id="invoice">
+                                                <option disabled="true" value="">Select Frequency</option>
+                                                <option *ngFor="let frequency of frequencys" [value]="frequency['name']">
+                                                    {{frequency['displayName']}}
+                                                </option>
+                                            </datalist>
+                                            <p class="alerts" *ngIf="frequencyControl.invalid && frequencyControl.touched">
+                                                Invalid Invoice Frequency
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            <div class="row" style="padding-left:15px;padding-right:15px;">
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Invoice Generation Date<span class="red">*</span></label>
+                                        <input type="text" class="form-control" name="ASBGnDate"
+                                            #NextInvoiceGenDateControl='ngModel' placeholder="Invoice Generation Date"
+                                            [bsConfig]="bsConfig" [(ngModel)]="ASBGnDate" (bsValueChange)="onValueChange($event)"  [minDate]="todayDate"
+                                            bsDatepicker placement="top"/>
+                                            <p class="invalid-feedback">Invoice Generation Date required
+                                            </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Due Date<span class="red">*</span></label>
+                                        <input type="text" class="form-control" name="ASDPyDate" #DueDateControl='ngModel' [class.classForInvalid]="enableduedatevalidation"
+                                            placeholder="Due Date" [bsConfig]="bsConfig" [(ngModel)]="ASDPyDate" [minDate]="minDate"
+                                            (bsValueChange)="onDueDateValueChange($event)"
+                                             bsDatepicker placement="top"/>
+                                             <p class="invalid-feedback">Due date required
+                                            </p>
+                                             <ng-container *ngIf='enableduedatevalidation'>
+                                                <p class="invalidFeedback">Due date should be greater than or equal to
+                                                    invoice date
+                                                </p>
+                                              </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="row" style="padding-left:15px;padding-right:15px;">
+    
+                                    <div class="col-sm-4 col-xs-12">
+    
+                                            <div class="form-group">
+             
+                                                <label>Late Payment Charge Type<span class="red">*</span></label>
+             
+                                                <input list="payment" class="form-control" name="ASLPCType"
+                                                    #latePymtChargeTypeControl='ngModel' [(ngModel)]="ASLPCType" placeholder="Late Payment Charge Type" required>
+             
+                                                    <datalist id="payment">
+             
+                                                    <option disabled="true" value="">Select Charge Type</option>
+             
+                                                    <option *ngFor='let lpct of latePaymentChargeTypes' [value]="lpct['name']">
+             
+                                                        {{lpct['displayName']}}
+             
+                                                    </option>
+             
+                                                </datalist>
+             
+                                                <p class="alerts"
+                                                    *ngIf="latePymtChargeTypeControl.invalid && latePymtChargeTypeControl.touched">
+                                                    Select
+                                                    Late Payment Charge Type
+             
+                                                </p>
+             
+                                            </div>
+             
+                                        </div>
+    
+                                <div class="col-sm-4 col-xs-12">
+    
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : latePymtChargeControl.invalid && latePymtChargeControl.touched}">
+    
+                                        <label>Late Payment Charge<span class="red">*</span></label>
+    
+                                        <input class="form-control" type="text" #latePymtChargeControl='ngModel'
+                                            name="ASLPChrg" autocomplete="ASLPChrg" [(ngModel)]="ASLPChrg"
+                                            placeholder="Late Payment charge" pattern="[0-9]+(\.[0-9][0-9]?)?" required>
+    
+                                        <p class="alerts"
+                                            *ngIf="latePymtChargeControl.invalid && latePymtChargeControl.touched">Select
+                                            Late
+                                            Payment Charge
+    
+                                        </p>
+    
+                                    </div>
+    
+                                </div>
+    
+                                <div class="col-sm-4 col-xs-12">
+    
+                                    <div class="form-group">
+    
+                                        <label>Starts From<span class="red">*</span></label>
+    
+                                        <input class="form-control" type="text" class="form-control" name="ASLPSDate"
+                                            #StartsFromDateControl='ngModel' placeholder="Starts From Date"
+                                            [bsConfig]="bsConfig" [(ngModel)]="ASLPSDate" #startsFromDateCtrl='bsDatepicker' [minDate]='startsFromMaxDate' [class.classForInvalid]="enablestartfromdatevalidation"
+                                             (bsValueChange)="onStartsFromDateValueChange($event)" [(ngModel)]="ASLPSDate" #startsFromDateCtrl='bsDatepicker'
+                                            bsDatepicker placement="top"/>
+                                            <p class="invalid-feedback">Select Date</p>
+                                            <ng-container *ngIf='enablestartfromdatevalidation'>
+                                                <p class="invalidFeedback">Starts from date should be greater than or equal to due date</p>
+                                            </ng-container>
+                                    </div>
+    
+                                </div>
+    
+                            </div>
+                            <div class="from-group">
+                                <div class="form-group pull-right">
+                                    <br>
+                                    <button type="submit" style="background-color: orange !important" class="btn btn-primary" (click)="UpdateBlock()">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>

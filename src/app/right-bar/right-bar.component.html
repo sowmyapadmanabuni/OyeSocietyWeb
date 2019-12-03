@@ -2,7 +2,7 @@
         <!--Right Menu-->
         <div class="col-xs-12 col-sm-12 np search-results">
                  <!--Row1-->
-        <div>
+                <div>
                         <div class="col-sm-12 np flat-list-row">
                             <div class="search-res-row">
                                 <div><img class="icon" src="../../assets/images/icons/association _management.png">
@@ -13,9 +13,9 @@
                             </div>
         
                         </div>
-                    </div>
-                    <!--Row1-->
-                    <!--Row2-->
+                </div>
+                <!--Row1-->
+                <!--Row2-->
                     <div>
                         <div class="col-sm-12 np flat-list-row">
                             <div class="search-res-row">
@@ -26,16 +26,14 @@
         
                         </div>
                     </div>
-                    <!--Row2-->
-
-
+                <!--Row2-->
                 <!--Row3-->
                 <div>
                         <div class="col-sm-12 np flat-list-row">
                                 <div class="search-res-row">
                                         <div><img class="icon" src="../../assets/images/icons/Group 1778.png">
                                         </div>
-                                        <div style="flex-basis: 200px" class="f-des">Expense Management</div>
+                                        <div style="flex-basis: 200px" class="f-des"><a (click)="goToExpense()">Expense Management</a></div>
                                 </div>
 
                         </div>
@@ -55,7 +53,7 @@
                 </div>
                 <!--Row4-->
                 <!--Row5-->
-                <div>
+                <!-- <div>
                         <div class="col-sm-12 np flat-list-row">
                                 <div class="search-res-row">
                                         <div><img class="icon" src="../../assets/images/icons/invoices.png">
@@ -65,7 +63,7 @@
                                 </div>
 
                         </div>
-                </div>
+                </div> -->
                 <!--Row5-->
                 <div class="search-res-row2 p-t-45">
                         <div class="icons-row">
@@ -77,22 +75,25 @@
                                 <img class="icon" src="../../assets/images/icons/visitors.png">
                                 <span>Visitors</span>
                         </div>
-                        <div class="icons-row">
+                        <a (click)='goToVehicles()'>
+                                <div class="icons-row">
+                                        <img class="icon" src="../../assets/images/icons/vehicles.png">
+                                        <span>Vehicles</span>
+                                </div>
+                        </a>
+                        <!-- <div class="icons-row">
                                 <img class="icon" src="../../assets/images/icons/family_members.png">
                                 <span>Patrolling</span>
-                        </div>
+                        </div> -->
                 </div>
                 <!--Row4-->
                 <!--Row5-->
                 <div class="search-res-row2">
-                        <div class="icons-row">
-                                <img class="icon" src="../../assets/images/icons/vehicles.png">
-                                <span>Vehicless</span>
-                        </div>
-                        <div class="icons-row">
+                        
+                        <a (click)="goToReceipts()"><div class="icons-row">
                                 <img class="icon" src="../../assets/images/icons/reports.png">
                                 <span>Reports</span>
-                        </div>
+                        </div></a>
                         <div class="icons-row">
                                 <img class="icon" src="../../assets/images/icons/tickets.png">
                                 <span>Tickets</span>

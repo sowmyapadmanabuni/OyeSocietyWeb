@@ -7,13 +7,15 @@ import { ClientsComponent } from './clients/clients.component';
 import { AboutComponent } from './about/about.component'; 
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { LocationComponent } from './location/location.component';
-import { from } from 'rxjs';
 import { BlogsComponent } from './blogs/blogs.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { GooglemapComponent } from './googlemap/googlemap.component';
 import { AssociationManagementComponent } from './association-management/association-management.component';
+import { ExpenseManagementComponent } from './expense-management/expense-management.component';
+import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
 import { UnitsComponent } from './units/units.component';
+import { ReceiptsComponent } from './receipts/receipts.component';
 
 const routes: Routes = [
     { path: '',redirectTo:'home', pathMatch: 'full'},
@@ -28,7 +30,10 @@ const routes: Routes = [
     { path: 'jobs', component:JobsComponent},
     { path: 'googlemaps', component:GooglemapComponent},
     { path: 'association', component:AssociationManagementComponent},
+    { path: 'expense', component:ExpenseManagementComponent},
     { path: 'blocks', component:BlocksComponent},
+    { path: 'invoice', component:InvoicesComponent},
+    { path: 'receipts', component:ReceiptsComponent},
     { path: 'units', component:UnitsComponent}
 ]
 @NgModule({
