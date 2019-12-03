@@ -82,163 +82,204 @@
       <!--Dashboard icons end-->
       <!--Enroll Association form Starts-->
       <div *ngIf='viewAssnService.enrlAsnEnbled' class="col-sm-12">
+          <div class="row">
+              <div class="stepwizard">
+                  <div class="stepwizard-row setup-panel">
+                      <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12 step-active">
+                          <a href="#step-1" type="button"
+                              class="btn btn-success btn-circle">1</a><span>Association Details</span>
+                      </div>
+                      <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                          <a href="#step-2" type="button" class="btn btn-default btn-circle"
+                              disabled="disabled">2</a><span>Pan & Registration Details</span>
+                      </div>
+                      <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                          <a href="#step-3" type="button" class="btn btn-default btn-circle"
+                              disabled="disabled">3</a><span>Block & Unit Details</span>
+                      </div>
+                      <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                          <a href="#step-4" type="button" class="btn btn-default btn-circle"
+                              disabled="disabled">4</a><span>Other Amenities</span>
+                      </div>
+                  </div>
+              </div>
 
-        <div class="row">
-          <div class="stepwizard">
-            <div class="stepwizard-row setup-panel">
-              <div class="stepwizard-step col-xs-3">
-                <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a><span>Association Details</span>
-              </div>
-              <div class="stepwizard-step col-xs-3">
-                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a><span>Pan &
-                  Registration Details</span>
-              </div>
-              <div class="stepwizard-step col-xs-3">
-                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a><span>Block
-                  & Unit Details</span>
-              </div>
-              <div class="stepwizard-step col-xs-3">
-                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a><span>Other
-                  Amenities</span>
-              </div>
-            </div>
+              <form role="form">
+                  <div class="panel panel-primary setup-content" id="step-1">
+                      <!-- <div class="panel-heading">
+                               <h3 class="panel-title">Association Details</h3>
+                          </div> -->
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Association Name</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter First Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Upload logo</label>
+                              <input type="file" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                          </div>
+                          <div class="form-group">
+                              <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+                                  Resolution of 128*128</span>
+                          </div>
+                      </div>
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Country</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter First Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">State</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">City</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                          </div>
+                      </div>
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Pin/Zip/Postal Code</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter First Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Property Type</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Property Name</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                          </div>
+                      </div>
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Locality</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter First Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Association Email</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Website Url</label>
+                              <input maxlength="100" type="text" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                          </div>
+                      </div>
+                      <div class="col-sm-12"> <button class="btn btn-primary-purple nextBtn pull-right"
+                              type="button">Next</button><input class="btn btn-primary-purple nextBtn pull-right"
+                              type="reset" value="Reset">
+                      </div>
+
+                  </div>
+
+                  <div class="panel panel-primary setup-content" id="step-2">
+                      <!-- <div class="panel-heading">
+                               <h3 class="panel-title">Pan & Registration Details</h3>
+                          </div> -->
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Pan Number</label>
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="Enter Company Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">GST Number</label>
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="Enter Company Address" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Upload Scanned Pan Card</label>
+                              <input type="file" required="required" class="form-control"
+                                  placeholder="Enter Last Name" />
+                              <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+                                  Resolution of 128*128</span>
+
+                          </div>
+                      </div>
+                      <div class="col-sm-12"> 
+                          <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
+                          <input class="btn btn-primary-purple nextBtn pull-right" type="reset" value="Reset">
+                      </div>
+
+                  </div>
+
+                  <div class="panel panel-primary setup-content" id="step-3">
+                      <!-- <div class="panel-heading">
+                               <h3 class="panel-title">Block & Unit Details</h3>
+                          </div> -->
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Total No of Blocks</label>
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="Enter Company Name" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Total No of Units</label>
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="Enter Company Address" />
+                          </div>
+                      </div>
+                      <div class="col-sm-12"> <button class="btn btn-primary-purple nextBtn pull-right"
+                              type="button">Next</button><input class="btn btn-primary-purple nextBtn pull-right"
+                              type="reset" value="Reset">
+                      </div>
+
+                  </div>
+
+                  <div class="panel panel-primary setup-content" id="step-4">
+                      <!-- <div class="panel-heading">
+                               <h3 class="panel-title">Other Amenities</h3>
+                          </div> -->
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Amenity Type</label>
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="Amenity Type" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">No Of Amenity</label>
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="No Of Amenity" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label">Action</label>
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+
+                          </div>
+
+                      </div>
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="Amenity Type" />
+                          </div>
+                          <div class="form-group">
+                              <input maxlength="200" type="text" required="required" class="form-control"
+                                  placeholder="No Of Amenity" />
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label"></label>
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+
+                          </div>
+
+                      </div>
+                      <button class="btn btn-primary-purple nextBtn pull-right" type="submit">Finish!</button>
+
+                  </div>
+              </form>
           </div>
-
-          <form role="form">
-            <div class="panel panel-primary setup-content" id="step-1">
-              <!-- <div class="panel-heading">
-                       <h3 class="panel-title">Association Details</h3>
-                  </div> -->
-              <div class="panel-body">
-                <div class="form-group">
-                  <label class="control-label">Association Name</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter First Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Upload logo</label>
-                  <input type="file" required="required" class="form-control" placeholder="Enter Last Name" />
-                </div>
-                <div class="form-group">
-                  <span>Upload Logo of Max 2MB and formats allowed are: PNG,JPG and Resolution of 128*128</span>
-                </div>
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <label class="control-label">Country</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter First Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">State</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter Last Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">City</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter Last Name" />
-                </div>
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <label class="control-label">Pin/Zip/Postal Code</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter First Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Property Type</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter Last Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Property Name</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter Last Name" />
-                </div>
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <label class="control-label">Locality</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter First Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Association Email</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter Last Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Website Url</label>
-                  <input maxlength="100" type="text" required="required" class="form-control"
-                    placeholder="Enter Last Name" />
-                </div>
-              </div>
-              <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
-
-            </div>
-
-            <div class="panel panel-primary setup-content" id="step-2">
-              <!-- <div class="panel-heading">
-                       <h3 class="panel-title">Pan & Registration Details</h3>
-                  </div> -->
-              <div class="panel-body">
-                <div class="form-group">
-                  <label class="control-label">Company Name</label>
-                  <input maxlength="200" type="text" required="required" class="form-control"
-                    placeholder="Enter Company Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Company Address</label>
-                  <input maxlength="200" type="text" required="required" class="form-control"
-                    placeholder="Enter Company Address" />
-                </div>
-                <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-              </div>
-            </div>
-
-            <div class="panel panel-primary setup-content" id="step-3">
-              <!-- <div class="panel-heading">
-                       <h3 class="panel-title">Block & Unit Details</h3>
-                  </div> -->
-              <div class="panel-body">
-                <div class="form-group">
-                  <label class="control-label">Company Name</label>
-                  <input maxlength="200" type="text" required="required" class="form-control"
-                    placeholder="Enter Company Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Company Address</label>
-                  <input maxlength="200" type="text" required="required" class="form-control"
-                    placeholder="Enter Company Address" />
-                </div>
-                <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-              </div>
-            </div>
-
-            <div class="panel panel-primary setup-content" id="step-4">
-              <!-- <div class="panel-heading">
-                       <h3 class="panel-title">Other Amenities</h3>
-                  </div> -->
-              <div class="panel-body">
-                <div class="form-group">
-                  <label class="control-label">Company Name</label>
-                  <input maxlength="200" type="text" required="required" class="form-control"
-                    placeholder="Enter Company Name" />
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Company Address</label>
-                  <input maxlength="200" type="text" required="required" class="form-control"
-                    placeholder="Enter Company Address" />
-                </div>
-                <button class="btn btn-success pull-right" type="submit">Finish!</button>
-              </div>
-            </div>
-          </form>
-        </div>
-
-
-
       </div>
       <!--Enroll Association form Starts-->
     </div>

@@ -15,158 +15,95 @@
                     </ul>
                 </div>
                 <div class="enroll">
-                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-file-pdf-o"
-                            aria-hidden="true"></i> Invoiced</button>
-                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-file-text"
-                            aria-hidden="true"></i> Generate invoice</button>
-                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-plus"
-                            aria-hidden="true"></i> Add Expense</button>
+                    <div class="dropdown search-dropd">
+                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                            data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Blocks':viewinvoiceservice.invoiceBlock)}}
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu fullw">
+                            <li *ngFor='let item of allBlocksByAssnID'
+                                (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
+                                <a>{{item['blBlkName']}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <label>Search</label>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+                        placeholder="search name">
                 </div>
                 <div class="dash-row">
-                    <table id="example" class="table table-striped table-bordered dataTable no-footer"
-                        style="width:100%" role="grid" aria-describedby="example_info">
+                    <table class="table table-striped"
+                        [mfData]="invoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
+                        #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
-                                <th>Sl No</th>
-                                <th>Unit Id</th>
-                                <th>Invoice Number</th>
-                                <th>Invoice Date</th>
-                                <th>Current Inv.Amount</th>
-                                <th>Action</th>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="unUnitID">Unit ID</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="inGenDate">Invoice Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="inTotVal">Curr.Inv.Amount</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                                <th>
+                                    <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;
+                                    <i *ngIf="isChecked" style="cursor:pointer" (click)="sendEmailToAll()"
+                                        class="fa fa-paper-plane"></i>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>2011/04/25</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="4" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{(i+1)}}</td>
+                                    <td>{{item['unUnitID']}}</td>
+                                    <td>{{item['inNumber']}}</td>
+                                    <td>{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
+                                    <td>
+                                        <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <button title="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
+                                                (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
+                                                <i class="fa fa-paper-plane"></i>
+                                            </button> | <i title="View Invoice" style="cursor: pointer;"
+                                                class="fa fa-eye"
+                                                (click)="viewInvoice1($event,template,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)"></i>
+                                            |
+                                            <i title="View Discount"
+                                                (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
+                                                style="cursor: pointer;" class="fa fa-percent"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input class="chkBox" type="checkbox" [value]="item.inid" [checked]='checkAll'
+                                            (change)='toggleIsChecked($event)'>
+                                    </td>
+                                </ng-container>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>2011/07/25</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Ashton Cox</td>
-                                <td>Junior Technical Author</td>
-                                <td>San Francisco</td>
-                                <td>2009/01/12</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Cedric Kelly</td>
-                                <td>Senior Javascript Developer</td>
-                                <td>Edinburgh</td>
-                                <td>2012/03/29</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Airi Satou</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>2008/11/28</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Brielle Williamson</td>
-                                <td>Integration Specialist</td>
-                                <td>New York</td>
-                                <td>2012/12/02</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Herrod Chandler</td>
-                                <td>Sales Assistant</td>
-                                <td>San Francisco</td>
-                                <td>2012/08/06</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Rhona Davidson</td>
-                                <td>Integration Specialist</td>
-                                <td>Tokyo</td>
-                                <td>2010/10/14</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>Colleen Hurst</td>
-                                <td>Javascript Developer</td>
-                                <td>San Francisco</td>
-                                <td>2009/09/15</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Sonya Frost</td>
-                                <td>Software Engineer</td>
-                                <td>Edinburgh</td>
-                                <td>2008/12/13</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>Jena Gaines</td>
-                                <td>Office Manager</td>
-                                <td>London</td>
-                                <td>2008/12/19</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>Quinn Flynn</td>
-                                <td>Support Lead</td>
-                                <td>Edinburgh</td>
-                                <td>2013/03/03</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>13</td>
-                                <td>Charde Marshall</td>
-                                <td>Regional Director</td>
-                                <td>San Francisco</td>
-                                <td>2008/10/16</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                <td>14</td>
-                                <td>Haley Kennedy</td>
-                                <td>Senior Marketing Designer</td>
-                                <td>London</td>
-                                <td>2012/12/18</td>
-                                <td><i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i></td>
-                            </tr>
-
                         </tbody>
-
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
-
                 </div>
             </div>
             <!--Dashboard icons end-->
@@ -180,7 +117,7 @@
 </div>
 
 
-<ng-template #template>
+<ng-template #template1>
     <div class="modal-header">
         <h4 class="modal-title pull-left">Modal</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -190,4 +127,680 @@
     <div class="modal-body">
         This is a modal.
     </div>
+</ng-template>
+
+<ng-template #template>
+    <div id="viewinvoicetemplateId" class="modal-content1">
+        <div class="modal-header" style="padding-bottom: 0;">
+            <!-- <h4 class="modal-title" style="margin-left: 42%" id="myModalLabel">View Invoice</h4> -->
+            <ul style="list-style-type: none;padding: 0;">
+                <li style="display: block"><img alt="" class="img-responsive" src="../../assets/images/association.jpeg"
+                        style="width:57px;height:50px;" /></li>
+                <li><span>
+                        {{associationDetails.asAsnName}}, {{associationDetails.asAddress}},
+                        {{associationDetails.asCountry}}, {{associationDetails.asPinCode}}
+                    </span></li>
+            </ul>
+            <ul class="pull-right">
+                <li style="display: block"><button type="button" class="close"
+                        style="margin: -2rem -1rem -1rem auto !important;" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button></li>
+                <label style="position: absolute;font-size:18px;left:36%;color: #f79321 !important;">MAINTENANCE
+                    INVOICE</label>
+                <li style="display: block" (click)='printTemplate()'><img src="../../assets/images/printorange.jpeg"
+                        width="40px" height="40px" style="cursor: pointer" /></li>
+            </ul>
+        </div>
+
+        <div class="modal-body" style="padding-top: 0px;">
+            <div class="newInvoice" id="printInvoiceId">
+
+                <!-- 
+              <div class="row">
+                <div class="col-sm-6 col-xs-6">
+                  <img alt="" class="img-responsive" src="../../assets/images/newLogo.png"
+                    style="width:90px;height:50px;margin-right: 100%" />
+                  <span>
+                    {{associationDetails.asAsnName}}, {{associationDetails.asAddress}},
+                    {{associationDetails.asCountry}}, {{associationDetails.asPinCode}}
+                  </span>
+                </div>
+                <div class="col-sm-6 col-xs-6">
+                  <button class="mdButton1" style="position: absolute;margin-left: 58%;margin-top: 1%;" id="btnPrint" onclick="window.print()">Print Invoice</button>
+                </div>
+              </div> -->
+                <!-- <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-12 col-xs-12">
+                  <label style="position: absolute;font-size:18px;left:46%;color: #f79321 !important;">INVOICE</label>
+                </div>
+              </div> -->
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <p>
+                            <span class="pull-left"><b>Invoice Date :</b> {{invoiceDate | date: "MMMM d, y"}}</span><br>
+                            <span class="pull-left" style="margin: 0% 0% 0% 0%;"><b>Due Date : </b>
+                                {{asdPyDate | date: "MMMM d, y"}}</span>
+                            <span class="pull-right"><b>Invoice No : </b> {{invoiceNumber}}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <hr style="margin-top: 5px; height: 2px; background:#CCC;">
+
+                <div class="row">
+                    <div class="col-sm-6 col-xs-6">
+                        <address style="margin-bottom: 0;">
+                            <strong>For : </strong>
+                            <span>{{OwnerFirstName}} {{OwnerLastName}} </span> <br />
+                            <span style="margin-left: 8%;color:blue">{{OwnerEmail}}</span>
+                        </address>
+                    </div>
+                    <div class="col-sm-3 col-xs-3">
+
+                    </div>
+                    <!-- <div class="col-sm-3 col-xs-3" style="text-align:center;padding: 0">
+                  <strong>Due Date:</strong>
+                  <span class="show"> {{asdPyDate | date :  "dd-MM-yyyy"}}</span>
+                </div> -->
+                </div>
+                <div class="row" style="height: 50px;width:99.5%;margin: auto;margin-top: 20px;border: 1px solid black">
+                    <span style="position: absolute;left: 40%;margin-top: 1.3%;font-size: 1.5rem">INVOICE DETAILS</span>
+                </div>
+
+                <div class="row" style="width:99.5%;margin: auto;margin-top: 0">
+                    <table style="width: 100%">
+                        <thead>
+                            <tr style="background-color:orange">
+                                <th class="clsAlignCenter clsthBorder">Sl.No</th>
+                                <th class="clsAlignCenter clsthBorder">Description</th>
+                                <th class="clsalign clsthBorder" style="text-align: center"><span>Taxable Value</span>
+                                </th>
+                                <th class="clsalign clsthBorder" style="text-align: center"><span>CGST</span></th>
+                                <th class="clsalign clsthBorder" style="text-align: center"><span>SGST</span></th>
+                                <th class="clsalign clsthBorder" style="text-align: center"><span>IGST</span></th>
+                                <th class="clsalign clsthBorder" style="text-align: center"><span>Total</span></th>
+                                <!-- <th class="clsthBorder"><span style="margin-left: 20%">Amount</span></th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+
+                                <tr *ngIf='previousDue > 0' style="font-weight:bold">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">Previous
+                                            Due</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{previousDue}}.00</span></td>
+                                </tr>
+                                <tr *ngIf='discountedValue > 0' style="font-weight:bold">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span
+                                            class="clsspacelft">Discount</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{discountedValue}}.00</span> </td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'water meter' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">Water
+                                            Meter</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'common area electric bill' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span style="display:-webkit-box;"
+                                            class="clsspacelft">Common Area Electric Bill</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'corpus' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span
+                                            class="clsspacelft">Corpus</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'generator bill' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">Generator
+                                            Bill</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'housekeeping' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span
+                                            class="clsspacelft">Housekeeping</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'one time membership fee' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">One Time
+                                            Membership Fee</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'one time occupancy fee' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">One Time
+                                            Occupancy Fees</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'renting fees' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">Renting
+                                            Fees</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'security fees' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">Security
+                                            Fees</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'Fixed Maintenance' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">Fixed
+                                            Maintenance</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'bill' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span
+                                            class="clsspacelft">Bill</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'one time onboarding fee' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">One Time
+                                            OnBoarding Fees</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                                <tr *ngIf="item['idDesc'] == 'unsold rental fees' && item['idValue'] > 0">
+                                    <td class="clsAlignCenter clsBorder">{{i+1}}</td>
+                                    <td class="clsBorder" style="text-align: left;"><span class="clsspacelft">Unsold
+                                            Rental Fees</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
+                                            class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
+                                </tr>
+                            </ng-container>
+                            <!-- <tr>
+                        <td class="clsAlignCenter clsBorder">{{i}}</td>
+                        <td class="clsBorder"><span style="padding: 0 61px;display: inherit;">Maintenance Charges:Maintenance Charges for July to Sep 2019</span></td>
+                        <td class="clsBorder" style="text-align: right;"><span>13,005.00</span></td>
+                        <td class="clsBorder"></td>
+                        <td class="clsBorder"></td>
+                        <td class="clsBorder"></td>
+                        <td class="clsBorder" style="text-align: right;"><span>13,005.00</span></td>
+                    </tr> -->
+                            <!-- <tr>
+                        <td class="clsAlignCenter clsBorder">{{i}}</td>
+                        <td class="clsBorder"><span style="margin-left: 20%">Late Payment Charges/Income: Late</span></td>
+                        <td class="clsBorder" style="text-align: right;"><span>91.00</span></td>
+                        <td class="clsBorder" style="text-align: right;"><span style="display: block">8.19</span>
+                         <span>@9.00%</span></td>
+                        <td class="clsBorder" style="text-align: right;"><span style="display: block">8.19</span>
+                         <span>@9.00%</span></td>
+                        <td class="clsBorder"></td>
+                        <td class="clsBorder" style="text-align: right;"><span>107.38</span></td>
+                      </tr> -->
+                            <tr style="border:1px solid black;">
+                                <td class="clsBorder" colspan="6" style="text-align:right;"><span
+                                        style="font-size:1rem;font-weight: bold">Sub Total</span></td>
+                                <td class="clsBorder" style="text-align:right;"><span class="clsspaceright">₹
+                                        {{InvoiceValue}}.00</span></td>
+                            </tr>
+                            <tr style="border: 1px solid black;">
+                                <td class="clsBorder" colspan="7" style="font-weight: bold;text-align:center;">Amount in
+                                    Words :<strong style="text-transform: capitalize;">
+                                        {{InvoiceValue | words}} Rupees Only</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- <div class="row clsTotalInvoice" style="width:99.5%;margin: auto;height:67px">
+                <div style="border-right: 1px solid black;width: 87.2%;text-align: right;padding-top: 8px;">
+                  <span style="font-size:1.5rem;">Sub Total</span>
+                  <p style="text-align: left;">Amount in Words : <strong style="text-transform: capitalize;">
+                    {{InvoiceValue | words}} Rupees Only</strong></p>
+                </div>
+                <div style="margin-left: 11px; margin-top: 20px;">
+                  <span>₹ {{InvoiceValue}}.00</span>
+                </div>
+              </div> -->
+                <div class="row">
+                    <div class="col-sm-11 col-xs-11">
+                        <!-- <p style="text-align: right;margin-top: 5px;">Amount in Words : <strong style="text-transform: capitalize;">
+                      {{InvoiceValue | words}} Rupees Only</strong></p> -->
+                    </div>
+                </div>
+
+                <!--div removed-->
+                <div class="row">
+                    <ul class="clsTxtIndnt">
+                        <li style="margin-top:4px;">
+                            <strong style="color:black;text-align:left;display:block;position: relative;">Due upon
+                                receipt</strong>
+                        </li>
+                        <li>
+                            <h4 style="margin-top: 5px; margin-bottom:0px;color: black;position: relative; ">
+                                {{associationDetails.asAsnName}}
+                                Association </h4>
+                        </li>
+                        <li>
+                            <p style="color: black;position: relative;">Tel : {{associationDetails.asMgrMobile}}<br />
+                                {{associationDetails.asAsnName}}, {{associationDetails.asAddress}},
+                                {{associationDetails.asCountry}},
+                                {{associationDetails.asPinCode}} <br /> <a
+                                    href="https://oyespace.com/">{{associationDetails.asWebURL}}</a><br />
+                                <a href="mailto:{{associationDetails.asAsnEmail}}"
+                                    style="color: black;">{{associationDetails.asAsnEmail}}</a></p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row" style="display: flex">
+                    <strong style="padding-left:42px;">Powered by </strong>
+                    <p style="position: absolute;margin-top:3%"><a href="https://oyespace.com" target="_blank"> <img
+                                src="../../assets/images/OyeSociety.png"
+                                style="width:135px;height:50px;padding-left: 39px;" /></a></p>
+                    <p id="makePaymentButton">
+                        <button type="button" (click)="onButtonClick(totalAmountPaid($event))"
+                            class="btn btn-success">Pay Now</button>
+                    </p>
+                    <p id="generateReceiptButton">
+                        <button type="button" (click)="generateReceipt(generatereceiptmodal)"
+                            class="mdButton1">GenerateReceipt</button>
+                    </p>
+                </div>
+
+                <ng-container class="row paymentGatewayPage animateIt" *ngIf="showGateWay">
+                    <div class="row">
+                        <strong>
+                            <h4>Please choose from the following Payment options</h4>
+                        </strong>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-4">
+                            <a (click)="iciciPay($event)">
+                                <img src="assets/images/icici.jpg" alt="ICICI Bank" class="img-responsive" />
+                                <h6><b>₹ {{totalAmountPaid()}} + Service Fee & GST = ₹ {{invValFinal}}</b></h6>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-4 col-xs-4">
+                            <a href="" (click)="kotakPay($event)">
+                                <img src="assets/images/razorpay.jpg" alt="Razorpay" class="img-responsive" />
+                                <h6><b>₹ {{totalAmountPaid()}} + Service Fee & GST = ₹ {{ravValFinal}} </b></h6>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-4 col-xs-4">
+                            <a href="" (click)="axisPay($event)">
+                                <img src="assets/images/instamojo.jpg" alt="Instamojo" class="img-responsive" />
+                                <h6><b>₹ {{totalAmountPaid()}} + Service Fee & GST = ₹ {{invValFinal}}</b></h6>
+                            </a>
+                        </div>
+                        <div class="col-sm-4 col-xs-4">
+                            <a href="" (click)="hdfcPay($event)">
+                                <img src="assets/images/instamojo.jpg" alt="Instamojo" class="img-responsive" />
+                                <h6><b>₹ {{totalAmountPaid()}} + Service Fee & GST = ₹ {{invValFinal}}</b></h6>
+                            </a>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+            <br />
+            <br />
+            <!-- <div class="row">
+              <div class="col-xs-12">
+                <button class="mdButton1 pull-right" id="btnPrint" onclick="window.print()">Print Invoice</button>
+              </div>
+            </div> -->
+
+
+        </div>
+    </div>
+</ng-template>
+
+<ng-template id="generatereceiptmodalId" #generatereceiptmodal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <ul class="ulclass" style="list-style-type: none">
+                <li class="liclass" style="display: flex;list-style-type: none">
+                    <label style="position: absolute;font-size:18px;left:41%;color: #f79321 !important;">GENERATE
+                        RECEIPT</label>
+                    <button type="button" class="close" style="margin: -2rem -1rem -1rem 1050px !important;"
+                        aria-label="Close" (click)="modalRefForGenerateRecipt.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <!---->
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-2" style="text-align:end;">
+                <label style="font-size:24px;">Select Block :</label>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group"
+                    [ngClass]="{'has-error' : blocksbyassociationControl.invalid && blocksbyassociationControl.touched}">
+                    <select class="ui dropdown search methodDropdown" name="blkBlockID" [(ngModel)]="blkBlockID"
+                        (change)="getcurrentblockdetails(blkBlockID)" required #blocksbyassociationControl='ngModel'>
+                        <option disabled="true" selected="true" value="">Block Name</option>
+                        <option *ngFor='let blck of allblocksbyassnid' [value]="blck['blBlockID']">
+                            {{blck['blBlkName']}}
+                        </option>
+                    </select>
+                    <p class="alerts" *ngIf="blocksbyassociationControl.invalid && blocksbyassociationControl.touched">
+                        Please select
+                        BlockName</p>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <!-- <a (click)="gotoviewreceipt()">
+                      <button type="button" class="btn btn-danger pull-right"><i class="fa fa-times"></i> Cancel</button>
+                    </a> -->
+            </div>
+        </div>
+
+        <div class="card">
+            <form #genRe='ngForm' role="form">
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : unUnitIDControl.invalid && unUnitIDControl.touched}">
+                            <label>Select Unit <span class="red">*</span></label>
+                            <select class="custom-select" required name="pyid" #unUnitIDControl='ngModel'
+                                [(ngModel)]="pyid" (change)="rowDetails(pyid)">
+                                <option disabled="true" value="">Select Unit </option>
+                                <option *ngFor='let item of unpaidUnits' [value]="item['pyid']">
+                                    {{item['unUnitID']}}
+                                </option>
+                            </select>
+                            <p class="alerts" *ngIf="unUnitIDControl.invalid && unUnitIDControl.touched"> Please Select
+                                Unit</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+                            <label>Invoice <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice"
+                                #invoiceControl='ngModel' placeholder="Invoice Number*" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label>Amount Due<span class="red">*</span></label>
+                            <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue"
+                                placeholder="Amount Due" disabled />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+                            <label>Amount Paid <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid"
+                                #amountPaidControl='ngModel' placeholder="Amount Paid"
+                                pattern="^[0-9]+(\.[0-9]{1,2})?$" />
+                            <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please
+                                Enter Amount Paid</p>
+                            <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
+                            <label>Payment Description <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="paymentDescription"
+                                [(ngModel)]="paymentDescription" #paymentDescriptionControl='ngModel'
+                                placeholder="Payment Description" disabled />
+                            <p class="alerts"
+                                *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please
+                                Select Date of
+                                Payment</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group" [ngClass]="{'has-error' : bankControl.invalid && bankControl.touched}">
+                            <label for="validationBABName">Select Bank <span class="red">*</span></label>
+                            <select name="bankname" [(ngModel)]="bankname" #bankControl='ngModel'
+                                class="custom-select form-control">
+                                <option value=''>Bank</option>
+                                <option *ngFor='let bank of bankList' [value]="bank">
+                                    {{bank}}
+                                </option>
+                            </select>
+                            <div *ngIf="bankControl.invalid && bankControl.touched">
+                                <p class="alerts" *ngIf="bankControl.errors.required">Please Select Bank</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf='false'>
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
+                            <label>Payment Method <span class="red">*</span></label>
+                            <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod"
+                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod)">
+                                <option disabled="true" selected="true" value="">Select Method </option>
+                                <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
+                                    {{paymentby['name']}}
+                                </option>
+                            </select>
+                            <p class="alerts" *ngIf="paymentmethodControl.invalid && paymentmethodControl.touched">
+                                Please Select Method
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Cash' ">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : voucherNoControl.invalid && voucherNoControl.touched}">
+                            <label>Voucher No <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="voucherNo" [(ngModel)]="voucherNo"
+                                #voucherNoControl='ngModel' placeholder="Voucher No " required />
+                            <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter
+                                Voucher No</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Demand Draft' ">
+                        <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
+                            <label>Demand Draft No <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo"
+                                #ddNoControl='ngModel' placeholder="Demand Draft No " required />
+                            <p class="alerts" *ngIf="ddNoControl.invalid && ddNoControl.touched"> Please Enter Demand
+                                Draft No</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="checkField == 'Cheque'">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : chequeNoControl.invalid && chequeNoControl.touched}">
+                            <label>Cheque No <span class="red"></span></label>
+                            <input type="text" class="form-control" name="chequeNo" [(ngModel)]="chequeNo"
+                                #chequeNoControl='ngModel' placeholder="Cheque No " pattern="^\d+$" />
+                            <p class="alerts" *ngIf="chequeNoControl.errors?.pattern"> Please Enter Valid Cheque No</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
+                            <label>Cheque Date <span class="red"></span></label>
+
+                            <input type="text" class="form-control" name="chequeDate" #chequeDateControl='ngModel'
+                                placeholder="Chequedate" required [(ngModel)]="chequeDate" bsDatepicker
+                                [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group pull-right">
+                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt()"
+                        style="margin-right: 3px"> Create <img *ngIf="true"
+                            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button>
+                    <button type="button" (click)="resetForm()" class="btn btn-primary btn-lg">Reset </button>
+                </div>
+
+            </form>
+        </div>
+        <!---->
+    </div>
+</ng-template>
+
+<form #kotakform ngNoForm action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"
+    method="POST" name="kotakPayForm" id="nonseamless">
+    <input type="hidden" id="encRequest" name="encRequest" [ngModel]="kotakPayForm.encRequest">
+    <input type="hidden" name="access_code" id="access_code" [ngModel]="kotakPayForm.accessCode">
+</form>
+
+<ng-template #discountModal>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="position:absolute;left:40%" id="myModalLabel"><u>Discount Invoice</u></h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="padding-top: 0px;">
+            <form name="dscntInv" role="form" autocomplete="off" enctype="multipart/form-data">
+              <!--------------------------------  Block Details Section Starts Here  ------------------------>
+              <fieldset class="scheduler-border">
+                <legend class="scheduler-border headingOrange">Invoice Details</legend>
+                <div class="row">
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group">
+                      <label>Invoice Number</label>
+                      <input type="text" name="dscntInvinvoiceNumber" [(ngModel)]="dscntInvinvoiceNumber" class="form-control"
+                        placeholder="Invoice Number " disabled />
+                    </div>
+                  </div>
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched}">
+                      <label>Discounted Amount<span class="red">*</span></label>
+                      <input type="text" required name="dscntInvdiscountedAmount" #dscntInvdiscountedAmountControl='ngModel'
+                        [(ngModel)]="dscntInvdiscountedAmount" class="form-control"
+                        (blur)="checkDiscountedAmount(dscntInvdiscountedAmount)" placeholder="Amount After Discount" />
+                      <p class="alerts"
+                        *ngIf="dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched">Discounted
+                        Amount</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched}">
+                      <label>Discount Reason <span class="red">*</span></label>
+                      <input type="text" required name="dscntInvdescription" #dscntInvdescriptionControl='ngModel'
+                        (click)='emptyDisplaytext()' [(ngModel)]="dscntInvdescription" class="form-control"
+                        placeholder="Discount Reason" />
+                      <p class="alerts" *ngIf="dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched">
+                        Discount Reason</p>
+                    </div>
+                  </div>
+      
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-xs-12">
+                    <div class="btn-group pull-right">
+                      <button type="button" style="background-color: #f79321 !important;" class="btn btn-primary pull-right"
+                        (click)="discountInvoice(dscntInvinvoiceNumber,dscntInvdiscountedAmount,dscntInvdescription)"><i
+                          class="fa fa-floppy-o"></i> Update & Save</button>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+      
+          </div>
+        </div>
+      
 </ng-template>
