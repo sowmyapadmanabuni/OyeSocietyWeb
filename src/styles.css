@@ -221,7 +221,7 @@ color: #7e7f80;
 {
 color: red;
 position: absolute;
-right: 20px;
+/* right: 20px; */
 font-size: 12px;
 }
 .mandate{color: red}

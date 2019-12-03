@@ -11,11 +11,12 @@ export class GlobalServiceService {
    acAccntID:number;
    mobileNumber:number;
    toggledashboard:boolean;
+   currentUnitName:any;
    
    
   constructor() { 
     this.currentAssociationName='';
-    this.currentUnitId='';
+    this.currentUnitName='';
   }
 
 
@@ -42,7 +43,16 @@ public setCurrentUnitId(unitId)
   this.currentUnitId = unitId;
   localStorage.setItem("currentUnitId", unitId);
 }
+public setCurrentUnitName(unitName)
+{
+  this.currentUnitName=unitName;
+  localStorage.setItem("currentUnitName", unitName);
+}
+public getCurrentUnitName(){
 
+  return localStorage.getItem("currentUnitName");
+
+}
 public setAccountID(acAccntID){
   this.acAccntID=acAccntID;
   console.log(this.acAccntID);

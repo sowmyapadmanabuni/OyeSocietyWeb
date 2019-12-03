@@ -255,7 +255,7 @@ export class HomeComponent implements OnInit {
   loadAssociation(associationName: string) {
     if(!this.globalService.toggledashboard){
       console.log('false');
-      this.globalService.setCurrentUnitId('Units');
+      this.globalService.setCurrentUnitName('Units');
     }
     this.unitlistForAssociation=[];
     //this.globalService.currentUnitId == '';
@@ -287,7 +287,7 @@ export class HomeComponent implements OnInit {
         this.unitlistForAssociation=[];
         this.unitlistForAssociation.push(new UnitlistForAssociation('No Unit Found',0));
         console.log(this.unitlistForAssociation);
-        this.globalService.setCurrentUnitId('Units');
+        this.globalService.setCurrentUnitName('Units');
       }
     }
     console.log('globalService.currentAssociationName', this.globalService.currentAssociationName);
@@ -356,10 +356,13 @@ export class HomeComponent implements OnInit {
   this.ticketDetails=false;
   this.visitor.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
  }
-  loadUnit(unit) {
+  loadUnit(unit,unUnitID) {
     console.log(unit);
-    this.globalService.setCurrentUnitId(unit);
+    console.log(unUnitID);
+    this.globalService.setCurrentUnitId(unUnitID);
+    this.globalService.setCurrentUnitName(unit);
     console.log(this.globalService.currentUnitId);
+    console.log(this.globalService.currentUnitName);
   }
 
 }

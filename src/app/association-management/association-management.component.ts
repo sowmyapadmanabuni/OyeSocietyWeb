@@ -559,8 +559,8 @@ export class AssociationManagementComponent implements OnInit {
 
 this.association="";
 this.association="";
-this.crtAssn.country='';
-this.crtAssn.propertyType='';
+this.crtAssn.country='SELECT COUNTRY';
+this.crtAssn.propertyType='SELECT PROPERTY TYPE';
 this.crtAssn.newBAActType='';
     this.viewAssnService.getAssociationAllDetails()
     .subscribe(item => {
@@ -580,6 +580,9 @@ this.crtAssn.newBAActType='';
       console.log(response);
      this.allBlocksLists= response['data']['blocksByAssoc'];
     })
+  }
+  setPropertyType(propertyType){
+    this.crtAssn.propertyType=propertyType;
   }
 
   _keyPress(event: any) {
@@ -644,7 +647,8 @@ this.crtAssn.newBAActType='';
     }
 
   }
-  openPANfield() {
+  openPANfield(countryname) {
+    this.crtAssn.country=countryname;
     if (this.crtAssn.country == "India") {
       this.PANdiv1 = true;
     }
@@ -858,7 +862,19 @@ this.crtAssn.newBAActType='';
     { "name": "Tenant" }
   ];
 
-
+  resetStep1(){
+    this.crtAssn.name='';
+    this.crtAssn.logo='';
+    this.crtAssn.country='SELECT COUNTRY';
+    this.crtAssn.propertyType='SELECT PROPERTY TYPE';  
+    this.crtAssn.state='';
+    this.crtAssn.city='';
+    this.crtAssn.postalCode='';
+    this.crtAssn.propertyName='';
+    this.crtAssn.locality='';
+    this.crtAssn.email='';
+    this.crtAssn.url='';
+  }
   onSubmit() {
 
     console.log("Creating Association");

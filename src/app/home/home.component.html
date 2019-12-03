@@ -19,10 +19,10 @@
                                 </div>
                                 <div class="dropdown search-dropd">
                                         <button class="btn btn-primary dropdown-toggle sdm" type="button"
-                                                data-toggle="dropdown">{{globalService.currentUnitId}}
+                                                data-toggle="dropdown">{{globalService.currentUnitName}}
                                                 <span class="caret"></span></button>
                                         <ul class="dropdown-menu fullw">
-                                                <li (click)="loadUnit(unt['unUniName'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
+                                                <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
                                         </ul>
                                 </div>
                         </div>
