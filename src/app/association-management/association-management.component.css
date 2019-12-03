@@ -51,6 +51,7 @@
     align-items: center;}
     .dash-row{display: flex;justify-content: space-around;align-items: center;}
     .dash-row>div{background: white;box-shadow: 0px 2px 10px 2px #a2a2a2;padding: 0px 10px;border-radius: 14px;display: flex;justify-content: space-around;margin: 20px 7px;width: 200px;height: 100px;align-items: center;}
+    .note{font-size: 11px;color: #949090;}
     @media only screen and (min-width: 320px) and (max-width: 600px)  {
     
     .search-dropd{margin-bottom: 20px}
@@ -70,6 +71,11 @@
     border-radius: 6px;
     box-shadow: 0px 6px 9px 1px #ecebeb;}
     } 
+    .btn-success:hover, .btn-success{
+        color: #fff !important;
+        background-color: #5a51aa;
+        border-color:#5a51aa;
+    }
     @media only screen and (min-width: 230px) and (max-width: 992px)  {
     .profile{flex-direction: row;justify-content: space-evenly;}
     .b-l{border:none !important}
@@ -79,6 +85,7 @@
     @media only screen and (min-width: 240px) and (max-width: 640px)  {
     .dash-row {flex-direction: column;}
     .search-results{border-radius: 30px !important}
+    .join_ass_opt{margin:0px !important}
     }
     @media only screen and (min-width: 528px) and (max-width: 770px)  {
     .search{flex-direction: row;}   
@@ -94,8 +101,10 @@
     @media only screen and (min-width: 340px) and (max-width: 1150px)  {
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
-    .enroll{flex-direction: column}
-    
+    .enroll,.panel-body{flex-direction: column}
+    .form-group{width: 90% !important;margin:auto}
+    .stepwizard-step{padding: 6px 12px !important;justify-content: start !important;}
+    .btn-circle{margin:0px 10px !important}
     }
     
     
@@ -130,11 +139,12 @@
         display: flex;
         text-align: center;
         /* position: relative; */
-        border-right: 2px solid #cfcaca;
-        padding: 6px 0px !important;
+        border-right: 1px solid #cfcaca;
+        padding: 3px 0px !important;
         justify-content: space-evenly;
         align-items: center;
         font-weight: 600;
+        color: #5a51aa;
     }
     .btn-circle {
         width: 30px;
@@ -153,9 +163,20 @@
         padding: 43px 3px;
         border: none;
     }
+    label{font-size:12px !important;font-weight: 500 !important}
     .panel-body{display: flex;justify-content: space-between;padding: 0px !important}
-    
-    
+    .content{margin-bottom: 40px}
+    .c-active{border-right: 4px solid #5a51aa;}
+    .join_ass_opt{font-size: 15px;font-weight: 700;margin: 0px 0px 52px 0px;padding: 0px 0px 30px 0px;color: #5a51aa;}
+    .block-row{display: flex;justify-content: space-between;flex-wrap: wrap;margin-bottom: 10px;}
+    .block-row>.active{margin-bottom: 5px;background: #5a51aa;color: #fff;padding: 9px 17px;border-radius: 10px;font-weight: 600;}
+    .block-row>span:hover{cursor:pointer;margin-bottom: 5px;background: #5a51aa;color: #fff;padding: 9px 17px;border-radius: 10px;font-weight: 600;}
+    .block-row>span{margin-bottom: 5px;background: #fff;color: #5a51aa;padding: 9px 17px;border-radius: 10px;font-weight: 600;box-shadow: 0px 0px 5px 1px #d5d2d2;}
+    .b-left{border-left: 2px solid #ebe7e7;}
+    .enrollassociation{display: none}
+    .enrollassociationshow{display: block}
+    .stepwizard-step:last-child{border-right:none}
+    .step-active{border-bottom: 3px solid #5a51aa;}
     
     
     

@@ -12,9 +12,13 @@ export class ViewInvoiceService {
 
   ipAddress: string;
   url: string;
+  invoiceBlock:any;
+  invoiceBlockId:any;
 
   constructor(private http: HttpClient,private utilsService:UtilsService) {
     // this.ipAddress = 'http://apidev.oyespace.com';
+    this.invoiceBlock='';
+
   }
 
   /*----------------------Block List By association ID -----------------*/

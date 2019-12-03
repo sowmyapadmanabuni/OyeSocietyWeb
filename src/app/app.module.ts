@@ -41,6 +41,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {ReceiptsComponent} from './receipts/receipts.component'
 import { ToastrModule } from 'ngx-toastr';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { WordsPipe } from './pipes/words.pipe';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -67,7 +68,8 @@ export const firebaseConfig = environment.firebaseConfig;
     UnitsComponent,
     LeftBarComponent,
     RightBarComponent,
-    SearchPipe
+    SearchPipe,
+    WordsPipe
   ],
   imports: [
     BrowserModule,
