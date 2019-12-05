@@ -162,6 +162,9 @@ position: absolute;
 right: 20px;
 font-size: 12px;
 }
+.swal2-content{
+    display: none;
+}
 .mandate{color: red}
 /*custom checkbox part*/
 .btn-success,.btn-default {

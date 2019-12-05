@@ -200,6 +200,11 @@ export class AssociationManagementComponent implements OnInit {
   ];
 
   userlist: any[] = [];
+  assnName:any;
+  blBlkName:any;
+  activeEnabled:boolean;
+  OwnerType:any;
+  account:any;
 
   constructor(private modalService: BsModalService,
     private viewAssnService: ViewAssociationService,
@@ -287,6 +292,10 @@ export class AssociationManagementComponent implements OnInit {
     this.newAMTypes = '';
     this.newNoofAmenitie = '';
     this.unitId = '';
+    this.assnName='Associations';
+    this.blBlkName='Blocks';
+    this.activeEnabled=false;
+    this.unUnitID=this.globalService.getCurrentUnitId();
 
 
 
@@ -329,6 +338,12 @@ export class AssociationManagementComponent implements OnInit {
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled=true;
     this.viewAssnService.vewAsnEnbled=false;
+    this.viewAssnService.joinAsnEbld=false;
+  }
+  enblJoinAsnVew() {
+    this.viewAssnService.enrlAsnEnbled=false;
+    this.viewAssnService.vewAsnEnbled=false;
+    this.viewAssnService.joinAsnEbld=true;
   }
   viewassociation(repviewreceiptmodalit: any) {
     console.log(JSON.stringify(repviewreceiptmodalit));
@@ -380,9 +395,10 @@ export class AssociationManagementComponent implements OnInit {
   //   this.accountType = '';
   //   console.log('bankites', this.bankites);
   // }
-  prerequisitesAddUnit(blBlockID) {
+  prerequisitesAddUnit(blBlockID,blBlkName) {
     console.log('prerequisitesAddUnit', blBlockID);
     this.blockID = blBlockID;
+    this.blBlkName=blBlkName;
     let blockbyassoc = this.allBlocksLists.find(item => item['blBlockID'] == blBlockID);
     this.getAllUnitDetailsByBlockID(blBlockID);
     //this.viewAssnService.getBlockDetailsByAssociationID() 
@@ -572,8 +588,10 @@ this.crtAssn.newBAActType='';
     })
   }
   
-  loadAssociation(asAssnID){
+  loadAssociation(asAssnID,asAsnName){
+    this.blBlkName='Blocks';
     console.log('asAssnID',asAssnID);
+    this.assnName=asAsnName;
     this.assnID=asAssnID;
     this.viewAssnService.getBlockDetailsByAssociationID(asAssnID)
     .subscribe(response=>{
@@ -592,7 +610,12 @@ this.crtAssn.newBAActType='';
         event.preventDefault();
     }
   }
-
+  enableActive(spanCtrl) {
+    console.log(spanCtrl);
+    //spanCtrl.classList.add("active");
+    spanCtrl.classList.toggle("active");
+    //this.activeEnabled = true;
+  }
 
   getAssociationDetails() {
     console.log(this.accountID)
@@ -875,6 +898,15 @@ this.crtAssn.newBAActType='';
     this.crtAssn.email='';
     this.crtAssn.url='';
   }
+  resetStep2(){
+    this.crtAssn.PANNumber='';
+    this.crtAssn.GSTNumber='';
+    this.crtAssn.uploadPANCard='';
+  }
+  resetStep3(){
+    this.crtAssn.totalNoBlocks='';
+    this.crtAssn.totalNoUnits='';
+  }
   onSubmit() {
 
     console.log("Creating Association");
@@ -1002,82 +1034,62 @@ this.crtAssn.newBAActType='';
     this.viewassociationForm.reset();
   }
 
-  OnSendButton(OwnerType){
-    // this.afMessaging.requestPermission
-    // .subscribe(
-    //   () => { console.log('Permission granted!'); },
-    //   (error) => { console.error(error); },  
-    // );
-
-    // this.afMessaging.requestPermission
-    //   .pipe(mergeMapTo(this.afMessaging.tokenChanges))
-    //   .subscribe(
-    //     (token) => { console.log('Permission granted! Save to the server!', token); },
-    //     (error) => { console.error(error); },
-    //   );
-
-    /* this.afMessaging.tokenChanges
-      .subscribe(
-        (token) => { console.log('Permission granted! Save to the server!', token); },
-        (error) => { console.error(error); },
-      ); */
-
-   /* this.senddata={
-      "ISDCode":"+91",
-      "MobileNumber":"7353204696",
-      "text":"ABC... want to join your Association"
-    }
-    this.viewAssnService.sendRequestmethod(this.senddata)
-      .subscribe(
-        (data) => {
-          swal.fire({
-            title: "Sent Successfully",
-            text: "",
-            type: "success",
-            showCancelButton: true,
-            confirmButtonColor: "#f69321",
-    
-          })
-          console.log(data);
-        }) */ 
-      let senddataForJoinOwner={
-          "ASAssnID"     :Number(this.assnID),
-          "BLBlockID"       : Number(this.blockID),
-          "UNUnitID"     : Number(this.unUnitID),
-          "MRMRoleID"    : (OwnerType=='joinowner'?1:2),
-          "FirstName"    : this.dashboardservice.acfName,
-          "MobileNumber" : this.dashboardservice.acMobile,
-          "ISDCode"      : "+91",
-          "LastName"     : this.dashboardservice.aclName,
-          "Email"        : "",
-          "SoldDate"     : "2019-03-02",
-          "OccupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
+  OnSendButton(OwnerType) {
+    this.dashboardservice.getAccountFirstName(this.accountID).subscribe(res => {
+      //console.log(JSON.stringify(res));
+      var data: any = res;
+      this.account = data.data.account;
+      console.log('account', this.account);
+      console.log(this.account[0]['acfName']);
+      console.log(this.account[0]['aclName']);
+      console.log(this.account[0]['acMobile']);
+      //
+      let senddataForJoinOwner = {
+        "ASAssnID": Number(this.assnID),
+        "BLBlockID": Number(this.blockID),
+        "UNUnitID": Number(this.unUnitID),
+        "MRMRoleID": OwnerType,//(OwnerType=='joinowner'?1:2),
+        "FirstName": this.account[0]['acfName'],
+        "MobileNumber": this.account[0]['acMobile'],
+        "ISDCode": "+91",
+        "LastName": this.account[0]['aclName'],
+        "Email": "",
+        "SoldDate": "2019-03-02",
+        "OccupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
       }
       console.log(senddataForJoinOwner);
-        this.viewAssnService.joinAssociation(senddataForJoinOwner)
-          .subscribe(
-            (data) => {
-              this.modalRef.hide();
-              Swal.fire({
-                title: 'Joined Successfully',
-                showCancelButton: true,
-                type:'success',
-                confirmButtonColor: "#f69321"
-              })
-              console.log(data);
-            },
-            err=>{
-              console.log(err);
-              Swal.fire({
-                title: "Error",
-                type:'error',
-                text: `${err['error']['error']['message']}`,
-                confirmButtonColor: "#f69321"
-              });
+      this.viewAssnService.joinAssociation(senddataForJoinOwner)
+        .subscribe(
+          (data) => {
+            //this.modalRef.hide();
+            Swal.fire({
+              title: 'Joined Successfully',
+              showCancelButton: true,
+              type: 'success',
+              confirmButtonColor: "#f69321"
             })
-        
-  }
+            console.log(data);
+          },
+          err => {
+            console.log(err);
+            Swal.fire({
+              title: "Error",
+              type: 'error',
+              text: `${err['error']['error']['message']}`,
+              confirmButtonColor: "#f69321"
+            });
+          })
+      //
+    },
+      err => {
+        console.log(err);
+      });
 
+  }
+  requestForJoin(){
+    console.log(this.OwnerType);
+      this.OnSendButton(this.OwnerType);
+  }
   validateGST() {
     let firstLetter = this.crtAssn.name.charAt(0).toUpperCase();
     let fifthLetter = this.crtAssn.GSTNumber.charAt(4).toUpperCase();

@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
       // this.accountID=this.globalService.getacAccntID();
       this.globalService.setAccountID('9539'); // 6457 9539
       this.accountID=this.globalService.getacAccntID();
-      this.globalService.currentUnitId=this.globalService.getCurrentUnitId();
+      this.globalService.currentUnitName=this.globalService.getCurrentUnitName();
       console.log(this.globalService.currentUnitId);
       //this.globalService.setCurrentUnitId('Units');
        this.association='';

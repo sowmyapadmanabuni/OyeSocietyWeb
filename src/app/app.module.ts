@@ -45,7 +45,13 @@ import {ReceiptsComponent} from './receipts/receipts.component'
 import { ToastrModule } from 'ngx-toastr';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { WordsPipe } from './pipes/words.pipe';
+<<<<<<< HEAD
 import {AddUnitComponent} from './add-unit/add-unit.component'
+=======
+import { NewAmenityComponent } from './new-amenity/new-amenity.component';
+import {AddBlocksComponent} from './add-blocks/add-blocks.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
+>>>>>>> 54fb89ff9ffc7d197deb5d9c3e07c2f372665f2f
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -77,7 +83,10 @@ export const firebaseConfig = environment.firebaseConfig;
     LeftBarComponent,
     RightBarComponent,
     SearchPipe,
-    WordsPipe
+    WordsPipe,
+    NewAmenityComponent,
+    AddBlocksComponent,
+    AddExpenseComponent
   ],
   imports: [
     BrowserModule,

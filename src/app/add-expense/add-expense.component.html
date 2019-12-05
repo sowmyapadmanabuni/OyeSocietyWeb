@@ -1,0 +1,269 @@
+<div class="row">
+       <div class="stepwizard">
+            <div class="stepwizard-row setup-panel">
+                <div class="stepwizard-step col-lg-6 col-sm-6 col-xs-12 step-active">
+                    <a href="#step-1" type="button" class="btn btn-success btn-circle"></a><span>Expense Details</span>
+                </div>
+                <div class="stepwizard-step col-lg-6 col-sm-6 col-xs-12">
+                    <a href="#step-2" type="button" class="btn btn-default btn-circle"></a><span>Expense
+                        Bank Details</span>
+                </div>
+            </div>
+        </div>
+
+        <form role="form">
+            <div class="panel panel-primary setup-content" id="step-1">
+                <!-- <div class="panel-heading">
+                         <h3 class="panel-title">Association Details</h3>
+                    </div> -->
+                    <p class="title">Current date: {{dateandTime | date:"dd-MM-yyyy"}}</p>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Expense Head</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                    type="button" data-toggle="dropdown">{{expensedata.EXHead}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li *ngFor='let item of expenseHead' (click)="getExpenseHead(item['displayName'])"><a>{{item['displayName']}}</a></li>
+                                </ul>
+                            </div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error' : descriptionControl.invalid && descriptionControl.touched}">
+                            <label class="control-label">Expense Description</label>
+                            <input type="text" class="form-control" name="EXDesc" [(ngModel)]="expensedata.EXDesc"
+                            placeholder="Expense Description " #descriptionControl='ngModel' required />
+                        <p class="alerts" *ngIf="descriptionControl.invalid && descriptionControl.touched">
+                            Please Enter Expense Description</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expense Reccurance Type</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                    type="button" data-toggle="dropdown">{{expensedata.EXRecurr}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li *ngFor='let item of categories' (click)="getExpenseReccuranceType(item['displayName'])"><a>{{item['displayName']}}</a></li>
+                                </ul>
+                            </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Applicable to Unit</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                    type="button" data-toggle="dropdown">{{expensedata.EXApplTO}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li *ngFor='let item of applicabltToUnits' (click)="applicableTo(item['name'])"><a>{{item['displayName']}}</a></li>
+                                </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expense Type</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                    type="button" data-toggle="dropdown">{{expensedata.EXType}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li *ngFor='let item of expensecategories' (click)="getexpensedataEXType(item['displayName'])"><a>{{item['displayName']}}</a></li>
+                                </ul>
+                            </div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
+                            <label class="control-label">Amount Paid</label>
+                            <input type="text" class="form-control" name="EXPAmnt" [(ngModel)]="expensedata.EXPAmnt" #amountControl='ngModel'
+                            placeholder="Amount" required pattern="^[0-9]*$" />
+                    
+                        <div *ngIf="amountControl.invalid && amountControl.touched">
+                            <p class="alerts" *ngIf="amountControl.errors.required">Please Enter Amount</p>
+                            <p class="alerts" *ngIf="amountControl.errors.pattern">Please Enter Valid Amount</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                        <div class="form-group" *ngIf='otherThanSingleUnit'>
+                            <label class="control-label">Select Distribution Type</label>
+                            <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                        type="button" data-toggle="dropdown">{{expensedata.EXDisType}}
+                                        <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                    <ul class="dropdown-menu fullw">
+                                        <li *ngFor='let item of distributionTypes' (click)="getExpenseDataEXDisType(item['name'])"><a>{{item['displayName']}}</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                            <div class="form-group" *ngIf='isSingleUnit'>
+                                <label>Select Distribution Type <span class="red">*</span></label>
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" value="Actuals"
+                                    data-toggle="dropdown">{{expensedata.EXDisType}}</button>
+                            </div>
+                        <div [hidden]="applies != 'Single Unit'" class="form-group">
+                            <label class="control-label">Select Unit</label>
+                            <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                        type="button" data-toggle="dropdown">{{expensedata.UnUniIden}}
+                                        <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                    <ul class="dropdown-menu fullw">
+                                        <li *ngFor='let item of ascUnit' (click)="getUnit(item['unUniName'])"><a>{{item['unUniName']}}</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                        <div class="form-group"> </div>
+                        
+                    </div>
+                <div class="col-sm-12 pull-right">
+                    <button class="btn btn-primary-purple nextBtn">Reset</button>
+                    <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
+                </div>
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-2">
+                <!-- <div class="panel-heading">
+                         <h3 class="panel-title">Pan & Registration Details</h3>
+                    </div> -->
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Select Bank</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                [disabled]="checkField == 'Cash'" type="button" data-toggle="dropdown">{{expensedata.BABName}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li *ngFor='let bank of bankList' (click)='getexpensedataBABName(bank)'><a>{{bank}}</a></li>
+                                </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Select Payment Method</label>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                data-toggle="dropdown">{{paymentMethodType}}
+                                <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                            <ul class="dropdown-menu fullw">
+                                <li *ngFor='let item of methodArray' (click)="showMethod(item['id'],item['displayName'])">
+                                    <a>{{item['displayName']}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div *ngIf="checkField != 'Cash'" class="form-group" [ngClass]="{'has-error' : payeenameControl.invalid && payeenameControl.touched}">
+                        <label>Payee Name </label>
+                        <input type="text" class="form-control" name="EXPName" [(ngModel)]="expensedata.EXPName" #payeenameControl='ngModel'
+                            pattern="^[a-zA-Z _]*$" placeholder="Payee Name " />
+                    
+                        <div *ngIf="payeenameControl.invalid && payeenameControl.touched">
+                            <p class="alerts" *ngIf="payeenameControl.errors.required">Enter Payee Name</p>
+                            <p class="alerts" *ngIf="payeenameControl.errors.pattern">Special characters not allowed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Payee Bank Name</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                    type="button" data-toggle="dropdown">Payee
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li><a>Payee</a></li>
+                                    <li><a>Payee</a></li>
+                                </ul>
+                        </div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error' : expendituredateControl.invalid && expendituredateControl.touched}">
+                        <label>Expenditure Date <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="EXDate" #expendituredateControl='ngModel'
+                            placeholder="Expenditure Date " required [(ngModel)]="EXDate" [bsConfig]="bsConfig" #expdp='bsDatepicker'
+                            bsDatepicker placement="top" />
+                    
+                        <p class="alerts" *ngIf="expendituredateControl.invalid && expendituredateControl.touched"> Please Select
+                            Expenditure Date</p>
+                    
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error' : receiptnoControl.invalid && receiptnoControl.touched}">
+                        <label>Invoice No / Receipt No <span class="red"></span></label>
+                        <input type="text" class="form-control" name="INNumber" [(ngModel)]="expensedata.INNumber"
+                            #receiptnoControl='ngModel' pattern="^[0-9]*$" placeholder="Invoice No / Receipt No " />
+                    
+                        <div *ngIf="receiptnoControl.invalid && receiptnoControl.touched">
+                            <p class="alerts" *ngIf="receiptnoControl.errors.required">Please Enter Invoice No / Receipt No</p>
+                            <p class="alerts" *ngIf="receiptnoControl.errors.pattern">Please Enter Valid Invoice No / Receipt No</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Invoice/Payment Copy</label>
+                        <input type="file" id="uploadFileinput" class="form-control" (change)='onFileSelected($event)'/>
+               
+                    </div>
+                    <div class="form-group">
+                            <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+                                    Resolution of 128*128</span>
+                    </div>
+                    <div *ngIf="checkField != 'Cash'" class="form-group">
+                        <label for="validationEXPBName">Payee Bank Name </label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                    type="button" data-toggle="dropdown">{{expensedata.EXPBName}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li *ngFor='let bank of bankList' (click)='getPayeeBankName(bank)'><a>{{bank}}</a></li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" *ngIf="checkField == 'Cheque'">
+                    <div class="form-group" [ngClass]="{'has-error' : chequenoControl.invalid && chequenoControl.touched}">
+                        <label>Cheque No <span class="red"></span></label>
+                        <input type="text" required class="form-control" name="EXChqNo" [(ngModel)]="expensedata.EXChqNo"
+                            #chequenoControl='ngModel' placeholder="Cheque No " pattern="^[a-zA-Z0-9]*$" />
+                
+                        <div *ngIf="chequenoControl.invalid && chequenoControl.touched">
+                            <p class="alerts" *ngIf="chequenoControl.errors.required">Please Enter Valid Cheque No</p>
+                            <p class="alerts" *ngIf="chequenoControl.errors.pattern">Special characters not allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error' : chequedateControl.invalid && chequedateControl.touched}">
+                        <label>Cheque Date <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="EXChqDate" #chequedateControl='ngModel' placeholder="Cheque Date"
+                            required [(ngModel)]="EXChqDate" [bsConfig]="bsConfig" #expchkdate="bsDatepicker" bsDatepicker
+                            [minDate]="minDate" placement="top" />
+                    
+                        <p class="alerts" *ngIf="chequedateControl.invalid && chequedateControl.touched"> Please Select Cheque Date
+                        </p>
+                    </div>
+                </div>
+                <div class="panel-body" *ngIf="checkField == 'DemandDraft'">
+                    <div class="form-group" [ngClass]="{'has-error' : ddnoControl.invalid && ddnoControl.touched}">
+                        <label>Demand Draft No <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="EXDDNo" [(ngModel)]="expensedata.EXDDNo"
+                            placeholder="Demand Draft No" #ddnoControl='ngModel' required pattern="^[a-zA-Z0-9]*$" />
+                
+                        <div *ngIf="ddnoControl.invalid && ddnoControl.touched">
+                            <p class="alerts" *ngIf="ddnoControl.errors.required">Please Enter Demand Draft No</p>
+                            <p class="alerts" *ngIf="ddnoControl.errors.pattern">Special characters not allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error' : demandDraftDateControl.invalid && demandDraftDateControl.touched}">
+                        <label>Demand Draft Date <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="EXDDDate" #demandDraftDateControl='ngModel'
+                            placeholder="Demand Draft Date" required [bsConfig]="bsConfig" [(ngModel)]="EXDDDate" #expdddate='bsDatepicker'
+                            bsDatepicker [minDate]="minDemandDraftDate" />
+                    
+                        <p class="alerts" *ngIf="demandDraftDateControl.invalid && demandDraftDateControl.touched"> Please Select
+                            DemandDraft Date</p>
+                    </div>
+                </div>
+                <div class="col-sm-12 pull-right">
+                    <button class="btn btn-primary-purple nextBtn">Reset</button>
+                    <button class="btn btn-primary-purple nextBtn" (click)='addExp()' type="button">Add Expense</button>
+                </div>
+
+            </div>
+
+
+        </form>
+</div>
+ 
