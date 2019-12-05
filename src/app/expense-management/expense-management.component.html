@@ -14,7 +14,7 @@
                         <li><a (click)="goToReceipts()">Receipts</a></li>
                     </ul>
                 </div>
-                <div class="enroll">
+                <div class="enroll" *ngIf='enableExpenseListView'>
                     <div class="dropdown search-dropd">
                         <button class="btn btn-primary dropdown-toggle sdm br" type="button"
                             data-toggle="dropdown">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
@@ -35,14 +35,14 @@
 
                     <button class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
                             aria-hidden="true"></i> Generate invoice</button>
-                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-plus"
+                    <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add Expense</button>
                 </div>
-                <div>
+                <div *ngIf='enableExpenseListView'>
                     <label>Search</label>
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                 </div>
-                <div class="dash-row">
+                <div class="dash-row" *ngIf='enableExpenseListView'>
                     <table class="table table-striped" [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
@@ -111,6 +111,12 @@
                         </tfoot>
                     </table>
                 </div>
+                <!--Add Expense Starts-->
+
+                <div class="col-sm-12" *ngIf='enableAddExpnseView'>
+                  <app-add-expense></app-add-expense>
+                </div>
+                <!--Add Expense Starts-->
             </div>
             <!--Dashboard icons end-->
         </div>

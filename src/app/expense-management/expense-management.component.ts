@@ -99,6 +99,8 @@ export class ExpenseManagementComponent implements OnInit {
   toggleBulkInvGenerate:boolean;
   exidList:any[];
   Invoiced:any;
+  enableAddExpnseView:boolean;
+  enableExpenseListView:boolean;
 
   constructor(private viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -150,6 +152,8 @@ export class ExpenseManagementComponent implements OnInit {
     this,this.toggleBulkInvGenerate=false;
     this.exidList=[];
     this.Invoiced='Invoiced';
+    this.enableAddExpnseView=false;
+    this.enableExpenseListView=true;
 
     //this.editexpensedata.UnUniIden = '';
     //this.editexpensedata.PMID = '';
@@ -372,6 +376,11 @@ export class ExpenseManagementComponent implements OnInit {
     }
 
   }
+  toggleAddExpenseView() {
+    this.toggleStepWizard();
+    this.enableAddExpnseView = true;
+    this.enableExpenseListView=false;
+  }
   editExpense(repexpense1, idx) {
     console.log('repexpense1-', repexpense1);
     console.log('idx-', idx);
@@ -445,7 +454,51 @@ export class ExpenseManagementComponent implements OnInit {
      imgthumbnailelement.src = "";
    }
   }
-
+  toggleStepWizard() {
+  
+    $(document).ready(function () {
+  
+      var navListItems = $('div.setup-panel div a'),
+        allWells = $('.setup-content'),
+        allNextBtn = $('.nextBtn');
+  
+      allWells.hide();
+  
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this);
+  
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          $item.addClass('btn-success');
+          allWells.hide();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      });
+  
+      allNextBtn.click(function () {
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          isValid = true;
+  
+        $(".form-group").removeClass("has-error");
+        for (var i = 0; i < curInputs.length; i++) {
+          if (!curInputs[i].validity.valid) {
+            isValid = false;
+            $(curInputs[i]).closest(".form-group").addClass("has-error");
+          }
+        }
+  
+        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+      });
+  
+      $('div.setup-panel div a.btn-success').trigger('click');
+    });
+  }
   onUpLoad() {
     const fd = new FormData();
     fd.append('image', this.selectedFile, this.editexpensedata.EXPyCopy);
