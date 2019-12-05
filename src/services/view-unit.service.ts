@@ -11,6 +11,7 @@ export class ViewUnitService {
   scopeIP:string;
   scriptIP:string;
   headers:HttpHeaders;
+  blockIDforUnitCreation: any;
   public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -51,6 +52,7 @@ export class ViewUnitService {
               
               GetUnitListByBlockID(blockId){
                 console.log('blockId',blockId);
+                this.blockIDforUnitCreation = blockId;
                 let scopeIP=this.utilsService.GetUnitListByBlockID();
                 return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId , {headers:this.headers});
               }

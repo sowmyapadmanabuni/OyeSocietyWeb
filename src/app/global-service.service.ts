@@ -12,11 +12,15 @@ export class GlobalServiceService {
    mobileNumber:number;
    toggledashboard:boolean;
    currentUnitName:any;
+   enableLogin: boolean;
+   enableHomeView: boolean; 
    
    
   constructor() { 
     this.currentAssociationName='';
     this.currentUnitName='';
+    this.enableLogin= true;
+    this.enableHomeView= false;
   }
 
 

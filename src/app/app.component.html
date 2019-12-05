@@ -8,6 +8,7 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <!-- Toolbar -->
+<div *ngIf='globalService.enableHomeView'>
 <div class="topnav" id="myTopnav">
   <div> <a (click)='toggleDashboard()'><img src="../assets/OyeSociety.png"></a></div>
   <div style="margin-top: -30px;">
@@ -47,3 +48,8 @@
 <footer>
   <app-footer></app-footer>
 </footer>
+
+</div>
+<div *ngIf='globalService.enableLogin'>
+  <app-login></app-login>
+</div>

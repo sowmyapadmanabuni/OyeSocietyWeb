@@ -29,6 +29,9 @@ import { AssociationManagementComponent } from './association-management/associa
 import { ExpenseManagementComponent } from './expense-management/expense-management.component';
 import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
+import {LoginComponent} from './login/login.component'
+import {RegisterComponent} from './register/register.component'
+import {VehiclesComponent} from './vehicles/vehicles.component'
 import { UnitsComponent } from './units/units.component';
 import { LeftBarComponent } from './left-bar/left-bar.component';
 import { RightBarComponent } from './right-bar/right-bar.component';
@@ -42,6 +45,7 @@ import {ReceiptsComponent} from './receipts/receipts.component'
 import { ToastrModule } from 'ngx-toastr';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { WordsPipe } from './pipes/words.pipe';
+import {AddUnitComponent} from './add-unit/add-unit.component'
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -64,7 +68,11 @@ export const firebaseConfig = environment.firebaseConfig;
     GooglemapComponent,
     AssociationManagementComponent,
     ExpenseManagementComponent,
+    VehiclesComponent,
     BlocksComponent,
+    LoginComponent,
+    RegisterComponent,
+    AddUnitComponent,
     UnitsComponent,
     LeftBarComponent,
     RightBarComponent,

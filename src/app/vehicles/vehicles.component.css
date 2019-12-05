@@ -1,0 +1,50 @@
+img{width: 100%;}
+.left,.right{background-image: none !important}
+#right{right: -9px;position: absolute;top: 111px;}
+#left{left: -9px;position: absolute;top: 111px;}
+.carousel-indicators{display: none}
+.carousel-inner{    padding: 0px 1px;} 
+.action{display: flex;justify-content: flex-end;padding: 10px 15px}
+.bimage{width:500px;}
+.vehicles{display: flex;justify-content: space-around;flex-direction: column;background:#efefef}
+.vehicles>p:first-child{text-align: right;padding: 5px 10px;}
+.vehicles>img{width: 150px;margin: 0px auto;}
+.veh-desc{padding: 10px 14px}
+.vehicle-name{color: #4c32af;font-weight: 500;}
+#list{box-shadow: 0px 0px 2px 2px #ededed;padding: 30px;}
+.vehicles-main{display: flex;justify-content: space-evenly;align-items: center;}
+#myCarousel{width:100%}
+.orange{color:#f7b844}
+.form-group{margin-bottom: 15px;width: 40%;}
+.veh-opt{display: flex;justify-content: space-evenly;align-items: center;    margin: 30px 0px;}
+.adveh{display: flex;justify-content: space-evenly;align-items: center;}
+.adveh1{display: flex;justify-content: flex-start;align-items: center;}
+/* .left{background-image: none !important;top: 35px;bottom: 0;left: -102px;} */
+.fa:hover{cursor: pointer;}
+@media only screen and (min-width: 240px) and (max-width:765px)  
+{
+.carousel-indicators{display: block;bottom: -27px;}
+.left,.right{display: none;}
+.carousel-indicators li{background: chocolate}
+.carousel-indicators .active{background: red}
+#list{margin-top:40px}
+.vehicles-main{flex-direction: column;}
+.vehicles{margin-bottom: 20px}
+}
+.enroll{ display: flex;justify-content: flex-end;align-items: center;margin-bottom: 30px;}
+/* .bg-grey{background: #f1eded26;} */
+a{cursor: pointer;}
+.m-top{margin-top: 20px;font-weight: 500;}
+.m-l-40{margin-left: 100px;}
+.m-t-30{margin: 20px 0px;}
+.p-t-45{padding-top: 45px;}
+.make{font-size: 16px;font-weight: 500;margin-top: 50px;text-align: center}
+.icon{width: 50px;}
+
+.dash{display: flex;flex-direction: column;}
+.b-l{border-left: 2px solid rgb(242, 238, 238)}
+@media only screen and (min-width: 1005px) and (max-width: 2000px)  {
+.profile{width: 63px;}
+
+}
+

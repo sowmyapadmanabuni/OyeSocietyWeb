@@ -1,0 +1,319 @@
+<!-- <div class="backgr">
+
+  </div>
+  <div class="loginbox">
+      <h1 style="margin-top: -5%;">Register</h1>
+      <form>
+      
+       
+        <input type="text" name="mobile" [(ngModel)]="firstName" placeholder="First Name"
+          style="width: 140px;  border-bottom: 1px solid #F08A33;" required />
+          <input type="text" name="mobile" [(ngModel)]="lastName" placeholder="Last Name"
+          style="width: 140px;border-bottom: 1px solid #F08A33;margin: 0% 0% 0% 16%;" required /><br>
+   
+          <input [ngClass]="{'has-error' : mobilenumbers.invalid && mobilenumbers.touched}"
+          type="text" (keypress)=_keyPress($event)
+       ng2TelInput
+       [ng2TelInputOptions]="{initialCountry: 'in'}"
+       (hasError)="hasError($event)"
+       (ng2TelOutput)="getNumber($event)"
+       (intlTelInputObject)="telInputObject($event)"
+       (countryChange)="onCountryChange($event)"
+       name="mobilenumber"
+       placeholder="Mobile Number"
+       #mobilenumbers='ngModel'
+       id="mobnum"
+       pattern="^[6-9]{1}[0-9]{9}$" required
+       [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }"
+       [(ngModel)]='mobilenumber' maxlength="10"ç style="border-bottom: 1px solid #F08A33;"/>
+       <p class="alerts" *ngIf="mobilenumbers.invalid && mobilenumbers.touched" style=" position: absolute; font-size: 11px; color: red; margin: -2% 0% 0% 2%;">Enter valid number</p>
+   
+       
+   
+   
+  
+        <input type="text" [(ngModel)]="email" name="email" placeholder="E-mail Address"
+          style="width: -webkit-fill-available; margin-top: 7%;  border-bottom: 1px solid #F08A33;" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ><br>
+          <form ngNativeValidate>
+            <input type="checkbox" name="terms" value="terms" id="terms1" (click)='validateCheckBox($event)' required />
+            <label for="love" style="margin: -40%;font-size: 12px;"> I have read and accepted the <a data-toggle="modal"
+                (click)='privacyPolicyModel(privacyPolicy)'>privacy policy</a> and <a data-toggle="modal"
+                (click)='termsConditionModel(termsCondition)'>terms of use</a></label>
+            <input type="submit" (click)='register()' style="margin: 2% 0% 3% 23%;" value="Register" />
+          </form>
+        <br>
+     
+       
+        <div id="some_div">
+           
+          </div>
+        </form>
+   
+     
+   
+    </div>
+  
+  <ng-template #privacyPolicy>
+      <div class="modal-header">
+          <h5 class="modal-title">Privacy Policy</h5>
+          <button type="button" class="close" (click)="refundPolicymodalRef.hide()" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body fixHeight" style="font-family: Quicksand;">
+          <p class="altx">
+              <span>SECTION 1 - WHAT DO WE DO WITH YOUR INFORMATION?</span>
+              When you purchase something from our store, as part of the buying and selling process, we
+              collect the personal information you give us such as your name, address and email address.
+              <br><br>
+              When you browse our store, we also automatically receive your computer’s internet protocol (IP)
+              address in order to provide us with information that helps us learn about your browser and
+              operating system.
+              <br><br>
+              Email marketing (if applicable): With your permission, we may send you emails about our store,
+              new products and other updates.
+              <br><br>
+              <span>SECTION 2 - CONSENT</span>
+              How do you get my consent?
+              <br><br>
+              When you provide us with personal information to complete a transaction, verify your credit
+              card, place an order, arrange for a delivery or return a purchase, we imply that you consent to
+              our collecting it and using it for that specific reason only.
+              <br><br>
+              If we ask for your personal information for a secondary reason, like marketing, we will either
+              ask you directly for your expressed consent, or provide you with an opportunity to say no.
+              <br><br>
+              How do I withdraw my consent?
+              <br><br>
+              If after you opt-in, you change your mind, you may withdraw your consent for us to contact you,
+              for the continued collection, use or disclosure of your information, at anytime, by contacting
+              us at [JABM Property Managers Pvt Ltd, Contact Email: info@oyespace.com] or mailing us at:
+              26, ACHI Building, 2nd Main, NILA Investment Layout, Doddathoguru, Electronics
+              City, Bengaluru 560100
+              <br><br>
+              <span>SECTION 3 - DISCLOSURE</span>
+              We may disclose your personal information if we are required by law to do so or if you violate
+              our Terms of Service.
+              <br><br>
+              <span>SECTION 4 - PAYMENT</span>
+              We use Razorpay, Instamojo and ICICI Bank Payment Gateway for processing payments. We/Razorpay,
+              Instamojo and ICICI Bank Payment Gateway do not store your card data on their servers. The data
+              is encrypted through the Payment Card Industry Data Security Standard (PCI-DSS) when processing
+              payment. Your purchase transaction data is only used as long as is necessary to complete your
+              purchase transaction. After that is complete, your purchase transaction information is not
+              saved.
+              <br><br>
+              Our payment gateway adheres to the standards set by PCI-DSS as managed by the PCI Security
+              Standards Council, which is a joint effort of brands like Visa, MasterCard, American Express
+              and Discover.
+              <br><br>
+              PCI-DSS requirements help ensure the secure handling of credit card information by our store
+              and its service providers.
+              <br><br>
+              For more insight, you may also want to read terms and conditions of razorpay on
+              https://razorpay.com
+              <br><br>
+              <span>SECTION 5 - THIRD-PARTY SERVICES</span>
+              In general, the third-party providers used by us will only collect, use and disclose your
+              information to the extent necessary to allow them to perform the services they provide to us.
+              <br><br>
+              However, certain third-party service providers, such as payment gateways and other payment
+              transaction processors, have their own privacy policies in respect to the information we are
+              required to provide to them for your purchase-related transactions.
+              <br><br>
+              For these providers, we recommend that you read their privacy policies so you can understand
+              the manner in which your personal information will be handled by these providers.
+              <br><br>
+              In particular, remember that certain providers may be located in or have facilities that are
+              located a different jurisdiction than either you or us. So if you elect to proceed with a
+              transaction that involves the services of a third-party service provider, then your information
+              may become subject to the laws of the jurisdiction(s) in which that service provider or its
+              facilities are located.
+              <br><br>
+              Once you leave our store’s website or are redirected to a third-party website or application,
+              you are no longer governed by this Privacy Policy or our website’s Terms of Service.
+              <br><br>
+              Links
+              <br><br>
+              When you click on links on our store, they may direct you away from our site. We are not
+              responsible for the privacy practices of other sites and encourage you to read their privacy
+              statements.
+              <br><br>
+              <span>SECTION 6 - SECURITY</span>
+              To protect your personal information, we take reasonable precautions and follow industry best
+              practices to make sure it is not inappropriately lost, misused, accessed, disclosed, altered or
+              destroyed.
+              <br><br>
+              <span>SECTION 7 - COOKIES</span>
+              We use cookies to maintain session of your user. It is not used to personally identify you on
+              other websites.
+              <br><br>
+              <span>SECTION 8 - AGE OF CONSENT</span>
+              By using this site, you represent that you are at least the age of majority in your state or
+              province of residence, or that you are the age of majority in your state or province of
+              residence and you have given us your consent to allow any of your minor dependents to use this
+              site.
+              <br><br>
+              <span>SECTION 9 - CHANGES TO THIS PRIVACY POLICY</span>
+              We reserve the right to modify this privacy policy at any time, so please review it frequently.
+              Changes and clarifications will take effect immediately upon their posting on the website. If
+              we make material changes to this policy, we will notify you here that it has been updated, so
+              that you are aware of what information we collect, how we use it, and under what circumstances,
+              if any, we use and/or disclose it.
+              <br><br>
+              If our store is acquired or merged with another company, your information may be transferred to
+              the new owners so that we may continue to sell products to you.
+              <br><br>
+              <span>QUESTIONS AND CONTACT INFORMATION</span>
+              If you would like to: access, correct, amend or delete any personal information we have about
+              you, register a complaint, or simply want more information contact our Privacy Compliance
+              Officer at info@oyespace.com or by mail at 26, ACHI Building, 2nd Main, NILA
+              Investment Layout, Doddathoguru, Electronics City, Bengaluru 560100
+          </p>
+      </div>
+  </ng-template>
+  
+  
+  <ng-template #termsCondition>
+      <div class="modal-header">
+          <h5 class="modal-title">Terms & Conditions</h5>
+          <button type="button" class="close" (click)="termsConditionmodalRef.hide()" data-dismiss="modal" aria-label="Close">           <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body fixHeight" style="font-family: Quicksand;">
+          <p class="altx">
+              <span>1. Introduction</span>
+              These Website Standard Terms and Conditions written on this webpage shall manage your use of
+              this website. These Terms will be applied fully and affect to your use of this Website. By
+              using this Website, you agreed to accept all terms and conditions written in here. You must not
+              use this Website if you disagree with any of these Website Standard Terms and Conditions.
+              Minors or people below 18 years old are not allowed to use this Website.
+              <br><br>
+              <span>2. Intellectual Property Rights</span>
+              Other than the content you own, under these Terms, and/or its licensors own all the
+              intellectual property rights and materials contained in this Website. You are granted limited
+              license only for purposes of viewing the material contained on this Website.
+              <br><br>
+              <span>3. Restrictions</span>
+              You are specifically restricted from all of the following
+              <br><br>
+              publishing any Website material in any other media;
+              selling, sublicensing and/or otherwise commercializing any Website material;
+              publicly performing and/or showing any Website material;
+              using this Website in any way that is or may be damaging to this Website;
+              using this Website in any way that impacts user access to this Website;
+              using this Website contrary to applicable laws and regulations, or in any way may cause harm to
+              the Website, or to any person or business entity;
+              engaging in any data mining, data harvesting, data extracting or any other similar activity in
+              relation to this Website;
+              using this Website to engage in any advertising or marketing.
+              Certain areas of this Website are restricted from being access by you and may further restrict
+              access by you to any areas of this Website, at any time, in absolute discretion. Any user ID
+              and password you may have for this Website are confidential and you must maintain
+              confidentiality as well.
+              <br><br>
+              <span>4. Your Content</span>
+              In these Website Standard Terms and Conditions, “Your Content” shall mean any audio, video
+              text, assets/images or other material you choose to display on this Website. By displaying Your
+              Content, you grant a non-exclusive, worldwide irrevocable, sub licensable license to use,
+              reproduce, adapt, publish, translate and distribute it in any and all media.
+              <br><br>
+              Your Content must be your own and must not be invading any third-party’s rights. reserves the
+              right to remove any of Your Content from this Website at any time without notice.
+              <br><br>
+              <span>5. No warranties</span>
+              This Website is provided “as is,” with all faults, and express no representations or
+              warranties, of any kind related to this Website or the materials contained on this Website.
+              Also, nothing contained on this Website shall be interpreted as advising you.
+              <br><br>
+              <span>6. Limitation of liability</span>
+              In no event shall , nor any of its officers, directors and employees, shall be held liable for
+              anything arising out of or in any way connected with your use of this Website whether such
+              liability is under contract. , including its officers, directors and employees shall not be
+              held liable for any indirect, consequential or special liability arising out of or in any way
+              related to your use of this Website.
+              <br><br>
+              <span>7. Indemnification</span>
+              You hereby indemnify to the fullest extent from and against any and/or all liabilities, costs,
+              demands, causes of action, damages and expenses arising in any way related to your breach of
+              any of the provisions of these Terms.
+              <br><br>
+              <span>8. Severability</span>
+              If any provision of these Terms is found to be invalid under any applicable law, such
+              provisions shall be deleted without affecting the remaining provisions herein.
+              <br><br>
+              <span>9. Variation of Terms</span>
+              is permitted to revise these Terms at any time as it sees fit, and by using this Website you
+              are expected to review these Terms on a regular basis.
+              <br><br>
+              <span>10. Assignment</span>
+              The is allowed to assign, transfer, and subcontract its rights and/or obligations under these
+              Terms without any notification. However, you are not allowed to assign, transfer, or
+              subcontract any of your rights and/or obligations under these Terms.
+              <br><br>
+              <span>11. Entire Agreement</span>
+              These Terms constitute the entire agreement between and you in relation to your use of this
+              Website, and supersede all prior agreements and understandings.
+              <br><br>
+              <span>12. Governing Law & Jurisdiction</span>
+              These Terms will be governed by and interpreted in accordance with the laws of the State of ,
+              and you submit to the non-exclusive jurisdiction of the state and federal courts located in for
+              the resolution of any disputes.
+          </p>
+      </div>
+  </ng-template> -->
+
+
+
+  
+
+
+  <div class="row bg" style="background-image: url('images/bg-01.jpeg');">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-4"></div>
+				<div class="col-lg-4 col-md-4 login-box">
+					<!-- 
+					<div class="col-lg-12 login-title">
+						<img class="img-responsive center-block" src="images/OyeSociety.png">
+					</div> -->
+					<div class="col-lg-12 login-form">
+						<h4 class="form-head">Register</h4>
+						<div class="col-lg-12 login-form">
+							<form>
+								<div class="form-group first-row">
+									<div class="user-wrapper">
+										<input placeholder="First Name" [(ngModel)]="firstName" type="text" />
+									</div>
+									<div>
+										<input placeholder="Last Name" [(ngModel)]="lastName" type="text" />
+									</div>
+								</div>
+								<div class="form-group first-row">
+										<div class="mobile-wrapper">
+											<input placeholder="Mobile Number" [(ngModel)]='mobilenumber' type="text" />
+										</div>
+										<div>
+										</div>
+									</div>
+								<div class="form-group first-row">
+									<div class="email-wrapper">
+										<input placeholder="Email Address" [(ngModel)]="email" type="text" />
+									</div>									
+								</div>
+								<div class="checkbox">
+										<label class="reminder"><input type="checkbox">I have read and accepted the <a href="#">privacy policy</a> and <a href="#">terms of use</a> </label>
+									  </div>
+
+                                <div class="col-lg-12 loginbttm">
+									<div class="col-lg-6 login-btm login-button">
+										<button type="submit" (click)='register()' class="btn btn-primary1">Register</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4"></div>
+				</div>
+			</div>
+		</div>

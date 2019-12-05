@@ -49,6 +49,8 @@ export class UnitsComponent implements OnInit {
   unitTypes:object[];
   calculationTypes:object[];
   occupencys:object[];
+  addUnits: boolean;
+  unitList: boolean;
 
   unitType:string;
   unitno:number;
@@ -86,8 +88,8 @@ export class UnitsComponent implements OnInit {
     this.p=1;
     this.blBlockID = '';
     this.unitType='';
-    this.calculationtype='';
-    this.occupency='';
+    this.calculationtype='Select Calculation...';
+    this.occupency='Select occupency an....';
 
     this.accountTypes = [
       { "name": "Saving" },
@@ -130,6 +132,8 @@ export class UnitsComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.addUnits = false;
+    this.unitList = true;
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
     //this.associationID="10";
@@ -165,7 +169,14 @@ export class UnitsComponent implements OnInit {
   addBlockForm() {
     this.showCreateUnitemplate = true;
   }
+  getOccupencyandOwnershipStatus(occupencyname) {
+    this.occupency = occupencyname;
+  }
 
+  getCalculationTypes(calculationTypename) {
+    console.log(calculationTypename);
+    this.calculationtype = calculationTypename;
+  }
   loadBlock(block: string) {
     this.unit_Form = true;
     console.log("blockID:" + this.blockID);
@@ -204,81 +215,7 @@ export class UnitsComponent implements OnInit {
   }
 
 
-  createUnit() {
-    let createUnitData =
-    {
-      "ASAssnID": this.currentAssociationID,
-      "ACAccntID": this.ACAccntID,
-      "units": [
-        {
-          "UNUniName": this.unitno,
-          "UNUniType": this.unitType,
-          "UNRate": this.unitrate,
-          "UNOcStat": this.occupency,
-          "UNOcSDate": "2019-03-02",
-          "UNOwnStat": "null",
-          "UNSldDate": "2019-03-02",
-          "UNDimens": this.unitdimension,
-          "UNCalType": this.calculationtype,
-          "FLFloorID": 1, //
-          "BLBlockID": this.blockID,
-          "Owner":
-          {
 
-            "UOFName": this.ownerFirtname,
-            "UOLName": this.ownerLastname,
-            "UOMobile": this.ownerMobnumber,
-            "UOISDCode": "+91",
-            "UOMobile1": this.ownerAltnumber,
-            "UOMobile2": "null",
-            "UOMobile3": "null",
-            "UOMobile4": "null",
-            "UOEmail": this.ownerEmail,
-            "UOEmail1": this.ownerAltemail,
-            "UOEmail2": "null",
-            "UOEmail3": "null",
-            "UOEmail4": "null",
-            "UOCDAmnt": ""
-          },
-          "Tenant":
-          {
-
-            "UTFName":this.tenantFirtname,
-            "UTLName": this.tenantLastname,
-            "UTMobile": this.tenantMobnumber,
-            "UTISDCode": "",
-            "UTMobile1": "",
-            "UTEmail": this.tenantEmail,
-            "UTEmail1": ""
-          },
-          "UnitParkingLot":
-            [
-              {
-                "UPLNum": "null",
-                "MEMemID": "null",
-                "UPGPSPnt": "null"
-
-              }
-            ]
-        }
-      ]
-    }
-
-    console.log(JSON.stringify(createUnitData));
-    this.viewUniService.createUnit(createUnitData).subscribe((response) => {
-
-      Swal.fire({
-        title: 'Unit Created Successfuly',
-        type: 'success',
-        confirmButtonText: 'OK'
-      })
-
-    },
-      (response) => {
-        console.log(response);
-      });
-
-  }//createUnit function ends
 
   viewUnit(repUnit:any){
     console.log('repUnit',JSON.stringify(repUnit));
@@ -294,8 +231,10 @@ export class UnitsComponent implements OnInit {
      
   }
 
-  getAllUnitDetailsByBlockID(blBlockID) {
+  getAllUnitDetailsByBlockID(blBlockID,blBlkName) {
     this.blockID = blBlockID;
+    //this.blBlockID=blBlockID;
+
     /*-------------------Get Unit List By Block ID ------------------*/
     this.viewUniService.GetUnitListByBlockID(blBlockID)
       .subscribe(data => {
@@ -328,6 +267,60 @@ export class UnitsComponent implements OnInit {
   }
   goToUnits(){
     this.router.navigate(['units']);
+  }
+
+
+
+  
+  toggleStepWizard() {
+
+    $(document).ready(function () {
+
+      var navListItems = $('div.setup-panel div a'),
+        allWells = $('.setup-content'),
+        allNextBtn = $('.nextBtn');
+
+      allWells.hide();
+
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          $item.addClass('btn-success');
+          allWells.hide();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      });
+
+      allNextBtn.click(function () {
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for (var i = 0; i < curInputs.length; i++) {
+          if (!curInputs[i].validity.valid) {
+            isValid = false;
+            $(curInputs[i]).closest(".form-group").addClass("has-error");
+          }
+        }
+
+        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+      });
+
+      $('div.setup-panel div a.btn-success').trigger('click');
+    });
+  }
+  addUnitsShow() {
+    this.toggleStepWizard();
+    this.addUnits = true;
+    this.unitList = false;
   }
 
 }

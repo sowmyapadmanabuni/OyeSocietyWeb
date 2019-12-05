@@ -1,0 +1,186 @@
+<div class="container-fluid bg np">
+        <div class="col-sm-9">
+                <!--Profile section-->
+                <app-left-bar></app-left-bar>
+                <!--Profile section-->
+                <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+                        <!--Dashboard icons start-->
+                        <div class="col-md-12 m-t-30 dash">
+                                <h3 class="black">Vehicles</h3>
+                                <div class="enroll">
+                                        <div>
+                                                <button class="btn-primary-purple" (click)="openModal(template)">
+                                                        <i class="fa fa-plus" aria-hidden="true"></i> Add Vehicles</button>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                                <!-- Indicators -->
+                                                <ol class="carousel-indicators">
+                                                        <li data-target="#myCarousel" data-slide-to="0" class="active">
+                                                        </li>
+                                                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                                                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                                                </ol>
+
+                                                <!-- Wrapper for slides -->
+                                                <div class="carousel-inner">
+                                                        <div class="item active">
+                                                                <div class="vehicles-main">
+                                                                        <div class="vehicles" *ngFor="let item of VehicleDataNew">
+                                                                                <p><strong>{{item['veType']}}</strong></p>
+                                                                                <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
+                                                                                <div class="veh-desc" >
+                                                                                                <!-- *ngIf="item['veType']!=''" -->
+                                                                                        <p class="vehicle-name">{{item['veMakeMdl']}}</p>
+                                                                                        <p><strong>Vehicle No:</strong> {{item['veRegNo']}}</p>
+                                                                                        <p><strong>Vehicle Sticker No:</strong> {{item['veStickNo']}}</p>
+                                                                                        <p><strong>Vehicle Slot No:</strong> {{item['uplNum']}}</p>
+                                                                                </div>
+                                                                                <div class="action"><i
+                                                                                                aria-hidden="true"
+                                                                                                class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
+                                                                                                &nbsp;&nbsp;&nbsp;<i aria-hidden="true" (click)="DeleteVehicle(item['veid'])"
+                                                                                                class="fa fa fa-trash orange"></i>
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+
+                                                        </div>
+                                                </div>
+
+                                                <!-- Left and right controls -->
+                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                                        <i aria-hidden="true" class="fa fa-angle-left fa-2x"
+                                                                id="left"></i>
+
+                                                </a>
+                                                <a style=" width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next">
+                                                        <i aria-hidden="true" class="fa fa-angle-right fa-2x"
+                                                                id="right"></i>
+
+                                                </a>
+                                        </div>
+
+                                </div>
+                        </div>
+                        <!--Dashboard icons end-->
+
+                </div>
+
+        </div>
+        <!--rightBar start-->
+        <app-right-bar></app-right-bar>
+        <!--rightBar end-->
+</div>
+
+<!--Add Vehicles-->
+<ng-template #template>
+        <div class="modal-header">
+                <h4 class="modal-title pull-left">Add Vehicle</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+        <div class="modal-body">
+                <div class="veh-opt">
+                        <label class="radio-inline">
+                                <input type="radio" name="optradio" value="Two Wheeler" [(ngModel)]="veType" checked>Two Wheeler
+                        </label>
+                        <label class="radio-inline">
+                                <input type="radio" name="optradio" value="Four Wheeler" [(ngModel)]="veType" >Four Wheeler
+                        </label>
+                </div>
+
+                <div class="adveh">
+                        <div class="form-group">
+                                <label for="usr">Vehicle Name:</label>
+                                <input type="text" name="veMakeMdl" [(ngModel)]="veMakeMdl" class="form-control" id="usr">
+                        </div>
+
+                        <div class="form-group">
+                                <label for="usr">Vehicle Number:</label>
+                                <input type="text" name="veRegNo" [(ngModel)]="veRegNo" class="form-control" id="usr">
+                        </div>
+                </div>
+                <div class="adveh">
+                        <div class="form-group">
+                                <label for="usr">Vehicle Sticker Number:</label>
+                                <input type="text" name="veStickNo" [(ngModel)]="veStickNo" class="form-control" id="usr">
+                        </div>
+
+                        <div class="form-group">
+                                <label for="usr">Parking Slot Number:</label>
+                                <input type="text" name="uplNum" [(ngModel)]="uplNum" class="form-control" id="usr">
+                        </div>
+                </div>
+                <div class="adveh">
+
+                        <div class="form-group">
+                                <button (click)='AddVehicle()' type="button" class="btn btn-warning">Add Vehicle</button>
+
+
+                        </div>
+                </div>
+                <div class="adveh1">
+                        <div class="form-group">
+                        </div>
+
+                </div>
+
+        </div>
+</ng-template>
+<!--Add Vehicles-->
+
+<!--Edit Vehicles-->
+<ng-template #editVehicle>
+                <div class="modal-header">
+                        <h4 class="modal-title pull-left">Edit Vehicle</h4>
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                                <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                        <div class="adveh">
+                                <div class="form-group">
+                                        <label for="usr">Vehicle Name:</label>
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclename" name="vehiclename" id="usr">
+                                </div>
+        
+                                <div class="form-group">
+                                        <label for="usr">Vehicle Number:</label>
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclenumber" name="vehiclenumber" id="usr">
+                                </div>
+                        </div>
+                        <div class="adveh">
+                                <div class="form-group">
+                                        <label for="usr">Vehicle Sticker Number:</label>
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclesticker" name="vehiclesticker" id="usr">
+                                </div>
+        
+                                <div class="form-group">
+                                        <label for="usr">Parking Slot Number:</label>
+                                        <input type="text" class="form-control" [(ngModel)]="parkingslot" name="parkingslot" id="usr">
+                                </div>
+                        </div>
+                        <div class="adveh">
+                                <div class="form-group">
+                                        <label for="usr">Vehicle Type:</label>
+                                        <input type="text" class="form-control" [(ngModel)]="makemodel" name="makemodel" id="usr">
+                                </div>
+        
+                                <div class="form-group">
+                                        <button (click)='UpdateVehicle()' type="button" class="btn btn-warning">Save Changes</button>
+        
+        
+                                </div>
+                        </div>
+                        <div class="adveh1">
+                                <div class="form-group">
+                                </div>
+        
+                        </div>
+        
+                </div>
+        </ng-template>
+ <!--Edit Vehicles-->

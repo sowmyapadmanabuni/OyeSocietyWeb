@@ -1,0 +1,143 @@
+body {
+    background: #222D32;
+    font-family: 'Quicksand', sans-serif !important;
+  }
+  .bg{width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+  }
+  .bg::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color:rgba(0, 0, 0, 0.73);
+  }
+  .btn-primary {
+    color: #fff;
+    background-color:#f1853b !important;
+    border-color: #f1853b !important;
+    border-radius: 30px;
+    padding: 10px;
+  }
+  .otp{color: #ef7038;
+    display: flex;
+    padding-top: 13px;
+    font-weight: 500;justify-content: flex-end;}
+  .btn-primary1 {
+    color: #fff;
+    background-color:#f1853b !important;
+    border-color: #f1853b !important;
+    
+    border-radius: 30px;
+    padding: 14px 50px;
+  }
+  .loginbttm{display: flex;
+    justify-content: center;
+    padding: 0px;}
+  
+    input {
+        outline: 0;
+        border-width: 0 0 2px;
+        border-color: #b5b5b9;
+      }
+      input:focus {
+        border-color: #f5b142 !important;
+      }
+  .form-control {
+    background: #ecebf4 !important;
+    border: 1px solid #cfd3d4 !important;
+    color: #4a4948 !important;
+    height: 41px !important;
+    box-shadow: 0px 0px 6px 1px #e0dbdb !important;
+    border-radius: 6px !important;
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+  a { color: #f1853b;}
+  .first-row{display: flex;justify-content: space-between;margin: 0px 0px 30px 0px;}
+  input{display: block;width: 100%;height: 43px;padding: 6px 23px;font-size: 14px;background: #ecebf4;}
+  .form-head{text-align: center;padding: 20px 0px;font-weight: 600;text-transform: uppercase;}
+  .login-box{background: #ecebf4;border-radius: 9px;box-shadow: 0px 0px 13px 0px #525254;padding: 30px 0px;}
+  .input-wrapper,.user-wrapper,.mobile-wrapper{position: relative; width: 200px;margin: 0px 15px 0px 0px;}
+  .email-wrapper {position: relative;width: 100%;margin: 0px 15px 0px 0px;}
+  .mobile-wrapper:before{
+        content: "\f098";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        color: #f1853b;
+        font-size: 18px;
+        padding-right: 0.5em;
+        position: absolute;
+        top: 10px;
+        left: 0;
+     }
+     .user-wrapper:before{
+        content: "\f007";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        color: #f1853b;
+        font-size: 18px;
+        padding-right: 0.5em;
+        position: absolute;
+        top: 10px;
+        left: 0; 
+     }
+     .email-wrapper:before{
+        content: "\f0e0";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        color: #f1853b;
+        font-size: 18px;
+        padding-right: 0.5em;
+        position: absolute;
+        top: 10px;
+        left: 0;
+     }
+  
+  
+    .input-wrapper:before {
+        content: "\f098";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        color: #f1853b;
+        font-size: 18px;
+        padding-right: 0.5em;
+        position: absolute;
+        top: 10px;
+        left: 0;
+    }
+    .reminder{font-size: 12px !important;font-weight: 500 !important;}
+    .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio]{margin-top: -11px;}
+    
+    input {
+      width: 100%;
+      padding-right: 30px;
+    }
