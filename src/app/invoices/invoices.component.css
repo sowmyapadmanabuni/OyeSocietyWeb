@@ -1,6 +1,5 @@
-.bg{
-    padding: 50px 0px !important;
-    }
+.bg{ padding: 50px 0px !important; }
+i{cursor: pointer;}
     .enroll{    display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -57,6 +56,15 @@
     .nav>li>a:hover{background:none !important;color:#4c32af !important;}
     .nav>li>a{color:#ffb818 !important;font-weight: 600;}
 
+.modal-header1{display: flex;justify-content: space-between;align-items: center;padding: 0px 16px;}
+.inv-details>p{font-size:13px;margin:2px}
+.inv-title{font-size: 16px}
+.inv-title-purple{font-size: 16px;color:#4c32af}
+.amt{background: #f7f4f4;text-align: center;padding: 10px;}
+.payment-opt{display: flex;    flex-wrap: wrap;}
+.payment-opt>div{display: flex;flex-direction: column;align-items: center;}
+.pay-bt{display: flex;justify-content: flex-end;margin: 20px 0px;}
+.t-right{text-align: right}
     @media only screen and (min-width: 320px) and (max-width: 600px)  {
     
     .search-dropd{margin-bottom: 20px}
@@ -101,8 +109,12 @@
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
     }
-    
-    
+      
+
+
+
+
+     
     
     
     
