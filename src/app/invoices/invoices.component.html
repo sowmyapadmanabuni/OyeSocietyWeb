@@ -80,9 +80,7 @@
                                             <button title="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
                                                 <i class="fa fa-paper-plane"></i>
-                                            </button> | <i title="View Invoice" style="cursor: pointer;"
-                                                class="fa fa-eye"
-                                                (click)="viewInvoice1($event,template,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)"></i>
+                                            </button> |<i (click)="openModal(invoice)" class="fa fa-eye" ></i>
                                             |
                                             <i title="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"

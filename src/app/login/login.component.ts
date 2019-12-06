@@ -64,9 +64,9 @@ export class LoginComponent implements OnInit {
     var elem = document.getElementById('some_div');
     var element = <HTMLInputElement>document.getElementById("myButton1");
 
-    var timerId = setInterval(countdown, 1000);
+    //var timerId = setInterval(countdown, 1000);
 
-    function countdown() {
+    /*function countdown() {
       if (timeLeft == 0) {
         clearTimeout(timerId);
         if(element.value != null){
@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
       var x = document.getElementById("snackbar");
    x.className = "show";
    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-    }
+    } */
 
     console.log(mobileNoData);
     return this.http.post(url, JSON.stringify(mobileNoData), { headers: headers })

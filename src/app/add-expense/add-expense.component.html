@@ -159,18 +159,6 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">Payee Bank Name</label>
-                        <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
-                                    type="button" data-toggle="dropdown">Payee
-                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
-                                <ul class="dropdown-menu fullw">
-                                    <li><a>Payee</a></li>
-                                    <li><a>Payee</a></li>
-                                </ul>
-                        </div>
-                    </div>
                     <div class="form-group" [ngClass]="{'has-error' : expendituredateControl.invalid && expendituredateControl.touched}">
                         <label>Expenditure Date <span class="red">*</span></label>
                         <input type="text" class="form-control" name="EXDate" #expendituredateControl='ngModel'
