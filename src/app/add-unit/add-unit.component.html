@@ -33,10 +33,10 @@
 
               <div class="form-group">
                 <label class="control-label">Unit Type</label>
-                <div class="dropdown search-dropd">
+                <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                         data-toggle="dropdown">{{unitType}}
-                        <span class="caret"></span></button>
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                     <ul class="dropdown-menu fullw">
                         <li *ngFor="let unitTp of unitTypes" (click)="getUnitType(unitTp.name)">
                             <a>{{unitTp.name}}</a></li>
@@ -60,27 +60,27 @@
                       placeholder="Unit Rate" />
               </div>
 
-            <div class="form-group">
-                <label class="control-label">Calculation Type</label>
-                <div class="dropdown search-dropd">
-                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                        data-toggle="dropdown">{{calculationtype}}
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu fullw">
-                        <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType.name)">
-                            <a>{{calculationType.name}}</a></li>
-                    </ul>
-                </div>
-            </div>
+              <div class="form-group">
+                      <label class="control-label">Calculation Type</label>
+                      <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                              data-toggle="dropdown">{{calculationtype}}
+                              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                          <ul class="dropdown-menu fullw">
+                              <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType.name)">
+                                  <a>{{calculationType.name}}</a></li>
+                          </ul>
+                      </div>
+                  </div>
 
 
              
               <div class="form-group">
                       <label class="control-label">Occupancy & Ownership Status</label>
-                      <div class="dropdown search-dropd">
+                      <div class="dropdown">
                           <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                               data-toggle="dropdown">{{occupency}}
-                              <span class="caret"></span></button>
+                              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                           <ul class="dropdown-menu fullw">
                               <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency.name)">
                                   <a>{{occupency.name}}</a></li>

@@ -15,7 +15,47 @@
                         </ul>
 
 
+<<<<<<< HEAD
                          <div class="enroll">
+=======
+                        
+
+                        <div class="col-3">
+                            <div class="form-group">
+ 
+                                <div class="dropdown">
+                                  <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                      data-toggle="dropdown">{{blBlkName}}
+                                      <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                  <ul class="dropdown-menu fullw">
+                                      <li *ngFor='let blck of allBlocksLists' (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a> {{blck.blBlkName}}</a></li>
+                                  </ul>
+                              </div>
+                              </div>
+
+
+
+                            <!-- <div class="form-group">
+                                    <label class="control-label">Select Block Name</label>
+                                    <div class="dropdown search-dropd">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                            data-toggle="dropdown">{{blBlockID}}
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li *ngFor="let blck of allBlocksLists" (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)">
+                                                <a>{{blck.blBlkName}}</a></li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+
+
+
+
+
+
+                        </div>
+                        <div class="enroll">
+>>>>>>> f4e9788bcaba6f8713576db84b914ae579e810e8
                             <span class="purple" style="font-size: 24px;font-weight: 500;">Units Management</span>
                             <button class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus" aria-hidden="true"></i> Add
                                 Units</button>
@@ -42,25 +82,25 @@
                         <table class="table table-striped" [mfData]="allUnitBYBlockID | search:['unUniName','unUniType','unDimens']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
-                                    <th style="width: 20%">
+                                    <th>
                                         S.No.
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="unUniType">Unit Type</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="unDimens">Unit Dimension</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="uofName">Name</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         <mfDefaultSorter by="uoEmail">Email</mfDefaultSorter>
                                     </th>
-                                    <th style="width: 10%">
+                                    <th>
                                         Action
                                     </th>
                                 </tr>
@@ -68,7 +108,7 @@
                             <tbody>
                                 <tr *ngFor="let item of mf.data;let i=index">
                                     <ng-container *ngIf="item == -1">
-                                        <td colspan="4" align="center">No Data Found</td>
+                                        <td colspan="7" align="center">No Data Found</td>
                                     </ng-container>
                                     <ng-container *ngIf="item!=-1">
                                         <td>{{(i+1)}}</td>
@@ -91,7 +131,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="7">
                                         <mfBootstrapPaginator></mfBootstrapPaginator>
                                     </td>
                                 </tr>
@@ -115,21 +155,6 @@
          <app-right-bar></app-right-bar>
          <!--rightBar end-->
     </div>
-    
-    
-    <ng-template #template>
-        <div class="modal-header">
-            <h4 class="modal-title pull-left">Modal</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            This is a modal.
-        </div>
-    </ng-template>
-
-
 
     <!--DIV-->
 <div class="modal fade viewPopup" id="viewUnit1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

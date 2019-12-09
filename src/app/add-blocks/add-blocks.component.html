@@ -169,10 +169,10 @@
                   </div>
                 <div class="form-group">
                     <label class="control-label">Late Payment Charge Type</label>
-                    <div class="dropdown search-dropd">
+                    <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle sdm br form-control"
                             type="button" data-toggle="dropdown">{{latePymtChargeType}}
-                            <span class="caret"></span></button>
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                         <ul class="dropdown-menu fullw">
                             <li *ngFor='let lpct of latePymtChrgTypes' (click)="getLatePymtChargeType(lpct['name'])"><a>{{lpct['name']}}</a></li>
                         </ul>

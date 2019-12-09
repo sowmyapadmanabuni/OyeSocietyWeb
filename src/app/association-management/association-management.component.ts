@@ -575,7 +575,7 @@ export class AssociationManagementComponent implements OnInit {
 
 this.association="";
 this.association="";
-this.crtAssn.country='SELECT COUNTRY';
+this.crtAssn.country='SELECT THE COUNTRY';
 this.crtAssn.propertyType='SELECT PROPERTY TYPE';
 this.crtAssn.newBAActType='';
     this.viewAssnService.getAssociationAllDetails()

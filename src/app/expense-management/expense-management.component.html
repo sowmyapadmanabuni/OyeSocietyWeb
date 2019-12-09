@@ -15,18 +15,18 @@
                     </ul>
                 </div>
                 <div class="enroll" *ngIf='enableExpenseListView'>
-                    <div class="dropdown search-dropd">
-                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
-                            data-toggle="dropdown">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
-                            <span class="caret"></span></button>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                            data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                         <ul class="dropdown-menu fullw">
                             <li *ngFor='let item of allBlocksLists' (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])"><a>{{item['blBlkName']}}</a></li>
                         </ul>
                     </div>
 
-                    <div [hidden]="blockID == ''" class="dropdown search-dropd">
-                      <button class="btn btn-primary dropdown-toggle sdm br" type="button" data-toggle="dropdown">{{Invoiced}}
-                        <span class="caret"></span></button>
+                    <div [hidden]="blockID == ''" class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{Invoiced}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                       <ul class="dropdown-menu fullw">
                         <li *ngFor='let item of invoiced' (click)="GetexpenseListByInvoiceID(item['name'])"><a>{{item['displayName']}}</a>
                         </li>

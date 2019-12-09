@@ -78,7 +78,7 @@ export class UnitsComponent implements OnInit {
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
     private orderpipe: OrderPipe) {
-      this.blBlkName='Select Block';
+      this.blBlkName='Select Block Name';
       this.ACAccntID=this.globalService.getacAccntID();
     this.currentAssociationID=this.globalService.getCurrentAssociationId();
     //pagination
@@ -236,6 +236,7 @@ export class UnitsComponent implements OnInit {
   getAllUnitDetailsByBlockID(blBlockID,blBlkName) {
     this.blBlkName=blBlkName;
     this.blockID = blBlockID;
+    this.blBlkName=blBlkName;
     //this.blBlockID=blBlockID;
 
     /*-------------------Get Unit List By Block ID ------------------*/
