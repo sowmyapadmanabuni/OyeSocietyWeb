@@ -37,4 +37,10 @@ export class RightBarComponent implements OnInit {
   goToVehicles(){
     this.router.navigate(['vehicles']);
   }
+  goToVisitors(){
+    this.router.navigate(['visitors']);
+  }
+  goToSubscription(){
+    this.router.navigate(['subscription']);
+  }
 }

@@ -49,6 +49,10 @@ import {AddUnitComponent} from './add-unit/add-unit.component'
 import { NewAmenityComponent } from './new-amenity/new-amenity.component';
 import {AddBlocksComponent} from './add-blocks/add-blocks.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { VisitorsComponent } from './visitors/visitors.component';
+import { StaffComponent } from './staff/staff.component';
+import { DeliveriesComponent } from './deliveries/deliveries.component';
+import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -83,7 +87,11 @@ export const firebaseConfig = environment.firebaseConfig;
     WordsPipe,
     NewAmenityComponent,
     AddBlocksComponent,
-    AddExpenseComponent
+    AddExpenseComponent,
+    VisitorsComponent,
+    StaffComponent,
+    DeliveriesComponent,
+    SubscriptionManagementComponent
   ],
   imports: [
     BrowserModule,

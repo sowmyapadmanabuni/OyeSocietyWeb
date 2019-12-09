@@ -417,13 +417,13 @@ export class AddExpenseComponent implements OnInit {
 
     switch (jsonData['Sheet1'][0]['Payment Method']) {
       case 'Cash':
-        this.pmid = 1;
+       this.expensedata.PMID = 1;
       case 'Cheque':
-        this.pmid = 2;
+       this.expensedata.PMID = 2;
       case 'Demand Draft':
-        this.pmid = 3;
+       this.expensedata.PMID = 3;
       case 'OnlinePay':
-        this.pmid = 4;
+       this.expensedata.PMID = 4;
     }
    this.expensedataXlsx.EXHead=jsonData['Sheet1'][0]['Expense Head'];//:string;
    this.expensedataXlsx.EXDesc=jsonData['Sheet1'][0]['Expense Description'];//:string;
@@ -480,16 +480,16 @@ export class AddExpenseComponent implements OnInit {
   }
   addExp() {
     this.expensedata.BLBlockID=this.viewexpensesservice.currentBlockId;
-    this.expensedata.EXDate = formatDate(this.EXDate, 'yyyy/MM/dd', 'en');
+    this.expensedata.EXDate = formatDate(this.EXDate, 'yyyy-MM-dd', 'en');
     if (this.checkField == 'Cash') {
       this.expensedata.EXChqDate = '';
     }
     if (this.checkField == 'Cheque') {
-      this.expensedata.EXChqDate = formatDate(this.EXChqDate, 'yyyy/MM/dd', 'en');
+      this.expensedata.EXChqDate = formatDate(this.EXChqDate, 'yyyy-MM-dd', 'en');
     }
     if (this.checkField == 'DemandDraft') {
       this.expensedata.EXChqDate = '';
-      this.expensedata.EXDDDate = formatDate(this.EXDDDate, 'yyyy/MM/dd', 'en');
+      this.expensedata.EXDDDate = formatDate(this.EXDDDate, 'yyyy-MM-dd', 'en');
     }
     console.log('expensedata', this.expensedata);
     this.addexpenseservice.createExpense(this.expensedata)
@@ -525,11 +525,27 @@ export class AddExpenseComponent implements OnInit {
   }
 
   showMethod(PMID: string,displayName) {
-    console.log(PMID);
-    this.paymentMethodType=displayName;
-    let paymentobj = this.methodArray.filter(item => item['id'] == PMID)
-    this.checkField = paymentobj[0]['name'];
+    console.log(displayName);
+    switch (displayName) {
+      case 'Cash':
+        this.expensedata.PMID = 1;
+        break;
+      case 'Cheque':
+        this.expensedata.PMID = 2;
+        break;
+      case 'Demand Draft':
+        this.expensedata.PMID = 3;
+        break;
+      case 'OnlinePay':
+        this.expensedata.PMID = 4;
+        break;
   }
+
+  console.log(this.expensedata.PMID);
+  this.paymentMethodType=displayName;
+  let paymentobj = this.methodArray.filter(item => item['id'] == PMID)
+  this.checkField = paymentobj[0]['name'];
+}
   getPayeeBankName(bank){
     this.expensedata.EXPBName=bank;
   }

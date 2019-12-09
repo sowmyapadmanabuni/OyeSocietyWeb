@@ -20,7 +20,11 @@ import {VehiclesComponent} from './vehicles/vehicles.component';
 import {AddUnitComponent} from '../app/add-unit/add-unit.component';
 import {LoginComponent} from '../app/login/login.component';
 import {RegisterComponent} from '../app/register/register.component'
-import { from } from 'rxjs';
+import { DeliveriesComponent } from './deliveries/deliveries.component';
+import { StaffComponent } from './staff/staff.component';
+import { VisitorsComponent } from './visitors/visitors.component';
+import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
+
 
 const routes: Routes = [
     { path: '',redirectTo:'home', pathMatch: 'full'},
@@ -44,6 +48,11 @@ const routes: Routes = [
     { path: 'addunit', component:AddUnitComponent},
     { path: 'login', component:LoginComponent},
     { path: 'register', component:RegisterComponent},
+    { path: 'visitors', component:VisitorsComponent},
+    { path: 'staffs', component:StaffComponent},
+    { path: 'deliveries', component:DeliveriesComponent},
+    { path: 'subscription', component:SubscriptionManagementComponent},
+
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes)],

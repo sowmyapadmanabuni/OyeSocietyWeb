@@ -162,9 +162,6 @@ position: absolute;
 right: 20px;
 font-size: 12px;
 }
-.swal2-content{
-    display: none;
-}
 .mandate{color: red}
 /*custom checkbox part*/
 .btn-success,.btn-default {
@@ -214,6 +211,9 @@ font-weight: 400;
 color: #828181;
 padding-top: 20px;
 }
+.bs-timepicker-field {
+    width: 100% !important;
+}
 button.close{position: inherit;z-index: 1000000;}
 .rupee{color:#000 !important;font-family: fantasy;}
 .spec-head{border-bottom: 2px solid #f7b844;margin: 13px 0px;}
@@ -227,7 +227,58 @@ button.close{position: inherit;z-index: 1000000;}
 .spec-details{margin: 20px 0px;background: #e2dede42; display: flex;justify-content: space-between;align-items: center;}
 /* View Details pop up css start */
 .note{font-size: 11px;color: #949090;}
- 
+.theme-green .bs-datepicker-head {background-color: #5a51aa !important;}
+.theme-green .bs-datepicker-body table td span.selected{background-color: #5a51aa !important;}
+.theme-green .bs-datepicker-body table td.week span {color: #5a51aa !important;}
+label.swal2-checkbox{
+    display: none !important;
+}
+
+/* Orange radio button*/
+.radio-item {
+    display: inline-block;
+    position: relative;
+    padding: 0 6px;
+    margin: 10px 0 0;
+    }
+    
+    .radio-item input[type='radio'] {
+    display: none;
+    }
+    
+    .radio-item label {
+    color: #666;
+    font-weight: normal;
+    }
+    
+    .radio-item label:before {
+    content: " ";
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    margin: 0 5px 0 0;
+    width: 13px;
+    height: 13px;
+    border-radius: 11px;
+    border: 2px solid #f7b844;
+    background-color: transparent;
+    }
+    
+    .radio-item input[type=radio]:checked + label:after {
+    border-radius: 11px;
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    content: " ";
+    display: block;
+    background: #f7b844;
+    }
+/* Orange radio button*/
+
+
+
 @media only screen and (min-width: 1024px) and (max-width:2000px)  {
 .head{
 display: flex;

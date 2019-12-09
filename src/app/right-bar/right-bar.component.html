@@ -45,8 +45,8 @@
                                 <div class="search-res-row">
                                         <div><img class="icon" src="../../assets/images/icons/Group 1777.png">
                                         </div>
-                                        <div style="flex-basis: 200px" class="f-des">Subscription Management
-                                        </div>
+                                        <a (click)="goToSubscription()"> <div style="flex-basis: 200px" class="f-des">Subscription Management
+                                        </div></a>
                                 </div>
 
                         </div>
@@ -71,25 +71,25 @@
                                 <span>Family</span>
                                 <span>Members</span>
                         </div>
-                        <div class="icons-row">
+                        <a (click)="goToVisitors()"> <div class="icons-row">
                                 <img class="icon" src="../../assets/images/icons/visitors.png">
                                 <span>Visitors</span>
-                        </div>
+                        </div></a>
                         <a (click)='goToVehicles()'>
                                 <div class="icons-row">
                                         <img class="icon" src="../../assets/images/icons/vehicles.png">
                                         <span>Vehicles</span>
                                 </div>
                         </a>
-                        <!-- <div class="icons-row">
-                                <img class="icon" src="../../assets/images/icons/family_members.png">
-                                <span>Patrolling</span>
-                        </div> -->
+                       
                 </div>
                 <!--Row4-->
                 <!--Row5-->
                 <div class="search-res-row2">
-                        
+                         <div class="icons-row">
+                                <img class="icon" src="../../assets/images/icons/family_members.png">
+                                <span>Patrolling</span>
+                        </div>
                         <a (click)="goToReceipts()"><div class="icons-row">
                                 <img class="icon" src="../../assets/images/icons/reports.png">
                                 <span>Reports</span>

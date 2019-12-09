@@ -80,7 +80,7 @@
                                             <button title="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
                                                 <i class="fa fa-paper-plane"></i>
-                                            </button> |<i (click)="openModal(invoice)" class="fa fa-eye" ></i>
+                                            </button> | <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" class="fa fa-eye" ></i>
                                             |
                                             <i title="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
@@ -476,7 +476,7 @@
                             class="btn btn-success">Pay Now</button>
                     </p>
                     <p id="generateReceiptButton">
-                        <button type="button" (click)="generateReceipt(generatereceiptmodal)"
+                        <button type="button" (click)="generateReceipt(genteRecptModal)"
                             class="mdButton1">GenerateReceipt</button>
                     </p>
                 </div>
@@ -532,7 +532,7 @@
     </div>
 </ng-template>
 
-<ng-template id="generatereceiptmodalId" #generatereceiptmodal>
+<ng-template id="generatereceiptmodalId" #genteRecptModal>
     <div class="modal-content">
         <div class="modal-header">
             <ul class="ulclass" style="list-style-type: none">
@@ -802,3 +802,524 @@
         </div>
       
 </ng-template>
+
+<ng-template #invoicePop>
+    <div id="Invoice">
+        <div class="modal-header1">
+            <div class="inv-details">
+                <img style="width: 200px;" src="../../assets/images/icons/invoice.png">
+                <p><strong>Invoice Date:</strong> {{invoiceDate | date: "MMMM d, y"}}</p>
+                <p><strong>Due Date:</strong> {{asdPyDate | date: "MMMM d, y"}}</p>
+                <p><strong>Invoice No:</strong> {{invoiceNumber}}</p>
+            </div>
+            <div class="inv-details t-right">
+                <img (click)="printInvoice()" src="../../assets/images/icons/printer.png">
+                <h2 class="inv-title">{{associationDetails.asAsnName}}</h2>
+                <p>{{associationDetails.asAddress}}</p>
+                <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
+            </div>
+
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="7" style="text-align: center">Invoice Details</th>
+
+                        </tr>
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Description</th>
+                            <th>Taxable Value</th>
+                            <th>CGST</th>
+                            <th>SGST</th>
+                            <th>IGST</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+
+                            <tr *ngIf='previousDue > 0' style="font-weight:bold">
+                                <td >{{i+1}}</td>
+                                <td ><span >Previous
+                                        Due</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{previousDue}}.00</span></td>
+                            </tr>
+                            <tr *ngIf='discountedValue > 0' style="font-weight:bold">
+                                <td >{{i+1}}</td>
+                                <td ><span
+                                        >Discount</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{discountedValue}}.00</span> </td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'water meter' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >Water
+                                        Meter</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'common area electric bill' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >Common Area Electric Bill</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'corpus' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span
+                                        >Corpus</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'generator bill' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >Generator
+                                        Bill</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'housekeeping' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span
+                                        >Housekeeping</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'one time membership fee' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >One Time
+                                        Membership Fee</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'one time occupancy fee' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >One Time
+                                        Occupancy Fees</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'renting fees' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >Renting
+                                        Fees</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'security fees' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >Security
+                                        Fees</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'Fixed Maintenance' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >Fixed
+                                        Maintenance</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'bill' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span
+                                        >Bill</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'one time onboarding fee' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >One Time
+                                        OnBoarding Fees</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'unsold rental fees' && item['idValue'] > 0">
+                                <td >{{i+1}}</td>
+                                <td ><span >Unsold
+                                        Rental Fees</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >-</span></td>
+                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                        </ng-container>
+                        <tr>
+                            <td colspan="6">Sub Total</td>
+                            <td>{{InvoiceValue}}.00</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <p class="amt"><strong>Amount in words :</strong>{{InvoiceValue | words}} Rupees Only</p>
+            <div class="inv-details">
+                <p><strong>Due upon receipt</strong></p>
+                <h2 class="inv-title-purple">{{associationDetails.asAsnName}}</h2>
+                <p><strong>Mobile no:</strong>{{associationDetails.asMgrMobile}}</p>
+                <p>{{associationDetails.asAddress}}</p>
+                <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
+            </div>
+            <!--Payment Options-->
+            <div class="payment-opt" *ngIf="payopt">
+                <div>
+                    <img src="../../assets/images/icons/icic.png">
+                    <p>₹0+Service Fee & GST</p>
+                </div>
+                <div>
+                    <img src="../../assets/images/icons/instamojo.png">
+                    <p>₹0+Service Fee & GST</p>
+                </div>
+                <div>
+                    <img src="../../assets/images/icons/razorpay.png">
+                    <p>₹0+Service Fee & GST</p>
+                </div>
+                <div>
+                    <img src="../../assets/images/icons/icic.png">
+                    <p>₹0+Service Fee & GST</p>
+                </div>
+            </div>
+            <!--Payment Options-->
+            <div class="pay-bt">
+                <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>
+                    Pay
+                    Now</button>
+                <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate
+                    Receipt</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #generateReceiptModal1>
+
+        <div class="modal-header">
+
+                <h4 class="modal-title pull-left">Generate Receipt</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+
+                  <span aria-hidden="true">&times;</span>
+
+                </button>
+
+              </div>
+
+              <div class="modal-body">
+
+                  <label class="control-label">Select Block</label>
+                  <div class="dropdown blk-drop">
+                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                        data-toggle="dropdown">{{CurrentBlockName}}
+                        <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let blck of allBlocksByAssnID' (click)="getCurrentBlockDetailsForGenRecpt(blck['blBlockID'],blck['blBlkName'])">
+                            <a>{{blck['blBlkName']}}</a></li>
+                    </ul>
+                    </div>
+
+                <div class="guest">
+                
+                    <div class="guest-input">
+                
+                        <div class="form-group">
+                            <label class="control-label">Select Unit</label>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                    data-toggle="dropdown">{{unUnitID}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li (click)="rowDetails(item['pyid'],item['unUnitID'])" *ngFor='let item of unpaidUnits'>
+                                        <a>{{item['unUnitID']}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                
+                        <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+                            <label class="control-label">Invoice</label>
+                            <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice" #invoiceControl='ngModel'
+                                placeholder="Invoice Number*" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Amount Due</label>
+                            <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue" placeholder="Amount Due"
+                                disabled />
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="guest-input">
+
+                            <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+                                    <label class="control-label">Amount Paid</label>
+                                    <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid" #amountPaidControl='ngModel'
+                                    placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" />
+                                <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
+                                <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
+                            </div>
+
+                            <div class="form-group"
+                                [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
+                                <label class="control-label">Payment Description</label>
+                                <input type="text" class="form-control" name="paymentDescription" [(ngModel)]="paymentDescription"
+                                    #paymentDescriptionControl='ngModel' placeholder="Payment Description" disabled />
+                                <p class="alerts" *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please Select Date of Payment</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Select Bank</label>
+                                <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                            type="button" data-toggle="dropdown">{{BankName}}
+                                            <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li *ngFor='let bank of bankList' (click)='getBankName(bank)'><a>{{bank}}</a></li>
+                                        </ul>
+                                    </div>
+                            </div> 
+
+                      </div>
+
+                    <div class="guest-input">
+
+                            <div class="col-sm-12 pull-right">
+
+                                    <button class="btn btn-primary-purple nextBtn">Reset</button>
+
+                                    <button class="btn btn-primary-purple nextBtn" (click)='createReceipt()' type="button">Generate</button>
+
+                                </div>                           
+
+                      </div>
+
+                    
+
+                </div>
+
+</ng-template>
+
+<ng-template id="generatereceiptmodalId" #generatereceiptmodal>
+        <div class="modal-content">
+          <div class="modal-header">
+              <ul class="ulclass" style="list-style-type: none">
+                <li class="liclass" style="display: flex;list-style-type: none">
+                  <label style="position: absolute;font-size:18px;left:41%;color: #f79321 !important;">GENERATE RECEIPT</label>
+                  <button type="button" class="close" style="margin: -2rem -1rem -1rem 1050px !important;" aria-label="Close"
+                    (click)="modalRefForGenerateRecipt.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </li>
+                </ul>
+          </div>
+        </div>
+      
+        <div class="modal-body">
+          <!---->
+          <div class="row">
+              <div class="col-sm-2">
+              </div>
+              <div class="col-sm-2" style="text-align:end;">
+                <label style="font-size:24px;">Select Block :</label>
+                </div>
+              <div class="col-sm-6">
+                <div class="form-group"
+                  [ngClass]="{'has-error' : blocksbyassociationControl.invalid && blocksbyassociationControl.touched}">
+                  <select class="ui dropdown search methodDropdown" name="blkBlockID" [(ngModel)]="blkBlockID"
+                    (change)="getcurrentblockdetails(blkBlockID)" required #blocksbyassociationControl='ngModel'>
+                    <option disabled="true" selected="true" value="">Block Name</option>
+                    <option *ngFor='let blck of allblocksbyassnid' [value]="blck['blBlockID']">
+                      {{blck['blBlkName']}}
+                    </option>
+                  </select>
+                  <p class="alerts" *ngIf="blocksbyassociationControl.invalid && blocksbyassociationControl.touched"> Please select
+                    BlockName</p>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <!-- <a (click)="gotoviewreceipt()">
+                  <button type="button" class="btn btn-danger pull-right"><i class="fa fa-times"></i> Cancel</button>
+                </a> -->
+              </div>
+            </div>
+            
+            <div class="card">
+              <form #genRe='ngForm' role="form">
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : unUnitIDControl.invalid && unUnitIDControl.touched}">
+                      <label>Select Unit <span class="red">*</span></label>
+                      <select class="custom-select" required name="pyid" #unUnitIDControl='ngModel' [(ngModel)]="pyid"
+                        (change)="rowDetails(pyid)">
+                        <option disabled="true" value="">Select Unit </option>
+                        <option *ngFor='let item of unpaidUnits' [value]="item['pyid']">
+                          {{item['unUnitID']}}
+                        </option>
+                      </select>
+                      <p class="alerts" *ngIf="unUnitIDControl.invalid && unUnitIDControl.touched"> Please Select Unit</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+                      <label>Invoice <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice" #invoiceControl='ngModel'
+                        placeholder="Invoice Number*" disabled />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <label>Amount Due<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue" placeholder="Amount Due"
+                        disabled />
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+                      <label>Amount Paid <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid"
+                        #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" />
+                      <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
+                      <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
+                      <label>Payment Description <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="paymentDescription" [(ngModel)]="paymentDescription"
+                        #paymentDescriptionControl='ngModel' placeholder="Payment Description" disabled />
+                      <p class="alerts" *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please Select Date of
+                        Payment</p>
+                    </div>
+                  </div>
+          
+                  <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : bankControl.invalid && bankControl.touched}">
+                      <label for="validationBABName">Select Bank <span class="red">*</span></label>
+                      <select name="bankname" [(ngModel)]="bankname" #bankControl='ngModel' class="custom-select form-control">
+                        <option value=''>Bank</option>
+                        <option *ngFor='let bank of bankList' [value]="bank">
+                          {{bank}}
+                        </option>
+                      </select>
+                      <div *ngIf="bankControl.invalid && bankControl.touched">
+                          <p class="alerts" *ngIf="bankControl.errors.required">Please Select Bank</p>
+                        </div>
+                    </div>
+                  </div>
+          
+                  <div *ngIf='false'>
+                    <div class="form-group"
+                      [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
+                      <label>Payment Method <span class="red">*</span></label>
+                      <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod" #paymentmethodControl='ngModel'
+                        required (change)="showMethod(paymentmethod)">
+                        <option disabled="true" selected="true" value="">Select Method </option>
+                        <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
+                          {{paymentby['name']}}
+                        </option>
+                      </select>
+                      <p class="alerts" *ngIf="paymentmethodControl.invalid && paymentmethodControl.touched"> Please Select Method
+                      </p>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Cash' ">
+                        <div class="form-group" [ngClass]="{'has-error' : voucherNoControl.invalid && voucherNoControl.touched}">
+                            <label>Voucher No <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="voucherNo" [(ngModel)]="voucherNo" #voucherNoControl='ngModel' placeholder="Voucher No " required/>
+                            <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter Voucher No</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12"  *ngIf="checkField == 'Demand Draft' ">
+                        <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
+                            <label>Demand Draft No <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo" #ddNoControl='ngModel' placeholder="Demand Draft No " required/>
+                            <p class="alerts" *ngIf="ddNoControl.invalid && ddNoControl.touched"> Please Enter Demand Draft No</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row" *ngIf="checkField == 'Cheque'">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group" [ngClass]="{'has-error' : chequeNoControl.invalid && chequeNoControl.touched}">
+                            <label>Cheque No <span class="red"></span></label>
+                            <input type="text" class="form-control" name="chequeNo" [(ngModel)]="chequeNo" #chequeNoControl='ngModel' placeholder="Cheque No " pattern="^\d+$" />
+                            <p class="alerts" *ngIf="chequeNoControl.errors?.pattern"> Please Enter Valid Cheque No</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group" [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
+                            <label>Cheque Date <span class="red"></span></label>
+            
+                            <input type="text" class="form-control" name="chequeDate" #chequeDateControl='ngModel'
+                          placeholder="Chequedate" required [(ngModel)]="chequeDate"
+                          bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }"/>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="form-group pull-right">                
+                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt()" style="margin-right: 3px"> Create <img *ngIf="true" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button> 
+                    <button type="button" (click)="resetForm()" class="btn btn-primary btn-lg">Reset </button>                           
+                </div>
+            
+              </form>
+            </div>
+          <!---->
+        </div>
+      </ng-template>
