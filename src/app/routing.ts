@@ -19,7 +19,8 @@ import { ReceiptsComponent } from './receipts/receipts.component';
 import {VehiclesComponent} from './vehicles/vehicles.component';
 import {AddUnitComponent} from '../app/add-unit/add-unit.component';
 import {LoginComponent} from '../app/login/login.component';
-import {RegisterComponent} from '../app/register/register.component'
+import {RegisterComponent} from '../app/register/register.component';
+import {FamilyMembersComponent} from '../app/family-members/family-members.component'
 import { from } from 'rxjs';
 
 const routes: Routes = [
@@ -44,6 +45,7 @@ const routes: Routes = [
     { path: 'addunit', component:AddUnitComponent},
     { path: 'login', component:LoginComponent},
     { path: 'register', component:RegisterComponent},
+    { path: 'family', component:FamilyMembersComponent},
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes)],

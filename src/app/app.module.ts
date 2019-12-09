@@ -32,6 +32,7 @@ import { BlocksComponent } from './blocks/blocks.component';
 import {LoginComponent} from './login/login.component'
 import {RegisterComponent} from './register/register.component'
 import {VehiclesComponent} from './vehicles/vehicles.component'
+import {FamilyMembersComponent} from './family-members/family-members.component'
 import { UnitsComponent } from './units/units.component';
 import { LeftBarComponent } from './left-bar/left-bar.component';
 import { RightBarComponent } from './right-bar/right-bar.component';
@@ -72,6 +73,7 @@ export const firebaseConfig = environment.firebaseConfig;
     AssociationManagementComponent,
     ExpenseManagementComponent,
     VehiclesComponent,
+    FamilyMembersComponent,
     BlocksComponent,
     LoginComponent,
     RegisterComponent,
