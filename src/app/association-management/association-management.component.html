@@ -50,7 +50,7 @@
             <tbody>
               <tr *ngFor="let item of mf.data;let i=index">
                 <ng-container *ngIf="item == -1">
-                  <td colspan="4" align="center">No Data Found</td>
+                  <td colspan="7" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
                   <td>{{(i+1)}}</td>
@@ -71,7 +71,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="4">
+                <td colspan="7">
                   <mfBootstrapPaginator></mfBootstrapPaginator>
                 </td>
               </tr>
@@ -133,11 +133,11 @@
                       <div class="panel-body">
                           <div class="form-group">
                               <label class="control-label">Country</label>
-                              <div class="dropdown search-dropd">
-                                  <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                              <div class="dropdown">
+                                  <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                       data-toggle="dropdown">{{crtAssn.country}}
-                                      <span class="caret"></span></button>
-                                  <ul class="dropdown-menu fullw">
+                                      <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                  <ul class="dropdown-menu fullw fdrop">
                                       <li *ngFor='let country of countries' (click)="openPANfield(country['name'])"><a>{{country['name']}}</a></li>
                                   </ul>
                               </div>
@@ -169,10 +169,10 @@
                           </div>
                           <div class="form-group">
                             <label class="control-label">Property Type</label>
-                            <div class="dropdown search-dropd">
-                                <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                     data-toggle="dropdown">{{crtAssn.propertyType}}
-                                    <span class="caret"></span></button>
+                                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                 <ul class="dropdown-menu fullw">
                                     <li *ngFor='let propertyType of propertyTypes' (click)="setPropertyType(propertyType['name'])"><a>{{propertyType['name']}}</a></li>
                                 </ul>
@@ -233,7 +233,7 @@
                           </div> -->
                       <div class="panel-body">
                           <div class="form-group">
-                              <label class="control-label">Pan Number</label>
+                              <label class="control-label">Pan Number*</label>
                               <input type="text" name="PANNumber" required autocomplete='crtAssn.PANNumber'
                                   [(ngModel)]="crtAssn.PANNumber" #PANNumberControl="ngModel" class="form-control"
                                   placeholder="PAN NUMBER"

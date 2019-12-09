@@ -20,6 +20,7 @@ a{color: #5a51aa !important;}
 .carousel .carousel-item{cursor: pointer;}
 .search{display: flex;justify-content:flex-end;align-items: baseline;}
 .search-dropd,.sdm,.fullw{width: 100%;}
+.fullw{overflow-x: hidden;}
 .sdm{display: flex !important;justify-content: space-between;align-items: center;border: none;border-radius: 0px !important}
 .btn-warning{color: #fff !important;background-color: #5a51aa !important;border-color: #5a51aa !important;border-radius: 30px !important;margin: 3px 5px;border-radius: 30px;padding: 7px 23px;font-weight: 600 !important;box-shadow: none !important;}
 .btn-warning:hover{color: #5a51aa !important;background-color: #fff !important;border-color: #5a51aa !important;border-radius: 30px !important; }
@@ -30,14 +31,12 @@ a{color: #5a51aa !important;}
 .btn-warning.active{color: #5a51aa;background-color: #fff !important;background-image: none;border-color: #fff;}
 .fa-heart-o{color: #5a51aa;font-size: 22px;font-weight: 300;}
 #example_wrapper{width:100% !important;}
-section.range-slider {position: relative;width: 100%;height: 70px;text-align: center;}
-.slide-range{display: flex;flex-direction: column;margin: 0px 0px 30px 0px}
-.range-val{display: flex;justify-content: space-between;}
-.rangeValues,.rangeValues1,.rangeValues2,.rangeValues3{border: 1px solid grey;padding: 6px 17px;width: 77px;}
-section.range-slider input {pointer-events: none;position: absolute;overflow: initial;left: 0;top: 15px;width: 100%;height: 4px;margin: 0;
-padding: 0;-webkit-appearance: none;border-radius: 5px;background: grey;outline: none;}
-.range-value{display: flex;justify-content: space-between;width: 300px;}
-
+.panel-body{margin-bottom: 30px}
+.fdrop{
+    height: 300px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+  }
 
 .slider::-webkit-slider-thumb {
 pointer-events: all;
@@ -77,14 +76,14 @@ border: 0;
 font-family: FontAwesome;
 content: '\f107';
 position: absolute;
-top: 1px;
-right: 0;
+top: 2px;
+right: -16px;
 padding: 0 25px;
 color: #5a51aa !important;
 cursor: pointer;
 pointer-events: none;
-transition: .25s all ease;
-font-size: 33px;
+background: #fff;
+font-size: 25px;
 }
 
 .form-control
@@ -159,7 +158,6 @@ color: #7e7f80;
 {
 color: red;
 position: absolute;
-right: 20px;
 font-size: 12px;
 }
 .mandate{color: red}
