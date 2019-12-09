@@ -118,6 +118,8 @@ export class ExpenseManagementComponent implements OnInit {
     this.todayDate = new Date();
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
 
+    this.addexpenseservice.enableAddExpnseView = false;
+    this.addexpenseservice.enableExpenseListView=true;
     //this.viewexpenseservice.GetExpenseListByAssocID();
     //this.mgrName= this.viewexpenseservice.GetBlockListByBlockID('1107');
     //this.viewexpenseservice.GetPurchaseOrderListByAssocID();

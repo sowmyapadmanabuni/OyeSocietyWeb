@@ -10,10 +10,10 @@
                         <!--Search Drop Down start -->
                         <div class="col-sm-12 search">
                                 <div class="dropdown search-dropd">
-                                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                                        <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
                                                 data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
                                                 <span class="caret"></span></button>
-                                        <ul class="dropdown-menu fullw">
+                                        <ul class="dropdown-menu fullw fdrop">
                                                 <li (click)="loadAssociation(association['asAsnName'])" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
                                         </ul>
                                 </div>
@@ -29,7 +29,7 @@
                         <!--Search Drop Down End -->
                         <!--choice heading row start-->
                         <div class="col-sm-12 make">
-                                <h3 class="purple">Manyata Association</h3>
+                                <h3 class="purple">{{globalService.currentAssociationName}}</h3>
                         </div>
                         <!--choice heading row end-->
                         <!--Dashboard icons start-->

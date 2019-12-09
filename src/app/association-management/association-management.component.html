@@ -50,7 +50,7 @@
             <tbody>
               <tr *ngFor="let item of mf.data;let i=index">
                 <ng-container *ngIf="item == -1">
-                  <td colspan="6" align="center">No Data Found</td>
+                  <td colspan="7" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
                   <td>{{(i+1)}}</td>
@@ -71,7 +71,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="4">
+                <td colspan="7">
                   <mfBootstrapPaginator></mfBootstrapPaginator>
                 </td>
               </tr>
@@ -133,11 +133,11 @@
                       <div class="panel-body">
                           <div class="form-group">
                               <label class="control-label">Country</label>
-                              <div class="dropdown search-dropd">
-                                  <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                              <div class="dropdown">
+                                  <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                       data-toggle="dropdown">{{crtAssn.country}}
-                                      <span class="caret"></span></button>
-                                  <ul class="dropdown-menu fullw">
+                                      <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                  <ul class="dropdown-menu fullw fdrop">
                                       <li *ngFor='let country of countries' (click)="openPANfield(country['name'])"><a>{{country['name']}}</a></li>
                                   </ul>
                               </div>
@@ -169,10 +169,10 @@
                           </div>
                           <div class="form-group">
                             <label class="control-label">Property Type</label>
-                            <div class="dropdown search-dropd">
-                                <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                     data-toggle="dropdown">{{crtAssn.propertyType}}
-                                    <span class="caret"></span></button>
+                                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                 <ul class="dropdown-menu fullw">
                                     <li *ngFor='let propertyType of propertyTypes' (click)="setPropertyType(propertyType['name'])"><a>{{propertyType['name']}}</a></li>
                                 </ul>
@@ -212,7 +212,7 @@
                               <label class="control-label">Website Url</label>
                               <input type="text"  name="ASWebURL" autocomplete='crtAssn.url'
                                   [(ngModel)]="crtAssn.url" #urlControl="ngModel" class="form-control"
-                                  maxlength="255" placeholder="URL " style="font-family: Quicksand" pattern="(www\d?|[a-zA-Z0-9]+)?\.[a-zA-Z0-9-]+(\:|\.)([a-zA-Z0-9.]+|(\d+)?)([/?:].*)?" />
+                                  maxlength="255" placeholder="URL " style="font-family: Quicksand" pattern="^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$" />
                               <p class="alerts" *ngIf="urlControl.invalid && urlControl.touched"> Valid URL is
                                   </p>
                               <br>
@@ -330,11 +330,11 @@
                 <!--row1-->
                 <div class="content">
                     <label>Select Association</label>
-                    <div class="dropdown search-dropd" style="margin: 0px 0px;">
-                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                    <div class="dropdown" style="margin: 0px 0px;width: 300px;">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                             data-toggle="dropdown">{{assnName}}
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu fullw">
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul class="dropdown-menu fullw fdrop">
                             <li *ngFor="let association of _associations" (click)="loadAssociation(association['asAssnID'],association['asAsnName'])"><a>{{association['asAsnName']}}</a></li>
                         </ul>
                     </div>
@@ -343,10 +343,10 @@
                 <!--row2-->
                 <div class="content">
                         <label>Select Blocks</label>
-                        <div class="dropdown search-dropd" style="margin: 0px 0px;">
-                                <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                        <div class="dropdown" style="margin: 0px 0px;width: 300px;">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                     data-toggle="dropdown">{{blBlkName}}
-                                    <span class="caret"></span></button>
+                                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                 <ul class="dropdown-menu fullw">
                                     <li (click)="prerequisitesAddUnit(item.blBlockID,item.blBlkName)" *ngFor='let item of allBlocksLists'><a>{{item.blBlkName}}</a></li>
                                 </ul>
@@ -363,7 +363,7 @@
                 </div> 
                 <!--row3--> 
                 <div class="content">
-                  <div class="col-sm-6">
+                  <div class="col-sm-6 np">
                     <div class="form-group" [ngClass]="{'has-error' : occupancydateControl.invalid && occupancydateControl.touched}">
                       <label>Select Date Of Occupancy<span class="red">*</span></label>
                       <input type="text" class="form-control" name="UNOcSDate" #occupancydateControl='ngModel'

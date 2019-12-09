@@ -996,9 +996,12 @@ this.crtAssn.newBAActType='';
             this.viewAssociation_Table = true;
             this.enrollAssociation = false;
             this.joinAssociation = false;
-            
+
             this.viewAssnService.getAssociationDetails(this.accountID).subscribe(res => {
               //console.log(JSON.stringify(res));
+              this.viewAssnService.enrlAsnEnbled=false;
+              this.viewAssnService.vewAsnEnbled=true;
+              this.viewAssnService.joinAsnEbld=false;
               var data: any = res;
               console.log(data.data.associationByAccount);
               this.associations = data.data.associationByAccount;
