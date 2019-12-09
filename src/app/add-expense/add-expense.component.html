@@ -244,6 +244,18 @@
                             DemandDraft Date</p>
                     </div>
                 </div>
+                <div class="panel-body" *ngIf="checkField == 'Cash'">
+                    <div class="form-group" [ngClass]="{'has-error' : vouchernoControl.invalid && vouchernoControl.touched}">
+                        <label>Voucher No <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="voucherno" [(ngModel)]="voucherno" #vouchernoControl='ngModel'
+                            placeholder="Voucher No" required pattern="^[a-zA-Z0-9]*$" />
+                
+                        <div *ngIf="vouchernoControl.invalid && vouchernoControl.touched">
+                            <p class="alerts" *ngIf="vouchernoControl.errors.required">Please Enter Voucher No</p>
+                            <p class="alerts" *ngIf="vouchernoControl.errors.pattern">Special characters not allowed</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-12 pull-right">
                     <button class="btn btn-primary-purple nextBtn">Reset</button>
                     <button class="btn btn-primary-purple nextBtn" (click)='addExp()' type="button">Add Expense</button>

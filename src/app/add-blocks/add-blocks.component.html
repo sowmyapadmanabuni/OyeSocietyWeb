@@ -192,7 +192,7 @@
                     <label>Starts From<span class="red">*</span></label>
                     <input class="form-control" type="text" name="startsFrom" #StartsFromDateControl='ngModel'
                     [class.classForInvalid]="enablestartfromdatevalidation" placeholder="Starts From Date" [bsConfig]="bsConfig" [(ngModel)]="startsFrom" bsDatepicker required
-                      [minDate]='startsFromMaxDate' (bsValueChange)="onStartsFromDateValueChange($event)" placement="left"/>
+                      [minDate]='startsFromMaxDate' (bsValueChange)="onStartsFromDateValueChange($event)" placement="bottom"/>
                     <ng-container *ngIf='enablestartfromdatevalidation'>
                         <p class="invalidFeedback">Starts from date should be greater than or equal to due date</p>
                     </ng-container>

@@ -73,10 +73,12 @@ export class UnitsComponent implements OnInit {
   order: string = 'unUniName';
   reverse: boolean = false;
   sortedCollection: any[];
+  blBlkName:any;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
     private orderpipe: OrderPipe) {
+      this.blBlkName='Select Block';
       this.ACAccntID=this.globalService.getacAccntID();
     this.currentAssociationID=this.globalService.getCurrentAssociationId();
     //pagination
@@ -232,6 +234,7 @@ export class UnitsComponent implements OnInit {
   }
 
   getAllUnitDetailsByBlockID(blBlockID,blBlkName) {
+    this.blBlkName=blBlkName;
     this.blockID = blBlockID;
     //this.blBlockID=blBlockID;
 

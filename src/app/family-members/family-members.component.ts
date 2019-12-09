@@ -114,7 +114,7 @@ updatefamilymember() {
     "FMImgName": "1.jpg",
     "FMRltn": this.EditRelation,
     "FMLName": "M",
-    "FMMinor": false,
+    "FMMinor": this.ToggleGurdian == "xyz"? false : true,
     "FMGurName": "som",
     "FMID": this.fmid
   }
@@ -171,7 +171,7 @@ addfamilymember() {
     "FMRltn": this.Relation,
     "ASAssnID": this.asAssnID,
     "FMImgName": "l.jpeg",
-    "FMMinor": false,
+    "FMMinor": this.ToggleGurdian == "xyz"? false : true,
     "FMLName": "P",
     "FMGurName": "somu",
     "PAccntID": this.AccountID
@@ -186,6 +186,8 @@ addfamilymember() {
       console.log(data);
       this.addMember=false;
       this.memberList=true;
+      this.getFamilyMember();
+      
       Swal.fire({
         title: "Family Member Added Successfully",
         text: "",

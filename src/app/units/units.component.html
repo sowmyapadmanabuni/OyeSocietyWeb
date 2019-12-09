@@ -15,47 +15,25 @@
                         </ul>
 
 
-                        
-
-                        <div class="col-3">
-                            <div class="form-group" [ngClass]="{'has-error' : blocksDetailControl.invalid && blocksDetailControl.touched}">
-                              <select class="ui dropdown search methodDropdown" name="blockname" [(ngModel)]="blBlockID"
-                                (change)="getAllUnitDetailsByBlockID(blBlockID)" required #blocksDetailControl='ngModel'>
-                                <option disabled="true" selected="true" value="">Select Block Name</option>
-                                <option *ngFor='let blck of allBlocksLists' [value]="blck.blBlockID">
-                                  {{blck.blBlkName}}
-                                </option>
-                              </select>
-                              <p class="alerts" *ngIf="blocksDetailControl.invalid && blocksDetailControl.touched"> Please select BlockName
-                              </p>
-                            </div>
-
-
-
-                            <!-- <div class="form-group">
-                                    <label class="control-label">Select Block Name</label>
-                                    <div class="dropdown search-dropd">
-                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                            data-toggle="dropdown">{{blBlockID}}
-                                            <span class="caret"></span></button>
-                                        <ul class="dropdown-menu fullw">
-                                            <li *ngFor="let blck of allBlocksLists" (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)">
-                                                <a>{{blck.blBlkName}}</a></li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-
-
-
-
-
-
-                        </div>
-                        <div class="enroll">
+                         <div class="enroll">
                             <span class="purple" style="font-size: 24px;font-weight: 500;">Units Management</span>
                             <button class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus" aria-hidden="true"></i> Add
                                 Units</button>
                         </div>
+
+                        <div class="col-3">
+                            <div class="form-group">
+                                <div class="dropdown">
+                                  <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                      data-toggle="dropdown">{{blBlkName}}
+                                      <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                  <ul class="dropdown-menu fullw">
+                                      <li *ngFor='let blck of allBlocksLists' (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a> {{blck.blBlkName}}</a></li>
+                                  </ul>
+                              </div>
+                              </div>
+                        </div>
+                       
                     <div *ngIf="unitList">
                         <label>Search</label>
                         <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">

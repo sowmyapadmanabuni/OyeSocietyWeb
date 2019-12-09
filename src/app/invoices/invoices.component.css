@@ -65,6 +65,20 @@ i{cursor: pointer;}
 .payment-opt>div{display: flex;flex-direction: column;align-items: center;}
 .pay-bt{display: flex;justify-content: flex-end;margin: 20px 0px;}
 .t-right{text-align: right}
+
+/* Search box style */
+.blk-drop{    border-bottom: 1px solid #dad6d6 !important;
+    width: 260px;}
+#mySearch{padding: 10px;outline: 0;border-width: 0 0 1px;border-color: #b5b5b9;width:300px;background: #fff;}
+
+.sea::after{content: "\f002";font-family: FontAwesome;font-style: normal;font-weight: normal;text-decoration: inherit;color: #f7b844;font-size: 18px;
+
+    padding-right: 0.5em;position: relative;top: 3px;right: 17px;}
+
+    .guest{border-radius: 0px;box-shadow: 0px 0px 4px 3px #e5dfdf;padding: 20px;border: none;margin-top: 30px;}
+
+    .guest-input{display: flex;justify-content: space-between;align-items: center;padding-top: 10px;}
+
     @media only screen and (min-width: 320px) and (max-width: 600px)  {
     
     .search-dropd{margin-bottom: 20px}
@@ -109,6 +123,7 @@ i{cursor: pointer;}
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
     }
+
       
 
 

@@ -40,4 +40,10 @@ export class RightBarComponent implements OnInit {
   goToFamily(){
     this.router.navigate(['family']);
   }
+  goToVisitors(){
+    this.router.navigate(['visitors']);
+  }
+  goToSubscription(){
+    this.router.navigate(['subscription']);
+  }
 }

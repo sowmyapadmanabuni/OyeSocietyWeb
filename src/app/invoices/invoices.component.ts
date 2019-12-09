@@ -106,6 +106,22 @@ export class InvoicesComponent implements OnInit {
   reverse: boolean = false;
   sortedCollection: any[];
   unpaidUnits: any[];
+  payopt: boolean;
+  CurrentBlockName:any;
+  invoice: any;
+  amountDue: any;
+  amountPaid: number;
+  MEMemID: string;
+  PYRefNo: string;
+  PMID: string;
+  unUnitID:any;
+  BankName:any;
+  bankList: string[];
+  voucherNo: string;
+  PymtRefNo: string;
+  ddNo: string;
+  chequeNo: string;
+
 
   constructor(private viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -129,6 +145,50 @@ export class InvoicesComponent implements OnInit {
       this.isChecked = false;
       this._unOcStat = '';
       this._ineSent = false;
+      this.CurrentBlockName='Blocks';
+      this.unUnitID='Units';
+      this.BankName='Bank';
+
+      this.bankList = [
+        'Allahabad Bank',
+        'Andhra Bank',
+        'Bank of Baroda',
+        'Bank of India',
+        'Bank of Maharashtra',
+        'Canara Bank',
+        'Central Bank of India',
+        'Corporation Bank',
+        'Indian Bank',
+        'Indian Overseas Bank',
+        'Oriental Bank of Commerce',
+        'Punjab and Sind Bank',
+        'Punjab National Bank',
+        'State Bank of India',
+        'Syndicate Bank',
+        'UCO Bank',
+        'Union Bank of India',
+        'United Bank of India',
+        'Catholic Syrian Bank',
+        'City Union Bank',
+        'DCB Bank',
+        'Dhanlaxmi Bank',
+        'Federal Bank',
+        'HDFC Bank',
+        'ICICI Bank',
+        'IDFC First Bank',
+        'IndusInd Bank',
+        'Jammu & Kashmir Bank',
+        'Karnataka Bank',
+        'Karur Vysya Bank',
+        'Kotak Mahindra Bank',
+        'Lakshmi Vilas Bank',
+        'Nainital Bank',
+        'RBL Bank',
+        'South Indian Bank',
+        'Tamilnad Mercantile Bank Limited',
+        'Yes Bank',
+        'IDBI Bank'
+      ]
      }
 
   goToExpense(){
@@ -147,6 +207,8 @@ export class InvoicesComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.payopt = false;
+
     console.log('this.currentAssociationID', this.currentAssociationID);
     this.viewinvoiceservice.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
@@ -194,12 +256,57 @@ export class InvoicesComponent implements OnInit {
     this.order = value;
   }
 
-  /* viewInvoice1(inid, inGenDate, inNumber, inDsCVal, unUnitID) {
-     console.log(inid, inGenDate, inNumber, inDsCVal, unUnitID);
-     this.router.navigate(['home/newinvoice',inid, inGenDate, inNumber, inDsCVal, unUnitID]);
-   } */
+  createReceipt() {
 
-  viewInvoice1(event, template: TemplateRef<any>, inid, inGenDate, inNumber, inDsCVal, unUnitID) {
+    if (this.voucherNo != '' || this.voucherNo != undefined) {
+      this.PymtRefNo = this.voucherNo;
+    } else if (this.ddNo != '' || this.ddNo != undefined) {
+      this.PymtRefNo = this.ddNo;
+    } else if (this.chequeNo != '' || this.chequeNo != undefined) {
+      this.PymtRefNo = this.chequeNo;
+    } else {
+      this.PymtRefNo = '';
+    }
+
+    let newReceipt = {
+      "MEMemID": "1",//this.MEMemID,
+      "PYRefNo": this.PYRefNo,
+      "PYBkDet": this.BankName,
+      "PYAmtPaid": this.amountPaid,
+      "INNumber": this.invoice,
+      "UNUnitID": this.unitID,
+      "PYTax": "12.6",
+      "ASAssnID":  this.currentAssociationID,
+      "PMID": 1,//this.PMID,
+      "PYDesc": "PaymentMade"
+    }
+
+    this.generatereceiptservice.addPayment(newReceipt)
+      .subscribe(data => {
+        console.log(data);
+        swal.fire({
+          title: "Receipt Generated Successfully",
+          text: "",
+          type: "success",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        })
+
+      },
+      (err)=>{
+        console.log(err);
+        swal.fire({
+          title: `${err['error']['error']['message']}`,
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        })
+      })
+
+  }
+
+  viewInvoice1(event, invoicePop: TemplateRef<any>, inid, inGenDate, inNumber, inDsCVal, unUnitID) {
     event.preventDefault();
     //alert('inside viewinvoice');
     console.log('inGenDate', inGenDate);
@@ -264,7 +371,7 @@ export class InvoicesComponent implements OnInit {
 
     this.viewinvoiceservice.invoiceDetails(inid, unUnitID)
       .subscribe(data => {
-        this.modalRef = this.modalService.show(template,
+        this.modalRef = this.modalService.show(invoicePop,
           Object.assign({}, { class: 'gray modal-lg' }));
         this.InvoiceValue = 0;
         console.log('invoiceDetails--', data['data']['invoiceDetails']);
@@ -576,7 +683,10 @@ export class InvoicesComponent implements OnInit {
           });
         })
   }
-
+  openModal1(generateReceipt: TemplateRef<any>) {
+    this.modalRef.hide();
+    this.modalRef = this.modalService.show(generateReceipt,Object.assign({}, { class: 'gray modal-lg' }));
+  }
   sendInvoiceInMail(inid, unUnitID, ineSent, blBlockID) {
     console.log('inid', inid);
     console.log('unUnitID', unUnitID);
@@ -690,8 +800,8 @@ export class InvoicesComponent implements OnInit {
         })
   }
 
-  generateReceipt(generatereceiptmodal: TemplateRef<any>) {
-
+  generateReceipt(generateReceiptModal1: TemplateRef<any>) {
+    this.modalRef.hide();
     this.generatereceiptservice.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
         this.allblocksbyassnid = data['data'].blocksByAssoc;
@@ -701,8 +811,8 @@ export class InvoicesComponent implements OnInit {
           console.log(err);
         });
     //
-    this.modalRefForGenerateRecipt = this.modalService.show(generatereceiptmodal,
-      Object.assign({}, { class: 'gray modal-xl' }));
+    this.modalRefForGenerateRecipt = this.modalService.show(generateReceiptModal1,
+      Object.assign({}, { class: 'gray modal-lg' }));
   }
 
   getcurrentblockdetails(blkBlockID) {
@@ -711,6 +821,56 @@ export class InvoicesComponent implements OnInit {
         console.log('unpaidUnits', data['data']['paymentsUnpaid']);
         this.unpaidUnits = data['data']['paymentsUnpaid'];
       })
+  }
+  getCurrentBlockDetailsForGenRecpt(blBlockID,blBlkName) {
+    this.CurrentBlockName=blBlkName;
+    this.generatereceiptservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
+      .subscribe(data => {
+        this.unpaidUnits = data['data']['paymentsUnpaid'];
+        console.log('unpaidUnits', this.unpaidUnits);
+      },
+      err=>{
+        console.log(err);
+        swal.fire({
+          title:`${err['error']['error']['message']}`,
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        })
+      })
+  }
+  openModal(invoicePop: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      invoicePop,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+  }
+  rowDetails(pyid,unUnitID) {
+    console.log('pyid-' + pyid);
+    this.unUnitID=unUnitID;
+    let invobj = this.unpaidUnits.find(item => item['pyid'] == pyid);
+    console.log('inNumber-' + invobj['inNumber']);
+    console.log('pyAmtDue-' + invobj['pyAmtDue']);
+    console.log('pyAmtPaid-' + invobj['pyAmtPaid']);
+    console.log('unUnitID-' + invobj['unUnitID']);
+    this.invoice = invobj['inNumber'];
+    this.amountDue = invobj['pyAmtDue'];
+    this.amountPaid = invobj['pyAmtPaid'];
+    this.unitID = invobj['unUnitID'];
+    this.MEMemID = invobj['meMemID'];
+    this.PYRefNo = invobj['pyid'];
+    this.PMID = invobj['pmid'];
+
+  }
+  viewPayOpt() {
+    this.payopt = true;
+  }
+  printInvoice() {
+    window.print();
+  }
+  getBankName(bank){
+    this.BankName=bank;
   }
 
 }
