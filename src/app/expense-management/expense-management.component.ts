@@ -152,8 +152,6 @@ export class ExpenseManagementComponent implements OnInit {
     this,this.toggleBulkInvGenerate=false;
     this.exidList=[];
     this.Invoiced='Invoiced';
-    this.enableAddExpnseView=false;
-    this.enableExpenseListView=true;
 
     //this.editexpensedata.UnUniIden = '';
     //this.editexpensedata.PMID = '';
@@ -378,8 +376,8 @@ export class ExpenseManagementComponent implements OnInit {
   }
   toggleAddExpenseView() {
     this.toggleStepWizard();
-    this.enableAddExpnseView = true;
-    this.enableExpenseListView=false;
+    this.addexpenseservice.enableAddExpnseView = true;
+    this.addexpenseservice.enableExpenseListView=false;
   }
   editExpense(repexpense1, idx) {
     console.log('repexpense1-', repexpense1);

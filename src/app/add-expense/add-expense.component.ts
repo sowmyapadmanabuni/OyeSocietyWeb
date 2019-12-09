@@ -510,9 +510,10 @@ export class AddExpenseComponent implements OnInit {
 
               if (result.value) {
                 //this.form.reset();
-                this.resetForm();
+                //this.resetForm();
+                
               } else if (result.dismiss === swal.DismissReason.cancel) {
-                this.router.navigate(['home/viewexpense']);
+                //this.router.navigate(['home/viewexpense']);
               }
             }
           )

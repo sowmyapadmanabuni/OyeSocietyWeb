@@ -14,7 +14,7 @@
                         <li><a (click)="goToReceipts()">Receipts</a></li>
                     </ul>
                 </div>
-                <div class="enroll" *ngIf='enableExpenseListView'>
+                <div class="enroll" *ngIf='addexpenseservice.enableExpenseListView'>
                     <div class="dropdown search-dropd">
                         <button class="btn btn-primary dropdown-toggle sdm br" type="button"
                             data-toggle="dropdown">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
@@ -38,11 +38,11 @@
                     <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add Expense</button>
                 </div>
-                <div *ngIf='enableExpenseListView'>
+                <div *ngIf='addexpenseservice.enableExpenseListView'>
                     <label>Search</label>
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                 </div>
-                <div class="dash-row" *ngIf='enableExpenseListView'>
+                <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
                     <table class="table table-striped" [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
@@ -79,7 +79,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="4" align="center">No Data Found</td>
+                                    <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
@@ -113,7 +113,7 @@
                 </div>
                 <!--Add Expense Starts-->
 
-                <div class="col-sm-12" *ngIf='enableAddExpnseView'>
+                <div class="col-sm-12" *ngIf='addexpenseservice.enableAddExpnseView'>
                   <app-add-expense></app-add-expense>
                 </div>
                 <!--Add Expense Starts-->
