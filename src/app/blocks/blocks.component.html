@@ -286,20 +286,19 @@
                             </div>
                             <br>
                             <div class="row" style="padding-left:15px;padding-right:15px;">
-                                <div class="col-sm-6 col-xs-12">
+                                <div class="col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label>Select Rate <span class="red">*</span></label> <br>
                                         <input type="checkbox" name="rate" [(ngModel)]="rate" (change)="checkRate(rate)"
                                             value="flatRatevalue">
                                         <label>Flat Rate Value</label>
-                                        &nbsp;&nbsp;&nbsp;
                                         <input type="checkbox" name="rate" [(ngModel)]="rate1" (change)="checkRate1(rate1)"
                                             value="dimension">
                                         <label>Dimension Based</label>
                                     </div>
                                 </div>
     
-                                <div class="col-sm-3 col-xs-12" *ngIf="addRate == 'flatRatevalue'">
+                                <div class="col-sm-4 col-xs-12" *ngIf="addRate == 'flatRatevalue'">
                                     <div class="form-group"
                                         [ngClass]="{'was-validated' : flatRatevalueControl.invalid && flatRatevalueControl.touched}">
                                         <label>Flat Rate Value<span class="red">*</span></label>

@@ -15,10 +15,10 @@
                     </ul>
                 </div>
                 <div class="enroll">
-                    <div class="dropdown search-dropd">
-                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                    <div class="dropdown" style="width: 200px;">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                             data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Blocks':viewinvoiceservice.invoiceBlock)}}
-                            <span class="caret"></span></button>
+                            <i  aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                         <ul class="dropdown-menu fullw">
                             <li *ngFor='let item of allBlocksByAssnID'
                                 (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
