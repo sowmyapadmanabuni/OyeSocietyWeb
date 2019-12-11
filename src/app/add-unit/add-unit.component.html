@@ -91,7 +91,7 @@
 
           </div>
           <div class="col-sm-12 pull-right">
-              <button class="btn btn-primary-purple nextBtn">Reset</button>
+              <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
               <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
           </div>
       </div>
@@ -107,14 +107,14 @@
                   <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="ownerFirtname"
                     #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
                     pattern="[a-zA-Z]*" required/>
-                    <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
+                    <!-- <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p> -->
                 </div>
               <div class="form-group">
                   <label class="control-label">Owner Last Name</label>
                   <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="ownerLastname"
                     #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname"
                     pattern="[a-zA-Z]*" required/>
-                    <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is required</p>
+                    <!-- <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is required</p> -->
                 </div>
         
               <div class="form-group">
@@ -122,7 +122,7 @@
                   <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="ownerMobnumber"
                     #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number"
                     minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
-                    <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
+                    <!-- <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                   -->
                 </div>
           </div>
           <div class="panel-body">
@@ -140,7 +140,7 @@
                   <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
                     #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
-                    <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
+                    <!-- <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p> -->
                 </div>
               
               <div class="form-group">
@@ -161,7 +161,7 @@
                     <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="tenantFirtname"
                       #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
                       pattern="[a-zA-Z]*" required/>
-                      <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
+                      <!-- <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p> -->
                   </div>
                 
                 <div class="form-group">
@@ -169,7 +169,7 @@
                     <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="tenantLastname"
                       #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
                       pattern="[a-zA-Z]*" required/>
-                      <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
+                      <!-- <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p> -->
                   </div>
    
                 <div class="form-group">
@@ -177,7 +177,7 @@
                     <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="tenantMobnumber"
                       #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number"
                       minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
-                      <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
+                      <!-- <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p> -->
                   </div>
             </div>
             <div class="panel-body">
@@ -192,18 +192,13 @@
                     <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="tenantEmail"
                       #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
                       pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
-                      <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
+                      <!-- <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p> -->
                   </div>
-                <!-- <div class="form-group">
-                    <label class="control-label">Tenant Alternate Email Id</label>
-                    <input maxlength="200" type="email" required="required" class="form-control"
-                        placeholder="Alternate Email Id" />
-                </div> -->
             </div>
           </div>
 
           <div class="col-sm-12 pull-right">
-              <button class="btn btn-primary-purple nextBtn">Reset</button>
+              <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
               <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
           </div>
 
@@ -246,7 +241,7 @@
           </div>
 
           <div class="col-sm-12 pull-right">
-              <button class="btn btn-primary-purple nextBtn">Reset</button>
+              <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
               <button class="btn btn-primary-purple nextBtn" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
           </div>
       </div>

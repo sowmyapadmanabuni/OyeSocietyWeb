@@ -234,6 +234,7 @@ export class UnitsComponent implements OnInit {
   }
 
   getAllUnitDetailsByBlockID(blBlockID,blBlkName) {
+    this.blBlkName=blBlkName;
     this.blockID = blBlockID;
     this.blBlkName=blBlkName;
     //this.blBlockID=blBlockID;

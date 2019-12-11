@@ -1,189 +1,175 @@
 <div class="container-fluid bg np">
-        <div class="col-sm-9">
-            <!--Profile section-->
-            <app-left-bar></app-left-bar>
+    <div class="col-sm-9">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
 
-            <!--Profile section-->
-    
-            <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-    
-                <!--Dashboard icons start-->
-                <div class="col-md-12 m-t-30 dash">
-                        <ul class="nav nav-pills">
-                                <li><a (click)="goToBlocks()">Blocks</a></li>
-                                <li class="active"><a (click)="goToUnits()">Units</a></li>   
-                        </ul>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <ul class="nav nav-pills">
+                    <li><a (click)="goToBlocks()">Blocks</a></li>
+                    <li class="active"><a (click)="goToUnits()">Units</a></li>
+                </ul>
 
+                <div class="enroll">
+                    <span class="purple" style="font-size: 24px;font-weight: 500;">Units Management</span>
+                    <button class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
+                            aria-hidden="true"></i> Add
+                        Units</button>
+                </div>
 
-                        
-
-                        <div class="col-3">
-                            <div class="form-group">
- 
-                                <div class="dropdown">
-                                  <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                      data-toggle="dropdown">{{blBlkName}}
-                                      <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                                  <ul class="dropdown-menu fullw">
-                                      <li *ngFor='let blck of allBlocksLists' (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a> {{blck.blBlkName}}</a></li>
-                                  </ul>
-                              </div>
-                              </div>
-
-
-
-                            <!-- <div class="form-group">
-                                    <label class="control-label">Select Block Name</label>
-                                    <div class="dropdown search-dropd">
-                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                            data-toggle="dropdown">{{blBlockID}}
-                                            <span class="caret"></span></button>
-                                        <ul class="dropdown-menu fullw">
-                                            <li *ngFor="let blck of allBlocksLists" (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)">
-                                                <a>{{blck.blBlkName}}</a></li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-
-
-
-
-
-
+                <div class="col-3">
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                data-toggle="dropdown">{{blBlkName}}
+                                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                            <ul class="dropdown-menu fullw">
+                                <li *ngFor='let blck of allBlocksLists'
+                                    (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>
+                                        {{blck.blBlkName}}</a></li>
+                            </ul>
                         </div>
-                        <div class="enroll">
-                            <span class="purple" style="font-size: 24px;font-weight: 500;">Units Management for {{globalService.currentAssociationName}}</span>
-                            <button class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus" aria-hidden="true"></i> Add
-                                Units</button>
-                        </div>
-                    <div *ngIf="unitList">
-                        <label>Search</label>
-                        <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
                     </div>
-                    <div class="dash-row" *ngIf="unitList">
-                        <table class="table table-striped" [mfData]="allUnitBYBlockID | search:['unUniName','unUniType','unDimens']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        S.No.
-                                    </th>
-                                    <th>
-                                        <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
-                                    </th>
-                                    <th>
-                                        <mfDefaultSorter by="unUniType">Unit Type</mfDefaultSorter>
-                                    </th>
-                                    <th>
-                                        <mfDefaultSorter by="unDimens">Unit Dimension</mfDefaultSorter>
-                                    </th>
-                                    <th>
-                                        <mfDefaultSorter by="uofName">Name</mfDefaultSorter>
-                                    </th>
-                                    <th>
-                                        <mfDefaultSorter by="uoEmail">Email</mfDefaultSorter>
-                                    </th>
-                                    <th>
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of mf.data;let i=index">
-                                    <ng-container *ngIf="item == -1">
-                                        <td colspan="7" align="center">No Data Found</td>
-                                    </ng-container>
-                                    <ng-container *ngIf="item!=-1">
-                                        <td>{{(i+1)}}</td>
-                                        <td>{{item.unUniName}}</td>
-                                        <td>{{item.unUniType}}</td>
-                                        <td>{{item.unDimens}} SqFt</td>
-                                        <td>{{(item.owner.length > 0 ? item.owner[0].uofName : ((item.tenant.length > 0) ? item.tenant[0].utfName :''))}}</td>
-                                        <td>{{(item.owner.length > 0 ? item.owner[0].uoEmail : ((item.tenant.length > 0) ? item.tenant[0].utEmail :''))}}</td>
-                                        <td>
-                                            <i data-toggle="modal" data-target="#viewUnit1"
-                                            (click)="viewUnit(item)" 
-                                                class="fa fa-eye"></i>&nbsp;|&nbsp;<i
-                                                data-toggle="modal" data-target="#editBlockDetails"
-                                                (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
-                                                class="fa fa-pencil"></i>
-        
-                                        </td>
-                                    </ng-container>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="7">
-                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                </div>
+                <div *ngIf="unitList">
+                    <label>Search</label>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+                        placeholder="search name">
+                </div>
+                <div class="dash-row" *ngIf="unitList">
+                    <table class="table table-striped"
+                        [mfData]="allUnitBYBlockID | search:['unUniName','unUniType','unDimens']:searchTxt"
+                        #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">
+                                    S.No.
+                                </th>
+                                <th style="width: 10%">
+                                    <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
+                                </th>
+                                <th style="width: 10%">
+                                    <mfDefaultSorter by="unUniType">Unit Type</mfDefaultSorter>
+                                </th>
+                                <th style="width: 10%">
+                                    <mfDefaultSorter by="unDimens">Unit Dimension</mfDefaultSorter>
+                                </th>
+                                <th style="width: 10%">
+                                    <mfDefaultSorter by="uofName">Name</mfDefaultSorter>
+                                </th>
+                                <th style="width: 10%">
+                                    <mfDefaultSorter by="uoEmail">Email</mfDefaultSorter>
+                                </th>
+                                <th style="width: 10%">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="4" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{(i+1)}}</td>
+                                    <td>{{item.unUniName}}</td>
+                                    <td>{{item.unUniType}}</td>
+                                    <td>{{item.unDimens}} SqFt</td>
+                                    <td>{{(item.owner.length > 0 ? item.owner[0].uofName : ((item.tenant.length > 0) ? item.tenant[0].utfName :''))}}
                                     </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-    
-                    </div>
+                                    <td>{{(item.owner.length > 0 ? item.owner[0].uoEmail : ((item.tenant.length > 0) ? item.tenant[0].utEmail :''))}}
+                                    </td>
+                                    <td>
+                                        <i data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
+                                            class="fa fa-eye"></i>&nbsp;|&nbsp;<i data-toggle="modal"
+                                            data-target="#editBlockDetails"
+                                            (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
+                                            class="fa fa-pencil"></i>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
-                <!--Dashboard icons end-->
-                            <!--Add Units form Starts-->
-                            <div class="col-sm-12" *ngIf="addUnits">
-                            
-                                <app-add-unit></app-add-unit>
-                            </div>
-                            <!--Add Units form Ends-->
-    
             </div>
-    
+            <!--Dashboard icons end-->
+            <!--Add Units form Starts-->
+            <div class="col-sm-12" *ngIf="addUnits">
+                <app-add-unit></app-add-unit>
+            </div>
+            <!--Add Units form Ends-->
         </div>
-         <!--rightBar start-->
-         <app-right-bar></app-right-bar>
-         <!--rightBar end-->
     </div>
+    <!--rightBar start-->
+    <app-right-bar></app-right-bar>
+    <!--rightBar end-->
+</div>
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        This is a modal.
+    </div>
+</ng-template>
 
-    <!--DIV-->
+
+
+<!--DIV-->
 <div class="modal fade viewPopup" id="viewUnit1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-    
-                <div class="modal-header" style="background-color: whitesmoke;">
-                   
-                   
-                    <h4 class="modal-title" id="myModalLabel" style="color:#b33951; font-family: Quicksand;"><u>View Unit</u></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-    
-                <div class="modal-body" style="font-family: Quicksand;">
-                    <div class="row" style="border:2px solid #b33951; padding:5px;">
-                        <div class="col-sm-12"> 
-                            <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5> 
-                            <br>                          
-                            <h5 style="color:#b33951">Unit Information</h5>
-                            <br>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>Unit No : <span>{{viewUnitRow.unitNo}}</span></p>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>Unit Type : <span>{{viewUnitRow.unitType}}</span></p>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>Unit Dimension : <span>{{viewUnitRow.unitDimen}}</span></p>
-                        </div>
-    
-                        <div class="col-sm-12">
-                             <hr>
-                        </div>
-    
-                        <div class="col-sm-4">
-                            <p>Unit Rate : <span>{{viewUnitRow.rate}}</span></p>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>Calculation Type : <span>{{viewUnitRow.calculationType}}</span></p><!---->
-                        </div>
-                        <div class="col-sm-4">
-                            <p>Occupancy Status : <span>{{viewUnitRow.occupencyStatus}}</span></p>
-                        </div>
-                    </div>
-                </div> <!---------Modal Body close----------> 
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: whitesmoke;">
+                <h4 class="modal-title" id="myModalLabel" style="color:#b33951; font-family: Quicksand;"><u>View
+                        Unit</u></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
             </div>
+            <div class="modal-body" style="font-family: Quicksand;">
+                <div class="row" style="border:2px solid #b33951; padding:5px;">
+                    <div class="col-sm-12">
+                        <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5>
+                        <br>
+                        <h5 style="color:#b33951">Unit Information</h5>
+                        <br>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Unit No : <span>{{viewUnitRow.unitNo}}</span></p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Unit Type : <span>{{viewUnitRow.unitType}}</span></p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Unit Dimension : <span>{{viewUnitRow.unitDimen}}</span></p>
+                    </div>
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Unit Rate : <span>{{viewUnitRow.rate}}</span></p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Calculation Type : <span>{{viewUnitRow.calculationType}}</span></p>
+                        <!---->
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Occupancy Status : <span>{{viewUnitRow.occupencyStatus}}</span></p>
+                    </div>
+                </div>
+            </div>
+            <!---------Modal Body close---------->
         </div>
     </div>
-
+</div>

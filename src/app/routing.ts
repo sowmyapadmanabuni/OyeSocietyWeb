@@ -19,6 +19,8 @@ import { ReceiptsComponent } from './receipts/receipts.component';
 import {VehiclesComponent} from './vehicles/vehicles.component';
 import {AddUnitComponent} from '../app/add-unit/add-unit.component';
 import {LoginComponent} from '../app/login/login.component';
+import {FamilyMembersComponent} from '../app/family-members/family-members.component'
+import { from } from 'rxjs';
 import {RegisterComponent} from '../app/register/register.component'
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { StaffComponent } from './staff/staff.component';
@@ -48,6 +50,7 @@ const routes: Routes = [
     { path: 'addunit', component:AddUnitComponent},
     { path: 'login', component:LoginComponent},
     { path: 'register', component:RegisterComponent},
+    { path: 'family', component:FamilyMembersComponent},
     { path: 'visitors', component:VisitorsComponent},
     { path: 'staffs', component:StaffComponent},
     { path: 'deliveries', component:DeliveriesComponent},

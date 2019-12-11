@@ -1236,18 +1236,29 @@ this.crtAssn.newBAActType='';
 
       var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
-        allNextBtn = $('.nextBtn');
+        allNextBtn = $('.nextBtn'),
+       anchorDiv = $('div.setup-panel div'),
+       anchorDivs = $('div.stepwizard-row div');
 
       allWells.hide();
 
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
-          $item = $(this);
-
+          $item = $(this), 
+          $divTgt = $(this).parent();
+        // console.log($target);
+        // console.log($item);
+        // console.log(anchorDiv);
+        // console.log($divTgt);
+        // console.log(anchorDivs);
+        anchorDivs.removeClass('step-active');
+        //console.log(anchorDivs);
         if (!$item.hasClass('disabled')) {
+          //console.log('disabled');
           navListItems.removeClass('btn-success').addClass('btn-default');
           $item.addClass('btn-success');
+          $divTgt.addClass('step-active');
           allWells.hide();
           $target.show();
           $target.find('input:eq(0)').focus();
