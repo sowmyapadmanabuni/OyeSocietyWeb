@@ -1,0 +1,126 @@
+<div class="container-fluid bg np">
+    <div class="col-sm-9">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+                <span class="black">Reports</span>
+
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <!--Journels-->
+                <div>
+                    <div class="card">
+                        <h4 class="pad"><b>Journals</b></h4>
+                        <p class="pad">This report breaks down every transaction during a period of time into debits and
+                            credits and displays them chronologically. Transaction list by date also list transactions
+                            chronologically, but not as debits and credits.</p>
+                    </div>
+                    <p class="run">RUN</p>
+                </div>
+                <!--Journels-->
+                <!--Journels-->
+                <div>
+                    <div class="card">
+                        <h4 class="pad"><b>General Ledger</b></h4>
+                        <p class="pad">For each account in your chart of accounts, the report shows all the transactions
+                            that occurred in that account over a period of time. It includes the beginning balance and
+                            the total for each account.</p>
+                    </div>
+                    <p class="run">RUN</p>
+                </div>
+                <!--Journels-->
+                <!--Journels-->
+                <div>
+                    <div class="card">
+                        <h4 class="pad"><b>Profit And Loss</b></h4>
+                        <p class="pad">Shows money you earned (income) and money you spent (expenses) so you can see how
+                            profitable you are. Also called an income statement.</p>
+                    </div>
+                    <p class="run">RUN</p>
+                </div>
+                <!--Journels-->
+            </div>
+            <!--Dashboard icons end-->
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <!--Journels-->
+                <div>
+                    <div class="card">
+                        <h4 class="pad"><b>Balance Sheet</b></h4>
+                        <p class="pad">Lists what you own (assets), what your debts are (liabilities), and what you have
+                            invested in your company (equity).</p>
+                    </div>
+                    <p class="run">RUN</p>
+
+                </div>
+                <!--Journels-->
+                <!--Journels-->
+                <div>
+                    <div class="card">
+                        <h4 class="pad"><b>Customer Statement</b></h4>
+                        <p class="pad">For each customer the report shows all the transactions that occurred I that
+                            account over a period of time. It includes the beginning balance and total for each account.
+                        </p>
+                    </div>
+                    <p class="run">RUN</p>
+                </div>
+                <!--Journels-->
+                <!--Journels-->
+                <div>
+                    <div class="card">
+                        <h4 class="pad"><b>Supplier Statement</b></h4>
+                        <p class="pad">For each supplier, the report shows all the transactions that occurred in that
+                            account over a period of time. It includes the beginning balance and total for each account.
+                        </p>
+                    </div>
+                    <p class="run">RUN</p>
+                </div>
+                <!--Journels-->
+            </div>
+            <!--Dashboard icons end-->
+        </div>
+    </div>
+    <!--rightBar start-->
+    <app-right-bar></app-right-bar>
+    <!--rightBar end-->
+</div>
+
+<ng-template #Reporttemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;position: absolute;left: 269px;">Staff
+            Report</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <!---->
+            <div class="table-responsive hidden-xs" style="margin-top: 40px;">
+                <table class="table">
+                    <thead>
+                        <tr style="color:#e59400;">
+                            <th>Date</th>
+                            <th>Entry Point</th>
+                            <th>Entry Time</th>
+                            <th>Exit Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of reportlists">
+                            <td data-toggle="modal">{{item['vlsActTm']}}
+                            </td>
+                            <td data-toggle="modal">{{item['vlengName']}}
+                            </td>
+                            <td data-toggle="modal">{{item['vldUpdated'] | date:'shortTime'}}
+                            </td>
+                            <td data-toggle="modal">{{item['vlexgName']}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</ng-template>

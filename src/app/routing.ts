@@ -19,10 +19,14 @@ import { ReceiptsComponent } from './receipts/receipts.component';
 import {VehiclesComponent} from './vehicles/vehicles.component';
 import {AddUnitComponent} from '../app/add-unit/add-unit.component';
 import {LoginComponent} from '../app/login/login.component';
+import {FamilyMembersComponent} from '../app/family-members/family-members.component'
+import { from } from 'rxjs';
 import {RegisterComponent} from '../app/register/register.component'
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { StaffComponent } from './staff/staff.component';
+import { ReportsComponent } from './reports/reports.component';
 import { VisitorsComponent } from './visitors/visitors.component';
+import { PatrollingComponent } from './patrolling/patrolling.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 
 
@@ -48,9 +52,12 @@ const routes: Routes = [
     { path: 'addunit', component:AddUnitComponent},
     { path: 'login', component:LoginComponent},
     { path: 'register', component:RegisterComponent},
+    { path: 'family', component:FamilyMembersComponent},
     { path: 'visitors', component:VisitorsComponent},
     { path: 'staffs', component:StaffComponent},
     { path: 'deliveries', component:DeliveriesComponent},
+    { path: 'reports', component:ReportsComponent},
+    { path: 'patroling', component:PatrollingComponent},
     { path: 'subscription', component:SubscriptionManagementComponent},
 
 ]

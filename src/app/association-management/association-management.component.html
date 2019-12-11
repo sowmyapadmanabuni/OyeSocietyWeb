@@ -19,7 +19,7 @@
           <label>Search</label>
           <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
         </div>
-        <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row">
+        <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row table-responsive">
           <table class="table table-striped" [mfData]="associations | search:['asAsnName', 'asPrpName', 'asAddress','asNofBlks','asNofUnit']:searchTxt" #mf="mfDataTable"
             [mfRowsOnPage]="10">
             <thead>
@@ -566,7 +566,7 @@
   <div class="modal-content">
 
     <div class="modal-header">
-      <h4 class="modal-title pull-right">Edit Association</h4>
+      <h4 class="modal-title">Edit Association</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -588,14 +588,14 @@
             </div>
 
             <div>
-              <div class="row">
+              <!-- <div class="row">
                 <br>
                 <div class="col-sm-1 col-xs-12"></div>
                 <div class="col-sm-11  col-xs-12">
                   <h4 class="headingOrange">Edit Association</h4>
 
                 </div>
-              </div>
+              </div> -->
 
               <div class="row">
                 <div class="col-sm-6 col-xs-12">

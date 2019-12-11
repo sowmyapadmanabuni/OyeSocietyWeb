@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 
 declare var $: any;
@@ -9,15 +10,22 @@ declare var $: any;
   styleUrls: ['./visitors.component.css']
 })
 export class VisitorsComponent implements OnInit {
+modalRef: BsModalRef;
 guestList:boolean;
 addGuest:boolean;
 mytime: Date = new Date();
-  constructor(private router:Router) { }
+
+constructor(private router:Router,private modalService: BsModalService) { }
 
   ngOnInit() {
     this.guestList=true;
     this.addGuest=false;
   }
+
+  openModal(Qrcode: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(Qrcode, { class: 'modal-md' });
+  } 
+
   addGuestShow(){
     this.toggleStepWizard();
     this.guestList=false;

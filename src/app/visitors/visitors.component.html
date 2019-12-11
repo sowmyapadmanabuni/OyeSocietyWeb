@@ -12,7 +12,6 @@
                         <li class="active"><a (click)="goToGuests()">My Guests</a></li>
                         <li><a (click)="goToDelivery()">Deliveries</a></li>
                         <li><a (click)="goToStaffs()">Staff</a></li>
-
                     </ul>
                 </div>
 
@@ -60,7 +59,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -71,7 +70,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
                             </tr>
                             <tr>
                                 <td>3</td>
@@ -81,7 +80,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -92,7 +91,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -103,7 +102,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -114,7 +113,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -125,7 +124,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -136,7 +135,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -147,7 +146,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -158,7 +157,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
 
                             </tr>
                             <tr>
@@ -169,7 +168,7 @@
                                 <td>2014/12/18</td>
                                 <td>2</td>
                                 <td>9087876765</td>
-                                <td><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
+                                <td  (click)="openModal(Qrcode)"><i class="fa fa-qrcode fa-2x" aria-hidden="true"></i></td>
                             </tr>
                            
                         </tbody>
@@ -264,3 +263,26 @@
     <app-right-bar></app-right-bar>
     <!--rightBar end-->
 </div>
+
+
+
+<ng-template #Qrcode>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Download Qr Code</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="qr">
+                <div><img style="width:200px" src="../../assets/qr-code.png"></div>
+                <div class="qr-details">
+                    <h3><b>Association Name:</b> Prime City Assocition</h3>
+                    <h3><b>Purpose of Invitation:</b> Birthday Party</h3>
+                    <h3><b>Invited On: </b> 13-06-2019  06.30 PM</h3>
+                    <h3><b>Total Guests:</b> 9</h3>
+                    <button class="btn btn-primary-purple nextBtn" type="button">Download Qr Code</button>
+                </div>
+          </div>
+        </div>
+      </ng-template>

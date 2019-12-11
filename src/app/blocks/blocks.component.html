@@ -149,7 +149,7 @@
         <div class="modal-content">
     
             <div class="modal-header">
-                <h4 class="modal-title pull-right" style="padding-left:15px;">Edit Block</h4>
+                <h4 class="modal-title" style="padding-left:15px;">Edit Block</h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -159,8 +159,8 @@
                     <div class="col-sm-12">
                         <form name="editAssociation" autocomplete="off">
                             <div class="row">
-                                <div class="col-sm-8 ">
-                                    <div class="from-group" style="padding-left:15px">
+                                <div class="col-sm-8">
+                                    <div class="from-group" style="padding-left:15px;">
                                         <p>Association Name : <strong>{{assnName}}</strong></p>
                                     </div>
                                 </div>
@@ -243,8 +243,6 @@
                                             required</p>
                                     </div>
                                 </div>
-    
-    
                                 <div class="col-sm-4 col-xs-12">
                                     <div class="form-group"
                                         [ngClass]="{'was-validated' : managernumberControl.invalid && managernumberControl.touched}">
@@ -259,8 +257,7 @@
                                             number is
                                             required</p>
                                     </div>
-                                </div>
-    
+                                </div>  
                                 <div class="col-sm-4 col-xs-12">
                                     <div class="form-group"
                                         [ngClass]="{'was-validated' : manageremailControl.invalid && manageremailControl.touched}">

@@ -32,6 +32,7 @@ import { BlocksComponent } from './blocks/blocks.component';
 import {LoginComponent} from './login/login.component'
 import {RegisterComponent} from './register/register.component'
 import {VehiclesComponent} from './vehicles/vehicles.component'
+import {FamilyMembersComponent} from './family-members/family-members.component'
 import { UnitsComponent } from './units/units.component';
 import { LeftBarComponent } from './left-bar/left-bar.component';
 import { RightBarComponent } from './right-bar/right-bar.component';
@@ -53,6 +54,8 @@ import { VisitorsComponent } from './visitors/visitors.component';
 import { StaffComponent } from './staff/staff.component';
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
+import { ReportsComponent } from './reports/reports.component';
+import { PatrollingComponent } from './patrolling/patrolling.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -76,6 +79,7 @@ export const firebaseConfig = environment.firebaseConfig;
     AssociationManagementComponent,
     ExpenseManagementComponent,
     VehiclesComponent,
+    FamilyMembersComponent,
     BlocksComponent,
     LoginComponent,
     RegisterComponent,
@@ -91,7 +95,9 @@ export const firebaseConfig = environment.firebaseConfig;
     VisitorsComponent,
     StaffComponent,
     DeliveriesComponent,
-    SubscriptionManagementComponent
+    SubscriptionManagementComponent,
+    ReportsComponent,
+    PatrollingComponent
   ],
   imports: [
     BrowserModule,
