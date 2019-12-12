@@ -57,6 +57,8 @@ import { SubscriptionManagementComponent } from './subscription-management/subsc
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { ReportsComponent } from './reports/reports.component';
 import { PatrollingComponent } from './patrolling/patrolling.component';
+import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
+import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -98,7 +100,9 @@ export const firebaseConfig = environment.firebaseConfig;
     DeliveriesComponent,
     SubscriptionManagementComponent,
     ReportsComponent,
-    PatrollingComponent
+    PatrollingComponent,
+    CustomerStatementComponent,
+    SupplierStatementComponent
   ],
   imports: [
     BrowserModule,

@@ -11,19 +11,18 @@
                         <ul class="nav nav-pills">
                             <li><a (click)="goToGuests()">My Guests</a></li>
                             <li class="active"><a (click)="goToDelivery()">Deliveries</a></li>
-                            <li><a (click)="goToStaffs()">Staff</a></li>
-    
+                            <li><a (click)="goToStaffs()">Staff</a></li>  
                         </ul>
                     </div>
                     <div class="enroll">
                         <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
                         </div>
-                        <div class="del-date cal">From<input type="text" class="form-control" name="StartDate" #StartDateControl='ngModel'
+                        <div class="del-date cal">From<input type="text" class="date ng-pristine ng-valid ng-touched" name="StartDate" #StartDateControl='ngModel'
                                   placeholder="Start Date"  [(ngModel)]="StartDate"
                                   bsDatepicker required [minDate]="todayDate" placement="side"/>
                         </div>
 
-                        <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="form-control" name="EndDate" #EndDateControl='ngModel' placeholder="Due Date"
+                        <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="Due Date"
                             [(ngModel)]="EndDate" bsDatepicker required 
                             placement="bottom"/>
                         </div>                   
