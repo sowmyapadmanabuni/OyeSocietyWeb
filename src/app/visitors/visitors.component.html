@@ -18,25 +18,170 @@
 
                 <div class="enroll" *ngIf="guestList">
                     <div class="invite-radio">
-                        <div class="radio-item">
+                        <!-- <div class="radio-item">
                             <input type="radio" id="ritema" name="ritem" value="ropt1">
                             <label for="ritema">Option 1</label>
                         </div>
                         <div class="radio-item">
                             <input type="radio" id="ritemb" name="ritem" value="ropt2">
                             <label for="ritemb">Option 2</label>
-                        </div>
+                        </div> -->
                     </div>
                     <button class="btn-primary-purple" (click)="addGuestShow()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Invite Guests</button>
                 </div>
                 <div class="enroll" style="background: #f8f8f8;padding: 20px 10px;" *ngIf="guestList">
-                    <div class="sea"><input type="text" id="mySearch" placeholder="Search.." title="Type in a category">
+                    <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
                     </div>
-                    <div class="del-date cal"><input type="text" placeholder="From Date" class="date" bsDatepicker></div>
-                    <div class="del-date cal"><input type="text" placeholder="To Date" class="date" bsDatepicker></div>
+                    <div class="del-date cal"><input type="text" name="StartDate" #StartDateControl='ngModel' [(ngModel)]="StartDate" placeholder="From Date" class="date" bsDatepicker></div>
+                    <div class="del-date cal"><input type="text" (change)='getVisitorList()' name="ToDate" #ToDateControl='ngModel'  [(ngModel)]="ToDate" placeholder="To Date" class="date" bsDatepicker></div>
                 </div>
-                <div class="dash-row" *ngIf="guestList">
+                <!-- 0/0/0/0/0/0/0//0/0/0/0/0/ -->
+                <!-- <div class="row">
+                    
+                    <div class="table-responsive hidden-xs" style="margin-top: 40px;">
+                        <table class="table">
+                            <thead>
+                                <tr style="color:#e59400;">
+                                    <th>Visitor Name</th>
+                                    <th>Purpose of Visit</th>
+                                    <th>Valid from</th>
+                                    <th>Valid till</th>
+                                    <th>Guests expected</th>
+                                    <th>Mobile number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of invitationList | filter: searchBoxData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate"
+                                        (click)="viewBlockDetails(item.blBlkName,item.blBlkType,item.blNofUnit)">{{item['infName']}}
+                                    </td>
+                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['inpOfInv']}}
+                                        
+                                    </td>
+                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['insDate']| date: 'dd/MM/yyyy'}}
+                                    </td>
+                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['ineDate']| date: 'dd/MM/yyyy'}}
+                                    </td>
+                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['inVisCnt']}}
+                                    </td>
+                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['inMobile']}}
+                                    </td>
+                                    <td>
+                                        <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
+                                            (click)="OpenModalForQRcode(QRtemplate,   
+                                            item['infName'],
+                                            item['inMobile'], 
+                                            item['inInvtID'],    
+                                            item['unUnitID'],
+                                            item['insDate'],
+                                            item['ineDate'],
+                                            item['inVisCnt'],
+                                            item['asAssnID'],
+                                            item['inIsActive'] )" class="fa fa-qrcode" aria-hidden="true"></i>
+      
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-center float-right"><pagination-controls (pageChange)="p = $event"></pagination-controls></p>
+                    </div>
+                </div> -->
+                <!-- 0/0/0/0/0/0/0//0/0/0/0/0/ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->
+<div class="dash-row" *ngIf='guestList'>
+    <table class="table table-striped" [mfData]="invitationList | search:['infName', 'inpOfInv', 'insDate', 'ineDate', 'inVisCnt', 'inMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <thead>
+            <tr>
+                <th>
+                    S.No.
+                </th>
+                <th>
+                    <mfDefaultSorter by="infName">Visitor Name</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="inpOfInv">Purpose of Visit</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="insDate">Valid From</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="ineDate">Valid Till</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="inVisCnt">Guest Expected</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="inMobile">Mobile Number</mfDefaultSorter>
+                </th>
+                <th>
+                    Qr Code
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mf.data;let i=index">
+                <ng-container *ngIf="item == -1">
+                    <td colspan="4" align="center">No Data Found</td>
+                </ng-container>
+                <ng-container *ngIf="item!=-1">
+                    <td>{{(i+1)}}</td>
+                    <td>{{item['infName']}}</td>
+                    <td>{{item['inpOfInv']}}</td>
+                    <td>{{item['insDate']}}</td>
+                    <td>{{item['ineDate']}}</td>
+                    <td>{{item['inVisCnt']}}</td>
+                    <td>{{item['inMobile']}}</td>
+                    <td>
+                        <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
+                        (click)="OpenModalForQRcode(QRtemplate,   
+                        item['infName'],
+                        item['inMobile'], 
+                        item['inInvtID'],    
+                        item['unUnitID'],
+                        item['insDate'],
+                        item['inpOfInv'],
+                        item['ineDate'],
+                        item['inVisCnt'],
+                        item['asAssnID'],
+                        item['inIsActive'] )" class="fa fa-qrcode" aria-hidden="true"></i>
+
+                        <!-- &nbsp;|&nbsp;<i data-toggle="modal" data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])" class="fa fa-trash"></i> -->
+
+                    </td>
+                </ng-container>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!--  -->
+
+                <!-- <div class="dash-row" *ngIf="guestList">
                     <table id="example" class="table table-striped table-bordered dataTable no-footer"
                         style="width:100%" role="grid" aria-describedby="example_info">
                         <thead>
@@ -174,7 +319,9 @@
                            
                         </tbody>
                     </table>
-                </div>
+                </div> -->
+           
+           
             </div>
             <!--Dashboard icons end-->
             <!--Add Expense form Starts-->
@@ -185,43 +332,43 @@
                     <div class="guest-input">
                         <div class="form-group">
                             <label class="control-label">First Name</label>
-                            <input maxlength="100" type="text" required="required" class="form-control"
+                            <input maxlength="100" name="INFName" [(ngModel)]="INFName" #INFNameControl="ngModel" type="text" required="required" class="form-control"
                                 placeholder="First Name" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Last Name</label>
-                            <input maxlength="100" type="text" required="required" class="form-control"
+                            <input maxlength="100" name="INLName" [(ngModel)]="INLName" #INLNameControl="ngModel" type="text" required="required" class="form-control"
                                 placeholder="Last Name" />
                         </div>
                     </div>
                     <div class="guest-input">
                         <div class="form-group">
                             <label class="control-label">Mobile Number</label>
-                            <input maxlength="100" type="text" required="required" class="form-control"
+                            <input maxlength="100" name="INMobile" [(ngModel)]="INMobile" #INMobileControl="ngModel" type="text" required="required" class="form-control"
                                 placeholder="Mobile Number" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Vehicle Number</label>
-                            <input maxlength="100" type="text" required="required" class="form-control"
+                            <input maxlength="100" name="INVchlNo" [(ngModel)]="INVchlNo" #INVchlNoControl="ngModel" type="text" required="required" class="form-control"
                                 placeholder="Vehicle Number" />
                         </div>
                     </div>
                     <div class="guest-input1">
                         <div class="form-group" style="width:100%">
                             <label class="control-label">Email Address</label>
-                            <input maxlength="100" type="email" required="required" class="form-control"
+                            <input maxlength="100" name="INEmail" [(ngModel)]="INEmail" #INEmailControl="ngModel" type="email" required="required" class="form-control"
                                 placeholder="Email Address" />
                         </div>
                         <div class="form-group" style="width:100%">
                             <label class="control-label">Purpose of invitation</label>
-                            <textarea class="form-control" rows="10" id="comment"></textarea>
+                            <textarea class="form-control" name="INPOfInv" [(ngModel)]="INPOfInv" #INPOfInvControl="ngModel" rows="10" id="comment"></textarea>
                         </div>
                     </div>
                     <p>Invitation Validity</p>
                     <div class="guest-input">
                         <div class="form-group">
                             <label class="control-label purple">From</label>
-                            <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker>
+                            <input type="text" name="INSDate" #INSDateControl='ngModel' [(ngModel)]="INSDate" bsDatepicker required [minDate]="todayDate" placeholder="Datepicker" class="form-control" bsDatepicker>
                         </div>
                         <div class="form-group">
                             <!-- <timepicker [(ngModel)]="mytime"></timepicker> -->
@@ -230,7 +377,7 @@
                     <div class="guest-input">
                         <div class="form-group">
                             <label class="control-label purple">Till</label>
-                            <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker>
+                            <input type="text" name="INEDate" #INEDateControl='ngModel' [(ngModel)]="INEDate" placeholder="Datepicker" class="form-control" bsDatepicker>
                         </div>
                         <div class="form-group">
                             <!-- <timepicker [(ngModel)]="mytime"></timepicker> -->
@@ -242,17 +389,18 @@
                         </div>
                         <div class="form-group">
                             <label class="switch" style="float: right">
-                                <input type="checkbox">
+                                <input type="checkbox" (change)="toggleEditable($event)">
                                 <span class="slider round"></span>
                             </label>
                         </div>
                     </div>
-                    <div class="guest-input">
-                        <p>Guest Expected : 1+</p>
+                    <div class="guest-input" *ngIf="MultipleVisitors">
+                            <input maxlength="10" name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control"
+                            placeholder="Guest Count" />
                     </div>
                     <div class="col-sm-12 pull-right">
                         <button class="btn btn-primary-purple nextBtn">Reset</button>
-                        <button class="btn btn-primary-purple nextBtn" type="button">Submit</button>
+                        <button class="btn btn-primary-purple nextBtn" (click)="addVisitor()" type="button">Submit</button>
                     </div>
                 </div>
                 <div class="col-sm-2"></div>
@@ -264,3 +412,30 @@
     <app-right-bar></app-right-bar>
     <!--rightBar end-->
 </div>
+
+<!------------------>
+
+
+
+ <ng-template #QRtemplate>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Download Qr Code</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="qr">
+                    <ngx-qrcode id="qrCodeImage" [qrc-element-type]="elementType" [qrc-value] = "value">
+                        </ngx-qrcode><br>
+                 <div class="qr-details">
+                    <h3><b>Association Name:</b> {{AssociationName}}</h3>
+                    <h3><b>Purpose of Invitation:</b> {{PurposeOfVisit}}</h3>
+                    <h3><b>Invited On: </b> {{InvitedDate | date:'dd/MM/yyyy'}}</h3>
+                    <h3><b>Total Guests:</b> {{TotalGuest}}</h3>
+                
+                    <a [href]="href" (click)="downloadImage()" download><button class="btn btn-primary-purple nextBtn" type="button">Download Qr Code</button></a>
+                </div>
+          </div>
+        </div>
+      </ng-template>

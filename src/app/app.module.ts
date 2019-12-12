@@ -54,6 +54,7 @@ import { VisitorsComponent } from './visitors/visitors.component';
 import { StaffComponent } from './staff/staff.component';
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -116,7 +117,8 @@ export const firebaseConfig = environment.firebaseConfig;
     BsDatepickerModule.forRoot(),
     DataTableModule,
     ToastrModule.forRoot(),
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    NgxQRCodeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
