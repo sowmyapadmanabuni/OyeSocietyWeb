@@ -18,13 +18,13 @@
                     </div>
 
                 </div>
-
-
-
+                
                 <div class="dash-row" *ngIf='memberList'>
-                    <table class="table table-striped" [mfData]="familymemberarray | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                    <table class="table table-striped"
+                        [mfData]="familymemberarray | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt"
+                        #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
-                            <tr>
+                            <tr style="background: #ededed;">
                                 <th>
                                     S.No.
                                 </th>
@@ -45,7 +45,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="4" align="center">No Data Found</td>
+                                    <td colspan="5" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
@@ -54,18 +54,18 @@
                                     <td>{{item['fmMobile']}}</td>
                                     <td>
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
-                                        (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['unUnitID'],item['fmid'])" class="fa fa-pencil"></i>&nbsp;|&nbsp;<i
-                                            data-toggle="modal" data-target="#editBlockDetails"
-                                            (click)="deleteFamilyMember(item['fmid'])"
+                                            (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['unUnitID'],item['fmid'])"
+                                            class="fa fa-pencil"></i>&nbsp;|&nbsp;<i data-toggle="modal"
+                                            data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])"
                                             class="fa fa-trash"></i>
-    
+
                                     </td>
                                 </ng-container>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="5">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -140,28 +140,32 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label class="control-label">Relationship</label>
-                                    <input maxlength="20" type="text" [(ngModel)]='Relation' name="Relation" required="required" class="form-control"
-                                        placeholder="Relationship" />
+                                    <input maxlength="20" type="text" [(ngModel)]='Relation' name="Relation"
+                                        required="required" class="form-control" placeholder="Relationship" />
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">First Name</label>
-                                    <input maxlength="200" type="text" [(ngModel)]='FirstName' maxlength="30" name="FirstName" required="required" class="form-control"
+                                    <input maxlength="200" type="text" [(ngModel)]='FirstName' maxlength="30"
+                                        name="FirstName" required="required" class="form-control"
                                         placeholder="First Name" />
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Mobile Number</label>
-                                    <input maxlength="20" [(ngModel)]='MobileNumber' name="MobileNumber" type="text" required="required" class="form-control"
-                                        placeholder="Mobile Number" />
+                                    <input maxlength="20" [(ngModel)]='MobileNumber' name="MobileNumber" type="text"
+                                        required="required" class="form-control" placeholder="Mobile Number" />
                                 </div>
                             </div>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label class="control-label">Minor</label>
                                     <div class="col-sm-6 np">
-                                        <input style="margin-right: 10px;" value="abc" [(ngModel)]='ToggleGurdian' type="radio" name="optradio" >Yes
+                                        <input style="margin-right: 10px;" value="abc" [(ngModel)]='ToggleGurdian'
+                                            type="radio" name="optradio">Yes
                                     </div>
                                     <div class="col-sm-6 np">
-                                        <input style="margin-right: 10px;" value="xyz" type="radio" [(ngModel)]='ToggleGurdian' [checked]="ToggleGurdian =='xyz'" name="optradio">No
+                                        <input style="margin-right: 10px;" value="xyz" type="radio"
+                                            [(ngModel)]='ToggleGurdian' [checked]="ToggleGurdian =='xyz'"
+                                            name="optradio">No
                                     </div>
 
                                 </div>
@@ -178,8 +182,10 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <button class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()" type="button">Submit</button>
-                                <input class="btn btn-primary-purple nextBtn pull-right" (click)="resetFamilyMemberModal()" type="reset" value="Reset">
+                                <button class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()"
+                                    type="button">Submit</button>
+                                <input class="btn btn-primary-purple nextBtn pull-right"
+                                    (click)="resetFamilyMemberModal()" type="reset" value="Reset">
                             </div>
 
                         </div>
@@ -273,52 +279,44 @@
 </div>
 
 
-<ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        This is a modal.
-    </div>
-</ng-template>
+
 
 
 
 <!-- EDIT FAMILY MEMBER -->
 <ng-template #EditFamilyMemberModal>
     <div class="modal-header">
-      <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;position: absolute;left: 294px;">Update Family
-        Member</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;position: absolute;left: 294px;">Update
+            Family
+            Member</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
-      <form>
-        <div>
-          <label><b>Family Member Name</b></label>
-          <input type="text" placeholder="First Name" [(ngModel)]='EditFirstName' maxlength="30" name="EditFirstName"
-            class="form-control" #FirstNameControl="ngModel">
-  
-          <label><b>Mobile Number</b></label>
-          <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' maxlength="20" name="EditMobileNumber"
-            class="form-control" #MobileNumberControl="ngModel">
-  
-          <label><b>Relation</b></label>
-          <input type="text" placeholder="Relation" [(ngModel)]='EditRelation' maxlength="20" name="EditRelation"
-            class="form-control" #RelationControl="ngModel">
-  
-          <div>
-            <button type="submit" class="button mdButton1" style="display: inline-block;margin: 0% 0% 0% 36%;"
-              (click)='updatefamilymember()'>Update</button>
-            <button type="reset" (click)="resetUpdateFamilyMemberModal()" class="cancelbtn mdButton1"
-              style="display: inline-block;margin: 1.5% 0% 0% 5%;">Reset</button>
-          </div>
-        </div>
-      </form>
+        <form>
+            <div>
+                <label><b>Family Member Name</b></label>
+                <input type="text" placeholder="First Name" [(ngModel)]='EditFirstName' maxlength="30"
+                    name="EditFirstName" class="form-control" #FirstNameControl="ngModel" style="margin-bottom: 20px;">
+
+                <label><b>Mobile Number</b></label>
+                <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' maxlength="20"
+                    name="EditMobileNumber" class="form-control" #MobileNumberControl="ngModel"
+                    style="margin-bottom: 20px;">
+
+                <label><b>Relation</b></label>
+                <input type="text" placeholder="Relation" [(ngModel)]='EditRelation' maxlength="20" name="EditRelation"
+                    class="form-control" #RelationControl="ngModel" style="margin-bottom: 20px;">
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary-purple nextBtn"
+                        (click)='updatefamilymember()'>Update</button>&nbsp;
+                    <button type="reset" (click)="resetUpdateFamilyMemberModal()"
+                        class="btn btn-primary-purple nextBtn">Cancel</button>
+                </div>
+            </div>
+        </form>
     </div>
-  </ng-template>
+</ng-template>
 <!-- EDIT FAMILY MEMBER -->

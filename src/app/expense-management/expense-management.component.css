@@ -40,6 +40,7 @@
     color: #000;
     font-weight: 500;
     }
+    .frm-mb{margin-bottom: 20px;padding-left:15px;padding-right:15px;}
     .switch{display: flex;justify-content: flex-end;}
     .dash-icon{width: 40px;}
     .flat-list-row{padding: 11px 0px 10px 0px !important}

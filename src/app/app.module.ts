@@ -54,6 +54,9 @@ import { VisitorsComponent } from './visitors/visitors.component';
 import { StaffComponent } from './staff/staff.component';
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { ReportsComponent } from './reports/reports.component';
+import { PatrollingComponent } from './patrolling/patrolling.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -93,7 +96,9 @@ export const firebaseConfig = environment.firebaseConfig;
     VisitorsComponent,
     StaffComponent,
     DeliveriesComponent,
-    SubscriptionManagementComponent
+    SubscriptionManagementComponent,
+    ReportsComponent,
+    PatrollingComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +121,8 @@ export const firebaseConfig = environment.firebaseConfig;
     BsDatepickerModule.forRoot(),
     DataTableModule,
     ToastrModule.forRoot(),
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    NgxQRCodeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
