@@ -14,6 +14,7 @@ export class ViewInvoiceService {
   url: string;
   invoiceBlock:any;
   invoiceBlockId:any;
+  expid:any;
 
   constructor(private http: HttpClient,private utilsService:UtilsService) {
     // this.ipAddress = 'http://apidev.oyespace.com';

@@ -26,7 +26,8 @@ export class DeliveriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getVisitorList();
+    let e='';
+    this.getVisitorList(e);
   }
   goToStaffs() {
     this.router.navigate(['staffs']);
@@ -37,7 +38,9 @@ export class DeliveriesComponent implements OnInit {
   goToDelivery() {
     this.router.navigate(['deliveries']);
   }
-  getVisitorList() {
+  getVisitorList(e:any) {
+    console.log(e);
+    this.EndDate=e;
     let date = {
       "StartDate": this.StartDate,
       "EndDate": this.EndDate
