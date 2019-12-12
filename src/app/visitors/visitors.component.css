@@ -212,7 +212,7 @@ box-shadow: 0px 6px 9px 1px #ecebeb;}
 .result-row{flex-direction: column}
 .flat-img img{width:100%}
 }
-
-
-
-
+/*qr code*/
+.qr{display: flex;}
+.qr-details>h3{font-size: 15px;justify-content: space-between;align-items: end;}
+/*qr code*/
