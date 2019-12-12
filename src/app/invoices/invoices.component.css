@@ -17,8 +17,9 @@ i{cursor: pointer;}
     .search-img{    width: 71px;
     background: #de9e9e29;
     padding: 3px 10px;
-    border-radius: 10px;
-    }
+    border-radius: 10px;}
+    .fa-paper-plane,.fa-eye,.fa-percent{color: #f7b844;}
+    button{border: 0px;background: transparent;color: #f7b844;}
     .dash{display: flex;flex-direction: column;}
     .b-l{border-left: 2px solid rgb(242, 238, 238)}
     .profile{display: flex;flex-direction: column;justify-content: center;align-items: center;}

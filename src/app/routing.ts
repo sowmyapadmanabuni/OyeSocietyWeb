@@ -24,7 +24,9 @@ import { from } from 'rxjs';
 import {RegisterComponent} from '../app/register/register.component'
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { StaffComponent } from './staff/staff.component';
+import { ReportsComponent } from './reports/reports.component';
 import { VisitorsComponent } from './visitors/visitors.component';
+import { PatrollingComponent } from './patrolling/patrolling.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 
 
@@ -54,6 +56,8 @@ const routes: Routes = [
     { path: 'visitors', component:VisitorsComponent},
     { path: 'staffs', component:StaffComponent},
     { path: 'deliveries', component:DeliveriesComponent},
+    { path: 'reports', component:ReportsComponent},
+    { path: 'patroling', component:PatrollingComponent},
     { path: 'subscription', component:SubscriptionManagementComponent},
 
 ]

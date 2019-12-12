@@ -19,7 +19,7 @@
                         <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                             data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
                             <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                        <ul class="dropdown-menu fullw">
+                        <ul class="dropdown-menu fullw ">
                             <li *ngFor='let item of allBlocksLists' (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])"><a>{{item['blBlkName']}}</a></li>
                         </ul>
                     </div>
@@ -104,7 +104,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="10">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -126,18 +126,6 @@
     <!--rightBar end-->
 </div>
 
-
-<ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        This is a modal.
-    </div>
-</ng-template>
 
 <ng-template #editexpensetemplate>
     <div class="modal-content">
@@ -177,7 +165,7 @@
                     <div class="form-group"
                       [ngClass]="{'has-error' : purchaserderControl.invalid && purchaserderControl.touched}">
                       <label>PO Number <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="POID" [(ngModel)]="editexpensedata.POID"
+                      <select class="form-control" name="POID" [(ngModel)]="editexpensedata.POID"
                         #purchaserderControl='ngModel' (change)='poDetails()' required>
                         <option disabled="true" selected="true" value="">Select PO Number </option>
                         <option *ngFor='let order of purchaseOrders' [value]="order['poid']">
@@ -230,7 +218,7 @@
                     <div class="form-group"
                       [ngClass]="{'has-error' : expenseheadControl.invalid && expenseheadControl.touched}">
                       <label>Expense Head <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="EXHead" [(ngModel)]="editexpensedata.EXHead"
+                      <select class="form-control" name="EXHead" [(ngModel)]="editexpensedata.EXHead"
                         #expenseheadControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Expense Head
                         </option>
@@ -257,7 +245,7 @@
                     <div class="form-group"
                       [ngClass]="{'has-error' : expenserecurrencetypeControl.invalid && expenserecurrencetypeControl.touched}">
                       <label>Expense Recurrence Type <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="EXRecurr"
+                      <select class="form-control" name="EXRecurr"
                         [(ngModel)]="editexpensedata.EXRecurr" #expenserecurrencetypeControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Expense Type
                         </option>
@@ -272,12 +260,12 @@
                   </div>
                 </div>
   
-                <div class="row" style="padding-left:15px;padding-right:15px;">
+                <div class="row frm-mb" >
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : applicabletoControl.invalid && applicabletoControl.touched}">
                       <label>Applicable to Unit <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="EXApplTO"
+                      <select class="form-control" name="EXApplTO"
                         [(ngModel)]="editexpensedata.EXApplTO" #applicabletoControl='ngModel'
                         (change)="applicableTo(editexpensedata.EXApplTO)" required>
                         <option disabled="true" selected="true" value="">Select Applicable to Unit *
@@ -295,7 +283,7 @@
                     <div class="form-group"
                       [ngClass]="{'has-error' : expensetypeControl.invalid && expensetypeControl.touched}">
                       <label>Expense Type <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="EXType" [(ngModel)]="editexpensedata.EXType"
+                      <select class="form-control" name="EXType" [(ngModel)]="editexpensedata.EXType"
                         #expensetypeControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Expense Type
                         </option>
@@ -312,7 +300,7 @@
                     <div class="form-group"
                       [ngClass]="{'has-error' : paybymethodControl.invalid && paybymethodControl.touched}">
                       <label>Select Payment Method <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="PMID" [(ngModel)]="editexpensedata.PMID"
+                      <select class="form-control" name="PMID" [(ngModel)]="editexpensedata.PMID"
                         #paybymethodControl='ngModel' (change)="showMethod(editexpensedata.PMID)" required>
                         <option disabled="true" selected="true" value="">Select Method *</option>
                         <option *ngFor='let item of methodArray' [value]="item['id']">
@@ -324,7 +312,7 @@
                     </div>
                   </div>
                 </div> 
-                <div class="row" style="padding-left:15px;padding-right:15px;">
+                <div class="row frm-mb">
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
                       <label>Amount Paid <span class="red">*</span></label>
@@ -339,15 +327,12 @@
                           Amount</p>
                       </div>
                     </div>
-                  </div>
-               
-  
-               
+                  </div>             
                   <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All'">
                     <div class="form-group"
                       [ngClass]="{'has-error' : distributionControl.invalid && distributionControl.touched}">
                       <label>Select Distribution Type <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="EXDisType"
+                      <select class="form-control" name="EXDisType"
                         [(ngModel)]="editexpensedata.EXDisType" #distributionControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Distribution Type
                         </option>
@@ -363,7 +348,7 @@
                   <div class="col-sm-4 col-xs-12" [hidden]="applies != 'Single'">
                     <div class="form-group" [ngClass]="{'has-error' : unitControl.invalid && unitControl.touched}">
                       <label>Select Unit <span class="red">*</span></label>
-                      <select class="ui dropdown search methodDropdown" name="unUniIden"
+                      <select class="form-control" name="unUniIden"
                         [(ngModel)]="editexpensedata.unUniIden" #unitControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Unit </option>
                         <option *ngFor='let item of ascUnit' [value]="item['unUniIden']">
@@ -377,7 +362,7 @@
   
                 </div>
   
-                <div class="row" *ngIf="checkField == 'Cheque'" style="padding-left:15px;padding-right:15px;">
+                <div class="row frm-mb" *ngIf="checkField == 'Cheque'" >
                   <div class="col-sm-6 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : editchequenoControl.invalid && editchequenoControl.touched}">
@@ -405,7 +390,7 @@
                   </div>
                 </div>
   
-                <div class="row" *ngIf="checkField == 'DemandDraft'" style="padding-left:15px;padding-right:15px;">
+                <div class="row frm-mb" *ngIf="checkField == 'DemandDraft'">
   
                   <div class="col-sm-6 col-xs-12">
                     <div class="form-group" [ngClass]="{'has-error' : ddnoControl.invalid && ddnoControl.touched}">
@@ -448,9 +433,6 @@
   
                     </div>
                   </div>
-                
-  
-                
                   <div class="col-sm-8 col-xs-12">
                     <div class="row">
                       <label>Invoice / Payment Copy<span class="red"></span></label>
@@ -462,7 +444,7 @@
                         style="position:absolute;margin-left:93%;top:34%">
                         <i class="fa fa-cloud-upload"></i>
                       </button>
-                      <button style="position: absolute;top:35%;left:86%" class="btn btn-danger" (click)='removeSelectedfile()'><i class="fa fa-trash"></i> </button>
+                      <button style="position: absolute;top:31%;left:86%" class="btn btn-danger" (click)='removeSelectedfile()'><i class="fa fa-trash"></i> </button>
                     </div>
                     <div *ngIf='dynamic > 0' class="row mb-2">
                       <progressbar [animate]="false" [value]="dynamic" type="success"><b>{{dynamic}}%</b></progressbar>
@@ -478,7 +460,7 @@
                   <div class="from-group">
                     <div class="form-group pull-right" style="padding-right:15px;">
                       <br>
-                      <button type="submit" style="background-color: orange !important" class="btn btn-primary" (click)="modalRef.hide()"
+                      <button type="submit" class="btn btn-primary-purple nextBtn" (click)="modalRef.hide()"
                         (click)="updateExpense()">Update</button>
                     </div>
                   </div>

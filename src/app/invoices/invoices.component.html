@@ -15,10 +15,10 @@
                     </ul>
                 </div>
                 <div class="enroll">
-                    <div class="dropdown search-dropd">
-                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                    <div class="dropdown" style="width: 200px;">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                             data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Blocks':viewinvoiceservice.invoiceBlock)}}
-                            <span class="caret"></span></button>
+                            <i  aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                         <ul class="dropdown-menu fullw">
                             <li *ngFor='let item of allBlocksByAssnID'
                                 (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
@@ -96,7 +96,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -743,7 +743,7 @@
 <ng-template #discountModal>
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" style="position:absolute;left:40%" id="myModalLabel"><u>Discount Invoice</u></h4>
+            <h4 class="modal-title" style="position:absolute;left:40%" id="myModalLabel">Discount Invoice</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -789,7 +789,7 @@
                 <div class="row">
                   <div class="col-sm-12 col-xs-12">
                     <div class="btn-group pull-right">
-                      <button type="button" style="background-color: #f79321 !important;" class="btn btn-primary pull-right"
+                      <button type="button" class="btn btn-primary-purple nextBtn"
                         (click)="discountInvoice(dscntInvinvoiceNumber,dscntInvdiscountedAmount,dscntInvdescription)"><i
                           class="fa fa-floppy-o"></i> Update & Save</button>
                     </div>

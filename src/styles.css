@@ -47,37 +47,14 @@ background-attachment: #f7c60a;
 background: #4d4c4c;
 }
 
-section.range-slider input::-moz-range-thumb {
-pointer-events: all;
-position: relative;
-z-index: 10;
--moz-appearance: none;
-width: 9px;
-background: #7e7f80;
 
-}
-
-section.range-slider input::-moz-range-track {
-position: relative;
-z-index: 100;
-background-color: rgba(0, 0, 0, 1);
-border: 0;
-}
-section.range-slider input:last-of-type::-moz-range-track {
--moz-appearance: none;
-background: #5a51aa;
-border: 0;
-}
-section.range-slider input[type=range]::-moz-focus-outer {
-border: 0;
-}
 .caret{display: none !important;}
 .search-dropd::after{
 font-family: FontAwesome;
 content: '\f107';
 position: absolute;
 top: 2px;
-right: -16px;
+right: 1px;
 padding: 0 25px;
 color: #5a51aa !important;
 cursor: pointer;
@@ -231,7 +208,7 @@ button.close{position: inherit;z-index: 1000000;}
 label.swal2-checkbox{
     display: none !important;
 }
-
+table{margin-top: 30px;}
 /* Orange radio button*/
 .radio-item {
     display: inline-block;
@@ -275,15 +252,40 @@ label.swal2-checkbox{
     }
 /* Orange radio button*/
 
-
+/* step wizard*/
+.title{font-size: 16px;margin: 0px 52px 18px 52px;color: #5a51aa;}
+.stepwizard-step p {margin-top: 0px;color:#666;}
+.stepwizard-row {display: table-row;}
+.stepwizard {display: table; width: 100%;position: relative;border-top: 1px solid #e5e2e2;border-bottom: 1px solid #e5e2e2;margin-bottom: 20px;}
+.stepwizard .btn.disabled, .stepwizard .btn[disabled], .stepwizard fieldset[disabled] .btn {opacity:1 !important;color:#bbb;}
+.stepwizard-step {display: flex;text-align: center;border-right: 1px solid #cfcaca;padding: 3px 0px !important;justify-content: space-evenly;align-items: center;font-weight: 600;color: #5a51aa;}
+/* .btn-circle { width: 30px;height: 30px;text-align: center;font-size: 12px;line-height: 1.428571429;border-radius: 15px;} */
+.btn-circle::before{content: "\f05d"; font-family: FontAwesome;font-size: 22px;}
+.date::before{content: "\f05d"; font-family: FontAwesome;font-size: 22px;}
+.panel {float: left;width: 100%;margin-bottom: 20px;background-color: #fff;border: 1px solid transparent !important;border-color:none !important;border-radius: 0px !important;box-shadow: 0px 0px 4px 3px #e5dfdf !important;padding: 43px 3px;border: none;}
+label{font-size:12px !important;font-weight: 500 !important}
+.panel-body{display: flex;justify-content: space-between;padding: 0px !important;align-items:baseline;}
+.content{margin-bottom: 40px}
+.c-active{border-right: 4px solid #5a51aa;}
+.join_ass_opt{font-size: 15px;font-weight: 700;margin: 0px 0px 52px 0px;padding: 0px 0px 30px 0px;color: #5a51aa;}
+.block-row{display: flex;justify-content: space-between;flex-wrap: wrap;margin-bottom: 10px;}
+.block-row>.active{margin-bottom: 5px;background: #5a51aa;color: #fff;padding: 9px 17px;border-radius: 10px;font-weight: 600;}
+.block-row>span:hover{cursor:pointer;margin-bottom: 5px;background: #5a51aa;color: #fff;padding: 9px 17px;border-radius: 10px;font-weight: 600;}
+.block-row>span{margin-bottom: 5px;background: #fff;color: #5a51aa;padding: 9px 17px;border-radius: 10px;font-weight: 600;box-shadow: 0px 0px 5px 1px #d5d2d2;}
+.b-left{border-left: 2px solid #ebe7e7;}
+.enrollassociation{display: none}
+.enrollassociationshow{display: block}
+.stepwizard-step:last-child{border-right:none}
+.step-active{border-bottom: 3px solid #5a51aa;}
+/* step wizard*/
 
 @media only screen and (min-width: 1024px) and (max-width:2000px)  {
-.head{
-display: flex;
-flex-direction: column;
-width: 212px;
-margin-top: -55px;
-margin-left: 160px;}
+.head{display: flex;
+    flex-direction: column;
+    width: 212px !important;
+    margin-top: -55px;
+    margin-left: 160px;
+    position: relative !important;}
 }
 
 select {
@@ -295,11 +297,14 @@ appearance: none !important;
 .spec-details>div{border-right: none !important}
 .app-details{width:100% !important}
 .view-img{width: 100% !important;height: 300px !important;}
-.spec-details{justify-content: space-around;
-align-items: inherit;
-flex-direction: column;
-flex-wrap: nowrap;}
+.spec-details{justify-content: space-around;align-items: inherit;flex-direction: column;flex-wrap: nowrap;}
 .spec-details > div{border-bottom: 1px solid white;border-right: none; padding:0px 13px 10px 13px;}
+.enroll>div>button{margin-top:10px;width: 100% !important;}
+.enroll>button{margin-top:10px;width: 100% !important;}
+.enroll>div{margin-top:10px;width: 100% !important;}
+.enroll{flex-direction: column;}
+.stepwizard-step{border:1px solid #cfcaca}
+.stepwizard-step:last-child {border-right: 1px solid #cfcaca;}
 }
 table.dataTable{text-align: left}
 .table>thead:first-child>tr:first-child>th {color: #5a51aa !important;}

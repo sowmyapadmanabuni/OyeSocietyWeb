@@ -44,25 +44,25 @@
                         #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
-                                <th style="width: 20%">
+                                <th>
                                     S.No.
                                 </th>
-                                <th style="width: 10%">
+                                <th>
                                     <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
                                 </th>
-                                <th style="width: 10%">
+                                <th>
                                     <mfDefaultSorter by="unUniType">Unit Type</mfDefaultSorter>
                                 </th>
-                                <th style="width: 10%">
+                                <th>
                                     <mfDefaultSorter by="unDimens">Unit Dimension</mfDefaultSorter>
                                 </th>
-                                <th style="width: 10%">
+                                <th>
                                     <mfDefaultSorter by="uofName">Name</mfDefaultSorter>
                                 </th>
-                                <th style="width: 10%">
+                                <th>
                                     <mfDefaultSorter by="uoEmail">Email</mfDefaultSorter>
                                 </th>
-                                <th style="width: 10%">
+                                <th>
                                     Action
                                 </th>
                             </tr>
@@ -70,7 +70,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="4" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
@@ -93,7 +93,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -113,18 +113,6 @@
     <app-right-bar></app-right-bar>
     <!--rightBar end-->
 </div>
-<ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        This is a modal.
-    </div>
-</ng-template>
-
 
 
 <!--DIV-->
@@ -132,17 +120,17 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: whitesmoke;">
-                <h4 class="modal-title" id="myModalLabel" style="color:#b33951; font-family: Quicksand;"><u>View
-                        Unit</u></h4>
+                <h4 class="modal-title" id="myModalLabel" style="color:#f7b844; font-family: Quicksand;">View
+                        Unit</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body" style="font-family: Quicksand;">
-                <div class="row" style="border:2px solid #b33951; padding:5px;">
+                <div class="row" style="padding:5px;">
                     <div class="col-sm-12">
                         <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5>
                         <br>
-                        <h5 style="color:#b33951">Unit Information</h5>
+                        <h5 style="color:#f7b844">Unit Information</h5>
                         <br>
                     </div>
                     <div class="col-sm-4">
