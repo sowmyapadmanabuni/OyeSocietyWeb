@@ -39,6 +39,7 @@
     "ngx-bootstrap": "^5.2.0",
     "ngx-order-pipe": "^2.0.4",
     "ngx-pagination": "^3.2.1",
+    "ngx-qrcode2": "0.0.9",
     "ngx-toastr": "^10.0.2",
     "rxjs": "~6.4.0",
     "sweetalert2": "^8.8.5",

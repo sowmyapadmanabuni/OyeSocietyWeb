@@ -208,6 +208,18 @@ button.close{position: inherit;z-index: 1000000;}
 label.swal2-checkbox{
     display: none !important;
 }
+#panelbody1{
+    float: left;
+    margin-left: 41px;
+}
+.panelbody1{
+    float: left;
+    margin-left: 140px;
+}
+#panelbody2{
+    float: left;
+    margin-left: 45px;
+}
 table{margin-top: 30px;}
 /* Orange radio button*/
 .radio-item {

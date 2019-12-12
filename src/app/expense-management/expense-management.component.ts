@@ -1,5 +1,5 @@
 declare var $: any;
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef} from '@angular/core';
 import { ViewExpensesService } from '../../services/view-expenses.service';
 import { Viewexpense } from '../models/viewexpense';
 import { Observable } from 'rxjs';
@@ -154,6 +154,7 @@ export class ExpenseManagementComponent implements OnInit {
     this,this.toggleBulkInvGenerate=false;
     this.exidList=[];
     this.Invoiced='Invoiced';
+    this.viewinvoiceservice.expid='false';
 
     //this.editexpensedata.UnUniIden = '';
     //this.editexpensedata.PMID = '';
@@ -269,9 +270,13 @@ export class ExpenseManagementComponent implements OnInit {
       this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
     }
   }
-
+  getExpLst(e) {
+    console.log(e);
+    this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
+  }
   GetExpenseListByBlockID(blockID,blBlkName) {
     this.expenseList=[];
+    this.viewexpensesByBlockId=[];
     this.blockID=blockID;
     console.log('GetExpenseListByBlockID',blockID);
     this.viewexpenseservice.currentBlockId=blockID;
@@ -353,6 +358,8 @@ export class ExpenseManagementComponent implements OnInit {
             if (result.value) {
               this.exidList=[];
               //this.router.navigate(['home/viewinvoice']);
+              this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
+              //this.GetexpenseListByInvoiceID(this.viewinvoiceservice.expid);
             }
           })
 
@@ -377,9 +384,20 @@ export class ExpenseManagementComponent implements OnInit {
 
   }
   toggleAddExpenseView() {
-    this.toggleStepWizard();
-    this.addexpenseservice.enableAddExpnseView = true;
-    this.addexpenseservice.enableExpenseListView=false;
+    if(this.viewexpenseservice.currentBlockName == ''){
+      swal.fire({
+        title: "Please Select Block to Add Expense",
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else{
+      this.toggleStepWizard();
+      this.addexpenseservice.enableAddExpnseView = true;
+      this.addexpenseservice.enableExpenseListView=false;
+    }
   }
   editExpense(repexpense1, idx) {
     console.log('repexpense1-', repexpense1);
@@ -460,18 +478,21 @@ export class ExpenseManagementComponent implements OnInit {
   
       var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
-        allNextBtn = $('.nextBtn');
+        allNextBtn = $('.nextBtn'),
+        anchorDivs = $('div.stepwizard-row div');;
   
       allWells.hide();
   
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
-          $item = $(this);
-  
+          $item = $(this),
+          $divTgt = $(this).parent();
+          anchorDivs.removeClass('step-active');
         if (!$item.hasClass('disabled')) {
           navListItems.removeClass('btn-success').addClass('btn-default');
           $item.addClass('btn-success');
+          $divTgt.addClass('step-active');
           allWells.hide();
           $target.show();
           $target.find('input:eq(0)').focus();
@@ -621,6 +642,7 @@ export class ExpenseManagementComponent implements OnInit {
   }
   GetexpenseListByInvoiceID(expid) {
     console.log('expid',typeof expid);
+    this.viewinvoiceservice.expid=expid;
     //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
     this.expenseList = this._viewexpensesByBlockId;
     console.log('expid',expid);
