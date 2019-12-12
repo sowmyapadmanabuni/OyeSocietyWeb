@@ -27,5 +27,12 @@ export class AppComponent {
     this.globalService.toggledashboard = true;
     this.router.navigate(['home']);
   }
+  isAuthenticated(){
+    if(this.globalService.getacAccntID()){
+      return true
+    } else {
+      return false;
+    }
+  }
 }
 

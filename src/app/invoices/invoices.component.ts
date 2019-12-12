@@ -378,7 +378,7 @@ export class InvoicesComponent implements OnInit {
         this.invoiceDetails = data['data']['invoiceDetails'];
         data['data']['invoiceDetails'].forEach(item => {
 
-          if (item['idDesc'] == "common area electric bill") {
+          if (item['idDesc'] == "Common Area Electric Bill") {
             this.commonareafee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
@@ -386,47 +386,51 @@ export class InvoicesComponent implements OnInit {
             this.fixedmaintenancefee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "generator bill") {
+          else if (item['idDesc'] == "Generator") {
             this.generatorfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "security fees") {
+          else if (item['idDesc'] == "Security Fees") {
             this.securityfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "unsold rental fees") {
+          else if (item['idDesc'] == "Unsold Rental Fees") {
             this.unsoldrentalfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "corpus") {
+          else if (item['idDesc'] == "Corpus") {
             this.corpusfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "housekeeping") {
+          else if (item['idDesc'] == "HouseKeeping") {
             this.housekeepingfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "water meter") {
+          else if (item['idDesc'] == "Water Meter") {
             this.watermeterfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "one time membership fee") {
+          else if (item['idDesc'] == "One Time Membership fee") {
             this.onetimemembershipfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "one time onboarding fee") {
+          else if (item['idDesc'] == "One Time Onboarding fee") {
             this.OneTimeOnBoardingFees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "one time occupancy fee") {
+          else if (item['idDesc'] == "One Time Occupancy Fees") {
             this.onetimeoccupancyfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "renting fees") {
+          else if (item['idDesc'] == "Renting Fees") {
             this.rentingfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
           else if (item['idDesc'] == "bill") {
+            //this.rentingfees = item['idValue'];
+            this.InvoiceValue += item['idValue'];
+          }
+          else if (item['idDesc'] == "Cleaning") {
             //this.rentingfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
@@ -671,6 +675,13 @@ export class InvoicesComponent implements OnInit {
       .subscribe(data => {
         this.modalRef.hide();
         console.log(data);
+        swal.fire({
+          title: "",
+          text: "Discount Applied Successfully",
+          type: "success",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        })
       },
         err => {
           this.modalRef.hide();

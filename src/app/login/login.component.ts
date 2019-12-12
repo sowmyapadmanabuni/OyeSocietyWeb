@@ -179,8 +179,8 @@ export class LoginComponent implements OnInit {
       console.log('memberListByAccount', res['data'].memberListByAccount);
       this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
       console.log(this.dashboardservice.mrmRoleID);
-      this.globalserviceservice.enableHomeView=true;
-      this.globalserviceservice.enableLogin=false;
+      // this.globalserviceservice.enableHomeView=true;
+      // this.globalserviceservice.enableLogin=false;
       this.router.navigate(['home']);
       //this.router.navigate(['OyeSocietydashboard']);
     },
