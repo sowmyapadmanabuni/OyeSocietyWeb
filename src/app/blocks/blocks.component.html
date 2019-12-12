@@ -15,7 +15,7 @@
                                 
                         </ul>
                     <div class="enroll">
-                            <span class="purple" style="font-size: 24px;font-weight: 500;">Blocks Management</span>
+                            <span class="purple" style="font-size: 24px;font-weight: 500;">Blocks Management for {{globalService.currentAssociationName}}</span>
                         <button class="btn-primary-purple" (click)="addBlocksShow()"><i class="fa fa-plus"
                                 aria-hidden="true"></i> Add Blocks</button>
                         
@@ -469,7 +469,7 @@
                             <div class="from-group">
                                 <div class="form-group pull-right">
                                     <br>
-                                    <button type="submit" style="background-color: orange !important" class="btn btn-primary" (click)="UpdateBlock()">Update</button>
+                                    <button type="submit" class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
                                 </div>
                             </div>
                         </form>

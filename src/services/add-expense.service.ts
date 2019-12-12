@@ -16,9 +16,13 @@ export class AddExpenseService {
   ipAddress: string;
   url: string;
   availableNoOfBlocks: number;
+  enableAddExpnseView:boolean;
+  enableExpenseListView:boolean;
 
   constructor(private http: HttpClient,private utilsService:UtilsService) {
     this.ipAddress = 'http://apidev.oyespace.com/';
+    this.enableAddExpnseView=false;
+    this.enableExpenseListView=true;
   }
 
   /*----------------------Block List By association ID -----------------*/

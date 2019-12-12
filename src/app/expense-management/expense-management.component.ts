@@ -118,6 +118,8 @@ export class ExpenseManagementComponent implements OnInit {
     this.todayDate = new Date();
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
 
+    this.addexpenseservice.enableAddExpnseView = false;
+    this.addexpenseservice.enableExpenseListView=true;
     //this.viewexpenseservice.GetExpenseListByAssocID();
     //this.mgrName= this.viewexpenseservice.GetBlockListByBlockID('1107');
     //this.viewexpenseservice.GetPurchaseOrderListByAssocID();
@@ -152,8 +154,6 @@ export class ExpenseManagementComponent implements OnInit {
     this,this.toggleBulkInvGenerate=false;
     this.exidList=[];
     this.Invoiced='Invoiced';
-    this.enableAddExpnseView=false;
-    this.enableExpenseListView=true;
 
     //this.editexpensedata.UnUniIden = '';
     //this.editexpensedata.PMID = '';
@@ -378,8 +378,8 @@ export class ExpenseManagementComponent implements OnInit {
   }
   toggleAddExpenseView() {
     this.toggleStepWizard();
-    this.enableAddExpnseView = true;
-    this.enableExpenseListView=false;
+    this.addexpenseservice.enableAddExpnseView = true;
+    this.addexpenseservice.enableExpenseListView=false;
   }
   editExpense(repexpense1, idx) {
     console.log('repexpense1-', repexpense1);

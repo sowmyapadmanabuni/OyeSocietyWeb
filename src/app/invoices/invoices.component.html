@@ -65,7 +65,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="7" align="center">No Data Found</td>
+                                    <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
@@ -743,7 +743,7 @@
 <ng-template #discountModal>
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" style="position:absolute;left:40%" id="myModalLabel"><u>Discount Invoice</u></h4>
+            <h4 class="modal-title" style="position:absolute;left:40%" id="myModalLabel">Discount Invoice</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -789,7 +789,7 @@
                 <div class="row">
                   <div class="col-sm-12 col-xs-12">
                     <div class="btn-group pull-right">
-                      <button type="button" style="background-color: #f79321 !important;" class="btn btn-primary pull-right"
+                      <button type="button" class="btn btn-primary-purple nextBtn"
                         (click)="discountInvoice(dscntInvinvoiceNumber,dscntInvdiscountedAmount,dscntInvdescription)"><i
                           class="fa fa-floppy-o"></i> Update & Save</button>
                     </div>

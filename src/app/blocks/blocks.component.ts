@@ -87,7 +87,7 @@ export class BlocksComponent implements OnInit {
   constructor(private viewBlkService: ViewBlockService,
     private globalService: GlobalServiceService,
     private router: Router,
-    private modalService: BsModalService) {
+    private modalService: BsModalService) { 
     //pagination
     this.config = {
       itemsPerPage: 10,

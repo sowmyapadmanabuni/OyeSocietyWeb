@@ -173,12 +173,14 @@ export class LoginComponent implements OnInit {
 
   verifyOtp1() {
     //this.globalserviceservice.acAccntID = 9539; 
-    this.globalserviceservice.setAccountID(9539);
+    this.globalserviceservice.setAccountID(11511); //11511
     console.log(this.globalserviceservice.acAccntID);
     this.dashboardservice.getMembers(this.globalserviceservice.acAccntID).subscribe(res => {
       console.log('memberListByAccount', res['data'].memberListByAccount);
       this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
       console.log(this.dashboardservice.mrmRoleID);
+      this.globalserviceservice.enableHomeView=true;
+      this.globalserviceservice.enableLogin=false;
       this.router.navigate(['home']);
       //this.router.navigate(['OyeSocietydashboard']);
     },
