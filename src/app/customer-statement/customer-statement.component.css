@@ -3,5 +3,7 @@
 .cus-panel>div{display: flex;justify-content: space-between;align-items: center;margin-bottom: 12px;}
 .cus-details>p{margin: 5px;}
 .bill{border-top: 2px solid #fad855;border-bottom: 2px solid #fad855;padding: 5px;font-weight: 600;}
-thead{background: #5a51aa;}
+thead{background: #5a51aa;color: #fff;}
 .txt-center{text-align: center}
+.cust-statement{display: flex;justify-content: space-between;margin-top: 30px;}
+.cust-title{color: #5a51aa;font-size: 18px;text-transform: uppercase;}

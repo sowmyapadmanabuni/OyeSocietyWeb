@@ -28,6 +28,7 @@ import { VisitorsComponent } from './visitors/visitors.component';
 import { PatrollingComponent } from './patrolling/patrolling.component';
 import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
+import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 import { AuthGuard } from './guards/auth.guard';
 import { from } from 'rxjs';
@@ -64,7 +65,10 @@ const routes: Routes = [
     { path: 'patroling', component:PatrollingComponent, canActivate: [AuthGuard]},
     { path: 'subscription', component:SubscriptionManagementComponent, canActivate: [AuthGuard]},
     { path: 'customer', component:CustomerStatementComponent, canActivate: [AuthGuard]},
-    { path: 'supplier', component:SupplierStatementComponent, canActivate: [AuthGuard]}
+    { path: 'supplier', component:SupplierStatementComponent, canActivate: [AuthGuard]},
+    { path: 'supplier', component:SupplierStatementComponent, canActivate: [AuthGuard]},
+    { path: 'patrol', component:PatrollingComponent, canActivate: [AuthGuard]},
+    { path: 'generalLedger', component:GeneralLedgerComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

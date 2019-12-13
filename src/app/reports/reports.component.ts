@@ -20,6 +20,9 @@ export class ReportsComponent implements OnInit {
   goToSupplierStatement(){
     this.router.navigate(['supplier']);
   }
+  goToGeneralLedger(){
+    this.router.navigate(['generalLedger']);
+  }
   
   
 }
