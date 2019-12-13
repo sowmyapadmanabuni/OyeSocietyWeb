@@ -16,11 +16,11 @@ import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
 import { UnitsComponent } from './units/units.component';
 import { ReceiptsComponent } from './receipts/receipts.component';
-import {VehiclesComponent} from './vehicles/vehicles.component';
-import {AddUnitComponent} from '../app/add-unit/add-unit.component';
-import {LoginComponent} from '../app/login/login.component';
-import {FamilyMembersComponent} from '../app/family-members/family-members.component'
-import {RegisterComponent} from '../app/register/register.component'
+import { VehiclesComponent} from './vehicles/vehicles.component';
+import { AddUnitComponent} from '../app/add-unit/add-unit.component';
+import { LoginComponent} from '../app/login/login.component';
+import { FamilyMembersComponent} from '../app/family-members/family-members.component'
+import { RegisterComponent} from '../app/register/register.component'
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { StaffComponent } from './staff/staff.component';
 import { ReportsComponent } from './reports/reports.component';
@@ -29,6 +29,9 @@ import { PatrollingComponent } from './patrolling/patrolling.component';
 import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
 import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
+import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { JournelsComponent } from './journels/journels.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 import { from } from 'rxjs';
 
@@ -61,11 +64,13 @@ const routes: Routes = [
     { path: 'staffs', component:StaffComponent},
     { path: 'deliveries', component:DeliveriesComponent},
     { path: 'reports', component:ReportsComponent},
-    { path: 'reports', component:ReportsComponent},
     { path: 'customer', component:CustomerStatementComponent},
     { path: 'supplier', component:SupplierStatementComponent},
     { path: 'patrol', component:PatrollingComponent},
     { path: 'generalLedger', component:GeneralLedgerComponent},
+    { path: 'profitloss', component:ProfitlossComponent},
+    { path: 'balancesheet', component:BalancesheetComponent},
+    { path: 'journel', component:JournelsComponent},
     { path: 'subscription', component:SubscriptionManagementComponent},
 
 ]

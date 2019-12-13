@@ -24,5 +24,15 @@ export class ReportsComponent implements OnInit {
     this.router.navigate(['generalLedger']);
   }
   
+  goToprofitLoss(){
+    this.router.navigate(['profitloss']);
+  }
+  goTobalanceSheet(){
+    this.router.navigate(['balancesheet']);
+  }
+  goTojournels(){
+    this.router.navigate(['journel']);
+  }
+  
   
 }

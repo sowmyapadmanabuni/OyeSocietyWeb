@@ -5,6 +5,7 @@
 .bill{border-top: 2px solid #fad855;border-bottom: 2px solid #fad855;padding: 5px;font-weight: 600;}
 thead{background: #5a51aa;}
 .txt-center{text-align: center}
+table { margin-top:0px !important;}
 .del-date
 {
   display: flex;
