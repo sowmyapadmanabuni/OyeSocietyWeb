@@ -77,54 +77,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <!-- <div class="dash-row" *ngIf="loadchangedforassociation">
-                    <table id="example" class="table table-striped table-bordered dataTable no-footer"
-                        style="width:100%" role="grid" aria-describedby="example_info">
-                        <thead>
-                            <tr>
-                                <th>Sl No</th>
-                                <th>Member Name</th>
-                                <th>Relation</th>
-                                <th>Mobile Number</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let unit of familymemberarray">
-                                <td>1</td>
-                                <td>{{unit['fmName']}}</td>
-                                <td>{{unit['fmRltn']}}</td>
-                                <td>{{unit['fmMobile']}}</td>
-
-                                <td>
-                                    <i class="fa fa-eye" aria-hidden="true"></i> | <i class="fa fa-pencil"
-                                        aria-hidden="true"></i>
-                                </td>
-
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                </div> -->
-
             </div>
             <!--Dashboard icons end-->
 
@@ -139,20 +91,19 @@
                             <h3 class="title">Family Details</h3>
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label class="control-label">Relationship</label>
-                                    <input maxlength="20" type="text" [(ngModel)]='Relation' name="Relation"
-                                        required="required" class="form-control" placeholder="Relationship" />
+                                    <label class="control-label">Relationship<span class="red">*</span></label>
+                                    <input maxlength="20" type="text" [(ngModel)]='Relation' name="Relation" #relationshipControl="ngModel" required="required" class="form-control" placeholder="Relationship" />
+                                    <p class="alerts" *ngIf="relationshipControl.invalid && relationshipControl.touched"> Enter the Relation</p>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">First Name</label>
-                                    <input maxlength="200" type="text" [(ngModel)]='FirstName' maxlength="30"
-                                        name="FirstName" required="required" class="form-control"
-                                        placeholder="First Name" />
+                                    <label class="control-label">First Name<span class="red">*</span></label>
+                                    <input maxlength="200" type="text" [(ngModel)]='FirstName' maxlength="30" #fnameControl="ngModel" name="FirstName" required="required" class="form-control" placeholder="First Name" />
+                                    <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter the Name</p>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Mobile Number</label>
-                                    <input maxlength="20" [(ngModel)]='MobileNumber' name="MobileNumber" type="text"
-                                        required="required" class="form-control" placeholder="Mobile Number" />
+                                    <label class="control-label">Mobile Number<span class="red">*</span></label>
+                                    <input maxlength="20" [(ngModel)]='MobileNumber' name="MobileNumber" type="text" #mobileControl="ngModel" required="required" class="form-control" placeholder="Mobile Number" />
+                                    <p class="alerts" *ngIf="mobileControl.invalid && mobileControl.touched"> Enter the 10 digit number</p>
                                 </div>
                             </div>
                             <div class="panel-body">

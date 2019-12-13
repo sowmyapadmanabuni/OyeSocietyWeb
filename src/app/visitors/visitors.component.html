@@ -35,74 +35,7 @@
                     <div class="del-date cal"><input type="text" name="StartDate" #StartDateControl='ngModel' [(ngModel)]="StartDate" placeholder="From Date" class="date" bsDatepicker></div>
                     <div class="del-date cal"><input type="text" (change)='getVisitorList()' name="ToDate" #ToDateControl='ngModel'  [(ngModel)]="ToDate" placeholder="To Date" class="date" bsDatepicker></div>
                 </div>
-                <!-- 0/0/0/0/0/0/0//0/0/0/0/0/ -->
-                <!-- <div class="row">
-                    
-                    <div class="table-responsive hidden-xs" style="margin-top: 40px;">
-                        <table class="table">
-                            <thead>
-                                <tr style="color:#e59400;">
-                                    <th>Visitor Name</th>
-                                    <th>Purpose of Visit</th>
-                                    <th>Valid from</th>
-                                    <th>Valid till</th>
-                                    <th>Guests expected</th>
-                                    <th>Mobile number</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of invitationList | filter: searchBoxData | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
-                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate"
-                                        (click)="viewBlockDetails(item.blBlkName,item.blBlkType,item.blNofUnit)">{{item['infName']}}
-                                    </td>
-                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['inpOfInv']}}
-                                        
-                                    </td>
-                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['insDate']| date: 'dd/MM/yyyy'}}
-                                    </td>
-                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['ineDate']| date: 'dd/MM/yyyy'}}
-                                    </td>
-                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['inVisCnt']}}
-                                    </td>
-                                    <td data-toggle="modal" data-target="#viewBlockDetailsTemplate">{{item['inMobile']}}
-                                    </td>
-                                    <td>
-                                        <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
-                                            (click)="OpenModalForQRcode(QRtemplate,   
-                                            item['infName'],
-                                            item['inMobile'], 
-                                            item['inInvtID'],    
-                                            item['unUnitID'],
-                                            item['insDate'],
-                                            item['ineDate'],
-                                            item['inVisCnt'],
-                                            item['asAssnID'],
-                                            item['inIsActive'] )" class="fa fa-qrcode" aria-hidden="true"></i>
-      
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p class="text-center float-right"><pagination-controls (pageChange)="p = $event"></pagination-controls></p>
-                    </div>
-                </div> -->
-                <!-- 0/0/0/0/0/0/0//0/0/0/0/0/ -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+           
 
 
 <!--  -->
@@ -331,32 +264,32 @@
                     <div class="guest-input">
                         <div class="form-group">
                             <label class="control-label">First Name</label>
-                            <input maxlength="100" name="INFName" [(ngModel)]="INFName" #INFNameControl="ngModel" type="text" required="required" class="form-control"
-                                placeholder="First Name" />
+                            <input maxlength="100" name="INFName" [(ngModel)]="INFName" #INFNameControl="ngModel" type="text" required="required" class="form-control" placeholder="First Name" />
+                            <p class="alerts" *ngIf="INFNameControl.invalid && INFNameControl.touched"> Valid unit no is required </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Last Name</label>
-                            <input maxlength="100" name="INLName" [(ngModel)]="INLName" #INLNameControl="ngModel" type="text" required="required" class="form-control"
-                                placeholder="Last Name" />
+                            <input maxlength="100" name="INLName" [(ngModel)]="INLName" #INLNameControl="ngModel" type="text" required="required" class="form-control" placeholder="Last Name" />
+                            <p class="alerts" *ngIf="INLNameControl.invalid && INLNameControl.touched"> Valid unit no is required </p>
                         </div>
                     </div>
                     <div class="guest-input">
                         <div class="form-group">
                             <label class="control-label">Mobile Number</label>
-                            <input maxlength="100" name="INMobile" [(ngModel)]="INMobile" #INMobileControl="ngModel" type="text" required="required" class="form-control"
-                                placeholder="Mobile Number" />
+                            <input maxlength="100" name="INMobile" [(ngModel)]="INMobile" #INMobileControl="ngModel" type="text" required="required" class="form-control" placeholder="Mobile Number" />
+                            <p class="alerts" *ngIf="INMobileControl.invalid && INMobileControl.touched"> Valid unit no is required </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Vehicle Number</label>
-                            <input maxlength="100" name="INVchlNo" [(ngModel)]="INVchlNo" #INVchlNoControl="ngModel" type="text" required="required" class="form-control"
-                                placeholder="Vehicle Number" />
+                            <input maxlength="100" name="INVchlNo" [(ngModel)]="INVchlNo" #INVchlNoControl="ngModel" type="text" required="required" class="form-control" placeholder="Vehicle Number" />
+                            <p class="alerts" *ngIf="INVchlNoControl.invalid && INVchlNoControl.touched"> Valid unit no is required </p>
                         </div>
                     </div>
                     <div class="guest-input1">
                         <div class="form-group" style="width:100%">
                             <label class="control-label">Email Address</label>
-                            <input maxlength="100" name="INEmail" [(ngModel)]="INEmail" #INEmailControl="ngModel" type="email" required="required" class="form-control"
-                                placeholder="Email Address" />
+                            <input maxlength="100" name="INEmail" [(ngModel)]="INEmail" #INEmailControl="ngModel" type="email" required="required" class="form-control" placeholder="Email Address" />
+                            <p class="alerts" *ngIf="INEmailControl.invalid && INEmailControl.touched"> Valid unit no is required </p>
                         </div>
                         <div class="form-group" style="width:100%">
                             <label class="control-label">Purpose of invitation</label>
@@ -394,8 +327,7 @@
                         </div>
                     </div>
                     <div class="guest-input" *ngIf="MultipleVisitors">
-                            <input maxlength="10" name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control"
-                            placeholder="Guest Count" />
+                            <input maxlength="10" style="width: 43%;" name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" />
                     </div>
                     <div class="col-sm-12 pull-right">
                         <button class="btn btn-primary-purple nextBtn">Reset</button>
