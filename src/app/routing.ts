@@ -28,6 +28,7 @@ import { VisitorsComponent } from './visitors/visitors.component';
 import { PatrollingComponent } from './patrolling/patrolling.component';
 import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
+import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 import { from } from 'rxjs';
 
@@ -63,6 +64,8 @@ const routes: Routes = [
     { path: 'reports', component:ReportsComponent},
     { path: 'customer', component:CustomerStatementComponent},
     { path: 'supplier', component:SupplierStatementComponent},
+    { path: 'patrol', component:PatrollingComponent},
+    { path: 'generalLedger', component:GeneralLedgerComponent},
     { path: 'subscription', component:SubscriptionManagementComponent},
 
 ]

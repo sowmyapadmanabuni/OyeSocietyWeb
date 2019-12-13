@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerStatementComponent implements OnInit {
 
-  constructor() { }
+  custpanel:boolean;
+  custtable:boolean;
+
+  constructor() {
+
+   }
 
   ngOnInit() {
+    this.custpanel=false;
+    this.custtable=true;
   }
+
+viewCustDetail(){
+  this.custpanel=true;
+  this.custtable=false; 
+}
 
 }

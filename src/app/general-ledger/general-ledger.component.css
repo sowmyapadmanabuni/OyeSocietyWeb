@@ -1,0 +1,7 @@
+.b-l{border-left: 2px solid rgb(242, 238, 238)}
+.cus-panel{width: 76%;margin: 0px auto;margin: 50px auto;padding: 20px;}
+.cus-panel>div{display: flex;justify-content: space-between;align-items: center;margin-bottom: 12px;}
+.cus-details>p{margin: 5px;}
+.bill{border-top: 2px solid #fad855;border-bottom: 2px solid #fad855;padding: 5px;font-weight: 600;}
+thead{background: #5a51aa;}
+.txt-center{text-align: center}
