@@ -32,12 +32,12 @@ export class LoginComponent implements OnInit {
     if (this.globalserviceservice.acAccntID) {
       //alert('globalserviceservice.acAccntID'+this.globalserviceservice.acAccntID);
       //alert('this.globalserviceservice.acAccntID has value'+this.globalserviceservice.acAccntID);
-      this.router.navigate(['home']);
+      //this.router.navigate(['home']);
     }
     else{
       //alert('inside else part in login component...');
       //alert('this.globalserviceservice.acAccntID'+this.globalserviceservice.acAccntID);
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
+      //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
       //alert('returnURL-'+this.returnUrl);
       //this.router.navigate([this.returnUrl]);
     }
@@ -145,9 +145,9 @@ export class LoginComponent implements OnInit {
           //this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
           //console.log(this.dashboardservice.mrmRoleID);
           //alert('displaying dashboardservice.mrmRoleID..'+this.dashboardservice.mrmRoleID);
-          // this.router.navigate(['home']);
-          this.globalserviceservice.enableHomeView = true;
-          this.globalserviceservice.enableLogin = false;
+          this.router.navigate(['home']);
+          //this.globalserviceservice.enableHomeView = true;
+          //this.globalserviceservice.enableLogin = false;
         },
         res=>{
           //alert('dashboardservice.mrmRoleID'+this.dashboardservice.mrmRoleID);

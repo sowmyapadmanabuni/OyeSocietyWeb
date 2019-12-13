@@ -148,6 +148,7 @@ export class InvoicesComponent implements OnInit {
       this.CurrentBlockName='Blocks';
       this.unUnitID='Units';
       this.BankName='Bank';
+      this.viewinvoiceservice.invoiceBlock = '';
 
       this.bankList = [
         'Allahabad Bank',

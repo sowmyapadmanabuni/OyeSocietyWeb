@@ -253,6 +253,7 @@ export class HomeComponent implements OnInit {
     })
   }
   loadAssociation(associationName: string) {
+    this.globalService.setCurrentUnitName('Units');
     if(!this.globalService.toggledashboard){
       console.log('false');
       this.globalService.setCurrentUnitName('Units');
