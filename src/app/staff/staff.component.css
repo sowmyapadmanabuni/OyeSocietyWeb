@@ -128,7 +128,7 @@ background: #f7b844;
 /* Search box style */
 #mySearch{padding: 10px;outline: 0;border-width: 0 0 1px;border-color: #b5b5b9;width:100%;background: #f8f8f8;}
 .sea::after{content: "\f002";font-family: FontAwesome;font-style: normal;font-weight: normal;text-decoration: inherit;color: #f7b844;font-size: 18px;
-padding-right: 0.5em;position: absolute;top: 38px;right: 41px;}
+padding-right: 0.5em;position: absolute;top: 28px;right: 41px;}
 .cal::after{content: "\f073";font-family: FontAwesome;font-style: normal;font-weight: normal;text-decoration: inherit;color: #f7b844;font-size: 18px;
 padding-right: 0.5em;position: relative;top: 3px;right: 17px;}
 .invite-radio{display: flex;align-items: flex-start;justify-content: space-between;margin-top: 20px;flex-wrap: wrap;}

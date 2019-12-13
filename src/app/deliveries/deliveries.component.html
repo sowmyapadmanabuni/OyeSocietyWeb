@@ -11,142 +11,73 @@
                         <ul class="nav nav-pills">
                             <li><a (click)="goToGuests()">My Guests</a></li>
                             <li class="active"><a (click)="goToDelivery()">Deliveries</a></li>
-                            <li><a (click)="goToStaffs()">Staff</a></li>
-    
+                            <li><a (click)="goToStaffs()">Staff</a></li>  
                         </ul>
                     </div>
                     <div class="enroll">
-                        <div class="sea"><input type="text" id="mySearch" placeholder="Search.." title="Type in a category"></div>
-                        <div class="del-date cal">From<input type="text" class="form-control" name="StartDate" #StartDateControl='ngModel'
+                        <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
+                        </div>
+                        <div class="del-date cal">From<input type="text" class="date ng-pristine ng-valid ng-touched" name="StartDate" #StartDateControl='ngModel'
                                   placeholder="Start Date"  [(ngModel)]="StartDate"
                                   bsDatepicker required [minDate]="todayDate" placement="side"/>
                         </div>
 
-                        <div class="del-date cal">To<input type="text" class="form-control" name="EndDate" #EndDateControl='ngModel' placeholder="Due Date"
+                        <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="Due Date"
                             [(ngModel)]="EndDate" bsDatepicker required 
                             placement="bottom"/>
-                        </div>
-                        <div class="del-date">
-                            <button (click)='getVisitorList()'>Get</button>
-                        </div>                    
+                        </div>                   
                     </div>
                     <div class="dash-row">
-                        <table id="example" class="table table-striped table-bordered dataTable no-footer"
-                            style="width:100%" role="grid" aria-describedby="example_info">
-                            <thead>
-                                <tr>
-                                    <th>Sl No</th>
-                                    <th>Delivery Person Name</th>
-                                    <th>Delivery From</th>
-                                    <th>Date</th>
-                                    <th>Entry Time</th>
-                                    <th>Exit Time</th>
-                                    <th>Mobile Number</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
-                                <tr>
-                                    <td>11</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Courier</td>
-                                    <td>2012/12/18</td>
-                                    <td>2014/12/18</td>
-                                    <td>2</td>
-                                    <td>9087876765</td>    
-                                </tr>
- 
-                            </tbody>
-                        </table>
+                            <table class="table table-striped" [mfData]="deliveryList | search:['vlfName', 'vlComName', 'vldCreated','vlEntryT','vlExitT','vlMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Sl No
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="vlfName">Delivery Person Name</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="vlComName">Delivery From</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="vldCreated">Date</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="vlEntryT">Entry Time</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="vlExitT">Exit Time</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of mf.data;let i=index">
+                                        <ng-container *ngIf="item == -1">
+                                            <td colspan="5" align="center">No Data Found</td>
+                                        </ng-container>
+                                        <ng-container *ngIf="item!=-1">
+                                            <td>{{(i+1)}}</td>
+                                            <td>{{item['vlfName']}}</td>
+                                            <td>{{item['vlComName']}}</td>
+                                            <td>{{item['vldCreated'] | date:'d/M/y'}}</td>
+                                            <td>{{item['vlEntryT'] | date:'shortTime'}}</td>
+                                            <td>{{item['vlExitT'] | date:'shortTime'}}</td>
+                                            <td>{{item['vlMobile']}}</td>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table> 
                     </div>
                     <div>
                             <button class="btn btn-primary-purple nextBtn">Leave with Vender</button>

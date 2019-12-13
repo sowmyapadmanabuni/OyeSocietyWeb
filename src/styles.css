@@ -208,6 +208,18 @@ button.close{position: inherit;z-index: 1000000;}
 label.swal2-checkbox{
     display: none !important;
 }
+#panelbody1{
+    float: left;
+    margin-left: 41px;
+}
+.panelbody1{
+    float: left;
+    margin-left: 140px;
+}
+#panelbody2{
+    float: left;
+    margin-left: 45px;
+}
 table{margin-top: 30px;}
 /* Orange radio button*/
 .radio-item {
@@ -307,9 +319,9 @@ appearance: none !important;
 .stepwizard-step:last-child {border-right: 1px solid #cfcaca;}
 }
 table.dataTable{text-align: left}
-.table>thead:first-child>tr:first-child>th {color: #5a51aa !important;}
+/* .table>thead:first-child>tr:first-child>th {color: #5a51aa !important;} */
 
-
+input[type=reset]{background-color: #a7a4a4 !important;}
 
 
 @media print {

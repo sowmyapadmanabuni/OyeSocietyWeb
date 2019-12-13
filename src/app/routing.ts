@@ -20,14 +20,18 @@ import {VehiclesComponent} from './vehicles/vehicles.component';
 import {AddUnitComponent} from '../app/add-unit/add-unit.component';
 import {LoginComponent} from '../app/login/login.component';
 import {FamilyMembersComponent} from '../app/family-members/family-members.component'
-import { from } from 'rxjs';
 import {RegisterComponent} from '../app/register/register.component'
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { StaffComponent } from './staff/staff.component';
 import { ReportsComponent } from './reports/reports.component';
 import { VisitorsComponent } from './visitors/visitors.component';
 import { PatrollingComponent } from './patrolling/patrolling.component';
+import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
+import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
+import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
+import { from } from 'rxjs';
+
 
 
 const routes: Routes = [
@@ -57,12 +61,16 @@ const routes: Routes = [
     { path: 'staffs', component:StaffComponent},
     { path: 'deliveries', component:DeliveriesComponent},
     { path: 'reports', component:ReportsComponent},
-    { path: 'patroling', component:PatrollingComponent},
+    { path: 'reports', component:ReportsComponent},
+    { path: 'customer', component:CustomerStatementComponent},
+    { path: 'supplier', component:SupplierStatementComponent},
+    { path: 'patrol', component:PatrollingComponent},
+    { path: 'generalLedger', component:GeneralLedgerComponent},
     { path: 'subscription', component:SubscriptionManagementComponent},
 
 ]
 @NgModule({
-    imports:[RouterModule.forRoot(routes)],
+    imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],
     exports:[RouterModule]
     })
 export class Routing {

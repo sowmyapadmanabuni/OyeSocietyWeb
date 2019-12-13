@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output ,EventEmitter } from '@angular/core';
 import { AddExpenseService } from '../../services/add-expense.service';
 import { ViewExpensesService } from '../../services/view-expenses.service';
 import { BlocksByAssoc } from '../models/blocks-by-assoc';
@@ -76,6 +76,7 @@ export class AddExpenseComponent implements OnInit {
   expensedataXlsx:ExpenseData;
   pmid:any;
   paymentMethodType:any;
+  @Output() invokeExpLst:EventEmitter<string>;
 
   constructor(private addexpenseservice: AddExpenseService,
     private router: Router,
@@ -138,6 +139,7 @@ export class AddExpenseComponent implements OnInit {
     this.isSingleUnit=false;
     this.otherThanSingleUnit=true;
     this.pmid=0;
+    this.invokeExpLst=new EventEmitter<string>();
 
     this.defaultThumbnail='../../assets/images/default_thumbnail.png';
 
@@ -479,6 +481,9 @@ export class AddExpenseComponent implements OnInit {
       );
   }
   addExp() {
+    if(this.expensedata.UnUniIden == 'Select Unit'){
+      this.expensedata.UnUniIden='';
+    }
     this.expensedata.BLBlockID=this.viewexpensesservice.currentBlockId;
     this.expensedata.EXDate = formatDate(this.EXDate, 'yyyy-MM-dd', 'en');
     if (this.checkField == 'Cash') {
@@ -503,15 +508,16 @@ export class AddExpenseComponent implements OnInit {
             type: "success",
             showCancelButton: true,
             confirmButtonColor: "#f69321",
-            confirmButtonText: "Add New Expense",
-            cancelButtonText: "View Expense"
-          }).then(
+            confirmButtonText: "OK"
+            }).then(
             (result) => {
 
               if (result.value) {
                 //this.form.reset();
                 //this.resetForm();
-                
+                this.addexpenseservice.enableAddExpnseView = false;
+                this.addexpenseservice.enableExpenseListView=true;
+                this.invokeExpLst.emit('test');
               } else if (result.dismiss === swal.DismissReason.cancel) {
                 //this.router.navigate(['home/viewexpense']);
               }

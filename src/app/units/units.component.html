@@ -11,14 +11,12 @@
                     <li><a (click)="goToBlocks()">Blocks</a></li>
                     <li class="active"><a (click)="goToUnits()">Units</a></li>
                 </ul>
-
                 <div class="enroll">
                     <span class="purple" style="font-size: 24px;font-weight: 500;">Units Management</span>
                     <button class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add
                         Units</button>
                 </div>
-
                 <div class="col-3">
                     <div class="form-group">
                         <div class="dropdown">
@@ -44,9 +42,7 @@
                         #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
-                                <th>
-                                    S.No.
-                                </th>
+                                <th>S.No.</th>
                                 <th>
                                     <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
                                 </th>
@@ -62,9 +58,7 @@
                                 <th>
                                     <mfDefaultSorter by="uoEmail">Email</mfDefaultSorter>
                                 </th>
-                                <th>
-                                    Action
-                                </th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,7 +115,7 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color: whitesmoke;">
                 <h4 class="modal-title" id="myModalLabel" style="color:#f7b844; font-family: Quicksand;">View
-                        Unit</h4>
+                    Unit</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
             </div>
