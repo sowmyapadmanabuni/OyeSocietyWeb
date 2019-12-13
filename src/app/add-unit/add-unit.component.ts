@@ -36,6 +36,8 @@ export class AddUnitComponent implements OnInit {
   tenantLastname:string;
   tenantMobnumber:string;
   tenantEmail:string;
+  newParkingNo:any;
+  newVehicleNo:any;
   occupencys:object[];
   tenantDetails: boolean = false;
   ownerDetails: boolean = true;
@@ -95,6 +97,9 @@ export class AddUnitComponent implements OnInit {
     this.tenantLastname='';
     this.tenantMobnumber='';
     this.tenantEmail='';
+    this.newParkingNo='';
+    this.newVehicleNo='';
+
 
    }
 
@@ -232,8 +237,8 @@ export class AddUnitComponent implements OnInit {
           "UnitParkingLot":
             [
               {
-                "UPLNum": "null",
-                "MEMemID": "null",
+                "UPLNum": "",
+                "MEMemID": "",
                 "UPGPSPnt": "null"
 
               }

@@ -98,7 +98,7 @@ OpenEditFamilyMemberModal(EditFamilyMemberModal: TemplateRef<any>,fmName,fmRltn,
   this.fmid=fmid;
   this.asAssnID=asAssnID;
   this.unitID=unUnitID;
-  this.modalRef = this.modalService.show(EditFamilyMemberModal, Object.assign({}, { class: 'gray modal-lg' }));
+  this.modalRef = this.modalService.show(EditFamilyMemberModal, Object.assign({}, { class: 'gray modal-md' }));
 }
 // EDIT FAMILY MEMBER MODEL POPUP END
 
