@@ -16,6 +16,7 @@ background: #de9e9e29;
 padding: 3px 10px;
 border-radius: 10px;
 }
+
 /*qr code*/
 .qr{display: flex;}
 .qr-details>h3{font-size: 15px;justify-content: space-between;align-items: end;}

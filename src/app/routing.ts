@@ -16,11 +16,11 @@ import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
 import { UnitsComponent } from './units/units.component';
 import { ReceiptsComponent } from './receipts/receipts.component';
-import {VehiclesComponent} from './vehicles/vehicles.component';
-import {AddUnitComponent} from '../app/add-unit/add-unit.component';
-import {LoginComponent} from '../app/login/login.component';
-import {FamilyMembersComponent} from '../app/family-members/family-members.component'
-import {RegisterComponent} from '../app/register/register.component'
+import { VehiclesComponent} from './vehicles/vehicles.component';
+import { AddUnitComponent} from '../app/add-unit/add-unit.component';
+import { LoginComponent} from '../app/login/login.component';
+import { FamilyMembersComponent} from '../app/family-members/family-members.component'
+import { RegisterComponent} from '../app/register/register.component'
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { StaffComponent } from './staff/staff.component';
 import { ReportsComponent } from './reports/reports.component';
@@ -29,6 +29,9 @@ import { PatrollingComponent } from './patrolling/patrolling.component';
 import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
 import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
+import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { JournelsComponent } from './journels/journels.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 import { AuthGuard } from './guards/auth.guard';
 import { from } from 'rxjs';
@@ -66,9 +69,11 @@ const routes: Routes = [
     { path: 'subscription', component:SubscriptionManagementComponent, canActivate: [AuthGuard]},
     { path: 'customer', component:CustomerStatementComponent, canActivate: [AuthGuard]},
     { path: 'supplier', component:SupplierStatementComponent, canActivate: [AuthGuard]},
-    { path: 'supplier', component:SupplierStatementComponent, canActivate: [AuthGuard]},
     { path: 'patrol', component:PatrollingComponent, canActivate: [AuthGuard]},
-    { path: 'generalLedger', component:GeneralLedgerComponent, canActivate: [AuthGuard]}
+    { path: 'generalLedger', component:GeneralLedgerComponent, canActivate: [AuthGuard]},
+    { path: 'profitloss', component:ProfitlossComponent, canActivate: [AuthGuard]},
+    { path: 'balancesheet', component:BalancesheetComponent, canActivate: [AuthGuard]},
+    { path: 'journel', component:JournelsComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

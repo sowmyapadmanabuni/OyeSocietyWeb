@@ -16,7 +16,7 @@
                             credits and displays them chronologically. Transaction list by date also list transactions
                             chronologically, but not as debits and credits.</p>
                     </div>
-                    <p class="run">RUN</p>
+                    <p class="run" (click)="goTojournels()">RUN</p>
                 </div>
                 <!--Journels-->
                 <!--Journels-->
@@ -37,7 +37,7 @@
                         <p class="pad">Shows money you earned (income) and money you spent (expenses) so you can see how
                             profitable you are. Also called an income statement.</p>
                     </div>
-                    <p class="run">RUN</p>
+                    <p class="run"   (click)="goToprofitLoss()">RUN</p>
                 </div>
                 <!--Journels-->
             </div>
@@ -51,7 +51,7 @@
                         <p class="pad">Lists what you own (assets), what your debts are (liabilities), and what you have
                             invested in your company (equity).</p>
                     </div>
-                    <p class="run">RUN</p>
+                    <p class="run" (click)="goTobalanceSheet()">RUN</p>
 
                 </div>
                 <!--Journels-->

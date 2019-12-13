@@ -1,0 +1,76 @@
+<div class="container-fluid bg np" style="margin-top: 20px;">
+    <div class="col-sm-9">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <span class="black">Journals</span>
+            <div class="cus-panel">
+                <div style="display: flex;">
+                    <!--top header-->
+                    
+                    <div><img src="../../assets/images/icons/printer.png"></div>
+                    <div style="display: flex;">
+                            <div>
+                                    <div class="del-date cal"><input type="text" name="StartDate" #StartDateControl='ngModel' [(ngModel)]="StartDate" placeholder="From Date" class="date" bsDatepicker></div>
+                                  </div> 
+                                  <div> 
+                                    <div class="del-date cal"><input type="text" (change)='getVisitorList()' name="ToDate" #ToDateControl='ngModel'  [(ngModel)]="ToDate" placeholder="To Date" class="date" bsDatepicker></div>
+                                </div>
+                    </div>
+                    <!--top header-->
+                </div>
+                <div>
+                    <table class="table table-bordered" style="box-shadow: 0px 1px 3px 0px #d4d1d1ee;">
+                        <thead>
+                            <tr>
+                                <th class="txt-center" style="color: #fff !important;">Journal</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+                <div>
+                    <table class="table table-bordered" style="margin: 0px;">
+                        <thead>
+                            <tr>
+                                <th style="color: #fff !important;">Date</th>
+                                <th style="color: #fff !important;">Account Name</th>
+                                <th style="color: #fff !important;">Debit</th>
+                                <th style="color: #fff !important;">Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>January 1</td>
+                                <td>Debited Account</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                            </tr>
+                            <tr>
+                                <td>January 1</td>
+                                <td>Debited Account</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                            </tr>
+                            <tr>
+                                <td>January 1</td>
+                                <td>Debited Account</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total</td>                             
+                                <td>xxx</td>
+                                <td>xxx</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--rightBar start-->
+    <app-right-bar></app-right-bar>
+    <!--rightBar end-->
+</div>

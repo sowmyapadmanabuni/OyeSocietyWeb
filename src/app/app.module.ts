@@ -60,6 +60,9 @@ import { PatrollingComponent } from './patrolling/patrolling.component';
 import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
 import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
+import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { JournelsComponent } from './journels/journels.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -104,7 +107,10 @@ export const firebaseConfig = environment.firebaseConfig;
     PatrollingComponent,
     CustomerStatementComponent,
     SupplierStatementComponent,
-    GeneralLedgerComponent
+    GeneralLedgerComponent,
+    ProfitlossComponent,
+    BalancesheetComponent,
+    JournelsComponent
   ],
   imports: [
     BrowserModule,
