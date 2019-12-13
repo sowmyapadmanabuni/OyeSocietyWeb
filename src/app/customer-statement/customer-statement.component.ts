@@ -23,7 +23,7 @@ export class CustomerStatementComponent implements OnInit {
   modalRef: BsModalRef;
 
   constructor(private viewreportservice: ViewreportService,
-    private globalservice: GlobalServiceService) {
+    private globalservice: GlobalServiceService,private modalService: BsModalService) {
     this.frequencys = [
       { "name": "Paid", "displayName": "Paid" },
       { "name": "UnPaid", "displayName": "UnPaid" }
@@ -31,6 +31,7 @@ export class CustomerStatementComponent implements OnInit {
     this.currentAssociationName = this.globalservice.getCurrentAssociationName();
     this.reportID = '';
     this.PaymentStatus='Select Payment Status';
+    console.log(this.globalservice.getCurrentAssociationName());
   }
 
   getPaidUnpaidDetail(reportID) {
@@ -58,8 +59,8 @@ export class CustomerStatementComponent implements OnInit {
     this.custtable = false;
   }
   OpenCustomerModel(customertemplate: TemplateRef<any>){
-    // this.modalRef = this.modalService.show(editBlocktemplate,
-    //   Object.assign({}, { class: 'gray modal-lg' }));
+    this.modalRef = this.modalService.show(customertemplate,
+      Object.assign({}, { class: 'gray modal-lg' }));
   }
 
 }
