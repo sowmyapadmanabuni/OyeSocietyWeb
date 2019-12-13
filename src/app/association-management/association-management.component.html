@@ -21,7 +21,7 @@
           <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
         </div>
         <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row table-responsive">
-          <table class="table table-striped"
+          <table class="table table-bordered"
             [mfData]="associations | search:['asAsnName', 'asPrpName', 'asAddress','asNofBlks','asNofUnit']:searchTxt"
             #mf="mfDataTable" [mfRowsOnPage]="10">
             <thead>

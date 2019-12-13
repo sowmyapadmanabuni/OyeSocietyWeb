@@ -93,24 +93,28 @@
 
                 <div class="adveh">
                         <div class="form-group">
-                                <label for="usr">Vehicle Name:</label>
-                                <input type="text" name="veMakeMdl" [(ngModel)]="veMakeMdl" class="form-control" id="usr">
+                                <label for="usr">Vehicle Name:<span class="red">*</span></label>
+                                <input type="text" name="veMakeMdl" #vehicleNameControl="ngModel" [(ngModel)]="veMakeMdl" class="form-control" id="usr" required>
+                                <p class="alerts" *ngIf="vehicleNameControl.invalid && vehicleNameControl.touched"> Valid Vehicle number required</p>
                         </div>
 
                         <div class="form-group">
-                                <label for="usr">Vehicle Number:</label>
-                                <input type="text" name="veRegNo" [(ngModel)]="veRegNo" class="form-control" id="usr">
+                                <label for="usr">Vehicle Number:<span class="red">*</span></label>
+                                <input type="text" name="veRegNo" #vehiclenumberControl="ngModel" [(ngModel)]="veRegNo" class="form-control" id="usr" required>
+                                <p class="alerts" *ngIf="vehiclenumberControl.invalid && vehiclenumberControl.touched"> Valid Vehicle number required</p>
                         </div>
                 </div>
                 <div class="adveh">
                         <div class="form-group">
-                                <label for="usr">Vehicle Sticker Number:</label>
-                                <input type="text" name="veStickNo" [(ngModel)]="veStickNo" class="form-control" id="usr">
+                                <label for="usr">Vehicle Sticker Number:<span class="red">*</span></label>
+                                <input type="text" name="veStickNo" #stickerControl="ngModel" [(ngModel)]="veStickNo" class="form-control" id="usr" required>
+                                <p class="alerts" *ngIf="stickerControl.invalid && stickerControl.touched"> Valid Vehicle number required</p>
                         </div>
 
                         <div class="form-group">
-                                <label for="usr">Parking Slot Number:</label>
-                                <input type="text" name="uplNum" [(ngModel)]="uplNum" class="form-control" id="usr">
+                                <label for="usr">Parking Slot Number:<span class="red">*</span></label>
+                                <input type="text" name="uplNum" #parkingControl="ngModel" [(ngModel)]="uplNum" class="form-control" id="usr" required>
+                                <p class="alerts" *ngIf="parkingControl.invalid && parkingControl.touched"> Valid Vehicle number required</p>
                         </div>
                 </div>
                 <div class="adveh">

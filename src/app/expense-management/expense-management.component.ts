@@ -155,6 +155,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.exidList=[];
     this.Invoiced='Invoiced';
     this.viewinvoiceservice.expid='false';
+    this.viewexpenseservice.currentBlockName = '';
 
     //this.editexpensedata.UnUniIden = '';
     //this.editexpensedata.PMID = '';

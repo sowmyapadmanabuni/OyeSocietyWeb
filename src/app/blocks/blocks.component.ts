@@ -170,18 +170,22 @@ export class BlocksComponent implements OnInit {
 
       var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
-        allNextBtn = $('.nextBtn');
+        allNextBtn = $('.nextBtn'),
+        anchorDivs = $('div.stepwizard-row div');
 
       allWells.hide();
 
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
-          $item = $(this);
+          $item = $(this), 
+          $divTgt = $(this).parent();
+          anchorDivs.removeClass('step-active');
 
         if (!$item.hasClass('disabled')) {
           navListItems.removeClass('btn-success').addClass('btn-default');
           $item.addClass('btn-success');
+          $divTgt.addClass('step-active');
           allWells.hide();
           $target.show();
           $target.find('input:eq(0)').focus();

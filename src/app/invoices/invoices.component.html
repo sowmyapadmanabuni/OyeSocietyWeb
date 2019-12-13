@@ -32,7 +32,7 @@
                         placeholder="search name">
                 </div>
                 <div class="dash-row">
-                    <table class="table table-striped"
+                    <table class="table table-bordered"
                         [mfData]="invoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
                         #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
@@ -790,7 +790,7 @@
                   <div class="col-sm-12 col-xs-12">
                     <div class="btn-group pull-right">
                       <button type="button" class="btn btn-primary-purple nextBtn"
-                        (click)="discountInvoice(dscntInvinvoiceNumber,dscntInvdiscountedAmount,dscntInvdescription)"><i
+                        (click)="discountInvoice(dscntInvinvoiceID,dscntInvdiscountedAmount,dscntInvdescription)"><i
                           class="fa fa-floppy-o"></i> Update & Save</button>
                     </div>
                   </div>
@@ -861,7 +861,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{discountedValue}}.00</span> </td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'water meter' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'Water Meter' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >Water
                                         Meter</span></td>
@@ -871,7 +871,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'common area electric bill' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'Common Area Electric Bill' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >Common Area Electric Bill</span></td>
                                 <td ><span >-</span></td>
@@ -880,7 +880,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'corpus' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'Corpus' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span
                                         >Corpus</span></td>
@@ -890,7 +890,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'generator bill' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'Generator' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >Generator
                                         Bill</span></td>
@@ -900,7 +900,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'housekeeping' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'HouseKeeping' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span
                                         >Housekeeping</span></td>
@@ -910,7 +910,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'one time membership fee' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'One Time Membership fee' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >One Time
                                         Membership Fee</span></td>
@@ -920,7 +920,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'one time occupancy fee' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'One Time Occupancy Fees' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >One Time
                                         Occupancy Fees</span></td>
@@ -930,7 +930,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'renting fees' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'Renting Fees' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >Renting
                                         Fees</span></td>
@@ -940,7 +940,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'security fees' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'Security Fees' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >Security
                                         Fees</span></td>
@@ -960,17 +960,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'bill' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span
-                                        >Bill</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
-                            </tr>
-                            <tr *ngIf="item['idDesc'] == 'one time onboarding fee' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'One Time Onboarding fee' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >One Time
                                         OnBoarding Fees</span></td>
@@ -980,7 +970,7 @@
                                 <td ><span >-</span></td>
                                 <td ><span >₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'unsold rental fees' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'Unsold Rental Fees' && item['idValue'] > 0">
                                 <td >{{i+1}}</td>
                                 <td ><span >Unsold
                                         Rental Fees</span></td>

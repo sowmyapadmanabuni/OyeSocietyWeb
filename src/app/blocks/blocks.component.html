@@ -25,7 +25,7 @@
                         <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                     </div>
                     <div class="dash-row" *ngIf='enableBlockListView'>
-                        <table class="table table-striped" [mfData]="allBlocksLists | search:['blBlkName', 'blBlkType', 'blNofUnit']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-bordered" [mfData]="allBlocksLists | search:['blBlkName', 'blBlkType', 'blNofUnit']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
                                     <th>

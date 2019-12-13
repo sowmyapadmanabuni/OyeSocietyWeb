@@ -28,7 +28,7 @@
                         </div>                   
                     </div>
                     <div class="dash-row">
-                            <table class="table table-striped" [mfData]="deliveryList | search:['vlfName', 'vlComName', 'vldCreated','vlEntryT','vlExitT','vlMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <table class="table table-bordered" [mfData]="deliveryList | search:['vlfName', 'vlComName', 'vldCreated','vlEntryT','vlExitT','vlMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
                                 <thead>
                                     <tr>
                                         <th>

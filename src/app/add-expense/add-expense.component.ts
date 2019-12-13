@@ -484,6 +484,7 @@ export class AddExpenseComponent implements OnInit {
     if(this.expensedata.UnUniIden == 'Select Unit'){
       this.expensedata.UnUniIden='';
     }
+    this.expensedata.EXDesc= this.expensedata.EXHead; // As the invoice recept was adding Expense Descreption amount, rather than adding Expense Head. So we are binding the Expense Descreption data to Expense Headr
     this.expensedata.BLBlockID=this.viewexpensesservice.currentBlockId;
     this.expensedata.EXDate = formatDate(this.EXDate, 'yyyy-MM-dd', 'en');
     if (this.checkField == 'Cash') {
