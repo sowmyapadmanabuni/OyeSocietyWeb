@@ -164,10 +164,18 @@ export class HomeComponent implements OnInit {
       console.log('allMemberByAccount', this.allMemberByAccount);
       //this.mrmRoleID = this.allMemberByAccount[0]['mrmRoleID'];
       //this.dashBrdService.mrmRoleID = this.mrmRoleID;
-      this.totalMember = data.data.memberListByAccount.length;
+      this.dashBrdService.GetUnitListCount(this.associationID)
+      .subscribe(data=>{
+        console.log(data['data']['unit']);
+        this.totalMember = data['data']['unit'].length;
+      },
+      err=>{
+        console.log(err);
+        this.totalMember='0';
+      })
+      //this.totalMember = data.data.memberListByAccount.length;
     },
       (res) => {
-        this.totalMember='0';
         console.log(res);
         this.dashBrdService.memberdoesnotexist = true;
       });
@@ -219,7 +227,10 @@ export class HomeComponent implements OnInit {
         console.log('vehicle',res);
         var data:any = res;
         this.allVehicleListByAssn = data.data.vehicleListByAssocID;
-        this.totalVehicles= data.data.vehicleListByAssocID.length;
+        let totalVehicles = data.data.vehicleListByAssocID.filter(item => {
+          return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
+        })
+        this.totalVehicles= totalVehicles.length;
         },
         err=>{
           console.log(err);

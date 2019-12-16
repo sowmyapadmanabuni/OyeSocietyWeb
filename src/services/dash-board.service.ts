@@ -56,8 +56,13 @@ export class DashBoardService {
   getMembers(accountID){
     let scopeIP=this.utilsService.getMembers();
     return this.http.get(scopeIP + 'oyeliving/api/v1/Member/GetMemberListByAccountID/'+accountID,  {headers:this.headers});
+    //http://api.oyespace.com/oyeliving/api/v1/Unit/GetUnitListByAssocID/8794
   }
+  GetUnitListCount(associationID){
+    let scopeIP=this.utilsService.getIPaddress();
+    return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByAssocID/'+associationID,  {headers:this.headers});
 
+  }
   getTickets(associationId:string){
     let headers= new HttpHeaders().append('Content-Type',  'application/json')
                                    .append('X-OYE247-APIKey','7470AD35-D51C-42AC-BC21-F45685805BBE')
