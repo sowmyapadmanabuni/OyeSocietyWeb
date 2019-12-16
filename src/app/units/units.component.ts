@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 declare var $: any;
 import { ViewUnitService } from '../../services/view-unit.service';
@@ -14,6 +15,7 @@ import { OrderPipe } from 'ngx-order-pipe';
   styleUrls: ['./units.component.css']
 })
 export class UnitsComponent implements OnInit {
+  modalRef: BsModalRef;
   addUnitISTPage: boolean = true;
   addUnit2NDPage: boolean = false;
   blockID: string;
@@ -77,7 +79,7 @@ export class UnitsComponent implements OnInit {
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
-    private orderpipe: OrderPipe) {
+    private orderpipe: OrderPipe,private modalService: BsModalService) {
       this.blBlkName='Select Block Name';
       this.ACAccntID=this.globalService.getacAccntID();
     this.currentAssociationID=this.globalService.getCurrentAssociationId();
@@ -131,6 +133,10 @@ export class UnitsComponent implements OnInit {
      }
      pageChanged(event) {
       this.config.currentPage = event;
+    }
+
+    OpenModal(editUnits: TemplateRef<any>) {
+      this.modalRef = this.modalService.show(editUnits);
     }
 
   ngOnInit() {

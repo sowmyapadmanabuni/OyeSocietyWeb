@@ -11,9 +11,8 @@
           <div>
             <button class="btn-primary-purple" (click)="enblEnrlAsnVew()"><i class="fa fa-plus" aria-hidden="true"></i>
               Enroll Association</button>
-            <button class="btn-primary-purple" (click)="enblJoinAsnVew()"><i class="fa fa-handshake-o"
-                aria-hidden="true"></i>
-              Join Association</button>
+            <button class="btn-primary-purple" (click)="enblJoinAsnVew()">
+              <i class="fa fa-handshake-o" aria-hidden="true"></i>Join Association</button>
           </div>
         </div>
         <div *ngIf='viewAssnService.vewAsnEnbled'>
@@ -327,7 +326,7 @@
           <!--row1-->
           <div class="content">
             <label>Select Association</label>
-            <div class="dropdown" style="margin: 0px 0px;width: 300px;">
+            <div class="dropdown" style="margin: 0px 0px;">
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                 data-toggle="dropdown">{{assnName}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
@@ -342,7 +341,7 @@
           <!--row2-->
           <div class="content">
             <label>Select Blocks</label>
-            <div class="dropdown" style="margin: 0px 0px;width: 300px;">
+            <div class="dropdown" style="margin: 0px 0px;">
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                 data-toggle="dropdown">{{blBlkName}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>

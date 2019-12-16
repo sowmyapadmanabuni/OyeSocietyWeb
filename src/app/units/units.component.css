@@ -1,6 +1,8 @@
 .bg{
     padding: 50px 0px !important;
     }
+    .modal-header{border-bottom: 1px solid #5a51aa;padding-top: 20px;margin: 10px 8px;color: #5a51aa;text-align: center;}
+
     .enroll{    display: flex;
         justify-content: space-between;
         align-items: center;

@@ -46,6 +46,27 @@
                                                                 </div>
 
                                                         </div>
+                                                        <div class="item">
+                                                                <div class="vehicles-main">
+                                                                        <div class="vehicles" *ngFor="let item of VehicleDataNew">
+                                                                                <p><strong>{{item['veType']}}</strong></p>
+                                                                                <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
+                                                                                <div class="veh-desc" >
+                                                                                                <!-- *ngIf="item['veType']!=''" -->
+                                                                                        <p class="vehicle-name">{{item['veMakeMdl']}}</p>
+                                                                                        <p><strong>Vehicle No:</strong> {{item['veRegNo']}}</p>
+                                                                                        <p><strong>Vehicle Sticker No:</strong> {{item['veStickNo']}}</p>
+                                                                                        <p><strong>Vehicle Slot No:</strong> {{item['uplNum']}}</p>
+                                                                                </div>
+                                                                                <div class="action"><i aria-hidden="true"
+                                                                                                class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
+                                                                                                &nbsp;&nbsp;&nbsp;<i aria-hidden="true" (click)="DeleteVehicle(item['veid'])"
+                                                                                                class="fa fa fa-trash orange"></i>
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+
+                                                        </div>
                                                 </div>
 
                                                 <!-- Left and right controls -->
@@ -120,7 +141,7 @@
                 <div class="adveh">
 
                         <div class="form-group">
-                                <button (click)='AddVehicle()' type="button" class="btn btn-warning">Add Vehicle</button>
+                                <button (click)='AddVehicle()' type="button" class="btn-primary-purple">Add Vehicle</button>
 
 
                         </div>

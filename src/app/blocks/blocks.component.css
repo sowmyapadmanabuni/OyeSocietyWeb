@@ -1,10 +1,6 @@
-.bg{
-    padding: 50px 0px !important;
-    }
-    .enroll{    display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;}
+.bg{padding: 50px 0px !important;}
+.modal-header{border-bottom: 1px solid #5a51aa;padding-top: 20px;margin: 10px 8px;color: #5a51aa;text-align: center;}
+.enroll{display: flex;justify-content: space-between;align-items: center;margin-bottom: 30px;}
     /* .bg-grey{background: #f1eded26;} */
     a{cursor: pointer;}
     .f-des{padding-left: 10px;font-weight: 500;}

@@ -17,7 +17,6 @@
 
       </div>
   </div>
-
   <form role="form">
       <div class="panel panel-primary setup-content" id="step-1">
           <!-- <div class="panel-heading">
@@ -125,8 +124,7 @@
                     <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
                 </div>
           </div>
-          <div class="panel-body">
-              
+          <div class="panel-body">              
               <div class="form-group">
                   <label class="control-label">Owner Email Id<span class="red">*</span></label>
                   <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
