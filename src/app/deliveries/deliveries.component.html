@@ -57,7 +57,7 @@
                                 <tbody>
                                     <tr *ngFor="let item of mf.data;let i=index">
                                         <ng-container *ngIf="item == -1">
-                                            <td colspan="5" align="center">No Data Found</td>
+                                            <td colspan="7" align="center">No Data Found</td>
                                         </ng-container>
                                         <ng-container *ngIf="item!=-1">
                                             <td>{{(i+1)}}</td>
@@ -72,7 +72,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="5">
+                                        <td colspan="7">
                                             <mfBootstrapPaginator></mfBootstrapPaginator>
                                         </td>
                                     </tr>
