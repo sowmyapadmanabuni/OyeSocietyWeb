@@ -314,6 +314,7 @@ label{font-size:12px !important;font-weight: 500 !important}
 .head{display: flex;
     flex-direction: column;
     width: 212px !important;
+    padding-top: 10px;
    }
 }
 
