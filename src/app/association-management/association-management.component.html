@@ -318,9 +318,9 @@
         <div class="col-sm-3 np">
           <p class="join_ass_opt c-active"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
             Association</p>
-          <p class="join_ass_opt c-active"><i class="fa fa-circle-o" aria-hidden="true"></i>
+          <p class="join_ass_opt c-active"><i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircleO,'fa-circle-o' : !toggleFaCircleO}" aria-hidden="true"></i>
             Blocks</p>
-          <p class="join_ass_opt c-active"> <i class="fa fa-circle-o" aria-hidden="true"></i>
+          <p class="join_ass_opt c-active"> <i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircle1,'fa-circle-o' : !toggleFaCircle1}" aria-hidden="true"></i>
             Units</p>
         </div>
         <div class="col-sm-9 b-left">
@@ -522,6 +522,7 @@
   <div class="modal-content">
 
     <div class="modal-header">
+      
       <h4 class="modal-title">Edit Association</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
@@ -534,12 +535,12 @@
             <div class="row">
               <div class="col-sm-4 col-xs-12">
                 <div class="from-group">
-                  <p>Association Name : <strong>{{ASAsnName}}</strong></p>
+                  <p>Association Name: <strong>{{ASAsnName}}</strong></p>
                 </div>
               </div>
               <div class="col-sm-4 col-xs-12"></div>
               <div class="col-sm-4 col-xs-12" style="text-align:pull-right">
-                <p>Date : <strong>{{newdate | date: "d/M/y"}}</strong></p>
+                <p>Date: <strong>{{newdate | date: "d/M/y"}}</strong></p>
               </div>
             </div>
 
@@ -557,7 +558,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : associationnameControl.invalid && associationnameControl.touched}">
-                    <label>Association Name <span class="red">*</span></label>
+                    <label>Association Name<span class="red">*</span></label>
                     <input type="text" class="form-control" name="ASAsnName" [(ngModel)]="ASAsnName"
                       #associationnameControl='ngModel' required />
                     <p class="alerts" *ngIf="associationnameControl.invalid && associationnameControl.touched">
@@ -568,7 +569,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : countryControl.invalid && countryControl.touched}">
-                    <label>Country <span class="red">*</span></label>
+                    <label>Country<span class="red">*</span></label>
                     <select class="form-control" name="ASCountry" [(ngModel)]="ASCountry" #countryControl="ngModel"
                       (change)="openPANfield()" style="font-family: Quicksand">
                       <option ng-disabled="true" ng-selected="true" [value]="">Select Country</option>
@@ -624,7 +625,7 @@
                 <div class="col-sm-4 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : propTypeControl.invalid && propTypeControl.touched}">
-                    <label>Property Type <span class="red">*</span></label>
+                    <label>Property Type<span class="red">*</span></label>
                     <select class="form-control" name="ASPropType" [(ngModel)]="ASPrpType" #propTypeControl="ngModel"
                       style="font-family: Quicksand">
                       <option ng-disabled="true" ng-selected="true" [value]="">Select Property Type</option>
@@ -639,7 +640,7 @@
                 <div class="col-sm-4 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : propNameControl.invalid && propNameControl.touched}">
-                    <label>Property Name <span class="red">*</span></label>
+                    <label>Property Name<span class="red">*</span></label>
                     <input type="text" class="form-control" name="ASPrpName" [(ngModel)]="ASPrpName"
                       #propNameControl='ngModel' placeholder="Property Name" pattern="[a-zA-Z0-9-]*" required />
                     <p class="alerts" *ngIf="propNameControl.invalid && propNameControl.touched">Property Name is
@@ -652,7 +653,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : noblockControl.invalid && noblockControl.touched}">
-                    <label>No Of Blocks <span class="red">*</span></label>
+                    <label>No Of Blocks<span class="red">*</span></label>
                     <input type="text" class="form-control" name="ASNofBlks" [(ngModel)]="ASNofBlks"
                       #noblockControl='ngModel' pattern="[0-9]*" placeholder="No Of Blocks" required />
                     <p class="alerts" *ngIf="noblockControl.invalid && noblockControl.touched">Number Of Blocks is
@@ -663,7 +664,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : nounitControl.invalid && nounitControl.touched}">
-                    <label>No Of Units <span class="red">*</span></label>
+                    <label>No Of Units<span class="red">*</span></label>
                     <input type="text" class="form-control" name="ASNofUnit" [(ngModel)]="ASNofUnit"
                       #nounitControl='ngModel' pattern="[0-9]*" placeholder="No Of Units" required />
                     <p class="alerts" *ngIf="nounitControl.invalid && nounitControl.touched">Number Of Units is required
@@ -676,7 +677,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : amenitytypeControl.invalid && amenitytypeControl.touched}">
-                    <label>Amenity Type <span class="red">*</span></label>
+                    <label>Amenity Type<span class="red">*</span></label>
                     <input type="text" class="form-control" name="AMType" [(ngModel)]="AMType"
                       #amenitytypeControl='ngModel' placeholder="Amenity Type" pattern="[a-zA-Z0-9-]*" required />
                     <p class="alerts" *ngIf="amenitytypeControl.invalid && amenitytypeControl.touched">Amenity Name is
@@ -687,7 +688,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : noofamenityControl.invalid && noofamenityControl.touched}">
-                    <label>No Of Amenities <span class="red">*</span></label>
+                    <label>No Of Amenities<span class="red">*</span></label>
                     <input type="text" class="form-control" name="NoofAmenities" [(ngModel)]="NoofAmenities"
                       #noofamenityControl='ngModel' pattern="[0-9]*" placeholder="No Of Amenities" required />
                     <p class="alerts" *ngIf="noofamenityControl.invalid && noofamenityControl.touched">No Of Amenities
@@ -701,7 +702,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : banknameControl.invalid && banknameControl.touched}">
-                    <label>Bank Name <span class="red">*</span></label>
+                    <label>Bank Name<span class="red">*</span></label>
                     <input type="text" class="form-control" name="BABName" [(ngModel)]="BABName"
                       #banknameControl='ngModel' placeholder="Bank Name" pattern="[A-Za-z\s]+" required />
                     <p class="alerts" *ngIf="banknameControl.invalid && banknameControl.touched">Bank Name is required
@@ -712,7 +713,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : bankifscControl.invalid && bankifscControl.touched}">
-                    <label>IFSC <span class="red">*</span></label>
+                    <label>IFSC<span class="red">*</span></label>
                     <input type="text" class="form-control" name="BAIFSC" [(ngModel)]="BAIFSC"
                       #bankifscControl='ngModel' placeholder="Bank IFSC" pattern="^[A-Za-z]{4}[a-zA-Z0-9]{7}$"
                       required />
@@ -726,7 +727,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : accountnumberControl.invalid && accountnumberControl.touched}">
-                    <label>Account Number <span class="red">*</span></label>
+                    <label>Account Number<span class="red">*</span></label>
                     <input type="text" class="form-control" name="BAActNo" [(ngModel)]="BAActNo"
                       #accountnumberControl='ngModel' placeholder="Account Number" pattern="[a-zA-Z0-9-]*" required />
                     <p class="alerts" *ngIf="accountnumberControl.invalid && accountnumberControl.touched">Account
@@ -737,7 +738,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : accounttypeControl.invalid && accounttypeControl.touched}">
-                    <label>Account Type <span class="red">*</span></label>
+                    <label>Account Type<span class="red">*</span></label>
                     <select class="form-control" name="ASPropType" [(ngModel)]="ASPrpType" #accounttypeControl="ngModel"
                       style="font-family: Quicksand">
                       <option ng-disabled="true" ng-selected="true" [value]="">Select Account Type</option>

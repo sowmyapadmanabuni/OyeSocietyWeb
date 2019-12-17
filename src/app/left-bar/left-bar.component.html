@@ -1,7 +1,7 @@
 <div class="col-xs-12 col-sm-12 col-md-1 profile">
     <div style="padding: 0px 0px;"><img src="../../assets/images/icons/user.png"></div>
     <div id="firstname" style="padding: 0px 0px;">{{acfName}}</div>
-    <span class="role">(admin)</span>
+    <span class="role">{{(globalService.mrmroleId == 1?'(Admin)':'(Resident)')}}</span>
     <div><i class="fa fa-user-o" aria-hidden="true"></i></div>
     <div><i class="fa fa-cog" aria-hidden="true"></i></div>
     <div><i class="fa fa-power-off" aria-hidden="true"></i></div>

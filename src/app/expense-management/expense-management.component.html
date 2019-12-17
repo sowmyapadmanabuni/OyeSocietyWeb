@@ -25,22 +25,26 @@
                         </ul>
                     </div>
 
-                    <div [hidden]="blockID == ''" class="dropdown">
+                    <!-- <div [hidden]="blockID == ''" class="dropdown">
                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{Invoiced}}
                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                       <ul class="dropdown-menu fullw">
                         <li *ngFor='let item of invoiced' (click)="GetexpenseListByInvoiceID(item['name'])"><a>{{item['displayName']}}</a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
 
                     <button class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
                             aria-hidden="true"></i> Generate invoice</button>
                     <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add Expense</button>
                 </div>
+                <div style="display: flex;justify-content: flex-end;align-items: baseline;">
+                  <label class="purple">Invoiced&nbsp;&nbsp;</label>
+                  <input type="checkbox" [(ngModel)]="IsInvoiced" (change)='GetexpenseListByInvoiceID(IsInvoiced)' name="IsInvoiced">
+                </div>
                 <div *ngIf='addexpenseservice.enableExpenseListView'>
-                    <label>Search</label>
+                    <!-- <label>Search</label> -->
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                 </div>
                 <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
@@ -80,7 +84,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="10" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
@@ -92,7 +96,7 @@
                                         <span style="margin-left: 13px;" *ngIf="item.exIsInvD == false"> NO</span>
                                     </td>
                                     <td>{{item.exDate | date:"d/M/y"}}</td>
-                                    <td class="amount">{{'₹ '+item.expAmnt}}</td>
+                                    <td class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
                                     <td>{{dashboardservice.acfName | titlecase}}</td>
                                     <td>
                                         <i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID)" title="EditExpense" class="fa fa-eye"> |</i><i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash" title="DeleteExpense"></i>
@@ -143,13 +147,13 @@
             <form name="editExpense" autocomplete="off">
               <div class="row">
                 <div class="col-sm-6">
-                    <p style="margin-left: 14px;">Association Name : <strong>{{assnName}}</strong></p>
+                    <p style="margin-left: 14px;">Association Name: <strong>{{assnName}}</strong></p>
                 </div>
                 <div class="col-sm-3" style="text-align:pull-right">
-                  <p>Date : <strong>{{todayDate | date: "d/M/y"}}</strong></p>
+                  <p>Date: <strong>{{todayDate | date: "d/M/y"}}</strong></p>
                 </div>
                 <div class="col-sm-3" style="text-align:pull-right">
-                  <p>Invoice : <strong>{{editexpensedata.inNumber}}</strong></p>
+                  <p>Invoice: <strong>{{editexpensedata.inNumber}}</strong></p>
                 </div>
               </div>
               <div class="col-sm-12">
@@ -218,7 +222,7 @@
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : expenseheadControl.invalid && expenseheadControl.touched}">
-                      <label>Expense Head <span class="red">*</span></label>
+                      <label>Expense Head<span class="red">*</span></label>
                       <select class="form-control" name="EXHead" [(ngModel)]="editexpensedata.EXHead"
                         #expenseheadControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Expense Head
@@ -233,7 +237,7 @@
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : descriptionControl.invalid && descriptionControl.touched}">
-                      <label>Expense Description <span class="red">*</span></label>
+                      <label>Expense Description<span class="red">*</span></label>
                       <input type="text" class="form-control" name="EXDesc" [value]="editexpensedata.EXDesc"
                         [(ngModel)]="editexpensedata.EXDesc" placeholder="Expense Description "
                         #descriptionControl='ngModel' required />
@@ -245,7 +249,7 @@
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : expenserecurrencetypeControl.invalid && expenserecurrencetypeControl.touched}">
-                      <label>Expense Recurrence Type <span class="red">*</span></label>
+                      <label>Expense Recurrence Type<span class="red">*</span></label>
                       <select class="form-control" name="EXRecurr"
                         [(ngModel)]="editexpensedata.EXRecurr" #expenserecurrencetypeControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Expense Type
@@ -265,7 +269,7 @@
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : applicabletoControl.invalid && applicabletoControl.touched}">
-                      <label>Applicable to Unit <span class="red">*</span></label>
+                      <label>Applicable to Unit<span class="red">*</span></label>
                       <select class="form-control" name="EXApplTO"
                         [(ngModel)]="editexpensedata.EXApplTO" #applicabletoControl='ngModel'
                         (change)="applicableTo(editexpensedata.EXApplTO)" required>
@@ -283,7 +287,7 @@
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : expensetypeControl.invalid && expensetypeControl.touched}">
-                      <label>Expense Type <span class="red">*</span></label>
+                      <label>Expense Type<span class="red">*</span></label>
                       <select class="form-control" name="EXType" [(ngModel)]="editexpensedata.EXType"
                         #expensetypeControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Expense Type
@@ -300,7 +304,7 @@
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : paybymethodControl.invalid && paybymethodControl.touched}">
-                      <label>Select Payment Method <span class="red">*</span></label>
+                      <label>Select Payment Method<span class="red">*</span></label>
                       <select class="form-control" name="PMID" [(ngModel)]="editexpensedata.PMID"
                         #paybymethodControl='ngModel' (change)="showMethod(editexpensedata.PMID)" required>
                         <option disabled="true" selected="true" value="">Select Method *</option>
@@ -316,7 +320,7 @@
                 <div class="row frm-mb">
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
-                      <label>Amount Paid <span class="red">*</span></label>
+                      <label>Amount Paid<span class="red">*</span></label>
                       <input type="text" class="form-control" name="EXPAmnt" [value]="editexpensedata.EXPAmnt"
                         [(ngModel)]="editexpensedata.EXPAmnt" #amountControl='ngModel' placeholder="Amount" required
                         pattern="^[0-9]*$" />
@@ -332,7 +336,7 @@
                   <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All'">
                     <div class="form-group"
                       [ngClass]="{'has-error' : distributionControl.invalid && distributionControl.touched}">
-                      <label>Select Distribution Type <span class="red">*</span></label>
+                      <label>Select Distribution Type<span class="red">*</span></label>
                       <select class="form-control" name="EXDisType"
                         [(ngModel)]="editexpensedata.EXDisType" #distributionControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Distribution Type
@@ -348,7 +352,7 @@
   
                   <div class="col-sm-4 col-xs-12" [hidden]="applies != 'Single'">
                     <div class="form-group" [ngClass]="{'has-error' : unitControl.invalid && unitControl.touched}">
-                      <label>Select Unit <span class="red">*</span></label>
+                      <label>Select Unit<span class="red">*</span></label>
                       <select class="form-control" name="unUniIden"
                         [(ngModel)]="editexpensedata.unUniIden" #unitControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Unit </option>
@@ -381,7 +385,7 @@
                   <div class="col-sm-6 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : chequedateControl.invalid && chequedateControl.touched}">
-                      <label>Cheque Date <span class="red">*</span></label>
+                      <label>Cheque Date<span class="red">*</span></label>
                       <input type="text" class="form-control" name="EXChqDate" #chequedateControl='ngModel'
                         placeholder="Cheque Date" required [(ngModel)]="editexpensedata.EXChqDate" #dp="bsDatepicker"
                         bsDatepicker [bsConfig]='bsConfig' [(bsValue)]="editexpensedata.EXChqDate" [minDate]="minDate" placement="top"/>
@@ -395,7 +399,7 @@
   
                   <div class="col-sm-6 col-xs-12">
                     <div class="form-group" [ngClass]="{'has-error' : ddnoControl.invalid && ddnoControl.touched}">
-                      <label>Demand Draft No <span class="red">*</span></label>
+                      <label>Demand Draft No<span class="red">*</span></label>
                       <input type="text" class="form-control" name="ddno" [(ngModel)]="ddno" placeholder="Demand Draft No"
                         #ddnoControl='ngModel' required pattern="^[a-zA-Z0-9]*$" />
   
@@ -409,7 +413,7 @@
                   <div class="col-sm-6 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : demandDraftDateControl.invalid && demandDraftDateControl.touched}">
-                      <label>Demand Draft Date <span class="red">*</span></label>
+                      <label>Demand Draft Date<span class="red">*</span></label>
                       <input type="text" class="form-control" name="DemandDraftDate" #demandDraftDateControl='ngModel'
                         placeholder="Demand Draft Date" required [bsConfig]="bsConfig" [(ngModel)]="DemandDraftDate"
                         #dp="bsDatepicker" [bsConfig]='bsConfig' bsDatepicker [(bsValue)]="DemandDraftDate" [minDate]="minDemandDraftDate" placement="top"/>
@@ -425,7 +429,7 @@
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : expendituredateControl.invalid && expendituredateControl.touched}">
-                      <label>Expenditure Date <span class="red">*</span></label>
+                      <label>Expenditure Date<span class="red">*</span></label>
                       <input type="text" class="form-control" name="EXDate" #expendituredateControl='ngModel'
                         placeholder="Expenditure Date " required [(ngModel)]="editexpensedata.EXDate"
                         bsDatepicker [bsConfig]='bsConfig' placement="top"/>

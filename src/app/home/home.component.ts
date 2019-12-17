@@ -264,9 +264,6 @@ export class HomeComponent implements OnInit {
     })
   }
   loadAssociation(associationName: string,param:any) {
-    if(param == 'id'){
-      this.globalService.setCurrentUnitName('Units');
-    }
     if(!this.globalService.toggledashboard){
       console.log('false');
       this.globalService.setCurrentUnitName('Units');
@@ -286,9 +283,8 @@ export class HomeComponent implements OnInit {
         console.log(this.unitForAssociation);
           const found = this.unitlistForAssociation.some(el => el['unUnitID'] === association['unUnitID'] && el['unUniName'] === association['unUniName'] && el['mrmRoleID'] === association['mrmRoleID']);
           if (!found) {
-            this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
-            if(association['mrmRoleID'] == 1){
-              this.globalService.setMrmRoleID(1);
+            if(association['unUniName'] != '' && association['unUnitID'] != 0){
+              this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
             }
           }
           console.log(this.unitlistForAssociation);
@@ -299,6 +295,22 @@ export class HomeComponent implements OnInit {
       }
 
     });
+    console.log(this.unitlistForAssociation);
+    const found1 = this.unitlistForAssociation.filter(abc=>{
+    return abc['mrmRoleID'] == 1
+    });
+    if(found1.length != 0){
+      this.globalService.mrmroleId=1;
+      console.log(this.globalService.mrmroleId);
+    }
+    else{
+      this.globalService.mrmroleId=2;
+      console.log(this.globalService.mrmroleId);
+    }
+    if(param == 'id'){
+      //this.globalService.setCurrentUnitName('Units');
+      this.loadUnit(this.unitlistForAssociation[0]['unUniName'],this.unitlistForAssociation[0]['unUnitID']);
+    }
     if(this.unitlistForAssociation.length == 1){
       if(this.unitlistForAssociation[0]['unUniName']==''){
         this.unitlistForAssociation=[];

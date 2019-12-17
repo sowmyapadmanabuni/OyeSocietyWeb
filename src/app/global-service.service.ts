@@ -14,7 +14,7 @@ export class GlobalServiceService {
    currentUnitName:any;
    enableLogin: boolean;
    enableHomeView: boolean; 
-   
+   mrmroleId:any;
    
   constructor() { 
     this.currentAssociationName='';
@@ -82,6 +82,8 @@ public setCurrentAssociationName(associationName:string){
 }
 
 public setMrmRoleID(MrmRoleID){
+  this.mrmroleId=MrmRoleID;
+  console.log(typeof this.mrmroleId);
   localStorage.setItem("MrmRoleID", MrmRoleID);
 }
 public getMrmRoleID(){

@@ -6,7 +6,7 @@ body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-
 .wel{width:200px;font-size: 16px;margin: 0px;display: inline-block;}
 .zsiq_chatbtn {background-color: #919191 !important;}
 a,a:hover,li a:hover{cursor:pointer;text-decoration: none}
-.purple,.black{color:#5a51aa;font-size: 18px;font-weight: 500;}
+.purple,.black{color:#5a51aa !important;font-size: 18px !important;font-weight: 500 !important;}
 .np{padding:0px !important}
 .orange{color: #5a51aa;}
 .foot-bg{background: #2D3139}
@@ -144,6 +144,10 @@ font-size: 12px;
     background-color: #fff !important;
     border-color: #fff !important;
     padding: 0px !important;
+}
+
+.red{
+    color: red;
 }
 
 /* View Details pop up css start */
