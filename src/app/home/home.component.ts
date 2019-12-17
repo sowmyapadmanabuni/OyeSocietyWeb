@@ -89,9 +89,9 @@ export class HomeComponent implements OnInit {
     this.getAmount();
     this.getMembers();
     this.getTickets();
-    this.getVehicle();
+    //this.getVehicle();
     this.getStaff();
-    this.getVistors();
+    //this.getVistors();
     this.getAccountFirstName();
     //this.globalService.currentAssociationName='';
   }
@@ -114,7 +114,7 @@ export class HomeComponent implements OnInit {
         }
       }
       console.log(this.uniqueAssociations);
-        this.loadAssociation(this.globalService.getCurrentAssociationName());
+        this.loadAssociation(this.globalService.getCurrentAssociationName(),'');
       },
       res=>{
         console.log('Error in getting Associations',res);
@@ -222,12 +222,12 @@ export class HomeComponent implements OnInit {
      this.dashBrdService.acMobile=this.acMobile;
       });
 }
-  getVehicle(){
-      this.dashBrdService.getVehicle(this.associationID).subscribe(res => {
+  getVehicle(unUnitID){
+      this.dashBrdService.getVehicle(unUnitID).subscribe(res => {
         console.log('vehicle',res);
         var data:any = res;
-        this.allVehicleListByAssn = data.data.vehicleListByAssocID;
-        let totalVehicles = data.data.vehicleListByAssocID.filter(item => {
+        this.allVehicleListByAssn = data.data.vehicleListByUnitID;
+        let totalVehicles = data.data.vehicleListByUnitID.filter(item => {
           return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
         })
         this.totalVehicles= totalVehicles.length;
@@ -263,8 +263,10 @@ export class HomeComponent implements OnInit {
      }
     })
   }
-  loadAssociation(associationName: string) {
-    this.globalService.setCurrentUnitName('Units');
+  loadAssociation(associationName: string,param:any) {
+    if(param == 'id'){
+      this.globalService.setCurrentUnitName('Units');
+    }
     if(!this.globalService.toggledashboard){
       console.log('false');
       this.globalService.setCurrentUnitName('Units');
@@ -282,9 +284,12 @@ export class HomeComponent implements OnInit {
         console.log( this.dashBrdService.mrmRoleID);
         this.unitForAssociation.push(association);
         console.log(this.unitForAssociation);
-          const found = this.unitlistForAssociation.some(el => el['unUnitID'] === association['unUnitID'] && el['unUniName'] === association['unUniName']);
+          const found = this.unitlistForAssociation.some(el => el['unUnitID'] === association['unUnitID'] && el['unUniName'] === association['unUniName'] && el['mrmRoleID'] === association['mrmRoleID']);
           if (!found) {
-            this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID']));
+            this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
+            if(association['mrmRoleID'] == 1){
+              this.globalService.setMrmRoleID(1);
+            }
           }
           console.log(this.unitlistForAssociation);
           this.globalService.setCurrentAssociationId(association.asAssnID);
@@ -297,7 +302,7 @@ export class HomeComponent implements OnInit {
     if(this.unitlistForAssociation.length == 1){
       if(this.unitlistForAssociation[0]['unUniName']==''){
         this.unitlistForAssociation=[];
-        this.unitlistForAssociation.push(new UnitlistForAssociation('No Unit Found',0));
+        this.unitlistForAssociation.push(new UnitlistForAssociation('No Unit Found',0,0));
         console.log(this.unitlistForAssociation);
         this.globalService.setCurrentUnitName('Units');
       }
@@ -306,9 +311,9 @@ export class HomeComponent implements OnInit {
     this.getAmount();
     this.getMembers();
     this.getTickets();
-    this.getVehicle();
+    //this.getVehicle();
     this.getStaff();
-    this.getVistors();
+    //this.getVistors();
   }
   assnAmountDue(){
     this.AssociationAmountDue=true;
@@ -375,6 +380,8 @@ export class HomeComponent implements OnInit {
     this.globalService.setCurrentUnitName(unit);
     console.log(this.globalService.currentUnitId);
     console.log(this.globalService.currentUnitName);
+    console.log(this.globalService.getCurrentUnitName());
+    this.getVehicle(unUnitID);
   }
 
 }

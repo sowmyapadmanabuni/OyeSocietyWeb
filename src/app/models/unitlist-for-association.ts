@@ -1,3 +1,3 @@
 export class UnitlistForAssociation {
-    constructor(private unUniName,private unUnitID){}
+    constructor(private unUniName,private unUnitID,private mrmRoleID){}
 }

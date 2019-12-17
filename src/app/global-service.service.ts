@@ -81,5 +81,10 @@ public setCurrentAssociationName(associationName:string){
    localStorage.setItem("currentAssociationName", associationName);
 }
 
-
+public setMrmRoleID(MrmRoleID){
+  localStorage.setItem("MrmRoleID", MrmRoleID);
+}
+public getMrmRoleID(){
+  localStorage.getItem("MrmRoleID");
+}
 }

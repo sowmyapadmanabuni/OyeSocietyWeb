@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {GlobalServiceService} from '../global-service.service'
 
 @Component({
   selector: 'app-right-bar',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class RightBarComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private globalService: GlobalServiceService) { }
 
   ngOnInit() {
   }

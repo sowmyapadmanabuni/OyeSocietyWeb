@@ -14,7 +14,7 @@
                                                 data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
                                                 <span class="caret"></span></button>
                                         <ul class="dropdown-menu fullw fdrop">
-                                                <li (click)="loadAssociation(association['asAsnName'])" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
+                                                <li (click)="loadAssociation(association['asAsnName'],'id')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
                                         </ul>
                                 </div>
                                 <div class="dropdown search-dropd">
