@@ -147,6 +147,10 @@ font-size: 12px;
     padding: 0px !important;
 }
 
+.red{
+    color: red;
+}
+
 /* View Details pop up css start */
 .result-row{
 display: flex;

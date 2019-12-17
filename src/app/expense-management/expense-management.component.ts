@@ -101,6 +101,7 @@ export class ExpenseManagementComponent implements OnInit {
   Invoiced:any;
   enableAddExpnseView:boolean;
   enableExpenseListView:boolean;
+  IsInvoiced:any;
 
   constructor(private viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -289,7 +290,8 @@ export class ExpenseManagementComponent implements OnInit {
         this.viewexpensesByBlockId=data;
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
-          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], ''));
+          console.log(item['inNumber']);
+          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber']));
         })
         console.log(this.expenseList);
         this._viewexpensesByBlockId=this.expenseList;
@@ -406,6 +408,7 @@ export class ExpenseManagementComponent implements OnInit {
   }
   openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exDate, blBlockID) {
     console.log('purchaseOrders',this.purchaseOrders);
+    console.log('InvoiceNumber',inNumber);
     // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
     // this.VNName = this.purchaseOrders[0]['poPrfVen'];
     // this.BPIden = this.purchaseOrders[0]['bpIden'];
@@ -424,6 +427,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.editexpensedata.EXRecurr = exRecurr;
     this.editexpensedata.EXDate = formatDate(exDate, 'dd/MM/yyyy', 'en');
     this.editexpensedata.BLBlockID = blBlockID;
+    console.log(this.editexpensedata);
 
     this.modalRef = this.modalService.show(editexpensetemplate,
       Object.assign({}, { class: 'gray modal-lg' }));
@@ -641,7 +645,14 @@ export class ExpenseManagementComponent implements OnInit {
         console.log('invoiceLists?', this.invoiceLists);
       })
   }
-  GetexpenseListByInvoiceID(expid) {
+  GetexpenseListByInvoiceID(IsInvoiced) {
+    let expid='';
+    if(IsInvoiced == true){
+      expid='true'
+    }
+    else{
+      expid='false'
+    }
     console.log('expid',typeof expid);
     this.viewinvoiceservice.expid=expid;
     //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
@@ -680,7 +691,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(data['data']['expense']);
       this._viewexpensesByBlockId=data['data']['expense'];
       data['data']['expense'].forEach(item => {
-        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], ''));
+        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber']));
       })
       console.log(this.expenseList);
       this._viewexpensesByBlockId=this.expenseList;

@@ -264,9 +264,6 @@ export class HomeComponent implements OnInit {
     })
   }
   loadAssociation(associationName: string,param:any) {
-    if(param == 'id'){
-      this.globalService.setCurrentUnitName('Units');
-    }
     if(!this.globalService.toggledashboard){
       console.log('false');
       this.globalService.setCurrentUnitName('Units');
@@ -286,7 +283,9 @@ export class HomeComponent implements OnInit {
         console.log(this.unitForAssociation);
           const found = this.unitlistForAssociation.some(el => el['unUnitID'] === association['unUnitID'] && el['unUniName'] === association['unUniName'] && el['mrmRoleID'] === association['mrmRoleID']);
           if (!found) {
-            this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
+            if(association['unUniName'] != '' && association['unUnitID'] != 0){
+              this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
+            }
             if(association['mrmRoleID'] == 1){
               this.globalService.setMrmRoleID(1);
             }
@@ -299,6 +298,10 @@ export class HomeComponent implements OnInit {
       }
 
     });
+    if(param == 'id'){
+      //this.globalService.setCurrentUnitName('Units');
+      this.loadUnit(this.unitlistForAssociation[0]['unUniName'],this.unitlistForAssociation[0]['unUnitID']);
+    }
     if(this.unitlistForAssociation.length == 1){
       if(this.unitlistForAssociation[0]['unUniName']==''){
         this.unitlistForAssociation=[];

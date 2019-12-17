@@ -6,5 +6,6 @@ export class ExpenseList {
         private exIsInvD,
         private exDate,
         private expAmnt,
-        private checkedForGenerateInvoice){}
+        private checkedForGenerateInvoice,
+        private inNumber){}
 }

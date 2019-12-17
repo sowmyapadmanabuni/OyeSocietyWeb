@@ -96,9 +96,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="padding-top:20px;">
+                    <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">View Block</h4>
-                    <!-- <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
-                            aria-hidden="true">×</span></button> -->
+                
                 </div>
                 <div class="modal-body">
 
@@ -159,12 +160,12 @@
 
     <ng-template #editBlocktemplate>
         <div class="modal-content">
-    
             <div class="modal-header">
-                <h4 class="modal-title" style="padding-left:15px;">Edit Block</h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                <h4 class="modal-title" style="padding-left:15px;">Edit Block</h4>
+               
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -355,8 +356,7 @@
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
                                         <div class="form-group">
-                                            <label>Invoice Creation Frequency<span class="red">*</span> <span
-                                                    class="red">*</span></label>
+                                            <label>Invoice Creation Frequency<span class="red">*</span></label>
                                             <input list="invoice" class="form-control" name="ASIcRFreq"
                                                 [(ngModel)]="ASIcRFreq" #frequencyControl='ngModel' placeholder="Invoice Creation Frequency" required>
                                                 <datalist id="invoice">
