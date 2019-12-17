@@ -1,15 +1,14 @@
-<div class="container-fluid bg np">
+<div class="container-fluid np">
     <div class="col-sm-9">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
 
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <h3 class="black">Family Members</h3>
 
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-
+                <h3 class="black">Family Members</h3>
                 <div class="enroll">
                     <div>
                         <button class="btn-primary-purple" (click)="addMemberShow()"><i class="fa fa-plus"
@@ -18,7 +17,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="dash-row" *ngIf='memberList'>
                     <table class="table table-bordered"
                         [mfData]="familymemberarray | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt"
@@ -92,18 +91,28 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label class="control-label">Relationship<span class="red">*</span></label>
-                                    <input maxlength="20" type="text" [(ngModel)]='Relation' name="Relation" #relationshipControl="ngModel" required="required" class="form-control" placeholder="Relationship" />
-                                    <p class="alerts" *ngIf="relationshipControl.invalid && relationshipControl.touched"> Enter the Relation</p>
+                                    <input maxlength="20" type="text" [(ngModel)]='Relation' name="Relation"
+                                        #relationshipControl="ngModel" required="required" class="form-control"
+                                        placeholder="Relationship" />
+                                    <p class="alerts"
+                                        *ngIf="relationshipControl.invalid && relationshipControl.touched"> Enter the
+                                        Relation</p>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">First Name<span class="red">*</span></label>
-                                    <input maxlength="200" type="text" [(ngModel)]='FirstName' maxlength="30" #fnameControl="ngModel" name="FirstName" required="required" class="form-control" placeholder="First Name" />
-                                    <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter the Name</p>
+                                    <input maxlength="200" type="text" [(ngModel)]='FirstName' maxlength="30"
+                                        #fnameControl="ngModel" name="FirstName" required="required"
+                                        class="form-control" placeholder="First Name" />
+                                    <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter the
+                                        Name</p>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Mobile Number<span class="red">*</span></label>
-                                    <input maxlength="20" [(ngModel)]='MobileNumber' name="MobileNumber" type="text" #mobileControl="ngModel" required="required" class="form-control" placeholder="Mobile Number" />
-                                    <p class="alerts" *ngIf="mobileControl.invalid && mobileControl.touched"> Enter the 10 digit number</p>
+                                    <input maxlength="20" [(ngModel)]='MobileNumber' name="MobileNumber" type="text"
+                                        #mobileControl="ngModel" required="required" class="form-control"
+                                        placeholder="Mobile Number" />
+                                    <p class="alerts" *ngIf="mobileControl.invalid && mobileControl.touched"> Enter the
+                                        10 digit number</p>
                                 </div>
                             </div>
                             <div class="panel-body">

@@ -1,12 +1,13 @@
-<div class="container-fluid bg np">
+<div class="container-fluid np">
     <div class="col-sm-9">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Visitors</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
+                    <span class="black">Visitors</span>
+
                 <div class="switch1">
                     <ul class="nav nav-pills">
                         <li class="active"><a (click)="goToGuests()">My Guests</a></li>
@@ -40,7 +41,7 @@
 
 <!--  -->
 <div class="dash-row" *ngIf='guestList'>
-    <table class="table table-striped" [mfData]="invitationList | search:['infName', 'inpOfInv', 'insDate', 'ineDate', 'inVisCnt', 'inMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+    <table class="table table-bordered" [mfData]="invitationList | search:['infName', 'inpOfInv', 'insDate', 'ineDate', 'inVisCnt', 'inMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
         <thead>
             <tr>
                 <th>
@@ -72,7 +73,7 @@
         <tbody>
             <tr *ngFor="let item of mf.data;let i=index">
                 <ng-container *ngIf="item == -1">
-                    <td colspan="4" align="center">No Data Found</td>
+                    <td colspan="8" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
                     <td>{{(i+1)}}</td>
@@ -104,7 +105,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4">
+                <td colspan="8">
                     <mfBootstrapPaginator></mfBootstrapPaginator>
                 </td>
             </tr>

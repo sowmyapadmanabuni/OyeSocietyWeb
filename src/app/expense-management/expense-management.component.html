@@ -1,12 +1,13 @@
-<div class="container-fluid bg np">
+<div class="container-fluid np">
     <div class="col-sm-9">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Expense For {{globalservice.getCurrentAssociationName()}}</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
+                <span class="purple">Expense For {{globalservice.getCurrentAssociationName()}}</span>
+
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li class="active"><a (click)="goToExpense()">Expenses</a></li>
@@ -64,7 +65,7 @@
                                 <th>
                                     <mfDefaultSorter by="exDate">Invoiced Date</mfDefaultSorter>
                                 </th>
-                                <th>
+                                <th style="width:120px">
                                     <mfDefaultSorter by="expAmnt">Amount</mfDefaultSorter>
                                 </th>
                                 <th>
@@ -91,7 +92,7 @@
                                         <span style="margin-left: 13px;" *ngIf="item.exIsInvD == false"> NO</span>
                                     </td>
                                     <td>{{item.exDate | date:"d/M/y"}}</td>
-                                    <td>{{'₹ '+item.expAmnt}}</td>
+                                    <td class="amount">{{'₹ '+item.expAmnt}}</td>
                                     <td>{{dashboardservice.acfName | titlecase}}</td>
                                     <td>
                                         <i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID)" title="EditExpense" class="fa fa-eye"> |</i><i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash" title="DeleteExpense"></i>

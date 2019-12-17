@@ -105,7 +105,7 @@
   content:url('../assets/images/hiring32x32.png');
   position: absolute;
     top: 0px;
-    left: -27px;
+    left: -18px;
 }
 .hire:before {
   animation: blink-animation 1s steps(2, start) infinite;
