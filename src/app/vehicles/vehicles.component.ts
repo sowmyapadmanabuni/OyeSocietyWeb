@@ -14,12 +14,15 @@ export class VehiclesComponent implements OnInit {
   modalRef: BsModalRef;
   CurrentUnitID: any;
   VehicleData: [];
+  VehicleCarousel: VehicleDataNew[];
+  VehicleCarousel1: VehicleDataNew[];
   vehicledatalength: boolean;
   veMakeMdl: string;
   veRegNo: string;
   veStickNo:string;
   uplNum: string;
   veType: string;
+  j:any;
   
   vehiclename: any;
   vehiclenumber: any;
@@ -28,9 +31,6 @@ export class VehiclesComponent implements OnInit {
   VEID: any;
   makemodel: any;
   VehicleDataNew: VehicleDataNew[];
-
-
-
   constructor(private modalService: BsModalService, 
     private globalserviceservice: GlobalServiceService, 
     private bsModalService: BsModalService, 
@@ -39,14 +39,15 @@ export class VehiclesComponent implements OnInit {
       this.vehicledatalength = false;
       this.VehicleData=[];
       this.VehicleDataNew=[];
+      this.VehicleCarousel=[];
+      this.VehicleCarousel1=[];
+      this.j=0;
      }
-
   ngOnInit() {
     this.CurrentUnitID = this.globalserviceservice.getCurrentUnitId();
     console.log(this.CurrentUnitID);
     this.getVehicles();
   }
-
   getVehicles(){
     this.VehicleDataNew=[];
     this.addvehicleservice.getVehicleDetails(this.CurrentUnitID)
@@ -63,19 +64,28 @@ export class VehiclesComponent implements OnInit {
           }
         }
       })
+      
+  
+      for (let i = 0; i < this.VehicleDataNew.length; i++) {
+        if (i < 4) {
+          this.VehicleCarousel[i] = this.VehicleDataNew[i];
+        }
+        else{
+          this.VehicleCarousel1[this.j] = this.VehicleDataNew[i];
+           this.j++;
+        }
+      }
+      console.log(this.VehicleCarousel);
+      console.log(this.VehicleCarousel1);
     },
     err=>{
       console.log(err);
     })
-
   }
-
   // openModal(requestdemo: TemplateRef<any>) {
   //   this.modalRef = this.bsModalService.show(requestdemo, Object.assign({}, { class: 'gray modal-lg' }));
   // }
-
   // ADD VEHICLE FUNCTION
-
   AddVehicle(){
     let vehiclesData = {
       'veMakeMdl': this.veMakeMdl,
@@ -116,12 +126,9 @@ export class VehiclesComponent implements OnInit {
      })
      this.modalRef.hide();
   }
-
-
    // EDIT VEHICLE FUNCTION
   UpdateVehicle(){
     let updateData = {
-
       "VEType"    : this.makemodel,
       "VERegNo"   : this.vehiclenumber,
       "VEMakeMdl" : this.vehiclename,
@@ -147,14 +154,12 @@ export class VehiclesComponent implements OnInit {
         this.getVehicles();
         }
         })
-
      },
      () => {
       swal.fire('Error', 'Something went wrong!', 'error')
      })
      this.modalRef.hide();
   }
-
   openModal(editVehicle: TemplateRef<any>,veType,veRegNo,veMakeMdl,veStickNo,uplNum,veid) {
     console.log(veType);
     console.log(veRegNo);
@@ -171,7 +176,6 @@ export class VehiclesComponent implements OnInit {
     //this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.modalRef = this.modalService.show(editVehicle, { class: 'modal-md' });
   }
-
   // DELETE VEHICLE
   DeleteVehicle(veid){
     console.log(veid);
@@ -205,5 +209,4 @@ export class VehiclesComponent implements OnInit {
       this.modalRef.hide();
     })
   }
-
 }
