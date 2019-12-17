@@ -1,12 +1,12 @@
-<div class="container-fluid bg np">
+<div class="container-fluid np">
     <div class="col-sm-9">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Staffs</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
+                    <span class="black">Staffs</span>
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li><a (click)="goToGuests()">My Guests</a></li>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="dash-row table-responsive">
-                            <table class="table table-striped" [mfData]="WorkerNameList | search:['wkfName', 'wkDesgn', 'wkMobile']:searchTxt"
+                            <table class="table table-bordered" [mfData]="WorkerNameList | search:['wkfName', 'wkDesgn', 'wkMobile']:searchTxt"
                             #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
@@ -99,7 +99,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="6">
                                         <mfBootstrapPaginator></mfBootstrapPaginator>
                                     </td>
                                 </tr>

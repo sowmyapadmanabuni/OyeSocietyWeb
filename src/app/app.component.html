@@ -11,7 +11,13 @@
 <div *ngIf='isAuthenticated()'>
 <!-- <div> -->
 <div class="topnav" id="myTopnav">
-  <div> <a (click)='toggleDashboard()'><img src="../assets/OyeSociety.png"></a></div>
+  <div *ngIf="!router.url.includes('home')"> <a (click)='toggleDashboard()'><img src="../assets/OyeSociety.png"></a></div>
+  <div class="col-sm-12 head" *ngIf="router.url.includes('home')">
+    <p class="wel">Welcome to</p>
+    <img src="../assets/header_img.png" width="100%">
+  
+    <!--<h2 class="title-orange">OyeHomes</h2> -->
+  </div>
   <div style="margin-top: -30px;">
     <a routerLink="home" class="active"></a>
     <a routerLink="hiring" class="hire">We are hiring</a>
@@ -36,12 +42,7 @@
   </div>
 </div>
 <!--heading start-->
-<div class="col-sm-12 head" *ngIf="router.url.includes('home')">
-  <p class="wel">Welcome to</p>
-  <img src="../assets/header_img.png" style="width: 265px;">
 
-  <!--<h2 class="title-orange">OyeHomes</h2> -->
-</div>
 <!--heading end-->
 <router-outlet></router-outlet>
 <!-- <app-chat></app-chat> -->

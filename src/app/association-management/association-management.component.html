@@ -1,12 +1,13 @@
-<div class="container-fluid bg np">
+<div class="container-fluid np">
   <div class="col-sm-9">
     <!--Profile section-->
     <app-left-bar></app-left-bar>
     <!--Profile section-->
     <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-      <h3 class="black">Association Management</h3>
       <!--Dashboard icons start-->
       <div class="col-md-12 m-t-30 dash">
+          <h3 class="purple">Association Management</h3>
+
         <div class="enroll">
           <div>
             <button class="btn-primary-purple" (click)="enblEnrlAsnVew()"><i class="fa fa-plus" aria-hidden="true"></i>
@@ -317,9 +318,9 @@
         <div class="col-sm-3 np">
           <p class="join_ass_opt c-active"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
             Association</p>
-          <p class="join_ass_opt c-active"><i class="fa fa-circle-o" aria-hidden="true"></i>
+          <p class="join_ass_opt c-active"><i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircleO,'fa-circle-o' : !toggleFaCircleO}" aria-hidden="true"></i>
             Blocks</p>
-          <p class="join_ass_opt c-active"> <i class="fa fa-circle-o" aria-hidden="true"></i>
+          <p class="join_ass_opt c-active"> <i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircle1,'fa-circle-o' : !toggleFaCircle1}" aria-hidden="true"></i>
             Units</p>
         </div>
         <div class="col-sm-9 b-left">
@@ -521,10 +522,11 @@
   <div class="modal-content">
 
     <div class="modal-header">
+      
+      <h4 class="modal-title">Edit Association</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h4 class="modal-title">Edit Association</h4>
     </div>
     <div class="modal-body">
       <div class="row">

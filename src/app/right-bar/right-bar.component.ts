@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import {GlobalServiceService} from '../global-service.service'
 
@@ -9,7 +9,8 @@ import {GlobalServiceService} from '../global-service.service'
 })
 export class RightBarComponent implements OnInit {
 
-  constructor(private router:Router, private globalService: GlobalServiceService) { }
+  constructor(private router:Router, private globalService: GlobalServiceService) {
+   }
 
   ngOnInit() {
   }

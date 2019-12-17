@@ -2,12 +2,11 @@
 /* body{ background: url('assets/bg.png');background-position: 100% 30%;background-repeat: no-repeat;background-size: contain;overflow-x: hidden;} */
 .build-bg{background-color: #fff;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}
-.black{color: #333333;font-size: 22px;font-weight: 500;}
 .title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}
 .wel{width:200px;font-size: 16px;margin: 0px;display: inline-block;}
 .zsiq_chatbtn {background-color: #919191 !important;}
 a,a:hover,li a:hover{cursor:pointer;text-decoration: none}
-.purple{color:#5a51aa}
+.purple,.black{color:#5a51aa !important;font-size: 18px !important;font-weight: 500 !important;}
 .np{padding:0px !important}
 .orange{color: #5a51aa;}
 .foot-bg{background: #2D3139}
@@ -47,7 +46,7 @@ background-attachment: #f7c60a;
 background: #4d4c4c;
 }
 
-
+.topnav{margin-bottom: 20px;}
 .caret{display: none !important;}
 .search-dropd::after{
 font-family: FontAwesome;
@@ -226,6 +225,13 @@ label.swal2-checkbox{
     margin-left: 45px;
 }
 table{margin-top: 30px;}
+.text-nowrap {
+    white-space: nowrap;
+    color: #fff !important;
+}
+thead>tr{background-color:#5a51aa !important;color: #fff !important;}
+thead>th>a{color: #fff !important;}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{text-transform: capitalize !important;}
 /* Orange radio button*/
 .radio-item {
     display: inline-block;
@@ -296,13 +302,23 @@ label{font-size:12px !important;font-weight: 500 !important}
 .step-active{border-bottom: 3px solid #5a51aa;}
 /* step wizard*/
 
+.amount{text-align: right}
+.tab-opt{display: flex;justify-content:flex-end;}
+
+/*modal pop up header*/
+.modal-header{display: flex;justify-content: space-between;align-items: center;}
+.modal-header>h5{color: #5a51aa;font-size: 18px;width:100%;margin:0px;font-weight: 500;}
+.modal-header>h4{color: #5a51aa;font-size: 18px;width:100%;margin:0px;font-weight: 500;}
+
+
+
+
+
 @media only screen and (min-width: 1024px) and (max-width:2000px)  {
 .head{display: flex;
     flex-direction: column;
     width: 212px !important;
-    margin-top: -55px;
-    margin-left: 160px;
-    position: relative !important;}
+   }
 }
 
 select {
@@ -324,7 +340,7 @@ appearance: none !important;
 .stepwizard-step:last-child {border-right: 1px solid #cfcaca;}
 }
 table.dataTable{text-align: left}
-/* .table>thead:first-child>tr:first-child>th {color: #5a51aa !important;} */
+.table-bordered>thead>tr>td, .table-bordered>thead>tr>th{text-align: center !important;} 
 
 input[type=reset]{background-color: #a7a4a4 !important;}
 

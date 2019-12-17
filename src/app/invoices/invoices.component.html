@@ -1,12 +1,13 @@
-<div class="container-fluid bg np">
+<div class="container-fluid np">
     <div class="col-sm-9">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Invoice For Manyata Association</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
+                    <span class="black">Invoice For Manyata Association</span>
+
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li><a (click)="goToExpense()">Expenses</a></li>
@@ -72,7 +73,7 @@
                                     <td>{{item['unUnitID']}}</td>
                                     <td>{{item['inNumber']}}</td>
                                     <td>{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
-                                    <td>
+                                    <td class="amount">
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td>

@@ -205,6 +205,8 @@ export class AssociationManagementComponent implements OnInit {
   activeEnabled:boolean;
   OwnerType:any;
   account:any;
+  toggleFaCircleO:boolean;
+  toggleFaCircle1:boolean;
 
   constructor(private modalService: BsModalService,
     private viewAssnService: ViewAssociationService,
@@ -215,6 +217,8 @@ export class AssociationManagementComponent implements OnInit {
     private dashboardservice:DashBoardService,
     private homeservice:HomeService,
     private afMessaging: AngularFireMessaging) {
+    this.toggleFaCircleO=false;
+    this.toggleFaCircle1=false;
     this.viewAssnService.enrlAsnEnbled=false;
     this.viewAssnService.vewAsnEnbled=true;
     this.viewAssnService.joinAsnEbld=false;
@@ -401,8 +405,7 @@ export class AssociationManagementComponent implements OnInit {
     this.blBlkName=blBlkName;
     let blockbyassoc = this.allBlocksLists.find(item => item['blBlockID'] == blBlockID);
     this.getAllUnitDetailsByBlockID(blBlockID);
-    //this.viewAssnService.getBlockDetailsByAssociationID() 
-
+    this.toggleFaCircle1=true;
   }
 
   getAllUnitDetailsByBlockID(blBlockID) {
@@ -597,6 +600,9 @@ this.crtAssn.newBAActType='';
     .subscribe(response=>{
       console.log(response);
      this.allBlocksLists= response['data']['blocksByAssoc'];
+     if(this.allBlocksLists.length > 0){
+       this.toggleFaCircleO=true;
+     }
     })
   }
   setPropertyType(propertyType){

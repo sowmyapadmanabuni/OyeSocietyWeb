@@ -18,7 +18,6 @@ export class LeftBarComponent implements OnInit {
   constructor(private globalService: GlobalServiceService,
     private dashboardservice: DashBoardService) {
       this.acAccntID = this.globalService.getacAccntID();
-
      }
 
   ngOnInit() {

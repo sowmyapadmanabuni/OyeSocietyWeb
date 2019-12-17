@@ -1,12 +1,13 @@
-<div class="container-fluid bg np">
+<div class="container-fluid np">
     <div class="col-sm-9">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Expense For {{globalservice.getCurrentAssociationName()}}</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
+                <span class="purple">Expense For {{globalservice.getCurrentAssociationName()}}</span>
+
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li class="active"><a (click)="goToExpense()">Expenses</a></li>
@@ -24,26 +25,26 @@
                         </ul>
                     </div>
 
-                    <div [hidden]="blockID == ''" class="dropdown">
+                    <!-- <div [hidden]="blockID == ''" class="dropdown">
                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{Invoiced}}
                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                       <ul class="dropdown-menu fullw">
                         <li *ngFor='let item of invoiced' (click)="GetexpenseListByInvoiceID(item['name'])"><a>{{item['displayName']}}</a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
 
                     <button class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
                             aria-hidden="true"></i> Generate invoice</button>
                     <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add Expense</button>
                 </div>
-                <div>
-                  <label>Invoiced</label>
-                  <input type="checkbox" [(ngModel)]="IsInvoiced" (change)='GetexpenseListByInvoiceID(IsInvoiced)' class="form-control" name="IsInvoiced">
+                <div style="display: flex;justify-content: flex-end;align-items: baseline;">
+                  <label class="purple">Invoiced&nbsp;&nbsp;</label>
+                  <input type="checkbox" [(ngModel)]="IsInvoiced" (change)='GetexpenseListByInvoiceID(IsInvoiced)' name="IsInvoiced">
                 </div>
                 <div *ngIf='addexpenseservice.enableExpenseListView'>
-                    <label>Search</label>
+                    <!-- <label>Search</label> -->
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                 </div>
                 <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
@@ -68,7 +69,7 @@
                                 <th>
                                     <mfDefaultSorter by="exDate">Invoiced Date</mfDefaultSorter>
                                 </th>
-                                <th>
+                                <th style="width:120px">
                                     <mfDefaultSorter by="expAmnt">Amount</mfDefaultSorter>
                                 </th>
                                 <th>
@@ -83,7 +84,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="10" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
@@ -95,7 +96,7 @@
                                         <span style="margin-left: 13px;" *ngIf="item.exIsInvD == false"> NO</span>
                                     </td>
                                     <td>{{item.exDate | date:"d/M/y"}}</td>
-                                    <td>{{'₹ '+item.expAmnt}}</td>
+                                    <td class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
                                     <td>{{dashboardservice.acfName | titlecase}}</td>
                                     <td>
                                         <i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID)" title="EditExpense" class="fa fa-eye"> |</i><i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash" title="DeleteExpense"></i>
