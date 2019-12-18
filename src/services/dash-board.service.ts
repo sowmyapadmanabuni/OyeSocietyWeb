@@ -114,5 +114,19 @@ getAccountFirstName(accountID){
   let scopeIP=this.utilsService.getAccountFirstName();
   return this.http.get(scopeIP + 'oyeliving/api/v1/GetAccountListByAccountID/'+accountID,  {headers:this.headers});
 }
-
+GetVisitorLogByDatesAssocAndUnitID(visitorlog){
+  let headers= new HttpHeaders().append('Content-Type',  'application/json')
+  .append('X-OYE247-APIKey','7470AD35-D51C-42AC-BC21-F45685805BBE')
+  .append('Access-Control-Allow-Origin', "*");
+let scopeIP=this.utilsService.getIPaddress();
+return this.http.post(scopeIP + 'oyesafe/api/v1/VisitorLog/GetVisitorLogByDatesAssocAndUnitID',JSON.stringify(visitorlog),{headers:headers});
+}
+GetWorkersListByUnitID(unUnitID){
+  console.log(unUnitID);
+  let headers= new HttpHeaders().append('Content-Type',  'application/json')
+  .append('X-OYE247-APIKey','7470AD35-D51C-42AC-BC21-F45685805BBE')
+  .append('Access-Control-Allow-Origin', "*");
+let scopeIP=this.utilsService.getIPaddress();
+return this.http.get(scopeIP + 'oye247/api/v1/GetWorkersListByUnitID/'+unUnitID,{headers:headers});
+}
 }//DashboardService Ends

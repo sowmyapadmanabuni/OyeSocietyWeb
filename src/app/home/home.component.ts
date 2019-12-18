@@ -33,7 +33,9 @@ export class HomeComponent implements OnInit {
   totalTickets:string;
   totalVehicles:string;
   totalStaffs:string;
+  totalUnitStaffs:string;
   totalVisitors:string;
+  totalUnitVisitors:string;
   amount:string;
   AssociationAmountDue:boolean=false;
   memberDeatils:boolean=false;
@@ -84,7 +86,9 @@ export class HomeComponent implements OnInit {
        this.uniqueAssociations=[];
        this.totalTickets='0';
        this.totalStaffs='0';
+       this.totalUnitStaffs='0';
        this.totalVisitors='0';
+       this.totalUnitVisitors='0';
        this.adminUnitShow=false;
      }
   ngOnInit() {
@@ -94,7 +98,7 @@ export class HomeComponent implements OnInit {
     this.getTickets();
     //this.getVehicle();
     this.getStaff();
-    //this.getVistors();
+    this.getVistors();
     this.getAccountFirstName();
     //this.globalService.currentAssociationName='';
 this.localMrmRoleId=this.globalService.mrmroleId;
@@ -339,7 +343,7 @@ this.localMrmRoleId=this.globalService.mrmroleId;
     this.getTickets();
     //this.getVehicle();
     this.getStaff();
-    //this.getVistors();
+    this.getVistors();
   }
   GetVehicleListByAssocID(){
     this.dashBrdService.GetVehicleListByAssocID(this.associationID)
@@ -348,6 +352,20 @@ this.localMrmRoleId=this.globalService.mrmroleId;
     },err=>{
       console.log(err);
     })
+
+   /* this.dashBrdService.getVehicle(unUnitID).subscribe(res => {
+      console.log('vehicle',res);
+      var data:any = res;
+      this.allVehicleListByAssn = data.data.vehicleListByUnitID;
+      let totalVehicles = data.data.vehicleListByUnitID.filter(item => {
+        return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
+      })
+      this.totalVehicles= totalVehicles.length;
+      },
+      err=>{
+        console.log(err);
+        this.totalVehicles='0';
+      }); */
   }
   assnAmountDue(){
     this.AssociationAmountDue=true;
@@ -407,6 +425,34 @@ this.localMrmRoleId=this.globalService.mrmroleId;
   this.ticketDetails=false;
   this.visitor.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
  }
+  GetVisitorLogByDatesAssocAndUnitID(unUnitID) {
+    let visitorlog = {
+      "StartDate": "2019-08-16",
+      "EndDate": "2019-12-18",
+      "ASAssnID": this.associationID,
+      "UNUnitID": unUnitID,
+      "ACAccntID": this.accountID
+    }
+    console.log(visitorlog);
+    this.dashBrdService.GetVisitorLogByDatesAssocAndUnitID(visitorlog)
+    .subscribe(data=>{
+      console.log(data); //totalUnitVisitors
+      this.totalUnitVisitors = data['data']['visitorlog'].length;
+    },
+    err=>{
+      console.log(err);
+    })
+  }
+  GetWorkersListByUnitID(unUnitID) {
+    this.dashBrdService.GetWorkersListByUnitID(unUnitID)
+    .subscribe(data=>{
+      console.log(data['data']['workersByUnit']);
+      this.totalUnitStaffs=data['data'].length;
+    },
+    err=>{
+      console.log(err);
+    })
+  }
   loadUnit(unit,unUnitID) {
     console.log(unit);
     console.log(unUnitID);
@@ -417,6 +463,8 @@ this.localMrmRoleId=this.globalService.mrmroleId;
     console.log(this.globalService.getCurrentUnitName());
     this.getVehicle(unUnitID);
     this.GetAmountBalance(unUnitID);
+    this.GetVisitorLogByDatesAssocAndUnitID(unUnitID);
+    this.GetWorkersListByUnitID(unUnitID);
   }
   AdminsUnitShow(){
     this.localMrmRoleId=2;
