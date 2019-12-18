@@ -94,10 +94,10 @@ export class InvoicesComponent implements OnInit {
   invoiceDetails: object[];
 
   currentassociationname: string;
-  @ViewChild('template',{static:true}) private template: TemplateRef<any>;
-  @ViewChild('generateinvoicemodal',{static:true}) private generateinvoicemodal: TemplateRef<any>;
-  @ViewChild('iciciform', {read:ElementRef,static:true}) iciciform: ElementRef;
-  @ViewChild('kotakform',  {read:ElementRef,static:true}) kotakform: ElementRef;
+  @ViewChild('template', { static: true }) private template: TemplateRef<any>;
+  @ViewChild('generateinvoicemodal', { static: true }) private generateinvoicemodal: TemplateRef<any>;
+  @ViewChild('iciciform', { read: ElementRef, static: true }) iciciform: ElementRef;
+  @ViewChild('kotakform', { read: ElementRef, static: true }) kotakform: ElementRef;
 
   _unOcStat: string;
   _ineSent: boolean;
@@ -107,15 +107,15 @@ export class InvoicesComponent implements OnInit {
   sortedCollection: any[];
   unpaidUnits: any[];
   payopt: boolean;
-  CurrentBlockName:any;
+  CurrentBlockName: any;
   invoice: any;
   amountDue: any;
   amountPaid: number;
   MEMemID: string;
   PYRefNo: string;
   PMID: string;
-  unUnitID:any;
-  BankName:any;
+  unUnitID: any;
+  BankName: any;
   bankList: string[];
   voucherNo: string;
   PymtRefNo: string;
@@ -131,77 +131,77 @@ export class InvoicesComponent implements OnInit {
     private orderpipe: OrderPipe,
     private generatereceiptservice: GenerateReceiptService,
     private paymentService: PaymentService) {
-      this.currentPage = 1;
-      this.pageSize = 10;
-      this.previousDue = 0.00;
-      this.amountInWords = 0;
-      this.hasnumber = false;
-      this.showGateWay = false;
-      this.currentAssociationID = this.globalservice.getCurrentAssociationId();
-      this.currentassociationname = this.globalservice.getCurrentAssociationName();
-      this.blBlockID = '';
-      this.validationResult = true;
-      this.p = 1;
-      this.isChecked = false;
-      this._unOcStat = '';
-      this._ineSent = false;
-      this.CurrentBlockName='Blocks';
-      this.unUnitID='Units';
-      this.BankName='Bank';
-      this.viewinvoiceservice.invoiceBlock = '';
+    this.currentPage = 1;
+    this.pageSize = 10;
+    this.previousDue = 0.00;
+    this.amountInWords = 0;
+    this.hasnumber = false;
+    this.showGateWay = false;
+    this.currentAssociationID = this.globalservice.getCurrentAssociationId();
+    this.currentassociationname = this.globalservice.getCurrentAssociationName();
+    this.blBlockID = '';
+    this.validationResult = true;
+    this.p = 1;
+    this.isChecked = false;
+    this._unOcStat = '';
+    this._ineSent = false;
+    this.CurrentBlockName = 'Blocks';
+    this.unUnitID = 'Units';
+    this.BankName = 'Bank';
+    this.viewinvoiceservice.invoiceBlock = '';
 
-      this.bankList = [
-        'Allahabad Bank',
-        'Andhra Bank',
-        'Bank of Baroda',
-        'Bank of India',
-        'Bank of Maharashtra',
-        'Canara Bank',
-        'Central Bank of India',
-        'Corporation Bank',
-        'Indian Bank',
-        'Indian Overseas Bank',
-        'Oriental Bank of Commerce',
-        'Punjab and Sind Bank',
-        'Punjab National Bank',
-        'State Bank of India',
-        'Syndicate Bank',
-        'UCO Bank',
-        'Union Bank of India',
-        'United Bank of India',
-        'Catholic Syrian Bank',
-        'City Union Bank',
-        'DCB Bank',
-        'Dhanlaxmi Bank',
-        'Federal Bank',
-        'HDFC Bank',
-        'ICICI Bank',
-        'IDFC First Bank',
-        'IndusInd Bank',
-        'Jammu & Kashmir Bank',
-        'Karnataka Bank',
-        'Karur Vysya Bank',
-        'Kotak Mahindra Bank',
-        'Lakshmi Vilas Bank',
-        'Nainital Bank',
-        'RBL Bank',
-        'South Indian Bank',
-        'Tamilnad Mercantile Bank Limited',
-        'Yes Bank',
-        'IDBI Bank'
-      ]
-     }
+    this.bankList = [
+      'Allahabad Bank',
+      'Andhra Bank',
+      'Bank of Baroda',
+      'Bank of India',
+      'Bank of Maharashtra',
+      'Canara Bank',
+      'Central Bank of India',
+      'Corporation Bank',
+      'Indian Bank',
+      'Indian Overseas Bank',
+      'Oriental Bank of Commerce',
+      'Punjab and Sind Bank',
+      'Punjab National Bank',
+      'State Bank of India',
+      'Syndicate Bank',
+      'UCO Bank',
+      'Union Bank of India',
+      'United Bank of India',
+      'Catholic Syrian Bank',
+      'City Union Bank',
+      'DCB Bank',
+      'Dhanlaxmi Bank',
+      'Federal Bank',
+      'HDFC Bank',
+      'ICICI Bank',
+      'IDFC First Bank',
+      'IndusInd Bank',
+      'Jammu & Kashmir Bank',
+      'Karnataka Bank',
+      'Karur Vysya Bank',
+      'Kotak Mahindra Bank',
+      'Lakshmi Vilas Bank',
+      'Nainital Bank',
+      'RBL Bank',
+      'South Indian Bank',
+      'Tamilnad Mercantile Bank Limited',
+      'Yes Bank',
+      'IDBI Bank'
+    ]
+  }
 
-  goToExpense(){
+  goToExpense() {
     this.router.navigate(['expense']);
   }
-  goToInvoice(){
+  goToInvoice() {
     this.router.navigate(['invoice']);
   }
-  goToReceipts(){
+  goToReceipts() {
     this.router.navigate(['receipts']);
   }
-  goToVehicles(){
+  goToVehicles() {
     this.router.navigate(['vehicles']);
   }
   ngAfterViewInit() {
@@ -217,15 +217,15 @@ export class InvoicesComponent implements OnInit {
         this.asdPyDate = this.allBlocksByAssnID[0]['asdPyDate'];
         this.blMgrMobile = this.allBlocksByAssnID[0]['blMgrMobile'];
         console.log('allBlocksByAssnID', this.allBlocksByAssnID);
-        if(this.viewinvoiceservice.invoiceBlock != ''){
-          this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
+        if (this.viewinvoiceservice.invoiceBlock != '') {
+          this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
         }
       })
   }
 
-  getCurrentBlockDetails(blBlockID,blBlkName) {
-    this.viewinvoiceservice.invoiceBlock=blBlkName;
-    this.viewinvoiceservice.invoiceBlockId=blBlockID;
+  getCurrentBlockDetails(blBlockID, blBlkName) {
+    this.viewinvoiceservice.invoiceBlock = blBlkName;
+    this.viewinvoiceservice.invoiceBlockId = blBlockID;
     this.invoiceLists = [];
     this.blockid = blBlockID;
     console.log('blBlockID-' + blBlockID);
@@ -277,7 +277,7 @@ export class InvoicesComponent implements OnInit {
       "INNumber": this.invoice,
       "UNUnitID": this.unitID,
       "PYTax": "12.6",
-      "ASAssnID":  this.currentAssociationID,
+      "ASAssnID": this.currentAssociationID,
       "PMID": 1,//this.PMID,
       "PYDesc": "PaymentMade"
     }
@@ -294,16 +294,16 @@ export class InvoicesComponent implements OnInit {
         })
 
       },
-      (err)=>{
-        console.log(err);
-        swal.fire({
-          title: `${err['error']['error']['message']}`,
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+        (err) => {
+          console.log(err);
+          swal.fire({
+            title: `${err['error']['error']['message']}`,
+            text: "",
+            type: "error",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          })
         })
-      })
 
   }
 
@@ -437,15 +437,15 @@ export class InvoicesComponent implements OnInit {
           }
         })
       },
-      err=>{
-        console.log(err);
-        swal.fire({
-          title: "Error",
-          text: `${err['error']['error']['message']}`,
-          type: "error",
-          confirmButtonColor: "#f69321"
-        });
-      })
+        err => {
+          console.log(err);
+          swal.fire({
+            title: "Error",
+            text: `${err['error']['error']['message']}`,
+            type: "error",
+            confirmButtonColor: "#f69321"
+          });
+        })
 
     this.viewinvoiceservice.getassociationlist(this.asdPyDate, this.blMgrMobile, this.currentAssociationID)
       .subscribe(data => {
@@ -557,39 +557,46 @@ export class InvoicesComponent implements OnInit {
       });
 
   }
-  iciciPay(e) {
-    e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' }
-    /* let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' }
-    console.log(InvoiceValue);
-    
-    this.paymentService.postToICICIPaymentGateway(InvoiceValue)
-    .subscribe(res => {
-      console.log(res);
-      this.iciciPayForm = res;
-      setTimeout(_ => this.iciciform.nativeElement.submit(), 100)
-    }, error => {
-      console.log("Error=>", error)
-    }) */
+  payThroughICICIPG(e) {
+    let paymentDetails = {
+      "chargetotal": this.InvoiceValue + '.00',
+      "customerID": "" //set customer Id
+    }
 
-    this.paymentService.CreatePayment(this.invoiceID, InvoiceValue)
+    e.preventDefault();
+    this.paymentService.postToICICIPG(paymentDetails)
       .subscribe((res: any) => {
         console.log(res);
-        this.iciciPayForm = res.data.paymentGateway;
-        this.iciciPayForm.chargeTotal = InvoiceValue.chargetotal;
-
+        let response = res.data.paymentICICI;
+        this.iciciPayForm = {
+          txntype: response.txntype, //'sale'
+          timezone: response.timezone, //'Asia/Calcutta',
+          txndatetime: response.txndatetime, //this.utilService.getDateTime(),//,
+          hash_algorithm: response.hash_algorithm,
+          hash: response.response_hash,
+          storename: response.storename, //'3300002052',
+          mode: response.mode, // "payonly" ,
+          currency: response.currency,
+          responseSuccessURL: response.pgStatURL,
+          responseFailURL: response.pgStatURL,
+          language: response.language, //"en_US",
+          chargetotal: response.chargetotal,
+          oid: response.oid
+        }
         console.log(this.iciciPayForm);
-        // setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
+        setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
       },
         err => {
           console.log(err);
-        }) 
+        })
   }
   kotakPay(e) {
+    let paymentDetails = {
+      "chargetotal": this.InvoiceValue + '.00',
+      "customerID": "" //set customer Id
+    }
     e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' };
-    console.log(InvoiceValue);
-    this.paymentService.postToKotakPaymenGateway( InvoiceValue ).subscribe(res => {
+    this.paymentService.postToKotakPaymenGateway(paymentDetails).subscribe(res => {
       if (res) {
         this.kotakPayForm = res;
         console.log("this.kotakPayForm ", this.kotakPayForm);
@@ -597,36 +604,42 @@ export class InvoicesComponent implements OnInit {
       }
     }, error => {
       console.log(error);
-     }
+    }
     )
   }
   axisPay(e) {
+    let paymentDetails = {
+      "chargetotal": this.InvoiceValue + '.00',
+      "customerID": "" //set customer Id
+    }
     e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' };
+    let InvoiceValue = { chargetotal: this.InvoiceValue + '.00' };
     console.log(InvoiceValue);
-    this.paymentService.postToAxisPaymentGateway(InvoiceValue).subscribe((res: any) => {
+    this.paymentService.postToAxisPaymentGateway(paymentDetails).subscribe((res: any) => {
       //console.log(res, typeof (res))
       if (res && res.payment_links) {
         window.location.href = res.payment_links.web;
       }
     }, error => {
       console.log(error);
-     }
+    }
     )
   }
   hdfcPay(e) {
+    let paymentDetails = {
+      "amount": this.InvoiceValue + '.00',
+      "customerID": "" //set customer Id
+    }
     e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' };
-    console.log(InvoiceValue);
-    this.paymentService.postToHDFCPaymentGateway(InvoiceValue).subscribe(res => {
-      if (res) {
-        this.kotakPayForm = res;
+    this.paymentService.postToHDFCPaymentGateway(paymentDetails).subscribe((res: any) => {
+      if (res && res.success) {
+        this.kotakPayForm = res.data;
         console.log("this.kotakPayForm ", this.kotakPayForm);
         setTimeout(_ => this.kotakform.nativeElement.submit(), 100)
       }
     }, error => {
       console.log(error);
-     }
+    }
     )
   }
   addZeroes(num) {
@@ -697,7 +710,7 @@ export class InvoicesComponent implements OnInit {
   }
   openModal1(generateReceipt: TemplateRef<any>) {
     this.modalRef.hide();
-    this.modalRef = this.modalService.show(generateReceipt,Object.assign({}, { class: 'gray modal-lg' }));
+    this.modalRef = this.modalService.show(generateReceipt, Object.assign({}, { class: 'gray modal-lg' }));
   }
   sendInvoiceInMail(inid, unUnitID, ineSent, blBlockID) {
     console.log('inid', inid);
@@ -732,7 +745,7 @@ export class InvoicesComponent implements OnInit {
               }).then(
                 (result) => {
                   if (result.value) {
-                    this.getCurrentBlockDetails(blBlockID,this.viewinvoiceservice.invoiceBlock);
+                    this.getCurrentBlockDetails(blBlockID, this.viewinvoiceservice.invoiceBlock);
                   }
                 })
               //  console.log(res);
@@ -834,23 +847,23 @@ export class InvoicesComponent implements OnInit {
         this.unpaidUnits = data['data']['paymentsUnpaid'];
       })
   }
-  getCurrentBlockDetailsForGenRecpt(blBlockID,blBlkName) {
-    this.CurrentBlockName=blBlkName;
+  getCurrentBlockDetailsForGenRecpt(blBlockID, blBlkName) {
+    this.CurrentBlockName = blBlkName;
     this.generatereceiptservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
       .subscribe(data => {
         this.unpaidUnits = data['data']['paymentsUnpaid'];
         console.log('unpaidUnits', this.unpaidUnits);
       },
-      err=>{
-        console.log(err);
-        swal.fire({
-          title:`${err['error']['error']['message']}`,
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+        err => {
+          console.log(err);
+          swal.fire({
+            title: `${err['error']['error']['message']}`,
+            text: "",
+            type: "error",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          })
         })
-      })
   }
   openModal(invoicePop: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
@@ -858,9 +871,9 @@ export class InvoicesComponent implements OnInit {
       Object.assign({}, { class: 'gray modal-lg' })
     );
   }
-  rowDetails(pyid,unUnitID) {
+  rowDetails(pyid, unUnitID) {
     console.log('pyid-' + pyid);
-    this.unUnitID=unUnitID;
+    this.unUnitID = unUnitID;
     let invobj = this.unpaidUnits.find(item => item['pyid'] == pyid);
     console.log('inNumber-' + invobj['inNumber']);
     console.log('pyAmtDue-' + invobj['pyAmtDue']);
@@ -881,8 +894,8 @@ export class InvoicesComponent implements OnInit {
   printInvoice() {
     window.print();
   }
-  getBankName(bank){
-    this.BankName=bank;
+  getBankName(bank) {
+    this.BankName = bank;
   }
 
 }
