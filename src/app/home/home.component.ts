@@ -46,7 +46,8 @@ export class HomeComponent implements OnInit {
   staffDetails: boolean;
   visitorDetails: boolean;
   allvisitorByAssn:any=[];
-  
+  localMrmRoleId:any;
+
   @ViewChild('amounts',{static:true}) public amounts:ElementRef;
 @ViewChild('member',{static:true}) public member:ElementRef;
 @ViewChild('ticket',{static:true}) public ticket:ElementRef;
@@ -63,6 +64,7 @@ export class HomeComponent implements OnInit {
   unitlistForAssociation:UnitlistForAssociation[];
   acMobile: any;
   uniqueAssociations :any[];
+  adminUnitShow:boolean;
  
   constructor(private dashBrdService: DashBoardService, private appComponent:AppComponent,
      private globalService:GlobalServiceService,
@@ -83,10 +85,11 @@ export class HomeComponent implements OnInit {
        this.totalTickets='0';
        this.totalStaffs='0';
        this.totalVisitors='0';
+       this.adminUnitShow=false;
      }
   ngOnInit() {
     this.getAssociation();
-    this.getAmount();
+    //this.getAmount();
     this.getMembers();
     this.getTickets();
     //this.getVehicle();
@@ -94,6 +97,7 @@ export class HomeComponent implements OnInit {
     //this.getVistors();
     this.getAccountFirstName();
     //this.globalService.currentAssociationName='';
+this.localMrmRoleId=this.globalService.mrmroleId;
   }
 
   getAssociation(){
@@ -144,6 +148,14 @@ export class HomeComponent implements OnInit {
       this.amount='0';
       console.log(err);
     })
+  }
+  GetAmountBalance(unUnitID) {
+    this.dashBrdService.GetAmountBalance(unUnitID)
+      .subscribe(data => {
+        console.log(data);
+      }, err => {
+        console.log(err);
+      })
   }
   // getMembers(){
   //     this.dashBrdService.getMembers(this.accountID).subscribe(res => {
@@ -301,10 +313,12 @@ export class HomeComponent implements OnInit {
     });
     if(found1.length != 0){
       this.globalService.mrmroleId=1;
+      this.localMrmRoleId=1;
       console.log(this.globalService.mrmroleId);
     }
     else{
       this.globalService.mrmroleId=2;
+      this.localMrmRoleId=2;
       console.log(this.globalService.mrmroleId);
     }
     if(param == 'id'){
@@ -320,12 +334,20 @@ export class HomeComponent implements OnInit {
       }
     }
     console.log('globalService.currentAssociationName', this.globalService.currentAssociationName);
-    this.getAmount();
+    //this.getAmount();
     this.getMembers();
     this.getTickets();
     //this.getVehicle();
     this.getStaff();
     //this.getVistors();
+  }
+  GetVehicleListByAssocID(){
+    this.dashBrdService.GetVehicleListByAssocID(this.associationID)
+    .subscribe(data=>{
+      console.log(data);
+    },err=>{
+      console.log(err);
+    })
   }
   assnAmountDue(){
     this.AssociationAmountDue=true;
@@ -394,6 +416,14 @@ export class HomeComponent implements OnInit {
     console.log(this.globalService.currentUnitName);
     console.log(this.globalService.getCurrentUnitName());
     this.getVehicle(unUnitID);
+    this.GetAmountBalance(unUnitID);
+  }
+  AdminsUnitShow(){
+    this.localMrmRoleId=2;
+  }
+  AdminsButtonShow(){
+    this.localMrmRoleId=1;
+    this.GetVehicleListByAssocID();
   }
 
 }

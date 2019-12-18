@@ -52,6 +52,13 @@ export class DashBoardService {
     let scopeIP=this.utilsService.getAmount();
      return this.http.get(scopeIP + 'oyeliving/api/v1/GetPaymentsListByAssocID/' + associationID, {headers:headers} );
   }
+  GetAmountBalance(unUnitID) {
+    let headers = new HttpHeaders().append('Content-Type', 'application/json')
+      .append('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+      .append('Access-Control-Allow-Origin', "*");
+    let scopeIP = this.utilsService.getIPaddress();
+    return this.http.get(scopeIP + 'oyeliving/api/v1/Payment/GetAmountBalance/' + unUnitID, { headers: headers });
+  }
 
   getMembers(accountID){
     let scopeIP=this.utilsService.getMembers();
@@ -89,6 +96,13 @@ getStaff(associationID:string){
     let scopeIP=this.utilsService.getStaff();
     return this.http.get(scopeIP + 'oye247/api/v1/GetWorkerListByAssocID/' +associationID, {headers:headers});                               
 }
+  GetVehicleListByAssocID(associationID) {
+    let headers = new HttpHeaders().append('Content-Type', 'application/json')
+      .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+      .append('Access-Control-Allow-Origin', "*");
+    let scopeIP = this.utilsService.getIPaddress();
+    return this.http.get(scopeIP + 'champ/api/v1/Vehicle/GetVehicleListByAssocID/' + associationID, { headers: headers });
+  }
 getVisitors(associationID:string){
   let headers= new HttpHeaders().append('Content-Type',  'application/json')
                                    .append('X-OYE247-APIKey','7470AD35-D51C-42AC-BC21-F45685805BBE')
