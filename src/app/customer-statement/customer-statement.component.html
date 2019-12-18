@@ -65,7 +65,7 @@
                 <td>{{item.unUnitID}}</td>
                 <td>{{item.pyDesc}}</td>
                 <td>{{item.pyDate}}</td>
-                <td>{{item.pyAmtDue}}</td>
+                <td class="amount">{{'₹ '+item.pyAmtDue+'.00'}}</td>
                 <td>{{item.pyAmtPaid}}</td>
                 <td><i (click)='OpenCustomerModel(customertemplate)' class="fa fa-eye"></i> | <i class="fa fa-pencil"></i></td>
               </ng-container>
