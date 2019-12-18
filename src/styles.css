@@ -310,7 +310,11 @@ label{font-size:12px !important;font-weight: 500 !important}
 .modal-header>h5{color: #5a51aa;font-size: 18px;width:100%;margin:0px;font-weight: 500;}
 .modal-header>h4{color: #5a51aa;font-size: 18px;width:100%;margin:0px;font-weight: 500;}
 
-
+/*orange tab css*/
+.nav-pills>li.active>a{background: #ffb818 !important;border-radius: 30px;color: #fff !important;font-size: 15px;font-weight: 600;}  
+.nav-pills{display: flex;    text-align: center;justify-content: flex-end;align-items: center;margin-bottom: 20px !important; width: 144px;border: 2px solid #ffb818;border-radius: 33px;height: 43px;}
+.nav>li>a:hover{color: #ffffff !important;background: #ffb818 !important;border-radius: 30px;transition: all 900ms;}
+.nav>li>a{color:#000 !important;font-weight: 600;}
 
 
 
@@ -318,6 +322,7 @@ label{font-size:12px !important;font-weight: 500 !important}
 .head{display: flex;
     flex-direction: column;
     width: 212px !important;
+    padding-top: 10px;
    }
 }
 

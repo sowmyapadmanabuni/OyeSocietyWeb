@@ -58,8 +58,9 @@ align-items: center;}
 .nav-pills>li{width:104px}
 .nav-pills>li.active>a{background: #ffb818 !important;border-radius: 30px;color: #fff !important;font-size: 15px;font-weight: 600;}  
 .nav-pills{display: flex;    text-align: center;justify-content: flex-end;align-items: center;margin-bottom: 20px !important; width: 320px;border: 2px solid #ffb818;border-radius: 33px;height: 43px;}
-.nav>li>a:hover{background:none !important;color:#4c32af !important;}
+.nav>li>a:hover{color: #ffffff !important;background: #ffb818 !important;border-radius: 30px;transition: all 900ms;}
 .nav>li>a{color:#ffb818 !important;font-weight: 600;}
+
 .date1{display: flex;justify-content: space-between;flex-direction: column}
 .radio-bt{margin: 30px 0px;display: flex;justify-content: space-between;align-items: center;}
 .report-bt{display: flex;flex-direction:column;justify-content: space-between;align-items: center;    margin: 40px 0px;}
