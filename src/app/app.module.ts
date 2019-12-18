@@ -63,6 +63,7 @@ import { GeneralLedgerComponent } from './general-ledger/general-ledger.componen
 import { ProfitlossComponent } from './profitloss/profitloss.component';
 import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 import { JournelsComponent } from './journels/journels.component';
+import { PaymentStatusComponent } from './payment-status/payment-status.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -110,7 +111,8 @@ export const firebaseConfig = environment.firebaseConfig;
     GeneralLedgerComponent,
     ProfitlossComponent,
     BalancesheetComponent,
-    JournelsComponent
+    JournelsComponent,
+    PaymentStatusComponent
   ],
   imports: [
     BrowserModule,
