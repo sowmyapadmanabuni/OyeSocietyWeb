@@ -33,6 +33,7 @@
                         </div>
                         <!--choice heading row end-->
                         <!--Dashboard icons for ADMIN start-->
+                        <div class="dash-main">
                         <div class="col-md-12 m-t-30 dash" *ngIf="localMrmRoleId == 1">
                                 <div class="dash-row">
                                         <div>
@@ -108,16 +109,24 @@
 
                                 </div>
                                 <div class="dash-row">
+                                                <span class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
+                                                <span class="ad-btn" (click)="AdminsUnitShow()" value="MyUnit">Resident</span>     
+                                </div>
+                                <!-- <div class="dash-row">
                                         <div>
                                                 <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
                                         </div>
                                         <div>
                                                 <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
                                         </div>
-                                </div>
+                                </div> -->
+                        </div>
                         </div>
                         <!--Dashboard icons for ADMIN end-->
+
+
                         <!--Dashboard icons for MyUnit(RESIDENT) start-->
+                        <div class="dash-main">
                         <div class="col-md-12 m-t-30 dash" *ngIf="localMrmRoleId != 1">
                                 <div class="dash-row">
                                        
@@ -170,13 +179,18 @@
 
                                 </div>
                                 <div class="dash-row">
+                                                <span class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
+                                                <span class="ad-btn ad-btn-active" (click)="AdminsUnitShow()" value="MyUnit">Resident</span>     
+                                </div>
+                                <!-- <div class="dash-row">
                                         <div *ngIf="globalService.mrmroleId == 1">
                                                 <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
                                         </div>
                                         <div>
                                                 <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
                                         </div>
-                                </div>
+                                </div> -->
+                        </div>
                         </div>
                         <!--Dashboard icons for MyUnit(RESIDENT) end-->
                         

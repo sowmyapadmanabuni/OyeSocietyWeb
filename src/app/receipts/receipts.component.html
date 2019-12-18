@@ -64,11 +64,11 @@
                                             <td>{{(i+1)}}</td>
                                             <td>{{item['unUnitID']}}</td>
                                             <td>{{item['inNumber']}}</td>
-                                            <td>{{item['pyDate'] | date : "d-M-y"}}</td>
-                                            <td><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}</td>
+                                            <td class="amount">{{item['pyDate'] | date : "d-M-y"}}</td>
+                                            <td class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}</td>
                                             <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
                                             (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
-                                            class="fa fa-eye"></i> </td>
+                                            class="fa fa-eye" tooltip="view Receipt"></i> </td>
                                         </ng-container>
                                     </tr>
                                 </tbody>

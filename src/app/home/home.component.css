@@ -16,7 +16,14 @@ background: #de9e9e29;
 padding: 3px 10px;
 border-radius: 10px;
 }
-.dash{display: flex;flex-direction: column;align-items: center;}
+.dash{    display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  background: #f8f8f8bd;
+  border-radius: 24px;
+  padding: 30px 0px 0px 0px;
+}
 .b-l{border-left: 2px solid rgb(242, 238, 238)}
 .number{font-size: 23px;font-weight: 600;}
 
@@ -29,6 +36,19 @@ color: #000;
 font-weight: 500;
 }
 .dash-icon{width: 40px;}
+.dash-main{display: flex; width: 100%;justify-content: space-around;}
+.ad-btn-active{
+  background: #342a92;
+  color: #fff !important;
+}
+.ad-btn:hover{background: #342a92;
+  color: #fff !important;cursor: pointer;}
+.ad-btn{
+  padding: 20px 43px;
+  margin:50px 10px 0px 10px;
+  border-radius: 30px 30px 0px 0px;
+  color: #342a92;
+  font-weight: 500;}
 
 .dash-row{display: flex;justify-content: space-around;align-items: center;}
 .dash-row>div{background: white;box-shadow: 0px 1px 3px 1px #ded9d9;padding: 0px 10px;border-radius: 30px;display: flex;justify-content: space-around;margin: 20px 7px;width: 180px;height: 100px;align-items: center;}
