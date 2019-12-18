@@ -28,7 +28,6 @@
                     </div>
                 </div>
                 <div>
-                    <label>Search</label>
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="search name">
                 </div>
@@ -51,7 +50,7 @@
                                     <mfDefaultSorter by="inGenDate">Invoice Date</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inTotVal">Curr.Inv.Amount</mfDefaultSorter>
+                                    <mfDefaultSorter by="inTotVal">Amount</mfDefaultSorter>
                                 </th>
                                 <th>
                                     Action
@@ -81,7 +80,7 @@
                                             <button title="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
                                                 <i class="fa fa-paper-plane"></i>
-                                            </button> | <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" class="fa fa-eye" ></i>
+                                            </button> | <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" title="View Invoice" class="fa fa-eye" ></i>
                                             |
                                             <i title="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"

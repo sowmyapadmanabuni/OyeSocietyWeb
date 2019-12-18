@@ -32,8 +32,8 @@
                                 <h3 class="purple">{{globalService.currentAssociationName}}</h3>
                         </div>
                         <!--choice heading row end-->
-                        <!--Dashboard icons start-->
-                        <div class="col-md-12 m-t-30 dash">
+                        <!--Dashboard icons for ADMIN start-->
+                        <div class="col-md-12 m-t-30 dash" *ngIf="localMrmRoleId == 1">
                                 <div class="dash-row">
                                         <div>
                                                 <div><img class="dash-icon"
@@ -61,7 +61,7 @@
                                                         <div>Vehicles</div>
                                                 </div>
                                         </div>
-                                        <div>
+                                        <!-- <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/Group 1750.png">
                                                 </div>
@@ -69,7 +69,7 @@
                                                         <div class="number">0</div>
                                                         <div>Documents</div>
                                                 </div>
-                                        </div>
+                                        </div> -->
 
                                 </div>
                                 <div class="dash-row">
@@ -97,18 +97,89 @@
                                                         <div>Staff</div>
                                                 </div>
                                         </div>
-                                        <div>
+                                        <!-- <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/ticket.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalTickets=='0'?'0':totalTickets)}}</div>
                                                         <div>Tickets</div>
                                                 </div>
-                                        </div>
+                                        </div> -->
 
                                 </div>
+                                <div class="dash-row">
+                                        <div>
+                                                <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
+                                        </div>
+                                        <div>
+                                                <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
+                                        </div>
+                                </div>
                         </div>
-                        <!--Dashboard icons end-->
+                        <!--Dashboard icons for ADMIN end-->
+                        <!--Dashboard icons for MyUnit(RESIDENT) start-->
+                        <div class="col-md-12 m-t-30 dash" *ngIf="localMrmRoleId != 1">
+                                <div class="dash-row">
+                                       
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/amount_due_self.png">
+                                                </div>
+                                                <div>
+                                                        <div class="number">0</div>
+                                                        <div>Amount Due</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/vehicles.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
+                                                        <div>Vehicles</div>
+                                                </div>
+                                        </div>
+                                       
+
+                                </div>
+                                <div class="dash-row">
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/members.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
+                                                        <div>Members</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/vicitors.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
+                                                        <div>Visitors</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/staff.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalStaffs=='0'?'0':totalStaffs)}}</div>
+                                                        <div>Staff</div>
+                                                </div>
+                                        </div>
+                                       
+
+                                </div>
+                                <div class="dash-row">
+                                        <div *ngIf="globalService.mrmroleId == 1">
+                                                <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
+                                        </div>
+                                        <div>
+                                                <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
+                                        </div>
+                                </div>
+                        </div>
+                        <!--Dashboard icons for MyUnit(RESIDENT) end-->
+                        
 
                 </div>
 

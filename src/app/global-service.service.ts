@@ -15,6 +15,7 @@ export class GlobalServiceService {
    enableLogin: boolean;
    enableHomeView: boolean; 
    mrmroleId:any;
+   mrmroleId1:any;
    
   constructor() { 
     this.currentAssociationName='';

@@ -75,3 +75,18 @@ width: 100% !important;
 
 
 
+
+
+/* button for ADMIN and Resident */
+.butt {
+  border: 1px outset blue;
+  background-color: lightBlue;
+  height:50px;
+  width:70px;
+  cursor:pointer;
+}
+
+.butt:hover {
+ background-color: blue;
+  color:white;
+}
