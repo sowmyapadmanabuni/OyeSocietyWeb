@@ -63,6 +63,7 @@ import { GeneralLedgerComponent } from './general-ledger/general-ledger.componen
 import { ProfitlossComponent } from './profitloss/profitloss.component';
 import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 import { JournelsComponent } from './journels/journels.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -134,7 +135,8 @@ export const firebaseConfig = environment.firebaseConfig;
     DataTableModule,
     ToastrModule.forRoot(),
     ProgressbarModule.forRoot(),
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    TooltipModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

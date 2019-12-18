@@ -70,10 +70,10 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
-                                    <td>{{item['unUnitID']}}</td>
-                                    <td>{{item['inNumber']}}</td>
-                                    <td>{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
-                                    <td class="amount">
+                                    <td (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td>
+                                    <td (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
+                                    <td (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
+                                    <td class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td>
@@ -744,7 +744,7 @@
 <ng-template #discountModal>
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" style="position:absolute;left:40%" id="myModalLabel">Discount Invoice</h4>
+            <h4 class="modal-title" id="myModalLabel">Discount Invoice</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -994,8 +994,8 @@
             <div class="inv-details">
                 <p><strong>Due upon receipt</strong></p>
                 <h2 class="inv-title-purple">{{associationDetails.asAsnName}}</h2>
-                <p><strong>Mobile no:</strong>{{associationDetails.asMgrMobile}}</p>
-                <p>{{associationDetails.asAddress}}</p>
+                <!-- <p><strong>Mobile no:</strong>{{associationDetails.asMgrMobile}}</p> -->
+                <p><strong>Address: </strong>{{associationDetails.asAddress}}</p>
                 <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
             </div>
             <!--Payment Options-->

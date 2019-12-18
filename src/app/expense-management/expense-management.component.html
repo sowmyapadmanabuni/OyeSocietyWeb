@@ -15,30 +15,40 @@
                         <li><a (click)="goToReceipts()">Receipts</a></li>
                     </ul>
                 </div>
+
                 <div class="enroll" *ngIf='addexpenseservice.enableExpenseListView'>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                            data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
-                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                        <ul class="dropdown-menu fullw ">
-                            <li *ngFor='let item of allBlocksLists' (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])"><a>{{item['blBlkName']}}</a></li>
+                  <div>
+                      <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
+                        aria-hidden="true"></i> Add Expense</button>
+                  </div>
+                  <div style="display: flex">
+                      <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                              data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
+                              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                          <ul class="dropdown-menu fullw ">
+                              <li *ngFor='let item of allBlocksLists' (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])"><a>{{item['blBlkName']}}</a></li>
+                          </ul>
+                      </div>
+  
+                      <!-- <div [hidden]="blockID == ''" class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{Invoiced}}
+                          <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul class="dropdown-menu fullw">
+                          <li *ngFor='let item of invoiced' (click)="GetexpenseListByInvoiceID(item['name'])"><a>{{item['displayName']}}</a>
+                          </li>
                         </ul>
-                    </div>
-
-                    <!-- <div [hidden]="blockID == ''" class="dropdown">
-                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{Invoiced}}
-                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                      <ul class="dropdown-menu fullw">
-                        <li *ngFor='let item of invoiced' (click)="GetexpenseListByInvoiceID(item['name'])"><a>{{item['displayName']}}</a>
-                        </li>
-                      </ul>
-                    </div> -->
-
-                    <button class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
-                            aria-hidden="true"></i> Generate invoice</button>
-                    <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
-                            aria-hidden="true"></i> Add Expense</button>
+                      </div> -->
+  
+                      <button class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
+                              aria-hidden="true"></i> Generate invoice</button>
+                  </div>
+                    
+                    
                 </div>
+
+
+
                 <div style="display: flex;justify-content: flex-end;align-items: baseline;">
                   <label class="purple">Invoiced&nbsp;&nbsp;</label>
                   <input type="checkbox" [(ngModel)]="IsInvoiced" (change)='GetexpenseListByInvoiceID(IsInvoiced)' name="IsInvoiced">
@@ -219,15 +229,17 @@
                 </div> -->
   
                 <div class="row" style="padding-left:15px;padding-right:15px;">
+                  
                   <div class="col-sm-4 col-xs-12">
                     <div class="form-group"
                       [ngClass]="{'has-error' : expenseheadControl.invalid && expenseheadControl.touched}">
-                      <label>Expense Head<span class="red">*</span></label>
+                      <label>Expense Head<span class="red">*</span>
+                      </label>
                       <select class="form-control" name="EXHead" [(ngModel)]="editexpensedata.EXHead"
                         #expenseheadControl='ngModel' required>
                         <option disabled="true" selected="true" value="">Select Expense Head
                         </option>
-                        <option *ngFor='let item of expenseHead' [value]="item['displayName']">
+                        <option tooltip="test" *ngFor='let item of expenseHead' [value]="item['displayName']">
                           {{item['displayName']}}
                         </option>
                       </select>

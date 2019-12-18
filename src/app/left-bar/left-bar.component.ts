@@ -3,7 +3,6 @@ import {DashBoardService} from '../../services/dash-board.service';
 import {GlobalServiceService} from '../global-service.service';
 
 
-
 @Component({
   selector: 'app-left-bar',
   templateUrl: './left-bar.component.html',
