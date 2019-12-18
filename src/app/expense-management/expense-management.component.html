@@ -105,11 +105,11 @@
                                         <span style="margin-left: 13px;" *ngIf="item.exIsInvD == true"> YES</span>
                                         <span style="margin-left: 13px;" *ngIf="item.exIsInvD == false"> NO</span>
                                     </td>
-                                    <td>{{item.exDate | date:"d/M/y"}}</td>
+                                    <td class="amount">{{item.exDate | date:"d/M/y"}}</td>
                                     <td class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
                                     <td>{{dashboardservice.acfName | titlecase}}</td>
                                     <td>
-                                        <i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID)" title="EditExpense" class="fa fa-eye"> |</i><i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash" title="DeleteExpense"></i>
+                                        <i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID)" tooltip="EditExpense" class="fa fa-eye"> | </i> <i [ngClass]="{'decrseopcty' : item.exIsInvD == true}" (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash" tooltip="DeleteExpense"></i>
                                     </td>
                                     <td><input [ngClass]="{'decrseopcty' : item.exIsInvD == true}" type="checkbox" [(ngModel)]='item.checkedForGenerateInvoice'
                                             (change)="getSelectedInv(item['exid'],item.checkedForGenerateInvoice)" />
