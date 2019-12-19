@@ -1,0 +1,80 @@
+<div class="container-fluid np">
+    <div class="col-sm-9">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+                <div class="col-md-12 m-t-30" *ngIf="profile">
+                        <span class="black">My Profile</span>
+                        <!--profile container-->
+                        <div class="prof-cont">
+                             <!-- Image Section -->
+                             <div class="circle">
+                                    <!-- User Profile Image -->
+                                    <img class="profile-pic" src="http://cdn.cutestpaw.com/wp-content/uploads/2012/07/l-Wittle-puppy-yawning.jpg">
+                             
+                                    <!-- Default Image -->
+                                    <!-- <i class="fa fa-user fa-5x"></i> -->
+                                  </div>
+                             <!-- Image Section -->
+                             <div class="p-image">
+                                    <i class="fa fa-camera upload-button"></i>
+                                     <input class="file-upload" type="file" accept="image/*"/>
+                            </div>
+                            <h3 class="pof-name">Raghavendra Kumar S</h3>
+                            <p class="prof-phone">+91 9090908787</p>
+                            <p class="prof-email">Email: 1990rks@gmail.com</p>
+                            <button  class="btn-primary-purple" (click)="editProfile()"><i aria-hidden="true" class="fa fa-pencil-square"></i> Edit</button>
+                        </div>
+
+                        <!--profile container-->
+ 
+                </div>
+                <div class="col-md-12 m-t-30" *ngIf="!profile">
+                        <span class="black">Edit Profile</span>
+                        <!--profile container-->
+                        <div class="prof-cont">
+                             <!-- Image Section -->
+                             <div class="circle">
+                                    <!-- User Profile Image -->
+                                    <img class="profile-pic" src="http://cdn.cutestpaw.com/wp-content/uploads/2012/07/l-Wittle-puppy-yawning.jpg">
+                             
+                                    <!-- Default Image -->
+                                    <!-- <i class="fa fa-user fa-5x"></i> -->
+                                  </div>
+                             <!-- Image Section -->
+                             <div class="p-image">
+                                    <i class="fa fa-camera upload-button"></i>
+                                     <input class="file-upload" type="file" accept="image/*"/>
+                            </div>
+                            <form action="" style="margin: 0px auto;width: fit-content;    margin-top: 40px;margin-bottom: 40px;">
+                                <div class="form-group">
+                                  <label for="email">Name:</label>
+                                  <input type="email" class="form-control" id="email" value="Raghavendra kumar S">
+                                </div>
+                                <div class="form-group">
+                                  <label for="pwd">Email:</label>
+                                  <input type="text" class="form-control" id="pwd" value="1990rks@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                        <label for="pwd">Phone:</label>
+                                        <input type="text" class="form-control" id="pwd" value="9071903190">
+                                </div>
+                               
+                              </form>
+                            <button  class="btn-primary-purple" (click)="resetProfile()"> Reset</button>
+                            <button  class="btn-primary-purple"><i aria-hidden="true" class="fa fa-save"></i> Update</button>
+                        </div>
+
+                        <!--profile container-->
+ 
+                </div>
+        </div>
+    </div>
+    <!--rightBar start-->
+    <app-right-bar></app-right-bar>
+    <!--rightBar end-->
+</div>
+
+
+

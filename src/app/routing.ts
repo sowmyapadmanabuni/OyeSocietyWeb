@@ -34,6 +34,7 @@ import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 import { JournelsComponent } from './journels/journels.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ProfileComponent } from './profile/profile.component';
 import {PaymentStatusComponent} from './payment-status/payment-status.component';
 import { from } from 'rxjs';
 
@@ -75,6 +76,7 @@ const routes: Routes = [
     { path: 'profitloss', component:ProfitlossComponent, canActivate: [AuthGuard]},
     { path: 'balancesheet', component:BalancesheetComponent, canActivate: [AuthGuard]},
     { path: 'journel', component:JournelsComponent, canActivate: [AuthGuard]},
+    { path: 'profile', component:ProfileComponent, canActivate: [AuthGuard]},
     { path: 'payment-status', component:PaymentStatusComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
