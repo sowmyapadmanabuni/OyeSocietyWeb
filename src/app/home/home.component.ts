@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   totalUnitStaffs:string;
   totalVisitors:string;
   totalUnitVisitors:string;
-  amount:string;
+  amount:number;
   AssociationAmountDue:boolean=false;
   memberDeatils:boolean=false;
   ticketDetails:boolean=false;
@@ -49,6 +49,8 @@ export class HomeComponent implements OnInit {
   visitorDetails: boolean;
   allvisitorByAssn:any=[];
   localMrmRoleId:any;
+  associationAmountDue:any[];
+  associationTotalMembers:any[];
 
   @ViewChild('amounts',{static:true}) public amounts:ElementRef;
 @ViewChild('member',{static:true}) public member:ElementRef;
@@ -90,10 +92,13 @@ export class HomeComponent implements OnInit {
        this.totalVisitors='0';
        this.totalUnitVisitors='0';
        this.adminUnitShow=false;
+       this.amount=0;
+       this.associationAmountDue=[];
+       this.associationTotalMembers=[];
      }
   ngOnInit() {
     this.getAssociation();
-    //this.getAmount();
+    this.getAmount();
     this.getMembers();
     this.getTickets();
     //this.getVehicle();
@@ -131,6 +136,8 @@ this.localMrmRoleId=this.globalService.mrmroleId;
   getAmount(){
     this.dashBrdService.getAmount(this.associationID).subscribe(res=>{
       console.log('amount',res);
+      this.associationAmountDue=res['data']['payments'];
+      console.log(this.associationAmountDue);
       // if (res['data']['errorResponse']) {
       //   this.amount = "0";
       // }
@@ -146,10 +153,12 @@ this.localMrmRoleId=this.globalService.mrmroleId;
          })
       
        console.log('amounts',this.amt[0]['pyAmtDue']);
-       this.amount = this.amt[0]['pyAmtDue'];
+       this.amt.forEach(item=>{
+        this.amount += Number (item['pyAmtDue'])
+       })
        console.log(this.amount);
     },err=>{
-      this.amount='0';
+      this.amount = 0;
       console.log(err);
     })
   }
@@ -183,6 +192,7 @@ this.localMrmRoleId=this.globalService.mrmroleId;
       this.dashBrdService.GetUnitListCount(this.associationID)
       .subscribe(data=>{
         console.log(data['data']['unit']);
+        this.associationTotalMembers=data['data']['unit'];
         this.totalMember = data['data']['unit'].length;
       },
       err=>{
@@ -338,7 +348,7 @@ this.localMrmRoleId=this.globalService.mrmroleId;
       }
     }
     console.log('globalService.currentAssociationName', this.globalService.currentAssociationName);
-    //this.getAmount();
+    this.getAmount();
     this.getMembers();
     this.getTickets();
     //this.getVehicle();
