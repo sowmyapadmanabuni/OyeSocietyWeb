@@ -351,7 +351,7 @@ export class ExpenseManagementComponent implements OnInit {
       .subscribe((data) => {
         console.log(data);
         swal.fire({
-          title: "Invoice Generated Successfully",
+          title: `${this.exidList.length}-Invoice Generated Successfully`,
           text: "",
           type: "success",
           confirmButtonColor: "#f69321",
