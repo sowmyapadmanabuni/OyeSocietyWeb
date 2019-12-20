@@ -36,7 +36,9 @@ export class HomeComponent implements OnInit {
   totalUnitStaffs:string;
   totalVisitors:string;
   totalUnitVisitors:string;
+  totalAssociationVehicles:string;
   amount:number;
+  amountdue:number;
   AssociationAmountDue:boolean=false;
   memberDeatils:boolean=false;
   ticketDetails:boolean=false;
@@ -69,12 +71,14 @@ export class HomeComponent implements OnInit {
   acMobile: any;
   uniqueAssociations :any[];
   adminUnitShow:boolean;
+  modalRef: BsModalRef;
  
   constructor(private dashBrdService: DashBoardService, private appComponent:AppComponent,
      private globalService:GlobalServiceService,
      private loginandregisterservice:LoginAndregisterService,
      private router: Router,
-     private viewassosiationservice:ViewAssociationService) { 
+     private viewassosiationservice:ViewAssociationService,
+     private modalService: BsModalService) { 
        this.accountID=this.globalService.getacAccntID();
       //this.globalService.setAccountID('9539'); // 6457 9539
       // this.accountID=this.globalService.getacAccntID();
@@ -91,8 +95,10 @@ export class HomeComponent implements OnInit {
        this.totalUnitStaffs='0';
        this.totalVisitors='0';
        this.totalUnitVisitors='0';
+       this.totalAssociationVehicles='0';
        this.adminUnitShow=false;
        this.amount=0;
+       this.amountdue=0;
        this.associationAmountDue=[];
        this.associationTotalMembers=[];
      }
@@ -107,8 +113,11 @@ export class HomeComponent implements OnInit {
     this.getAccountFirstName();
     //this.globalService.currentAssociationName='';
 this.localMrmRoleId=this.globalService.mrmroleId;
+this.GetVehicleListByAssocID();
   }
-
+  gotToResidentInvoice(){
+    this.router.navigate(['resident-invoice']);
+  }
   getAssociation(){
     console.log('this.accountID',this.accountID);
     this.dashBrdService.getAssociation(this.accountID).subscribe(res => {
@@ -134,6 +143,8 @@ this.localMrmRoleId=this.globalService.mrmroleId;
       });
   }
   getAmount(){
+    this.associationAmountDue=[];
+    this.amount = 0;
     this.dashBrdService.getAmount(this.associationID).subscribe(res=>{
       console.log('amount',res);
       this.associationAmountDue=res['data']['payments'];
@@ -162,10 +173,17 @@ this.localMrmRoleId=this.globalService.mrmroleId;
       console.log(err);
     })
   }
+  OpenModalBlockDetails(viewBlockDetailsTemplate: TemplateRef<any>) {
+    this.getAmount();
+    this.modalRef = this.modalService.show(viewBlockDetailsTemplate, Object.assign({}, { class: 'gray modal-md' }));
+  }
   GetAmountBalance(unUnitID) {
+    this.amountdue=0;
     this.dashBrdService.GetAmountBalance(unUnitID)
       .subscribe(data => {
         console.log(data);
+        this.amountdue=data['data']['balanceDue'];
+        console.log(this.amountdue);
       }, err => {
         console.log(err);
       })
@@ -182,6 +200,7 @@ this.localMrmRoleId=this.globalService.mrmroleId;
   //       });
   // }
   getMembers() {
+    this.associationTotalMembers=[];
     this.dashBrdService.getMembers(this.accountID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
@@ -354,11 +373,17 @@ this.localMrmRoleId=this.globalService.mrmroleId;
     //this.getVehicle();
     this.getStaff();
     this.getVistors();
+    this.GetVehicleListByAssocID();
   }
   GetVehicleListByAssocID(){
     this.dashBrdService.GetVehicleListByAssocID(this.associationID)
     .subscribe(data=>{
       console.log(data);
+     let totalAssociationVehicles = data['data']['vehicleListByAssocID'].filter(item=>{
+       return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
+      })
+     this.totalAssociationVehicles = totalAssociationVehicles.length;
+
     },err=>{
       console.log(err);
     })
@@ -456,6 +481,8 @@ this.localMrmRoleId=this.globalService.mrmroleId;
   GetWorkersListByUnitID(unUnitID) {
     this.dashBrdService.GetWorkersListByUnitID(unUnitID)
     .subscribe(data=>{
+      console.log(data['data']);
+      console.log(data['data']['errorResponse']['message']);
       console.log(data['data']['workersByUnit']);
       this.totalUnitStaffs=data['data'].length;
     },
@@ -481,7 +508,6 @@ this.localMrmRoleId=this.globalService.mrmroleId;
   }
   AdminsButtonShow(){
     this.localMrmRoleId=1;
-    this.GetVehicleListByAssocID();
   }
 
 }

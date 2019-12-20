@@ -36,6 +36,7 @@ import { SubscriptionManagementComponent } from './subscription-management/subsc
 import { AuthGuard } from './guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import {PaymentStatusComponent} from './payment-status/payment-status.component';
+import {ResidentInvoiceComponent} from './resident-invoice/resident-invoice.component';
 import { from } from 'rxjs';
 
 
@@ -77,7 +78,8 @@ const routes: Routes = [
     { path: 'balancesheet', component:BalancesheetComponent, canActivate: [AuthGuard]},
     { path: 'journel', component:JournelsComponent, canActivate: [AuthGuard]},
     { path: 'profile', component:ProfileComponent, canActivate: [AuthGuard]},
-    { path: 'payment-status', component:PaymentStatusComponent, canActivate: [AuthGuard]}
+    { path: 'payment-status', component:PaymentStatusComponent, canActivate: [AuthGuard]},
+    { path: 'resident-invoice', component:ResidentInvoiceComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

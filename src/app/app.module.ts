@@ -66,6 +66,7 @@ import { JournelsComponent } from './journels/journels.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PaymentStatusComponent } from './payment-status/payment-status.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ResidentInvoiceComponent } from './resident-invoice/resident-invoice.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -115,7 +116,8 @@ export const firebaseConfig = environment.firebaseConfig;
     BalancesheetComponent,
     JournelsComponent,
     PaymentStatusComponent,
-    ProfileComponent
+    ProfileComponent,
+    ResidentInvoiceComponent
     ],
   imports: [
     BrowserModule,

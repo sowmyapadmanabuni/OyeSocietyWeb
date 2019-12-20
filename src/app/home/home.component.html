@@ -40,7 +40,7 @@
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/asso_amount_due.png">
                                                 </div>
-                                                <div data-toggle="modal" data-target="#viewBlockDetailsTemplate">
+                                                <div (click)="OpenModalBlockDetails(viewBlockDetailsTemplate)">
                                                         <div class="number">{{(amount==0?'0':amount)}}</div>
                                                         <div>Association <br>Amount Due</div>
                                                 </div>
@@ -49,8 +49,8 @@
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/amount_due_self.png">
                                                 </div>
-                                                <div>
-                                                        <div class="number">0</div>
+                                                <div (click)='gotToResidentInvoice()'>
+                                                        <div class="number">{{(amountdue==0?'0':amountdue)}}</div>
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div>
@@ -58,7 +58,7 @@
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/vehicles.png"></div>
                                                 <div>
-                                                        <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
+                                                        <div class="number">{{(totalAssociationVehicles=='0'?'0':totalAssociationVehicles)}}</div>
                                                         <div>Vehicles</div>
                                                 </div>
                                         </div>
@@ -134,8 +134,8 @@
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/amount_due_self.png">
                                                 </div>
-                                                <div>
-                                                        <div class="number">0</div>
+                                                <div >
+                                                        <div class="number">{{(amountdue==0?'0':amountdue)}}</div>
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div>
@@ -204,66 +204,61 @@
 </div>
 
 <!---------POPUP FOR ASSOCIATION AMOUNT DUE START HERE--------->
-<div class="modal fade" id="viewBlockDetailsTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="padding-top:20px;">
-                    <h4 class="modal-title" id="myModalLabel">View Due Amount</h4>
-                    <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-
-                        <table class="table table-bordered"
-                        [mfData]="associationAmountDue"
-                        #mf="mfDataTable" [mfRowsOnPage]="10">
-                        <thead>
-                            <tr>
-                                <th>
-                                    S.No.
-                                </th>
-                                <th>
-                                    <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
-                                </th>
-                                <th>
-                                    <mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter>
-                                </th>
-                                <th>
-                                    <mfDefaultSorter by="pyAmtDue">Due Amount</mfDefaultSorter>
-                                </th>
-                                <th>
-                                    <mfDefaultSorter by="pyStat">Payment Status</mfDefaultSorter>
-                                </th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of mf.data;let i=index">
-                                <ng-container *ngIf="item == -1">
-                                    <td colspan="5" align="center">No Data Found</td>
-                                </ng-container>
-                                <ng-container *ngIf="item!=-1">
-                                    <td>{{(i+1)}}</td>
-                                    <td>{{item['unUniName']}}</td>
-                                    <td>{{item['inNumber']}}</td>
-                                    <td>{{item['pyAmtDue']}}</td>
-                                    <td>{{item['pyStat']}}</td>
-                                </ng-container>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5">
-                                    <mfBootstrapPaginator></mfBootstrapPaginator>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-
-                </div>
-            </div>
+    <ng-template #viewBlockDetailsTemplate>
+        <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"><u>View Due Amount</u></h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-    </div>
+        <div class="modal-body">
+                <table class="table table-bordered"
+                [mfData]="associationAmountDue"
+                #mf="mfDataTable" [mfRowsOnPage]="10">
+                <thead>
+                    <tr>
+                        <th>
+                            S.No.
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="pyAmtDue">Due Amount</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="pyStat">Payment Status</mfDefaultSorter>
+                        </th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data;let i=index">
+                        <ng-container *ngIf="item == -1">
+                            <td colspan="5" align="center">No Data Found</td>
+                        </ng-container>
+                        <ng-container *ngIf="item!=-1">
+                            <td>{{(i+1)}}</td>
+                            <td>{{item['unUniName']}}</td>
+                            <td>{{item['inNumber']}}</td>
+                            <td>{{item['pyAmtDue']}}</td>
+                            <td>{{item['pyStat']}}</td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </ng-template>
     <!---------POPUP FOR ASSOCIATION AMOUNT DUE END HERE--------->
 
 <!---------POPUP FOR ASSOCIATION MEMBERS START HERE--------->
