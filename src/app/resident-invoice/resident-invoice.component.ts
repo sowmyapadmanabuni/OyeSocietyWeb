@@ -13,13 +13,13 @@ import { PaymentService } from '../../services/payment.service';
 import { HttpHeaders } from '@angular/common/http';
 declare var $: any;
 
-
 @Component({
-  selector: 'app-invoices',
-  templateUrl: './invoices.component.html',
-  styleUrls: ['./invoices.component.css']
+  selector: 'app-resident-invoice',
+  templateUrl: './resident-invoice.component.html',
+  styleUrls: ['./resident-invoice.component.css']
 })
-export class InvoicesComponent implements OnInit {
+export class ResidentInvoiceComponent implements OnInit {
+
   allBlocksByAssnID: BlocksByAssoc[];
   allblocksbyassnid: BlocksByAssoc[];
   currentPage: number;
@@ -121,7 +121,6 @@ export class InvoicesComponent implements OnInit {
   PymtRefNo: string;
   ddNo: string;
   chequeNo: string;
-  PaidUnpaidinvoiceLists:any[];
 
 
   constructor(private viewinvoiceservice: ViewInvoiceService,
@@ -150,7 +149,6 @@ export class InvoicesComponent implements OnInit {
     this.unUnitID = 'Units';
     this.BankName = 'Bank';
     this.viewinvoiceservice.invoiceBlock = '';
-    this.PaidUnpaidinvoiceLists=[];
 
     this.bankList = [
       'Allahabad Bank',
@@ -223,6 +221,7 @@ export class InvoicesComponent implements OnInit {
           this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
         }
       })
+  this.invoicelistByUnitID();
   }
 
   getCurrentBlockDetails(blBlockID, blBlkName) {
@@ -234,7 +233,6 @@ export class InvoicesComponent implements OnInit {
     this.viewinvoiceservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
-        this.PaidUnpaidinvoiceLists=this.invoiceLists;
         console.log('invoiceLists?', this.invoiceLists);
         //
         this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
@@ -252,7 +250,16 @@ export class InvoicesComponent implements OnInit {
     this.isChecked = false;
     this.checkAll = false;
   }
-
+  invoicelistByUnitID(){
+    console.log(this.globalservice.currentUnitId);
+    this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.currentUnitId)
+    .subscribe(data=>{
+      console.log(data);
+    },
+    err=>{
+      console.log(err);
+    })
+  }
   setOrder(value: string) {
     if (this.order === value) {
       this.reverse = !this.reverse;
@@ -874,20 +881,6 @@ export class InvoicesComponent implements OnInit {
       Object.assign({}, { class: 'gray modal-lg' })
     );
   }
-  GetPaidInvoiceList(IsPaid) {
-    console.log(IsPaid);
-    let paid = '';
-    if (IsPaid) {
-      paid = 'Yes';
-    }
-    else {
-      paid = 'No';
-    }
-    this.PaidUnpaidinvoiceLists = this.invoiceLists;
-    this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
-      return item['inPaid'] == paid;
-    })
-  }
   rowDetails(pyid, unUnitID) {
     console.log('pyid-' + pyid);
     this.unUnitID = unUnitID;
@@ -914,5 +907,6 @@ export class InvoicesComponent implements OnInit {
   getBankName(bank) {
     this.BankName = bank;
   }
+
 
 }

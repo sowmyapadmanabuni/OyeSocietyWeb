@@ -1,0 +1,57 @@
+.b-l{border-left: 2px solid rgb(242, 238, 238)}
+.profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
+.prof-cont{    width: 70%;
+    margin: 0px auto;
+    text-align: center;
+    border: 1px solid #e9e5e5;
+    box-shadow: 0px 2px 3px 3px #e9e6e6;
+    border-radius: 6px;
+    margin-top: 30px;
+    padding-bottom: 40px;
+    margin-bottom: 100px;}
+.pof-name{color: #27AB97;padding: 13px 0px;}
+.prof-email,.prof-phone{font-size: 17px;
+    font-weight: 500;
+    padding: 5px 0px;}
+.file-upload {
+    display: none;
+}
+.circle {
+    border-radius: 1000px !important;
+    overflow: hidden;
+    width: 128px;
+    height: 128px;
+    border: 8px solid rgba(255, 255, 255, 0.7);
+    position: relative;
+    top: 27px;
+    background: #b4b0b0;margin: 0px auto;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+.p-image {
+    position: relative;
+    top: 0px;
+    left: 50px;
+    color: #666666;
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.p-image:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.upload-button {
+  font-size: 1.2em;
+}
+
+.upload-button:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  color: #999;
+}
+@media only screen and (min-width: 240px) and (max-width:600px)  {
+    .prof-cont{width: 100% !important;}
+    }

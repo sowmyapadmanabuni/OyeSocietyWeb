@@ -115,7 +115,9 @@ export class HomeComponent implements OnInit {
 this.localMrmRoleId=this.globalService.mrmroleId;
 this.GetVehicleListByAssocID();
   }
-
+  gotToResidentInvoice(){
+    this.router.navigate(['resident-invoice']);
+  }
   getAssociation(){
     console.log('this.accountID',this.accountID);
     this.dashBrdService.getAssociation(this.accountID).subscribe(res => {

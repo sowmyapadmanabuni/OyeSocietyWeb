@@ -76,7 +76,12 @@ export class ViewInvoiceService {
 
     return this.http.get(this.url, { headers: headers });
   }
-
+  invoicelistByUnitID(UnitID){
+    let headers = this.getHttpheaders();
+    let ipAddress=this.utilsService.getIPaddress();
+    this.url = `${ipAddress}oyeliving/api/v1/Invoice/invoicelistByUnitID/${UnitID}`;
+    return this.http.get(this.url, { headers: headers });
+  }
   invoiceDetails(InvoiceId,UnitID){
     console.log('InvoiceId-',InvoiceId);
     console.log('UnitID-',UnitID);

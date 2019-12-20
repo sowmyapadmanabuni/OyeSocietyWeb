@@ -8,13 +8,13 @@
             <div class="col-md-12 m-t-30 dash">
                 <span class="black">Invoice For Manyata Association</span>
 
-                <div class="switch">
+                <!-- <div class="switch">
                     <ul class="nav nav-pills">
                         <li><a (click)="goToExpense()">Expenses</a></li>
                         <li class="active"><a (click)="goToInvoice()">Invoice</a></li>
                         <li><a (click)="goToReceipts()">Receipts</a></li>
                     </ul>
-                </div>
+                </div> 
                 <div class="enroll">
                     <div class="dropdown" style="width: 200px;">
                         <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -26,18 +26,14 @@
                                 <a>{{item['blBlkName']}}</a></li>
                         </ul>
                     </div>
-                </div>
-                <div style="display: flex;justify-content: flex-end;align-items: baseline;">
-                    <label class="purple">Paid&nbsp;&nbsp;</label>
-                    <input type="checkbox" [(ngModel)]="IsPaid" (change)='GetPaidInvoiceList(IsPaid)' name="IsPaid">
-                  </div>
+                </div> -->
                 <div>
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="search name">
                 </div>
                 <div class="dash-row">
                     <table class="table table-bordered"
-                        [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
+                        [mfData]="invoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
                         #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
