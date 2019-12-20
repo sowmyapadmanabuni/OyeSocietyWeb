@@ -64,7 +64,12 @@ i{cursor: pointer;}
 .payment-opt>div{display: flex;flex-direction: column;align-items: center;}
 .pay-bt{display: flex;justify-content: flex-end;margin: 20px 0px;}
 .t-right{text-align: right}
-
+.pay{-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);}
+    .pay1{-webkit-filter: grayscale(1%); /* Safari 6.0 - 9.0 */
+        filter: grayscale(1%);cursor: pointer;}
+.pay:hover{-webkit-filter: grayscale(1%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(1%);cursor: pointer;}
 /* Search box style */
 .blk-drop{    border-bottom: 1px solid #dad6d6 !important;
     width: 260px;}

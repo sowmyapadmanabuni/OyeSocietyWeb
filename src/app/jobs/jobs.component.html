@@ -58,7 +58,7 @@
         <h3 class="job-head">Current Job Openings</h3>
         <p>Thanks for checking out our job openings, Apply below if you see something that interests you. Dont't see the
             position you want <span (click)="openModelnewJob(applyjob)" class="orange">Apply here</span></p>
-        <table id="example" class="table table-responsive">
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Job Title</th>
@@ -91,7 +91,7 @@
 <ng-template #applyjob>
 
         <div class="modal-header" style="background: #82808026">
-                <h4 class="modal-title" style="text-align:center">Job Application</h4>
+                <h4 class="modal-title">Job Application</h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                         <span aria-hidden="true">&times;</span>
                 </button>

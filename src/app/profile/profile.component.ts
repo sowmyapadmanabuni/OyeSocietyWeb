@@ -34,7 +34,8 @@ ngAfterViewInit(){
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('.profile-pic').attr('src', e.target.result);
+              var picFile = <FileReader>event.target;
+                $('.profile-pic').attr('src', picFile.result);
             }
     
             reader.readAsDataURL(input.files[0]);

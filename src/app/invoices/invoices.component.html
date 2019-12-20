@@ -489,9 +489,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4 col-xs-4">
-                            <a (click)="iciciPay($event)">
-                                <img src="assets/images/icici.jpg" alt="ICICI Bank" class="img-responsive" />
+                        <div class="col-sm-4 col-xs-4 pay" >
+                            <a (click)="iciciPay($event)" >
+                                <img  src="assets/images/icici.jpg" alt="ICICI Bank" class="img-responsive" />
                                 <h6><b>₹ {{totalAmountPaid()}} + Service Fee & GST = ₹ {{invValFinal}}</b></h6>
                             </a>
                         </div>
@@ -999,21 +999,23 @@
                 <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
             </div>
             <!--Payment Options-->
+            
             <div class="payment-opt" *ngIf="payopt">
-                <div >
+                
+                <div class="pay" id="pay">
                     <img src="../../assets/images/icons/icic.png" (click)="payThroughICICIPG($event)">
                     <p>₹0+Service Fee & GST</p>
                 </div>
-                <div >
-                    <img src="../../assets/images/icons/instamojo.png" (click)="hdfcPay($event)">
+                <div class="pay">
+                    <img src="../../assets/images/icons/hdfc.png" (click)="hdfcPay($event)">
                     <p>₹0+Service Fee & GST</p>
                 </div>
-                <div>
-                    <img src="../../assets/images/icons/razorpay.png">
+                <div class="pay">
+                    <img src="../../assets/images/icons/axis.png">
                     <p>₹0+Service Fee & GST</p>
                 </div>
-                <div>
-                    <img src="../../assets/images/icons/icic.png">
+                <div class="pay">
+                    <img src="../../assets/images/icons/kotak.png">
                     <p>₹0+Service Fee & GST</p>
                 </div>
             </div>

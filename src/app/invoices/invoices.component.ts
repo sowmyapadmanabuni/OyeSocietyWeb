@@ -205,7 +205,10 @@ export class InvoicesComponent implements OnInit {
     this.router.navigate(['vehicles']);
   }
   ngAfterViewInit() {
-
+    $('#pay').click(function() {
+      $(this).toggleClass('.pay');
+      $(this).toggleClass('.pay1');
+  });
   }
   ngOnInit() {
     this.payopt = false;
@@ -898,4 +901,8 @@ export class InvoicesComponent implements OnInit {
     this.BankName = bank;
   }
 
+
+
+
+  
 }
