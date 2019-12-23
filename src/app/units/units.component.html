@@ -80,7 +80,7 @@
                                     <td>
                                         <i data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
                                             class="fa fa-eye" tooltip="View Unit"></i>&nbsp;|&nbsp; <i data-toggle="modal"
-                                            (click)="OpenModal(editUnits)" class="fa fa-pencil" tooltip="Edit Unit"></i>
+                                            (click)="OpenModal(editUnits,item['unUnitID'],item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'])" class="fa fa-pencil" tooltip="Edit Unit"></i>
                                         <!-- <i data-toggle="modal"
                                             data-target="#editBlockDetails"
                                             (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
@@ -113,98 +113,50 @@
 </div>
 
 
-<!--DIV-->
 <div class="modal fade viewPopup" id="viewUnit1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">View
-                    Unit</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+
+            <div class="modal-header" style="background-color: whitesmoke;">
+               
+               
+                <h4 class="modal-title" id="myModalLabel" style="color:#b33951; font-family: Quicksand;"><u>View Unit</u></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body">
-                <div class="row" style="padding:5px;">
-                    <div class="col-sm-12">
-                        <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5>
+
+            <div class="modal-body" style="font-family: Quicksand;">
+                <div class="row" style="border:2px solid #b33951; padding:5px;">
+                    <div class="col-sm-12"> 
+                        <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5> 
+                        <br>                          
+                        <h5 style="color:#b33951">Unit Information</h5>
                         <br>
-                        <h5 style="color:#f7b844">Unit Information</h5>
-                        <br>
                     </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="form-group"
-                            [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                            <label id=label1>Unit No<span class="red">*</span> </label>
-                            <input type="text" name="BLBlkName" id="input1" class="form-control" placeholder="Unit No"
-                                pattern="[a-zA-Z0-9]*" required />
-                            <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                name is required
-                            </p>
-                        </div>
+                    <div class="col-sm-4">
+                        <p>Unit No : <span>{{viewUnitRow.unitNo}}</span></p>
                     </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="form-group"
-                            [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                            <label id=label1>Unit Type<span class="red">*</span> </label>
-                            <input type="text" name="BLBlkName" id="input1" class="form-control" placeholder="Unit Type"
-                                pattern="[a-zA-Z0-9]*" required />
-                            <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                name is required
-                            </p>
-                        </div>
+                    <div class="col-sm-4">
+                        <p>Unit Type : <span>{{viewUnitRow.unitType}}</span></p>
                     </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="form-group"
-                            [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                            <label id=label1>Unit Dimension<span class="red">*</span> </label>
-                            <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
-                            <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                name is required
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="form-group"
-                            [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                            <label id=label1>Unit Rate<span class="red">*</span> </label>
-                            <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
-                            <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                name is required
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="form-group"
-                            [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                            <label id=label1>Calculation Type<span class="red">*</span> </label>
-                            <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
-                            <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                name is required
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="form-group"
-                            [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                            <label id=label1>Occupancy Status<span class="red">*</span> </label>
-                            <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
-                            <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                name is required
-                            </p>
-                        </div>
+                    <div class="col-sm-4">
+                        <p>Unit Dimension : <span>{{viewUnitRow.unitDimen}}</span></p>
                     </div>
 
+                    <div class="col-sm-12">
+                         <hr>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <p>Unit Rate : <span>{{viewUnitRow.rate}}</span></p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Calculation Type : <span>{{viewUnitRow.calculationType}}</span></p><!---->
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Occupancy Status : <span>{{viewUnitRow.occupencyStatus}}</span></p>
+                    </div>
                 </div>
-            </div>
-            <!---------Modal Body close---------->
+            </div> <!---------Modal Body close----------> 
         </div>
     </div>
 </div>
@@ -228,12 +180,12 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="from-group" style="padding-left:15px;">
-                                    <p>Association Name : <strong>{{assnName}}</strong></p>
+                                    <p>Unit Name : <strong>{{unUniName}}</strong></p>
                                 </div>
                             </div>
 
                             <div class="col-sm-4" style="padding-right:15px;">
-                                <p>Date : <strong> {{myDate | date: 'dd/MM/yyyy'}}
+                                <p>Date : <strong> {{unOcSDate|date:'dd-MM-yyyy'}}
                                     </strong></p>
                             </div>
                         </div>
@@ -246,102 +198,68 @@
                         <br>
                         <div class="row" style="padding-left:15px;padding-right:15px;">
                             <div class="col-sm-6 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                                    <label id=label1>Unit No<span class="red">*</span> </label>
-                                    <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                        [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                        placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
-                                    <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                        name is required
-                                    </p>
+                                <div class="form-group">
+                                    <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="occupencyInEditUnit" name="occupencyInEditUnit"
+                                            data-toggle="dropdown">{{UNOcStat}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li (click)="SelectOccupencyStatus('Sold Owner Occupied Unit')"><a>Sold Owner Occupied Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('Sold Tenant Occupied Unit')"><a>Sold Tenant Occupied Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('Sold Vacant Unit')"><a>Sold Vacant Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('UnSold Vacant Unit')"><a>UnSold Vacant Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('UnSold Tenant Occupied Unit')"><a>UnSold Tenant Occupied Unit</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : blocktypeControl.invalid && blocktypeControl.touched}">
-                                    <label id=label2>Unit Type<span class="red">*</span></label>
-
-                                    <input list="type" class="form-control" name="BLBlkType" [(ngModel)]="BLBlkType"
-                                        #blocktypeControl='ngModel' placeholder="Block Type" required>
-                                    <datalist id="type">
-                                        <option value="">Select Frequency</option>
-                                        <option *ngFor="let blktype of blocktypes" [value]="blktype['name']">
-                                            {{blktype['displayName']}}
-                                        </option>
-                                    </datalist>
-
-                                    <p class="alerts" *ngIf="blocktypeControl.invalid && blocktypeControl.touched">Valid
-                                        block type is
-                                        required</p>
+                                <div class="form-group">
+                                    <label class="control-label">Unit Type<span class="red">*</span></label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="unitTypeForEdit" name="unitTypeForEdit"
+                                            data-toggle="dropdown">{{UNUniType}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li (click)="getUnitType('Flat')"><a>Flat</a></li>
+                                            <li (click)="getUnitType('Villa')"><a>Villa</a></li>
+                                            <li (click)="getUnitType('Vaccant Plot')"><a>Vaccant Plot</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group"
-                                    [ngClass]="{'was-validated' : noofunitsControl.invalid && noofunitsControl.touched}">
+                                    [ngClass]="{'was-validated' : UNDimensControl.invalid && UNDimensControl.touched}">
                                     <label id=label3>Unit Dimension<span class="red">*</span></label>
-                                    <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
-                                        [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
+                                    <input type="text" name="UNDimens" id="input3" autocomplete='UNDimens'
+                                        [(ngModel)]="UNDimens" #UNDimensControl="ngModel" class="form-control"
                                         placeholder="No Of Units" pattern="[0-9]*" required />
-                                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
-                                        units are required
+                                    <p class="alerts" *ngIf="UNDimensControl.invalid && UNDimensControl.touched">Unit Dimension required
                                     </p>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : noofunitsControl.invalid && noofunitsControl.touched}">
-                                    <label id=label3>Unit Rate<span class="red">*</span></label>
-                                    <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
-                                        [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
-                                        placeholder="No Of Units" pattern="[0-9]*" required />
-                                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
-                                        units are required
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : noofunitsControl.invalid && noofunitsControl.touched}">
-                                    <label id=label3>Calculation Type<span class="red">*</span></label>
-                                    <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
-                                        [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
-                                        placeholder="No Of Units" pattern="[0-9]*" required />
-                                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
-                                        units are required
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : noofunitsControl.invalid && noofunitsControl.touched}">
-                                    <label id=label3>Occupancy Status <span class="red">*</span></label>
-                                    <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
-                                        [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
-                                        placeholder="No Of Units" pattern="[0-9]*" required />
-                                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
-                                        units are required
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : noofunitsControl.invalid && noofunitsControl.touched}">
-                                    <label id=label3>Unit Dimension<span class="red">*</span></label>
-                                    <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
-                                        [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
-                                        placeholder="No Of Units" pattern="[0-9]*" required />
-                                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
-                                        units are required
-                                    </p>
+                                <div class="form-group">
+                                    <label class="control-label">Calculation Type<span class="red">*</span></label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="UNCalType" name='UNCalType'
+                                            data-toggle="dropdown">{{UNCalType}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li (click)="getCalculationTypesUpadte('Flat Rate Value')"> <a>Flat Rate Value</a></li>
+                                            <li (click)="getCalculationTypesUpadte('Dimension Based')"> <a>Dimension Based</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="from-group">
                             <div class="form-group pull-right">
-                                <br>
+                                <button type="reset" class="btn btn-primary-reset">Reset</button>
                                 <button type="submit" class="btn btn-primary-purple nextBtn"
                                     (click)="UpdateUnit()">Update</button>
                             </div>

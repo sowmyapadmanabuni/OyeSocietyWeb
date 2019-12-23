@@ -66,9 +66,12 @@
                                             <td>{{item['inNumber']}}</td>
                                             <td class="amount">{{item['pyDate'] | date : "d-M-y"}}</td>
                                             <td class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}</td>
-                                            <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
+                                            <!-- <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
                                             (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
-                                            class="fa fa-eye" tooltip="view Receipt"></i> </td>
+                                            class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
+                                            <td> <i style="cursor: pointer"
+                                                (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
+                                                class="fa fa-eye" tooltip="view Receipt"></i> </td>
                                         </ng-container>
                                     </tr>
                                 </tbody>
@@ -150,3 +153,48 @@
             </div>
         </div>
     </div>
+    <!---->
+    <ng-template #Receipts>
+        <div class="modal-header">
+            <h4 class="modal-title orange">RECEIPT</h4>
+            <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button> -->
+        </div>
+        <div class="modal-body">
+            <div class="receipt-head">
+                <p class="purple">Godrej Association</p>
+                <p>A-104</p>
+            </div>
+            <p class="summary">Receipt Summary</p>
+            <div class="receipt-head">
+                <div>
+                    <p><strong>Invoice Number:</strong> A1047367647383</p>
+                    <p><strong>Payment Date:</strong> November 21,2019</p>
+                </div>
+                <p>Reciept Id-10498776</p>
+            </div>
+            <table class="table">
+    
+                <tbody>
+                    <tr>
+                        <td>Amout Due</td>
+                        <td>₹ 500.00</td>
+                    </tr>
+                    <tr>
+                        <td>Amount Paid</td>
+                        <td>₹ 300.00</td>
+                    </tr>
+                    <tr>
+                        <td>Current Outstanding</td>
+                        <td>(-)₹ 200.00</td>
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div class="print-receipt">
+                <button class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print
+                    Receipt</button>
+            </div>
+        </div>
+    </ng-template>

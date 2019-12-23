@@ -33,6 +33,21 @@ export class UnitsComponent implements OnInit {
   blBlockID: string;
   viewAddunitUI:boolean;
   showCreateUnitemplate:boolean;
+    UNUniType: any;
+    UNOpenBal : any;
+    UNCurrBal : any;
+    UNOcStat  : any;
+    UNCalTypeForEdit  : any;
+    UNOcSDate : any;
+    UNOwnStat : any;
+    UNSldDate : any;
+    UNDimens  : any;
+    UNCalType : any;
+    FLFloorID : any;
+    BLBlockID : any;
+    UNUnitID  : any;
+    unUniName : any;
+    unitTypeForEdit:any;
 
 
   blocks: any = [];
@@ -60,6 +75,7 @@ export class UnitsComponent implements OnInit {
   unitrate:number;
   calculationtype:string;
   occupency:string;
+  occupencyInEditUnit:string;
   ownerFirtname:string;
   ownerLastname:string;
   ownerMobnumber:string;
@@ -94,6 +110,8 @@ export class UnitsComponent implements OnInit {
     this.unitType='';
     this.calculationtype='Select Calculation...';
     this.occupency='Select occupency an....';
+    this.occupencyInEditUnit='Select occupency an....';
+    this.unitTypeForEdit='Select Unit Type';
 
     this.accountTypes = [
       { "name": "Saving" },
@@ -135,7 +153,16 @@ export class UnitsComponent implements OnInit {
       this.config.currentPage = event;
     }
 
-    OpenModal(editUnits: TemplateRef<any>) {
+    OpenModal(editUnits: TemplateRef<any>,unUnitID,unUniType,unOcStat,unDimens,unCalType,blBlockID,asAssnID,acAccntID,unUniName) 
+    {
+      this.unUniName = unUniName,
+      this.unitTypeForEdit = unUniType,
+      this.occupencyInEditUnit  = unOcStat,
+      this.UNDimens  = unDimens,
+      this.UNCalType = unCalType,
+      // this.FLFloorID = 1,
+      this.BLBlockID = blBlockID,
+      this.UNUnitID  = unUnitID
       this.modalRef = this.modalService.show(editUnits);
     }
 
@@ -338,4 +365,58 @@ export class UnitsComponent implements OnInit {
     this.unitList = false;
   }
 
+  // UPDATE UNIT FUNCTION STARTS HERE
+  UpdateUnit(){
+    let updateUnitData={
+      "UNUniType" : this.unUniName,
+      "UNOpenBal"    : "12.3",
+      "UNCurrBal"    : "25.12",
+      "UNOcStat"    : this.occupencyInEditUnit,
+      "UNOcSDate" : "2018-02-25",
+      "UNOwnStat" : "Active",
+      "UNSldDate"    : "2018-02-02",
+      "UNDimens"  : this.UNDimens,
+      "UNCalType"    : this.UNCalType,
+      "FLFloorID" : 1,
+      "BLBlockID" : this.blockID,
+      "UNUnitID"  : this.UNUnitID
+    }
+    this.viewUniService.UpdateUnitInfo(updateUnitData)
+    .subscribe(data=>{
+      console.log(data);
+      this.modalRef.hide();
+      Swal.fire({
+        title: 'Unit Updated Successfuly',
+        text: "",
+        type: "success",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+            this.getAllUnitDetailsByBlockID(this.blockID,this.blBlkName);
+          }
+        })
+    },
+    err=>{
+      console.log(err);
+    })
+  }
+  // UPDATE UNIT FUNCTION END HERE
+
+  SelectOccupencyStatus(UNOcStat){
+    this.UNOcStat=UNOcStat;
+    this.occupencyInEditUnit=UNOcStat;
+  }
+
+  getUnitType(unitTpname) {
+    this.UNUniType = unitTpname;
+    this.unitTypeForEdit = unitTpname;
+  }
+
+  getCalculationTypesUpadte(UNCalType){
+    this.UNCalType = UNCalType;
+    // this.UNCalTypeForEdit = UNCalType;
+
+  }
 }

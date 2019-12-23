@@ -246,9 +246,7 @@
 <!-- EDIT FAMILY MEMBER -->
 <ng-template #EditFamilyMemberModal>
     <div class="modal-header">
-        <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;position: absolute;left: 294px;">Update
-            Family
-            Member</h4>
+        <h4 class="modal-title pull-left">Update Family Member</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -273,7 +271,7 @@
                     <button type="submit" class="btn btn-primary-purple nextBtn"
                         (click)='updatefamilymember()'>Update</button>&nbsp;
                     <button type="reset" (click)="resetUpdateFamilyMemberModal()"
-                        class="btn btn-primary-purple nextBtn">Cancel</button>
+                        class="btn btn-primary-reset">Reset</button>
                 </div>
             </div>
         </form>

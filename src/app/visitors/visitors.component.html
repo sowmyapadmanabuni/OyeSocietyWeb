@@ -261,6 +261,7 @@
             <div class="col-sm-12" *ngIf="addGuest">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8 guest">
+                    <form>
                     <h4>Guest Invitation</h4>
                     <div class="guest-input">
                         <div class="form-group">
@@ -331,9 +332,10 @@
                             <input maxlength="10" style="width: 43%;" name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" />
                     </div>
                     <div class="col-sm-12 pull-right">
-                        <button class="btn btn-primary-purple nextBtn">Reset</button>
+                        <button type="reset" class="btn btn-primary-reset">Reset</button>
                         <button class="btn btn-primary-purple nextBtn" (click)="addVisitor()" type="button">Submit</button>
                     </div>
+                </form>
                 </div>
                 <div class="col-sm-2"></div>
             </div>

@@ -93,6 +93,7 @@
                 </button>
         </div>
         <div class="modal-body">
+                <form>
                 <div class="veh-opt">
                         <label class="radio-inline">
                                 <input type="radio" name="optradio" value="Two Wheeler" [(ngModel)]="veType" checked>Two Wheeler
@@ -127,13 +128,15 @@
                 </div>
                 <div class="adveh">
                         <div class="form-group">
-                                <button (click)='AddVehicle()' type="button" class="btn btn-warning">Add Vehicle</button>
+                                <button (click)='AddVehicle()' type="button" class="btn btn-primary-purple">Add Vehicle</button>
+                                <button type="reset" class="btn btn-primary-reset">Reset</button>
                         </div>
                 </div>
                 <div class="adveh1">
                         <div class="form-group">
                         </div>
                 </div>
+        </form>
         </div>
 </ng-template>
 <!--Add Vehicles-->

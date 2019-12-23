@@ -38,6 +38,7 @@ export class ProfileComponent implements OnInit {
   currentaccountid: any;
   profile: boolean;
   editprofile: boolean;
+  ACImgName:any;
 
 
   constructor(private editprofileservice:EditprofileService,
@@ -47,6 +48,7 @@ export class ProfileComponent implements OnInit {
     ) {       
       
     this.accountID=this.globalservice.getacAccntID();
+    this.ACImgName='';
     }
 
   ngOnInit() {
@@ -97,7 +99,8 @@ console.log(this.currentaccountid);
         "ACEmail2"  : "",
         "ACEmail3"	: "",
         "ACEmail4"  : "",
-        "ACAccntID"	: this.currentaccountid
+        "ACAccntID"	: this.currentaccountid,
+        "ACImgName":this.ACImgName
       
     }
   
@@ -148,13 +151,22 @@ console.log(this.currentaccountid);
   onFileSelected(event) {
 
     let selectedFile = <File>event.target.files[0];
-    
-    let imgthumbnailelement = <HTMLInputElement>document.getElementById("imgthumbnail");
+    console.log(selectedFile);
+    console.log(<File>event.target.files);
+    const fd = new FormData();
+    fd.append('image', selectedFile);
+    this.ACImgName=fd;
+    console.log(this.ACImgName);
 
+    let imgthumbnailelement = <HTMLInputElement>document.getElementById("imgthumbnail");
+    console.log(imgthumbnailelement);
     let reader  = new FileReader();
 
-    reader.onloadend = function () {
-      imgthumbnailelement.src  = reader.result as string;;
+    reader.onloadend =  ()=> {
+      console.log(reader.result as string);
+      //console.log(this);
+      //this.ACImgName=reader.result as string;
+      imgthumbnailelement.src  = reader.result as string;
     }
     if (selectedFile) {
       reader.readAsDataURL(selectedFile);

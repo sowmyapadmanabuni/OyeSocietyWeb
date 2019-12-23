@@ -530,7 +530,7 @@
     <div class="modal-body">
       <div class="row">
         <div class="col-xs-12" style="width: 90%; margin-left: 3%;">
-          <form name="editAssociation" autocomplete="off">
+          <form #editAssnFrm='ngForm' name="editAssociation" autocomplete="off">
             <div class="row">
               <div class="col-sm-4 col-xs-12">
                 <div class="from-group">
@@ -742,7 +742,7 @@
                       style="font-family: Quicksand">
                       <option ng-disabled="true" ng-selected="true" [value]="">Select Account Type</option>
                       <option *ngFor="let accounttype of accountTypes" [value]="accounttype.name">
-                        {{accounttype.displayName}}</option>
+                        {{accounttype.name}}</option>
                       <p class="alerts" *ngIf="accounttypeControl.invalid && accounttypeControl.touched">Account Type is
                         required</p>
                     </select>
@@ -753,7 +753,8 @@
               <div class="from-group">
                 <div class="form-group pull-right">
                   <br>
-                  <button type="submit" class="btn btn-primary-purple nextBtn"
+                  <button type="reset" class="btn btn-primary-reset">Reset</button>
+                  <button [disabled]='editAssnFrm.invalid' type="submit" class="btn btn-primary-purple nextBtn"
                     (click)="UpdateAssociation()">Update</button>
                 </div>
               </div>

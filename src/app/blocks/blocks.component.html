@@ -98,62 +98,39 @@
 
 
 
+<!-- VIEW BLOCK START HERE -->
 <div class="modal fade" id="viewBlockDetailsTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="padding-top:20px;">
-                <h4 class="modal-title" id="myModalLabel">View Block</h4>
+                <h4 class="modal-title" id="myModalLabel"><u>View Block</u></h4>
                 <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
 
                 <fieldset class="scheduler-border">
                     <div class="row" style="text-align:center;">
                         <br>
-                        <div class="col-sm-4 col-xs-12">
-                            <div class="form-group"
-                                [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                                <label id=label1>Block Name<span class="red">*</span> </label>
-                                <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                    [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                    placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
-                                <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                    name is required
-                                </p>
-                            </div>
+                        <div class="col-sm-4">
+                            <p></p>
+                            <h4>Block Name: </h4><span>{{bkname}}</span>
+                            <p></p>
+                            <br>
+                        </div>
+                        <div class="col-sm-4">
+                            <p></p>
+                            <h4>Block Type: </h4><span>{{bktype}}</span>
+                            <p></p>
+                            <br>
                         </div>
 
-                        <div class="col-sm-4 col-xs-12">
-                            <div class="form-group"
-                                [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                                <label id=label1>Block Type<span class="red">*</span> </label>
-                                <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                    [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                    placeholder="Block Type" pattern="[a-zA-Z0-9]*" required />
-                                <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                    name is required
-                                </p>
-                            </div>
+                        <div class="col-sm-4">
+                            <p></p>
+                            <h4>No of Units: </h4><span>{{bknofunit}}</span>
+                            <p></p>
+                            <br>
                         </div>
-                        <!-- <h4>Block Type: </h4><span>{{bktype}}</span> -->
-
-
-
-                        <div class="col-sm-4 col-xs-12">
-                            <div class="form-group"
-                                [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
-                                <label id=label>No Of Units<span class="red">*</span> </label>
-                                <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                    [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                    placeholder="No Of Units" pattern="[a-zA-Z0-9]*" required />
-                                <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
-                                    name is required
-                                </p>
-                            </div>
-                        </div>
-                        <!-- <h4>No of Units: </h4><span>{{bknofunit}}</span> -->
-
 
                     </div>
                 </fieldset>
@@ -162,6 +139,7 @@
         </div>
     </div>
 </div>
+<!-- VIEW BLOCK END HERE -->
 
 <ng-template #editBlocktemplate>
     <div class="modal-content">
@@ -175,7 +153,7 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-sm-12">
-                    <form name="editAssociation" autocomplete="off">
+                    <form name="editAssociation" #editBlockForm='ngForm' autocomplete="off">
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="from-group" style="padding-left:15px;">
@@ -353,7 +331,7 @@
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group"
                                     [ngClass]="{'was-validated' : measurementsControl.invalid && measurementsControl.touched}">
-                                    <label>Unit of Measurement<span class="red">*</span></label>
+                                    <label>Unit of Measurement</label>
                                     <input class="form-control" type="text" required name="ASUniMsmt"
                                         autocomplete="ASUniMsmt" [(ngModel)]="ASUniMsmt" #measurementsControl='ngModel'
                                         placeholder="Measurement Type">
@@ -365,8 +343,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label>Invoice Creation Frequency<span class="red">*</span> <span
-                                            class="red">*</span></label>
+                                    <label>Invoice Creation Frequency<span class="red">*</span></label>
                                     <input list="invoice" class="form-control" name="ASIcRFreq" [(ngModel)]="ASIcRFreq"
                                         #frequencyControl='ngModel' placeholder="Invoice Creation Frequency" required>
                                     <datalist id="invoice">
@@ -391,8 +368,6 @@
                                         [bsConfig]="bsConfig" [(ngModel)]="ASBGnDate"
                                         (bsValueChange)="onValueChange($event)" [minDate]="todayDate" bsDatepicker
                                         placement="top" />
-                                    <p class="invalid-feedback">Invoice Generation Date required
-                                    </p>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12">
@@ -402,8 +377,6 @@
                                         [class.classForInvalid]="enableduedatevalidation" placeholder="Due Date"
                                         [bsConfig]="bsConfig" [(ngModel)]="ASDPyDate" [minDate]="minDate"
                                         (bsValueChange)="onDueDateValueChange($event)" bsDatepicker placement="top" />
-                                    <p class="invalid-feedback">Due date required
-                                    </p>
                                     <ng-container *ngIf='enableduedatevalidation'>
                                         <p class="invalidFeedback">Due date should be greater than or equal to
                                             invoice date
@@ -495,8 +468,8 @@
                         </div>
                         <div class="from-group">
                             <div class="form-group pull-right">
-                                <button type="submit" class="btn btn-primary-purple nextBtn"
-                                    (click)="UpdateBlock()">Update</button>
+                                <button type="reset" class="btn btn-primary-reset">Reset</button>
+                                <button type="submit" [disabled]='editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
                             </div>
                         </div>
                     </form>

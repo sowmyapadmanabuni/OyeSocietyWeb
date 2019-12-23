@@ -59,7 +59,9 @@ export class ReceiptsComponent implements OnInit {
   gotoGenerateReceipt(){
     this.router.navigate(['home/generatereceipt']);
   }
-
+  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pyDate,pyAmtPaid){
+    this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
+  }
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
     console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
     this.unitIdentifier = unitIdentifier;

@@ -330,7 +330,9 @@ export class AssociationManagementComponent implements OnInit {
   }
   ngAfterViewInit() {
 
-    this.toggleStepWizrd()
+    this.toggleStepWizrd();
+   let lis= document.getElementsByClassName('page-item active');
+   console.log(lis);
   }
   
   pageChanged(event: any): void {
