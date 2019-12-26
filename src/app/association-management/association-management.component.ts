@@ -329,12 +329,20 @@ export class AssociationManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   ngAfterViewInit() {
-
     this.toggleStepWizrd();
-   let lis= document.getElementsByClassName('page-item active');
-   console.log(lis);
   }
-  
+  onPageChange(event) {
+    console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if(event['srcElement']['text'] != '1'){
+      this.p= Number(event['srcElement']['text'])-1;
+    } 
+    if(event['srcElement']['text'] == '«'){
+      this.p= 1;
+    }
+  }
   pageChanged(event: any): void {
     this.page = event.page;
   }

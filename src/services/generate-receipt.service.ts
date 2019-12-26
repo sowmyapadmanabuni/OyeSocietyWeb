@@ -11,9 +11,13 @@ export class GenerateReceiptService {
 
   ipAddress: string;
   url: string;
+  enableGenerateReceiptView:boolean;
+  enableReceiptListView:boolean;
 
  constructor(private http: HttpClient,private utilsService:UtilsService) {
     this.ipAddress = 'http://apidev.oyespace.com/';
+    this.enableGenerateReceiptView=false;
+    this.enableReceiptListView=true;
   }
 
   GetBlockListByAssocID(currentAssociationID){

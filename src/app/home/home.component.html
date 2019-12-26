@@ -1,5 +1,5 @@
 <div class="container-fluid np">
-        <div class="col-sm-9 np">
+        <div class="col-sm-12 np">
                 <!--Profile section-->
 
                 <app-left-bar></app-left-bar>
@@ -36,30 +36,46 @@
                         <div class="dash-main">
                         <div class="col-md-12 m-t-30 dash" *ngIf="localMrmRoleId == 1">
                                 <div class="dash-row">
-                                        <div>
+                                        <div class="tile-link" (click)="OpenModalBlockDetails(viewBlockDetailsTemplate)">
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/asso_amount_due.png">
                                                 </div>
-                                                <div (click)="OpenModalBlockDetails(viewBlockDetailsTemplate)">
-                                                        <div class="number">{{(amount==0?'0':amount)}}</div>
+                                                <div>
+                                                        <div class="number">{{'₹ '+(amount==0?'0':amount)}}</div>
                                                         <div>Association <br>Amount Due</div>
                                                 </div>
                                         </div>
-                                        <div>
+                                        <!-- <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/amount_due_self.png">
                                                 </div>
                                                 <div (click)='gotToResidentInvoice()'>
-                                                        <div class="number">{{(amountdue==0?'0':amountdue)}}</div>
+                                                        <div class="number">{{'₹ '+(amountdue==0?'0':amountdue)}}</div>
                                                         <div>Amount Due</div>
                                                 </div>
-                                        </div>
+                                        </div> -->
                                         <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/vehicles.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalAssociationVehicles=='0'?'0':totalAssociationVehicles)}}</div>
                                                         <div>Vehicles</div>
+                                                </div>
+                                        </div>
+                                        <div class="tile-link" data-toggle="modal" data-target="#associationMembersTemplate">
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/members.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
+                                                        <div>Family Members</div>
+                                                </div>
+                                        </div>
+                                        <div>
+                                                <div><img class="dash-icon"
+                                                                src="../../assets/images/dash_icons/vicitors.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
+                                                        <div>Visitors</div>
                                                 </div>
                                         </div>
                                         <!-- <div>
@@ -76,27 +92,28 @@
                                 <div class="dash-row">
                                         <div>
                                                 <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/members.png"></div>
-                                                <div data-toggle="modal" data-target="#associationMembersTemplate">
-                                                        <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
-                                                        <div>Members</div>
-                                                </div>
-                                        </div>
-                                        <div>
-                                                <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/vicitors.png"></div>
-                                                <div>
-                                                        <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
-                                                        <div>Visitors</div>
-                                                </div>
-                                        </div>
-                                        <div>
-                                                <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/staff.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalStaffs=='0'?'0':totalStaffs)}}</div>
                                                         <div>Staff</div>
                                                 </div>
+                                        </div>
+                                        <div class="tile-link" (click)="goToAssociation()">
+                                                <div><img class="icon" src="../../assets/images/icons/association _management.png">
+                                                </div>
+                                                <div class="f-des">Association Management
+                                                </div>
+                                        </div>
+                                        <div class="tile-link" (click)="goToBlocks()">
+                                                <div><img class="icon" src="../../assets/images/icons/units_blocks.png">
+                                                </div>
+                                                <div class="f-des">Units And Blocks</div>
+                                        </div>
+                                                                                
+                                        <div class="tile-link" (click)="goToExpense()">
+                                                <div><img class="icon" src="../../assets/images/icons/Group 1778.png">
+                                                </div>
+                                                <div class="f-des">Expense Management</div>
                                         </div>
                                         <!-- <div>
                                                 <div><img class="dash-icon"
@@ -109,17 +126,54 @@
 
                                 </div>
                                 <div class="dash-row">
+                                        <div class="tile-link" (click)="goToPatrolling()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/family_members.png">
+                                                </div>
+                                                <div>
+                                                        Patrolling
+                                                </div>
+                                        </div>     
+                                        <div class="tile-link" (click)="goToReports()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/reports.png">
+                                                </div>
+                                                <div>
+                                                        Reports
+                                                </div>
+                                        </div> 
+                                        <div class="tile-link" (click)="goToFamily()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/family.png">
+                                                </div>
+                                                <div>
+                                                 Family Members
+                                                </div>
+                                        </div> 
+                                        <div class="tile-link" (click)="goToVisitors()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
+                                                <div>
+                                                        Visitors
+                                                </div>
+                                        </div> 
+                                </div>
+                                <div class="dash-row"> 
+                                        <div class="tile-link" (click)="goToVehicles()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/vehicles.png">
+                                                </div>
+                                                <div>
+                                                        Vehicles
+                                                </div>
+                                        </div>   
+                                     
+                                </div>
+
+                                <div class="dash-row1">
                                                 <span class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
                                                 <span class="ad-btn" (click)="AdminsUnitShow()" value="MyUnit">Resident</span>     
                                 </div>
-                                <!-- <div class="dash-row">
-                                        <div>
-                                                <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
-                                        </div>
-                                        <div>
-                                                <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
-                                        </div>
-                                </div> -->
                         </div>
                         </div>
                         <!--Dashboard icons for ADMIN end-->
@@ -135,7 +189,7 @@
                                                                 src="../../assets/images/dash_icons/amount_due_self.png">
                                                 </div>
                                                 <div >
-                                                        <div class="number">{{(amountdue==0?'0':amountdue)}}</div>
+                                                        <div class="number">{{'₹ '+(amountdue==0?'0':amountdue)}}</div>
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div>
@@ -147,18 +201,23 @@
                                                         <div>Vehicles</div>
                                                 </div>
                                         </div>
-                                       
-
-                                </div>
-                                <div class="dash-row">
+                                        <div class="tile-link" (click)="goToAssociation()">
+                                                <div><img class="icon" src="../../assets/images/icons/association _management.png">
+                                                </div>
+                                                <div class="f-des">Association Management
+                                                </div>
+                                        </div>
                                         <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/members.png"></div>
                                                 <div data-toggle="modal" data-target="#associationMembersTemplate">
                                                         <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
-                                                        <div>Members</div>
+                                                        <div>Family Members</div>
                                                 </div>
                                         </div>
+                                </div>
+                                <div class="dash-row">
+
                                         <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/vicitors.png"></div>
@@ -175,12 +234,35 @@
                                                         <div>Staff</div>
                                                 </div>
                                         </div>
-                                       
-
+                                        <div class="tile-link" (click)="goToFamily()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/family.png">
+                                                </div>
+                                                <div>
+                                                 Family Members
+                                                </div>
+                                        </div>  
+                                        <div class="tile-link" (click)="goToVisitors()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
+                                                <div>
+                                                        Visitors
+                                                </div>
+                                        </div> 
                                 </div>
                                 <div class="dash-row">
+                                        <div class="tile-link" (click)="goToVehicles()">
+                                                <div>
+                                                        <img class="icon" src="../../assets/images/icons/vehicles.png">
+                                                </div>
+                                                <div>
+                                                        Vehicles
+                                                </div>
+                                        </div>   
+                                </div>
+                                <div class="dash-row1">
                                                 <span class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
-                                                <span class="ad-btn ad-btn-active" (click)="AdminsUnitShow()" value="MyUnit">Resident</span>     
+                                                <span class="ad-btn ad-btn-active1" (click)="AdminsUnitShow()" value="MyUnit">Resident</span>     
                                 </div>
                                 <!-- <div class="dash-row">
                                         <div *ngIf="globalService.mrmroleId == 1">
@@ -199,7 +281,7 @@
 
         </div>
         <!--rightBar start-->
-        <app-right-bar></app-right-bar>
+        <!-- <app-right-bar></app-right-bar> -->
         <!--rightBar end-->
 </div>
 

@@ -1,5 +1,5 @@
 <div class="container-fluid np">
-    <div class="col-sm-9">
+    <div class="col-sm-12">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
@@ -16,21 +16,20 @@
                     </ul>
                 </div>
                 <div class="enroll">
-                    <div>
+                    <!-- <div>
                             <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-plus"
                                 aria-hidden="true"></i> Add Expense</button>
+                    </div> -->
+                    <div style="display: flex;justify-content: space-between;">
+
+                        <button class="btn-primary-purple" (click)="generateReceipt()"><i class="fa fa-file-text"
+                                aria-hidden="true"></i> Generate Receipt</button>
                     </div>
-                    <div style="display: flex">
-                            <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-file-pdf-o"
-                                aria-hidden="true"></i> Invoiced</button>
-                        <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-file-text"
-                                aria-hidden="true"></i> Generate invoice</button>
-                    </div>                                
                 </div>
-                <div>
+                <div *ngIf='generatereceiptservice.enableReceiptListView'>
                         <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                     </div>
-                <div class="dash-row">
+                <div class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
 
                         <table class="table table-bordered" [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
                                 <thead>
@@ -85,6 +84,9 @@
                             </table>
 
                 </div>
+                <div *ngIf='generatereceiptservice.enableGenerateReceiptView' class="dash-row">
+                    <app-generate-receipt></app-generate-receipt>
+                </div>
             </div>
             <!--Dashboard icons end-->
 
@@ -92,7 +94,7 @@
 
     </div>
     <!--rightBar start-->
-    <app-right-bar></app-right-bar>
+    <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
 

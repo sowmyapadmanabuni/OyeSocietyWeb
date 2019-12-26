@@ -509,5 +509,29 @@ this.GetVehicleListByAssocID();
   AdminsButtonShow(){
     this.localMrmRoleId=1;
   }
+  goToAssociation(){
+    this.router.navigate(['association']);
+  }
+  goToBlocks(){
+    this.router.navigate(['blocks']);
+  }
+  goToExpense(){
+    this.router.navigate(['expense']);
+  }
+  goToFamily(){
+    this.router.navigate(['family']);
+  }
+  goToVisitors(){
+    this.router.navigate(['visitors']);
+  }
+  goToVehicles(){
+    this.router.navigate(['vehicles']);
+  }
+  goToPatrolling(){
+    this.router.navigate(['patroling']);
+  }
+  goToReports(){
+    this.router.navigate(['reports']);
+  }
 
 }

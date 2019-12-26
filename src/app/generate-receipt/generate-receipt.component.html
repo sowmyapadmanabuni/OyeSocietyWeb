@@ -1,0 +1,140 @@
+<div class="dropdown" style="width: 200px;">
+    <label>Select Block <span class="red">*</span></label>
+    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+        data-toggle="dropdown">{{(ReceiptBlock == ''?'Blocks':ReceiptBlock)}}
+        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+    <ul class="dropdown-menu fullw">
+        <li *ngFor='let item of allBlocksByAssnID'
+            (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
+            <a>{{item['blBlkName']}}</a></li>
+    </ul>
+</div>
+  <div class="card">
+    <form #genRe='ngForm' role="form">
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>Select Unit <span class="red">*</span></label>
+            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                data-toggle="dropdown">{{(ReceiptUnitID == ''?'Units':ReceiptUnitID)}}
+                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+            <ul class="dropdown-menu fullw">
+                <li *ngFor='let item of unpaidUnits' (click)="rowDetails(item['pyid'],item['unUnitID'])">
+                    <a>{{item['unUnitID']}}</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+            <label>Invoice <span class="red">*</span></label>
+            <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice" #invoiceControl='ngModel'
+              placeholder="Invoice Number*" disabled />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label>Amount Due<span class="red">*</span></label>
+            <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue" placeholder="Amount Due"
+              disabled />
+          </div>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+          <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+            <label>Amount Paid <span class="red">*</span></label>
+            <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid"
+              #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" />
+            <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
+            <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group"
+            [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
+            <label>Payment Description <span class="red">*</span></label>
+            <input type="text" class="form-control" name="paymentDescription" [(ngModel)]="paymentDescription"
+              #paymentDescriptionControl='ngModel' placeholder="Payment Description" disabled />
+            <p class="alerts" *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please Select Date of
+              Payment</p>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group" [ngClass]="{'has-error' : bankControl.invalid && bankControl.touched}">
+            <label for="validationBABName">Select Bank <span class="red">*</span></label>
+            <select name="bankname" [(ngModel)]="bankname" #bankControl='ngModel' class="custom-select form-control">
+              <option value=''>Bank</option>
+              <option *ngFor='let bank of bankList' [value]="bank">
+                {{bank}}
+              </option>
+            </select>
+            <div *ngIf="bankControl.invalid && bankControl.touched">
+                <p class="alerts" *ngIf="bankControl.errors.required">Please Select Bank</p>
+              </div>
+          </div>
+        </div>
+
+        <div *ngIf='false'>
+          <div class="form-group"
+            [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
+            <label>Payment Method <span class="red">*</span></label>
+            <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod" #paymentmethodControl='ngModel'
+              required (change)="showMethod(paymentmethod)">
+              <option disabled="true" selected="true" value="">Select Method </option>
+              <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
+                {{paymentby['name']}}
+              </option>
+            </select>
+            <p class="alerts" *ngIf="paymentmethodControl.invalid && paymentmethodControl.touched"> Please Select Method
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+          <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Cash' ">
+              <div class="form-group" [ngClass]="{'has-error' : voucherNoControl.invalid && voucherNoControl.touched}">
+                  <label>Voucher No <span class="red">*</span></label>
+                  <input type="text" class="form-control" name="voucherNo" [(ngModel)]="voucherNo" #voucherNoControl='ngModel' placeholder="Voucher No " required/>
+                  <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter Voucher No</p>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"  *ngIf="checkField == 'Demand Draft' ">
+              <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
+                  <label>Demand Draft No <span class="red">*</span></label>
+                  <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo" #ddNoControl='ngModel' placeholder="Demand Draft No " required/>
+                  <p class="alerts" *ngIf="ddNoControl.invalid && ddNoControl.touched"> Please Enter Demand Draft No</p>
+              </div>
+          </div>
+      </div>
+  
+      <div class="row" *ngIf="checkField == 'Cheque'">
+          <div class="col-sm-6 col-xs-12">
+              <div class="form-group" [ngClass]="{'has-error' : chequeNoControl.invalid && chequeNoControl.touched}">
+                  <label>Cheque No <span class="red"></span></label>
+                  <input type="text" class="form-control" name="chequeNo" [(ngModel)]="chequeNo" #chequeNoControl='ngModel' placeholder="Cheque No " pattern="^\d+$" />
+                  <p class="alerts" *ngIf="chequeNoControl.errors?.pattern"> Please Enter Valid Cheque No</p>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12">
+              <div class="form-group" [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
+                  <label>Cheque Date <span class="red"></span></label>
+  
+                  <input type="text" class="form-control" name="chequeDate" #chequeDateControl='ngModel'
+                placeholder="Chequedate" required [(ngModel)]="chequeDate"
+                bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }"/>
+              </div>
+          </div>
+      </div>
+  
+      <div class="form-group pull-right">                
+          <button type="submit" class="btn btn-primary-purple" (click)="generateReceipt()" style="margin-right: 3px;background-color: orange;"> Generate</button> 
+          <button type="reset" (click)="resetForm()" style="background-color: orange;" class="btn btn-primary-purple">Reset </button>                           
+      </div>
+  
+    </form>
+  </div>

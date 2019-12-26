@@ -1,5 +1,5 @@
 <div class="container-fluid np">
-    <div class="col-sm-9">
+    <div class="col-sm-12">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
 
@@ -92,7 +92,7 @@
 
     </div>
     <!--rightBar start-->
-    <app-right-bar></app-right-bar>
+    <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
 
@@ -468,7 +468,6 @@
                         </div>
                         <div class="from-group">
                             <div class="form-group pull-right">
-                                <button type="reset" class="btn btn-primary-reset">Reset</button>
                                 <button type="submit" [disabled]='editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
                             </div>
                         </div>

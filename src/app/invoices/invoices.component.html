@@ -1,5 +1,5 @@
 <div class="container-fluid np">
-    <div class="col-sm-9">
+    <div class="col-sm-12">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
@@ -73,10 +73,10 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{(i+1)}}</td>
-                                    <td (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td>
-                                    <td (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
-                                    <td class="amount"   (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
-                                    <td class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td>
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td>
@@ -114,7 +114,7 @@
 
     </div>
     <!--rightBar start-->
-    <app-right-bar></app-right-bar>
+    <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
 

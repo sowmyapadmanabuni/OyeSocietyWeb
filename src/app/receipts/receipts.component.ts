@@ -2,7 +2,10 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {GlobalServiceService} from '../global-service.service';
 import {ViewReceiptService} from '../../services/view-receipt.service';
+import { GenerateReceiptService } from '../../services/generate-receipt.service';
 import {Router} from '@angular/router';
+import swal from 'sweetalert2';
+
 declare var $: any;
 
 @Component({
@@ -18,17 +21,21 @@ export class ReceiptsComponent implements OnInit {
   invoiceNumber:any;
   pymtDate:any;
   amountPaid:any;
+  allBlocksByAssnID: any[];
+  unpaidUnits: any[];
 
   constructor(private modalService: BsModalService,
     private globalservice:GlobalServiceService,
     private viewreceiptservice:ViewReceiptService,
-    private router:Router) 
+    private router:Router,
+    private generatereceiptservice: GenerateReceiptService) 
     { 
       this.currentAssociationID=this.globalservice.getCurrentAssociationId();
       this.unitIdentifier='';
       this.invoiceNumber='';
       this.pymtDate='';
       this.amountPaid='';
+      this.unpaidUnits=[];
     }
 
   ngOnInit() {
@@ -36,7 +43,12 @@ export class ReceiptsComponent implements OnInit {
     .subscribe(data=>{
       console.log(data['data']['payments']);
       this.viewPayments=data['data']['payments']
-    })
+    });
+    this.generatereceiptservice.GetBlockListByAssocID(this.currentAssociationID)
+    .subscribe(data => {
+      this.allBlocksByAssnID = data['data'].blocksByAssoc;
+      console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+    });
   }
   goToExpense(){
     this.router.navigate(['expense']);
@@ -45,7 +57,9 @@ export class ReceiptsComponent implements OnInit {
     this.router.navigate(['invoice']);
   }
   goToReceipts(){
-    this.router.navigate(['receipts']);
+    this.generatereceiptservice.enableReceiptListView=true;
+    this.generatereceiptservice.enableGenerateReceiptView=false;
+    //this.router.navigate(['receipts']);
   }
   goToVehicles(){
     this.router.navigate(['vehicles']);
@@ -59,9 +73,14 @@ export class ReceiptsComponent implements OnInit {
   gotoGenerateReceipt(){
     this.router.navigate(['home/generatereceipt']);
   }
+  generateReceipt(){
+    this.generatereceiptservice.enableReceiptListView=false;
+    this.generatereceiptservice.enableGenerateReceiptView=true;
+  }
   OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pyDate,pyAmtPaid){
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
+
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
     console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
     this.unitIdentifier = unitIdentifier;

@@ -67,6 +67,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PaymentStatusComponent } from './payment-status/payment-status.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ResidentInvoiceComponent } from './resident-invoice/resident-invoice.component';
+import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -117,7 +118,8 @@ export const firebaseConfig = environment.firebaseConfig;
     JournelsComponent,
     PaymentStatusComponent,
     ProfileComponent,
-    ResidentInvoiceComponent
+    ResidentInvoiceComponent,
+    GenerateReceiptComponent
     ],
   imports: [
     BrowserModule,
