@@ -164,6 +164,18 @@ export class BlocksComponent implements OnInit {
     this.enableAddBlocksView=true;
     this.enableBlockListView = false;
   }
+  onPageChange(event) {
+    console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if(event['srcElement']['text'] != '1'){
+      this.p= Number(event['srcElement']['text'])-1;
+    } 
+    if(event['srcElement']['text'] == '«'){
+      this.p= 1;
+    }
+  }
   toggleStepWizard() {
 
     $(document).ready(function () {

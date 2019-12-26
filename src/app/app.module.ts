@@ -68,6 +68,7 @@ import { PaymentStatusComponent } from './payment-status/payment-status.componen
 import { ProfileComponent } from './profile/profile.component';
 import { ResidentInvoiceComponent } from './resident-invoice/resident-invoice.component';
 import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.component';
+import { AssociationVisitorComponent } from './association-visitor/association-visitor.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -119,7 +120,8 @@ export const firebaseConfig = environment.firebaseConfig;
     PaymentStatusComponent,
     ProfileComponent,
     ResidentInvoiceComponent,
-    GenerateReceiptComponent
+    GenerateReceiptComponent,
+    AssociationVisitorComponent
     ],
   imports: [
     BrowserModule,

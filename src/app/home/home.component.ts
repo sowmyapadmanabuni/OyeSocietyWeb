@@ -524,6 +524,12 @@ this.GetVehicleListByAssocID();
   goToVisitors(){
     this.router.navigate(['visitors']);
   }
+  goToAssociationVisitors(){
+    this.router.navigate(['AssocitionVisitors']);
+  }
+  goToStaffFromDashboard(){
+    this.router.navigate(['staffs']);
+  }
   goToVehicles(){
     this.router.navigate(['vehicles']);
   }

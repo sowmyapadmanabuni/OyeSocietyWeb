@@ -29,7 +29,7 @@
                 <div class="dash-row" *ngIf='enableBlockListView'>
                     <table class="table table-bordered"
                         [mfData]="allBlocksLists | search:['blBlkName', 'blBlkType', 'blNofUnit']:searchTxt"
-                        #mf="mfDataTable" [mfRowsOnPage]="10">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
                                 <th>

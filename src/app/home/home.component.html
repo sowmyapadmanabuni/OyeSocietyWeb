@@ -54,9 +54,8 @@
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div> -->
-                                        <div>
-                                                <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/vehicles.png"></div>
+                                        <div class="tile-link" (click)="goToVehicles()">
+                                                <div><img class="icon" src="../../assets/images/icons/vehicles.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalAssociationVehicles=='0'?'0':totalAssociationVehicles)}}</div>
                                                         <div>Vehicles</div>
@@ -67,12 +66,11 @@
                                                                 src="../../assets/images/dash_icons/members.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
-                                                        <div>Family Members</div>
+                                                        <div>Members</div>
                                                 </div>
                                         </div>
-                                        <div>
-                                                <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/vicitors.png"></div>
+                                        <div class="tile-link" (click)="goToAssociationVisitors()">
+                                                <div><img class="icon" src="../../assets/images/icons/visitors.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
                                                         <div>Visitors</div>
@@ -142,23 +140,23 @@
                                                         Reports
                                                 </div>
                                         </div> 
-                                        <div class="tile-link" (click)="goToFamily()">
+                                        <!-- <div class="tile-link" (click)="goToFamily()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/family.png">
                                                 </div>
                                                 <div>
                                                  Family Members
                                                 </div>
-                                        </div> 
-                                        <div class="tile-link" (click)="goToVisitors()">
+                                        </div>  -->
+                                        <!-- <div class="tile-link" (click)="goToVisitors()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
                                                 <div>
                                                         Visitors
                                                 </div>
-                                        </div> 
+                                        </div>  -->
                                 </div>
-                                <div class="dash-row"> 
+                                <!-- <div class="dash-row"> 
                                         <div class="tile-link" (click)="goToVehicles()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/vehicles.png">
@@ -168,7 +166,7 @@
                                                 </div>
                                         </div>   
                                      
-                                </div>
+                                </div> -->
 
                                 <div class="dash-row1">
                                                 <span class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
@@ -193,9 +191,8 @@
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div>
-                                        <div>
-                                                <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/vehicles.png"></div>
+                                        <div class="tile-link" (click)="goToVehicles()">
+                                                <div><img class="icon" src="../../assets/images/icons/vehicles.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
                                                         <div>Vehicles</div>
@@ -212,21 +209,20 @@
                                                                 src="../../assets/images/dash_icons/members.png"></div>
                                                 <div data-toggle="modal" data-target="#associationMembersTemplate">
                                                         <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
-                                                        <div>Family Members</div>
+                                                        <div>Members</div>
                                                 </div>
                                         </div>
                                 </div>
                                 <div class="dash-row">
 
-                                        <div>
-                                                <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/vicitors.png"></div>
+                                        <div class="tile-link" (click)="goToVisitors()">
+                                                <div><img class="icon" src="../../assets/images/icons/visitors.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalUnitVisitors=='0'?'0':totalUnitVisitors)}}</div>
                                                         <div>Visitors</div>
                                                 </div>
                                         </div>
-                                        <div>
+                                        <div class="tile-link" (click)="goToStaffFromDashboard()">
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/staff.png"></div>
                                                 <div>
@@ -242,15 +238,15 @@
                                                  Family Members
                                                 </div>
                                         </div>  
-                                        <div class="tile-link" (click)="goToVisitors()">
+                                        <!-- <div class="tile-link" (click)="goToVisitors()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
                                                 <div>
                                                         Visitors
                                                 </div>
-                                        </div> 
+                                        </div>  -->
                                 </div>
-                                <div class="dash-row">
+                                <!-- <div class="dash-row">
                                         <div class="tile-link" (click)="goToVehicles()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/vehicles.png">
@@ -259,7 +255,7 @@
                                                         Vehicles
                                                 </div>
                                         </div>   
-                                </div>
+                                </div> -->
                                 <div class="dash-row1">
                                                 <span class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
                                                 <span class="ad-btn ad-btn-active1" (click)="AdminsUnitShow()" value="MyUnit">Resident</span>     
