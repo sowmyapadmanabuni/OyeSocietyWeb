@@ -210,8 +210,8 @@ export class AssociationVisitorComponent implements OnInit {
       .append('Access-Control-Allow-Origin', "*");
 
       let usagereportrequestbody = {
-        "StartDate": (this.startrangedate == '' || this.startrangedate == null)?'2019-04-01':this.startrangedate,
-        "EndDate": (this.endrangedate == '' || this.endrangedate == null)?formatDate(new Date(), 'yyyy-MM-dd', 'en'):this.endrangedate,
+        "StartDate": (this.startrangedate == '' || this.startrangedate == null)?'2019-04-01':formatDate(this.startrangedate,'yyyy-MM-dd','en'),
+        "EndDate": (this.endrangedate == '' || this.endrangedate == null)?formatDate(new Date(), 'yyyy-MM-dd','en'):formatDate(this.endrangedate,'yyyy-MM-dd','en'),
         "ASAssnID":this.associationID
       }
     console.log(usagereportrequestbody);
@@ -299,6 +299,7 @@ export class AssociationVisitorComponent implements OnInit {
         })
       },
       err=>{
+        console.log(err);
         Swal.fire({
           title: "Error",
           text: `${err['error']['message']}`,

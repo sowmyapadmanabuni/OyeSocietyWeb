@@ -102,6 +102,7 @@ export class ExpenseManagementComponent implements OnInit {
   enableAddExpnseView:boolean;
   enableExpenseListView:boolean;
   IsInvoiced:any;
+  toggle:any;
 
   constructor(private viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -218,6 +219,10 @@ export class ExpenseManagementComponent implements OnInit {
     });
     this._viewexpensesByBlockId=[];
     this.expenseList=[];
+    this.toggle='All';
+  }
+  GetexpenseList(param) {
+    this.toggle = param;
   }
   goToExpense(){
     this.router.navigate(['expense']);
@@ -332,6 +337,22 @@ export class ExpenseManagementComponent implements OnInit {
     this.viewexpenseservice.deleteExpense(viewexpense)
       .subscribe(data => console.log(data));
   }
+  onPageChange(event) {
+    console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if(event['srcElement']['text'] != '1'){
+      this.p= Number(event['srcElement']['text'])-1;
+      console.log(this.p);
+      if(this.p == 1){
+        this.p =2;
+      }
+    } 
+    if(event['srcElement']['text'] == '«'){
+      this.p= 1;
+    }
+  }
   generateInvoice() {
     console.log(this.blockID);
     console.log(this.expid);
@@ -370,7 +391,7 @@ export class ExpenseManagementComponent implements OnInit {
       },
         (err) => {
           this.exidList=[];
-          console.log(err);
+          console.log(err['error']);
           swal.fire({
             title: "Error",
             text: `${err['error']['exceptionMessage']}`,
@@ -645,12 +666,14 @@ export class ExpenseManagementComponent implements OnInit {
         console.log('invoiceLists?', this.invoiceLists);
       })
   }
-  GetexpenseListByInvoiceID(IsInvoiced) {
+  GetexpenseListByInvoiceID(IsInvoiced,param) {
+    console.log(IsInvoiced);
+    this.toggle=param;
     let expid='';
     if(IsInvoiced == true){
       expid='true'
     }
-    else{
+    else if(IsInvoiced == false){
       expid='false'
     }
     console.log('expid',typeof expid);
@@ -668,13 +691,18 @@ export class ExpenseManagementComponent implements OnInit {
       this.toggleGenerateInvButton = false;
     }
     //this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId);
-    console.log(this.viewexpensesByBlockId);
-    this.expenseList = this.expenseList.filter(item=>{
-      console.log('exIsInvD',typeof item['exIsInvD']);
-      console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
-      return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
-    })
-    console.log(this.expenseList);
+    if(expid == 'true' || expid == 'false'){
+      console.log(this.viewexpensesByBlockId);
+      this.expenseList = this.expenseList.filter(item=>{
+        console.log('exIsInvD',typeof item['exIsInvD']);
+        console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
+        return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
+      })
+      console.log(this.expenseList);
+    }
+    if(param == 'All'){
+      this.expenseList = this._viewexpensesByBlockId;
+    }
   }
   getExpenseListByDatesAndID() {
     console.log(this.ExpSDate, this.ExpEDate);

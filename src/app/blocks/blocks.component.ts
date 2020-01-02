@@ -65,8 +65,7 @@ export class BlocksComponent implements OnInit {
   bsConfig: object;
 
   blocktypes: object[];
-  p: number;
-
+  p: number=1;
 
  invoicedatechanged: boolean;
  minDate: Date;

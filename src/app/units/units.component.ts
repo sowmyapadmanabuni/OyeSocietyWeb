@@ -86,7 +86,7 @@ export class UnitsComponent implements OnInit {
   tenantLastname:string;
   tenantMobnumber:string;
   tenantEmail:string;
-  p:number;
+  p: number=1;
 
   order: string = 'unUniName';
   reverse: boolean = false;

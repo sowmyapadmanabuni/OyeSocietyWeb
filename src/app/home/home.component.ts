@@ -72,6 +72,7 @@ export class HomeComponent implements OnInit {
   uniqueAssociations :any[];
   adminUnitShow:boolean;
   modalRef: BsModalRef;
+  p: number;
  
   constructor(private dashBrdService: DashBoardService, private appComponent:AppComponent,
      private globalService:GlobalServiceService,
@@ -101,6 +102,7 @@ export class HomeComponent implements OnInit {
        this.amountdue=0;
        this.associationAmountDue=[];
        this.associationTotalMembers=[];
+       this.p=1;
      }
   ngOnInit() {
     this.getAssociation();
@@ -187,6 +189,22 @@ this.GetVehicleListByAssocID();
       }, err => {
         console.log(err);
       })
+  }
+  onPageChange(event) {
+    console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if(event['srcElement']['text'] != '1'){
+      this.p= Number(event['srcElement']['text'])-1;
+      console.log(this.p);
+      if(this.p == 1){
+        this.p =2;
+      }
+    } 
+    if(event['srcElement']['text'] == '«'){
+      this.p= 1;
+    }
   }
   // getMembers(){
   //     this.dashBrdService.getMembers(this.accountID).subscribe(res => {

@@ -49,16 +49,25 @@
 
 
 
-                <div style="display: flex;justify-content: flex-end;align-items: baseline;">
+                <!-- <div style="display: flex;justify-content: flex-end;align-items: baseline;">
                   <label class="purple">Invoiced&nbsp;&nbsp;</label>
                   <input type="checkbox" [(ngModel)]="IsInvoiced" (change)='GetexpenseListByInvoiceID(IsInvoiced)' name="IsInvoiced">
-                </div>
+                </div> -->
+                <!-- toggler switch -->
+                <div class="switch">
+                  <ul class="nav1 nav-pills1">
+                      <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All')">All</a></li>
+                      <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetexpenseListByInvoiceID(true,'toggleYes')">Invoiced</a></li>
+                      <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a (click)="GetexpenseListByInvoiceID(false,'toggleNo')">UnInvoiced</a></li>
+                  </ul>
+              </div>
+               <!-- toggler switch -->
                 <div *ngIf='addexpenseservice.enableExpenseListView'>
                     <!-- <label>Search</label> -->
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
                 </div>
                 <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
-                    <table class="table table-bordered" [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+                    <table class="table table-bordered" [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt" (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
                                 <th>
@@ -97,7 +106,7 @@
                                     <td colspan="10" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{(i+1)}}</td>
+                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
                                     <td>{{item['exHead']}}</td>
                                     <td>{{item['exApplTO']}}</td>
                                     <td>{{item['unUniIden']}}</td>

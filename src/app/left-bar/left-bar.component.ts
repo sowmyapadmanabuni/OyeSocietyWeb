@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DashBoardService} from '../../services/dash-board.service';
 import {GlobalServiceService} from '../global-service.service';
+import {Router, NavigationEnd} from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class LeftBarComponent implements OnInit {
   account:any[];
 
   constructor(private globalService: GlobalServiceService,
-    private dashboardservice: DashBoardService) {
+    private dashboardservice: DashBoardService,
+    private router:Router) {
       this.acAccntID = this.globalService.getacAccntID();
      }
 
@@ -32,5 +34,9 @@ export class LeftBarComponent implements OnInit {
      this.dashboardservice.acfName=this.acfName;
      console.log( this.acfName);
       });
-}
+  }
+  logOut() {
+    this.globalService.clear();
+    this.router.navigate(['root']);
+  }
 }

@@ -30,15 +30,23 @@
                 <div style="display: flex;justify-content: flex-end;align-items: baseline;">
                     <label class="purple">Paid&nbsp;&nbsp;</label>
                     <input type="checkbox" [(ngModel)]="IsPaid" (change)='GetPaidInvoiceList(IsPaid)' name="IsPaid">
-                  </div>
+                </div>
+                <!-- Toggler switch-->
+                <div class="switch">
+                    <ul class="nav1 nav-pills1">
+                        <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetPaidInvoiceList('id','All')">All</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetPaidInvoiceList(true,'toggleYes')">Paid</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a (click)="GetPaidInvoiceList(false,'toggleNo')">Unpaid</a></li>
+                        </ul>
+                </div>
+                <!-- Toggler switch-->
                 <div>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="search name">
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
                 </div>
                 <div class="dash-row">
                     <table class="table table-bordered"
                         [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
-                        #mf="mfDataTable" [mfRowsOnPage]="10">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
                                 <th>
@@ -72,7 +80,7 @@
                                     <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{(i+1)}}</td>
+                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
                                     <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td>
                                     <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
                                     <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
@@ -969,6 +977,15 @@
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         OnBoarding Fees</span></td>
+                                <td><span>-</span></td>
+                                <td><span>-</span></td>
+                                <td><span>-</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'bill' && item['idValue'] > 0">
+                                <td>{{i+1}}</td>
+                                <td><span>All Sold Owner Occupied Units,</span><span>Tenant Occupied Units,</span><span>All UnSold Tenant Occupied Units</span></td>
                                 <td><span>-</span></td>
                                 <td><span>-</span></td>
                                 <td><span>-</span></td>

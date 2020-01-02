@@ -21,6 +21,7 @@ export class CustomerStatementComponent implements OnInit {
   currentAssociationName: any;
   PaymentStatus:any;
   modalRef: BsModalRef;
+  p: number=1;
 
   constructor(private viewreportservice: ViewreportService,
     private globalservice: GlobalServiceService,private modalService: BsModalService) {
@@ -53,7 +54,22 @@ export class CustomerStatementComponent implements OnInit {
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.getpaymentdetails();
   }
-
+  onPageChange(event) {
+    console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if(event['srcElement']['text'] != '1'){
+      this.p= Number(event['srcElement']['text'])-1;
+      console.log(this.p);
+      if(this.p == 1){
+        this.p =2;
+      }
+    } 
+    if(event['srcElement']['text'] == '«'){
+      this.p= 1;
+    }
+  }
   viewCustDetail() {
     this.custpanel = true;
     this.custtable = false;

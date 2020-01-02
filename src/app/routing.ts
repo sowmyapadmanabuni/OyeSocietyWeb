@@ -37,7 +37,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import {PaymentStatusComponent} from './payment-status/payment-status.component';
 import {ResidentInvoiceComponent} from './resident-invoice/resident-invoice.component';
-import {AssociationVisitorComponent} from './association-visitor/association-visitor.component'
+import {AssociationVisitorComponent} from './association-visitor/association-visitor.component';
+import {AppComponent} from './app.component';
 import { from } from 'rxjs';
 
 
@@ -81,7 +82,8 @@ const routes: Routes = [
     { path: 'journel', component:JournelsComponent, canActivate: [AuthGuard]},
     { path: 'profile', component:ProfileComponent, canActivate: [AuthGuard]},
     { path: 'payment-status', component:PaymentStatusComponent, canActivate: [AuthGuard]},
-    { path: 'resident-invoice', component:ResidentInvoiceComponent, canActivate: [AuthGuard]}
+    { path: 'resident-invoice', component:ResidentInvoiceComponent, canActivate: [AuthGuard]},
+    { path: 'root', component:AppComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

@@ -313,7 +313,7 @@ label{font-size:12px !important;font-weight: 500 !important}
 /*orange tab css*/
 .nav-pills>li.active>a{background: #ffb818 !important;border-radius: 30px;color: #fff !important;font-size: 15px;font-weight: 600;}  
 .nav-pills{display: flex;    text-align: center;justify-content: flex-end;align-items: center;margin-bottom: 20px !important; width: 144px;border: 2px solid #ffb818;border-radius: 33px;height: 43px;}
-.nav>li>a:hover{color: #ffffff !important;background: #ffb818 !important;border-radius: 30px;transition: all 900ms;}
+.nav>li>a:hover{color: #000 !important;background: #d4d1ef !important;border-radius: 30px;transition: all 900ms;}
 .nav>li>a{color:#000 !important;font-weight: 600;}
 
 
@@ -362,7 +362,14 @@ tbody>tr>td:last-child{text-align: center !important}
     
     
     }
-
+/* new toggler button */
+.nav1 {padding-left: 0;margin-bottom: 0;list-style: none;}
+.nav1>li>a {position: relative;display: block;padding: 7px 12px;font-size: 11px;font-weight: 600;}
+.nav1 .nav-pills1{display: flex;    text-align: center;justify-content: flex-end;align-items: center;margin-bottom: 20px !important; width: auto;border: 2px solid #5a51aa;border-radius: 33px;height: 32px;}
+.nav-pills1>li.active>a{background: #5a51aa !important;border-radius: 30px;color: #fff !important;font-size: 11px;font-weight: 600;}  
+.nav-pills1{display: flex;    text-align: center;justify-content: flex-end;align-items: center;margin-bottom: 20px !important; width: auto;border: 2px solid #5a51aa;border-radius: 33px;height: 32px;}
+.nav1>li>a:hover{color: #000 !important;background: #d4d1ef !important;border-radius: 30px;transition: all 900ms;}
+/* new toggler button */
 @media print {
     body * {
     visibility: hidden;

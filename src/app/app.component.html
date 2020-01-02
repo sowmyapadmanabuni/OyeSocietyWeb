@@ -27,7 +27,7 @@
       </button>
       <div class="dropdown-content">
         <a href="http://dev.oyehomes.in/">OyeHomes</a>
-        <a href="#">OyeOH</a>
+        <a href="#">OyeOOH</a>
         <a href="#">OyeSmile</a>
         <a href="http://oyewallet.com/">OyeWallet</a>
       </div>
@@ -37,6 +37,22 @@
     <a routerLink="blogs">Blogs</a>
     <a routerLink="testimonials">Testimonials</a>
     <a routerLink="about">About Us</a>
+    <a id="flip"><i class="fa fa-bell" aria-hidden="true"></i>
+    </a>
+    <div id="panel">
+      <p class="not-head-bg">{{notificationList.length}} Notifications</p>
+      <div class="not-cont">
+        <ng-container *ngFor='let item of notificationList'>
+          <div (click)="NotificationDropDown(item['ntid'])" class="main-not">
+            <p class="not-name">{{item['asAsnName']}}</p>
+            <span class="not-desc">{{item['ntDesc']}}</span>
+            <div *ngIf="toggleName == item['ntid']" style="display: flex;justify-content: space-between;">
+              <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
     <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
   </div>
 </div>

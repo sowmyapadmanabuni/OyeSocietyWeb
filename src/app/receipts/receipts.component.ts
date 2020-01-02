@@ -23,6 +23,7 @@ export class ReceiptsComponent implements OnInit {
   amountPaid:any;
   allBlocksByAssnID: any[];
   unpaidUnits: any[];
+  p: number=1;
 
   constructor(private modalService: BsModalService,
     private globalservice:GlobalServiceService,
@@ -87,5 +88,21 @@ export class ReceiptsComponent implements OnInit {
     this.invoiceNumber = invoiceNumber;
     this.pymtDate = pymtDate;
     this.amountPaid = amountPaid;
+  }
+  onPageChange(event) {
+    console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if(event['srcElement']['text'] != '1'){
+      this.p= Number(event['srcElement']['text'])-1;
+      console.log(this.p);
+      if(this.p == 1){
+        this.p =2;
+      }
+    } 
+    if(event['srcElement']['text'] == '«'){
+      this.p= 1;
+    }
   }
 }

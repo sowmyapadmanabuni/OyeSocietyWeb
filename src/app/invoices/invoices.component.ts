@@ -122,6 +122,7 @@ export class InvoicesComponent implements OnInit {
   ddNo: string;
   chequeNo: string;
   PaidUnpaidinvoiceLists:any[];
+  toggle:any;
 
 
   constructor(private viewinvoiceservice: ViewInvoiceService,
@@ -151,6 +152,7 @@ export class InvoicesComponent implements OnInit {
     this.BankName = 'Bank';
     this.viewinvoiceservice.invoiceBlock = '';
     this.PaidUnpaidinvoiceLists=[];
+    this.toggle='All';
 
     this.bankList = [
       'Allahabad Bank',
@@ -247,7 +249,7 @@ export class InvoicesComponent implements OnInit {
           console.log(err);
           swal.fire({
             title: "Error",
-            text: `${err['error']['error']['message']}`,
+            text: `${err['error']['exceptionMessage']}`,
             type: "error",
             confirmButtonColor: "#f69321"
           });
@@ -877,7 +879,8 @@ export class InvoicesComponent implements OnInit {
       Object.assign({}, { class: 'gray modal-lg' })
     );
   }
-  GetPaidInvoiceList(IsPaid) {
+  GetPaidInvoiceList(IsPaid,param) {
+    this.toggle=param;
     console.log(IsPaid);
     let paid = '';
     if (IsPaid) {
@@ -886,10 +889,16 @@ export class InvoicesComponent implements OnInit {
     else {
       paid = 'No';
     }
-    this.PaidUnpaidinvoiceLists = this.invoiceLists;
-    this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
-      return item['inPaid'] == paid;
-    })
+    if(paid == 'Yes' || paid == 'No'){
+      this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+        return item['inPaid'] == paid;
+      })
+    }
+    if(param == 'All'){
+      this.PaidUnpaidinvoiceLists = this.invoiceLists;
+    }
+
   }
   rowDetails(pyid, unUnitID) {
     console.log('pyid-' + pyid);
@@ -917,9 +926,16 @@ export class InvoicesComponent implements OnInit {
   getBankName(bank) {
     this.BankName = bank;
   }
-
-
-
-
-  
+  onPageChange(event) {
+    console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if(event['srcElement']['text'] != '1'){
+      this.p= Number(event['srcElement']['text'])-1;
+    } 
+    if(event['srcElement']['text'] == '«'){
+      this.p= 1;
+    }
+  }
 }

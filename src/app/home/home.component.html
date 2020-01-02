@@ -38,7 +38,7 @@
                                 <div class="dash-row">
                                         <div class="tile-link" (click)="OpenModalBlockDetails(viewBlockDetailsTemplate)">
                                                 <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/asso_amount_due.png">
+                                                                src="../../assets/images/icons/asso-due.png">
                                                 </div>
                                                 <div>
                                                         <div class="number">{{'₹ '+(amount==0?'0':amount)}}</div>
@@ -55,7 +55,7 @@
                                                 </div>
                                         </div> -->
                                         <div class="tile-link" (click)="goToVehicles()">
-                                                <div><img class="icon" src="../../assets/images/icons/vehicles.png"></div>
+                                                <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalAssociationVehicles=='0'?'0':totalAssociationVehicles)}}</div>
                                                         <div>Vehicles</div>
@@ -63,14 +63,14 @@
                                         </div>
                                         <div class="tile-link" data-toggle="modal" data-target="#associationMembersTemplate">
                                                 <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/members.png"></div>
+                                                                src="../../assets/images/icons/association-management.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
                                                         <div>Members</div>
                                                 </div>
                                         </div>
                                         <div class="tile-link" (click)="goToAssociationVisitors()">
-                                                <div><img class="icon" src="../../assets/images/icons/visitors.png"></div>
+                                                <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
                                                         <div>Visitors</div>
@@ -90,26 +90,26 @@
                                 <div class="dash-row">
                                         <div>
                                                 <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/staff.png"></div>
+                                                                src="../../assets/images/icons/staff.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalStaffs=='0'?'0':totalStaffs)}}</div>
                                                         <div>Staff</div>
                                                 </div>
                                         </div>
                                         <div class="tile-link" (click)="goToAssociation()">
-                                                <div><img class="icon" src="../../assets/images/icons/association _management.png">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/association-management.png">
                                                 </div>
                                                 <div class="f-des">Association Management
                                                 </div>
                                         </div>
                                         <div class="tile-link" (click)="goToBlocks()">
-                                                <div><img class="icon" src="../../assets/images/icons/units_blocks.png">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/blocks-units.png">
                                                 </div>
                                                 <div class="f-des">Units And Blocks</div>
                                         </div>
                                                                                 
                                         <div class="tile-link" (click)="goToExpense()">
-                                                <div><img class="icon" src="../../assets/images/icons/Group 1778.png">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/expense-management.png">
                                                 </div>
                                                 <div class="f-des">Expense Management</div>
                                         </div>
@@ -126,7 +126,7 @@
                                 <div class="dash-row">
                                         <div class="tile-link" (click)="goToPatrolling()">
                                                 <div>
-                                                        <img class="icon" src="../../assets/images/icons/family_members.png">
+                                                        <img class="dash-icon" src="../../assets/images/icons/patrolling.png">
                                                 </div>
                                                 <div>
                                                         Patrolling
@@ -134,7 +134,7 @@
                                         </div>     
                                         <div class="tile-link" (click)="goToReports()">
                                                 <div>
-                                                        <img class="icon" src="../../assets/images/icons/reports.png">
+                                                        <img class="dash-icon" src="../../assets/images/icons/reports.png">
                                                 </div>
                                                 <div>
                                                         Reports
@@ -184,7 +184,7 @@
                                        
                                         <div>
                                                 <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/amount_due_self.png">
+                                                                src="../../assets/images/icons/asso-due.png">
                                                 </div>
                                                 <div >
                                                         <div class="number">{{'₹ '+(amountdue==0?'0':amountdue)}}</div>
@@ -192,21 +192,21 @@
                                                 </div>
                                         </div>
                                         <div class="tile-link" (click)="goToVehicles()">
-                                                <div><img class="icon" src="../../assets/images/icons/vehicles.png"></div>
+                                                <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
                                                         <div>Vehicles</div>
                                                 </div>
                                         </div>
                                         <div class="tile-link" (click)="goToAssociation()">
-                                                <div><img class="icon" src="../../assets/images/icons/association _management.png">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/association-management.png">
                                                 </div>
                                                 <div class="f-des">Association Management
                                                 </div>
                                         </div>
                                         <div>
                                                 <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/members.png"></div>
+                                                                src="../../assets/images/icons/members.png"></div>
                                                 <div data-toggle="modal" data-target="#associationMembersTemplate">
                                                         <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
                                                         <div>Members</div>
@@ -216,7 +216,7 @@
                                 <div class="dash-row">
 
                                         <div class="tile-link" (click)="goToVisitors()">
-                                                <div><img class="icon" src="../../assets/images/icons/visitors.png"></div>
+                                                <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalUnitVisitors=='0'?'0':totalUnitVisitors)}}</div>
                                                         <div>Visitors</div>
@@ -224,7 +224,7 @@
                                         </div>
                                         <div class="tile-link" (click)="goToStaffFromDashboard()">
                                                 <div><img class="dash-icon"
-                                                                src="../../assets/images/dash_icons/staff.png"></div>
+                                                                src="../../assets/images/icons/staff.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalUnitStaffs=='0'?'0':totalUnitStaffs)}}</div>
                                                         <div>Staff</div>
@@ -232,7 +232,7 @@
                                         </div>
                                         <div class="tile-link" (click)="goToFamily()">
                                                 <div>
-                                                        <img class="icon" src="../../assets/images/icons/family.png">
+                                                        <img class="dash-icon" src="../../assets/images/icons/family-members.png">
                                                 </div>
                                                 <div>
                                                  Family Members
@@ -352,7 +352,7 @@
 
                         <table class="table table-bordered"
                         [mfData]="associationTotalMembers"
-                        #mf="mfDataTable" [mfRowsOnPage]="10">
+                        #mf="mfDataTable" [mfRowsOnPage]="10" (click)="onPageChange($event)">
                         <thead>
                             <tr>
                                 <th>
@@ -376,7 +376,7 @@
                                     <td colspan="5" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{(i+1)}}</td>
+                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
                                     <td>{{item['unUniName']}}</td>
                                     <td>{{item['unOcStat']}}</td>
                                     <td>{{(item['owner'].length > 0 ? item['owner'][0]['uofName']:'')}}</td>
