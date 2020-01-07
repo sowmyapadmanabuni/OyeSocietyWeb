@@ -207,9 +207,13 @@ export class AssociationManagementComponent implements OnInit {
   account:any;
   toggleFaCircleO:boolean;
   toggleFaCircle1:boolean;
+  amType:any;
+  noofAmenities:any;
+  minDate:any;
+  newdate:any;
 
   constructor(private modalService: BsModalService,
-    private viewAssnService: ViewAssociationService,
+    public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private router: Router,
     private route:ActivatedRoute,
@@ -234,24 +238,24 @@ export class AssociationManagementComponent implements OnInit {
     this.enrollAssociation = false;
     this.joinAssociation = false;
     if (this.dashboardservice.toggleViewAssociationTable) {
-      console.log('test1');
+      //console.log('test1');
       this.enrollAssociation = true;
       this.viewAssociation_Table = true;
       if (this.dashboardservice.enrollassociationforresident) {
         this.viewAssociation_Table = false;
-        console.log('test2');
+        //console.log('test2');
       }
       this.joinAssociation = false;
       this.homeservice.toggleviewassociationtable = false;
     }
     if (!this.dashboardservice.toggleViewAssociationTable) {
-      console.log('test3');
+      //console.log('test3');
       this.enrollAssociation = false;
       this.viewAssociation_Table = false;
       this.joinAssociation = true;
     }
     if (this.homeservice.toggleviewassociationtable) {
-      console.log('test4');
+      //console.log('test4');
       this.viewAssociation_Table = true;
       this.joinAssociation = false;
       this.enrollAssociation = false;
@@ -259,14 +263,14 @@ export class AssociationManagementComponent implements OnInit {
     }
 
     //   this.route.params.subscribe(data=>{
-    //     console.log(data['asAssnID']);
+    //     //console.log(data['asAssnID']);
     //     this.viewAssnService.getBlockDetailsByAssociationID(data['asAssnID']) 
 
     // .subscribe(res => {
-    //   console.log(res);
+    //   //console.log(res);
     //     var data: any = res;
     //     this.allBlocksLists= res['data']['blocksByAssoc'];
-    //     console.log(this.allBlocksLists);
+    //     //console.log(this.allBlocksLists);
     // });
     this.crtAssn.newBABName = '';
     this.crtAssn.newBAIFSC = '';
@@ -332,7 +336,7 @@ export class AssociationManagementComponent implements OnInit {
     this.toggleStepWizrd();
   }
   onPageChange(event) {
-    console.log(event['srcElement']['text']);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
@@ -347,7 +351,7 @@ export class AssociationManagementComponent implements OnInit {
     this.page = event.page;
   }
   enblEnrlAsnVew() {
-    //console.log('test');
+    ////console.log('test');
     //alert('test');
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled=true;
@@ -360,7 +364,7 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.joinAsnEbld=true;
   }
   viewassociation(repviewreceiptmodalit: any) {
-    console.log(JSON.stringify(repviewreceiptmodalit));
+    //console.log(JSON.stringify(repviewreceiptmodalit));
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
     this.viewassociationRow = {
       associationname: repviewreceiptmodalit.ASAsnName,
@@ -379,11 +383,11 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.onUpLoad(fd)
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
-          console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
+          //console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
           this.dynamic = Math.round(event.loaded / event.total * 100);
         }
         else if (event.type === HttpEventType.Response) {
-          console.log(event);
+          //console.log(event);
           this.dynamic = 0;
         }
       });
@@ -393,11 +397,11 @@ export class AssociationManagementComponent implements OnInit {
   //   this.amenities.push(new Amenity(amenities['AmenityT'], amenities['AmenityN'], amenities['AmenityId']));
   //   this.AmenityT = '';
   //   this.AmenityN = '';
-  //   console.log('amenities', this.amenities);
+  //   //console.log('amenities', this.amenities);
   // }
 
   deleteamenity(AMType) {
-    console.log('AMType', AMType);
+    //console.log('AMType', AMType);
     this.newamenities = this.newamenities.filter(item =>{return item['AMType'] != AMType});
   }
   // getBank(bankities: object) {
@@ -407,10 +411,10 @@ export class AssociationManagementComponent implements OnInit {
   //   this.IFSC = '';
   //   this.AccountNumber = '';
   //   this.accountType = '';
-  //   console.log('bankites', this.bankites);
+  //   //console.log('bankites', this.bankites);
   // }
   prerequisitesAddUnit(blBlockID,blBlkName) {
-    console.log('prerequisitesAddUnit', blBlockID);
+    //console.log('prerequisitesAddUnit', blBlockID);
     this.blockID = blBlockID;
     this.blBlkName=blBlkName;
     let blockbyassoc = this.allBlocksLists.find(item => item['blBlockID'] == blBlockID);
@@ -419,15 +423,15 @@ export class AssociationManagementComponent implements OnInit {
   }
 
   getAllUnitDetailsByBlockID(blBlockID) {
-    console.log('blockid', blBlockID);
+    //console.log('blockid', blBlockID);
     this.allUnitBlockID=[];
     //this.route.params.subscribe(data=>{console.log(data['blBlockID']);
     this.viewAssnService.GetUnitListByBlockID(blBlockID)
       .subscribe(res => {
         var data: any = res;
         this.allUnitBlockID= data.data.unitsByBlockID;
-        console.log('allUnitBlockID',this.allUnitBlockID);
-        console.log(res);
+        //console.log('allUnitBlockID',this.allUnitBlockID);
+        //console.log(res);
         // console.log('allUnitBYBlockID',data);
         // this.allUnitBYBlockID = data['data'].unitsByBlockID;
       });
@@ -439,25 +443,25 @@ export class AssociationManagementComponent implements OnInit {
   //   this.bankites = this.bankites.filter(item => item['BankId'] != BankId);
   // }
   openViewAssociation(viewreceiptmodal: TemplateRef<any>, asAsnName, asPrpName, asAddress, asNofUnit, aSCountry, asPinCode, asState, asPrpType, asNofBlks, aspanNum, asRegrNum, asAsnLogo, asCity, aspanDoc, asAssnID, asgstNo) {
-    console.log(asAsnName);
-    console.log(asPrpName);
-    console.log(asAddress);
-    console.log(asNofUnit);
-    console.log(aSCountry);
-    console.log(asPinCode);
-    console.log(asState);
-    console.log(asPrpType);
-    console.log(asRegrNum);
-    console.log(asAsnLogo);
-    console.log(asCity);
-    console.log(asAsnLogo);
-    console.log(aspanDoc);
-    console.log('asAssnID', asAssnID);
-    console.log(asgstNo);
+    //console.log(asAsnName);
+    //console.log(asPrpName);
+    //console.log(asAddress);
+    //console.log(asNofUnit);
+    //console.log(aSCountry);
+    //console.log(asPinCode);
+    //console.log(asState);
+    //console.log(asPrpType);
+    //console.log(asRegrNum);
+    //console.log(asAsnLogo);
+    //console.log(asCity);
+    //console.log(asAsnLogo);
+    //console.log(aspanDoc);
+    //console.log('asAssnID', asAssnID);
+    //console.log(asgstNo);
 
     this.viewAssnService.getAssociationDetail(asAssnID)
       .subscribe(data => {
-        console.log('bank', data['data']['association']['bankDetails'].length);
+        //console.log('bank', data['data']['association']['bankDetails'].length);
         //console.log('getAssociationDetail', data['data']['association']['amenities'][0]['amType']);
         //this.amenityType = data['data']['association']['amenities'][0]['amType'];
        // console.log('getAssociationDetail', data['data']['association']['amenities'][0]['noofAmenities']);
@@ -470,9 +474,9 @@ export class AssociationManagementComponent implements OnInit {
 
         if (data['data']['association']['bankDetails'].length > 0) {
 
-          console.log('getAssociationDetail', data['data']['association']['bankDetails'][0]['babName']);
+          //console.log('getAssociationDetail', data['data']['association']['bankDetails'][0]['babName']);
           this.BankName = data['data']['association']['bankDetails'][0]['babName'];
-          console.log('getAssociationDetail', data['data']['association']['bankDetails'][0]['baifsc']);
+          //console.log('getAssociationDetail', data['data']['association']['bankDetails'][0]['baifsc']);
           this.IFSC = data['data']['association']['bankDetails'][0]['baifsc'];
           this.AccountNumber = data['data']['association']['bankDetails'][0]['baActNo'];
           this.accountType = data['data']['association']['bankDetails'][0]['baActType'];
@@ -504,7 +508,7 @@ export class AssociationManagementComponent implements OnInit {
 
   UpdateAssociation(){
     
-    console.log("Updating Association");
+    //console.log("Updating Association");
     this.editassndata = {
       ASAsnName:this.ASAsnName,
       ASCountry:this.ASCountry,
@@ -532,10 +536,10 @@ export class AssociationManagementComponent implements OnInit {
         BAActID:this.BAActID
       }]
   };
-    console.log(this.editassndata);
+    //console.log(this.editassndata);
     this.viewAssnService.UpdateAssociation(this.editassndata).subscribe(res => {
-      console.log("Done");
-      console.log(JSON.stringify(res));
+      //console.log("Done");
+      //console.log(JSON.stringify(res));
       //alert("Association Created Successfully")
       this.modalRef.hide();
       Swal.fire({
@@ -558,7 +562,7 @@ export class AssociationManagementComponent implements OnInit {
         })
     },
       err => {
-        console.log(err);
+        //console.log(err);
       });
 
 
@@ -571,7 +575,7 @@ export class AssociationManagementComponent implements OnInit {
     };
 
     let id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
+    //console.log(id);
     //this.accountID="2";
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
@@ -579,7 +583,7 @@ export class AssociationManagementComponent implements OnInit {
     // this.getAssociationDetail();
     //this.firstLetter = this.crtAssn.asAsnName.charAt(0).toUpperCase();
     //this.firstLetter = this.crtAssn.aspanNum.charAt(4).toUpperCase();
-    console.log(this.firstLetter, this.firstLetter);
+    //console.log(this.firstLetter, this.firstLetter);
     // if (this.firstLetter == this.firstLetter) {
     //   this.matching = false;
     // } else {
@@ -593,22 +597,22 @@ this.crtAssn.propertyType='SELECT PROPERTY TYPE';
 this.crtAssn.newBAActType='';
     this.viewAssnService.getAssociationAllDetails()
     .subscribe(item => {
-      console.log('getAssociationAllDetails',item);
+      //console.log('getAssociationAllDetails',item);
       this._associations= item['data']['associations'];
      //this.availableNoOfBlocks = item.length;
-      console.log('associations', this.associations);  
+      //console.log('associations', this.associations);  
 
     })
   }
   
   loadAssociation(asAssnID,asAsnName){
     this.blBlkName='Blocks';
-    console.log('asAssnID',asAssnID);
+    //console.log('asAssnID',asAssnID);
     this.assnName=asAsnName;
     this.assnID=asAssnID;
     this.viewAssnService.getBlockDetailsByAssociationID(asAssnID)
     .subscribe(response=>{
-      console.log(response);
+      //console.log(response);
      this.allBlocksLists= response['data']['blocksByAssoc'];
      if(this.allBlocksLists.length > 0){
        this.toggleFaCircleO=true;
@@ -627,23 +631,23 @@ this.crtAssn.newBAActType='';
     }
   }
   enableActive(spanCtrl) {
-    console.log(spanCtrl);
+    //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
     spanCtrl.classList.toggle("active");
     //this.activeEnabled = true;
   }
 
   getAssociationDetails() {
-    console.log(this.accountID)
+    //console.log(this.accountID)
     this.viewAssnService.getAssociationDetails(this.accountID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
-      console.log(data.data.associationByAccount);
+      //console.log(data.data.associationByAccount);
       this.associations = data.data.associationByAccount;
-      console.log(this.associations);
+      //console.log(this.associations);
       //
       this.sortedCollection = this.orderpipe.transform(this.associations, 'asAsnName');
-      console.log(this.sortedCollection);
+      //console.log(this.sortedCollection);
     });
   }
 
@@ -676,7 +680,7 @@ this.crtAssn.newBAActType='';
 
     this.firstLetter = this.crtAssn.name.charAt(0).toUpperCase();
     this.fifthLetter = this.crtAssn.PANNumber.charAt(4).toUpperCase();
-    console.log(this.firstLetter, this.fifthLetter);
+    //console.log(this.firstLetter, this.fifthLetter);
     if (this.firstLetter == this.fifthLetter) {
       
       this.matching = false;
@@ -715,18 +719,18 @@ this.crtAssn.newBAActType='';
     }
   }
   addjoin(asAssnID){
-    console.log(asAssnID);
+    //console.log(asAssnID);
     this.router.navigate(['joinassociation',asAssnID]);
   }
   addAmenity(event) {
-    console.log('amenity',event);
-    console.log('AMType'+ event['AMType']);
-    console.log('NoofAmenities'+ event['NoofAmenities']);
+    //console.log('amenity',event);
+    //console.log('AMType'+ event['AMType']);
+    //console.log('NoofAmenities'+ event['NoofAmenities']);
     if(event['AMType'] !== "" && event['NoofAmenities'] !== ""){
        //alert('inside if condition null');
        this.newamenities.push(new Amenity(event['AMType'],event['NoofAmenities']));
     }
-    console.log('newamenities',this.newamenities);
+    //console.log('newamenities',this.newamenities);
   }
 
   // getBank(bankities: object) {
@@ -771,16 +775,16 @@ this.crtAssn.newBAActType='';
     this.isnotValidformat = false;
     this.disableButton = false;
     this.selectedFile = <File>event.target.files[0];
-    console.log('file type', this.selectedFile['type']);
+    //console.log('file type', this.selectedFile['type']);
 
     if (this.selectedFile['type'] == "application/zip") {
-      console.log('inside file type');
+      //console.log('inside file type');
       this.isnotValidformat = true;
       this.disableButton = true;
     }
 
     if (this.selectedFile['size'] > 2000000) {
-      console.log('inside file size');
+      //console.log('inside file size');
       this.isLargefile = true;
       this.disableButton = true;
     }
@@ -812,14 +816,14 @@ this.crtAssn.newBAActType='';
     this.isnotValidformat = false;
     this.disableButton = false;
     this.selectedFile = <File>event.target.files[0];
-    console.log('file type', this.selectedFile['type']);
+    //console.log('file type', this.selectedFile['type']);
     if (this.selectedFile['type'] == "application/zip") {
-      console.log('inside file type');
+      //console.log('inside file type');
       this.isnotValidformat = true;
       this.disableButton = true;
     }
     if (this.selectedFile['size'] > 2000000) {
-      console.log('inside file size');
+      //console.log('inside file size');
       this.isLargefile = true;
       this.disableButton = true;
     }
@@ -850,9 +854,9 @@ this.crtAssn.newBAActType='';
 
     const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
     dataTransfer.items.add('', '');
-    console.log('dataTransfer', dataTransfer);
+    //console.log('dataTransfer', dataTransfer);
     const inputElement: HTMLInputElement = document.getElementById('viewassosnuploadFileinput') as HTMLInputElement;
-    console.log('inputElement', inputElement.files);
+    //console.log('inputElement', inputElement.files);
     inputElement.files = dataTransfer.files;
     this.disableButton = false;
     this.isnotValidformat = false;
@@ -864,9 +868,9 @@ this.crtAssn.newBAActType='';
 
     const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
     dataTransfer.items.add('', '');
-    console.log('dataTransfer', dataTransfer);
+    //console.log('dataTransfer', dataTransfer);
     const inputElements: HTMLInputElement = document.getElementById('uploadPaninput') as HTMLInputElement;
-    console.log('inputElement', inputElements.files);
+    //console.log('inputElement', inputElements.files);
     inputElements.files = dataTransfer.files;
     this.disableButton = false;
     this.isnotValidformat = false;
@@ -925,8 +929,8 @@ this.crtAssn.newBAActType='';
   }
   onSubmit() {
 
-    console.log("Creating Association");
-    console.log("locality: " + this.crtAssn.locality);
+    //console.log("Creating Association");
+    //console.log("locality: " + this.crtAssn.locality);
     this.createAsssociationData = {
       // "ACAccntID":"2",
       "ACAccntID": this.accountID,
@@ -997,7 +1001,7 @@ this.crtAssn.newBAActType='';
   };
 
     this.viewAssnService.createAssn(this.createAsssociationData).subscribe(res => {
-      console.log(res['data']['association']['asAssnID']);
+      //console.log(res['data']['association']['asAssnID']);
       //console.log(res['association']['asAssnID']);
       this.viewAssnService.associationId=res['data']['association']['asAssnID'];
       this.viewAssnService.asNofBlks=res['data']['association']['asNofBlks'];
@@ -1019,9 +1023,9 @@ this.crtAssn.newBAActType='';
               this.viewAssnService.vewAsnEnbled=true;
               this.viewAssnService.joinAsnEbld=false;
               var data: any = res;
-              console.log(data.data.associationByAccount);
+              //console.log(data.data.associationByAccount);
               this.associations = data.data.associationByAccount;
-              console.log(this.associations);
+              //console.log(this.associations);
             });
 
             //
@@ -1034,7 +1038,7 @@ this.crtAssn.newBAActType='';
       )
     },
       res => {
-        console.log('error', res);
+        //console.log('error', res);
       });
 
   }
@@ -1047,9 +1051,9 @@ this.crtAssn.newBAActType='';
   }
 
   resetForm(){
-    console.log('teSt');
-    console.log(this.crtAssn.propertyType);
-    console.log(this.ASPrpType);
+    //console.log('teSt');
+    //console.log(this.crtAssn.propertyType);
+    //console.log(this.ASPrpType);
     this.viewassociationForm.reset();
   }
 
@@ -1058,10 +1062,10 @@ this.crtAssn.newBAActType='';
       //console.log(JSON.stringify(res));
       var data: any = res;
       this.account = data.data.account;
-      console.log('account', this.account);
-      console.log(this.account[0]['acfName']);
-      console.log(this.account[0]['aclName']);
-      console.log(this.account[0]['acMobile']);
+      //console.log('account', this.account);
+      //console.log(this.account[0]['acfName']);
+      //console.log(this.account[0]['aclName']);
+      //console.log(this.account[0]['acMobile']);
       //
       let senddataForJoinOwner = {
         "ASAssnID": Number(this.assnID),
@@ -1076,7 +1080,7 @@ this.crtAssn.newBAActType='';
         "SoldDate": "2019-03-02",
         "OccupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
       }
-      console.log(senddataForJoinOwner);
+      //console.log(senddataForJoinOwner);
       this.viewAssnService.joinAssociation(senddataForJoinOwner)
         .subscribe(
           (data) => {
@@ -1087,10 +1091,10 @@ this.crtAssn.newBAActType='';
               type: 'success',
               confirmButtonColor: "#f69321"
             })
-            console.log(data);
+            //console.log(data);
           },
           err => {
-            console.log(err);
+            //console.log(err);
             Swal.fire({
               title: "Error",
               type: 'error',
@@ -1101,19 +1105,19 @@ this.crtAssn.newBAActType='';
       //
     },
       err => {
-        console.log(err);
+        //console.log(err);
       });
 
   }
   requestForJoin(){
-    console.log(this.OwnerType);
+    //console.log(this.OwnerType);
       this.OnSendButton(this.OwnerType);
   }
   validateGST() {
     let firstLetter = this.crtAssn.name.charAt(0).toUpperCase();
     let fifthLetter = this.crtAssn.GSTNumber.charAt(4).toUpperCase();
-    console.log(firstLetter, fifthLetter);
-    console.log('GSTNumber.length' + this.crtAssn.GSTNumber.length);
+    //console.log(firstLetter, fifthLetter);
+    //console.log('GSTNumber.length' + this.crtAssn.GSTNumber.length);
     if (this.crtAssn.GSTNumber.length == 5 || this.crtAssn.GSTNumber.length > 5) {
       if (firstLetter == fifthLetter) {
 
@@ -1142,10 +1146,10 @@ this.crtAssn.newBAActType='';
 
     this.viewAssnService.GetAccountListByAccountID(acAccntID).subscribe(res => {
       var data: any = res;
-      console.log(res['data']['account'][0].acfName);
-      console.log(res['data']['account'][0].aclName);
-      console.log(res['data']['account'][0].acMobile);
-      console.log(res['data']['account'][0].acEmail);
+      //console.log(res['data']['account'][0].acfName);
+      //console.log(res['data']['account'][0].aclName);
+      //console.log(res['data']['account'][0].acMobile);
+      //console.log(res['data']['account'][0].acEmail);
 
       this.joinownername = res['data']['account'][0].acfName;
       this.joinownerlastname = res['data']['account'][0].aclName;
@@ -1168,10 +1172,10 @@ this.crtAssn.newBAActType='';
   
       this.viewAssnService.GetAccountListByAccountID(acAccntID).subscribe(res => {
         var data: any = res;
-        console.log(res['data']['account'][0].acfName);
-        console.log(res['data']['account'][0].aclName);
-        console.log(res['data']['account'][0].acMobile);
-        console.log(res['data']['account'][0].acEmail);
+        //console.log(res['data']['account'][0].acfName);
+        //console.log(res['data']['account'][0].aclName);
+        //console.log(res['data']['account'][0].acMobile);
+        //console.log(res['data']['account'][0].acEmail);
   
         this.tname = res['data']['account'][0].acfName;
         this.tlastname = res['data']['account'][0].aclName;
@@ -1191,7 +1195,7 @@ this.crtAssn.newBAActType='';
 
 
       OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID,BAActID,AMID) {
-        console.log('amType-', amType, 'noofAmenities-', noofAmenities);
+        //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
         this.ASAsnName = asAsnName;
         this.ASCountry = asCountry;
         this.ASAddress = asAddress;
@@ -1209,37 +1213,39 @@ this.crtAssn.newBAActType='';
         this.asAssnID=asAssnID;
         this.BAActID=BAActID;
         this.AMID=AMID;
-        console.log(asAsnName);
-        console.log(asPrpName);
-        console.log(asAddress);
-        console.log(asNofUnit);
-        console.log(asCountry);
-        console.log(asPinCode);
-        console.log(asState);
-        console.log(asPrpType);
-        console.log(asCity);
-        console.log(asAssnID);
-        console.log(amType);
-        console.log(baBName);
+        this.amType=amType;
+        this.noofAmenities=noofAmenities;
+        //console.log(asAsnName);
+        //console.log(asPrpName);
+        //console.log(asAddress);
+        //console.log(asNofUnit);
+        //console.log(asCountry);
+        //console.log(asPinCode);
+        //console.log(asState);
+        //console.log(asPrpType);
+        //console.log(asCity);
+        //console.log(asAssnID);
+        //console.log(amType);
+        //console.log(baBName);
     
         this.viewAssnService.getAssociationDetails(asAssnID)
     
         this.viewAssnService.getAssociationDetailsByAssociationid(asAssnID).subscribe(res => {
           //console.log(JSON.str ingify(res));
           var data: any = res;
-          console.log(res['data']['association']['amenities'][0].amType);
-          console.log(res['data']['association']['amenities'][0].noofAmenities);
+          //console.log(res['data']['association']['amenities'][0].amType);
+          //console.log(res['data']['association']['amenities'][0].noofAmenities);
           this.AMType = res['data']['association']['amenities'][0].amType;
           this.NoofAmenities = res['data']['association']['amenities'][0].noofAmenities;
-          console.log(res['data']['association']['bankDetails'][0].babName);
-          console.log(res['data']['association']['bankDetails'][0].baifsc);
-          console.log(res['data']['association']['bankDetails'][0].baActNo);
-          console.log(res['data']['association']['bankDetails'][0].baActType);
+          //console.log(res['data']['association']['bankDetails'][0].babName);
+          //console.log(res['data']['association']['bankDetails'][0].baifsc);
+          //console.log(res['data']['association']['bankDetails'][0].baActNo);
+          //console.log(res['data']['association']['bankDetails'][0].baActType);
           this.BABName = res['data']['association']['bankDetails'][0].babName;
           this.BAIFSC = res['data']['association']['bankDetails'][0].baifsc;
           this.BAActNo = res['data']['association']['bankDetails'][0].baActNo;
           this.BAActType = res['data']['association']['bankDetails'][0].baActType;
-          console.log(res['data']['association'][0].asPrpType);
+          //console.log(res['data']['association'][0].asPrpType);
           this.ASPrpType = res['data']['association'][0].asPrpType;
         });
     
@@ -1304,7 +1310,7 @@ this.crtAssn.newBAActType='';
   }
 
    OpenModals(jointemplate: TemplateRef<any>,unUnitID) {
-     console.log(unUnitID);
+     //console.log(unUnitID);
      this.unUnitID=unUnitID;
     this.modalRef = this.modalService.show(jointemplate,
      Object.assign({}, { class: 'gray modal-lg' }));}

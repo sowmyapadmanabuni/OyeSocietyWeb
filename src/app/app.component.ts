@@ -5,7 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {UtilsService} from '../app/utils/utils.service';
 
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,12 +14,14 @@ export class AppComponent {
   notificationList:any[];
   HideOrShowNotification:boolean;
   toggleName:any;
+  ntType:any;
 
-  constructor(private globalService:GlobalServiceService,private router:Router,
+  constructor(private globalService:GlobalServiceService,public router:Router,
     private http: HttpClient,private utilsService:UtilsService){
     this.globalService.toggledashboard=false;
     this.notificationList=[];
     this.toggleName='';
+    this.ntType='';
   }
   ngOnInit() {
     this.getNotification();
@@ -32,7 +33,6 @@ export class AppComponent {
         $("#panel").slideToggle("slow");
       });
     });
-   
   }
   myFunction() {
     let x = document.getElementById("myTopnav");
@@ -43,7 +43,7 @@ export class AppComponent {
     }
   }
   toggleDashboard() {
-    console.log('inside toggleDashboard');
+    //console.log('inside toggleDashboard');
     this.globalService.toggledashboard = true;
     this.router.navigate(['home']);
   }
@@ -61,13 +61,12 @@ export class AppComponent {
     let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${1}`
     this.http.get(url, { headers: headers })
    .subscribe(data=>{
-     console.log(data['data']['notificationListByAcctID']);
+     //console.log(data['data']['notificationListByAcctID']);
      this.notificationList=data['data']['notificationListByAcctID'];
    },
    err=>{
-     console.log(err);
+     //console.log(err);
    })
-
   }
 
   getHttpheaders(): HttpHeaders {
@@ -77,8 +76,9 @@ export class AppComponent {
       .set('Content-Type', 'application/json');
     return headers;
   }
-  NotificationDropDown(toggleName){
+  NotificationDropDown(toggleName,ntType){
     this.toggleName=toggleName;
+    this.ntType=ntType;
   }
 }
 

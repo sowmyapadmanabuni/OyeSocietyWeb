@@ -32,7 +32,7 @@ export class EditprofileService {
 
   getProfileDetails(accountID)
   {
-    console.log(accountID);
+    //console.log(accountID);
     let scopeIP=this.utilsService.getProfileDetails();
     return this.http.get(scopeIP + 'oyeliving/api/v1/GetAccountListByAccountID/' + accountID,  {headers:this.headers});
   }

@@ -48,6 +48,7 @@ export class AddUnitComponent implements OnInit {
   toggleunitvehicleinformation:boolean;
   //@ViewChild('createunitForm') createunitForm: NgForm;
   scopeIP: string;
+  createunitForm:any;
 
   constructor(private viewUniService: ViewUnitService,
     private globalservice:GlobalServiceService,
@@ -105,22 +106,22 @@ export class AddUnitComponent implements OnInit {
 
   ngOnInit() {
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
-    console.log('this.currentAssociationID',this.currentAssociationID);
+    //console.log('this.currentAssociationID',this.currentAssociationID);
     this.viewUniService.GetBlockListByAssocID(this.currentAssociationID)
     .subscribe(data => {
       this.allBlocksLists = data['data'].blocksByAssoc;
-      console.log('allBlocksLists',this.allBlocksLists);
+      //console.log('allBlocksLists',this.allBlocksLists);
     });
   }
 
   getAllUnitDetailsByBlockID(blBlockID) {
-    console.log('getAllUnitDetailsByBlockID',blBlockID)
+    //console.log('getAllUnitDetailsByBlockID',blBlockID)
     this.blockID = blBlockID;
-    console.log('this.blockID',this.blockID)
+    //console.log('this.blockID',this.blockID)
     /*-------------------Get Unit List By Block ID ------------------*/
     this.viewUniService.GetUnitListByBlockID(blBlockID)
       .subscribe(data => {
-        console.log('allUnitBYBlockID',data);
+        //console.log('allUnitBYBlockID',data);
         this.allUnitBYBlockID = data['data'].unitsByBlockID;
       });
 
@@ -128,15 +129,15 @@ export class AddUnitComponent implements OnInit {
   }
 
   getUnitType(unitTpname) {
-    console.log(unitTpname);
+    ////console.log(unitTpname);
     this.unitType = unitTpname;
   }
   getOccupencyandOwnershipStatus(occupencyname) {
-    console.log(occupencyname);
+    ////console.log(occupencyname);
     this.occupency = occupencyname;
   }
   getCalculationTypes(calculationTypename) {
-    console.log(calculationTypename);
+    ////console.log(calculationTypename);
     this.calculationtype = calculationTypename;
   }
 
@@ -246,7 +247,7 @@ export class AddUnitComponent implements OnInit {
         }
       ]
     }
-    console.log(createUnitData);
+    ////console.log(createUnitData);
 
     this.viewUniService.createUnit(createUnitData).subscribe((response) => {
 
@@ -288,7 +289,7 @@ export class AddUnitComponent implements OnInit {
 
     },
       (response) => {
-        console.log(response);
+        ////console.log(response);
       }); 
 
     

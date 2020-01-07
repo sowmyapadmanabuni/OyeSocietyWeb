@@ -6,7 +6,20 @@
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                <span class="black">Invoice For Manyata Association</span>
+                <div style="display: flex;">
+                    <span class="black">Invoice For {{currentassociationname}} of Block  </span>
+                        <div class="dropdown" style="width: 200px;margin-left: 10px; margin-top: -7px;">
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Blocks':viewinvoiceservice.invoiceBlock)}}
+                                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                            <ul class="dropdown-menu fullw">
+                                <li *ngFor='let item of allBlocksByAssnID'
+                                    (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
+                                    <a>{{item['blBlkName']}}</a></li>
+                            </ul>
+                        </div>
+                   
+                </div>
 
                 <div class="switch">
                     <ul class="nav nav-pills">
@@ -15,21 +28,9 @@
                         <li><a (click)="goToReceipts()">Receipts</a></li>
                     </ul>
                 </div>
-                <div class="enroll">
-                    <div class="dropdown" style="width: 200px;">
-                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                            data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Blocks':viewinvoiceservice.invoiceBlock)}}
-                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                        <ul class="dropdown-menu fullw">
-                            <li *ngFor='let item of allBlocksByAssnID'
-                                (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
-                                <a>{{item['blBlkName']}}</a></li>
-                        </ul>
-                    </div>
-                </div>
                 <div style="display: flex;justify-content: flex-end;align-items: baseline;">
-                    <label class="purple">Paid&nbsp;&nbsp;</label>
-                    <input type="checkbox" [(ngModel)]="IsPaid" (change)='GetPaidInvoiceList(IsPaid)' name="IsPaid">
+                    <!-- <label class="purple">Paid&nbsp;&nbsp;</label> -->
+                    <!-- <input type="checkbox" [(ngModel)]="IsPaid" (change)='GetPaidInvoiceList(IsPaid)' name="IsPaid"> -->
                 </div>
                 <!-- Toggler switch-->
                 <div class="switch">
@@ -97,6 +98,10 @@
                                             <i tooltip="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
                                                 style="cursor: pointer;" class="fa fa-percent"></i>
+                                        </span>
+                                        <span *ngIf="item['inPaid'] == 'No'">
+                                            |
+                                            <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
                                         </span>
                                     </td>
                                     <td>
@@ -598,7 +603,7 @@
                             [ngClass]="{'has-error' : unUnitIDControl.invalid && unUnitIDControl.touched}">
                             <label>Select Unit <span class="red">*</span></label>
                             <select class="custom-select" required name="pyid" #unUnitIDControl='ngModel'
-                                [(ngModel)]="pyid" (change)="rowDetails(pyid)">
+                                [(ngModel)]="pyid" (change)="rowDetails(pyid,'')">
                                 <option disabled="true" value="">Select Unit </option>
                                 <option *ngFor='let item of unpaidUnits' [value]="item['pyid']">
                                     {{item['unUnitID']}}
@@ -676,7 +681,7 @@
                             [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
                             <label>Payment Method <span class="red">*</span></label>
                             <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod"
-                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod)">
+                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod,'')">
                                 <option disabled="true" selected="true" value="">Select Method </option>
                                 <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
                                     {{paymentby['name']}}
@@ -700,7 +705,7 @@
                                 Voucher No</p>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Demand Draft' ">
+                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'DemandDraft' ">
                         <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
                             <label>Demand Draft No <span class="red">*</span></label>
                             <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo"
@@ -734,7 +739,7 @@
                 </div>
 
                 <div class="form-group pull-right">
-                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt()"
+                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt(generateReceiptModal1)"
                         style="margin-right: 3px"> Create <img *ngIf="true"
                             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button>
                     <button type="button" (click)="resetForm()" class="btn btn-primary btn-lg">Reset </button>
@@ -973,7 +978,7 @@
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'One Time Onboarding fee' && item['idValue'] > 0">
+                            <tr *ngIf="item['idDesc'] == 'One Time Onboarding fees' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         OnBoarding Fees</span></td>
@@ -1046,8 +1051,7 @@
                     Pay
                     Now</button>
                 <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i
-                        class="fa fa-file-text-o" aria-hidden="true"></i> Generate
-                    Receipt</button>
+                        class="fa fa-file-text-o" aria-hidden="true"></i> Generate Receipt</button>
             </div>
 
         </div>
@@ -1218,7 +1222,7 @@
                             [ngClass]="{'has-error' : unUnitIDControl.invalid && unUnitIDControl.touched}">
                             <label>Select Unit <span class="red">*</span></label>
                             <select class="custom-select" required name="pyid" #unUnitIDControl='ngModel'
-                                [(ngModel)]="pyid" (change)="rowDetails(pyid)">
+                                [(ngModel)]="pyid" (change)="rowDetails(pyid,'')">
                                 <option disabled="true" value="">Select Unit </option>
                                 <option *ngFor='let item of unpaidUnits' [value]="item['pyid']">
                                     {{item['unUnitID']}}
@@ -1296,7 +1300,7 @@
                             [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
                             <label>Payment Method <span class="red">*</span></label>
                             <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod"
-                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod)">
+                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod,'')">
                                 <option disabled="true" selected="true" value="">Select Method </option>
                                 <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
                                     {{paymentby['name']}}
@@ -1320,7 +1324,7 @@
                                 Voucher No</p>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Demand Draft' ">
+                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'DemandDraft' ">
                         <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
                             <label>Demand Draft No <span class="red">*</span></label>
                             <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo"
@@ -1354,7 +1358,7 @@
                 </div>
 
                 <div class="form-group pull-right">
-                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt()"
+                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt(generateReceiptModal1)"
                         style="margin-right: 3px"> Create <img *ngIf="true"
                             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button>
                     <button type="button" (click)="resetForm()" class="btn btn-primary btn-lg">Reset </button>
@@ -1391,3 +1395,129 @@
         <input type="hidden" name="access_code" id="access_code" [ngModel]="kotakPayForm.accessCode">
     </form>
 </div>
+
+<ng-template #Receipts>
+    <div class="modal-header">
+        <h4 class="modal-title orange">RECEIPT</h4>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button> -->
+    </div>
+    <div class="modal-body">
+          <div class="card">
+            <form #genRe='ngForm' role="form">
+              <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                  <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+                    <label>Invoice Number<span class="red">*</span></label>
+                    <input type="text" class="form-control" name="invoicenumber" [(ngModel)]="invoicenumber" #invoiceControl='ngModel'
+                      placeholder="Invoice Number" disabled />
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <label>Amount Due<span class="red">*</span></label>
+                      <input type="text" class="form-control" name="totalAmountDue" [(ngModel)]="totalAmountDue" placeholder="Amount Due"
+                        disabled />
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                  <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+                    <label>Amount Paid <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="totalamountPaid" [(ngModel)]="totalamountPaid"
+                      #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" disabled/>
+                    <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
+                    <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label">Select Payment Method</label>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                data-toggle="dropdown">{{paymentMethodType}}
+                                <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                            <ul class="dropdown-menu fullw">
+                                <li *ngFor='let item of methodArray' (click)="showMethod(item['id'],item['displayName'])">
+                                    <a>{{item['displayName']}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          
+              <div class="row" *ngIf="checkField != 'Cash'">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label">Select Bank</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                 type="button" data-toggle="dropdown">{{expensedataBABName}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw fdrop">
+                                    <li *ngFor='let bank of bankList' (click)='getexpensedataBABName(bank)'><a>{{bank}}</a></li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="checkField == 'Cash'">
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : voucherNoControl.invalid && voucherNoControl.touched}">
+                          <label>Voucher No <span class="red">*</span></label>
+                          <input type="text" class="form-control" name="receiptVoucherNo" [(ngModel)]="receiptVoucherNo" #voucherNoControl='ngModel' placeholder="Voucher No " required/>
+                          <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter Voucher No</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="row" *ngIf="checkField == 'DemandDraft'">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
+                        <label>Demand Draft No <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="receiptddNo" [(ngModel)]="receiptddNo" #ddNoControl='ngModel' placeholder="Demand Draft No " required/>
+                        <p class="alerts" *ngIf="ddNoControl.invalid && ddNoControl.touched"> Please Enter Demand Draft No</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : demandDraftDateControl.invalid && demandDraftDateControl.touched}">
+                        <label>Demand Draft Date <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="receiptEXDDDate" #demandDraftDateControl='ngModel'
+                            placeholder="Demand Draft Date" required [bsConfig]="bsConfig" [(ngModel)]="receiptEXDDDate" #expdddate='bsDatepicker'
+                            bsDatepicker [minDate]="minDemandDraftDate" />
+                    
+                        <p class="alerts" *ngIf="demandDraftDateControl.invalid && demandDraftDateControl.touched"> Please Select
+                            DemandDraft Date</p>
+                    </div>
+                </div>
+              </div>
+          
+              <div class="row" *ngIf="checkField == 'Cheque'">
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : chequeNoControl.invalid && chequeNoControl.touched}">
+                          <label>Cheque No <span class="red"></span></label>
+                          <input type="text" class="form-control" name="receiptChequeNo" [(ngModel)]="receiptChequeNo" #chequeNoControl='ngModel' placeholder="Cheque No " pattern="^\d+$" />
+                          <p class="alerts" *ngIf="chequeNoControl.errors?.pattern"> Please Enter Valid Cheque No</p>
+                      </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
+                          <label>Cheque Date <span class="red"></span></label>
+          
+                          <input type="text" class="form-control" name="receiptChequeDate" #chequeDateControl='ngModel'
+                        placeholder="Chequedate" required [(ngModel)]="receiptChequeDate"
+                        bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }"/>
+                      </div>
+                  </div>
+              </div>
+          
+              <div class="row">                
+                  <button style="float: right;" type="submit" class="btn btn-primary-purple" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <button style="float: right;" type="reset" (click)="resetForm()" class="btn btn-primary-purple">Reset </button>                           
+              </div>
+          
+            </form>
+          </div>
+    </div>
+</ng-template>

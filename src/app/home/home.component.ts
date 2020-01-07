@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
   p: number;
  
   constructor(private dashBrdService: DashBoardService, private appComponent:AppComponent,
-     private globalService:GlobalServiceService,
+     public globalService:GlobalServiceService,
      private loginandregisterservice:LoginAndregisterService,
      private router: Router,
      private viewassosiationservice:ViewAssociationService,
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
       //this.globalService.setAccountID('9539'); // 6457 9539
       // this.accountID=this.globalService.getacAccntID();
       this.globalService.currentUnitName=this.globalService.getCurrentUnitName();
-      console.log(this.globalService.currentUnitId);
+      //console.log(this.globalService.currentUnitId);
       //this.globalService.setCurrentUnitId('Units');
        this.association='';
        //this.unit='';
@@ -121,36 +121,36 @@ this.GetVehicleListByAssocID();
     this.router.navigate(['resident-invoice']);
   }
   getAssociation(){
-    console.log('this.accountID',this.accountID);
+    //console.log('this.accountID',this.accountID);
     this.dashBrdService.getAssociation(this.accountID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data:any = res;
-      console.log(data);
+      //console.log(data);
       this.associations = data.data.memberListByAccount;
       this.associations = _.sortBy(this.associations, e => e.asAsnName);
-      console.log('associations',this.associations);
+      //console.log('associations',this.associations);
       for (let i = 0; i < this.associations.length; i++) {
-        console.log( this.uniqueAssociations);
-        console.log( this.associations[i]['asAsnName']);
+        //console.log( this.uniqueAssociations);
+        //console.log( this.associations[i]['asAsnName']);
         const found = this.uniqueAssociations.some(el => el['asAsnName'] === this.associations[i]['asAsnName']);
         if (!found) {
           this.uniqueAssociations.push(this.associations[i]);
         }
       }
-      console.log(this.uniqueAssociations);
+      //console.log(this.uniqueAssociations);
         this.loadAssociation(this.globalService.getCurrentAssociationName(),'');
       },
       res=>{
-        console.log('Error in getting Associations',res);
+        //console.log('Error in getting Associations',res);
       });
   }
   getAmount(){
     this.associationAmountDue=[];
     this.amount = 0;
     this.dashBrdService.getAmount(this.associationID).subscribe(res=>{
-      console.log('amount',res);
+      //console.log('amount',res);
       this.associationAmountDue=res['data']['payments'];
-      console.log(this.associationAmountDue);
+      //console.log(this.associationAmountDue);
       // if (res['data']['errorResponse']) {
       //   this.amount = "0";
       // }
@@ -159,20 +159,20 @@ this.GetVehicleListByAssocID();
         
       // }
      this.amt =  res['data']['payments'].filter(item=>{
-         console.log(item);
+         //console.log(item);
          if(item['pyStat'] == "UnPaid"){
          return item['pyAmtDue'];
          }
          })
       
-       console.log('amounts',this.amt[0]['pyAmtDue']);
+       //console.log('amounts',this.amt[0]['pyAmtDue']);
        this.amt.forEach(item=>{
         this.amount += Number (item['pyAmtDue'])
        })
-       console.log(this.amount);
+       //console.log(this.amount);
     },err=>{
       this.amount = 0;
-      console.log(err);
+      //console.log(err);
     })
   }
   OpenModalBlockDetails(viewBlockDetailsTemplate: TemplateRef<any>) {
@@ -183,21 +183,21 @@ this.GetVehicleListByAssocID();
     this.amountdue=0;
     this.dashBrdService.GetAmountBalance(unUnitID)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.amountdue=data['data']['balanceDue'];
-        console.log(this.amountdue);
+        //console.log(this.amountdue);
       }, err => {
-        console.log(err);
+        //console.log(err);
       })
   }
   onPageChange(event) {
-    console.log(event['srcElement']['text']);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
     if(event['srcElement']['text'] != '1'){
       this.p= Number(event['srcElement']['text'])-1;
-      console.log(this.p);
+      //console.log(this.p);
       if(this.p == 1){
         this.p =2;
       }
@@ -223,40 +223,40 @@ this.GetVehicleListByAssocID();
       //console.log(JSON.stringify(res));
       var data: any = res;
       this.allMemberByAccount = data.data.memberListByAccount;
-      console.log('allMemberByAccount', this.allMemberByAccount);
+      //console.log('allMemberByAccount', this.allMemberByAccount);
       //this.mrmRoleID = this.allMemberByAccount[0]['mrmRoleID'];
       //this.dashBrdService.mrmRoleID = this.mrmRoleID;
       this.dashBrdService.GetUnitListCount(this.associationID)
       .subscribe(data=>{
-        console.log(data['data']['unit']);
+        //console.log(data['data']['unit']);
         this.associationTotalMembers=data['data']['unit'];
         this.totalMember = data['data']['unit'].length;
       },
       err=>{
-        console.log(err);
+        //console.log(err);
         this.totalMember='0';
       })
       //this.totalMember = data.data.memberListByAccount.length;
     },
       (res) => {
-        console.log(res);
+        //console.log(res);
         this.dashBrdService.memberdoesnotexist = true;
       });
   }
   getTickets() {
     this.dashBrdService.getTickets(this.associationID).subscribe(res => {
-      console.log('ticketresult-', res);
+      //console.log('ticketresult-', res);
       if (res['data']['errorResponse']) {
         this.totalTickets = "0";
       }
       else if (res['data']['ticketing']) {
         this.allTicketByAssociation = res['data']['ticketing'];
         this.totalTickets = res['data']['ticketing'].length;
-        console.log('totalTickets', this.totalTickets);
+        //console.log('totalTickets', this.totalTickets);
       }
       // var data:any = res;
     },err=>{
-      console.log(err);
+      //console.log(err);
     });
   }
   enroll() {
@@ -276,7 +276,7 @@ this.GetVehicleListByAssocID();
       //console.log(JSON.stringify(res));
       var data:any = res;
       this.account = data.data.account;
-      console.log('account',this.account);
+      //console.log('account',this.account);
      this.acfName= this.account[0]['acfName'];
      this.aclName= this.account[0]['aclName'];
      this.acMobile= this.account[0]['acMobile'];
@@ -287,7 +287,7 @@ this.GetVehicleListByAssocID();
 }
   getVehicle(unUnitID){
       this.dashBrdService.getVehicle(unUnitID).subscribe(res => {
-        console.log('vehicle',res);
+        //console.log('vehicle',res);
         var data:any = res;
         this.allVehicleListByAssn = data.data.vehicleListByUnitID;
         let totalVehicles = data.data.vehicleListByUnitID.filter(item => {
@@ -296,13 +296,13 @@ this.GetVehicleListByAssocID();
         this.totalVehicles= totalVehicles.length;
         },
         err=>{
-          console.log(err);
+          //console.log(err);
           this.totalVehicles='0';
         });
   }
   getStaff(){
     this.dashBrdService.getStaff(this.associationID).subscribe(res=>{
-      console.log('staff',res);
+      //console.log('staff',res);
       if (res['data']['errorResponse']) {
         this.totalStaffs = "0";
       }
@@ -315,7 +315,7 @@ this.GetVehicleListByAssocID();
   }
   getVistors(){
     this.dashBrdService.getVisitors(this.associationID).subscribe(res=>{
-      console.log('visitors',res);
+      //console.log('visitors',res);
       if (res['data']['errorResponse']) {
         this.totalVisitors = "0";
       }
@@ -328,49 +328,49 @@ this.GetVehicleListByAssocID();
   }
   loadAssociation(associationName: string,param:any) {
     if(!this.globalService.toggledashboard){
-      console.log('false');
+      //console.log('false');
       this.globalService.setCurrentUnitName('Units');
     }
     this.unitlistForAssociation=[];
     //this.globalService.currentUnitId == '';
     //this.appComponent.myMenus=true;
-    console.log("AssociationName: ", associationName);
+    //console.log("AssociationName: ", associationName);
     this.globalService.setCurrentAssociationName(associationName);
     this.currentAssociationName = associationName;
     this.associations.forEach(association => {
       if (association.asAsnName == associationName) {
-        console.log(association);
+        //console.log(association);
         this.dashBrdService.mrmRoleID= association['mrmRoleID'];
-        console.log( this.dashBrdService.mrmRoleID);
+        //console.log( this.dashBrdService.mrmRoleID);
         this.unitForAssociation.push(association);
-        console.log(this.unitForAssociation);
+        //console.log(this.unitForAssociation);
           const found = this.unitlistForAssociation.some(el => el['unUnitID'] === association['unUnitID'] && el['unUniName'] === association['unUniName'] && el['mrmRoleID'] === association['mrmRoleID']);
           if (!found) {
             if(association['unUniName'] != '' && association['unUnitID'] != 0){
               this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
             }
           }
-          console.log(this.unitlistForAssociation);
+          //console.log(this.unitlistForAssociation);
           this.globalService.setCurrentAssociationId(association.asAssnID);
           this.globalService.setCurrentAssociationName(associationName);
           this.associationID = this.globalService.getCurrentAssociationId();
-          console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
+          //console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
       }
 
     });
-    console.log(this.unitlistForAssociation);
+    //console.log(this.unitlistForAssociation);
     const found1 = this.unitlistForAssociation.filter(abc=>{
     return abc['mrmRoleID'] == 1
     });
     if(found1.length != 0){
       this.globalService.mrmroleId=1;
       this.localMrmRoleId=1;
-      console.log(this.globalService.mrmroleId);
+      //console.log(this.globalService.mrmroleId);
     }
     else{
       this.globalService.mrmroleId=2;
       this.localMrmRoleId=2;
-      console.log(this.globalService.mrmroleId);
+      //console.log(this.globalService.mrmroleId);
     }
     if(param == 'id'){
       //this.globalService.setCurrentUnitName('Units');
@@ -380,11 +380,11 @@ this.GetVehicleListByAssocID();
       if(this.unitlistForAssociation[0]['unUniName']==''){
         this.unitlistForAssociation=[];
         this.unitlistForAssociation.push(new UnitlistForAssociation('No Unit Found',0,0));
-        console.log(this.unitlistForAssociation);
+        //console.log(this.unitlistForAssociation);
         this.globalService.setCurrentUnitName('Units');
       }
     }
-    console.log('globalService.currentAssociationName', this.globalService.currentAssociationName);
+    //console.log('globalService.currentAssociationName', this.globalService.currentAssociationName);
     this.getAmount();
     this.getMembers();
     this.getTickets();
@@ -396,14 +396,14 @@ this.GetVehicleListByAssocID();
   GetVehicleListByAssocID(){
     this.dashBrdService.GetVehicleListByAssocID(this.associationID)
     .subscribe(data=>{
-      console.log(data);
+      //console.log(data);
      let totalAssociationVehicles = data['data']['vehicleListByAssocID'].filter(item=>{
        return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
       })
      this.totalAssociationVehicles = totalAssociationVehicles.length;
 
     },err=>{
-      console.log(err);
+      //console.log(err);
     })
 
    /* this.dashBrdService.getVehicle(unUnitID).subscribe(res => {
@@ -486,36 +486,36 @@ this.GetVehicleListByAssocID();
       "UNUnitID": unUnitID,
       "ACAccntID": this.accountID
     }
-    console.log(visitorlog);
+    //console.log(visitorlog);
     this.dashBrdService.GetVisitorLogByDatesAssocAndUnitID(visitorlog)
     .subscribe(data=>{
-      console.log(data); //totalUnitVisitors
+      //console.log(data); //totalUnitVisitors
       this.totalUnitVisitors = data['data']['visitorlog'].length;
     },
     err=>{
-      console.log(err);
+      //console.log(err);
     })
   }
   GetWorkersListByUnitID(unUnitID) {
     this.dashBrdService.GetWorkersListByUnitID(unUnitID)
     .subscribe(data=>{
-      console.log(data['data']);
-      console.log(data['data']['errorResponse']['message']);
-      console.log(data['data']['workersByUnit']);
+      //console.log(data['data']);
+      //console.log(data['data']['errorResponse']['message']);
+      //console.log(data['data']['workersByUnit']);
       this.totalUnitStaffs=data['data'].length;
     },
     err=>{
-      console.log(err);
+      //console.log(err);
     })
   }
   loadUnit(unit,unUnitID) {
-    console.log(unit);
-    console.log(unUnitID);
+    //console.log(unit);
+    //console.log(unUnitID);
     this.globalService.setCurrentUnitId(unUnitID);
     this.globalService.setCurrentUnitName(unit);
-    console.log(this.globalService.currentUnitId);
-    console.log(this.globalService.currentUnitName);
-    console.log(this.globalService.getCurrentUnitName());
+    //console.log(this.globalService.currentUnitId);
+    //console.log(this.globalService.currentUnitName);
+    //console.log(this.globalService.getCurrentUnitName());
     this.getVehicle(unUnitID);
     this.GetAmountBalance(unUnitID);
     this.GetVisitorLogByDatesAssocAndUnitID(unUnitID);

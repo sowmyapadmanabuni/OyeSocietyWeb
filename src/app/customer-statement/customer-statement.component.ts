@@ -22,9 +22,10 @@ export class CustomerStatementComponent implements OnInit {
   PaymentStatus:any;
   modalRef: BsModalRef;
   p: number=1;
+  searchTxt:any;
 
   constructor(private viewreportservice: ViewreportService,
-    private globalservice: GlobalServiceService,private modalService: BsModalService) {
+    public globalservice: GlobalServiceService,private modalService: BsModalService) {
     this.frequencys = [
       { "name": "Paid", "displayName": "Paid" },
       { "name": "UnPaid", "displayName": "UnPaid" }
@@ -32,11 +33,11 @@ export class CustomerStatementComponent implements OnInit {
     this.currentAssociationName = this.globalservice.getCurrentAssociationName();
     this.reportID = '';
     this.PaymentStatus='Select Payment Status';
-    console.log(this.globalservice.getCurrentAssociationName());
+    //console.log(this.globalservice.getCurrentAssociationName());
   }
 
   getPaidUnpaidDetail(reportID) {
-    console.log('reportID', reportID);
+    //console.log('reportID', reportID);
     this.displaypaymentdetails = this.allpaymentdetails.filter(item => {
       return item['pyStat'] == reportID;
     })
@@ -44,7 +45,7 @@ export class CustomerStatementComponent implements OnInit {
   getpaymentdetails() {
     this.viewreportservice.getpaymentdetails(this.currentAssociationID).subscribe((data) => {
       this.allpaymentdetails = data['data']['payments'];
-      console.log('allpaymentdetails', this.allpaymentdetails);
+      //console.log('allpaymentdetails', this.allpaymentdetails);
     })
   }
 
@@ -55,13 +56,13 @@ export class CustomerStatementComponent implements OnInit {
     this.getpaymentdetails();
   }
   onPageChange(event) {
-    console.log(event['srcElement']['text']);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
     if(event['srcElement']['text'] != '1'){
       this.p= Number(event['srcElement']['text'])-1;
-      console.log(this.p);
+      //console.log(this.p);
       if(this.p == 1){
         this.p =2;
       }

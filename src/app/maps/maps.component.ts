@@ -33,5 +33,8 @@ export class MapsComponent implements OnInit {
   {
     
   }
-
+  getCarouselName(img,event){
+    this.imgPath=img;
+    this.location=event;
+  }
 }

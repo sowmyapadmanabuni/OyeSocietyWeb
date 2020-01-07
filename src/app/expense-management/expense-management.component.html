@@ -54,7 +54,7 @@
                   <input type="checkbox" [(ngModel)]="IsInvoiced" (change)='GetexpenseListByInvoiceID(IsInvoiced)' name="IsInvoiced">
                 </div> -->
                 <!-- toggler switch -->
-                <div class="switch">
+                <div class="switch" *ngIf='addexpenseservice.enableExpenseListView'>
                   <ul class="nav1 nav-pills1">
                       <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All')">All</a></li>
                       <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetexpenseListByInvoiceID(true,'toggleYes')">Invoiced</a></li>

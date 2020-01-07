@@ -82,9 +82,11 @@ export class BlocksComponent implements OnInit {
   public searchTxt: any;
   enableAddBlocksView:boolean;
   enableBlockListView:boolean;
+  rate:any;
+  rate1:any;
 
   constructor(private viewBlkService: ViewBlockService,
-    private globalService: GlobalServiceService,
+    public globalService: GlobalServiceService,
     private router: Router,
     private modalService: BsModalService) { 
     //pagination
@@ -128,8 +130,8 @@ export class BlocksComponent implements OnInit {
   ngOnInit() {
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
-    console.log('this.currentAssociationName',this.currentAssociationName);
-    console.log('this.currentAssociationID',this.currentAssociationID);
+    //console.log('this.currentAssociationName',this.currentAssociationName);
+    //console.log('this.currentAssociationID',this.currentAssociationID);
     this.getBlockDetails();
     this.viewBlkService.getassociationlist(this.currentAssociationID)
       .subscribe(data => {
@@ -153,7 +155,7 @@ export class BlocksComponent implements OnInit {
   getBlockDetails() {
     this.viewBlkService.getBlockDetails(this.currentAssociationID).subscribe(data => {
       this.allBlocksLists = data['data'].blocksByAssoc;
-      console.log('allBlocksLists', this.allBlocksLists);
+      //console.log('allBlocksLists', this.allBlocksLists);
       this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
       //asbGnDate
     });
@@ -164,7 +166,7 @@ export class BlocksComponent implements OnInit {
     this.enableBlockListView = false;
   }
   onPageChange(event) {
-    console.log(event['srcElement']['text']);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
@@ -182,10 +184,22 @@ export class BlocksComponent implements OnInit {
       var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-        anchorDivs = $('div.stepwizard-row div');
+        anchorDivs = $('div.stepwizard-row div'),
+        Divs = $('div.stepwizard div div');
 
-      allWells.hide();
-
+        //console.log(anchorDivs);
+        anchorDivs.click(function(){
+         var $item = $(this);
+        var $childitem = $($($item.children()[0]).attr('href'));
+  
+         Divs.removeClass('step-active');
+          $item.addClass('step-active');
+          //console.log($childitem);
+          allWells.hide();
+          $childitem.show();
+          $childitem.find('input:eq(0)').focus();
+        })
+  
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
@@ -250,7 +264,7 @@ export class BlocksComponent implements OnInit {
     this.blocksData = false;
     this.addBlock_form = true;
 
-    console.log(JSON.stringify(this.frequencys));
+    //console.log(JSON.stringify(this.frequencys));
   }
   /*
     checkRate(){
@@ -280,12 +294,12 @@ export class BlocksComponent implements OnInit {
 
   // }
   onValueChange(value: Date): void {
-    console.log(value);
+    //console.log(value);
     if (value != null) {
       this.invoicedatechanged = true;
       this.minDate = new Date(value);
       this.minDateinNumber = new Date(value).getTime();
-      console.log('minDateinNumber', this.minDateinNumber);
+      //console.log('minDateinNumber', this.minDateinNumber);
       if (this.duedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -305,7 +319,7 @@ export class BlocksComponent implements OnInit {
       this.duedatechanged = true;
       this.startsFromMaxDate = new Date(value);
       this.dueDateinNumber = new Date(value).getTime();
-      console.log('dueDateinNumber', this.dueDateinNumber);
+      //console.log('dueDateinNumber', this.dueDateinNumber);
       if (this.invoicedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -392,9 +406,9 @@ export class BlocksComponent implements OnInit {
       }]
     };
 
-    console.log(JSON.stringify(this.createBlockData));
+    //console.log(JSON.stringify(this.createBlockData));
     this.viewBlkService.createBlock(this.createBlockData).subscribe(res => {
-      console.log("Done")
+      //console.log("Done")
       //alert("Block Created Successfully")
     });
 
@@ -441,16 +455,16 @@ export class BlocksComponent implements OnInit {
     this.BLBlockID = blBlockID;
     this.ASIcRFreq =asiCrFreq;
 
-    console.log(this.BLBlkName);
-    console.log(this.BLBlkType);
-    console.log(this.BLNofUnit);
-    console.log(this.BLMgrEmail);
-    console.log(this.ASUniMsmt);
-    console.log('ASDPyDate',this.ASDPyDate);
-    console.log(this.ASLPChrg);
-    console.log(this.ASLPSDate);
-    console.log(this.BLBlockID);
-    console.log(this.ASBGnDate);
+    //console.log(this.BLBlkName);
+    //console.log(this.BLBlkType);
+    //console.log(this.BLNofUnit);
+    //console.log(this.BLMgrEmail);
+    //console.log(this.ASUniMsmt);
+    //console.log('ASDPyDate',this.ASDPyDate);
+    //console.log(this.ASLPChrg);
+    //console.log(this.ASLPSDate);
+    //console.log(this.BLBlockID);
+    //console.log(this.ASBGnDate);
     this.modalRef = this.modalService.show(editBlocktemplate,
       Object.assign({}, { class: 'gray modal-lg' }));
 
@@ -520,11 +534,11 @@ export class BlocksComponent implements OnInit {
       ASIcRFreq:this.ASIcRFreq
     };
 
-    console.log('editblockdata', editblockdata);
+    //console.log('editblockdata', editblockdata);
     this.viewBlkService.UpdateBlock(editblockdata).subscribe(res => {
-      console.log("Done");
-      console.log(JSON.stringify(res));
-      console.log('editblockdata', editblockdata);
+      //console.log("Done");
+      //console.log(JSON.stringify(res));
+      //console.log('editblockdata', editblockdata);
       this.modalRef.hide();
       Swal.fire({
         title: 'Block Updated Successfuly',

@@ -40,7 +40,7 @@ export class ViewUnitService {
               }
               
               createUnit(createUnitData:any){
-                console.log('createUnitData *',JSON.stringify(createUnitData));
+                //console.log('createUnitData *',JSON.stringify(createUnitData));
                 let scopeIP=this.utilsService.createUnit();
                    return this.http.post(scopeIP + 'oyeliving/api/v1/unit/create' ,  createUnitData, {headers:this.headers});
               }
@@ -51,14 +51,14 @@ export class ViewUnitService {
               }
               
               GetUnitListByBlockID(blockId){
-                console.log('blockId',blockId);
+                //console.log('blockId',blockId);
                 this.blockIDforUnitCreation = blockId;
                 let scopeIP=this.utilsService.GetUnitListByBlockID();
                 return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId , {headers:this.headers});
               }
 
               UpdateUnitInfo(updateUnitData:any){
-                console.log('updateUnitData *',JSON.stringify(updateUnitData));
+                //console.log('updateUnitData *',JSON.stringify(updateUnitData));
                 let scopeIP=this.utilsService.createUnit();
                 return this.http.post(scopeIP + 'oyeliving/api/v1/Unit/UpdateUnitDetails' ,  updateUnitData, {headers:this.headers});
               }

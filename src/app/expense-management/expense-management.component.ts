@@ -103,15 +103,20 @@ export class ExpenseManagementComponent implements OnInit {
   enableExpenseListView:boolean;
   IsInvoiced:any;
   toggle:any;
+  searchTxt:any;
+  minDate:any;
+  ddno:any;
+  DemandDraftDate:any;
+  minDemandDraftDate:any;
 
-  constructor(private viewexpenseservice: ViewExpensesService,
+  constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
-    private addexpenseservice: AddExpenseService,
+    public addexpenseservice: AddExpenseService,
     private router: Router,
     private toastr: ToastrService,
-    private globalservice: GlobalServiceService,
-    private viewinvoiceservice: ViewInvoiceService,
-    private dashboardservice:DashBoardService,
+    public globalservice: GlobalServiceService,
+    public viewinvoiceservice: ViewInvoiceService,
+    public dashboardservice:DashBoardService,
     private orderpipe: OrderPipe,
     private utilsService:UtilsService
   ) {
@@ -264,52 +269,52 @@ export class ExpenseManagementComponent implements OnInit {
 
     this.addexpenseservice.GetPurchaseOrderListByAssocID(this.currentAssociationID)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.purchaseOrders = data;
       });
 
     this.addexpenseservice.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(item => {
         this.allBlocksLists = item;
-        console.log('allBlocksLists', this.allBlocksLists);
+        //console.log('allBlocksLists', this.allBlocksLists);
       });
     if (this.viewexpenseservice.currentBlockName != '' && this.viewexpenseservice.currentBlockId != '') {
       this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
     }
   }
   getExpLst(e) {
-    console.log(e);
+    //console.log(e);
     this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
   }
   GetExpenseListByBlockID(blockID,blBlkName) {
     this.expenseList=[];
     this.viewexpensesByBlockId=[];
     this.blockID=blockID;
-    console.log('GetExpenseListByBlockID',blockID);
+    //console.log('GetExpenseListByBlockID',blockID);
     this.viewexpenseservice.currentBlockId=blockID;
     this.viewexpenseservice.currentBlockName=blBlkName;
     this.viewexpenseservice.GetExpenseListByBlockID(blockID)
     .subscribe(
       data=>{
-        console.log('GetExpenseListByBlockID',data);
+        //console.log('GetExpenseListByBlockID',data);
         this.viewexpensesByBlockId=data;
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
-          console.log(item['inNumber']);
+          //console.log(item['inNumber']);
           this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber']));
         })
-        console.log(this.expenseList);
+        //console.log(this.expenseList);
         this._viewexpensesByBlockId=this.expenseList;
         this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
-        console.log('viewexpensesByBlockId',this.expenseList);
+        //console.log('viewexpensesByBlockId',this.expenseList);
         //
         this.sortedCollection = this.orderpipe.transform(this.expenseList, 'exHead');
-        console.log(this.sortedCollection);
+        //console.log(this.sortedCollection);
       }
 
     ) 
     //this.viewexpenseservice.GetExpenseListByBlockID(blockID);
-    console.log(this.viewexpensesByBlockId);
+    //console.log(this.viewexpensesByBlockId);
   }
 
   setOrder(value: string) {
@@ -320,7 +325,7 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   poDetails() {
-    console.log('poDetails');
+    //console.log('poDetails');
     this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
     this.VNName = this.purchaseOrders[0]['poPrfVen'];
     this.BPIden = this.purchaseOrders[0]['bpIden'];
@@ -335,16 +340,18 @@ export class ExpenseManagementComponent implements OnInit {
       "ASAssnID": this.viewexpenseservice.currentAssociationID
     }
     this.viewexpenseservice.deleteExpense(viewexpense)
-      .subscribe(data => console.log(data));
+      .subscribe(data => {
+        //console.log(data)
+      });
   }
   onPageChange(event) {
-    console.log(event['srcElement']['text']);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
     if(event['srcElement']['text'] != '1'){
       this.p= Number(event['srcElement']['text'])-1;
-      console.log(this.p);
+      //console.log(this.p);
       if(this.p == 1){
         this.p =2;
       }
@@ -354,10 +361,10 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   generateInvoice() {
-    console.log(this.blockID);
-    console.log(this.expid);
-    console.log(this.exidList.length);
-    console.log(this.togglegenerateinv);
+    //console.log(this.blockID);
+    //console.log(this.expid);
+    //console.log(this.exidList.length);
+    //console.log(this.togglegenerateinv);
     if(this.blockID == '' || (this.togglegenerateinv == false && this.toggleBulkInvGenerate == false)){
           swal.fire({
             title: "Please Select One or More Checkbox for GenerateInvoice",
@@ -370,7 +377,7 @@ export class ExpenseManagementComponent implements OnInit {
     else{
           this.viewexpenseservice.generateInvoice(this.currentAssociationID,this.exidList,this.expenseList)
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         swal.fire({
           title: `${(this.exidList.length == 1?`${this.exidList.length}-Invoice Generated and Posted Successfully`:`${(this.exidList.length == 0?`${this.expenseList.length}-Invoices Generated and Posted Successfully`:`${this.exidList.length}-Invoices Generated and Posted Successfully`)}`)}`,
           text: "",
@@ -391,7 +398,7 @@ export class ExpenseManagementComponent implements OnInit {
       },
         (err) => {
           this.exidList=[];
-          console.log(err['error']);
+          //console.log(err['error']);
           swal.fire({
             title: "Error",
             text: `${err['error']['exceptionMessage']}`,
@@ -424,12 +431,12 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   editExpense(repexpense1, idx) {
-    console.log('repexpense1-', repexpense1);
-    console.log('idx-', idx);
+    //console.log('repexpense1-', repexpense1);
+    //console.log('idx-', idx);
   }
   openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exDate, blBlockID) {
-    console.log('purchaseOrders',this.purchaseOrders);
-    console.log('InvoiceNumber',inNumber);
+    //console.log('purchaseOrders',this.purchaseOrders);
+    //console.log('InvoiceNumber',inNumber);
     // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
     // this.VNName = this.purchaseOrders[0]['poPrfVen'];
     // this.BPIden = this.purchaseOrders[0]['bpIden'];
@@ -448,16 +455,16 @@ export class ExpenseManagementComponent implements OnInit {
     this.editexpensedata.EXRecurr = exRecurr;
     this.editexpensedata.EXDate = formatDate(exDate, 'dd/MM/yyyy', 'en');
     this.editexpensedata.BLBlockID = blBlockID;
-    console.log(this.editexpensedata);
+    //console.log(this.editexpensedata);
 
     this.modalRef = this.modalService.show(editexpensetemplate,
       Object.assign({}, { class: 'gray modal-lg' }));
 
     const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
     dataTransfer.items.add(new File([exPyCopy], exPyCopy));
-    console.log('dataTransfer', dataTransfer);
+    //console.log('dataTransfer', dataTransfer);
     const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
-    console.log('inputElement', inputElement.files);
+    //console.log('inputElement', inputElement.files);
     inputElement.files = dataTransfer.files;
   }
 
@@ -466,7 +473,7 @@ export class ExpenseManagementComponent implements OnInit {
   }
   applicableTo(applicableto: string) {
     let blockid = this.editexpensedata.BLBlockID;
-    console.log(applicableto);
+    //console.log(applicableto);
     this.applies = applicableto;
     if (this.applies == 'All' || this.applies == 'SoldOwnerOccupied' || this.applies == 'SoldTenantOccupied') {
       this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
@@ -474,7 +481,7 @@ export class ExpenseManagementComponent implements OnInit {
     //  $scope.ascUnit = '';
     this.addexpenseservice.GetUnitListByBlockID(blockid)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.ascUnit = data;
       })
   }
@@ -505,10 +512,22 @@ export class ExpenseManagementComponent implements OnInit {
       var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-        anchorDivs = $('div.stepwizard-row div');;
-  
-      allWells.hide();
-  
+        anchorDivs = $('div.stepwizard-row div'),
+        Divs = $('div.stepwizard div div');
+
+      //console.log(anchorDivs);
+      anchorDivs.click(function(){
+       var $item = $(this);
+      var $childitem = $($($item.children()[0]).attr('href'));
+
+       Divs.removeClass('step-active');
+        $item.addClass('step-active');
+        //console.log($childitem);
+        allWells.hide();
+        $childitem.show();
+        $childitem.find('input:eq(0)').focus();
+      })
+
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
@@ -522,6 +541,7 @@ export class ExpenseManagementComponent implements OnInit {
           allWells.hide();
           $target.show();
           $target.find('input:eq(0)').focus();
+          //console.log($target);
         }
       });
   
@@ -552,11 +572,11 @@ export class ExpenseManagementComponent implements OnInit {
     this.addexpenseservice.onUpLoad(fd)
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
-          console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
+          //console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
           this.dynamic = Math.round(event.loaded / event.total * 100);
         }
         else if (event.type === HttpEventType.Response) {
-          console.log(event);
+          //console.log(event);
           this.dynamic = 0;
         }
       });
@@ -566,9 +586,9 @@ export class ExpenseManagementComponent implements OnInit {
     imgthumbnailelement.src = this.defaultThumbnail;
     const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
     dataTransfer.items.add('', '');
-    console.log('dataTransfer', dataTransfer);
+    //console.log('dataTransfer', dataTransfer);
     const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
-    console.log('inputElement', inputElement.files);
+    //console.log('inputElement', inputElement.files);
     inputElement.files = dataTransfer.files;
     this.disableButton=false;
     this.isnotValidformat = false;
@@ -635,7 +655,7 @@ export class ExpenseManagementComponent implements OnInit {
     }
 
     this.editexpensedata.EXDate = formatDate(exdate, 'yyyy/MM/dd', 'en'); //'2019-07-24T12:00:00';//
-    console.log('editexpensedata', this.editexpensedata);
+    //console.log('editexpensedata', this.editexpensedata);
     this.viewexpenseservice.updateExpense(this.editexpensedata)
       .subscribe(data => {
         swal.fire({
@@ -659,88 +679,98 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   getCurrentBlockDetails(blBlockID) {
-    console.log('blBlockID-' + blBlockID);
+    //console.log('blBlockID-' + blBlockID);
     this.viewinvoiceservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
-        console.log('invoiceLists?', this.invoiceLists);
+        //console.log('invoiceLists?', this.invoiceLists);
       })
   }
   GetexpenseListByInvoiceID(IsInvoiced,param) {
-    console.log(IsInvoiced);
-    this.toggle=param;
-    let expid='';
-    if(IsInvoiced == true){
-      expid='true'
-    }
-    else if(IsInvoiced == false){
-      expid='false'
-    }
-    console.log('expid',typeof expid);
-    this.viewinvoiceservice.expid=expid;
-    //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
-    this.expenseList = this._viewexpensesByBlockId;
-    console.log('expid',expid);
-    console.log('expid',typeof expid);
-    if (expid == 'true') {
-      this.Invoiced='Yes';
-      this.toggleGenerateInvButton = true;
-    }
-    else{
-      this.Invoiced='No';
-      this.toggleGenerateInvButton = false;
-    }
-    //this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId);
-    if(expid == 'true' || expid == 'false'){
-      console.log(this.viewexpensesByBlockId);
-      this.expenseList = this.expenseList.filter(item=>{
-        console.log('exIsInvD',typeof item['exIsInvD']);
-        console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
-        return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
+    if(this.viewexpenseservice.currentBlockName == ''){
+      swal.fire({
+        title: "Please Select Block",
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
       })
-      console.log(this.expenseList);
-    }
-    if(param == 'All'){
+    }else{
+      //console.log(IsInvoiced);
+      this.toggle=param;
+      let expid='';
+      if(IsInvoiced == true){
+        expid='true'
+      }
+      else if(IsInvoiced == false){
+        expid='false'
+      }
+      //console.log('expid',typeof expid);
+      this.viewinvoiceservice.expid=expid;
+      //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
       this.expenseList = this._viewexpensesByBlockId;
+      //console.log('expid',expid);
+      //console.log('expid',typeof expid);
+      if (expid == 'true') {
+        this.Invoiced='Yes';
+        this.toggleGenerateInvButton = true;
+      }
+      else{
+        this.Invoiced='No';
+        this.toggleGenerateInvButton = false;
+      }
+      //this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId);
+      if(expid == 'true' || expid == 'false'){
+        //console.log(this.viewexpensesByBlockId);
+        this.expenseList = this.expenseList.filter(item=>{
+          //console.log('exIsInvD',typeof item['exIsInvD']);
+          //console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
+          return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
+        })
+        //console.log(this.expenseList);
+      }
+      if(param == 'All'){
+        this.expenseList = this._viewexpensesByBlockId;
+      }
     }
   }
   getExpenseListByDatesAndID() {
-    console.log(this.ExpSDate, this.ExpEDate);
+    //console.log(this.ExpSDate, this.ExpEDate);
     let expenseList = {
       "ASAssnID": this.currentAssociationID.toString(),
       "BLBlockID": this.viewexpenseservice.currentBlockId,
       "startdate":formatDate(this.ExpSDate,'yyyy-dd-MM','en') ,
       "enddate": formatDate(this.ExpEDate,'yyyy-dd-MM','en')
     }
-    console.log(expenseList);
+    //console.log(expenseList);
     this.viewexpenseservice.getExpenseListByDatesAndID(expenseList)
     .subscribe(data=>{
       this.expenseList=[];
-      console.log(data['data']['expense']);
+      //console.log(data['data']['expense']);
       this._viewexpensesByBlockId=data['data']['expense'];
       data['data']['expense'].forEach(item => {
         this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber']));
       })
-      console.log(this.expenseList);
+      //console.log(this.expenseList);
       this._viewexpensesByBlockId=this.expenseList;
-      console.log(this._viewexpensesByBlockId);
+      //console.log(this._viewexpensesByBlockId);
     },
     err=>{
-      console.log(err);
+      //console.log(err);
     })
   }
   toggleGenerateInv() {
     this.toggleBulkInvGenerate = !this.toggleBulkInvGenerate;
     this.viewexpenseservice.toggleBulkInvGenerate=this.toggleBulkInvGenerate;
-    console.log( this.toggleBulkInvGenerate );
+    //console.log( this.toggleBulkInvGenerate );
     this.expenseList.forEach(item=>{
-     console.log(typeof item['exIsInvD']); 
+     //console.log(typeof item['exIsInvD']); 
      item['checkedForGenerateInvoice']=this.toggleBulkInvGenerate;
-     console.log(item['checkedForGenerateInvoice']); 
+     //console.log(item['checkedForGenerateInvoice']); 
     })
   }
   getSelectedInv(exid,e){
-    console.log(e);
+    //console.log(e);
     this.togglegenerateinv=false;
     if (e) {
       const found = this.exidList.some(el => el['EXID'] === exid);
@@ -748,8 +778,8 @@ export class ExpenseManagementComponent implements OnInit {
         this.togglegenerateinv = true;
         let _exid = { 'EXID': exid }
         this.exidList.push(_exid);
-        console.log(exid);
-        console.log(this.exidList);
+        //console.log(exid);
+        //console.log(this.exidList);
       }
     }
   }

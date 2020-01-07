@@ -15,7 +15,7 @@ export class LeftBarComponent implements OnInit {
   aclName: any;
   account:any[];
 
-  constructor(private globalService: GlobalServiceService,
+  constructor(public globalService: GlobalServiceService,
     private dashboardservice: DashBoardService,
     private router:Router) {
       this.acAccntID = this.globalService.getacAccntID();
@@ -32,7 +32,7 @@ export class LeftBarComponent implements OnInit {
      this.acfName= this.account[0]['acfName'];
      this.aclName= this.account[0]['aclName'];
      this.dashboardservice.acfName=this.acfName;
-     console.log( this.acfName);
+     //console.log( this.acfName);
       });
   }
   logOut() {

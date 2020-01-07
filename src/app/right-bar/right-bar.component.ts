@@ -11,7 +11,7 @@ declare var $ :any;
 })
 export class RightBarComponent implements OnInit {
 
-  constructor(private router:Router, private globalService: GlobalServiceService) {
+  constructor(private router:Router, public globalService: GlobalServiceService) {
    }
 
   ngOnInit() {

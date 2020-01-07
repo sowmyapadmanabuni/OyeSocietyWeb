@@ -28,7 +28,7 @@ export class GenerateReceiptService {
   }
 
   getCurrentBlockDetails(blBlockID,currentAssociationID){
-    console.log('blBlockID',blBlockID);
+    //console.log('blBlockID',blBlockID);
 
     let getInvoice = {
       "ASAssnID" : currentAssociationID,
@@ -42,7 +42,7 @@ export class GenerateReceiptService {
   }
 
   addPayment(newReceipt){
-    console.log('newReceipt-'+JSON.stringify(newReceipt));
+    //console.log('newReceipt-'+JSON.stringify(newReceipt));
     //http://apidev.oyespace.com/oyeliving/api/v1/payment/add
       let headers = this.getHttpheaders();
       let ipAddress=this.utilsService.addPayment();

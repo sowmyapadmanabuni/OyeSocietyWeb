@@ -53,14 +53,14 @@ export class ViewAssociationService {
    createAssn(createAsssociationData)
   {
     let scopeIP=this.utilsService.createAssn();
-    console.log('createAsssociationData',createAsssociationData);
+    //console.log('createAsssociationData',createAsssociationData);
     return this.http.post(scopeIP + 'oyeliving/api/v1/association/create',JSON.stringify(createAsssociationData),  {headers:this.headers});
   }
 
 
   getAssociationDetails(accountID)
   {
-    console.log(accountID);
+    //console.log(accountID);
     let scopeIP=this.utilsService.getAssociationDetail();
     return this.http.get(scopeIP + 'oyeliving/api/v1/GetAssociationListByAccountID/' + accountID,  {headers:this.headers});
   }
@@ -75,7 +75,7 @@ getAssociationDetail(asAssnID){
 }
 getAssociationDetailsByAssociationid(asAssnID:string)
 {
-  console.log(asAssnID);
+  //console.log(asAssnID);
   let scopeIP=this.utilsService.getAssociationDetailsByAssociationid();
   return this.http.get(scopeIP + 'oyeliving/api/v1/association/getAssociationList/' +asAssnID ,  {headers:this.headers});
 }
@@ -87,7 +87,7 @@ UpdateAssociation(editassndata) {
 
 getAssociationAllDetails()
 {
-  console.log();
+  //console.log();
   let scopeIP=this.utilsService.getAssociationAllDetails();
   return this.http.get(scopeIP + 'oyeliving/api/v1/association/getAssociationList' ,  {headers:this.headers});
 }
@@ -95,14 +95,14 @@ getAssociationAllDetails()
 getBlockDetailsByAssociationID(currentAssociationID)
 {
   //this.currentAssociationID=4217;
-  console.log(currentAssociationID);
+  //console.log(currentAssociationID);
   let scopeIP=this.utilsService.getIPaddress();
   //http://localhost:54400/oyeliving/api/v1/Block/GetBlockListByAssocID/{AssociationID}
   return this.http.get(scopeIP+'oyeliving/api/v1/Block/GetBlockListByAssocID/' +currentAssociationID ,  {headers:this.headers});
 }
 GetUnitListByBlockID(blockId:string){
   //this.blockId=4206;
-  console.log('blockId',blockId);
+  //console.log('blockId',blockId);
   let scopeIP=this.utilsService.GetUnitListByBlockID();
   return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId , {headers:this.headers});
 }
@@ -111,13 +111,13 @@ GetUnitListByUnitID(unUnitID:string){
   //this.blockId=4206;
   let scopeIP=this.utilsService.getIPaddress();
 
-  console.log('unitId',unUnitID);
+  //console.log('unitId',unUnitID);
   return this.http.get(scopeIP+ 'oyeliving/api/v1/Unit/GetUnitListByUnitID/'+ unUnitID , {headers:this.headers});
 }
 
 GetAccountListByAccountID(acAccntID){
   acAccntID=21;
-  console.log('acAccntID',acAccntID);
+  //console.log('acAccntID',acAccntID);
   let scopeIP=this.utilsService.GetAccountListByAccountID();
  // http://localhost:54400/oyeliving/api/v1/GetAccountListByAccountID/{ACAccntID}
   return this.http.get(scopeIP + 'oyeliving/api/v1/GetAccountListByAccountID/'+acAccntID, {headers:this.headers});
@@ -125,7 +125,7 @@ GetAccountListByAccountID(acAccntID){
 
 sendRequestmethod(senddata:Sendrequest)
   {
-    console.log('senddata',senddata);
+    //console.log('senddata',senddata);
     let scopeIP=this.utilsService.getIPaddress();
     return this.http.post(scopeIP+ 'oyeliving/api/v1/SendMsging', senddata, {headers:this.headers});
 

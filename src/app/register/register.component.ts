@@ -41,22 +41,22 @@ export class RegisterComponent implements OnInit {
 
   telInputObject(telinputobj) {
     this.code = '+' + telinputobj['b'].getAttribute('data-dial-code');
-    console.log(this.code);
+    //console.log(this.code);
   }
   hasError(errorobj) {
-    console.log(errorobj);
+    //console.log(errorobj);
   }
   getNumber(numberobj) {
-    console.log(numberobj);
+    //console.log(numberobj);
   }
   onCountryChange(countryobj) {
     this.code = countryobj['dialCode']
-    console.log(countryobj);
+    //console.log(countryobj);
   }
 
   validateCheckBox(event){
-    console.log('event',event);
-    console.log('event.target.validity.valueMissing',event.target.validity.valueMissing);
+    //console.log('event',event);
+    //console.log('event.target.validity.valueMissing',event.target.validity.valueMissing);
     event.target.setCustomValidity(event.target.validity.valueMissing ? "" : "");
   }
 
@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     var elemntterms1 = <HTMLInputElement>document.getElementById("terms1");
-    console.log('register-event',elemntterms1.validity.valueMissing);
+    //console.log('register-event',elemntterms1.validity.valueMissing);
     elemntterms1.setCustomValidity(elemntterms1.validity.valueMissing ? "Please indicate that you accept the Terms and Conditions" : "");
 
     if (!elemntterms1.validity.valueMissing) {
@@ -85,12 +85,12 @@ export class RegisterComponent implements OnInit {
         'ACEmail': this.email,
         'ACMobile': this.mobilenumber
       }
-      console.log('requestData', JSON.stringify(requestData));
+      //console.log('requestData', JSON.stringify(requestData));
 
 
       this.requestService.register(requestData)
         .subscribe((response) => {
-          console.log('response', response);
+          //console.log('response', response);
           swal.fire({
             title: "Registered Successfully",
             text: "",

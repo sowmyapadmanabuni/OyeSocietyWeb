@@ -19,21 +19,21 @@ export class AddVehicleService {
 
   addVehicle(vehiclesData){
     let scopeIP = this.utilsService.getVehileDetailsByIPaddress();
-    console.log('AddVehicleData',vehiclesData);
+    //console.log('AddVehicleData',vehiclesData);
     let headers = this.getHttpheaders();
     return this.http.post(scopeIP + 'oyeliving/api/v1/Vehicle/Create', JSON.stringify(vehiclesData), { headers: headers });
   }
 
   updateVehicle(updateData){
     let scopeIP = this.utilsService.getVehileDetailsByIPaddress();
-    console.log('UpdateVehicleData',updateData);
+    //console.log('UpdateVehicleData',updateData);
     let headers = this.getHttpheaders();
     return this.http.post(scopeIP + 'oyeliving/api/v1/Vehicle/VehicleUpdate', JSON.stringify(updateData), { headers: headers });
   }
 
   DeleteVehicle(deleteData){
     let scopeIP = this.utilsService.getVehileDetailsByIPaddress();
-    console.log('DeleteVehicleData',deleteData);
+    //console.log('DeleteVehicleData',deleteData);
     let headers = this.getHttpheaders();
     return this.http.post(scopeIP + 'oyeliving/api/v1/Vehicle/VehicleUpdate', JSON.stringify(deleteData), { headers: headers });
   }

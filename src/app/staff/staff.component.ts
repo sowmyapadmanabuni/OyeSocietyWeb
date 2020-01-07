@@ -19,6 +19,8 @@ export class StaffComponent implements OnInit {
   WorkerNameList: any[];
   reportlists: any[];
   WorkerID: any;
+  searchTxt:any;
+  addGuest:any;
 
   constructor(private router: Router, private globalServiceService: GlobalServiceService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.EndDate = '';
@@ -31,10 +33,13 @@ export class StaffComponent implements OnInit {
   ngOnInit() {
     this.StaffList();
   }
+  goToInvoice(){
+    
+  }
   StaffList() {
     this.viewStaffService.GetStaffList()
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         if(data['data']['errorResponse']['message']){
           swal.fire({
             title: "",
@@ -45,15 +50,15 @@ export class StaffComponent implements OnInit {
         }
         this.WorkerNameList = data['data']['worker'];
         this.WorkerNameList = _.sortBy(this.WorkerNameList, e => e['wkfName']);
-        console.log(this.WorkerNameList);
+        //console.log(this.WorkerNameList);
       },
         err => {
-          console.log(err);
+          //console.log(err);
         })
   }
 
   OpenModalForReport(Reporttemplate: TemplateRef<any>, wkWorkID) {
-    console.log(wkWorkID);
+    //console.log(wkWorkID);
     let Data = {
       "StartDate": this.StartDate,
       "EndDate": this.EndDate,
@@ -61,12 +66,12 @@ export class StaffComponent implements OnInit {
     }
     this.viewStaffService.getStaffReport(Data)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.reportlists = data['data']['worker'];
-        console.log(this.reportlists);
+        //console.log(this.reportlists);
       },
         err => {
-          console.log(err);
+          //console.log(err);
         })
     this.modalRef = this.modalService.show(Reporttemplate, Object.assign({}, { class: 'gray modal-lg' }));
   }

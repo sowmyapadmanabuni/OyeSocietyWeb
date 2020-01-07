@@ -11,6 +11,7 @@ import { OrderPipe } from 'ngx-order-pipe';
 import { GenerateReceiptService } from '../../services/generate-receipt.service';
 import { PaymentService } from '../../services/payment.service';
 import { HttpHeaders } from '@angular/common/http';
+import { formatDate } from '@angular/common';
 declare var $: any;
 
 
@@ -92,6 +93,9 @@ export class InvoicesComponent implements OnInit {
   kotakPayForm: any = {};
 
   invoiceDetails: object[];
+  paymentmethod:any;
+  blkBlockID:any;
+  bankname:any;
 
   currentassociationname: string;
   @ViewChild('template', { static: true }) private template: TemplateRef<any>;
@@ -123,9 +127,29 @@ export class InvoicesComponent implements OnInit {
   chequeNo: string;
   PaidUnpaidinvoiceLists:any[];
   toggle:any;
+  invoicenumber:any;
+  totalAmountDue:any;
+  totalamountPaid:any;
+  paymentMethodType:any;
+  methodArray: object[];
+  expensedataPMID:any;
+  checkField: string;
+  expensedataBABName:any;
+  receiptUnitID:any;
+  ravValFinal:any;
+  chequeDate:any;
+  pyid:any;
+  paymentDescription:any;
+  receiptVoucherNo:any;
+  receiptddNo:any;
+  bsConfig:any;
+  minDemandDraftDate:any;
+  receiptEXDDDate:any;
+  receiptChequeNo:any;
+  receiptChequeDate:any;
+  searchTxt:any;
 
-
-  constructor(private viewinvoiceservice: ViewInvoiceService,
+  constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
     private toastr: ToastrService,
     private globalservice: GlobalServiceService,
@@ -153,6 +177,8 @@ export class InvoicesComponent implements OnInit {
     this.viewinvoiceservice.invoiceBlock = '';
     this.PaidUnpaidinvoiceLists=[];
     this.toggle='All';
+    this.paymentMethodType='Select Payment Method';
+    this.expensedataBABName='Bank';
 
     this.bankList = [
       'Allahabad Bank',
@@ -194,6 +220,11 @@ export class InvoicesComponent implements OnInit {
       'Yes Bank',
       'IDBI Bank'
     ]
+
+    this.methodArray = [{ 'name': 'Cash', 'displayName': 'Cash', 'id': 1 },
+    { 'name': 'Cheque', 'displayName': 'Cheque', 'id': 2 },
+    { 'name': 'DemandDraft', 'displayName': 'DemandDraft', 'id': 3 },
+    { 'name': 'OnlinePay', 'displayName': 'OnlinePay', 'id': 4 }]
   }
 
   goToExpense() {
@@ -229,7 +260,12 @@ export class InvoicesComponent implements OnInit {
         }
       })
   }
+  getexpensedataBABName(bank) {
+    this.expensedataBABName = bank;
+  }
+  iciciPay(e){
 
+  }
   getCurrentBlockDetails(blBlockID, blBlkName) {
     this.viewinvoiceservice.invoiceBlock = blBlkName;
     this.viewinvoiceservice.invoiceBlockId = blBlockID;
@@ -249,7 +285,7 @@ export class InvoicesComponent implements OnInit {
           console.log(err);
           swal.fire({
             title: "Error",
-            text: `${err['error']['exceptionMessage']}`,
+            text: `${err['error']['error']['message']}`,
             type: "error",
             confirmButtonColor: "#f69321"
           });
@@ -362,7 +398,7 @@ export class InvoicesComponent implements OnInit {
       .subscribe(data => {
         console.log('InvoiceDetails+', data);
         //this.allLineItem = data['data'].invoiceDetails;
-        //console.log(data['data'].invoiceDetails);
+        console.log(data['data'].invoiceDetails);
       },
         data => {
           console.log('InvoiceDetails', data);
@@ -423,7 +459,7 @@ export class InvoicesComponent implements OnInit {
             this.onetimemembershipfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "One Time Onboarding fee") {
+          else if (item['idDesc'] == "One Time OnBoarding Fees") {
             this.OneTimeOnBoardingFees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
@@ -568,13 +604,13 @@ export class InvoicesComponent implements OnInit {
   payThroughICICIPG(e) {
     let paymentDetails = {
       "chargetotal": this.InvoiceValue + '.00',
-      "customerID": "" //set customer Id
+      "customerID": 9539 //set customer Id
     }
 
     e.preventDefault();
     this.paymentService.postToICICIPG(paymentDetails)
       .subscribe((res: any) => {
-        console.log(res);
+        console.log(JSON.stringify(res));
         let response = res.data.paymentICICI;
         this.iciciPayForm = {
           txntype: response.txntype, //'sale'
@@ -591,7 +627,7 @@ export class InvoicesComponent implements OnInit {
           chargetotal: response.chargetotal,
           oid: response.oid
         }
-        console.log(this.iciciPayForm);
+        console.log(JSON.stringify(this.iciciPayForm));
         setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
       },
         err => {
@@ -624,7 +660,7 @@ export class InvoicesComponent implements OnInit {
     let InvoiceValue = { chargetotal: this.InvoiceValue + '.00' };
     console.log(InvoiceValue);
     this.paymentService.postToAxisPaymentGateway(paymentDetails).subscribe((res: any) => {
-      //console.log(res, typeof (res))
+      console.log(res, typeof (res))
       if (res && res.payment_links) {
         window.location.href = res.payment_links.web;
       }
@@ -756,7 +792,7 @@ export class InvoicesComponent implements OnInit {
                     this.getCurrentBlockDetails(blBlockID, this.viewinvoiceservice.invoiceBlock);
                   }
                 })
-              //  console.log(res);
+               console.log(res);
             },
               (res) => {
                 console.log(res);
@@ -793,7 +829,39 @@ export class InvoicesComponent implements OnInit {
       }
     })
   }
+  generateInvoiceReceipt(){
+    let genReceipt = {
+      "MEMemID": "",//this.MEMemID,
+      // "PYRefNo": this.PYRefNo,
+      "PYRefNo": "",
+      // "PYBkDet": this.bankname,
+      "PYBkDet": "",
+      "PYAmtPaid": this.totalamountPaid,
+      "INNumber": this.invoicenumber,
+      "UNUnitID": this.receiptUnitID,
+      "PYTax": "",
+      "ASAssnID": this.currentAssociationID,
+      // "PYDesc": "PaymentMade",
+      "PYDesc": "",
+      "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en')
+    }
+    console.log(genReceipt);
+    this.viewinvoiceservice.generateInvoiceReceipt(genReceipt)
+    .subscribe(data=>{
+      console.log(data);
+    },
+    err=>{
+      console.log(err);
+      swal.fire({
+        title: "",
+        text: `${err['error']['error']['message']}`,
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    })
 
+  }
   toggleAllCheck(event) {
     //alert('toggleAllCheck');
     if (event.target.checked) {
@@ -880,25 +948,45 @@ export class InvoicesComponent implements OnInit {
     );
   }
   GetPaidInvoiceList(IsPaid,param) {
-    this.toggle=param;
-    console.log(IsPaid);
-    let paid = '';
-    if (IsPaid) {
-      paid = 'Yes';
-    }
-    else {
-      paid = 'No';
-    }
-    if(paid == 'Yes' || paid == 'No'){
-      this.PaidUnpaidinvoiceLists = this.invoiceLists;
-      this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
-        return item['inPaid'] == paid;
+    if(this.viewinvoiceservice.invoiceBlock == ''){
+      swal.fire({
+        title: `Please Select Block`,
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
       })
     }
-    if(param == 'All'){
-      this.PaidUnpaidinvoiceLists = this.invoiceLists;
+    else{
+      this.toggle=param;
+      console.log(IsPaid);
+      let paid = '';
+      if (IsPaid) {
+        paid = 'Yes';
+      }
+      else {
+        paid = 'No';
+      }
+      if(paid == 'Yes' || paid == 'No'){
+        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+          return item['inPaid'] == paid;
+        })
+      console.log(this.PaidUnpaidinvoiceLists);
+      }
+      if(param == 'All'){
+        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      }
     }
 
+  }
+  OpenReceiptModal(Receipts: TemplateRef<any>,inNumber,inTotVal,inAmtPaid,unUnitID){
+    this.invoicenumber=inNumber;
+    this.totalAmountDue=inTotVal;
+    this.totalamountPaid=inAmtPaid;
+    this.receiptUnitID=unUnitID;
+
+      this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
   rowDetails(pyid, unUnitID) {
     console.log('pyid-' + pyid);
@@ -938,4 +1026,29 @@ export class InvoicesComponent implements OnInit {
       this.p= 1;
     }
   }
+  resetForm(){
+
+  }
+  showMethod(PMID: string,displayName) {
+    console.log(displayName);
+    switch (displayName) {
+      case 'Cash':
+        this.expensedataPMID = 1;
+        break;
+      case 'Cheque':
+        this.expensedataPMID = 2;
+        break;
+      case 'Demand Draft':
+        this.expensedataPMID = 3;
+        break;
+      case 'OnlinePay':
+        this.expensedataPMID = 4;
+        break;
+  }
+
+  console.log(this.expensedataPMID);
+  this.paymentMethodType=displayName;
+  let paymentobj = this.methodArray.filter(item => item['id'] == PMID)
+  this.checkField = paymentobj[0]['name'];
+}
 }

@@ -63,6 +63,8 @@ export class AssociationVisitorComponent implements OnInit {
   Six_to_Eight:any;
   Eight_to_Ten_Eve:any;
   Ten_to_Twelve_Eve:any;
+  searchTxt:any;
+  event:any;
 
   constructor(private router: Router,
     private http: HttpClient,
@@ -127,18 +129,18 @@ export class AssociationVisitorComponent implements OnInit {
     return this.http.get(this.scopeIP + 'oyeliving/api/v1/association/getassociationlist', { headers: this.headers })
     //http://192.168.1.254:52/oyeliving/api/v1/association/getassociationlist
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         this.associations = data['data']['associations'];
-        console.log(this.associations);
+        //console.log(this.associations);
         if(AllCity == ''){
           this.associations.forEach(itm=>{
          let pin= itm['asPinCode'].slice(0,2);
-         console.log(pin);
-         console.log(typeof pin);
-         console.log(pincode);
-         console.log(typeof pincode);
+         //console.log(pin);
+         //console.log(typeof pin);
+         //console.log(pincode);
+         //console.log(typeof pincode);
           if (pin == pincode.toString()) {
-            console.log(pin);
+            //console.log(pin);
             // this.associations.forEach(item1 => {
             //  if(item1['asPinCode'].startsWith(pincode.toString())){
             //    console.log(item1['asPinCode']);
@@ -147,24 +149,24 @@ export class AssociationVisitorComponent implements OnInit {
             this.associations= this.associations.filter(item1 => {
               return item1['asPinCode'].startsWith(pincode.toString());
              })
-             console.log(this.associations);
+             //console.log(this.associations);
           }
 
         })
         }
         
         this.associations = _.sortBy(this.associations, e => e['asAsnName']);
-        console.log(this.associations); //acAccntID asAssnID
+        //console.log(this.associations); //acAccntID asAssnID
 
       })
   }
 
   loadAssociationforusagereport(asAsnNameforusagereport){
-    console.log(asAsnNameforusagereport);
+    //console.log(asAsnNameforusagereport);
   
     this.associations.forEach(iteam =>{
       if (iteam.asAsnName == asAsnNameforusagereport){
-        console.log(iteam.asAssnID);
+        //console.log(iteam.asAssnID);
         this.associationID=iteam.asAssnID;
       }
     })
@@ -188,7 +190,7 @@ export class AssociationVisitorComponent implements OnInit {
       //http://api.oyespace.com/oyesafe/api/v1/VisitorLog/GetVisitorLogList
       this.usagereportservice.GetVisitorLogList()
       .subscribe(data=>{
-        console.log(data);
+        //console.log(data);
         this.filteredusagereportlength = true;
         this.visitorloglist= data['data']['visitorLog'];
         this.visitorloglist = _.sortBy(this.visitorloglist, e => e['vldCreated']);
@@ -197,9 +199,9 @@ export class AssociationVisitorComponent implements OnInit {
     }
     else{ */
       this.getUsageReportclicked=true;
-    console.log(this.startrangedate);
-    console.log(this.endrangedate);
-    console.log(this.asAsnNameforusagereport);
+    //console.log(this.startrangedate);
+    //console.log(this.endrangedate);
+    //console.log(this.asAsnNameforusagereport);
     //console.log(new Date(formatDate(this.startrangedate, 'yyyy/MM/dd', 'en')));
     //console.log(formatDate(this.startrangedate, 'yyyy/MM/dd', 'en'));
     //console.log(new Date(formatDate(this.endrangedate, 'yyyy/MM/dd', 'en')));
@@ -214,20 +216,20 @@ export class AssociationVisitorComponent implements OnInit {
         "EndDate": (this.endrangedate == '' || this.endrangedate == null)?formatDate(new Date(), 'yyyy-MM-dd','en'):formatDate(this.endrangedate,'yyyy-MM-dd','en'),
         "ASAssnID":this.associationID
       }
-    console.log(usagereportrequestbody);
-    console.log(formatDate(new Date(), 'yyyy-MM-dd:hh:mm:ss', 'en'));
+    //console.log(usagereportrequestbody);
+    //console.log(formatDate(new Date(), 'yyyy-MM-dd:hh:mm:ss', 'en'));
     //console.log(formatDate(this.endrangedate, 'yyyy-MM-dd', 'en'));
     let scopeIP=this.utilsService.getIPaddress();
     return this.http.post(scopeIP + 'oyesafe/api/v1/VisitorLog/GetVisitorLogByDates', JSON.stringify(usagereportrequestbody), { headers: headers })
       //http://localhost:64284/oyesafe/api/v1/VisitorLog/GetVisitorLogByDates
       .subscribe((data) => {
         this.filteredusagereportlength = true;
-        console.log(data);
+        //console.log(data);
         this.visitorloglist= data['data']['visitorlog'];
         this.visitorloglist = _.sortBy(this.visitorloglist, e => e['vldCreated']);
         this.visitorloglistnew= this.visitorloglist
         let visitorloglistTypeGroup = _.groupBy(this.visitorloglist, 'vlVisType');
-        console.log(visitorloglistTypeGroup);
+        //console.log(visitorloglistTypeGroup);
         //console.log(Object.keys(visitorloglistTypeGroup).length);
         this.Delivery = 0;
         this.Guest = 0;
@@ -263,11 +265,11 @@ export class AssociationVisitorComponent implements OnInit {
         let result = this.visitorloglist.forEach(itm=>{
           return new Date(itm['vlEntryT']).getHours() == 14;
         })
-        console.log(result);
+        //console.log(result);
         this.visitorloglist.forEach(item=>{
           let _date=new Date(item['vlEntryT']);
-          console.log(item['vlEntryT']);
-          console.log(_date.getHours());
+          //console.log(item['vlEntryT']);
+          //console.log(_date.getHours());
           let _hour=_date.getHours();
           if(_hour == 6 || _hour == 7 ){
             this.Six_to_Eight_Morn += 1;
@@ -299,7 +301,7 @@ export class AssociationVisitorComponent implements OnInit {
         })
       },
       err=>{
-        console.log(err);
+        //console.log(err);
         Swal.fire({
           title: "Error",
           text: `${err['error']['message']}`,
@@ -316,7 +318,7 @@ export class AssociationVisitorComponent implements OnInit {
     this.router.navigate(['usagereportchild']);
   }
   loadVisitorType(visitorType){
-    console.log(visitorType);
+    //console.log(visitorType);
     this.insideloadVisitorTypeforonce=true;
     this.usagereportforexcel=[];
     this.visitorloglist=this.visitorloglistnew;
@@ -350,7 +352,7 @@ export class AssociationVisitorComponent implements OnInit {
         break;
     }
 
-    //console.log(this.visitorloglist);
+    ////console.log(this.visitorloglist);
     
 
   }
@@ -373,7 +375,7 @@ export class AssociationVisitorComponent implements OnInit {
   }
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    console.log('worksheet', worksheet);
+    //console.log('worksheet', worksheet);
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
@@ -583,7 +585,7 @@ export class AssociationVisitorComponent implements OnInit {
     }
   }
   loadcitieslistforusagereport(city) {
-    console.log(city);
+    //console.log(city);
     this.asAsnNameforusagereport='';
     this.AllVisitor=0;
     this.Delivery=0;
@@ -648,5 +650,7 @@ export class AssociationVisitorComponent implements OnInit {
     }
 
   }
-
+  onPageChange(event) {
+    this.event = event;
+  }
 }

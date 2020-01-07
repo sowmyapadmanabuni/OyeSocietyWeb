@@ -19,6 +19,7 @@ export class PaymentStatusComponent implements OnInit {
     this.transactionId = this.route.snapshot.queryParamMap.get('transactionId');
     this.status = this.route.snapshot.queryParamMap.get('status');
     this.orderId = this.route.snapshot.queryParamMap.get('orderId');
+    console.log(this.orderId);
 
   }
 

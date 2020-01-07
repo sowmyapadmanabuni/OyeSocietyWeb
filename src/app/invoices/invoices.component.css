@@ -18,7 +18,7 @@ i{cursor: pointer;}
     background: #de9e9e29;
     padding: 3px 10px;
     border-radius: 10px;}
-    .fa-paper-plane,.fa-eye,.fa-percent{color: #f7b844;}
+    .fa-paper-plane,.fa-eye,.fa-percent,.fa-newspaper-o{color: #f7b844;}
     button{border: 0px;background: transparent;color: #f7b844;}
     .dash{display: flex;flex-direction: column;}
     .b-l{border-left: 2px solid rgb(242, 238, 238)}
@@ -127,7 +127,7 @@ i{cursor: pointer;}
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
     }
-
+ 
       
 
 

@@ -22,7 +22,7 @@ export class ViewStaffService {
       "UNUnitID" : this.globalServiceService.currentUnitId,
       "ACAccntID": this.globalServiceService.getacAccntID()
     }
-    console.log('StaffReport',StaffReport);
+    //console.log('StaffReport',StaffReport);
     return this.http.post(url, JSON.stringify(StaffReport), {headers: headers});
   }
 

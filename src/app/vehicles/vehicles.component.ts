@@ -45,22 +45,22 @@ export class VehiclesComponent implements OnInit {
      }
   ngOnInit() {
     this.CurrentUnitID = this.globalserviceservice.getCurrentUnitId();
-    console.log(this.CurrentUnitID);
+    //console.log(this.CurrentUnitID);
     this.getVehicles();
   }
   getVehicles(){
     this.VehicleDataNew=[];
     this.addvehicleservice.getVehicleDetails(this.CurrentUnitID)
     .subscribe(data =>{
-      console.log(data);
+      //console.log(data);
       this.VehicleData=data['data']['vehicleListByUnitID'];
-      console.log(this.VehicleData);
+      //console.log(this.VehicleData);
       this.VehicleData.forEach(item => {
         if (this.VehicleData.length > 0) {
           this.vehicledatalength = true;
           if (item['veType'] != '' && item['veMakeMdl']  != '' && item['veRegNo']  != '' && item['veStickNo'] != '' ) {
             this.VehicleDataNew.push(new VehicleDataNew(item['veType'], item['veMakeMdl'] , item['veRegNo'] , item['veStickNo'] , item['veid'] ));
-            console.log('test',this.VehicleDataNew);
+            //console.log('test',this.VehicleDataNew);
           }
         }
       })
@@ -75,11 +75,11 @@ export class VehiclesComponent implements OnInit {
            this.j++;
         }
       }
-      console.log(this.VehicleCarousel);
-      console.log(this.VehicleCarousel1);
+      //console.log(this.VehicleCarousel);
+      //console.log(this.VehicleCarousel1);
     },
     err=>{
-      console.log(err);
+      //console.log(err);
     })
   }
   // openModal(requestdemo: TemplateRef<any>) {
@@ -98,7 +98,7 @@ export class VehiclesComponent implements OnInit {
       'UPID': '',
       'ASAssnID': this.globalserviceservice.currentAssociationId
     }
-    console.log(vehiclesData);
+    //console.log(vehiclesData);
     this.addvehicleservice.addVehicle(vehiclesData)
     .subscribe(()=>{
       this.getVehicles();
@@ -137,10 +137,10 @@ export class VehiclesComponent implements OnInit {
       "VEID"      : this.VEID,
       "ASAssnID"  : this.globalserviceservice.currentAssociationId
     }
-    console.log(updateData);
+    //console.log(updateData);
     this.addvehicleservice.updateVehicle(updateData)
     .subscribe((data)=>{
-      console.log(data);
+      //console.log(data);
       swal.fire({
         title: "Vehicle data updated",
         text: "",
@@ -161,12 +161,12 @@ export class VehiclesComponent implements OnInit {
      this.modalRef.hide();
   }
   openModal(editVehicle: TemplateRef<any>,veType,veRegNo,veMakeMdl,veStickNo,uplNum,veid) {
-    console.log(veType);
-    console.log(veRegNo);
-    console.log(veMakeMdl);
-    console.log(veStickNo);
-    console.log(uplNum);
-    console.log(veid);
+    //console.log(veType);
+    //console.log(veRegNo);
+    //console.log(veMakeMdl);
+    //console.log(veStickNo);
+    //console.log(uplNum);
+    //console.log(veid);
     this.vehiclename = veMakeMdl;
     this.vehiclenumber = veRegNo;
     this.makemodel = veType;
@@ -178,15 +178,15 @@ export class VehiclesComponent implements OnInit {
   }
   // DELETE VEHICLE
   DeleteVehicle(veid){
-    console.log(veid);
+    //console.log(veid);
     let deleteData ={
       "VEIsActive" :false,
       "VEID" :veid
     }
-    console.log(deleteData);
+    //console.log(deleteData);
     this.addvehicleservice.DeleteVehicle(deleteData)
     .subscribe((data)=>{
-      console.log(data);
+      //console.log(data);
       swal.fire({
         title: "Vehicle deleted",
         text: "",
@@ -204,7 +204,7 @@ export class VehiclesComponent implements OnInit {
         })
     },
     err=>{
-      console.log(err);
+      //console.log(err);
       swal.fire('Error', 'Something went wrong!', 'error')
       this.modalRef.hide();
     })

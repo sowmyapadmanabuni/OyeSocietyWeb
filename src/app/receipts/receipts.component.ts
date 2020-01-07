@@ -24,12 +24,13 @@ export class ReceiptsComponent implements OnInit {
   allBlocksByAssnID: any[];
   unpaidUnits: any[];
   p: number=1;
+  searchTxt:any;
 
   constructor(private modalService: BsModalService,
     private globalservice:GlobalServiceService,
     private viewreceiptservice:ViewReceiptService,
     private router:Router,
-    private generatereceiptservice: GenerateReceiptService) 
+    public generatereceiptservice: GenerateReceiptService) 
     { 
       this.currentAssociationID=this.globalservice.getCurrentAssociationId();
       this.unitIdentifier='';
@@ -42,13 +43,13 @@ export class ReceiptsComponent implements OnInit {
   ngOnInit() {
     this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
     .subscribe(data=>{
-      console.log(data['data']['payments']);
+      //console.log(data['data']['payments']);
       this.viewPayments=data['data']['payments']
     });
     this.generatereceiptservice.GetBlockListByAssocID(this.currentAssociationID)
     .subscribe(data => {
       this.allBlocksByAssnID = data['data'].blocksByAssoc;
-      console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+      //console.log('allBlocksByAssnID', this.allBlocksByAssnID);
     });
   }
   goToExpense(){
@@ -83,20 +84,20 @@ export class ReceiptsComponent implements OnInit {
   }
 
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
-    console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
+    //console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
     this.unitIdentifier = unitIdentifier;
     this.invoiceNumber = invoiceNumber;
     this.pymtDate = pymtDate;
     this.amountPaid = amountPaid;
   }
   onPageChange(event) {
-    console.log(event['srcElement']['text']);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
     if(event['srcElement']['text'] != '1'){
       this.p= Number(event['srcElement']['text'])-1;
-      console.log(this.p);
+      //console.log(this.p);
       if(this.p == 1){
         this.p =2;
       }

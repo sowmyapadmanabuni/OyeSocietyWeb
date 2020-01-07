@@ -93,9 +93,11 @@ export class LoginComponent implements OnInit {
    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     } */
 
-    console.log(mobileNoData);
+    //console.log(mobileNoData);
     return this.http.post(url, JSON.stringify(mobileNoData), { headers: headers })
-      .subscribe(data => { console.log(data) })
+      .subscribe(data => { 
+        //console.log(data) 
+      })
   }
 
   getHttpheaders(): HttpHeaders {
@@ -115,10 +117,10 @@ export class LoginComponent implements OnInit {
       MobileNumber: this.mobilenumber,
       OTPnumber: this.otp
     };
-    console.log(otpdata);
+    //console.log(otpdata);
     this.http.post(url, JSON.stringify(otpdata), { headers: headers })
       .subscribe(data => {
-        console.log(data)
+        //console.log(data)
         if (data['data'] == null) {
           Swal.fire({
             type: 'error',
@@ -133,15 +135,15 @@ export class LoginComponent implements OnInit {
           })
         }
        else if (data['data'] != null){
-        console.log('acAccntID',data['data']['account']['acAccntID']);
+        //console.log('acAccntID',data['data']['account']['acAccntID']);
         // this.globalserviceservice.acAccntID=data['data']['account']['acAccntID'];
         this.globalserviceservice.setAccountID(data['data']['account']['acAccntID']);
-        console.log(this.globalserviceservice.acAccntID);
+        //console.log(this.globalserviceservice.acAccntID);
         //alert('assigned accountid to globalserviceservice.acAccntID');
         //alert('displaying globalserviceservice.acAccntID'+this.globalserviceservice.acAccntID);
         this.dashboardservice.getMembers(this.globalserviceservice.acAccntID).subscribe(res => {
           //alert('assigning mrmRoleID...');
-          console.log('memberListByAccount',res['data'].memberListByAccount);
+          //console.log('memberListByAccount',res['data'].memberListByAccount);
           //this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
           //console.log(this.dashboardservice.mrmRoleID);
           //alert('displaying dashboardservice.mrmRoleID..'+this.dashboardservice.mrmRoleID);
@@ -151,7 +153,7 @@ export class LoginComponent implements OnInit {
         },
         res=>{
           //alert('dashboardservice.mrmRoleID'+this.dashboardservice.mrmRoleID);
-          console.log(res);
+          //console.log(res);
           Swal.fire({
             title: "Error",
             text: res['error']['message'],
@@ -173,19 +175,19 @@ export class LoginComponent implements OnInit {
 
   verifyOtp1() {
     //this.globalserviceservice.acAccntID = 9539; 
-    this.globalserviceservice.setAccountID(11511); //11511 9539 160
-    console.log(this.globalserviceservice.acAccntID);
+    this.globalserviceservice.setAccountID(9539); //11511 9539 160
+    //console.log(this.globalserviceservice.acAccntID);
     this.dashboardservice.getMembers(this.globalserviceservice.acAccntID).subscribe(res => {
-      console.log('memberListByAccount', res['data'].memberListByAccount);
+      //console.log('memberListByAccount', res['data'].memberListByAccount);
       this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
-      console.log(this.dashboardservice.mrmRoleID);
+      //console.log(this.dashboardservice.mrmRoleID);
       // this.globalserviceservice.enableHomeView=true;
       // this.globalserviceservice.enableLogin=false;
       this.router.navigate(['home']);
       //this.router.navigate(['OyeSocietydashboard']);
     },
       res => {
-        console.log(res);
+        //console.log(res);
         Swal.fire({
           title: "Error",
           text: res['error']['message'],
@@ -212,11 +214,11 @@ export class LoginComponent implements OnInit {
     };
     let url = `http://control.msg91.com/api/retryotp.php?authkey=261622AtznpKYJ5c5ab60e&mobile=${this.code}${this.mobilenumber}&retrytype=voice`;
     //http://control.msg91.com/api/retryotp.php?authkey=261622AtznpKYJ5c5ab60e&mobile=917975536425&retrytype=voice
-    console.log(url);
-    console.log('reSendOtpData', reSendOtpData);
+    //console.log(url);
+    //console.log('reSendOtpData', reSendOtpData);
     this.http.get(url)
       .subscribe(data => {
-        console.log(data)
+        //console.log(data)
       })
   }
 
@@ -234,10 +236,10 @@ export class LoginComponent implements OnInit {
       MobileNumber: this.mobilenumber,
       OTPnumber: this.otp
     };
-    console.log('reSendOtpData', reSendOtpData);
+    //console.log('reSendOtpData', reSendOtpData);
     this.http.post(url, JSON.stringify(reSendOtpData), { headers: headers })
       .subscribe(data => {
-        console.log(data)
+        //console.log(data)
       })
   }
 
@@ -245,17 +247,17 @@ export class LoginComponent implements OnInit {
 
   telInputObject(telinputobj) {
     this.code = '+' + telinputobj['b'].getAttribute('data-dial-code');
-    console.log(this.code);
+    //console.log(this.code);
   }
   hasError(errorobj) {
-    console.log(errorobj);
+    //console.log(errorobj);
   }
   getNumber(numberobj) {
-    console.log(numberobj);
+    //console.log(numberobj);
   }
   onCountryChange(countryobj) {
     this.code = countryobj['dialCode']
-    console.log(countryobj);
+    //console.log(countryobj);
   }
 
 

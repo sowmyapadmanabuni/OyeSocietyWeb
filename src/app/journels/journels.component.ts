@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./journels.component.css']
 })
 export class JournelsComponent implements OnInit {
+  StartDate:any;
+  ToDate:any;
 
   constructor() { }
 
   ngOnInit() {
   }
-
+getVisitorList(){
+  
+}
 }

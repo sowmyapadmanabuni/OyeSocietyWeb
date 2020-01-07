@@ -121,7 +121,19 @@ export class ResidentInvoiceComponent implements OnInit {
   PymtRefNo: string;
   ddNo: string;
   chequeNo: string;
-
+  ravValFinal:any;
+  iciciPay:any;
+  paymentmethod:any;
+  methodArray:any;
+  showMethod:any;
+  chequeDate:any;
+  blkBlockID:any;
+  pyid:any;
+  paymentDescription:any;
+  bankname:any;
+  checkField:any;
+  resetForm:any;
+  searchTxt:any;
 
   constructor(private viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -210,13 +222,13 @@ export class ResidentInvoiceComponent implements OnInit {
   ngOnInit() {
     this.payopt = false;
 
-    console.log('this.currentAssociationID', this.currentAssociationID);
+    //console.log('this.currentAssociationID', this.currentAssociationID);
     this.viewinvoiceservice.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
         this.allBlocksByAssnID = data;
         this.asdPyDate = this.allBlocksByAssnID[0]['asdPyDate'];
         this.blMgrMobile = this.allBlocksByAssnID[0]['blMgrMobile'];
-        console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+        //console.log('allBlocksByAssnID', this.allBlocksByAssnID);
         if (this.viewinvoiceservice.invoiceBlock != '') {
           this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
         }
@@ -229,17 +241,17 @@ export class ResidentInvoiceComponent implements OnInit {
     this.viewinvoiceservice.invoiceBlockId = blBlockID;
     this.invoiceLists = [];
     this.blockid = blBlockID;
-    console.log('blBlockID-' + blBlockID);
+    //console.log('blBlockID-' + blBlockID);
     this.viewinvoiceservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
-        console.log('invoiceLists?', this.invoiceLists);
+        //console.log('invoiceLists?', this.invoiceLists);
         //
         this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
-        console.log(this.sortedCollection);
+        //console.log(this.sortedCollection);
       },
         err => {
-          console.log(err);
+          //console.log(err);
           swal.fire({
             title: "Error",
             text: `${err['error']['error']['message']}`,
@@ -251,13 +263,13 @@ export class ResidentInvoiceComponent implements OnInit {
     this.checkAll = false;
   }
   invoicelistByUnitID(){
-    console.log(this.globalservice.currentUnitId);
+    //console.log(this.globalservice.currentUnitId);
     this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.currentUnitId)
     .subscribe(data=>{
-      console.log(data);
+      //console.log(data);
     },
     err=>{
-      console.log(err);
+      //console.log(err);
     })
   }
   setOrder(value: string) {
@@ -294,7 +306,7 @@ export class ResidentInvoiceComponent implements OnInit {
 
     this.generatereceiptservice.addPayment(newReceipt)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         swal.fire({
           title: "Receipt Generated Successfully",
           text: "",
@@ -305,7 +317,7 @@ export class ResidentInvoiceComponent implements OnInit {
 
       },
         (err) => {
-          console.log(err);
+          //console.log(err);
           swal.fire({
             title: `${err['error']['error']['message']}`,
             text: "",
@@ -320,11 +332,11 @@ export class ResidentInvoiceComponent implements OnInit {
   viewInvoice1(event, invoicePop: TemplateRef<any>, inid, inGenDate, inNumber, inDsCVal, unUnitID) {
     event.preventDefault();
     //alert('inside viewinvoice');
-    console.log('inGenDate', inGenDate);
-    console.log('inNumber', inNumber);
-    console.log('inid', inid);
-    console.log('inDsCVal', inDsCVal);
-    console.log('unUnitID', unUnitID);
+    //console.log('inGenDate', inGenDate);
+    //console.log('inNumber', inNumber);
+    //console.log('inid', inid);
+    //console.log('inDsCVal', inDsCVal);
+    //console.log('unUnitID', unUnitID);
 
     this.securityfee = 0;
     this.housekeepingfee = 0;
@@ -349,7 +361,7 @@ export class ResidentInvoiceComponent implements OnInit {
 
     this.viewinvoiceservice.GetUnitListByUnitID(this.unitID)
       .subscribe(data => {
-        console.log('GetUnitListByUnitID', data);
+        //console.log('GetUnitListByUnitID', data);
         this.singleUnitDetails = data['data'].unit;
 
         if (data['data'].unit.owner.length > 0) {
@@ -362,21 +374,21 @@ export class ResidentInvoiceComponent implements OnInit {
 
     this.viewinvoiceservice.viewInvoice(this.blockid, this.currentAssociationID)
       .subscribe(data => {
-        console.log('InvoiceDetails+', data);
+        //console.log('InvoiceDetails+', data);
         //this.allLineItem = data['data'].invoiceDetails;
         //console.log(data['data'].invoiceDetails);
       },
         data => {
-          console.log('InvoiceDetails', data);
+          //console.log('InvoiceDetails', data);
         })
 
     this.viewinvoiceservice.GetAmountBalance(unUnitID)
       .subscribe(data => {
-        console.log('GetAmountBalance', data);
+        //console.log('GetAmountBalance', data);
         //$scope.previousDue = response.data.data.balanceDue;
       },
         data => {
-          console.log('GetAmountBalance', data);
+          //console.log('GetAmountBalance', data);
           //previousDue=parseFloat(0.00);
         })
 
@@ -385,7 +397,7 @@ export class ResidentInvoiceComponent implements OnInit {
         this.modalRef = this.modalService.show(invoicePop,
           Object.assign({}, { class: 'gray modal-lg' }));
         this.InvoiceValue = 0;
-        console.log('invoiceDetails--', data['data']['invoiceDetails']);
+        //console.log('invoiceDetails--', data['data']['invoiceDetails']);
         this.invoiceDetails = data['data']['invoiceDetails'];
         data['data']['invoiceDetails'].forEach(item => {
 
@@ -448,7 +460,7 @@ export class ResidentInvoiceComponent implements OnInit {
         })
       },
         err => {
-          console.log(err);
+          //console.log(err);
           swal.fire({
             title: "Error",
             text: `${err['error']['error']['message']}`,
@@ -459,11 +471,11 @@ export class ResidentInvoiceComponent implements OnInit {
 
     this.viewinvoiceservice.getassociationlist(this.asdPyDate, this.blMgrMobile, this.currentAssociationID)
       .subscribe(data => {
-        console.log('associationDetails', data);
+        //console.log('associationDetails', data);
         this.associationDetails = data
       },
         err => {
-          console.log(err);
+          //console.log(err);
         })
 
   }
@@ -510,17 +522,17 @@ export class ResidentInvoiceComponent implements OnInit {
     this.totals = total;
     total = total - this.discountedValue;
     this.amountInWords = Math.round(total);
-    console.log('amountInWords', this.amountInWords);
+    //console.log('amountInWords', this.amountInWords);
     return total;
   }
 
   onButtonClick(amount) {
     this.mainAmt = amount;
-    console.log(this.mainAmt);
+    //console.log(this.mainAmt);
     let flatCharges = this.mainAmt * 0.0189;
-    console.log('Flat Charge', flatCharges);
+    //console.log('Flat Charge', flatCharges);
     let gst = flatCharges * 0.18;
-    console.log('gst', gst);
+    //console.log('gst', gst);
     let ravVal = this.mainAmt + flatCharges + gst + 1;//razorpay
     let invVal = this.mainAmt + flatCharges + gst + 0.04;//instamojo
     this.invValFinal = invVal.toFixed(2);//instamojo
@@ -551,7 +563,7 @@ export class ResidentInvoiceComponent implements OnInit {
     this.viewinvoiceservice.springAppConfigPostAmount(iciciData)
       .subscribe(data => {
         // success
-        console.log('success', data);
+        //console.log('success', data);
         this.storeId = data['storeId'];
         this.sharedSecret = data['sharedSecret'];
         this.charge = data['charge'];
@@ -576,7 +588,7 @@ export class ResidentInvoiceComponent implements OnInit {
     e.preventDefault();
     this.paymentService.postToICICIPG(paymentDetails)
       .subscribe((res: any) => {
-        console.log(res);
+        //console.log(res);
         let response = res.data.paymentICICI;
         this.iciciPayForm = {
           txntype: response.txntype, //'sale'
@@ -593,11 +605,11 @@ export class ResidentInvoiceComponent implements OnInit {
           chargetotal: response.chargetotal,
           oid: response.oid
         }
-        console.log(this.iciciPayForm);
+        //console.log(this.iciciPayForm);
         setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
       },
         err => {
-          console.log(err);
+          //console.log(err);
         })
   }
   kotakPay(e) {
@@ -609,11 +621,11 @@ export class ResidentInvoiceComponent implements OnInit {
     this.paymentService.postToKotakPaymenGateway(paymentDetails).subscribe(res => {
       if (res) {
         this.kotakPayForm = res;
-        console.log("this.kotakPayForm ", this.kotakPayForm);
+        //console.log("this.kotakPayForm ", this.kotakPayForm);
         setTimeout(_ => this.kotakform.nativeElement.submit(), 100)
       }
     }, error => {
-      console.log(error);
+      //console.log(error);
     }
     )
   }
@@ -624,14 +636,14 @@ export class ResidentInvoiceComponent implements OnInit {
     }
     e.preventDefault();
     let InvoiceValue = { chargetotal: this.InvoiceValue + '.00' };
-    console.log(InvoiceValue);
+    //console.log(InvoiceValue);
     this.paymentService.postToAxisPaymentGateway(paymentDetails).subscribe((res: any) => {
       //console.log(res, typeof (res))
       if (res && res.payment_links) {
         window.location.href = res.payment_links.web;
       }
     }, error => {
-      console.log(error);
+      //console.log(error);
     }
     )
   }
@@ -644,16 +656,16 @@ export class ResidentInvoiceComponent implements OnInit {
     this.paymentService.postToHDFCPaymentGateway(paymentDetails).subscribe((res: any) => {
       if (res && res.success) {
         this.kotakPayForm = res.data;
-        console.log("this.kotakPayForm ", this.kotakPayForm);
+        //console.log("this.kotakPayForm ", this.kotakPayForm);
         setTimeout(_ => this.kotakform.nativeElement.submit(), 100)
       }
     }, error => {
-      console.log(error);
+      //console.log(error);
     }
     )
   }
   addZeroes(num) {
-    console.log(num);
+    //console.log(num);
     // let value = Number(num);
     // let res = num.split(".");
     // if (res.length == 1 || (res[1].length < 3)) {
@@ -665,7 +677,7 @@ export class ResidentInvoiceComponent implements OnInit {
     this.modalRef = this.modalService.show(discount,
       Object.assign({}, { class: 'gray modal-lg' }));
 
-    console.log(inid, inNumber, inTotVal);
+    //console.log(inid, inNumber, inTotVal);
     this.dscntInvinvoiceID = inid;
     this.dscntInvinvoiceNumber = inNumber;
     this.dscntInvdescription = "Type Reason Here";
@@ -687,7 +699,7 @@ export class ResidentInvoiceComponent implements OnInit {
     }
   }
   discountInvoice(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription) {
-    console.log(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription);
+    //console.log(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription);
 
     var discountData = {
       "INID": dscntInvinvoiceNumber,
@@ -698,7 +710,7 @@ export class ResidentInvoiceComponent implements OnInit {
     this.viewinvoiceservice.UpdateInvoiceDiscountValueAndInsert(discountData)
       .subscribe(data => {
         this.modalRef.hide();
-        console.log(data);
+        //console.log(data);
         swal.fire({
           title: "",
           text: "Discount Applied Successfully",
@@ -709,7 +721,7 @@ export class ResidentInvoiceComponent implements OnInit {
       },
         err => {
           this.modalRef.hide();
-          console.log(err);
+          //console.log(err);
           swal.fire({
             title: "Error",
             text: `${err['error']['error']['message']}`,
@@ -723,16 +735,16 @@ export class ResidentInvoiceComponent implements OnInit {
     this.modalRef = this.modalService.show(generateReceipt, Object.assign({}, { class: 'gray modal-lg' }));
   }
   sendInvoiceInMail(inid, unUnitID, ineSent, blBlockID) {
-    console.log('inid', inid);
-    console.log('unUnitID', unUnitID);
-    console.log('ineSent', ineSent);
-    console.log('blBlockID', blBlockID);
+    //console.log('inid', inid);
+    //console.log('unUnitID', unUnitID);
+    //console.log('ineSent', ineSent);
+    //console.log('blBlockID', blBlockID);
     //
     this.viewinvoiceservice.GetUnitListByUnitID(unUnitID)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this._unOcStat = data['data']['unit']['unOcStat'];
-        console.log(this._unOcStat);
+        //console.log(this._unOcStat);
         if (data['data']['unit']['unOcStat'] == "UnSold Vacant Unit") {
           swal.fire({
             title: "No Email Address to Send!",
@@ -745,7 +757,7 @@ export class ResidentInvoiceComponent implements OnInit {
         else {
           this.viewinvoiceservice.GetInvoiceOwnerListByInvoiceId(inid)
             .subscribe((res) => {
-              console.log(res);
+              //console.log(res);
               swal.fire({
                 title: "Mail Sent Successful",
                 text: "",
@@ -761,7 +773,7 @@ export class ResidentInvoiceComponent implements OnInit {
               //  console.log(res);
             },
               (res) => {
-                console.log(res);
+                //console.log(res);
                 swal.fire('Error', `${res['error']['exceptionMessage']}`, 'error')
               })
         }
@@ -811,16 +823,16 @@ export class ResidentInvoiceComponent implements OnInit {
   sendEmailToAll() {
     let chkboxs = document.querySelectorAll('.chkBox');
 
-    console.log(chkboxs);
+    //console.log(chkboxs);
     let inids = [];
     this.invoiceLists.forEach((item) => {
       inids.push(item['inid']);
     })
     //inids=inids.substring(0,inids.length-1);
-    console.log(inids);
+    //console.log(inids);
     this.viewinvoiceservice.GetInvoiceOwnerListByInvoiceId(inids)
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         swal.fire({
           title: "Mail Sent Successful",
           text: "",
@@ -830,7 +842,7 @@ export class ResidentInvoiceComponent implements OnInit {
         })
       },
         (err) => {
-          console.log(err);
+          //console.log(err);
           swal.fire('Error', `${err['error']['error']['message']}`, 'error')
         })
   }
@@ -840,10 +852,10 @@ export class ResidentInvoiceComponent implements OnInit {
     this.generatereceiptservice.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
         this.allblocksbyassnid = data['data'].blocksByAssoc;
-        console.log('allBlocksByAssnID', this.allblocksbyassnid);
+        //console.log('allBlocksByAssnID', this.allblocksbyassnid);
       },
         err => {
-          console.log(err);
+          //console.log(err);
         });
     //
     this.modalRefForGenerateRecipt = this.modalService.show(generateReceiptModal1,
@@ -853,7 +865,7 @@ export class ResidentInvoiceComponent implements OnInit {
   getcurrentblockdetails(blkBlockID) {
     this.generatereceiptservice.getCurrentBlockDetails(blkBlockID, this.currentAssociationID)
       .subscribe(data => {
-        console.log('unpaidUnits', data['data']['paymentsUnpaid']);
+        //console.log('unpaidUnits', data['data']['paymentsUnpaid']);
         this.unpaidUnits = data['data']['paymentsUnpaid'];
       })
   }
@@ -862,10 +874,10 @@ export class ResidentInvoiceComponent implements OnInit {
     this.generatereceiptservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
       .subscribe(data => {
         this.unpaidUnits = data['data']['paymentsUnpaid'];
-        console.log('unpaidUnits', this.unpaidUnits);
+        //console.log('unpaidUnits', this.unpaidUnits);
       },
         err => {
-          console.log(err);
+          //console.log(err);
           swal.fire({
             title: `${err['error']['error']['message']}`,
             text: "",
@@ -882,13 +894,13 @@ export class ResidentInvoiceComponent implements OnInit {
     );
   }
   rowDetails(pyid, unUnitID) {
-    console.log('pyid-' + pyid);
+    //console.log('pyid-' + pyid);
     this.unUnitID = unUnitID;
     let invobj = this.unpaidUnits.find(item => item['pyid'] == pyid);
-    console.log('inNumber-' + invobj['inNumber']);
-    console.log('pyAmtDue-' + invobj['pyAmtDue']);
-    console.log('pyAmtPaid-' + invobj['pyAmtPaid']);
-    console.log('unUnitID-' + invobj['unUnitID']);
+    //console.log('inNumber-' + invobj['inNumber']);
+    //console.log('pyAmtDue-' + invobj['pyAmtDue']);
+    //console.log('pyAmtPaid-' + invobj['pyAmtPaid']);
+    //console.log('unUnitID-' + invobj['unUnitID']);
     this.invoice = invobj['inNumber'];
     this.amountDue = invobj['pyAmtDue'];
     this.amountPaid = invobj['pyAmtPaid'];

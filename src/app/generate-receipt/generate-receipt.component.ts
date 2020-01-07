@@ -114,7 +114,7 @@ export class GenerateReceiptComponent implements OnInit {
     this.generatereceiptservice.GetBlockListByAssocID(this.curAssociationID)
       .subscribe(data => {
         this.allBlocksByAssnID = data['data'].blocksByAssoc;
-        console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+        //console.log('allBlocksByAssnID', this.allBlocksByAssnID);
       });
   }
 
@@ -123,10 +123,10 @@ export class GenerateReceiptComponent implements OnInit {
     this.generatereceiptservice.getCurrentBlockDetails(blBlockID, this.curAssociationID)
       .subscribe(data => {
         this.unpaidUnits = data['data']['paymentsUnpaid'];
-        console.log('unpaidUnits', this.unpaidUnits);
+        //console.log('unpaidUnits', this.unpaidUnits);
       },
       err=>{
-        console.log(err);
+        //console.log(err);
         swal.fire({
           title:`${err['error']['error']['message']}`,
           text: "",
@@ -148,12 +148,12 @@ export class GenerateReceiptComponent implements OnInit {
   rowDetails(pyid, unUnitID) {
     this.ReceiptUnitID = unUnitID;
     this.pyid = pyid;
-    console.log('pyid-' + pyid);
+    //console.log('pyid-' + pyid);
     let invobj = this.unpaidUnits.find(item => item['pyid'] == pyid);
-    console.log('inNumber-' + invobj['inNumber']);
-    console.log('pyAmtDue-' + invobj['pyAmtDue']);
-    console.log('pyAmtPaid-' + invobj['pyAmtPaid']);
-    console.log('unUnitID-' + invobj['unUnitID']);
+    //console.log('inNumber-' + invobj['inNumber']);
+    //console.log('pyAmtDue-' + invobj['pyAmtDue']);
+    //console.log('pyAmtPaid-' + invobj['pyAmtPaid']);
+    //console.log('unUnitID-' + invobj['unUnitID']);
     this.invoice = invobj['inNumber'];
     this.amountDue = invobj['pyAmtDue'];
     this.amountPaid = invobj['pyAmtPaid'];
@@ -191,7 +191,7 @@ export class GenerateReceiptComponent implements OnInit {
     this.generatereceiptservice.addPayment(newReceipt)
       .subscribe(data => {
         this.IsReceiptGenerating=false;
-        console.log(data);
+        //console.log(data);
         swal.fire({
           title: "Receipt Generated Successfully",
           text: "",
@@ -212,7 +212,7 @@ export class GenerateReceiptComponent implements OnInit {
 
       },
       (err)=>{
-        console.log(err);
+        //console.log(err);
         this.IsReceiptGenerating=false;
         swal.fire({
           title: `${err['message']}`,

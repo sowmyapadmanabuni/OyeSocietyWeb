@@ -92,6 +92,8 @@ export class UnitsComponent implements OnInit {
   reverse: boolean = false;
   sortedCollection: any[];
   blBlkName:any;
+  searchTxt:any;
+  unOcSDate:any;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
@@ -177,17 +179,17 @@ export class UnitsComponent implements OnInit {
     this.viewUniService.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
         this.allBlocksLists = data['data'].blocksByAssoc;
-        console.log('allBlocksLists',this.allBlocksLists);
+        //console.log('allBlocksLists',this.allBlocksLists);
       });
   }
   getUnitDetails() {
     // console.log(this.associationID);
-    console.log(" Current association ID:" + this.currentAssociationID);
+    //console.log(" Current association ID:" + this.currentAssociationID);
     this.viewUniService.getUnitDetails(this.currentAssociationID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
       this.units = data.data.unit;
-      console.log(this.units);
+      //console.log(this.units);
     });
   }
 
@@ -195,7 +197,7 @@ export class UnitsComponent implements OnInit {
     this.viewUniService.getBlocks(this.currentAssociationID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
-      console.log('data.data.blocksByAssoc', data.data.blocksByAssoc);
+      //console.log('data.data.blocksByAssoc', data.data.blocksByAssoc);
       this.blocks = data.data.blocksByAssoc;
 
     });
@@ -209,12 +211,12 @@ export class UnitsComponent implements OnInit {
   }
 
   getCalculationTypes(calculationTypename) {
-    console.log(calculationTypename);
+    //console.log(calculationTypename);
     this.calculationtype = calculationTypename;
   }
   loadBlock(block: string) {
     this.unit_Form = true;
-    console.log("blockID:" + this.blockID);
+    //console.log("blockID:" + this.blockID);
   }
 
   addParking() {
@@ -253,7 +255,7 @@ export class UnitsComponent implements OnInit {
 
 
   viewUnit(repUnit:any){
-    console.log('repUnit',JSON.stringify(repUnit));
+    //console.log('repUnit',JSON.stringify(repUnit));
       this.currentAssociationName=this.globalService.getCurrentAssociationName();
       this.viewUnitRow={
         unitNo : repUnit.unUniName,
@@ -275,11 +277,11 @@ export class UnitsComponent implements OnInit {
     /*-------------------Get Unit List By Block ID ------------------*/
     this.viewUniService.GetUnitListByBlockID(blBlockID)
       .subscribe(data => {
-        console.log('allUnitBYBlockID',data);
+        //console.log('allUnitBYBlockID',data);
         this.allUnitBYBlockID = data['data'].unitsByBlockID;
             //
             this.sortedCollection = this.orderpipe.transform(this.allUnitBYBlockID, 'unUniName');
-            console.log(this.sortedCollection);
+            //console.log(this.sortedCollection);
       });
   }
 
@@ -316,9 +318,21 @@ export class UnitsComponent implements OnInit {
       var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-        anchorDivs = $('div.stepwizard-row div');
+        anchorDivs = $('div.stepwizard-row div'),
+        Divs = $('div.stepwizard div div');
 
-      allWells.hide();
+        //console.log(anchorDivs);
+        anchorDivs.click(function(){
+         var $item = $(this);
+        var $childitem = $($($item.children()[0]).attr('href'));
+  
+         Divs.removeClass('step-active');
+          $item.addClass('step-active');
+          //console.log($childitem);
+          allWells.hide();
+          $childitem.show();
+          $childitem.find('input:eq(0)').focus();
+        })
 
       navListItems.click(function (e) {
         e.preventDefault();
@@ -360,9 +374,20 @@ export class UnitsComponent implements OnInit {
     });
   }
   addUnitsShow() {
+    if(this.blBlkName=='Select Block Name'){
+      Swal.fire({
+        title: "Please Select Block",
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else{
     this.toggleStepWizard();
     this.addUnits = true;
     this.unitList = false;
+    }
   }
 
   // UPDATE UNIT FUNCTION STARTS HERE
@@ -383,7 +408,7 @@ export class UnitsComponent implements OnInit {
     }
     this.viewUniService.UpdateUnitInfo(updateUnitData)
     .subscribe(data=>{
-      console.log(data);
+      //console.log(data);
       this.modalRef.hide();
       Swal.fire({
         title: 'Unit Updated Successfuly',
@@ -399,7 +424,7 @@ export class UnitsComponent implements OnInit {
         })
     },
     err=>{
-      console.log(err);
+      //console.log(err);
     })
   }
   // UPDATE UNIT FUNCTION END HERE

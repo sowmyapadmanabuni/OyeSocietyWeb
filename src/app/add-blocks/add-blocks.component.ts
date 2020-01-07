@@ -23,17 +23,17 @@ export class AddBlocksComponent implements OnInit {
 
   blockname: string;
   blocktype: string;
-  noofunits: number;
+  noofunits: any;
   mngName: string;
-  mobile: number;
-  manageremail: number;
+  mobile: any;
+  manageremail: any;
   flatRatevalue: number;
   maintenanceValue: number;
   measurements: number;
   billGenerationDate: Date;
   dueDate: string;
   latePymtChargeType: string;
-  latePymtCharge: number;
+  latePymtCharge: any;
   startsFrom: Date;
   frequency: string;
 
@@ -61,6 +61,8 @@ export class AddBlocksComponent implements OnInit {
   todayDate:Date;
   check:any;
 check1:any;
+rate:any;
+rate1:any;
 
 
   constructor(private addblockservice: AddBlockService,
@@ -111,6 +113,12 @@ check1:any;
 
     this.maintenanceValue=0;
     this.flatRatevalue=0;
+    this.blockname='';
+    this.noofunits='';
+    this.mngName='';
+    this.mobile='';
+    this.manageremail='';
+    this.latePymtCharge='';
   }
 
   ngOnInit() {
@@ -124,12 +132,12 @@ check1:any;
   getMeasurement(){
     this.viewassn.getAssociationDetailsByAssociationid(this.currentAssociationID).subscribe((res)=>{
       var data:any =res;
-      console.log(data);
+      //console.log(data);
       this.association=data.data.association;
-      console.log(this.association);
+      //console.log(this.association);
       this.country= this.association['asCountry'];
       //this.viewassn.ascountry = this.country;
-      console.log('country',this.country);
+      //console.log('country',this.country);
       // if(this.asCountry =='India'){
       //   this.meter='sqft';
       //   alert(this.meter);
@@ -172,24 +180,24 @@ check1:any;
     }
   }
   telInputObject(telinputobj) {
-    console.log(telinputobj);
+    //console.log(telinputobj);
   }
   hasError(errorobj) {
-    console.log(errorobj);
+    //console.log(errorobj);
   }
   getNumber(numberobj) {
-    console.log(numberobj);
+    //console.log(numberobj);
   }
   onCountryChange(countryobj) {
-    console.log(countryobj['dialCode']);
+    //console.log(countryobj['dialCode']);
   }
   onValueChange(value: Date): void {
-    console.log(value);
+    //console.log(value);
     if (value != null) {
       this.invoicedatechanged = true;
       this.minDate = new Date(value);
       this.minDateinNumber = new Date(value).getTime();
-      console.log('minDateinNumber', this.minDateinNumber);
+      //console.log('minDateinNumber', this.minDateinNumber);
       if (this.duedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -222,7 +230,7 @@ check1:any;
       this.duedatechanged = true;
       this.startsFromMaxDate = new Date(value);
       this.dueDateinNumber = new Date(value).getTime();
-      console.log('dueDateinNumber', this.dueDateinNumber);
+      //console.log('dueDateinNumber', this.dueDateinNumber);
       if (this.invoicedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -281,7 +289,7 @@ check1:any;
   }
 
   passvalue(frequency) {
-    console.log(frequency);
+    //console.log(frequency);
   }
 
   createBlock() {
@@ -314,10 +322,10 @@ check1:any;
         ]
       }
 
-      console.log('CreateBockData', CreateBockData);
+      //console.log('CreateBockData', CreateBockData);
       this.addblockservice.createBlock(CreateBockData)
         .subscribe(data => {
-          console.log(data);
+          //console.log(data);
           if(data['data'].blockID){
             swal.fire({
               title: "Block Created Successfully",
@@ -396,10 +404,10 @@ check1:any;
                   }
 
                   this.viewUniService.createUnit(createUnitData).subscribe(data => {
-                    console.log(data);
+                    //console.log(data);
                   },
                     err => {
-                      console.log(err);
+                      //console.log(err);
                     })
 
                   //this.router.navigate(['home/viewBlocks']);
@@ -432,5 +440,24 @@ check1:any;
     this.enableduedatevalidation = false;
     frm.classList.remove('was-validated');
   }
-
+  resetStep1(){
+    this.blockname='';
+    this.blocktype = '';
+    this.noofunits='';
+  }
+  resetStep2(){
+    this.mngName='';
+    this.mobile='';
+    this.manageremail='';
+  }
+  resetStep3() {
+    this.flatRatevalue = 0;
+    this.maintenanceValue = 0;
+    this.meter = '';
+    this.frequency = '';
+    this.billGenerationDate = null;
+    this.dueDate = '';
+    this.latePymtChargeType = 'SELECT CHARGE TYPE';
+    this.startsFrom = null;
+  }
 }

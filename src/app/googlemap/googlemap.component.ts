@@ -15,12 +15,14 @@ export class GooglemapComponent implements OnInit {
   lng: any;
   show: boolean;
   name: any;
+  infoWindow:any;
+  gm:any;
 
   // longitude:any;
   // latitude:any;
   // markers:any;
 
-  constructor(private map: MapService) {
+  constructor(public map: MapService) {
     // this.longitude="";
     // this.latitude="";
   }
@@ -28,7 +30,13 @@ export class GooglemapComponent implements OnInit {
   ngOnInit() {
    
   }
-
-
+  onMouseOver(infoWindow, gm) {
+    this.infoWindow = infoWindow;
+    this.gm = gm;
+  }
+  onMouseOut(infoWindow, gm) {
+    this.infoWindow = infoWindow;
+    this.gm = gm;
+  }
 
 }

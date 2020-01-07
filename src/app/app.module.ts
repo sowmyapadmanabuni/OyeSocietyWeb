@@ -69,7 +69,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ResidentInvoiceComponent } from './resident-invoice/resident-invoice.component';
 import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.component';
 import { AssociationVisitorComponent } from './association-visitor/association-visitor.component';
-export const firebaseConfig = environment.firebaseConfig;
+//export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
   declarations: [
@@ -134,7 +134,7 @@ export const firebaseConfig = environment.firebaseConfig;
     AgmDirectionModule,
     NgxPaginationModule,
     DataTablesModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    //AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey,

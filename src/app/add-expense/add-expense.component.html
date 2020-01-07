@@ -1,10 +1,10 @@
 <div class="row">
        <div class="stepwizard">
             <div class="stepwizard-row setup-panel">
-                <div class="stepwizard-step col-lg-6 col-sm-6 col-xs-12 step-active">
+                <div style="cursor: pointer;" class="stepwizard-step col-lg-6 col-sm-6 col-xs-12 step-active">
                     <a href="#step-1" type="button" class="btn btn-success btn-circle"></a><span>Expense Details</span>
                 </div>
-                <div class="stepwizard-step col-lg-6 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;" class="stepwizard-step col-lg-6 col-sm-6 col-xs-12">
                     <a href="#step-2" type="button" class="btn btn-default btn-circle"></a><span>Expense
                         Bank Details</span>
                 </div>
@@ -19,8 +19,8 @@
                     <p class="title">Current date: {{dateandTime | date:"dd-MM-yyyy"}}</p>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="control-label">Expense Head <i tooltip="Add expense Head" class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                        </label>                            
+                        <!-- <label class="control-label">Expense Head <i tooltip="Add expense Head" class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                        </label>                             -->
 
                         <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle sdm br form-control"
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body" id="panelbody1">
+                <div class="panel-body" id="panelbody1" style="margin-left: 128px">
                         <div class="form-group" *ngIf='otherThanSingleUnit'>
                             <label class="control-label">Select Distribution Type</label>
                             <div class="dropdown">
@@ -110,7 +110,7 @@
                         <div class="form-group"> </div>
                         
                     </div>
-                    <div class="panel-body"id="panelbody2">
+                    <div class="panel-body"id="panelbody2" style="margin-left: -116px;">
                         <div class="form-group" *ngIf='isSingleUnit'>
                             <label>Select Distribution Type <span class="red">*</span></label>
                             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" value="Actuals"
@@ -118,7 +118,7 @@
                         </div>
                     </div>
                 <div class="col-sm-12 pull-right">
-                    <button class="btn btn-primary-purple nextBtn">Reset</button>
+                    <button (click)='resetStep1()' class="btn btn-primary-purple nextBtn">Reset</button>
                     <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
                 </div>
             </div>
@@ -196,14 +196,11 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">
+                    <div class="form-group" style="margin-left: -740px;">
                         <label class="control-label">Invoice/Payment Copy</label>
                         <input type="file" id="uploadFileinput" class="form-control" (change)='onFileSelected($event)'/>
-               
-                    </div>
-                    <div class="form-group">
-                            <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
-                                    Resolution of 128*128</span>
+                        <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+                            Resolution of 128*128</span>
                     </div>
  
                 </div>
@@ -250,7 +247,7 @@
                     </div>
                 </div>
                 <div class="panel-body panelbody1" *ngIf="checkField == 'Cash'">
-                    <div class="form-group" [ngClass]="{'has-error' : vouchernoControl.invalid && vouchernoControl.touched}">
+                    <div style="margin-left: 110px;" class="form-group" [ngClass]="{'has-error' : vouchernoControl.invalid && vouchernoControl.touched}">
                         <label>Voucher No <span class="red">*</span></label>
                         <input type="text" class="form-control" name="voucherno" [(ngModel)]="voucherno" #vouchernoControl='ngModel'
                             placeholder="Voucher No" required pattern="^[a-zA-Z0-9]*$" />
@@ -262,7 +259,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 pull-right">
-                    <button class="btn btn-primary-purple nextBtn">Reset</button>
+                    <button (click)='resetStep2()' class="btn btn-primary-purple nextBtn">Reset</button>
                     <button class="btn btn-primary-purple nextBtn" (click)='addExp()' type="button">Add Expense</button>
                 </div>
 

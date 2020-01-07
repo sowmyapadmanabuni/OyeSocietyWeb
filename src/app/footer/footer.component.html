@@ -1,11 +1,11 @@
 <!--footer links part-->
-<div class="row foot-bg">
+<!-- <div class="row foot-bg">
     <div class="container foot-row ptb">
         <div class="foot-col1">
-            <div><img src="../../assets/OyeSociety-Logo_white_120x60.png"></div>
+            <div><img src="../../assets/images/social/OyeHomes_logo_white.png"></div>
             <h3 class="foot-head">Contact</h3>
             <div>+91 9606 121 121</div>
-            <div>happy@oyesociety.in</div>
+            <div>happy@oyehomes.in</div>
             <p>1st Floor, 2nd Main road,<br> Neeladri, Investment Layout,<br> Electronics City Phase1,
                 <br>Bettadasanapura, Bengaluru,<br> Karnataka-560100</p>
         </div>
@@ -16,13 +16,13 @@
             <p><a routerLink="testimonials">Testimonials</a></p>
             <p><a routerLink="location">Locations</a></p>
         </div>
-        <div class="foot-col3">
+        <div class="foot-col3"> -->
             <!-- <div><img class="app-img" src="../../assets/images/google-play.png"></div> -->
-            <h3 class="foot-head">Our Brands</h3>
-            <p><a href="http://dev.oyehomes.in/">Oye Homes</a></p>
-            <p><a routerLink="#">OyeOOH</a></p>
+            <!-- <h3 class="foot-head">Our Brands</h3>
+            <p><a routerLink="#">Oye Society</a></p>
+            <p><a routerLink="#">OyeOH</a></p>
             <p><a routerLink="">OyeSmile</a></p>
-            <p><a href="http://oyewallet.com/">OyeWallet</a></p>
+            <p><a routerLink="">OyeWallet</a></p>
         </div>
         <div class="foot-col4">
             <div>
@@ -39,199 +39,161 @@
             <p><a (click)="openModal3(privacy)">Privacy Policy</a></p>
         </div>
     </div>
-</div>
+</div> -->
 <!--footer links part-->
-<div class="row foot-bg bt">
+<div class="row foot-bg">
+        <div class="container foot-row">
+                <div><img src="../../assets/OyeSociety.png"></div>
+                <div>
+                    <p>Mobile: +91 9343 121 121</p>
+                    <p>E-mail: happy@oyesociety.com</p>
+                </div>
+                <div>Head Office: No. 254/185/26, 2nd Main, “Baswer Sannidhi” <br>Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd <br>Bengaluru KA 560100 IN</div>
+                <div>
+                    <h3 class="foot-head">Other Links</h3>
+                    <p><a (click)="openModal4(refund)" style="color: #4c4b4a !important;font-size: 13px;">Refund Policy</a></p>
+                    <p><a (click)="openModal5(termsconditions)" style="color: #4c4b4a !important;font-size: 13px;">Terms & Conditions</a></p>
+                    <p><a (click)="openModal3(privacy)" style="color: #4c4b4a !important;font-size: 13px;">Privacy Policy</a></p>
+                </div>
+            </div>
+            <hr>
     <div class="container foot-row">
-        <p>Copyrights © 2019 OyeSociety, All Rights Reserved</p>
+        <p>Copyrights © OyeSociety. 2020 All rights reserved, JABM OneSource Private Ltd, Digital & Sales Partner: AOB India </p>
     </div>
 </div>
-
 <!--Privacy Policy pop up box-->
 <ng-template #privacy>
 
-    <div class="modal-header" style="background: #82808026">
-        <h4 class="modal-title" style="text-align:center">Privacy Policy</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="container-fluid" style="width:100%">
-
-            <div class="col-sm-12 np">
-                <p><strong>SECTION 1 - </strong>WHAT DO WE DO WITH YOUR INFORMATION? When you purchase something from
-                    our store, as part
-                    of the buying and selling process, we collect the personal information you give us such as your
-                    name, address and email address.
-
-                    When you browse our store, we also automatically receive your computer’s internet protocol (IP)
-                    address in order to provide us with information that helps us learn about your browser and operating
-                    system.
-
-                    Email marketing (if applicable): With your permission, we may send you emails about our store, new
-                    products and other updates.</p>
-
-                <p><strong>SECTION 2 - </strong>CONSENT How do you get my consent?
-
-                    When you provide us with personal information to complete a transaction, verify your credit card,
-                    place an order, arrange for a delivery or return a purchase, we imply that you consent to our
-                    collecting it and using it for that specific reason only.
-
-                    If we ask for your personal information for a secondary reason, like marketing, we will either ask
-                    you directly for your expressed consent, or provide you with an opportunity to say no.
-
-                    How do I withdraw my consent?
-
-                    If after you opt-in, you change your mind, you may withdraw your consent for us to contact you, for
-                    the continued collection, use or disclosure of your information, at anytime, by contacting us at
-                    [JABM Property Managers Pvt Ltd, Contact Email: info@oyespace.com] or mailing us at: 26, ACHI
-                    Building, 2nd Main, NILA Investment Layout, Doddathoguru, Electronics City, Bengaluru 560100</p>
-
-                <p><strong>SECTION 3 -</strong> DISCLOSURE We may disclose your personal information if we are required
-                    by law to do so
-                    or if you violate our Terms of Service.</p>
-
-                <p><strong>SECTION 4 -</strong> PAYMENT We use Razorpay, Instamojo and ICICI Bank Payment Gateway for
-                    processing
-                    payments. We/Razorpay, Instamojo and ICICI Bank Payment Gateway do not store your card data on their
-                    servers. The data is encrypted through the Payment Card Industry Data Security Standard (PCI-DSS)
-                    when processing payment. Your purchase transaction data is only used as long as is necessary to
-                    complete your purchase transaction. After that is complete, your purchase transaction information is
-                    not saved.</p>
-
-                <p>Our payment gateway adheres to the standards set by PCI-DSS as managed by the PCI Security Standards
-                    Council, which is a joint effort of brands like Visa, MasterCard, American Express and Discover.
-
-                    PCI-DSS requirements help ensure the secure handling of credit card information by our store and its
-                    service providers.
-
-                    For more insight, you may also want to read terms and conditions of razorpay on https://razorpay.com
-                </p>
-
-                <p><strong>SECTION 5 -</strong> THIRD-PARTY SERVICES In general, the third-party providers used by us
-                    will only collect,
-                    use and disclose your information to the extent necessary to allow them to perform the services they
-                    provide to us.
-
-                    However, certain third-party service providers, such as payment gateways and other payment
-                    transaction processors, have their own privacy policies in respect to the information we are
-                    required to provide to them for your purchase-related transactions.
-
-                    For these providers, we recommend that you read their privacy policies so you can understand the
-                    manner in which your personal information will be handled by these providers.
-
-                    In particular, remember that certain providers may be located in or have facilities that are located
-                    a different jurisdiction than either you or us. So if you elect to proceed with a transaction that
-                    involves the services of a third-party service provider, then your information may become subject to
-                    the laws of the jurisdiction(s) in which that service provider or its facilities are located.
-
-                    Once you leave our store’s website or are redirected to a third-party website or application, you
-                    are no longer governed by this Privacy Policy or our website’s Terms of Service.
-
-                    Links
-
-                    When you click on links on our store, they may direct you away from our site. We are not responsible
-                    for the privacy practices of other sites and encourage you to read their privacy statements.</p>
-
-                <p><strong>SECTION 6 -</strong> SECURITY To protect your personal information, we take reasonable
-                    precautions and follow
-                    industry best practices to make sure it is not inappropriately lost, misused, accessed, disclosed,
-                    altered or destroyed.</p>
-
-                <p><strong>SECTION 7 -</strong> COOKIES We use cookies to maintain session of your user. It is not used
-                    to personally
-                    identify you on other websites.</p>
-
-                <p><strong>SECTION 8 -</strong> AGE OF CONSENT By using this site, you represent that you are at least
-                    the age of
-                    majority in your state or province of residence, or that you are the age of majority in your state
-                    or province of residence and you have given us your consent to allow any of your minor dependents to
-                    use this site.</p>
-
-                <p><strong>SECTION 9 -</strong> CHANGES TO THIS PRIVACY POLICY We reserve the right to modify this
-                    privacy policy at any
-                    time, so please review it frequently. Changes and clarifications will take effect immediately upon
-                    their posting on the website. If we make material changes to this policy, we will notify you here
-                    that it has been updated, so that you are aware of what information we collect, how we use it, and
-                    under what circumstances, if any, we use and/or disclose it.
-
-                    If our store is acquired or merged with another company, your information may be transferred to the
-                    new owners so that we may continue to sell products to you.</p>
-
-                <p><strong>QUESTIONS AND CONTACT INFORMATION </strong>If you would like to: access, correct, amend or
-                    delete any
-                    personal information we have about you, register a complaint, or simply want more information
-                    contact our Privacy Compliance Officer at info@oyespace.com or by mail at 26, ACHI Building, 2nd
-                    Main, NILA Investment Layout, Doddathoguru, Electronics City, Bengaluru 560100 </p>
-
-            </div>
-            <!--PrivacyPolicy details part-->
-
-
-        </div>
-    </div>
-
-</ng-template>
-<!--PrivacyPolicy pop up box-->
-
-<!--Refund Policy pop up box-->
-<ng-template #refund>
-
-    <div class="modal-header" style="background: #82808026">
-        <h4 class="modal-title" style="text-align:center">Refund Policy</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="container-fluid" style="width:100%">
-
-            <div class="col-sm-12 np">
-                <ol>
-                    <li>Returns Our policy lasts 30 days. If 30 days have gone by since your purchase, unfortunately we
-                        can’t
-                        offer you a refund or exchange. Please contact via email with your request on info@oyespace.com
-                        and
-                        we shall revert with a possible course of action.</li>
-
-                    <li>There are certain situations where only partial refunds are granted: (if applicable)</li>
-
-                    <li> Refunds (if applicable) If you are approved, then your refund will be processed, and a credit
-                        will
-                        automatically be applied to your credit card or original method of payment, within a certain
-                        amount
-                        of days.</li>
-
-                    <li> Late or missing refunds (if applicable) If you haven’t received a refund yet, first check your
-                        bank
-                        account again.</li>
-
-                    <li>Then contact your credit card company, it may take some time before your refund is officially
-                        posted.</li>
-
-                    <li>Next contact your bank. There is often some processing time before a refund is posted.</li>
-                    <li>If you’ve done all of this and you still have not received your refund yet, please contact us at
-                        <strong>info@oyespace.com</strong></li>
-
-                    <li>Sale items (if applicable) Only regular priced items may be refunded, unfortunately sale items
-                        cannot be refunded.</li>
-
-                    <li>Exchanges (if applicable) We only replace items/services if there are unresolved issues even
-                        after 30 days.<br> Send us an email at <strong>info@oyespace.com</strong></li>
-                </ol>
-            </div>
-            <!--Refund Policy details part-->
-        </div>
-    </div>
-</ng-template>
-<!--Refund Policy pop up box-->
-
-<!--Terms and Conditions pop up box-->
-<ng-template #termsconditions>
-
         <div class="modal-header" style="background: #82808026">
-            <h4 class="modal-title" style="text-align:center">Terms & Conditions</h4>
+            <h4 class="modal-title" style="text-align:center">Privacy Policy</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid" style="width:100%">
+    
+                <div class="col-sm-12 np">
+                    <p><strong>SECTION 1 - </strong>WHAT DO WE DO WITH YOUR INFORMATION? When you purchase something from
+                        our store, as part
+                        of the buying and selling process, we collect the personal information you give us such as your
+                        name, address and email address.
+    
+                        When you browse our store, we also automatically receive your computer’s internet protocol (IP)
+                        address in order to provide us with information that helps us learn about your browser and operating
+                        system.
+    
+                        Email marketing (if applicable): With your permission, we may send you emails about our store, new
+                        products and other updates.</p>
+    
+                    <p><strong>SECTION 2 - </strong>CONSENT How do you get my consent?
+    
+                        When you provide us with personal information to complete a transaction, verify your credit card,
+                        place an order, arrange for a delivery or return a purchase, we imply that you consent to our
+                        collecting it and using it for that specific reason only.
+    
+                        If we ask for your personal information for a secondary reason, like marketing, we will either ask
+                        you directly for your expressed consent, or provide you with an opportunity to say no.
+    
+                        How do I withdraw my consent?
+    
+                        If after you opt-in, you change your mind, you may withdraw your consent for us to contact you, for
+                        the continued collection, use or disclosure of your information, at anytime, by contacting us at
+                        [JABM Property Managers Pvt Ltd, Contact Email: info@oyespace.com] or mailing us at: 26, ACHI
+                        Building, 2nd Main, NILA Investment Layout, Doddathoguru, Electronics City, Bengaluru 560100</p>
+    
+                    <p><strong>SECTION 3 -</strong> DISCLOSURE We may disclose your personal information if we are required
+                        by law to do so
+                        or if you violate our Terms of Service.</p>
+    
+                    <p><strong>SECTION 4 -</strong> PAYMENT We use Razorpay, Instamojo and ICICI Bank Payment Gateway for
+                        processing
+                        payments. We/Razorpay, Instamojo and ICICI Bank Payment Gateway do not store your card data on their
+                        servers. The data is encrypted through the Payment Card Industry Data Security Standard (PCI-DSS)
+                        when processing payment. Your purchase transaction data is only used as long as is necessary to
+                        complete your purchase transaction. After that is complete, your purchase transaction information is
+                        not saved.</p>
+    
+                    <p>Our payment gateway adheres to the standards set by PCI-DSS as managed by the PCI Security Standards
+                        Council, which is a joint effort of brands like Visa, MasterCard, American Express and Discover.
+    
+                        PCI-DSS requirements help ensure the secure handling of credit card information by our store and its
+                        service providers.
+    
+                        For more insight, you may also want to read terms and conditions of razorpay on https://razorpay.com
+                    </p>
+    
+                    <p><strong>SECTION 5 -</strong> THIRD-PARTY SERVICES In general, the third-party providers used by us
+                        will only collect,
+                        use and disclose your information to the extent necessary to allow them to perform the services they
+                        provide to us.
+    
+                        However, certain third-party service providers, such as payment gateways and other payment
+                        transaction processors, have their own privacy policies in respect to the information we are
+                        required to provide to them for your purchase-related transactions.
+    
+                        For these providers, we recommend that you read their privacy policies so you can understand the
+                        manner in which your personal information will be handled by these providers.
+    
+                        In particular, remember that certain providers may be located in or have facilities that are located
+                        a different jurisdiction than either you or us. So if you elect to proceed with a transaction that
+                        involves the services of a third-party service provider, then your information may become subject to
+                        the laws of the jurisdiction(s) in which that service provider or its facilities are located.
+    
+                        Once you leave our store’s website or are redirected to a third-party website or application, you
+                        are no longer governed by this Privacy Policy or our website’s Terms of Service.
+    
+                        Links
+    
+                        When you click on links on our store, they may direct you away from our site. We are not responsible
+                        for the privacy practices of other sites and encourage you to read their privacy statements.</p>
+    
+                    <p><strong>SECTION 6 -</strong> SECURITY To protect your personal information, we take reasonable
+                        precautions and follow
+                        industry best practices to make sure it is not inappropriately lost, misused, accessed, disclosed,
+                        altered or destroyed.</p>
+    
+                    <p><strong>SECTION 7 -</strong> COOKIES We use cookies to maintain session of your user. It is not used
+                        to personally
+                        identify you on other websites.</p>
+    
+                    <p><strong>SECTION 8 -</strong> AGE OF CONSENT By using this site, you represent that you are at least
+                        the age of
+                        majority in your state or province of residence, or that you are the age of majority in your state
+                        or province of residence and you have given us your consent to allow any of your minor dependents to
+                        use this site.</p>
+    
+                    <p><strong>SECTION 9 -</strong> CHANGES TO THIS PRIVACY POLICY We reserve the right to modify this
+                        privacy policy at any
+                        time, so please review it frequently. Changes and clarifications will take effect immediately upon
+                        their posting on the website. If we make material changes to this policy, we will notify you here
+                        that it has been updated, so that you are aware of what information we collect, how we use it, and
+                        under what circumstances, if any, we use and/or disclose it.
+    
+                        If our store is acquired or merged with another company, your information may be transferred to the
+                        new owners so that we may continue to sell products to you.</p>
+    
+                    <p><strong>QUESTIONS AND CONTACT INFORMATION </strong>If you would like to: access, correct, amend or
+                        delete any
+                        personal information we have about you, register a complaint, or simply want more information
+                        contact our Privacy Compliance Officer at info@oyespace.com or by mail at 26, ACHI Building, 2nd
+                        Main, NILA Investment Layout, Doddathoguru, Electronics City, Bengaluru 560100 </p>
+    
+                </div>
+                <!--PrivacyPolicy details part-->
+    
+    
+            </div>
+        </div>
+    
+    </ng-template>
+    <!--PrivacyPolicy pop up box-->
+    
+    <!--Refund Policy pop up box-->
+    <ng-template #refund>
+    
+        <div class="modal-header" style="background: #82808026">
+            <h4 class="modal-title" style="text-align:center">Refund Policy</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -241,22 +203,75 @@
     
                 <div class="col-sm-12 np">
                     <ol>
-                        <li>Introduction These Website Standard Terms and Conditions written on this webpage shall manage your use of this website. These Terms will be applied fully and affect to your use of this Website. By using this Website, you agreed to accept all terms and conditions written in here. You must not use this Website if you disagree with any of these Website Standard Terms and Conditions. Minors or people below 18 years old are not allowed to use this Website.</li>   
-                        <li>Intellectual Property Rights Other than the content you own, under these Terms, and/or its licensors own all the intellectual property rights and materials contained in this Website. You are granted limited license only for purposes of viewing the material contained on this Website.</li>   
-                        <li>Restrictions You are specifically restricted from all of the following<br>publishing any Website material in any other media; selling, sublicensing and/or otherwise commercializing any Website material; publicly performing and/or showing any Website material; using this Website in any way that is or may be damaging to this Website; using this Website in any way that impacts user access to this Website; using this Website contrary to applicable laws and regulations, or in any way may cause harm to the Website, or to any person or business entity; engaging in any data mining, data harvesting, data extracting or any other similar activity in relation to this Website; using this Website to engage in any advertising or marketing. Certain areas of this Website are restricted from being access by you and may further restrict access by you to any areas of this Website, at any time, in absolute discretion. Any user ID and password you may have for this Website are confidential and you must maintain confidentiality as well.</li>   
-                        <li>Your Content In these Website Standard Terms and Conditions, “Your Content” shall mean any audio, video text, assets/images or other material you choose to display on this Website. By displaying Your Content, you grant a non-exclusive, worldwide irrevocable, sub licensable license to use, reproduce, adapt, publish, translate and distribute it in any and all media.<br>Your Content must be your own and must not be invading any third-party’s rights. reserves the right to remove any of Your Content from this Website at any time without notice.</li>    
-                        <li>No warranties This Website is provided “as is,” with all faults, and express no representations or warranties, of any kind related to this Website or the materials contained on this Website. Also, nothing contained on this Website shall be interpreted as advising you.</li>   
-                        <li>Limitation of liability In no event shall , nor any of its officers, directors and employees, shall be held liable for anything arising out of or in any way connected with your use of this Website whether such liability is under contract. , including its officers, directors and employees shall not be held liable for any indirect, consequential or special liability arising out of or in any way related to your use of this Website.</li>
-                        <li>Indemnification You hereby indemnify to the fullest extent from and against any and/or all liabilities, costs, demands, causes of action, damages and expenses arising in any way related to your breach of any of the provisions of these Terms.</li>
-                        <li>Severability If any provision of these Terms is found to be invalid under any applicable law, such provisions shall be deleted without affecting the remaining provisions herein.</li>   
-                        <li>Variation of Terms is permitted to revise these Terms at any time as it sees fit, and by using this Website you are expected to review these Terms on a regular basis.</li>
-                        <li>Assignment The is allowed to assign, transfer, and subcontract its rights and/or obligations under these Terms without any notification. However, you are not allowed to assign, transfer, or subcontract any of your rights and/or obligations under these Terms.</li>
-                        <li>Entire Agreement These Terms constitute the entire agreement between and you in relation to your use of this Website, and supersede all prior agreements and understandings.</li>
-                        <li>Governing Law & Jurisdiction These Terms will be governed by and interpreted in accordance with the laws of the State of , and you submit to the non-exclusive jurisdiction of the state and federal courts located in for the resolution of any disputes.</li>
+                        <li>Returns Our policy lasts 30 days. If 30 days have gone by since your purchase, unfortunately we
+                            can’t
+                            offer you a refund or exchange. Please contact via email with your request on info@oyespace.com
+                            and
+                            we shall revert with a possible course of action.</li>
+    
+                        <li>There are certain situations where only partial refunds are granted: (if applicable)</li>
+    
+                        <li> Refunds (if applicable) If you are approved, then your refund will be processed, and a credit
+                            will
+                            automatically be applied to your credit card or original method of payment, within a certain
+                            amount
+                            of days.</li>
+    
+                        <li> Late or missing refunds (if applicable) If you haven’t received a refund yet, first check your
+                            bank
+                            account again.</li>
+    
+                        <li>Then contact your credit card company, it may take some time before your refund is officially
+                            posted.</li>
+    
+                        <li>Next contact your bank. There is often some processing time before a refund is posted.</li>
+                        <li>If you’ve done all of this and you still have not received your refund yet, please contact us at
+                            <strong>info@oyespace.com</strong></li>
+    
+                        <li>Sale items (if applicable) Only regular priced items may be refunded, unfortunately sale items
+                            cannot be refunded.</li>
+    
+                        <li>Exchanges (if applicable) We only replace items/services if there are unresolved issues even
+                            after 30 days.<br> Send us an email at <strong>info@oyespace.com</strong></li>
                     </ol>
                 </div>
                 <!--Refund Policy details part-->
             </div>
         </div>
     </ng-template>
+    <!--Refund Policy pop up box-->
+    
     <!--Terms and Conditions pop up box-->
+    <ng-template #termsconditions>
+    
+            <div class="modal-header" style="background: #82808026">
+                <h4 class="modal-title" style="text-align:center">Terms & Conditions</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" style="width:100%">
+        
+                    <div class="col-sm-12 np">
+                        <ol>
+                            <li>Introduction These Website Standard Terms and Conditions written on this webpage shall manage your use of this website. These Terms will be applied fully and affect to your use of this Website. By using this Website, you agreed to accept all terms and conditions written in here. You must not use this Website if you disagree with any of these Website Standard Terms and Conditions. Minors or people below 18 years old are not allowed to use this Website.</li>   
+                            <li>Intellectual Property Rights Other than the content you own, under these Terms, and/or its licensors own all the intellectual property rights and materials contained in this Website. You are granted limited license only for purposes of viewing the material contained on this Website.</li>   
+                            <li>Restrictions You are specifically restricted from all of the following<br>publishing any Website material in any other media; selling, sublicensing and/or otherwise commercializing any Website material; publicly performing and/or showing any Website material; using this Website in any way that is or may be damaging to this Website; using this Website in any way that impacts user access to this Website; using this Website contrary to applicable laws and regulations, or in any way may cause harm to the Website, or to any person or business entity; engaging in any data mining, data harvesting, data extracting or any other similar activity in relation to this Website; using this Website to engage in any advertising or marketing. Certain areas of this Website are restricted from being access by you and may further restrict access by you to any areas of this Website, at any time, in absolute discretion. Any user ID and password you may have for this Website are confidential and you must maintain confidentiality as well.</li>   
+                            <li>Your Content In these Website Standard Terms and Conditions, “Your Content” shall mean any audio, video text, assets/images or other material you choose to display on this Website. By displaying Your Content, you grant a non-exclusive, worldwide irrevocable, sub licensable license to use, reproduce, adapt, publish, translate and distribute it in any and all media.<br>Your Content must be your own and must not be invading any third-party’s rights. reserves the right to remove any of Your Content from this Website at any time without notice.</li>    
+                            <li>No warranties This Website is provided “as is,” with all faults, and express no representations or warranties, of any kind related to this Website or the materials contained on this Website. Also, nothing contained on this Website shall be interpreted as advising you.</li>   
+                            <li>Limitation of liability In no event shall , nor any of its officers, directors and employees, shall be held liable for anything arising out of or in any way connected with your use of this Website whether such liability is under contract. , including its officers, directors and employees shall not be held liable for any indirect, consequential or special liability arising out of or in any way related to your use of this Website.</li>
+                            <li>Indemnification You hereby indemnify to the fullest extent from and against any and/or all liabilities, costs, demands, causes of action, damages and expenses arising in any way related to your breach of any of the provisions of these Terms.</li>
+                            <li>Severability If any provision of these Terms is found to be invalid under any applicable law, such provisions shall be deleted without affecting the remaining provisions herein.</li>   
+                            <li>Variation of Terms is permitted to revise these Terms at any time as it sees fit, and by using this Website you are expected to review these Terms on a regular basis.</li>
+                            <li>Assignment The is allowed to assign, transfer, and subcontract its rights and/or obligations under these Terms without any notification. However, you are not allowed to assign, transfer, or subcontract any of your rights and/or obligations under these Terms.</li>
+                            <li>Entire Agreement These Terms constitute the entire agreement between and you in relation to your use of this Website, and supersede all prior agreements and understandings.</li>
+                            <li>Governing Law & Jurisdiction These Terms will be governed by and interpreted in accordance with the laws of the State of , and you submit to the non-exclusive jurisdiction of the state and federal courts located in for the resolution of any disputes.</li>
+                        </ol>
+                    </div>
+                    <!--Refund Policy details part-->
+                </div>
+            </div>
+        </ng-template>
+        <!--Terms and Conditions pop up box-->
+

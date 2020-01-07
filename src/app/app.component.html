@@ -43,10 +43,10 @@
       <p class="not-head-bg">{{notificationList.length}} Notifications</p>
       <div class="not-cont">
         <ng-container *ngFor='let item of notificationList'>
-          <div (click)="NotificationDropDown(item['ntid'])" class="main-not">
+          <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
             <p class="not-name">{{item['asAsnName']}}</p>
             <span class="not-desc">{{item['ntDesc']}}</span>
-            <div *ngIf="toggleName == item['ntid']" style="display: flex;justify-content: space-between;">
+            <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
               <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
             </div>
           </div>
