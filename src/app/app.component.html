@@ -13,8 +13,10 @@
 <div class="topnav" id="myTopnav">
   <div *ngIf="!router.url.includes('home')"> <a (click)='toggleDashboard()'><img src="../assets/OyeSociety.png"></a></div>
   <div class="col-sm-12 head" *ngIf="router.url.includes('home')">
-    <p class="wel">Welcome to</p>
-    <img src="../assets/header_img.png" class="img-responsive">
+    <p class="wel">Welcome to {{globalService.currentAssociationName}}</p>
+      <span class="smalltext">Powered by<img src="../assets/header_img.png" class="img-responsive">
+      </span>    
+    
   
     <!--<h2 class="title-orange">OyeHomes</h2> -->
   </div>
@@ -48,6 +50,9 @@
             <span class="not-desc">{{item['ntDesc']}}</span>
             <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
               <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
+            </div>
+            <div *ngIf="toggleName == item['ntid'] && ntType=='gate_app'" style="display: flex;justify-content: space-between;">
+              <button (click)="EntryAprove('EntryApproved',item['sbMemID'])" class="btn-primary-purple">Allow</button><button (click)="EntryRjected('ExitApproved',item['sbMemID'])" class="btn-primary-purple">Deny</button>
             </div>
           </div>
         </ng-container>

@@ -103,6 +103,7 @@ export class HomeComponent implements OnInit {
        this.associationAmountDue=[];
        this.associationTotalMembers=[];
        this.p=1;
+       this.globalService.currentAssociationName='';
      }
   ngOnInit() {
     this.getAssociation();
@@ -113,7 +114,8 @@ export class HomeComponent implements OnInit {
     this.getStaff();
     this.getVistors();
     this.getAccountFirstName();
-    //this.globalService.currentAssociationName='';
+    console.log(this.globalService.currentAssociationName);
+    console.log(typeof this.globalService.currentAssociationName);
 this.localMrmRoleId=this.globalService.mrmroleId;
 this.GetVehicleListByAssocID();
   }
@@ -335,10 +337,13 @@ this.GetVehicleListByAssocID();
     //this.globalService.currentUnitId == '';
     //this.appComponent.myMenus=true;
     //console.log("AssociationName: ", associationName);
-    this.globalService.setCurrentAssociationName(associationName);
-    this.currentAssociationName = associationName;
+    let asnName=(associationName=='null'?'Association':associationName);
+    //console.log(asnName);
+    //console.log(typeof associationName);
+    this.globalService.setCurrentAssociationName(asnName);
+    this.currentAssociationName = asnName;
     this.associations.forEach(association => {
-      if (association.asAsnName == associationName) {
+      if (association.asAsnName == asnName) {
         //console.log(association);
         this.dashBrdService.mrmRoleID= association['mrmRoleID'];
         //console.log( this.dashBrdService.mrmRoleID);
@@ -352,7 +357,7 @@ this.GetVehicleListByAssocID();
           }
           //console.log(this.unitlistForAssociation);
           this.globalService.setCurrentAssociationId(association.asAssnID);
-          this.globalService.setCurrentAssociationName(associationName);
+          this.globalService.setCurrentAssociationName(asnName);
           this.associationID = this.globalService.getCurrentAssociationId();
           //console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
       }

@@ -7,10 +7,10 @@
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
                 <div style="display: flex;">
-                    <span class="black">Invoice For {{currentassociationname}} of Block  </span>
+                    <span class="black">Invoice For Block  </span>
                         <div class="dropdown" style="width: 200px;margin-left: 10px; margin-top: -7px;">
                             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Blocks':viewinvoiceservice.invoiceBlock)}}
+                                data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Select Block':viewinvoiceservice.invoiceBlock)}}
                                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                             <ul class="dropdown-menu fullw">
                                 <li *ngFor='let item of allBlocksByAssnID'
@@ -101,7 +101,7 @@
                                         </span>
                                         <span *ngIf="item['inPaid'] == 'No'">
                                             |
-                                            <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                            <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
                                         </span>
                                     </td>
                                     <td>
@@ -834,7 +834,8 @@
                 <p><strong>Invoice No:</strong> {{invoiceNumber}}</p>
             </div>
             <div class="inv-details t-right">
-                <img (click)="printInvoice()" src="../../assets/images/icons/printer.png">
+                <!-- <img (click)="printInvoice()" src="../../assets/images/icons/printer.png"> -->
+                <button style="margin: -7% 0% 0% 0%;" type="button" class="close" aria-label="Close" (click)="modalRef.hide()"><span aria-hidden="true">&times;</span></button>
                 <h2 class="inv-title">{{associationDetails.asAsnName}}</h2>
                 <p>{{associationDetails.asAddress}}</p>
                 <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
@@ -1017,13 +1018,24 @@
                 </table>
             </div>
             <p class="amt"><strong>Amount in words :</strong>{{InvoiceValue | words}} Rupees Only</p>
-            <div class="inv-details">
+            <div class="row">
+            <div class="inv-details col-sm-6">
+                
                 <p><strong>Due upon receipt</strong></p>
                 <h2 class="inv-title-purple">{{associationDetails.asAsnName}}</h2>
                 <!-- <p><strong>Mobile no:</strong>{{associationDetails.asMgrMobile}}</p> -->
                 <p><strong>Address: </strong>{{associationDetails.asAddress}}</p>
                 <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
             </div>
+            <div class="col-sm-6">
+                <p style="border: 1px solid gray !important; width: 100%; height: 40px;">Comments: They have paid after 6 days.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="border-top: 1px solid black; text-align: center; color: darkblue;">
+                <p>This is digitally generated invoice; signature not required.</p>
+            </div>
+        </div>
             <!--Payment Options-->
             
             <div class="payment-opt" *ngIf="payopt">
@@ -1047,11 +1059,10 @@
             </div>
             <!--Payment Options-->
             <div class="pay-bt">
-                <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>
-                    Pay
-                    Now</button>
-                <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i
-                        class="fa fa-file-text-o" aria-hidden="true"></i> Generate Receipt</button>
+                <button (click)="printInvoice()" class="btn-primary-purple"><i style="font-family:FontAwesome !important" class="fa-file-pdf-o" aria-hidden="true"></i>&nbsp;Save as PDF</button>
+                <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+                <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button>
+                <!-- <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate Receipt</button> -->
             </div>
 
         </div>
@@ -1409,14 +1420,14 @@
               <div class="row">
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
-                    <label>Invoice Number<span class="red">*</span></label>
+                    <label>Invoice Number</label>
                     <input type="text" class="form-control" name="invoicenumber" [(ngModel)]="invoicenumber" #invoiceControl='ngModel'
                       placeholder="Invoice Number" disabled />
                   </div>
                 </div>
                 <div class="col-sm-6 col-xs-12">
                     <div class="form-group">
-                      <label>Amount Due<span class="red">*</span></label>
+                      <label>Amount Due</label>
                       <input type="text" class="form-control" name="totalAmountDue" [(ngModel)]="totalAmountDue" placeholder="Amount Due"
                         disabled />
                     </div>
@@ -1427,7 +1438,7 @@
                   <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
                     <label>Amount Paid <span class="red">*</span></label>
                     <input type="text" class="form-control" name="totalamountPaid" [(ngModel)]="totalamountPaid"
-                      #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" disabled/>
+                      #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$"/>
                     <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
                     <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
                   </div>
@@ -1451,7 +1462,7 @@
               <div class="row" *ngIf="checkField != 'Cash'">
                 <div class="col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label class="control-label">Select Bank</label>
+                        <label class="control-label">Select Bank<span class="red">*</span></label>
                         <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle sdm br form-control"
                                  type="button" data-toggle="dropdown">{{expensedataBABName}}
@@ -1469,6 +1480,15 @@
                           <label>Voucher No <span class="red">*</span></label>
                           <input type="text" class="form-control" name="receiptVoucherNo" [(ngModel)]="receiptVoucherNo" #voucherNoControl='ngModel' placeholder="Voucher No " required/>
                           <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter Voucher No</p>
+                      </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : paymentDateControl.invalid && paymentDateControl.touched}">
+                          <label>Payment Date<span class="red">*</span></label>
+                          <input type="text" class="form-control" name="paymentDate" #paymentDateControl='ngModel'
+                            placeholder="Payment Date" required [bsConfig]="bsConfig" [(ngModel)]="paymentDate" #PaymentDate='bsDatepicker'
+                            bsDatepicker />
+                            <p class="alerts" *ngIf="paymentDateControl.invalid && paymentDateControl.touched"> Please Select Payment Date</p>
                       </div>
                   </div>
               </div>
@@ -1511,7 +1531,11 @@
                       </div>
                   </div>
               </div>
-          
+              <div class="row">
+                <div class="col-xs-12"><textarea rows="4" cols="74" name="comment">
+                    Enter Comments...</textarea></div>
+                
+              </div>
               <div class="row">                
                   <button style="float: right;" type="submit" class="btn btn-primary-purple" (click)="generateInvoiceReceipt()"> Generate</button> 
                   <button style="float: right;" type="reset" (click)="resetForm()" class="btn btn-primary-purple">Reset </button>                           
