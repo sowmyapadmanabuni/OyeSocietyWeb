@@ -69,6 +69,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ResidentInvoiceComponent } from './resident-invoice/resident-invoice.component';
 import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.component';
 import { AssociationVisitorComponent } from './association-visitor/association-visitor.component';
+import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -146,7 +147,8 @@ import { AssociationVisitorComponent } from './association-visitor/association-v
     ToastrModule.forRoot(),
     ProgressbarModule.forRoot(),
     NgxQRCodeModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    JwSocialButtonsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

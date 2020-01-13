@@ -27,7 +27,7 @@ export class ReceiptsComponent implements OnInit {
   searchTxt:any;
 
   constructor(private modalService: BsModalService,
-    private globalservice:GlobalServiceService,
+    public globalservice:GlobalServiceService,
     private viewreceiptservice:ViewReceiptService,
     private router:Router,
     public generatereceiptservice: GenerateReceiptService) 

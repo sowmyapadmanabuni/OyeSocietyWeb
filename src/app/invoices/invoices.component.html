@@ -7,7 +7,7 @@
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
                 <div style="display: flex;">
-                    <span class="black">Invoice For Block  </span>
+                    <span class="black">Invoice for  </span>
                         <div class="dropdown" style="width: 200px;margin-left: 10px; margin-top: -7px;">
                             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                 data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Select Block':viewinvoiceservice.invoiceBlock)}}
@@ -68,7 +68,7 @@
                                 <th>
                                     Action
                                 </th>
-                                <th>
+                                <th *ngIf="toggle == 'toggleNo'">
                                     <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;
                                     <i *ngIf="isChecked" style="cursor:pointer" (click)="sendEmailToAll()"
                                         class="fa fa-paper-plane"></i>
@@ -103,8 +103,12 @@
                                             |
                                             <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
                                         </span>
+                                        <span *ngIf="item['inPaid'] == 'Yes'">
+                                            |
+                                            <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                        </span>
                                     </td>
-                                    <td>
+                                    <td *ngIf="toggle == 'toggleNo'">
                                         <input class="chkBox" type="checkbox" [value]="item.inid" [checked]='checkAll'
                                             (change)='toggleIsChecked($event)'>
                                     </td>
@@ -112,7 +116,17 @@
                             </tr>
                         </tbody>
                         <tfoot>
-                            <tr>
+                            <tr *ngIf="toggle == 'toggleYes'">
+                                <td colspan="7">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                            <tr *ngIf="toggle == 'toggleNo'">
+                                <td colspan="6">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                            <tr *ngIf="toggle == 'All'">
                                 <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
@@ -1017,7 +1031,7 @@
                     </tbody>
                 </table>
             </div>
-            <p class="amt"><strong>Amount in words :</strong>{{InvoiceValue | words}} Rupees Only</p>
+            <p class="amt"><strong>Amount in words:</strong> Rupees {{InvoiceValue | words}} Only</p>
             <div class="row">
             <div class="inv-details col-sm-6">
                 
@@ -1033,7 +1047,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12" style="border-top: 1px solid black; text-align: center; color: darkblue;">
-                <p>This is digitally generated invoice; signature not required.</p>
+                <p>This is a digitally generated invoice; signature not required.</p>
             </div>
         </div>
             <!--Payment Options-->
@@ -1059,6 +1073,9 @@
             </div>
             <!--Payment Options-->
             <div class="pay-bt">
+                <div class="fb-share-button" data-href="http://localhost:4200/invoice" data-layout="button_count"><a target="_blank" href="https://www.facebook.com/messages" class="fb-xfbml-parse-ignore">
+                    <i style="font-family:FontAwesome !important;margin-top: 5px;margin-right: 24px;font-size: 24px;" class="fa fa-share-alt" aria-hidden="true"></i></a>
+                </div>
                 <button (click)="printInvoice()" class="btn-primary-purple"><i style="font-family:FontAwesome !important" class="fa-file-pdf-o" aria-hidden="true"></i>&nbsp;Save as PDF</button>
                 <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
                 <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button>
@@ -1532,8 +1549,7 @@
                   </div>
               </div>
               <div class="row">
-                <div class="col-xs-12"><textarea rows="4" cols="74" name="comment">
-                    Enter Comments...</textarea></div>
+                <div class="col-xs-12"><textarea placeholder="Enter Comments..." rows="4" cols="74" name="comment"></textarea></div>
                 
               </div>
               <div class="row">                
@@ -1543,5 +1559,50 @@
           
             </form>
           </div>
+    </div>
+</ng-template>
+
+<ng-template #ViewReceiptTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title orange">RECEIPT</h4>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button> -->
+    </div>
+    <div class="modal-body">
+        <div class="receipt-head">
+            <p class="purple">Godrej Association</p>
+            <p>A-104</p>
+        </div>
+        <p class="summary">Receipt Summary</p>
+        <div class="receipt-head">
+            <div>
+                <p><strong>Invoice Number:</strong> A1047367647383</p>
+                <p><strong>Payment Date:</strong> November 21,2019</p>
+            </div>
+            <p>Reciept Id-10498776</p>
+        </div>
+        <table class="table">
+
+            <tbody>
+                <tr>
+                    <td>Amout Due</td>
+                    <td>₹ 500.00</td>
+                </tr>
+                <tr>
+                    <td>Amount Paid</td>
+                    <td>₹ 300.00</td>
+                </tr>
+                <tr>
+                    <td>Current Outstanding</td>
+                    <td>(-)₹ 200.00</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <div class="print-receipt">
+            <button class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print
+                Receipt</button>
+        </div>
     </div>
 </ng-template>

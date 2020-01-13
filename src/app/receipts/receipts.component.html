@@ -6,7 +6,7 @@
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                    <span class="black">Receipts For Manyata Association</span>
+                    <span class="black">Receipts For {{globalservice.currentAssociationName}}</span>
 
                 <div class="switch">
                     <ul class="nav nav-pills">
@@ -38,7 +38,7 @@
                                             S.No.
                                         </th>
                                         <th>
-                                            <mfDefaultSorter by="unUnitID">Unit Identifier</mfDefaultSorter>
+                                            <mfDefaultSorter by="unUnitID">Unit Name</mfDefaultSorter>
                                         </th>
                                         <th>
                                             <mfDefaultSorter by="inNumber">Invoice No</mfDefaultSorter>
@@ -61,7 +61,7 @@
                                         </ng-container>
                                         <ng-container *ngIf="item!=-1">
                                             <td>{{ (10 * (p - 1) + i)+1 }}</td>
-                                            <td>{{item['unUnitID']}}</td>
+                                            <td>{{item['unUniName']}}</td>
                                             <td>{{item['inNumber']}}</td>
                                             <td class="amount">{{item['pyDate'] | date : "d-M-y"}}</td>
                                             <td class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}</td>

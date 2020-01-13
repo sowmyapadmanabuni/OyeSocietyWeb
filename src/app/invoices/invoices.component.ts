@@ -12,6 +12,7 @@ import { GenerateReceiptService } from '../../services/generate-receipt.service'
 import { PaymentService } from '../../services/payment.service';
 import { HttpHeaders } from '@angular/common/http';
 import { formatDate } from '@angular/common';
+import {ViewReceiptService} from '../../services/view-receipt.service';
 declare var $: any;
 
 
@@ -148,6 +149,7 @@ export class InvoicesComponent implements OnInit {
   receiptChequeNo:any;
   receiptChequeDate:any;
   searchTxt:any;
+  viewPayments: object[];
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -156,7 +158,8 @@ export class InvoicesComponent implements OnInit {
     private router: Router,
     private orderpipe: OrderPipe,
     private generatereceiptservice: GenerateReceiptService,
-    private paymentService: PaymentService) {
+    private paymentService: PaymentService,
+    private viewreceiptservice:ViewReceiptService) {
     this.currentPage = 1;
     this.pageSize = 10;
     this.previousDue = 0.00;
@@ -179,6 +182,8 @@ export class InvoicesComponent implements OnInit {
     this.toggle='All';
     this.paymentMethodType='Select Payment Method';
     this.expensedataBABName='Bank';
+    this.viewPayments=[];
+
 
     this.bankList = [
       'Allahabad Bank',
@@ -246,6 +251,11 @@ export class InvoicesComponent implements OnInit {
   });
   }
   ngOnInit() {
+    this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
+    .subscribe(data=>{
+      console.log(data['data']['payments']);
+      this.viewPayments=data['data']['payments']
+    });
     this.payopt = false;
 
     console.log('this.currentAssociationID', this.currentAssociationID);
@@ -259,6 +269,9 @@ export class InvoicesComponent implements OnInit {
           this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
         }
       })
+  }
+  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>){
+    this.modalRef = this.modalService.show(ViewReceiptTemplate,Object.assign({}, { class: 'gray modal-md' }));
   }
   getexpensedataBABName(bank) {
     this.expensedataBABName = bank;
@@ -1044,11 +1057,14 @@ export class InvoicesComponent implements OnInit {
       case 'OnlinePay':
         this.expensedataPMID = 4;
         break;
-  }
+    }
 
-  console.log(this.expensedataPMID);
-  this.paymentMethodType=displayName;
-  let paymentobj = this.methodArray.filter(item => item['id'] == PMID)
-  this.checkField = paymentobj[0]['name'];
-}
+    console.log(this.expensedataPMID);
+    this.paymentMethodType = displayName;
+    let paymentobj = this.methodArray.filter(item => item['id'] == PMID)
+    this.checkField = paymentobj[0]['name'];
+  }
+  clearArea(txtArea) {
+    console.log(txtArea);
+  }
 }
