@@ -541,6 +541,9 @@ this.GetVehicleListByAssocID();
   goToExpense(){
     this.router.navigate(['expense']);
   }
+  goToResidentInvoice(){
+    this.router.navigate(['invoice']);
+  }
   goToFamily(){
     this.router.navigate(['family']);
   }

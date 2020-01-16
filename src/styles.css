@@ -3,7 +3,7 @@
 .build-bg{background-color: #fff;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}
 .title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}
-.wel{width:568px;font-size: 16px;margin: 0px;display: inline-block;}
+.wel {width: 568px;font-size: 13px;margin: 0px;display: inline-block;font-weight: 600;}
 .zsiq_chatbtn {background-color: #919191 !important;}
 a,a:hover,li a:hover{cursor:pointer;text-decoration: none}
 .purple,.black{color:#5a51aa !important;font-size: 18px !important;font-weight: 500 !important;}

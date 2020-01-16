@@ -97,6 +97,8 @@ export class InvoicesComponent implements OnInit {
   paymentmethod:any;
   blkBlockID:any;
   bankname:any;
+  minPaymentDateDate:Date;
+  maxPaymentDateDate:Date;
 
   currentassociationname: string;
   @ViewChild('template', { static: true }) private template: TemplateRef<any>;
@@ -154,12 +156,18 @@ export class InvoicesComponent implements OnInit {
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
     private toastr: ToastrService,
-    private globalservice: GlobalServiceService,
+    public globalservice: GlobalServiceService,
     private router: Router,
     private orderpipe: OrderPipe,
     private generatereceiptservice: GenerateReceiptService,
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService) {
+
+    this.globalservice.getCurrentUnitName(),
+    this.globalservice.getCurrentUnitId(),
+    console.log(this.globalservice.getCurrentUnitName());
+    console.log(this.globalservice.getCurrentUnitId());
+
     this.currentPage = 1;
     this.pageSize = 10;
     this.previousDue = 0.00;
@@ -182,9 +190,11 @@ export class InvoicesComponent implements OnInit {
     this.toggle='All';
     this.paymentMethodType='Select Payment Method';
     this.expensedataBABName='Bank';
-    this.viewPayments=[];
-
-
+    this.viewPayments = [];
+    this.minPaymentDateDate = new Date();
+    this.maxPaymentDateDate = new Date();
+    this.minPaymentDateDate.setFullYear(2000);
+    this.maxPaymentDateDate.setFullYear(2040);
     this.bankList = [
       'Allahabad Bank',
       'Andhra Bank',
@@ -252,12 +262,12 @@ export class InvoicesComponent implements OnInit {
   }
   ngOnInit() {
     this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
-    .subscribe(data=>{
-      console.log(data['data']['payments']);
-      this.viewPayments=data['data']['payments']
-    });
+      .subscribe(data => {
+        console.log(data['data']['payments']);
+        this.viewPayments = data['data']['payments']
+      });
+    //
     this.payopt = false;
-
     console.log('this.currentAssociationID', this.currentAssociationID);
     this.viewinvoiceservice.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
@@ -269,6 +279,30 @@ export class InvoicesComponent implements OnInit {
           this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
         }
       })
+    //
+    if(this.globalservice.mrmroleId != 1){
+          this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+      .subscribe(data => {
+        console.log(data);
+      },
+        err => {
+          console.log(err);
+          swal.fire({
+            title: "An error has occurred",
+            text: `${err['error']['exceptionMessage']}`,
+            type: "error",
+            confirmButtonColor: "#f69321"
+          });
+        })
+    }
+
+  }
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
   }
   OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>){
     this.modalRef = this.modalService.show(ViewReceiptTemplate,Object.assign({}, { class: 'gray modal-md' }));

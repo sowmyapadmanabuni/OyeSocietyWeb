@@ -67,6 +67,9 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.powered{display: flex;justify-content: flex-start;align-items: center;}
+.smalltext{font-size: 12px;color: red;text-align: right;line-height: 12px;
+}
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 83
 0px) {

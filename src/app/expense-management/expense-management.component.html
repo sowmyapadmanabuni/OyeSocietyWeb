@@ -6,8 +6,17 @@
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                <span class="purple">Expense For {{globalservice.getCurrentAssociationName()}}</span>
-
+              <div style="display: flex;">
+                <span class="purple">Expenses for </span>
+                <div class="dropdown" style="width: 200px;margin-right: 11px !important;margin-top: -8px !important;margin-left: 7px !important;">
+                  <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                      data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
+                      <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                  <ul class="dropdown-menu fullw ">
+                      <li *ngFor='let item of allBlocksLists' (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])"><a>{{item['blBlkName']}}</a></li>
+                  </ul>
+              </div>
+              </div>
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li class="active"><a (click)="goToExpense()">Expenses</a></li>
@@ -22,14 +31,14 @@
                         aria-hidden="true"></i> Add Expense</button>
                   </div>
                   <div style="display: flex">
-                      <div class="dropdown">
+                      <!-- <div class="dropdown">
                           <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                               data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{(viewexpenseservice.currentBlockName == ''?'Blocks':viewexpenseservice.currentBlockName)}}
                               <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                           <ul class="dropdown-menu fullw ">
                               <li *ngFor='let item of allBlocksLists' (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])"><a>{{item['blBlkName']}}</a></li>
                           </ul>
-                      </div>
+                      </div> -->
   
                       <!-- <div [hidden]="blockID == ''" class="dropdown">
                         <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown" style="width: 200px;margin-right: 20px;">{{Invoiced}}
@@ -40,7 +49,7 @@
                         </ul>
                       </div> -->
   
-                      <button class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
+                      <button *ngIf="toggle == 'toggleNo'" class="btn-primary-purple" (click)="generateInvoice()"><i class="fa fa-file-text"
                               aria-hidden="true"></i> Generate invoice</button>
                   </div>
                     

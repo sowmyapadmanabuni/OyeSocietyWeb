@@ -1,4 +1,5 @@
-<div class="container-fluid np">
+<!--/*/*/*/*/* ADMIN INVOICE START /*/*/*/*/*-->
+<div *ngIf="globalservice.mrmroleId == 1" class="container-fluid np">
     <div class="col-sm-12">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
@@ -144,6 +145,155 @@
     <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
+<!--/*/*/*/*/* ADMIN INVOICE END /*/*/*/*/*-->
+
+
+
+
+
+
+
+
+
+
+<!--/*/*/*/*/* RESIDENT INVOICE START /*/*/*/*/*-->
+<div *ngIf="globalservice.mrmroleId != 1" class="container-fluid np">
+    <div class="col-sm-12">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <div style="display: flex;">
+                    <span class="black">Invoice for unit {{globalservice.getCurrentUnitName()}}  </span> 
+                </div>
+
+                <div class="switch">
+                    <ul class="nav nav-pills" style="width: 214px;">
+                        <li class="active"><a (click)="goToInvoice()">Invoice</a></li>
+                        <li><a (click)="goToReceipts()">Receipts</a></li>
+                    </ul>
+                </div>
+                <div style="display: flex;justify-content: flex-end;align-items: baseline;">
+                    <!-- <label class="purple">Paid&nbsp;&nbsp;</label> -->
+                    <!-- <input type="checkbox" [(ngModel)]="IsPaid" (change)='GetPaidInvoiceList(IsPaid)' name="IsPaid"> -->
+                </div>
+                <!-- Toggler switch-->
+                <div class="switch">
+                    <ul class="nav1 nav-pills1">
+                        <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetPaidInvoiceList('id','All')">All</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetPaidInvoiceList(true,'toggleYes')">Paid</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a (click)="GetPaidInvoiceList(false,'toggleNo')">Unpaid</a></li>
+                        </ul>
+                </div>
+                <!-- Toggler switch-->
+                <div>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
+                </div>
+                <div class="dash-row">
+                    <table class="table table-bordered"
+                        [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="unUnitID">Unit ID</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="inGenDate">Invoice Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="inTotVal">Amount</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                                <th *ngIf="toggle == 'toggleNo'">
+                                    <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;
+                                    <i *ngIf="isChecked" style="cursor:pointer" (click)="sendEmailToAll()"
+                                        class="fa fa-paper-plane"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td>
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                        <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <button tooltip="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
+                                                (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
+                                                <i class="fa fa-paper-plane"></i>
+                                            </button> | <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i>
+                                            |
+                                            <i tooltip="View Discount"
+                                                (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
+                                                style="cursor: pointer;" class="fa fa-percent"></i>
+                                        </span>
+                                        <span *ngIf="item['inPaid'] == 'No'">
+                                            |
+                                            <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                        </span>
+                                        <span *ngIf="item['inPaid'] == 'Yes'">
+                                            |
+                                            <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                        </span>
+                                    </td>
+                                    <td *ngIf="toggle == 'toggleNo'">
+                                        <input class="chkBox" type="checkbox" [value]="item.inid" [checked]='checkAll'
+                                            (change)='toggleIsChecked($event)'>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr *ngIf="toggle == 'toggleYes'">
+                                <td colspan="7">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                            <tr *ngIf="toggle == 'toggleNo'">
+                                <td colspan="6">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                            <tr *ngIf="toggle == 'All'">
+                                <td colspan="7">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <!--Dashboard icons end-->
+
+        </div>
+
+    </div>
+    <!--rightBar start-->
+    <!-- <app-right-bar></app-right-bar> -->
+    <!--rightBar end-->
+</div>
+<!--/*/*/*/*/* RESIDENT INVOICE END /*/*/*/*/*-->
+
+
 
 
 <ng-template #template1>
@@ -1454,7 +1604,7 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
                     <label>Amount Paid <span class="red">*</span></label>
-                    <input type="text" class="form-control" name="totalamountPaid" [(ngModel)]="totalamountPaid"
+                    <input type="text" class="form-control" name="totalamountPaid" (keypress)=_keyPress($event) [(ngModel)]="totalamountPaid"
                       #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$"/>
                     <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
                     <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
@@ -1504,7 +1654,7 @@
                           <label>Payment Date<span class="red">*</span></label>
                           <input type="text" class="form-control" name="paymentDate" #paymentDateControl='ngModel'
                             placeholder="Payment Date" required [bsConfig]="bsConfig" [(ngModel)]="paymentDate" #PaymentDate='bsDatepicker'
-                            bsDatepicker />
+                            bsDatepicker [minDate]="minPaymentDateDate" [maxDate]="maxPaymentDateDate"/>
                             <p class="alerts" *ngIf="paymentDateControl.invalid && paymentDateControl.touched"> Please Select Payment Date</p>
                       </div>
                   </div>

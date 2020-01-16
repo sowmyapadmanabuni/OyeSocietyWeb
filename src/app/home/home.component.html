@@ -169,7 +169,7 @@
                                 </div> -->
 
                                 <div class="dash-row1">
-                                                <span class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
+                                                <span  *ngIf="globalService.mrmroleId == 1" class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
                                                 <span class="ad-btn" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
                                 </div>
                         </div>
@@ -238,6 +238,11 @@
                                                  Family Members
                                                 </div>
                                         </div>  
+                                        <div class="tile-link" (click)="goToResidentInvoice()">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/expense-management.png">
+                                                </div>
+                                                <div class="f-des">Invoice Management</div>
+                                        </div>
                                         <!-- <div class="tile-link" (click)="goToVisitors()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
@@ -257,7 +262,7 @@
                                         </div>   
                                 </div> -->
                                 <div class="dash-row1">
-                                                <span class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
+                                                <span *ngIf="globalService.mrmroleId == 1" class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
                                                 <span class="ad-btn ad-btn-active1" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
                                 </div>
                                 <!-- <div class="dash-row">

@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 import { OrderPipe } from 'ngx-order-pipe';
 import {DashBoardService} from '../../services/dash-board.service';
 import {HomeService} from '../../services/home.service';
-import { AngularFireMessaging } from '@angular/fire/messaging';
 import { formatDate } from '@angular/common';
 declare var $: any;
 
@@ -219,8 +218,7 @@ export class AssociationManagementComponent implements OnInit {
     private route:ActivatedRoute,
     private orderpipe: OrderPipe,
     private dashboardservice:DashBoardService,
-    private homeservice:HomeService,
-    private afMessaging: AngularFireMessaging) {
+    private homeservice:HomeService) {
     this.toggleFaCircleO=false;
     this.toggleFaCircle1=false;
     this.viewAssnService.enrlAsnEnbled=false;

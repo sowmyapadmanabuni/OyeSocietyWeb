@@ -77,6 +77,7 @@ export class ViewInvoiceService {
     return this.http.get(this.url, { headers: headers });
   }
   invoicelistByUnitID(UnitID){
+    console.log(UnitID);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.getIPaddress();
     this.url = `${ipAddress}oyeliving/api/v1/Invoice/invoicelistByUnitID/${UnitID}`;

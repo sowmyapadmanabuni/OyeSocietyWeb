@@ -11,15 +11,32 @@
 <div *ngIf='isAuthenticated()'>
 <!-- <div> -->
 <div class="topnav" id="myTopnav">
-  <div *ngIf="!router.url.includes('home')"> <a (click)='toggleDashboard()'><img src="../assets/OyeSociety.png"></a></div>
-  <div class="col-sm-12 head" *ngIf="router.url.includes('home')">
-    <p class="wel">Welcome to {{globalService.currentAssociationName}}</p>
-      <span class="smalltext">Powered by<img src="../assets/header_img.png" class="img-responsive">
-      </span>    
-    
-  
-    <!--<h2 class="title-orange">OyeHomes</h2> -->
-  </div>
+  <div class="col-sm-12 head">
+    <div style="display: flex;width: 400px;">
+      <p class="wel" style="width: auto !important;">Welcome to {{globalService.currentAssociationName}}</p>
+      <!-- <div class="dropdown search-dropd">
+        <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
+          data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
+          <span class="caret"></span></button>
+        <ul class="dropdown-menu fullw fdrop">
+          <li (click)="loadAssociation(association['asAsnName'],'id')" *ngFor="let association of uniqueAssociations">
+            <a>{{association['asAsnName']}}</a></li>
+        </ul>
+      </div> -->
+      <div class="form-group">
+        <select>
+          <option *ngFor="let association of uniqueAssociations" (click)="loadAssociation(association['asAsnName'],'id')" [value]="association['asAsnName']">
+            {{association['asAsnName']}}
+          </option>
+        </select>
+      </div>
+      <a class="switch" style="color: blue !important;padding: 0px 10px;">switch</a>
+    </div>
+    <div class="powered">
+        <span class="smalltext">Powered <br>by</span>  
+        <a (click)='toggleDashboard()' style="padding: 1px 6px;"><img src="../assets/OyeSociety.png" class="img-responsive"></a>
+    </div>
+   </div>
   <div style="margin-top: -30px;">
     <a routerLink="home" class="active"></a>
     <a routerLink="hiring" class="hire">We are hiring</a>

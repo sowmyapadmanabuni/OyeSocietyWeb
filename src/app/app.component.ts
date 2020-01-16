@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {UtilsService} from '../app/utils/utils.service';
 import {DashBoardService} from '../services/dash-board.service';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -18,18 +19,24 @@ export class AppComponent {
   ntType:any;
   VLApprStat:any;
   sbMemID:any;
+  accountID:number;
+  associations:any= [];
+  uniqueAssociations :any[];
 
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
     private http: HttpClient,private utilsService:UtilsService){
+      this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
     this.notificationList=[];
+    this.uniqueAssociations=[];
     this.toggleName='';
     this.ntType='';
     this.VLApprStat='';
   }
   ngOnInit() {
     this.getNotification();
+    this.getAssociation();
     this.HideOrShowNotification=false;
   }
   ngAfterViewInit(){
@@ -73,7 +80,30 @@ export class AppComponent {
      //console.log(err);
    })
   }
-
+  getAssociation(){
+    //console.log('this.accountID',this.accountID);
+    this.dashBoardService.getAssociation(this.accountID).subscribe(res => {
+      //console.log(JSON.stringify(res));
+      var data:any = res;
+      //console.log(data);
+      this.associations = data.data.memberListByAccount;
+      this.associations = _.sortBy(this.associations, e => e.asAsnName);
+      //console.log('associations',this.associations);
+      for (let i = 0; i < this.associations.length; i++) {
+        //console.log( this.uniqueAssociations);
+        //console.log( this.associations[i]['asAsnName']);
+        const found = this.uniqueAssociations.some(el => el['asAsnName'] === this.associations[i]['asAsnName']);
+        if (!found) {
+          this.uniqueAssociations.push(this.associations[i]);
+        }
+      }
+      console.log(this.uniqueAssociations);
+        //this.loadAssociation(this.globalService.getCurrentAssociationName(),'');
+      },
+      res=>{
+        //console.log('Error in getting Associations',res);
+      });
+  }
   UpdateApprovalStatus(sbMemID){
     console.log(sbMemID);
     let APIdataForStatus={
@@ -111,7 +141,6 @@ export class AppComponent {
      console.log(err);
    })
   }
-
   getHttpheaders(): HttpHeaders {
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')
