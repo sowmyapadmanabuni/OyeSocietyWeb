@@ -355,7 +355,7 @@
 
       /* Colors when tab is active */
 
-      background: #edf6f9; 
+      background: #f7b844; 
 
       color: black; 
 
@@ -393,7 +393,7 @@
 
     .tabs .active:before, .tabs .active:after {
 
-      background: #edf6f9; 
+      background: #f7b844; 
 
       
 
