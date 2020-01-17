@@ -1255,6 +1255,7 @@ this.crtAssn.newBAActType='';
     $(document).ready(function () {
 
       var navListItems = $('div.setup-panel div a'),
+      AddExp = $('#AddExp'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
        anchorDiv = $('div.setup-panel div'),
@@ -1289,7 +1290,8 @@ this.crtAssn.newBAActType='';
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          curInputs = curStep.find("input[type='text']"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
 
         $(".form-group").removeClass("has-error");
@@ -1300,8 +1302,18 @@ this.crtAssn.newBAActType='';
           }
         }
 
-        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        if (isValid) {
+          nextStepWizard.removeAttr('disabled').trigger('click');
+          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        }
       });
+      AddExp.click(function () {
+        console.log(this);
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]')
+        curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+      })
 
       $('div.setup-panel div a.btn-success').trigger('click');
     });

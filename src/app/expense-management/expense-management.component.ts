@@ -510,17 +510,16 @@ export class ExpenseManagementComponent implements OnInit {
     $(document).ready(function () {
   
       var navListItems = $('div.setup-panel div a'),
+        addExpBtn = $('#AddExpense'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
         anchorDivs = $('div.stepwizard-row div'),
         Divs = $('div.stepwizard div div');
-
       //console.log(anchorDivs);
       anchorDivs.click(function(){
        var $item = $(this);
-      var $childitem = $($($item.children()[0]).attr('href'));
-
-       Divs.removeClass('step-active');
+        var $childitem = $($($item.children()[0]).attr('href'));
+        Divs.removeClass('step-active');
         $item.addClass('step-active');
         //console.log($childitem);
         allWells.hide();
@@ -549,8 +548,10 @@ export class ExpenseManagementComponent implements OnInit {
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          curInputs = curStep.find("input[type='text']"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
+          console.log(curAnchorBtn);
   
         $(".form-group").removeClass("has-error");
         for (var i = 0; i < curInputs.length; i++) {
@@ -560,8 +561,18 @@ export class ExpenseManagementComponent implements OnInit {
           }
         }
   
-        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        if (isValid) {
+          nextStepWizard.removeAttr('disabled').trigger('click');
+          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        }
       });
+      addExpBtn.click(function () {
+        console.log(this);
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]')
+        curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+      })
   
       $('div.setup-panel div a.btn-success').trigger('click');
     });

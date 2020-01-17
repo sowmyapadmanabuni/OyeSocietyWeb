@@ -83,17 +83,17 @@
           <div class="stepwizard">
             <div class="stepwizard-row setup-panel">
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a href="#step-1" type="button" class="btn btn-success btn-circle"></a><span>Association Details</span>
+                <a href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Association Details</span>
               </div>
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a href="#step-2" type="button" class="btn btn-default btn-circle"></a><span>Pan & Registration
+                <a href="#step-2" type="button" class="btn btn-circle-o"></a><span>Pan & Registration
                   Details</span>
               </div>
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a href="#step-3" type="button" class="btn btn-default btn-circle"></a><span>Block & Unit Details</span>
+                <a href="#step-3" type="button" class="btn btn-circle-o"></a><span>Block & Unit Details</span>
               </div>
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a href="#step-4" type="button" class="btn btn-default btn-circle"></a><span>Other Amenities</span>
+                <a href="#step-4" type="button" class="btn btn-circle-o"></a><span>Other Amenities</span>
               </div>
             </div>
           </div>
@@ -303,7 +303,7 @@
                 <app-new-amenity [newamenities]='newamenities' (addAmenities)='addAmenity($event)'
                   (deleteamenity)='deleteamenity($event)'></app-new-amenity>
               </div>
-              <button class="btn btn-primary-purple nextBtn pull-right" type="submit"
+              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit"
                 (click)="onSubmit()">Finish!</button>
 
             </div>

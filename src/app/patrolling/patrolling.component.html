@@ -19,8 +19,11 @@
                             </span>
                         </div>
                         <div class="date-row">
-                            <div class="del-date cal"><input type="text" placeholder="From Date" class="date"
-                                    bsDatepicker></div>
+                            <div class="del-date cal">
+                                    <input type="text" autocomplete="off" class="date" name="patrolingStartdate"
+                                    #startrangedateControl='ngModel' placeholder="From Date" required [(ngModel)]="patrolingStartdate"
+                                    [bsConfig]="bsConfig" placeholder="From Date" bsDatepicker placement="down" />
+                            </div>
                             <div class="del-date cal"><input type="text" class="date" placeholder="To Date"
                                     bsDatepicker></div>
                         </div>
@@ -42,7 +45,7 @@
                         </div>
 
                         <div class="report-bt">
-                            <button class="btn btn-primary-purple nextBtn" style="width:100%">Get Report</button><br>
+                            <button class="btn btn-primary-purple nextBtn" (click)='getPatrolingReportByDate()' style="width:100%">Get Report</button><br>
                         </div>
                     </div>
                     <div class="col-sm-8">

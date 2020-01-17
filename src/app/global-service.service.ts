@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class GlobalServiceService {
    enableHomeView: boolean; 
    mrmroleId:any;
    mrmroleId1:any;
+   private subject1 = new Subject<any>();
+   private subject2 = new Subject<any>();
    
   constructor() { 
     this.currentAssociationName='';
@@ -86,8 +89,28 @@ public setMrmRoleID(MrmRoleID){
   this.mrmroleId=MrmRoleID;
   console.log(typeof this.mrmroleId);
   localStorage.setItem("MrmRoleID", MrmRoleID);
-}
-public getMrmRoleID(){
-  localStorage.getItem("MrmRoleID");
-}
+  }
+  
+  public getMrmRoleID() {
+    localStorage.getItem("MrmRoleID");
+  }
+
+  sendMessage(message: any) {
+    this.subject1.next({ msg: message });
+  }
+  sendUnitListForAssociation(message: any){
+    console.log(message);
+    this.subject2.next({ msg: message });
+  }
+
+  clearMessages() {
+    this.subject1.next();
+  }
+
+  getMessage(): Observable<any> {
+    return this.subject1.asObservable();
+  }
+  getUnitListForAssociation(): Observable<any> {
+    return this.subject2.asObservable();
+  }
 }

@@ -289,7 +289,7 @@ export class InvoicesComponent implements OnInit {
           console.log(err);
           swal.fire({
             title: "An error has occurred",
-            text: `${err['error']['exceptionMessage']}`,
+            text: `${err['error']['error']['message']}`,
             type: "error",
             confirmButtonColor: "#f69321"
           });

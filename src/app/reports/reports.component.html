@@ -10,37 +10,46 @@
                     <span class="black">Reports</span>
 
                 <div class="dash m-t-30">
+                    <div>
+                        <div class="card genled">
+                            <h4 class="pad"><b>Customer Statement</b></h4>
+                            <p class="pad">For each customer the report shows all the transactions that occurred I that
+                                account over a period of time. It includes the beginning balance and total for each account.
+                            </p>
+                        </div>
+                        <p style="cursor: pointer;" class="run" (click)="goToCustomerStatement()">RUN</p>
+                    </div>
                 <!--Journels-->
                 <div>
                     <div class="card Journals">
-                        <h4 class="pad"><b>Journals</b></h4>
+                        <h4 class="pad"><b>Visitor Logs</b></h4>
                         <p class="pad">This report breaks down every transaction during a period of time into debits and
                             credits and displays them chronologically. Transaction list by date also list transactions
                             chronologically, but not as debits and credits.</p>
                     </div>
-                    <p class="run" (click)="goTojournels()">RUN</p>
+                    <p style="cursor: pointer;" class="run" (click)="goToVisitorLogs()">RUN</p>
                 </div>
                 <!--Journels-->
                 <!--Journels-->
                 <div>
                     <div class="card genled">
-                        <h4 class="pad"><b>General Ledger</b></h4>
+                        <h4 class="pad"><b>Patrolling</b></h4>
                         <p class="pad">For each account in your chart of accounts, the report shows all the transactions
                             that occurred in that account over a period of time. It includes the beginning balance and
                             the total for each account.</p>
                     </div>
-                    <p class="run" (click)="goToGeneralLedger()">RUN</p>
+                    <p style="cursor: pointer;" class="run" (click)="goToPatrolling()">RUN</p>
                 </div>
                 <!--Journels-->
                 <!--Journels-->
-                <div>
+                <!-- <div>
                     <div class="card profit">
                         <h4 class="pad"><b>Profit And Loss</b></h4>
                         <p class="pad">Shows money you earned (income) and money you spent (expenses) so you can see how
                             profitable you are. Also called an income statement.</p>
                     </div>
                     <p class="run"   (click)="goToprofitLoss()">RUN</p>
-                </div>
+                </div> -->
                 <!--Journels-->
             </div>
             </div>
@@ -48,7 +57,7 @@
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
                 <!--Journels-->
-                <div>
+                <!-- <div>
                     <div class="card Journals">
                         <h4 class="pad"><b>Balance Sheet</b></h4>
                         <p class="pad">Lists what you own (assets), what your debts are (liabilities), and what you have
@@ -56,21 +65,12 @@
                     </div>
                     <p class="run" (click)="goTobalanceSheet()">RUN</p>
 
-                </div>
+                </div> -->
                 <!--Journels-->
                 <!--Journels-->
-                <div>
-                    <div class="card genled">
-                        <h4 class="pad"><b>Customer Statement</b></h4>
-                        <p class="pad">For each customer the report shows all the transactions that occurred I that
-                            account over a period of time. It includes the beginning balance and total for each account.
-                        </p>
-                    </div>
-                    <p class="run" (click)="goToCustomerStatement()">RUN</p>
-                </div>
                 <!--Journels-->
                 <!--Journels-->
-                <div>
+                <!-- <div>
                     <div class="card profit">
                         <h4 class="pad"><b>Supplier Statement</b></h4>
                         <p class="pad">For each supplier, the report shows all the transactions that occurred in that
@@ -78,7 +78,7 @@
                         </p>
                     </div>
                     <p class="run" (click)="goToSupplierStatement()">RUN</p>
-                </div>
+                </div> -->
                 <!--Journels-->
             </div>
             <!--Dashboard icons end-->

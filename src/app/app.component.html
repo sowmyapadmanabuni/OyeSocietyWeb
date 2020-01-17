@@ -24,9 +24,17 @@
         </ul>
       </div> -->
       <div class="form-group">
-        <select>
-          <option *ngFor="let association of uniqueAssociations" (click)="loadAssociation(association['asAsnName'],'id')" [value]="association['asAsnName']">
+        <select name="associationName" [(ngModel)]='associationName' (change)="loadAssociation(associationName,'id')">
+          <option *ngFor="let association of uniqueAssociations"  [value]="association['asAsnName']">
             {{association['asAsnName']}}
+          </option>
+        </select>
+      </div>
+      <a class="switch" style="color: blue !important;padding: 0px 10px;">switch</a>
+      <div class="form-group">
+        <select name="unitName" [(ngModel)]='unitName' (change)="loadUnit(unt['unUniName'],unt['unUnitID'])">
+          <option *ngFor="let unt of unitlistForAssociation"  [value]="unt['unUniName']">
+            {{unt['unUniName']}}
           </option>
         </select>
       </div>

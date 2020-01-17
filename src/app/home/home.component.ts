@@ -12,6 +12,8 @@ import {Router, NavigationEnd} from '@angular/router';
 import { ViewAssociationService } from '../../services/view-association.service';
 import {UnitlistForAssociation} from '../models/unitlist-for-association';
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -73,6 +75,7 @@ export class HomeComponent implements OnInit {
   adminUnitShow:boolean;
   modalRef: BsModalRef;
   p: number;
+  subscription: Subscription;
  
   constructor(private dashBrdService: DashBoardService, private appComponent:AppComponent,
      public globalService:GlobalServiceService,
@@ -104,7 +107,18 @@ export class HomeComponent implements OnInit {
        this.associationTotalMembers=[];
        this.p=1;
        this.globalService.currentAssociationName='';
+      this.subscription=this.globalService.getMessage()
+      .subscribe(msg=>{
+        //console.log(msg);
+        // console.log(asnName);
+        // console.log(typeof asnName);
+        this.loadAssociation(msg['msg']['associationName'].trim(),'');
+      },
+      err=>{
+        //console.log(err);
+      })
      }
+
   ngOnInit() {
     this.getAssociation();
     this.getAmount();
@@ -116,8 +130,8 @@ export class HomeComponent implements OnInit {
     this.getAccountFirstName();
     console.log(this.globalService.currentAssociationName);
     console.log(typeof this.globalService.currentAssociationName);
-this.localMrmRoleId=this.globalService.mrmroleId;
-this.GetVehicleListByAssocID();
+    this.localMrmRoleId = this.globalService.mrmroleId;
+    this.GetVehicleListByAssocID();
   }
   gotToResidentInvoice(){
     this.router.navigate(['resident-invoice']);
@@ -328,6 +342,7 @@ this.GetVehicleListByAssocID();
      }
     })
   }
+  
   loadAssociation(associationName: string,param:any) {
     if(!this.globalService.toggledashboard){
       //console.log('false');
@@ -397,6 +412,7 @@ this.GetVehicleListByAssocID();
     this.getStaff();
     this.getVistors();
     this.GetVehicleListByAssocID();
+    this.globalService.sendUnitListForAssociation(this.unitlistForAssociation);
   }
   GetVehicleListByAssocID(){
     this.dashBrdService.GetVehicleListByAssocID(this.associationID)

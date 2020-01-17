@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {UtilsService} from '../app/utils/utils.service';
 import {DashBoardService} from '../services/dash-board.service';
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -22,6 +23,9 @@ export class AppComponent {
   accountID:number;
   associations:any= [];
   uniqueAssociations :any[];
+  associationName:any;
+  subscription: Subscription;
+  unitlistForAssociation:any[];
 
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
@@ -33,6 +37,14 @@ export class AppComponent {
     this.toggleName='';
     this.ntType='';
     this.VLApprStat='';
+    this.subscription=this.globalService.getUnitListForAssociation()
+    .subscribe(msg=>{
+      console.log(msg);
+      this.unitlistForAssociation=msg['msg'];
+    },
+    err=>{
+      console.log(err);
+    })
   }
   ngOnInit() {
     this.getNotification();
@@ -103,6 +115,14 @@ export class AppComponent {
       res=>{
         //console.log('Error in getting Associations',res);
       });
+  }
+  loadAssociation(associationName: string, param: any) {
+    console.log(associationName, param);
+    let params={
+      "associationName":associationName,
+      "param":param
+    }
+    this.globalService.sendMessage(params);
   }
   UpdateApprovalStatus(sbMemID){
     console.log(sbMemID);

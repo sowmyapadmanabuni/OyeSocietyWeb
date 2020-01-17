@@ -34,7 +34,8 @@
                         <!--choice heading row end-->
                         <!--Dashboard icons for ADMIN start-->
                         <div class="dash-main">
-                        <div class="col-md-12 m-t-30 dash" *ngIf="localMrmRoleId == 1">
+<div style="width: 70%;" *ngIf="localMrmRoleId == 1">
+                        <div class="col-md-12 dash dash-bg-1">
                                 <div class="dash-row">
                                         <div class="tile-link" (click)="OpenModalBlockDetails(viewBlockDetailsTemplate)">
                                                 <div><img class="dash-icon"
@@ -45,6 +46,17 @@
                                                         <div>Association <br>Amount Due</div>
                                                 </div>
                                         </div>
+                                        <div class="tile-link" (click)="goToAssociation()">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/association-management.png">
+                                                </div>
+                                                <div class="f-des">Association Management
+                                                </div>
+                                        </div>
+                                        <div class="tile-link" (click)="goToExpense()">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/expense-management.png">
+                                                </div>
+                                                <div class="f-des">Expense Management</div>
+                                        </div>
                                         <!-- <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/amount_due_self.png">
@@ -54,13 +66,13 @@
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div> -->
-                                        <div class="tile-link" (click)="goToVehicles()">
+                                        <!-- <div class="tile-link" (click)="goToVehicles()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalAssociationVehicles=='0'?'0':totalAssociationVehicles)}}</div>
                                                         <div>Vehicles</div>
                                                 </div>
-                                        </div>
+                                        </div> -->
                                         <div class="tile-link" data-toggle="modal" data-target="#associationMembersTemplate">
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/icons/association-management.png"></div>
@@ -69,13 +81,13 @@
                                                         <div>Members</div>
                                                 </div>
                                         </div>
-                                        <div class="tile-link" (click)="goToAssociationVisitors()">
+                                        <!-- <div class="tile-link" (click)="goToAssociationVisitors()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
                                                         <div>Visitors</div>
                                                 </div>
-                                        </div>
+                                        </div> -->
                                         <!-- <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/Group 1750.png">
@@ -96,23 +108,19 @@
                                                         <div>Staff</div>
                                                 </div>
                                         </div>
-                                        <div class="tile-link" (click)="goToAssociation()">
-                                                <div><img class="dash-icon" src="../../assets/images/icons/association-management.png">
-                                                </div>
-                                                <div class="f-des">Association Management
-                                                </div>
-                                        </div>
                                         <div class="tile-link" (click)="goToBlocks()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/blocks-units.png">
                                                 </div>
                                                 <div class="f-des">Units And Blocks</div>
                                         </div>
-                                                                                
-                                        <div class="tile-link" (click)="goToExpense()">
-                                                <div><img class="dash-icon" src="../../assets/images/icons/expense-management.png">
+                                        <div class="tile-link" (click)="goToReports()">
+                                                <div>
+                                                        <img class="dash-icon" src="../../assets/images/icons/reports.png">
                                                 </div>
-                                                <div class="f-des">Expense Management</div>
-                                        </div>
+                                                <div>
+                                                        Reports
+                                                </div>
+                                        </div> 
                                         <!-- <div>
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/dash_icons/ticket.png"></div>
@@ -124,22 +132,14 @@
 
                                 </div>
                                 <div class="dash-row">
-                                        <div class="tile-link" (click)="goToPatrolling()">
+                                        <!-- <div class="tile-link" (click)="goToPatrolling()">
                                                 <div>
                                                         <img class="dash-icon" src="../../assets/images/icons/patrolling.png">
                                                 </div>
                                                 <div>
                                                         Patrolling
                                                 </div>
-                                        </div>     
-                                        <div class="tile-link" (click)="goToReports()">
-                                                <div>
-                                                        <img class="dash-icon" src="../../assets/images/icons/reports.png">
-                                                </div>
-                                                <div>
-                                                        Reports
-                                                </div>
-                                        </div> 
+                                        </div>      -->
                                         <!-- <div class="tile-link" (click)="goToFamily()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/family.png">
@@ -168,18 +168,29 @@
                                      
                                 </div> -->
 
-                                <div class="dash-row1">
+                                <!-- <div class="dash-row1">
                                                 <span  *ngIf="globalService.mrmroleId == 1" class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
                                                 <span class="ad-btn" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
-                                </div>
+                                </div> -->
                         </div>
+                        <div class="dash-tab">
+                                <ul class="tabs group">
+                                        <li *ngIf="globalService.mrmroleId == 1" (click)="AdminsButtonShow()" class="active"><a data-toggle="tab">ADMIN</a></li> 
+                                        <li (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a></li> 
+                                                
+                                </ul>
+                        </div>
+                </div>
+
+<!---->
                         </div>
                         <!--Dashboard icons for ADMIN end-->
 
 
                         <!--Dashboard icons for MyUnit(RESIDENT) start-->
                         <div class="dash-main">
-                        <div class="col-md-12 m-t-30 dash" *ngIf="localMrmRoleId != 1">
+                                <div class="dash-tab" *ngIf="localMrmRoleId != 1">
+                        <div class="col-md-12 dash dash-bg-1">
                                 <div class="dash-row">
                                        
                                         <div>
@@ -191,13 +202,13 @@
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div>
-                                        <div class="tile-link" (click)="goToVehicles()">
+                                        <!-- <div class="tile-link" (click)="goToVehicles()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
                                                         <div>Vehicles</div>
                                                 </div>
-                                        </div>
+                                        </div> -->
                                         <div class="tile-link" (click)="goToAssociation()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/association-management.png">
                                                 </div>
@@ -212,16 +223,21 @@
                                                         <div>Members</div>
                                                 </div>
                                         </div>
+                                        <div class="tile-link" (click)="goToResidentInvoice()">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/expense-management.png">
+                                                </div>
+                                                <div class="f-des">Invoice Management</div>
+                                        </div>
                                 </div>
                                 <div class="dash-row">
 
-                                        <div class="tile-link" (click)="goToVisitors()">
+                                        <!-- <div class="tile-link" (click)="goToVisitors()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
                                                 <div>
                                                         <div class="number">{{(totalUnitVisitors=='0'?'0':totalUnitVisitors)}}</div>
                                                         <div>Visitors</div>
                                                 </div>
-                                        </div>
+                                        </div> -->
                                         <div class="tile-link" (click)="goToStaffFromDashboard()">
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/icons/staff.png"></div>
@@ -238,11 +254,6 @@
                                                  Family Members
                                                 </div>
                                         </div>  
-                                        <div class="tile-link" (click)="goToResidentInvoice()">
-                                                <div><img class="dash-icon" src="../../assets/images/icons/expense-management.png">
-                                                </div>
-                                                <div class="f-des">Invoice Management</div>
-                                        </div>
                                         <!-- <div class="tile-link" (click)="goToVisitors()">
                                                 <div>
                                                         <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
@@ -261,10 +272,10 @@
                                                 </div>
                                         </div>   
                                 </div> -->
-                                <div class="dash-row1">
+                                <!-- <div class="dash-row1">
                                                 <span *ngIf="globalService.mrmroleId == 1" class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
                                                 <span class="ad-btn ad-btn-active1" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
-                                </div>
+                                </div> -->
                                 <!-- <div class="dash-row">
                                         <div *ngIf="globalService.mrmroleId == 1">
                                                 <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
@@ -273,6 +284,14 @@
                                                 <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
                                         </div>
                                 </div> -->
+                        </div>
+                        <div class="dash-tab">
+                                <ul class="tabs group">
+                                        <li *ngIf="globalService.mrmroleId == 1" (click)="AdminsButtonShow()"><a data-toggle="tab">ADMIN</a></li> 
+                                        <li (click)="AdminsUnitShow()" class="active"><a data-toggle="tab">MY UNIT</a></li> 
+                                                
+                                </ul>
+                        </div>
                         </div>
                         </div>
                         <!--Dashboard icons for MyUnit(RESIDENT) end-->

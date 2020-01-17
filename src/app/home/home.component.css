@@ -25,18 +25,19 @@
   
     align-items: center;
   
-    width: 80%;
+    width: 100%;
   
-    background: #fff;
   
     border-radius: 24px;
   
-    padding: 30px 0px 0px 0px;
+    padding: 30px 0px 30px 0px;
   
     box-shadow: 0px 0px 2px 2px #dddcdc;
   
   }
-  
+  .dash-bg-2{background: #ddc385;}
+  .dash-bg-1{background: #edf6f9;}
+
   .b-l{border-left: 2px solid rgb(242, 238, 238)}
   
   .number{font-size: 18px;font-weight: 500;}
@@ -202,41 +203,314 @@
   .flat-img img{width:100%}
   
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   /* button for ADMIN and Resident */
+
   
+
   .butt {
+
   
+
     border: 1px outset blue;
+
   
+
     background-color: lightBlue;
+
   
+
     height:50px;
+
   
+
     width:70px;
+
   
+
     cursor:pointer;
+
   
+
   }
+
   
+
   
+
   
+
   .butt:hover {
+
   
+
    background-color: blue;
+
   
+
     color:white;
+
   
+
   }
+
+
+
+
+
+
+
+  /* Dashboard Tabs css */
+
+  #content { 
+
+    background: #FFF; 
+
+    min-height: 400px; 
+
+}
+
+
+
+.tabs { 
+
+    list-style: none; 
+
+    margin:0px auto; 
+
+    width: 100%;
+
+    padding: 0px 20px;
+
+}
+
+    .tabs li { 
+
+      /* Makes a horizontal row */
+
+        float: left; 
+
+        width: 50%;
+
+        /* So the psueudo elements can be
+
+           abs. positioned inside */
+
+        position: relative; 
+
+    }
+
+    .tabs a { 
+
+      /* Make them block level
+
+         and only as wide as they need */
+
+      float: left; 
+
+      padding: 23px 40px; 
+
+      text-decoration: none;
+
+      
+
+      /* Default colors */ 
+
+      color: black !important;
+
+      font-size: 16px;
+
+    font-weight: 500;
+
+    text-align: center;
+
+      background: #e3e4e5; 
+
+      width: 100%;
+
+      /* Only round the top corners */
+
+      -webkit-border-bottom-left-radius: 32px;
+
+      -webkit-border-bottom-right-radius: 32px;
+
+      -moz-border-radius-bottomleft: 32px;
+
+      -moz-border-radius-bottomright: 32px;
+
+      border-bottom-left-radius: 32px;
+
+      border-bottom-right-radius: 32px; 
+
+    }
+
+    .tabs .active {
+
+      /* Highest, active tab is on top */
+
+      z-index: 3;
+
+    }
+
+    .tabs .active a { 
+
+      /* Colors when tab is active */
+
+      background: #edf6f9; 
+
+      color: black; 
+
+    }
+
+    .tabs li:before, .tabs li:after, 
+
+    .tabs li a:before, .tabs li a:after {
+
+      /* All pseudo elements are 
+
+         abs. positioned and on bottom */
+
+      position: absolute;
+
+      bottom: 0;
+
+    }
+
+    /* Only the first, last, and active
+
+       tabs need pseudo elements at all */
+
+    .tabs li:last-child:after,   .tabs li:last-child a:after,
+
+    .tabs li:first-child:before, .tabs li:first-child a:before,
+
+    .tabs .active:after,   .tabs .active:before, 
+
+    .tabs .active a:after, .tabs .active a:before {
+
+      content: "";
+
+    }
+
+    .tabs .active:before, .tabs .active:after {
+
+      background: #edf6f9; 
+
+      
+
+      /* Squares below circles */
+
+      z-index: 1;
+
+    }
+
+    /* Squares */
+
+    .tabs li:before, .tabs li:after {
+
+      background: #e3e4e5;
+
+      width: 10px;
+
+      height: 10px;
+
+    }
+.dash-tab{width: 100%;float: left;}
+    .tabs li:before {
+
+      left: -10px;     
+
+      top: 0px; 
+
+    }
+
+    .tabs li:after { 
+
+      right: -10px;
+
+      top: 0px;
+
+    }
+
+    /* Circles */
+
+    .tabs li a:after{
+
+      width: 20px; 
+
+      height: 20px;
+
+      /* Circles are circular */
+
+      -webkit-border-radius: 10px;
+
+      -moz-border-radius:    10px;
+
+      border-radius:         10px;
+
+      background: #FFF;
+
+      
+
+      /* Circles over squares */
+
+      z-index: 2;
+
+    }
+    .tabs li a:before {
+
+      width: 20px; 
+
+      height: 20px;
+
+      /* Circles are circular */
+
+      -webkit-border-radius: 10px;
+
+      -moz-border-radius:    10px;
+
+      border-radius:         10px;
+
+      background: #fefaf0;
+
+      
+
+      /* Circles over squares */
+
+      z-index: 2;
+
+    }
+    .tabs .active a:after, .tabs .active a:before {
+
+      background: #e3e4e5;
+
+    }
+
+    /* First and last tabs have different
+
+       outside color needs */
+
+    .tabs li:first-child.active a:before{
+      background:#fefaf0;
+    }
+
+    .tabs li:last-child.active a:after {
+
+      background: #ffffff;
+
+    }
+
+    .tabs li a:before {
+
+      left: -20px;
+
+      top: 0px;
+
+    }
+
+    .tabs li a:after {
+
+      right: -20px;
+
+      top: 0px;
+
+    }
