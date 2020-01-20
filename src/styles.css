@@ -3,7 +3,7 @@
 .build-bg{background-color: #fff;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}
 .title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}
-.wel {width: 568px;font-size: 13px;margin: 0px;display: inline-block;font-weight: 600;}
+.wel {font-size: 12px;margin: 0px;display: inline-block;font-weight: 600;padding: 8px 0px;}
 .zsiq_chatbtn {background-color: #919191 !important;}
 a,a:hover,li a:hover{cursor:pointer;text-decoration: none}
 .purple,.black{color:#5a51aa !important;font-size: 18px !important;font-weight: 500 !important;}
@@ -46,7 +46,7 @@ background-attachment: #f7c60a;
 background: #4d4c4c;
 }
 
-.topnav{margin-bottom: 20px;}
+/* .topnav{margin-bottom: 20px;} */
 .caret{display: none !important;}
 .search-dropd::after{
 font-family: FontAwesome;
@@ -54,12 +54,12 @@ content: '\f107';
 position: absolute;
 top: 2px;
 right: 1px;
-padding: 0 25px;
+padding: 0 11px;
 color: #5a51aa !important;
 cursor: pointer;
 pointer-events: none;
 background: #fff;
-font-size: 25px;
+font-size: 19px;
 }
 
 .form-control

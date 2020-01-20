@@ -30,16 +30,21 @@
 /* Dropdown container - needed to position the dropdown content */
 .dropdown {
   float: left;
-  overflow: hidden;
+  margin-top: 8px;
+  /* overflow: hidden; */
 }
-
+#dro-switch{display: flex;
+  align-items: center;}
+  .switch{color: #475cc6;
+    font-size: 11px;
+    font-weight: 600;padding-left: 4px;}
 /* Style the dropdown button to fit inside the topnav */
 .dropdown .dropbtn {
   font-size: 13px;
   border: none;
   outline: none;
   color: #2b2a2a;
-  padding: 14px 16px;
+  padding: 7px 16px;
   background-color: inherit;
   font-family: inherit;
   margin: 0;
@@ -146,7 +151,7 @@
   .active{display: none !important}
 
   .dropdown-content {
-    top: 44px;
+    top: 52px;
     padding: 10px 0px;
   }
  

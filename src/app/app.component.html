@@ -10,82 +10,86 @@
 <!-- Toolbar -->
 <div *ngIf='isAuthenticated()'>
 <!-- <div> -->
-<div class="topnav" id="myTopnav">
-  <div class="col-sm-12 head">
-    <div style="display: flex;width: 400px;">
-      <p class="wel" style="width: auto !important;">Welcome to {{globalService.getCurrentAssociationName()}}</p>
-      <!-- <div class="dropdown search-dropd">
-        <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
-          data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
-          <span class="caret"></span></button>
-        <ul class="dropdown-menu fullw fdrop">
-          <li (click)="loadAssociation(association['asAsnName'],'id')" *ngFor="let association of uniqueAssociations">
-            <a>{{association['asAsnName']}}</a></li>
-        </ul>
-      </div> -->
-      <div class="form-group">
-        <select name="associationName" [(ngModel)]='associationName' (change)="loadAssociation(associationName,'id')">
-          <option *ngFor="let association of uniqueAssociations" [value]="association['asAsnName']">
-            {{association['asAsnName']}}
-          </option>
-        </select>
-      </div>
-      <a class="switch" style="color: blue !important;padding: 0px 10px;">switch</a>
-      <div class="form-group">
-        <select name="unitName" [(ngModel)]='unitName' (change)="loadUnit(unt['unUniName'],unt['unUnitID'])">
-          <option *ngFor="let unt of unitlistForAssociation"  [value]="unt['unUniName']">
-            {{unt['unUniName']}}
-          </option>
-        </select>
-      </div>
-      <a class="switch" style="color: blue !important;padding: 0px 10px;">switch</a>
-    </div>
-    <div class="powered">
-        <span class="smalltext">Powered <br>by</span>  
-        <a (click)='toggleDashboard()' style="padding: 1px 6px;"><img src="../assets/OyeSociety.png" class="img-responsive"></a>
-    </div>
-   </div>
-  <div style="margin-top: -30px;">
-    <a routerLink="home" class="active"></a>
-    <a routerLink="hiring" class="hire">We are hiring</a>
-    <div class="dropdown">
-      <button class="dropbtn">Our Brands
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-content">
-        <a href="http://dev.oyehomes.in/">OyeHomes</a>
-        <a href="#">OyeOOH</a>
-        <a href="#">OyeSmile</a>
-        <a href="http://oyewallet.com/">OyeWallet</a>
-      </div>
-    </div>
-    <a routerLink="clients">Clients</a> 
-    <a routerLink="location">Locations</a>
-    <a routerLink="blogs">Blogs</a>
-    <a routerLink="testimonials">Testimonials</a>
-    <a routerLink="about">About Us</a>
-    <a id="flip"><i class="fa fa-bell" aria-hidden="true"></i>
-    </a>
-    <div id="panel">
-      <p class="not-head-bg">{{notificationList.length}} Notifications</p>
-      <div class="not-cont">
-        <ng-container *ngFor='let item of notificationList'>
-          <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
-            <p class="not-name">{{item['asAsnName']}}</p>
-            <span class="not-desc">{{item['ntDesc']}}</span>
-            <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
-              <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
-            </div>
-            <div *ngIf="toggleName == item['ntid'] && ntType=='gate_app'" style="display: flex;justify-content: space-between;">
-              <button (click)="EntryAprove('EntryApproved',item['sbMemID'])" class="btn-primary-purple">Allow</button><button (click)="EntryRjected('ExitApproved',item['sbMemID'])" class="btn-primary-purple">Deny</button>
+<!-- Nav Bar start  -->
+<div class="row" style="padding:10px;background: #fafafa;">
+   <div class="col-sm-6">
+          <div class="col-sm-4">
+              <p class="wel" style="width: auto !important;">Welcome to {{globalService.getCurrentAssociationName()}}</p>
+          </div>
+          <div class="col-sm-4" id="dro-switch">
+              <div class="dropdown search-dropd">
+                  <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
+                          data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
+                          <span class="caret"></span></button>
+                  <ul class="dropdown-menu fullw fdrop">
+                          <li (click)="loadAssociation(association['asAsnName'],'id')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
+                  </ul>
+              </div>
+             <span class="switch">switch</span>
+          </div>
+          <div class="col-sm-4" id="dro-switch">
+           
+              <div class="dropdown search-dropd">
+                  <button class="btn btn-primary dropdown-toggle sdm" type="button"
+                          data-toggle="dropdown">{{globalService.currentUnitName}}
+                          <span class="caret"></span></button>
+                  <ul class="dropdown-menu fullw">
+                          <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
+                  </ul>
+              </div>
+              <span class="switch">switch</span>
+          </div>
+  </div>
+   <div class="col-sm-6">
+     <div class="topnav" id="myTopnav">
+      <div>
+          <a routerLink="home" class="active"></a>
+          <a routerLink="hiring" class="hire">We are hiring</a>
+          <div class="dropdown">
+            <button class="dropbtn">Our Brands
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="http://dev.oyehomes.in/">OyeHomes</a>
+              <a href="#">OyeOOH</a>
+              <a href="#">OyeSmile</a>
+              <a href="http://oyewallet.com/">OyeWallet</a>
             </div>
           </div>
-        </ng-container>
-      </div>
-    </div>
-    <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
+          <a routerLink="clients">Clients</a> 
+          <a routerLink="location">Locations</a>
+          <a routerLink="blogs">Blogs</a>
+          <a routerLink="testimonials">Testimonials</a>
+          <a routerLink="about">About Us</a>
+          <a id="flip"><i class="fa fa-bell" aria-hidden="true"></i>
+          </a>
+          <div id="panel">
+            <p class="not-head-bg">{{notificationList.length}} Notifications</p>
+            <div class="not-cont">
+              <ng-container *ngFor='let item of notificationList'>
+                <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
+                  <p class="not-name">{{item['asAsnName']}}</p>
+                  <span class="not-desc">{{item['ntDesc']}}</span>
+                  <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
+                    <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
+                  </div>
+                  <div *ngIf="toggleName == item['ntid'] && ntType=='gate_app'" style="display: flex;justify-content: space-between;">
+                    <button (click)="EntryAprove('EntryApproved',item['sbMemID'])" class="btn-primary-purple">Allow</button><button (click)="EntryRjected('ExitApproved',item['sbMemID'])" class="btn-primary-purple">Deny</button>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
+        </div>
+   </div>
   </div>
+
+
 </div>
+<!-- Nav Bar End -->
+
+
 <!--heading start-->
 
 <!--heading end-->
