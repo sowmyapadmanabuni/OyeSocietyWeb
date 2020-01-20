@@ -91,8 +91,8 @@
                                     <td>{{(item.owner.length > 0 ? item.owner[0].uoEmail : ((item.tenant.length > 0) ? item.tenant[0].utEmail :''))}}
                                     </td>
                                     <td>
-                                        <i data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
-                                            class="fa fa-eye" tooltip="View Unit"></i>&nbsp;|&nbsp; <i data-toggle="modal"
+                                        <i style="cursor: pointer;" data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
+                                            class="fa fa-eye" tooltip="View Unit"></i>&nbsp;|&nbsp; <i style="cursor: pointer;" data-toggle="modal"
                                             (click)="OpenModal(editUnits,item['unUnitID'],item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'])" class="fa fa-pencil" tooltip="Edit Unit"></i>
                                         <!-- <i data-toggle="modal"
                                             data-target="#editBlockDetails"

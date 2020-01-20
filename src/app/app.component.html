@@ -13,7 +13,7 @@
 <div class="topnav" id="myTopnav">
   <div class="col-sm-12 head">
     <div style="display: flex;width: 400px;">
-      <p class="wel" style="width: auto !important;">Welcome to {{globalService.currentAssociationName}}</p>
+      <p class="wel" style="width: auto !important;">Welcome to {{globalService.getCurrentAssociationName()}}</p>
       <!-- <div class="dropdown search-dropd">
         <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
           data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
@@ -25,7 +25,7 @@
       </div> -->
       <div class="form-group">
         <select name="associationName" [(ngModel)]='associationName' (change)="loadAssociation(associationName,'id')">
-          <option *ngFor="let association of uniqueAssociations"  [value]="association['asAsnName']">
+          <option *ngFor="let association of uniqueAssociations" [value]="association['asAsnName']">
             {{association['asAsnName']}}
           </option>
         </select>

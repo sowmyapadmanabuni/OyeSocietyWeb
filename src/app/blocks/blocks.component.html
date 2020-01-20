@@ -60,9 +60,9 @@
                                     <td>{{item['blBlkType']}}</td>
                                     <td>{{item['blNofUnit']}}</td>
                                     <td>
-                                        <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
+                                        <i style="cursor: pointer;" data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                                             (click)="viewBlockDetails(item['blBlkName'],item['blBlkType'],item['blNofUnit'])"
-                                            class="fa fa-eye" tooltip="View Block"></i>&nbsp;|&nbsp;<i data-toggle="modal"
+                                            class="fa fa-eye" tooltip="View Block"></i>&nbsp;|&nbsp;<i style="cursor: pointer;" data-toggle="modal"
                                             data-target="#editBlockDetails"
                                             (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
                                             class="fa fa-pencil" tooltip="Edit Block"></i>

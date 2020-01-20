@@ -109,8 +109,10 @@ export class AppComponent {
           this.uniqueAssociations.push(this.associations[i]);
         }
       }
-      console.log(this.uniqueAssociations);
-        //this.loadAssociation(this.globalService.getCurrentAssociationName(),'');
+      console.log(this.uniqueAssociations[0]['asAsnName']);
+      this.globalService.setCurrentAssociationName(this.uniqueAssociations[0]['asAsnName']);
+      console.log(this.globalService.currentAssociationName);
+        this.loadAssociation(this.uniqueAssociations[0]['asAsnName'].trim(),'');
       },
       res=>{
         //console.log('Error in getting Associations',res);

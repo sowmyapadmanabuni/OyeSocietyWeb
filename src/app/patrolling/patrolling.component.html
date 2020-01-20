@@ -21,11 +21,14 @@
                         <div class="date-row">
                             <div class="del-date cal">
                                     <input type="text" autocomplete="off" class="date" name="patrolingStartdate"
-                                    #startrangedateControl='ngModel' placeholder="From Date" required [(ngModel)]="patrolingStartdate"
-                                    [bsConfig]="bsConfig" placeholder="From Date" bsDatepicker placement="down" />
+                                    #patrolingStartdateControl='ngModel' placeholder="From Date" required [(ngModel)]="patrolingStartdate"
+                                    [bsConfig]="bsConfig" bsDatepicker placement="down" />
                             </div>
-                            <div class="del-date cal"><input type="text" class="date" placeholder="To Date"
-                                    bsDatepicker></div>
+                            <div class="del-date cal">
+                                <input type="text" autocomplete="off" class="date" name="patrolingEnddate"
+                                #patrolingEnddateControl='ngModel' placeholder="To Date" required [(ngModel)]="patrolingEnddate"
+                                [bsConfig]="bsConfig" bsDatepicker placement="down" />
+                            </div>
                         </div>
                         <div class="radio-bt">
                             <div class="invite-radio">

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import {UtilsService} from '../utils/utils.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import {GlobalServiceService} from '../global-service.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-patrolling',
@@ -17,8 +18,11 @@ export class PatrollingComponent implements OnInit {
   addGuest:any;
   url:any;
   bsConfig: object;
+  patrolingStartdate:any;
+  patrolingEnddate:any;
 
-  constructor(private utilsService:UtilsService,private http: HttpClient) {
+  constructor(private utilsService:UtilsService,private http: HttpClient,
+    public globalService:GlobalServiceService) {
     this.url='';
     this.bsConfig = Object.assign({}, {
       dateInputFormat: 'DD-MM-YYYY',
@@ -31,15 +35,22 @@ export class PatrollingComponent implements OnInit {
   }
   getPatrolingReportByDate(){
     let patrolingRequest={
-      "FromDate" : "2019-08-22",
-      "ToDate"   : "2019-012-16",
-      "ASAssnID" : 14954,
+      "FromDate" : formatDate(this.patrolingStartdate, 'yyyy/MM/dd', 'en'),
+      "ToDate"   : formatDate(this.patrolingEnddate, 'yyyy/MM/dd', 'en'),
+      "ASAssnID" : this.globalService.getCurrentAssociationId(),
       "PSPtrlSID": 1
   }
+  console.log(patrolingRequest);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
     this.url = `${ipAddress}oye247/api/v1/GetPatrollingReportByDates`
-    this.http.post(this.url, JSON.stringify(''), { headers: headers });
+    this.http.post(this.url, JSON.stringify(patrolingRequest), { headers: headers })
+    .subscribe(data=>{
+      console.log(data);
+    },
+    err=>{
+      console.log(err);
+    })
   }
 
   getHttpheaders(): HttpHeaders {
