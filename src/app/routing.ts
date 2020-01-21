@@ -38,6 +38,7 @@ import { ProfileComponent } from './profile/profile.component';
 import {PaymentStatusComponent} from './payment-status/payment-status.component';
 import {ResidentInvoiceComponent} from './resident-invoice/resident-invoice.component';
 import {AssociationVisitorComponent} from './association-visitor/association-visitor.component';
+import {MembersComponent} from './members/members.component';
 import {AppComponent} from './app.component';
 import { from } from 'rxjs';
 
@@ -50,6 +51,7 @@ const routes: Routes = [
     { path: 'maps', component:MapsComponent, canActivate: [AuthGuard]},
     { path: 'clients', component:ClientsComponent, canActivate: [AuthGuard]},
     { path: 'location', component:LocationComponent, canActivate: [AuthGuard]},
+    { path: 'members', component:MembersComponent, canActivate: [AuthGuard]},
     { path: 'about', component:AboutComponent, canActivate: [AuthGuard]},
     { path: 'testimonials', component:TestimonialsComponent, canActivate: [AuthGuard]},
     { path: 'blogs', component:BlogsComponent, canActivate: [AuthGuard]},

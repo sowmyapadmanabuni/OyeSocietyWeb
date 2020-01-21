@@ -41,6 +41,19 @@ export class AppComponent {
     .subscribe(msg=>{
       console.log(msg);
       this.unitlistForAssociation=msg['msg'];
+      if(this.unitlistForAssociation.length == 0){
+        this.globalService.currentUnitName='NoUnit';
+        this.globalService.IsNoUnitExist=true; //No
+      }
+      else if(this.unitlistForAssociation.length == 1){
+        this.globalService.currentUnitName=this.unitlistForAssociation[0]['unUniName'];
+        this.globalService.IsUnitCountOne=true;
+      }
+      else if(this.unitlistForAssociation.length > 1){
+        this.globalService.currentUnitName=this.unitlistForAssociation[0]['unUniName'];
+        this.globalService.IsUnitCountOne=true;
+        this.globalService.IsNoUnitExist=false; //Yes
+      }
     },
     err=>{
       console.log(err);
@@ -70,6 +83,13 @@ export class AppComponent {
     //console.log('inside toggleDashboard');
     this.globalService.toggledashboard = true;
     this.router.navigate(['home']);
+  }
+  toggleAsnDropDwn(){
+    console.log('test');
+    this.globalService.setAssnDropDownHiddenByDefault(true); //yes
+    this.globalService.setUnitDropDownHiddenByDefault(true); //yes
+    console.log(typeof this.globalService.getAssnDropDownHiddenByDefaultValue());
+    console.log(this.globalService.getAssnDropDownHiddenByDefaultValue());
   }
   isAuthenticated(){
     if(this.globalService.getacAccntID()){
@@ -112,7 +132,7 @@ export class AppComponent {
       console.log(this.uniqueAssociations[0]['asAsnName']);
       this.globalService.setCurrentAssociationName(this.uniqueAssociations[0]['asAsnName']);
       console.log(this.globalService.currentAssociationName);
-        this.loadAssociation(this.uniqueAssociations[0]['asAsnName'].trim(),'');
+        this.loadAssociation(this.uniqueAssociations[0]['asAsnName'],'');
       },
       res=>{
         //console.log('Error in getting Associations',res);
@@ -125,6 +145,7 @@ export class AppComponent {
       "param":param
     }
     this.globalService.sendMessage(params);
+    this.globalService.setCurrentAssociationName(associationName);
   }
   UpdateApprovalStatus(sbMemID){
     console.log(sbMemID);

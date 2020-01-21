@@ -70,6 +70,7 @@ import { ResidentInvoiceComponent } from './resident-invoice/resident-invoice.co
 import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.component';
 import { AssociationVisitorComponent } from './association-visitor/association-visitor.component';
 import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
+import { MembersComponent } from './members/members.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -122,7 +123,8 @@ import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
     ProfileComponent,
     ResidentInvoiceComponent,
     GenerateReceiptComponent,
-    AssociationVisitorComponent
+    AssociationVisitorComponent,
+    MembersComponent
     ],
   imports: [
     BrowserModule,

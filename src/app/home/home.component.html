@@ -73,7 +73,7 @@
                                                         <div>Vehicles</div>
                                                 </div>
                                         </div> -->
-                                        <div class="tile-link" data-toggle="modal" data-target="#associationMembersTemplate">
+                                        <div class="tile-link" (click)="goToMembers()">
                                                 <div><img class="dash-icon"
                                                                 src="../../assets/images/icons/association-management.png"></div>
                                                 <div>
@@ -202,13 +202,7 @@
                                                         <div>Amount Due</div>
                                                 </div>
                                         </div>
-                                        <!-- <div class="tile-link" (click)="goToVehicles()">
-                                                <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
-                                                <div>
-                                                        <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
-                                                        <div>Vehicles</div>
-                                                </div>
-                                        </div> -->
+                                     
                                         <div class="tile-link" (click)="goToAssociation()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/association-management.png">
                                                 </div>
@@ -216,8 +210,7 @@
                                                 </div>
                                         </div>
                                         <div class="tile-link">
-                                                <div><img class="dash-icon"
-                                                                src="../../assets/images/icons/members.png"></div>
+                                                <div><img class="dash-icon" src="../../assets/images/icons/members.png"></div>
                                                 <div data-toggle="modal" data-target="#associationMembersTemplate">
                                                         <div class="number">{{(totalMember=='0'?'0':totalMember)}}</div>
                                                         <div>Members</div>
@@ -230,6 +223,13 @@
                                         </div>
                                 </div>
                                 <div class="dash-row">
+                                        <div class="tile-link" (click)="goToVehicles()">
+                                                <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
+                                                <div>
+                                                        <div class="number">{{(totalVehicles=='0'?'0':totalVehicles)}}</div>
+                                                        <div>Vehicles</div>
+                                                </div>
+                                        </div>
 
                                         <!-- <div class="tile-link" (click)="goToVisitors()">
                                                 <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>

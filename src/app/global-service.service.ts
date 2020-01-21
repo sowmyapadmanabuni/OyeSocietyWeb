@@ -19,12 +19,18 @@ export class GlobalServiceService {
    mrmroleId1:any;
    private subject1 = new Subject<any>();
    private subject2 = new Subject<any>();
+   AssnDropDownHiddenByDefault:any;
+   UnitDropDownHiddenByDefault:any;
+   IsUnitCountOne;
+   IsNoUnitExist:any;
    
-  constructor() { 
-    this.currentAssociationName='';
-    this.currentUnitName='';
-    this.enableLogin= true;
-    this.enableHomeView= false;
+  constructor() {
+    this.currentAssociationName = '';
+    this.currentUnitName = '';
+    this.enableLogin = true;
+    this.enableHomeView = false;
+    localStorage.setItem("AssnDropDownHiddenByDefault", 'false');
+    localStorage.setItem("UnitDropDownHiddenByDefault", 'false');
   }
 
 
@@ -45,6 +51,24 @@ public setCurrentAssociationId(associationId:string)
 {
   this.currentAssociationId = associationId;
   localStorage.setItem("currentAssociationId", associationId);
+}
+public setAssnDropDownHiddenByDefault(AssnDropDownHiddenByDefault:any)
+{
+  this.AssnDropDownHiddenByDefault=AssnDropDownHiddenByDefault;
+  localStorage.setItem("AssnDropDownHiddenByDefault", AssnDropDownHiddenByDefault);
+}
+public setUnitDropDownHiddenByDefault(UnitDropDownHiddenByDefault:any)
+{
+  this.UnitDropDownHiddenByDefault=UnitDropDownHiddenByDefault;
+  localStorage.setItem("UnitDropDownHiddenByDefault", UnitDropDownHiddenByDefault);
+}
+public getUnitDropDownHiddenByDefault()
+{
+  return localStorage.getItem("UnitDropDownHiddenByDefault");
+}
+public getAssnDropDownHiddenByDefaultValue()
+{
+ return localStorage.getItem("AssnDropDownHiddenByDefault");
 }
 public setCurrentUnitId(unitId)
 {

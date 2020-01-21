@@ -15,21 +15,25 @@
    <div class="col-sm-6">
           <div class="col-sm-4">
               <p class="wel" style="width: auto !important;">Welcome to {{globalService.getCurrentAssociationName()}}</p>
+              <div class="powered">
+                <span class="smalltext">Powered <br>by</span>  
+                <a (click)='toggleDashboard()' style="padding: 1px 6px;"><img src="../assets/OyeSociety.png" class="img-responsive"></a>
+            </div>
           </div>
           <div class="col-sm-4" id="dro-switch">
-              <div class="dropdown search-dropd">
+              <div class="dropdown search-dropd" *ngIf="globalService.getAssnDropDownHiddenByDefaultValue() == 'true'">
                   <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
-                          data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
+                          data-toggle="dropdown">{{globalService.currentAssociationName}}
                           <span class="caret"></span></button>
                   <ul class="dropdown-menu fullw fdrop">
                           <li (click)="loadAssociation(association['asAsnName'],'id')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
                   </ul>
               </div>
-             <span class="switch">switch</span>
+             <span (click)='toggleAsnDropDwn()' class="switch">switch</span>
           </div>
-          <div class="col-sm-4" id="dro-switch">
-           
-              <div class="dropdown search-dropd">
+          <div class="col-sm-4" id="dro-switch" *ngIf="globalService.getUnitDropDownHiddenByDefault() == 'true'">
+            <span *ngIf='globalService.IsUnitCountOne'>{{globalService.currentUnitName}}</span>
+              <div *ngIf='globalService.IsUnitCountOne' class="dropdown search-dropd">
                   <button class="btn btn-primary dropdown-toggle sdm" type="button"
                           data-toggle="dropdown">{{globalService.currentUnitName}}
                           <span class="caret"></span></button>
@@ -37,7 +41,7 @@
                           <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
                   </ul>
               </div>
-              <span class="switch">switch</span>
+              <span *ngIf='!globalService.IsNoUnitExist' class="switch">switch</span>
           </div>
   </div>
    <div class="col-sm-6">

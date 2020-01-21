@@ -345,7 +345,7 @@ export class HomeComponent implements OnInit {
   
   loadAssociation(associationName: string,param:any) {
     if(!this.globalService.toggledashboard){
-      //console.log('false');
+      console.log('false');
       this.globalService.setCurrentUnitName('Units');
     }
     this.unitlistForAssociation=[];
@@ -580,6 +580,9 @@ export class HomeComponent implements OnInit {
   }
   goToReports(){
     this.router.navigate(['reports']);
+  }
+  goToMembers(){
+    this.router.navigate(['members']);
   }
 
 }
