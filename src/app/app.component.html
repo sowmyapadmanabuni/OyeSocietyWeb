@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="col-sm-4" id="dro-switch">
-              <div class="dropdown search-dropd" style="margin-top:0px" *ngIf="globalService.getAssnDropDownHiddenByDefaultValue() == 'true'">
+              <div class="dropdown search-dropd sha" style="margin-top:0px" *ngIf="globalService.getAssnDropDownHiddenByDefaultValue() == 'true'">
                   <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
                           data-toggle="dropdown">{{globalService.currentAssociationName}}
                           <span class="caret"></span></button>
@@ -33,7 +33,7 @@
           </div>
           <div class="col-sm-4" id="dro-switch" *ngIf="globalService.getUnitDropDownHiddenByDefault() == 'true'">
             <span *ngIf='globalService.NotMoreThanOneUnit' class="wel">Unit: {{globalService.currentUnitName}}</span>
-              <div *ngIf='globalService.HideUnitDropDwn' class="dropdown search-dropd" style="margin-top:0px">
+              <div *ngIf='globalService.HideUnitDropDwn' class="dropdown search-dropd sha" style="margin-top:0px">
                   <button class="btn btn-primary dropdown-toggle sdm wel" type="button"
                           data-toggle="dropdown">Unit: {{globalService.currentUnitName}}
                           <span class="caret"></span></button>

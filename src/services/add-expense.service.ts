@@ -177,7 +177,7 @@ export class AddExpenseService {
 
   }
 
-  createExpense(expensedata:ExpenseData){
+  createExpense(expensedata){
     //console.log('expensedata',expensedata);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.createExpense();

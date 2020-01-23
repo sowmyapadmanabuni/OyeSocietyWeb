@@ -499,7 +499,7 @@ export class AddExpenseComponent implements OnInit {
       this.expensedata.EXChqDate = '';
       this.expensedata.EXDDDate = formatDate(this.EXDDDate, 'yyyy-MM-dd', 'en');
     }
-    ////console.log('expensedata', this.expensedata);
+    console.log('expensedata', this.expensedata);
     this.addexpenseservice.createExpense(this.expensedata)
       .subscribe(
         (data) => {

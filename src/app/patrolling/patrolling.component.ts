@@ -20,6 +20,10 @@ export class PatrollingComponent implements OnInit {
   bsConfig: object;
   patrolingStartdate:any;
   patrolingEnddate:any;
+  PatrolingShiftArr:any[];
+  PatrolingReportData:any[];
+  patrolingShiftID: any;
+  patrolingShiftName: any;
 
   constructor(private utilsService:UtilsService,private http: HttpClient,
     public globalService:GlobalServiceService) {
@@ -29,24 +33,49 @@ export class PatrollingComponent implements OnInit {
       showWeekNumbers: false,
       isAnimated: true
     });
+    this.PatrolingShiftArr=[];
+    this.PatrolingReportData=[];
+    this.patrolingShiftName="Select Schedule"
    }
 
   ngOnInit() {
+    this.GetPatrollingShiftsListByAssocID();
+  }
+
+  SelectPatrolingShift(psPtrlSID,psSltName){
+    this.patrolingShiftID = psPtrlSID;
+    this.patrolingShiftName = psSltName;
+    console.log(this.patrolingShiftID, this.patrolingShiftName)
   }
   getPatrolingReportByDate(){
     let patrolingRequest={
       "FromDate" : formatDate(this.patrolingStartdate, 'yyyy/MM/dd', 'en'),
       "ToDate"   : formatDate(this.patrolingEnddate, 'yyyy/MM/dd', 'en'),
       "ASAssnID" : this.globalService.getCurrentAssociationId(),
-      "PSPtrlSID": 1
+      "PSPtrlSID": this.patrolingShiftID
   }
+  
   console.log(patrolingRequest);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
     this.url = `${ipAddress}oye247/api/v1/GetPatrollingReportByDates`
     this.http.post(this.url, JSON.stringify(patrolingRequest), { headers: headers })
     .subscribe(data=>{
-      console.log(data);
+      console.log(data['data']['patrolling']);
+      this.PatrolingReportData=data['data']['patrolling'];
+    },
+    err=>{
+      console.log(err);
+    })
+  }
+  GetPatrollingShiftsListByAssocID(){
+    let headers = this.getHttpheaders();
+    let ipAddress = this.utilsService.getIPaddress();
+    this.url = `${ipAddress}oye247/api/v1/GetPatrollingShiftsListByAssocID/${this.globalService.getCurrentAssociationId()}`
+    this.http.get(this.url, { headers: headers })
+    .subscribe(data=>{
+      console.log(data['data']['patrollingShifts']);
+      this.PatrolingShiftArr = data['data']['patrollingShifts']
     },
     err=>{
       console.log(err);

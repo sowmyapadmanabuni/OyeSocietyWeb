@@ -229,9 +229,9 @@
                           </div> -->
               <div class="panel-body">
                 <div class="form-group">
-                  <label class="control-label">GST Number</label>
+                  <label class="control-label"><input tooltip="GST Available?" style="margin: 13px 24px 0px -41px;" type="checkbox" name="IsGSTAvailable" (change)='toggleIsGSTAvailable()'/>
+                    GST Number</label>
                   <div style="display: flex;">
-                    <input tooltip="GST Available?" style="margin: 13px 24px 0px -41px;" type="checkbox" name="IsGSTAvailable" (change)='toggleIsGSTAvailable()'/>
                     <input [ngClass]="{'gst-hide':toggleGSTAvailableTxt}" type="text" name="GSTNumber" autocomplete='crtAss.GSTNumber' [(ngModel)]="crtAssn.GSTNumber"
                       #GSTNumberControl="ngModel" class="form-control" placeholder="GST NUMBER"
                       style="text-transform: uppercase; font-family: Quicksand; font-size: 13px;"

@@ -10,8 +10,13 @@
 
                 <div class="m-t-30">
                     <div class="col-sm-4 bg-grey">
-                        <div class="sea">
-                            <input type="text" id="mySearch" placeholder="Select Schedule.." title="Type in a category">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown">{{patrolingShiftName}}
+                                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                            <ul class="dropdown-menu fullw">
+                                <li *ngFor='let item of PatrolingShiftArr' (click)="SelectPatrolingShift(item['psPtrlSID'],item['psSltName'])"><a>{{item['psSltName']}}</a></li>
+                               
+                            </ul>
                         </div>
                         <div class="m-t-30">
                             <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<b>Time Slot 1</b><span
@@ -52,13 +57,13 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<b>Time Slot 1 - 08:00am t0 11:00am</b>
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<b>{{patrolingShiftName}} - {{patrolingStartdate|date:'yyyy/MM/dd'}} to {{patrolingEnddate|date:'yyyy/MM/dd'}}</b>
                             <span style="float: right;"><i class="fa fa-share-alt" aria-hidden="true"></i>
                         </span>
                         <div class="dash-row table-responsive">
                                 
                             <table class="table table-bordered table-bor"
-                                [mfData]="WorkerNameList | search:['wkfName', 'wkDesgn', 'wkMobile']:searchTxt"
+                                [mfData]="PatrolingReportData"
                                 #mf="mfDataTable" [mfRowsOnPage]="10">
                                 
                                 <thead style="background: #ededed;">
@@ -68,7 +73,7 @@
                                         <th><mfDefaultSorter by="wkfName">Stop</mfDefaultSorter> </th>
                                         <th><mfDefaultSorter by="wkDesgn">Status</mfDefaultSorter></th>
                                         <th><mfDefaultSorter by="wkMobile">Patrolled By</mfDefaultSorter></th>
-                                        <th>Action</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -77,13 +82,13 @@
                                             <td colspan="6" align="center">No Data Found</td>
                                         </ng-container> -->
                                         <ng-container>
-                                            <td>10-12-2019</td>
-                                            <td>08:00 Am</td>
-                                            <td>11:00 Am</td>
-                                            <td>Completed</td>
-                                            <td>Raman Jha</td>
-                                            <td><i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp;&nbsp;<i
-                                                    class="fa fa-map-marker" aria-hidden="true"></i></td>
+                                            <td>{{item['ptsDateT']|date:'yyyy/MM/dd'}}</td>
+                                            <td>{{item['ptsDateT']|date:'h:mm a'}}</td>
+                                            <td>{{item['pteDateT']|date:'h:mm a'}}</td>
+                                            <td>{{item['ptStatus']}}</td>
+                                            <td>Saravana</td>
+                                            <!-- <td><i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp;&nbsp;<i
+                                                    class="fa fa-map-marker" aria-hidden="true"></i></td> -->
                                         </ng-container>
                                         <!-- <ng-container *ngIf="item!=-1">
                                             <td>{{(i+1)}}</td>
@@ -95,81 +100,6 @@
                                                 (click)="OpenModalForReport(Reporttemplate,   
                                                 item['wkWorkID'] )" class="fas fa-flag-checkered" aria-hidden="true"></i></td>
                                         </ng-container> -->
-                                    </tr>
-                                    <tr *ngFor="let item of mf.data;let i=index">
-                                        <!-- <ng-container *ngIf="item == -1">
-                                            <td colspan="6" align="center">No Data Found</td>
-                                        </ng-container> -->
-                                        <ng-container>
-                                            <td>10-12-2019</td>
-                                            <td>08:00 Am</td>
-                                            <td>11:00 Am</td>
-                                            <td>Completed</td>
-                                            <td>Raman Jha</td>
-                                            <td><i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp;&nbsp;<i
-                                                    class="fa fa-map-marker" aria-hidden="true"></i>
-                                            </td>
-                                        </ng-container>
-                                        <!-- <ng-container *ngIf="item!=-1">
-                                            <td>{{(i+1)}}</td>
-                                            <td><img src="http://mediauploaduat.oyespace.com/Images/{{item['wkEntryImg']}}" width="50px" height="50px"/></td>
-                                            <td>{{item['wkfName']}}</td>
-                                            <td>{{item['wkDesgn']}}</td>
-                                            <td>{{item['wkMobile']}}</td>
-                                            <td> <i data-toggle="modal"
-                                                (click)="OpenModalForReport(Reporttemplate,   
-                                                item['wkWorkID'] )" class="fas fa-flag-checkered" aria-hidden="true"></i></td>
-                                        </ng-container> -->
-                                    </tr>
-                                    <tr *ngFor="let item of mf.data;let i=index">
-                                        <!-- <ng-container *ngIf="item == -1">
-                                                <td colspan="6" align="center">No Data Found</td>
-                                            </ng-container> -->
-                                        <ng-container>
-                                            <td>10-12-2019</td>
-                                            <td>08:00 Am</td>
-                                            <td>11:00 Am</td>
-                                            <td>Completed</td>
-                                            <td>Raman Jha</td>
-                                            <td><i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp;&nbsp;<i
-                                                    class="fa fa-map-marker" aria-hidden="true"></i>
-                                            </td>
-                                        </ng-container>
-                                        <!-- <ng-container *ngIf="item!=-1">
-                                                <td>{{(i+1)}}</td>
-                                                <td><img src="http://mediauploaduat.oyespace.com/Images/{{item['wkEntryImg']}}" width="50px" height="50px"/></td>
-                                                <td>{{item['wkfName']}}</td>
-                                                <td>{{item['wkDesgn']}}</td>
-                                                <td>{{item['wkMobile']}}</td>
-                                                <td> <i data-toggle="modal"
-                                                    (click)="OpenModalForReport(Reporttemplate,   
-                                                    item['wkWorkID'] )" class="fas fa-flag-checkered" aria-hidden="true"></i></td>
-                                            </ng-container> -->
-                                    </tr>
-                                    <tr *ngFor="let item of mf.data;let i=index">
-                                        <!-- <ng-container *ngIf="item == -1">
-                                                    <td colspan="6" align="center">No Data Found</td>
-                                                </ng-container> -->
-                                        <ng-container>
-                                            <td>10-12-2019</td>
-                                            <td>08:00 Am</td>
-                                            <td>11:00 Am</td>
-                                            <td>Completed</td>
-                                            <td>Raman Jha</td>
-                                            <td><i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp;&nbsp;<i
-                                                    class="fa fa-map-marker" aria-hidden="true"></i>
-                                            </td>
-                                        </ng-container>
-                                        <!-- <ng-container *ngIf="item!=-1">
-                                                    <td>{{(i+1)}}</td>
-                                                    <td><img src="http://mediauploaduat.oyespace.com/Images/{{item['wkEntryImg']}}" width="50px" height="50px"/></td>
-                                                    <td>{{item['wkfName']}}</td>
-                                                    <td>{{item['wkDesgn']}}</td>
-                                                    <td>{{item['wkMobile']}}</td>
-                                                    <td> <i data-toggle="modal"
-                                                        (click)="OpenModalForReport(Reporttemplate,   
-                                                        item['wkWorkID'] )" class="fas fa-flag-checkered" aria-hidden="true"></i></td>
-                                                </ng-container> -->
                                     </tr>
 
                                 </tbody>

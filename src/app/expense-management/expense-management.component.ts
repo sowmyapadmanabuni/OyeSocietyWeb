@@ -22,6 +22,7 @@ import * as _ from 'lodash';
 import { OrderPipe } from 'ngx-order-pipe';
 import {UtilsService} from '../utils/utils.service';
 import {ExpenseList} from '../models/expense-list';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-expense-management',
@@ -290,20 +291,20 @@ export class ExpenseManagementComponent implements OnInit {
     this.expenseList=[];
     this.viewexpensesByBlockId=[];
     this.blockID=blockID;
-    //console.log('GetExpenseListByBlockID',blockID);
+    console.log('GetExpenseListByBlockID',blockID);
     this.viewexpenseservice.currentBlockId=blockID;
     this.viewexpenseservice.currentBlockName=blBlkName;
     this.viewexpenseservice.GetExpenseListByBlockID(blockID)
     .subscribe(
       data=>{
-        //console.log('GetExpenseListByBlockID',data);
+        console.log('GetExpenseListByBlockID',data);
         this.viewexpensesByBlockId=data;
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
           //console.log(item['inNumber']);
-          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber']));
+          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated']));
         })
-        //console.log(this.expenseList);
+        console.log(this.expenseList);
         this._viewexpensesByBlockId=this.expenseList;
         this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
         //console.log('viewexpensesByBlockId',this.expenseList);
@@ -485,7 +486,70 @@ export class ExpenseManagementComponent implements OnInit {
         this.ascUnit = data;
       })
   }
-
+  upLoad() {
+    document.getElementById("file_upload_id").click();
+  }
+  // below code is for the Excel file upload
+  onFileChange(ev) {
+    let workBook = null;
+    let jsonData = null;
+    const reader = new FileReader();
+    const file = ev.target.files[0];
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary' });
+      jsonData = workBook.SheetNames.reduce((initial, name) => {
+        const sheet = workBook.Sheets[name];
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        return initial;
+      }, {});
+      //const dataString = JSON.stringify(jsonData);
+      console.log(jsonData['Sheet1']);
+      this.createExpense(jsonData['Sheet1']);
+    }
+    reader.readAsBinaryString(file);
+  }
+  createExpense(jsonData){
+    Array.from(jsonData).forEach(item=>{
+      let expensedata={
+       // "POEAmnt": "",
+        "EXChqNo": (item['ChequeNo']==undefined?'':item['ChequeNo']),
+       // "BPID": "",
+        "INNumber": item['Invoice-ReceiptNo'],
+        "EXPyCopy": "",
+        "ASAssnID":this.globalservice.getCurrentAssociationId(),
+        "BLBlockID": this.blockID,
+        "EXHead": item['ExpenseHead'],
+        "EXDesc": item['ExpenseDescription'],
+        "EXDCreated": item['ExpenditureDate'],
+        "EXPAmnt": item['AmountPaid'],
+        "EXRecurr": item['ExpenseRecurranceType'],
+        "EXApplTO": item['ApplicableToUnit'],
+        "EXType": item['ExpenseType'],
+        "EXDisType": item['DistributionType'],
+        "UnUniIden": "",
+        "PMID": 1,
+        "BABName": item['Bank'],
+        "EXPBName": item['PayeeBankName'],
+        "EXChqDate": (item['ChequeDate']==undefined?'':item['ChequeDate']),
+        "VNName": "Bills",
+        "EXDDNo": (item['DemandDraftNo']==undefined?'':item['DemandDraftNo']),
+        "EXDDDate": (item['DemandDraftDate']==undefined?'':item['DemandDraftDate']),
+        "EXVoucherNo": (item['VoucherNo']==undefined?'':item['VoucherNo']),
+        "EXAddedBy":"",
+        "EXPName":item['PayeeName']
+      }
+      this.addexpenseservice.createExpense(expensedata)
+        .subscribe(
+          (data) => {
+            console.log(data);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    })
+  }
   onFileSelected(event) {
     this.selectedFile = <File>event.target.files[0];
     let splitarr = this.selectedFile['name'].split('.')
@@ -760,7 +824,7 @@ export class ExpenseManagementComponent implements OnInit {
       //console.log(data['data']['expense']);
       this._viewexpensesByBlockId=data['data']['expense'];
       data['data']['expense'].forEach(item => {
-        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber']));
+        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated']));
       })
       //console.log(this.expenseList);
       this._viewexpensesByBlockId=this.expenseList;
