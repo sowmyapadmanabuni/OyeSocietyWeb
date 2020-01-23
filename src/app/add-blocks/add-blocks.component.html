@@ -34,16 +34,18 @@
                       required />
                     <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid name is required</p>
                   </div>
-                <div class="form-group">
-                    <label>Block Type <span class="red">*</span></label>
-                    <select class="form-control" name="blocktype" [(ngModel)]="blocktype" placeholder="Select Block"
-                      #blocktypeControl='ngModel' required>
-                      <option disabled="true" value="">Select Block</option>
-                      <option value="Residential">Residential</option>
-                      <option value="Commercial">Commercial</option>
-                      <option value="Residential and Commercial">Residential and Commercial</option>
-                    </select>
-                    <p class="alerts" *ngIf="blocktypeControl.invalid && blocktypeControl.touched">Valid block type is required</p>
+                  <div class="form-group">
+                    <label>Block Type</label>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                            type="button" data-toggle="dropdown">{{blocktype}}
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul class="dropdown-menu fullw">
+                        <li (click)="getBlockType('Residential')"><a>Residential</a></li>
+                        <li (click)="getBlockType('Commercial')"><a>Commercial</a></li>
+                        <li (click)="getBlockType('Residential and Commercial')"><a>Residential and Commercial</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label id=label3>No of Units <span class="red">*</span></label>

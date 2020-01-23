@@ -98,7 +98,10 @@
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
     }
-    
+    .upload_excel{display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        align-items: center;}
     
     
     

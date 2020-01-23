@@ -19,11 +19,15 @@ export class GlobalServiceService {
    mrmroleId1:any;
    private subject1 = new Subject<any>();
    private subject2 = new Subject<any>();
+   private subject3 = new Subject<any>();
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
    IsUnitCountOne;
    IsNoUnitExist:any;
-   
+   NotMoreThanOneUnit:any;
+   MoreThanOneUnit:any;
+   HideUnitDropDwn:any;
+
   constructor() {
     this.currentAssociationName = '';
     this.currentUnitName = '';
@@ -133,6 +137,12 @@ public setMrmRoleID(MrmRoleID){
 
   getMessage(): Observable<any> {
     return this.subject1.asObservable();
+  }
+  setUnit(message: any){
+    this.subject3.next({ msg: message });
+  }
+  getUnit(): Observable<any> {
+    return this.subject3.asObservable();
   }
   getUnitListForAssociation(): Observable<any> {
     return this.subject2.asObservable();

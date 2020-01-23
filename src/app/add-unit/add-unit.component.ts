@@ -5,6 +5,7 @@ import {GlobalServiceService} from '../global-service.service';
 import {Router} from '@angular/router'
 import { NgForm } from '@angular/forms';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import {ParkingDetail} from '../../app/models/parking-detail';
 
 @Component({
   selector: 'app-add-unit',
@@ -49,6 +50,9 @@ export class AddUnitComponent implements OnInit {
   //@ViewChild('createunitForm') createunitForm: NgForm;
   scopeIP: string;
   createunitForm:any;
+  newParkingDetail:any={};
+  parkingDetails:any[];
+  deleteAmenity:any;
 
   constructor(private viewUniService: ViewUnitService,
     private globalservice:GlobalServiceService,
@@ -84,24 +88,25 @@ export class AddUnitComponent implements OnInit {
       { "name": "UnSold Tenant Occupied Unit" }
     ];
 
-    this.unitno='';
-    this.unitrate='';
-    this.unitdimension='';
+    this.unitno = '';
+    this.unitrate = '';
+    this.unitdimension = '';
 
-    this.ownerFirtname='';
-    this.ownerLastname='';
-    this.ownerMobnumber='';
-    this.ownerAltnumber='';
-    this.ownerEmail='';
-    this.ownerAltemail='';
-    this.tenantFirtname='';
-    this.tenantLastname='';
-    this.tenantMobnumber='';
-    this.tenantEmail='';
-    this.newParkingNo='';
-    this.newVehicleNo='';
-
-
+    this.ownerFirtname = '';
+    this.ownerLastname = '';
+    this.ownerMobnumber = '';
+    this.ownerAltnumber = '';
+    this.ownerEmail = '';
+    this.ownerAltemail = '';
+    this.tenantFirtname = '';
+    this.tenantLastname = '';
+    this.tenantMobnumber = '';
+    this.tenantEmail = '';
+    this.newParkingNo = '';
+    this.newVehicleNo = '';
+    this.parkingDetails = [];
+    this.newParkingDetail.ParkingLotNumber = "";
+    this.newParkingDetail.VehicleNumber = "";
    }
 
   ngOnInit() {
@@ -176,7 +181,17 @@ export class AddUnitComponent implements OnInit {
   }
 
   addParking(){
-
+    if(this.newParkingDetail.ParkingLotNumber !== "" && this.newParkingDetail.VehicleNumber !== ""){
+      this.parkingDetails.push(new ParkingDetail(this.newParkingDetail.ParkingLotNumber,this.newParkingDetail.VehicleNumber));
+      console.log(this.parkingDetails);
+    }
+    this.newParkingDetail.ParkingLotNumber = "";
+    this.newParkingDetail.VehicleNumber = "";
+    console.log(typeof this.newParkingDetail.ParkingLotNumber);
+  }
+  deleteamenity(ParkingLotNumber) {
+    //console.log('AMType', AMType);
+    this.parkingDetails = this.parkingDetails.filter(item =>{return item['ParkingLotNumber'] != ParkingLotNumber});
   }
 
   createUnit() {
@@ -259,6 +274,7 @@ export class AddUnitComponent implements OnInit {
         cancelButtonText: "View Unit"
       }).then(
        (result) => {
+        this.router.navigate(['blocks']);
 
          if (result.value) {
            //this.createunitForm.reset();

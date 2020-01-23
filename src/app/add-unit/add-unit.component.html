@@ -17,7 +17,7 @@
 
       </div>
   </div>
-  <form role="form">
+  <form role="form" #createunitForm='ngForm'>
       <div class="panel panel-primary setup-content" id="step-1">
           <!-- <div class="panel-heading">
                                    <h3 class="panel-title">Association Details</h3>
@@ -182,33 +182,33 @@
       </div>
 
       <div class="panel panel-primary setup-content" id="step-3">
-          <div class="panel-body">
+          <div class="panel-body" *ngFor="let item of parkingDetails">
               <div class="form-group">
                   <label class="control-label">Parking lot Number</label>
-                  <input type="text" name="newParkingNo" id="newParkingNo" [(ngModel)]="newParkingNo" #parkingNoControl="ngModel" class="form-control" placeholder="Parking Lot number" style="font-family: Quicksand" pattern="A-Za-z0-9]*" />
+                  <input type="text" name="pkngLotNumber" id="pkngLotNumber" [(ngModel)]="item['ParkingLotNumber']" #parkingNoControl="ngModel" class="form-control" placeholder="Parking Lot number" style="font-family: Quicksand" pattern="A-Za-z0-9]*" />
               </div>
               <div class="form-group">
                   <label class="control-label">Vehicle Number</label>
-                  <input type="text" name="newVehicleNo" id="newVehicleNo" [(ngModel)]="newVehicleNo" #vehicleNoControl="ngModel" class="form-control" placeholder="Vehicle number" style="font-family: Quicksand; text-transform: uppercase" pattern="[A-Z0-9]*" />
+                  <input type="text" name="newVehicleNo" id="newVehicleNo" [(ngModel)]="item['VehicleNumber']" #vehicleNoControl="ngModel" class="form-control" placeholder="Vehicle number" style="font-family: Quicksand; text-transform: uppercase" pattern="[A-Z0-9]*" />
               </div>
               <div class="form-group">
                   <label class="control-label">Action</label>
-                  <i class="fa fa-trash" aria-hidden="true"></i>
+                  <i class="fa fa-trash" (click)="deleteAmenity(item['ParkingLotNumber'])" aria-hidden="true"></i>
               </div>
 
           </div>
           <div class="panel-body">
               <div class="form-group">
-                  <input maxlength="200" type="text" required class="form-control"
-                      placeholder="Amenity Type" />
+                  <input maxlength="200" type="text" name="ParkingLotNumber" [(ngModel)]="newParkingDetail.ParkingLotNumber" class="form-control"
+                      placeholder="Parking Lot number" />
               </div>
               <div class="form-group">
-                  <input maxlength="200" type="text" required class="form-control"
-                      placeholder="No Of Amenity" />
+                  <input maxlength="200" type="text" name="VehicleNumber" [(ngModel)]="newParkingDetail.VehicleNumber" class="form-control"
+                      placeholder="Vehicle number" />
               </div>
               <div class="form-group">
                   <label class="control-label"></label>
-                  <i class="fa fa-plus-square" (click)="addParking()" aria-hidden="true"></i>
+                  <i style="cursor: pointer;" class="fa fa-plus-square" (click)="addParking()" aria-hidden="true"></i>
               </div>
           </div>
 

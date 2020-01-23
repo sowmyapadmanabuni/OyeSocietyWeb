@@ -71,6 +71,9 @@ a{cursor: pointer;}
 .stepwizard-step{padding: 6px 12px !important;justify-content: start !important;}
 .btn-circle{margin:0px 10px !important}
 }
+.gst-hide{
+    display: none;
+}
 
 
 

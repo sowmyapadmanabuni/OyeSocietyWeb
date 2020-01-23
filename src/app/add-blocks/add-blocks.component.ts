@@ -80,7 +80,7 @@ rate1:any;
                                         isAnimated: true});
     this.frequency = '';
     this.latePymtChargeType = 'SELECT CHARGE TYPE';
-    this.blocktype = '';
+    this.blocktype = 'Select Block';
     this.enableduedatevalidation = false;
     this.duedatechanged = false;
     this.invoicedatechanged = false;
@@ -128,6 +128,10 @@ rate1:any;
   }
   getLatePymtChargeType(name) {
     this.latePymtChargeType = name;
+  }
+  getBlockType(param){
+    this.blocktype=param;
+    
   }
   getMeasurement(){
     this.viewassn.getAssociationDetailsByAssociationid(this.currentAssociationID).subscribe((res)=>{

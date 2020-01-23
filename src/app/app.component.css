@@ -35,8 +35,10 @@
 }
 #dro-switch{display: flex;
   align-items: center;}
+  .switch:hover{cursor: pointer;}
   .switch{color: #475cc6;
     font-size: 11px;
+    margin-top: 10px;
     font-weight: 600;padding-left: 4px;}
 /* Style the dropdown button to fit inside the topnav */
 .dropdown .dropbtn {

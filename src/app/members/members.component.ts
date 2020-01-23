@@ -22,9 +22,14 @@ export class MembersComponent implements OnInit {
   p: number=1;
   unUnitID:any;
   NotificationMessage:any;
+  searchTxt:any;
+  enableAddBlocksView:any;
+  ChangeRole:any;
+  SelectedUnitID:any;
 
   constructor(public dashBrdService: DashBoardService,private http: HttpClient,
      public globalService: GlobalServiceService, public utilsService: UtilsService) {
+    this.ChangeRole='SelectRole';
     this.associationTotalMembers=[];
     this.allMemberByAccount=[];
     this.accountID=this.globalService.getacAccntID();
@@ -84,7 +89,10 @@ export class MembersComponent implements OnInit {
   }
 
 
-  AdminCreate(uoMobile,unUnitID,roleid){
+  AdminCreate(uoMobile,unUnitID,roleid,role){
+  console.log(uoMobile,unUnitID,roleid,role);
+    this.ChangeRole=role;
+    this.SelectedUnitID=unUnitID;
     let toOwnertoAdmin = {
       ACMobile: uoMobile,
       UNUnitID: unUnitID,

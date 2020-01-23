@@ -76,6 +76,7 @@ export class HomeComponent implements OnInit {
   modalRef: BsModalRef;
   p: number;
   subscription: Subscription;
+  subscription1: Subscription;
  
   constructor(private dashBrdService: DashBoardService, private appComponent:AppComponent,
      public globalService:GlobalServiceService,
@@ -84,6 +85,7 @@ export class HomeComponent implements OnInit {
      private viewassosiationservice:ViewAssociationService,
      private modalService: BsModalService) { 
        this.accountID=this.globalService.getacAccntID();
+       console.log(this.accountID);
       //this.globalService.setAccountID('9539'); // 6457 9539
       // this.accountID=this.globalService.getacAccntID();
       this.globalService.currentUnitName=this.globalService.getCurrentUnitName();
@@ -112,10 +114,19 @@ export class HomeComponent implements OnInit {
         //console.log(msg);
         // console.log(asnName);
         // console.log(typeof asnName);
-        this.loadAssociation(msg['msg']['associationName'].trim(),'');
+        this.loadAssociation(msg['msg']['associationName'],'');
       },
       err=>{
         //console.log(err);
+      })
+      //
+      this.subscription1=this.globalService.getUnit()
+      .subscribe(msg=>{
+        console.log(msg);
+        this.loadUnit(msg['msg']['unUniName'],msg['msg']['unUnitID']);
+      },
+      err=>{
+        console.log(err);
       })
      }
 
@@ -344,6 +355,7 @@ export class HomeComponent implements OnInit {
   }
   
   loadAssociation(associationName: string,param:any) {
+    console.log(associationName);
     if(!this.globalService.toggledashboard){
       console.log('false');
       this.globalService.setCurrentUnitName('Units');
@@ -370,7 +382,7 @@ export class HomeComponent implements OnInit {
               this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
             }
           }
-          //console.log(this.unitlistForAssociation);
+          console.log(this.unitlistForAssociation);
           this.globalService.setCurrentAssociationId(association.asAssnID);
           this.globalService.setCurrentAssociationName(asnName);
           this.associationID = this.globalService.getCurrentAssociationId();
@@ -378,19 +390,19 @@ export class HomeComponent implements OnInit {
       }
 
     });
-    //console.log(this.unitlistForAssociation);
+    console.log(this.unitlistForAssociation);
     const found1 = this.unitlistForAssociation.filter(abc=>{
     return abc['mrmRoleID'] == 1
     });
     if(found1.length != 0){
       this.globalService.mrmroleId=1;
       this.localMrmRoleId=1;
-      //console.log(this.globalService.mrmroleId);
+      console.log(this.globalService.mrmroleId);
     }
     else{
       this.globalService.mrmroleId=2;
       this.localMrmRoleId=2;
-      //console.log(this.globalService.mrmroleId);
+      console.log(this.globalService.mrmroleId);
     }
     if(param == 'id'){
       //this.globalService.setCurrentUnitName('Units');
@@ -530,8 +542,8 @@ export class HomeComponent implements OnInit {
     })
   }
   loadUnit(unit,unUnitID) {
-    //console.log(unit);
-    //console.log(unUnitID);
+    console.log(unit);
+    console.log(unUnitID);
     this.globalService.setCurrentUnitId(unUnitID);
     this.globalService.setCurrentUnitName(unit);
     //console.log(this.globalService.currentUnitId);
@@ -544,9 +556,11 @@ export class HomeComponent implements OnInit {
   }
   AdminsUnitShow(){
     this.localMrmRoleId=2;
+    console.log('2');
   }
   AdminsButtonShow(){
     this.localMrmRoleId=1;
+    console.log('1');
   }
   goToAssociation(){
     this.router.navigate(['association']);

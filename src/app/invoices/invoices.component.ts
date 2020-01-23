@@ -99,6 +99,7 @@ export class InvoicesComponent implements OnInit {
   bankname:any;
   minPaymentDateDate:Date;
   maxPaymentDateDate:Date;
+  paymentDate:any;
 
   currentassociationname: string;
   @ViewChild('template', { static: true }) private template: TemplateRef<any>;

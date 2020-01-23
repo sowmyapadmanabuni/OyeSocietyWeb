@@ -70,12 +70,14 @@
                                 <td>{{item['vehcleCount']}}</td>
                                 <td>{{item['uoRoleID']}}</td>
                                 <td>
-                                    <select (change)="AdminCreate(item['uoMobile'],item['unUnitID'],item['roleid'])" [(ngModel)]="item['roleid']">
-                                      <option value="">ChangeRole</option>
-                                      <option *ngFor="let rl of item['Role']" [value]="rl['RoleId']">
-                                        {{rl['Role']}}
-                                    </option>
-                                    </select>
+                                    <div *ngIf="item['uoRoleID']!=''" class="dropdown search-dropd" style="margin-top:0px">
+                                        <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
+                                                data-toggle="dropdown">{{(SelectedUnitID==item['unUnitID']?ChangeRole:'SelectRole')}}
+                                                <span class="caret"></span></button>
+                                        <ul class="dropdown-menu fullw fdrop" style="height: 65px !important;min-width: 133px !important;">
+                                                <li (click)="AdminCreate(item['uoMobile'],item['unUnitID'],rl['RoleId'],rl['Role'])" *ngFor="let rl of item['Role']"><a >{{rl['Role']}}</a></li>
+                                        </ul>
+                                    </div>
                                 </td>
                                 <td><i class="fa fa-bell-o" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotification"></i></td>
                             </ng-container>
@@ -83,7 +85,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="9">
+                            <td colspan="10">
                                 <mfBootstrapPaginator></mfBootstrapPaginator>
                             </td>
                         </tr>

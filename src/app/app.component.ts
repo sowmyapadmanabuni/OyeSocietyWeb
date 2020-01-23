@@ -42,17 +42,23 @@ export class AppComponent {
       console.log(msg);
       this.unitlistForAssociation=msg['msg'];
       if(this.unitlistForAssociation.length == 0){
+        console.log('inside unit length 0');
         this.globalService.currentUnitName='NoUnit';
-        this.globalService.IsNoUnitExist=true; //No
+        this.globalService.MoreThanOneUnit=false;
       }
       else if(this.unitlistForAssociation.length == 1){
+        console.log('inside unit length 1');
         this.globalService.currentUnitName=this.unitlistForAssociation[0]['unUniName'];
-        this.globalService.IsUnitCountOne=true;
+        this.globalService.NotMoreThanOneUnit=true;
+        this.globalService.MoreThanOneUnit=false;
+        this.globalService.HideUnitDropDwn=false; //yes
       }
       else if(this.unitlistForAssociation.length > 1){
+        console.log('inside unit length > 1');
         this.globalService.currentUnitName=this.unitlistForAssociation[0]['unUniName'];
-        this.globalService.IsUnitCountOne=true;
-        this.globalService.IsNoUnitExist=false; //Yes
+        this.globalService.NotMoreThanOneUnit=true;
+        this.globalService.MoreThanOneUnit=true;
+        this.globalService.HideUnitDropDwn=false; //yes
       }
     },
     err=>{
@@ -90,6 +96,11 @@ export class AppComponent {
     this.globalService.setUnitDropDownHiddenByDefault(true); //yes
     console.log(typeof this.globalService.getAssnDropDownHiddenByDefaultValue());
     console.log(this.globalService.getAssnDropDownHiddenByDefaultValue());
+  }
+  toggleUnitDropDwn(){
+    this.globalService.MoreThanOneUnit=true;
+    this.globalService.HideUnitDropDwn=true; //No
+    this.globalService.NotMoreThanOneUnit=false;
   }
   isAuthenticated(){
     if(this.globalService.getacAccntID()){
@@ -144,6 +155,7 @@ export class AppComponent {
       "associationName":associationName,
       "param":param
     }
+    console.log(params);
     this.globalService.sendMessage(params);
     this.globalService.setCurrentAssociationName(associationName);
   }
@@ -203,6 +215,14 @@ export class AppComponent {
   EntryRjected(ExitApproved,sbMemID){
     this.VLApprStat = ExitApproved;
     this.UpdateApprovalStatus(sbMemID);
+  }
+  loadUnit(unUniName,unUnitID){
+    console.log(unUniName, unUnitID);
+    let params={
+      "unUniName":unUniName,
+      "unUnitID":unUnitID
+    }
+    this.globalService.setUnit(params);
   }
 }
 

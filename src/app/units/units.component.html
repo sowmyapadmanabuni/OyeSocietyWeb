@@ -33,6 +33,14 @@
                     <button style="float: right;" class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add Units</button>
                 </div>
+                <div class="upload_excel">
+                    <span class="">Have more num of Units? &nbsp;</span>
+                    <button class="btn-primary-purple" (click)="upLoad()"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Upload Excel</button>
+                    <span class="">Using excel format &nbsp;</span>
+                    <a class="btn-primary-purple" style="padding-left: 21px;" href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><i class="fa fa-file-excel-o" aria-hidden="true">&nbsp;Download</i></a>
+                    <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+
+                </div>
                 <!-- <div class="col-3">
                     <div class="form-group">
                         <div class="dropdown">
@@ -46,6 +54,7 @@
                             </ul>
                         </div>
                     </div>
+
                 </div> -->
                 <div *ngIf="unitList">
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"

@@ -27,11 +27,19 @@
               </tr><br>
         <tr>
             <td>
-                <input type="text" name="AMType" [(ngModel)]='newamenity.AMType' id="AMType"
-                    #newamenityTypecontrol="ngModel" class="form-control" placeholder="Amenity Type"
-                    style="font-family: Quicksand" pattern="[a-zA-Z]*" />
-                <p class="alerts" *ngIf="newamenityTypecontrol.invalid && newamenityTypecontrol.touched">
-                    Valid Amenity type is required</p>
+                    <div class="form-group">
+                      <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                              type="button" data-toggle="dropdown">{{amenityType}}
+                              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                          <ul class="dropdown-menu fullw">
+                          <li (click)="getAmenity('Swimming pool')"><a>Swimming pool</a></li>
+                          <li (click)="getAmenity('Gym')"><a>Gym</a></li>
+                          <li (click)="getAmenity('Club House')"><a>Club House</a></li>
+                          <li (click)="getAmenity('Theater')"><a>Theater</a></li>
+                          </ul>
+                      </div>
+                  </div>
             </td>
             &nbsp;
             <td>
@@ -42,7 +50,10 @@
             </td>
             &nbsp;
             <td>
+              <div style="display: flex;">
                 <p><button class="fa fa-plus-square fa-1x" (click)="addAmenity()"></button></p>
+                <i data-toggle="tooltip" data-placement="right" title="Bookings are confirmed upon availablity and text message will send to requeter phone. Once confirmed cannot be cancelled" class="fa fa-question-circle" aria-hidden="true"></i>
+              </div>
             </td>
         </tr>
     </table>

@@ -113,6 +113,7 @@ export class AssociationManagementComponent implements OnInit {
   ASState: string;
   ASPinCode: string;
   ASPrpType: string;
+  ASAcntType: string;
   ASPrpName: string;
   ASNofBlks: string;
   ASNofUnit: string;
@@ -210,6 +211,8 @@ export class AssociationManagementComponent implements OnInit {
   noofAmenities:any;
   minDate:any;
   newdate:any;
+  toggleGSTAvailableTxt:any;
+  ASPropType:any;
 
   constructor(private modalService: BsModalService,
     public viewAssnService: ViewAssociationService,
@@ -219,6 +222,9 @@ export class AssociationManagementComponent implements OnInit {
     private orderpipe: OrderPipe,
     private dashboardservice:DashBoardService,
     private homeservice:HomeService) {
+    this.BAActType='Select Account Type';
+    this.ASCountry='Country';
+    this.ASPropType='Select Property Type';
     this.toggleFaCircleO=false;
     this.toggleFaCircle1=false;
     this.viewAssnService.enrlAsnEnbled=false;
@@ -325,6 +331,7 @@ export class AssociationManagementComponent implements OnInit {
       showWeekNumbers: false,
       isAnimated: true
     });
+    this.toggleGSTAvailableTxt=true;
   }
 
   openModal(template: TemplateRef<any>) {
@@ -332,6 +339,9 @@ export class AssociationManagementComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.toggleStepWizrd();
+  }
+  countryName(countryName) {
+    this.ASCountry = countryName;
   }
   onPageChange(event) {
     //console.log(event['srcElement']['text']);
@@ -348,6 +358,9 @@ export class AssociationManagementComponent implements OnInit {
   pageChanged(event: any): void {
     this.page = event.page;
   }
+  getAccountType(accounttypeName) {
+    this.BAActType = accounttypeName;
+  }
   enblEnrlAsnVew() {
     ////console.log('test');
     //alert('test');
@@ -355,6 +368,20 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.enrlAsnEnbled=true;
     this.viewAssnService.vewAsnEnbled=false;
     this.viewAssnService.joinAsnEbld=false;
+  }
+  toggleIsGSTAvailable() {
+    console.log('test');
+    this.toggleGSTAvailableTxt = !this.toggleGSTAvailableTxt;
+  }
+  fillPANValue(){
+    console.log('test');
+    if(!this.toggleGSTAvailableTxt){
+      console.log(this.crtAssn.GSTNumber.length);
+      if(this.crtAssn.GSTNumber.length == 15){
+        console.log(this.crtAssn.GSTNumber.substring(2,12));
+        this.crtAssn.PANNumber=this.crtAssn.GSTNumber.substring(2,12);
+      }
+    }
   }
   enblJoinAsnVew() {
     this.viewAssnService.enrlAsnEnbled=false;
@@ -534,7 +561,7 @@ export class AssociationManagementComponent implements OnInit {
         BAActID:this.BAActID
       }]
   };
-    //console.log(this.editassndata);
+    console.log(this.editassndata);
     this.viewAssnService.UpdateAssociation(this.editassndata).subscribe(res => {
       //console.log("Done");
       //console.log(JSON.stringify(res));
@@ -642,7 +669,7 @@ this.crtAssn.newBAActType='';
       var data: any = res;
       //console.log(data.data.associationByAccount);
       this.associations = data.data.associationByAccount;
-      //console.log(this.associations);
+      console.log(this.associations);
       //
       this.sortedCollection = this.orderpipe.transform(this.associations, 'asAsnName');
       //console.log(this.sortedCollection);
@@ -894,7 +921,7 @@ this.crtAssn.newBAActType='';
   ];
 
   propertyTypes: any = [
-    { "name": "Residential Property", "displayName": "Residential Property" },
+    { "name": "residential", "displayName": "Residential Property" },
     { "name": "Commercial Property", "displayName": "Commercial Property" },
     { "name": "Residential And Commercial Property", "displayName": "Residential And Commercial Property" }
   ];
@@ -1185,9 +1212,9 @@ this.crtAssn.newBAActType='';
         Object.assign({}, { class: 'gray modal-lg' }));
       }
   
-  
-  
-  
+  getpropertyType(propertyTypeName) {
+    this.ASPrpType = propertyTypeName;
+  }
 
 
 
@@ -1220,7 +1247,8 @@ this.crtAssn.newBAActType='';
         //console.log(asCountry);
         //console.log(asPinCode);
         //console.log(asState);
-        //console.log(asPrpType);
+        console.log(asPrpType);
+        console.log(this.BAActType);
         //console.log(asCity);
         //console.log(asAssnID);
         //console.log(amType);
@@ -1229,7 +1257,7 @@ this.crtAssn.newBAActType='';
         this.viewAssnService.getAssociationDetails(asAssnID)
     
         this.viewAssnService.getAssociationDetailsByAssociationid(asAssnID).subscribe(res => {
-          //console.log(JSON.str ingify(res));
+          console.log(JSON.stringify(res));
           var data: any = res;
           //console.log(res['data']['association']['amenities'][0].amType);
           //console.log(res['data']['association']['amenities'][0].noofAmenities);
@@ -1243,8 +1271,8 @@ this.crtAssn.newBAActType='';
           this.BAIFSC = res['data']['association']['bankDetails'][0].baifsc;
           this.BAActNo = res['data']['association']['bankDetails'][0].baActNo;
           this.BAActType = res['data']['association']['bankDetails'][0].baActType;
-          //console.log(res['data']['association'][0].asPrpType);
-          this.ASPrpType = res['data']['association'][0].asPrpType;
+          console.log(res['data']['association']['asPrpType']);
+          this.ASPrpType = res['data']['association']['asPrpType'];
         });
     
         this.modalRef = this.modalService.show(template,
