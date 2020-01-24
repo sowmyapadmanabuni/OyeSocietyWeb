@@ -26,12 +26,13 @@ export class AppComponent {
   associationName:any;
   subscription: Subscription;
   unitlistForAssociation:any[];
-
+  hideTitle:boolean;
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
     private http: HttpClient,private utilsService:UtilsService){
       this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
+    this.hideTitle=true;
     this.notificationList=[];
     this.uniqueAssociations=[];
     this.toggleName='';
@@ -69,6 +70,7 @@ export class AppComponent {
     this.getNotification();
     this.getAssociation();
     this.HideOrShowNotification=false;
+    
   }
   ngAfterViewInit(){
     $(document).ready(function(){
@@ -96,6 +98,7 @@ export class AppComponent {
     this.globalService.setUnitDropDownHiddenByDefault(true); //yes
     console.log(typeof this.globalService.getAssnDropDownHiddenByDefaultValue());
     console.log(this.globalService.getAssnDropDownHiddenByDefaultValue());
+    this.hideTitle=false;
   }
   toggleUnitDropDwn(){
     this.globalService.MoreThanOneUnit=true;
@@ -158,6 +161,8 @@ export class AppComponent {
     console.log(params);
     this.globalService.sendMessage(params);
     this.globalService.setCurrentAssociationName(associationName);
+    this.hideTitle=true;
+    this.globalService.setAssnDropDownHiddenByDefault('false');
   }
   UpdateApprovalStatus(sbMemID){
     console.log(sbMemID);
@@ -223,6 +228,8 @@ export class AppComponent {
       "unUnitID":unUnitID
     }
     this.globalService.setUnit(params);
+    this.globalService.HideUnitDropDwn=false;
+    this.globalService.NotMoreThanOneUnit=true;
   }
 }
 
