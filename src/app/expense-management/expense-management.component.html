@@ -31,11 +31,9 @@
                   <div class="upload_excel">
                       <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
                         aria-hidden="true"></i> Add Expense</button>
-                          <span class="">Have more num of Blocks? &nbsp;</span>
-                          <button class="btn-primary-purple" (click)="upLoad()"><i class="fa fa-file-excel-o"
+                          <button tooltip="Have more num of Blocks?" class="btn-primary-purple" (click)="upLoad()"><i class="fa fa-file-excel-o"
                               aria-hidden="true"></i>&nbsp;Upload Excel</button>
-                          <span class="">Using excel format &nbsp;</span>
-                          <a class="btn-primary-purple" style="padding-left: 21px;"
+                          <a  tooltip="click to download demo excel format" class="btn-primary-purple" style="padding-left: 21px;"
                             href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><i class="fa fa-file-excel-o"
                               aria-hidden="true">&nbsp;Download</i></a>
                           <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"

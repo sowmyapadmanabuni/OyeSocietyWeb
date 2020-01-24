@@ -23,10 +23,8 @@
 
                 </div>
                 <div class="upload_excel">
-                    <span class="">Have more num of Blocks? &nbsp;</span>
-                    <button class="btn-primary-purple" (click)="upLoad()"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Upload Excel</button>
-                    <span class="">Using excel format &nbsp;</span>
-                    <a class="btn-primary-purple" style="padding-left: 21px;" href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><i class="fa fa-file-excel-o" aria-hidden="true">&nbsp;Download</i></a>
+                    <button tooltip="Have more num of Blocks?" class="btn-primary-purple" (click)="upLoad()"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Upload Excel</button>
+                    <a tooltip="click to download demo excel format" class="btn-primary-purple" style="padding-left: 21px;" href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><i class="fa fa-file-excel-o" aria-hidden="true">&nbsp;Download</i></a>
                     <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
 
                 </div>
@@ -68,9 +66,10 @@
                                     <td>{{item['blBlkType']}}</td>
                                     <td>{{item['blNofUnit']}}</td>
                                     <td>
-                                        <i style="cursor: pointer;" data-toggle="modal" data-target="#viewBlockDetailsTemplate"
+                                        <!-- <i style="cursor: pointer;" data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                                             (click)="viewBlockDetails(item['blBlkName'],item['blBlkType'],item['blNofUnit'])"
-                                            class="fa fa-eye" tooltip="View Block"></i>&nbsp;|&nbsp;<i style="cursor: pointer;" data-toggle="modal"
+                                            class="fa fa-eye" tooltip="View Block"></i>
+                                            &nbsp;|&nbsp; --><i style="cursor: pointer;" data-toggle="modal"
                                             data-target="#editBlockDetails"
                                             (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
                                             class="fa fa-pencil" tooltip="Edit Block"></i>
@@ -219,7 +218,7 @@
                                     <label id=label3>No of Units<span class="red">*</span></label>
                                     <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
                                         [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
-                                        placeholder="No Of Units" pattern="[0-9]*" required />
+                                        placeholder="No Of Units" pattern="[0-9]*" disabled />
                                     <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
                                         units are required
                                     </p>
