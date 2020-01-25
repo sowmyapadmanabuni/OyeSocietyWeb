@@ -6,18 +6,29 @@
     <div class="col-xs-12 col-sm-12 col-md-11 b-l">
       <!--Dashboard icons start-->
       <div class="col-md-12 m-t-30 dash">
-          <h3 class="purple">Association Management</h3>
 
-        <div class="enroll">
-          <div>
-            <button class="btn-primary-purple" (click)="enblEnrlAsnVew()"><i class="fa fa-plus" aria-hidden="true"></i>
-              Enroll Association</button>
-            <button class="btn-primary-purple" (click)="enblJoinAsnVew()">
-              <i class="fa fa-handshake-o" aria-hidden="true"></i>Join Association</button>
-          </div>
-        </div>
+        <!-- Title and enroll button part -->
+         <div class="enr-bt">
+            <h3 class="purple">Association Management</h3>
+            <div class="enroll">
+                <div>
+                  <button class="btn-primary-purple" (click)="enblEnrlAsnVew()"><i class="fa fa-plus" aria-hidden="true"></i>
+                    Enroll Association</button>
+                  <button class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Join Association</button>
+                </div>
+              </div>
+         </div>
+        <!-- Title and enroll button part -->
+
+          
+
+        
+
+
+
         <div *ngIf='viewAssnService.vewAsnEnbled'>
-          <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
+          <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by Association Name, Property Name, Locality, No of Blocks, No of Units">
         </div>
         <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row table-responsive">
           <table class="table table-bordered"

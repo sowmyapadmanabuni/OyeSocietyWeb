@@ -9,28 +9,37 @@
 
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                <div class="tab-opt">
-                    <ul class="nav nav-pills">
-                        <li class="active"><a (click)="goToBlocks()">Blocks</a></li>
-                        <li><a (click)="goToUnits()">Units</a></li>
-                    </ul>
+                <div class="enr-bt">
+                        <div class="enroll">
+                                <span class="purple">Blocks Management for {{globalService.getCurrentAssociationName()}}</span>                      
+                        </div>
+                        <div class="tab-opt">
+                                <ul class="nav nav-pills">
+                                    <li class="active"><a (click)="goToBlocks()">Blocks</a></li>
+                                    <li><a (click)="goToUnits()">Units</a></li>
+                                </ul>
+                        </div>
+                </div>
+                <div style="display: flex;margin-bottom: 20px;align-items: flex-start;">
+                        <button class="btn-primary-purple" (click)="addBlocksShow()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
+                        <div class="upload_excel">
+                          <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png" tooltip="Have more num of Blocks?"></a>
+                           <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
+                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+                        </div>
                 </div>
 
-                <div class="enroll">
-                    <span class="purple">Blocks Management for {{globalService.getCurrentAssociationName()}}</span>
-                    <button class="btn-primary-purple" (click)="addBlocksShow()"><i class="fa fa-plus"
-                            aria-hidden="true"></i> Add Blocks</button>
 
-                </div>
-                <div class="upload_excel">
-                    <button tooltip="Have more num of Blocks?" class="btn-primary-purple" (click)="upLoad()"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Upload Excel</button>
-                    <a tooltip="click to download demo excel format" class="btn-primary-purple" style="padding-left: 21px;" href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><i class="fa fa-file-excel-o" aria-hidden="true">&nbsp;Download</i></a>
-                    <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
 
-                </div>
+
+                
+
+
+
                 <div *ngIf='enableBlockListView'>
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="search name">
+                        placeholder="Search by Block Name, Block Type, No Of Units">
                 </div>
                 <div class="dash-row" *ngIf='enableBlockListView'>
                     <table class="table table-bordered"

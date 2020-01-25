@@ -7,38 +7,42 @@
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                <div class="tab-opt">
-
-                    <ul class="nav nav-pills">
-                        <li><a (click)="goToBlocks()">Blocks</a></li>
-                        <li class="active"><a (click)="goToUnits()">Units</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <span style="float:left" class="purple">Units Management for Block</span>
-                   
-                        <div style="float:left;margin: -0.5% 0% 2% 1%;" class="form-group">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                    data-toggle="dropdown">{{blBlkName}}
-                                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                                <ul class="dropdown-menu fullw">
-                                    <li *ngFor='let blck of allBlocksLists'
-                                        (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>
-                                            {{blck.blBlkName}}</a></li>
+                 <div class="enr-bt">
+                       
+                        <div style="display: flex">
+                                    <span style="width: 263px;" class="purple">Units Management for Block</span>                  
+                                        <div style="float:left;margin:0px" class="form-group">
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                                    data-toggle="dropdown">{{blBlkName}}
+                                                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                                <ul class="dropdown-menu fullw">
+                                                    <li *ngFor='let blck of allBlocksLists'
+                                                        (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>
+                                                            {{blck.blBlkName}}</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                   
+                                    
+                        </div>   
+                        <div class="tab-opt">
+                                <ul class="nav nav-pills">
+                                    <li><a (click)="goToBlocks()">Blocks</a></li>
+                                    <li class="active"><a (click)="goToUnits()">Units</a></li>
                                 </ul>
-                            </div>
-                        </div>
-                   
-                    <button style="float: right;" class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
+                        </div> 
+                 </div>
+                 <div style="display: flex;margin-bottom: 20px;align-items: flex-start;">
+                        <button style="float: right;" class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add Units</button>
-                </div>
-                <div class="upload_excel">
-                    <button tooltip="Have more num of Units?" class="btn-primary-purple" (click)="upLoad()"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Upload Excel</button>
-                    <a tooltip="click to download demo excel format" class="btn-primary-purple" style="padding-left: 21px;" href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><i class="fa fa-file-excel-o" aria-hidden="true">&nbsp;Download</i></a>
-                    <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
-
-                </div>
+                            <div class="upload_excel">
+                                <a><img class="excel" tooltip="Have more num of Units?" src="../../assets/images/upload.png" (click)="upLoad()"></a>
+                                    <a tooltip="click to download demo excel format"  href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/download.png"></a>
+                                    <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+                                </div>    
+                 </div>
+               
                 <!-- <div class="col-3">
                     <div class="form-group">
                         <div class="dropdown">
@@ -56,7 +60,7 @@
                 </div> -->
                 <div *ngIf="unitList">
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="search name">
+                        placeholder="Search by Unit Name, Unit Type, Unit Dimension, Name, Email">
                 </div>
                 <div class="dash-row" *ngIf="unitList">
                     <table class="table table-bordered"
