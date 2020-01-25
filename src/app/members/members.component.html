@@ -11,10 +11,10 @@
             <div class="col-md-12 m-t-30 dash">
                 <div class="enroll">
                     <span class="purple">Member list for {{globalService.getCurrentAssociationName()}}</span>
+                    <button style="float: right;margin-bottom: 5px;" class="btn-primary-purple" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotificationAll"><i class="fa fa-bell-o" aria-hidden="true"></i> Send Notification</button>
                 </div>
                 <div>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="search name">
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
                 </div>
                 <div class="dash-row">
                     <table class="table table-bordered"
@@ -52,6 +52,8 @@
                             <th>
                                 <mfDefaultSorter>Action</mfDefaultSorter>
                             </th>
+                            <th><input type="checkbox" [(ngModel)]='toggleSetNotification' (change)="SetAllNotification(toggleSetNotification)"/>
+                            </th>
                             
                         </tr>
                     </thead>
@@ -80,12 +82,14 @@
                                     </div>
                                 </td>
                                 <td><i class="fa fa-bell-o" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotification"></i></td>
+                                <td><input type="checkbox" [value]="item.SetIndividualNotification" (change)="setIndividualNotification(item.SetIndividualNotification)" [(ngModel)]='item.SetIndividualNotification'/>
+                                </td>
                             </ng-container>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="10">
+                            <td colspan="11">
                                 <mfBootstrapPaginator></mfBootstrapPaginator>
                             </td>
                         </tr>
@@ -107,7 +111,8 @@
     <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>  
-   
+  
+<!-- Popup For Single Notification -->
 <div class="modal fade" id="SendMsgAsNotification" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -121,6 +126,28 @@
                     <div class="col-xs-12">
                         <textarea placeholder="Enter Message...." [(ngModel)]="NotificationMessage" rows="4" cols="74" name="NotificationMessage"></textarea>
                         <button (click)='sendNotification()' class="btn btn-primary-purple">SendNotification</button>
+                    </div>
+                    
+                  </div>
+                 </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup For Bulk Notification -->
+<div class="modal fade" id="SendMsgAsNotificationAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-top:20px;">
+                <h4 class="modal-title" id="myModalLabel">Send Notification to all with text</h4>
+                <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea placeholder="Enter Message...." [(ngModel)]="NotificationMessage" rows="4" cols="74" name="NotificationMessage"></textarea>
+                        <button (click)='SendNotificationToAll()' class="btn btn-primary-purple">SendNotification</button>
                     </div>
                     
                   </div>

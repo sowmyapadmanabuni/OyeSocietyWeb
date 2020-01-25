@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {DashBoardService} from '../../services/dash-board.service';
-import {GlobalServiceService} from '../global-service.service';
-import {UtilsService} from '../utils/utils.service'
+import { DashBoardService } from '../../services/dash-board.service';
+import { GlobalServiceService } from '../global-service.service';
+import { UtilsService } from '../utils/utils.service'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
 import { UnitListForRoleChange } from '../models/unit-list-for-role-change';
@@ -13,30 +13,31 @@ import { UnitListForRoleChange } from '../models/unit-list-for-role-change';
 })
 export class MembersComponent implements OnInit {
   associationTotalMembers: any[];
-  accountID:any;
-  allMemberByAccount: any[]; 
-  associationID:any;
-  totalMember:string;
-  role:any[];
-  scopeIP:any;
-  p: number=1;
-  unUnitID:any;
-  NotificationMessage:any;
-  searchTxt:any;
-  enableAddBlocksView:any;
-  ChangeRole:any;
-  SelectedUnitID:any;
+  accountID: any;
+  allMemberByAccount: any[];
+  associationID: any;
+  totalMember: string;
+  role: any[];
+  scopeIP: any;
+  p: number = 1;
+  unUnitID: any;
+  NotificationMessage: any;
+  searchTxt: any;
+  enableAddBlocksView: any;
+  ChangeRole: any;
+  SelectedUnitID: any;
+  toggleSetNotification: any;
 
-  constructor(public dashBrdService: DashBoardService,private http: HttpClient,
-     public globalService: GlobalServiceService, public utilsService: UtilsService) {
-    this.ChangeRole='SelectRole';
-    this.associationTotalMembers=[];
-    this.allMemberByAccount=[];
-    this.accountID=this.globalService.getacAccntID();
+  constructor(public dashBrdService: DashBoardService, private http: HttpClient,
+    public globalService: GlobalServiceService, public utilsService: UtilsService) {
+    this.ChangeRole = 'SelectRole';
+    this.associationTotalMembers = [];
+    this.allMemberByAccount = [];
+    this.accountID = this.globalService.getacAccntID();
     this.associationID = this.globalService.getCurrentAssociationId();
     console.log(this.associationID);
-    this.role=[{'Role':'Admin','RoleId':1},{'Role':'Owner','RoleId':2}];
-   }
+    this.role = [{ 'Role': 'Admin', 'RoleId': 1 }, { 'Role': 'Owner', 'RoleId': 2 }];
+  }
 
   ngOnInit() {
     this.GetMemberList(this.associationID);
@@ -71,7 +72,8 @@ export class MembersComponent implements OnInit {
                 '',
                 item['unOcStat'],
                 item['blBlockID'],
-                data['data']['vehicleListByUnitID'].length));
+                data['data']['vehicleListByUnitID'].length,
+                ''));
               console.log(this.allMemberByAccount);
             }, err => {
               console.log(err);
@@ -89,10 +91,10 @@ export class MembersComponent implements OnInit {
   }
 
 
-  AdminCreate(uoMobile,unUnitID,roleid,role){
-  console.log(uoMobile,unUnitID,roleid,role);
-    this.ChangeRole=role;
-    this.SelectedUnitID=unUnitID;
+  AdminCreate(uoMobile, unUnitID, roleid, role) {
+    console.log(uoMobile, unUnitID, roleid, role);
+    this.ChangeRole = role;
+    this.SelectedUnitID = unUnitID;
     let toOwnertoAdmin = {
       ACMobile: uoMobile,
       UNUnitID: unUnitID,
@@ -100,50 +102,71 @@ export class MembersComponent implements OnInit {
       ASAssnID: this.associationID
     }
     console.log(toOwnertoAdmin);
-    let headers=this.getHttpheaders();
+    let headers = this.getHttpheaders();
     let IPAddress = this.utilsService.getIPaddress();
     this.http.post(IPAddress + '/oyeliving/api/v1/MemberRoleChangeToOwnerToAdminUpdate/', JSON.stringify(toOwnertoAdmin), { headers: headers })
       .subscribe(data => {
         console.log(data);
-  
-            swal.fire({
-              title: "Role Changed Successfully",
-              text: "",
-              type: "success",
-              confirmButtonColor: "#f69321",
-              confirmButtonText: "OK"
-            }).then(
-              (result) => {
-                if (result.value) {
-                  this.GetMemberList(this.associationID);
-                }
-              });
-            },
-            err=>{
-              console.log(err);
-              swal.fire({
-                title: "Error",
-                text: err['error']['error']['message'],
-                type: "error",
-                confirmButtonColor: "#f69321",
-                confirmButtonText: "OK"
-              })
-            })
-          }
 
-          onPageChange(event) {
-            //this.p= 1;
-            //console.log(event['srcElement']['text']);
-            if(event['srcElement']['text'] == '1'){
-              this.p=1;
+        swal.fire({
+          title: "Role Changed Successfully",
+          text: "",
+          type: "success",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.GetMemberList(this.associationID);
             }
-            if(event['srcElement']['text'] != '1'){
-              this.p= Number(event['srcElement']['text'])-1;
-            } 
-            if(event['srcElement']['text'] == '«'){
-              this.p= 1;
-            }
-          }
+          });
+      },
+        err => {
+          console.log(err);
+          swal.fire({
+            title: "Error",
+            text: err['error']['error']['message'],
+            type: "error",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          })
+        })
+  }
+
+  onPageChange(event) {
+    //this.p= 1;
+    //console.log(event['srcElement']['text']);
+    if (event['srcElement']['text'] == '1') {
+      this.p = 1;
+    }
+    if (event['srcElement']['text'] != '1') {
+      this.p = Number(event['srcElement']['text']) - 1;
+    }
+    if (event['srcElement']['text'] == '«') {
+      this.p = 1;
+    }
+  }
+  SendNotification() {
+    console.log(this.allMemberByAccount);
+  }
+  SetAllNotification(toggleSetNotification){
+    console.log(toggleSetNotification);
+    if(toggleSetNotification){
+      this.allMemberByAccount.forEach(item=>{
+        item['SetIndividualNotification'] = toggleSetNotification
+      })
+    }
+    else{
+      this.allMemberByAccount.forEach(item=>{
+        item['SetIndividualNotification'] = toggleSetNotification
+      })
+    }
+    console.log(this.allMemberByAccount);
+  }
+  setIndividualNotification(SetIndividualNotification) {
+    console.log(SetIndividualNotification);
+    console.log(this.allMemberByAccount);
+  }
   getHttpheaders(): HttpHeaders {
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')
@@ -152,25 +175,51 @@ export class MembersComponent implements OnInit {
     return headers;
   }
 
-  sendNotification(){
-    let MessageBody={
-      "associationID":this.associationID,
-      "associationName":"MY SCHOOL",
-      "ntDesc":this.NotificationMessage,
-      "ntTitle":"Admin Message",
-      "ntType":"gate_app",
-      "sbSubID":"21695admin",
-      "unitID":this.globalService.getacAccntID(),
-      "userID":this.globalService.getacAccntID()
+  sendNotification() {
+    let MessageBody = {
+      "associationID": this.associationID,
+      "associationName": "MY SCHOOL",
+      "ntDesc": this.NotificationMessage,
+      "ntTitle": "Admin Message",
+      "ntType": "gate_app",
+      "sbSubID": "21695admin",
+      "unitID": this.globalService.getacAccntID(),
+      "userID": this.globalService.getacAccntID()
     }
     console.log(MessageBody);
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Access-Control-Allow-Origin', '*');
-      this.http.post('https://us-central1-oyespace-dc544.cloudfunctions.net/sendAdminNotificationFromKotlin', JSON.stringify(MessageBody), { headers: headers })
+    this.http.post('https://us-central1-oyespace-dc544.cloudfunctions.net/sendAdminNotificationFromKotlin', JSON.stringify(MessageBody), { headers: headers })
       .subscribe(data => {
         console.log(data);
       })
+  }
+
+  SendNotificationToAll(){
+    this.allMemberByAccount.forEach(item=>{
+      if(item['SetIndividualNotification']== true){
+        let MessageBody = {
+          "associationID": this.associationID,
+          "associationName": "MY SCHOOL",
+          "ntDesc": this.NotificationMessage,
+          "ntTitle": "Admin Message",
+          "ntType": "gate_app",
+          "sbSubID": "21695admin",
+          "unitID": this.globalService.getacAccntID(),
+          "userID": this.globalService.getacAccntID()
+        }
+        console.log(MessageBody);
+        const headers = new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Access-Control-Allow-Origin', '*');
+        this.http.post('https://us-central1-oyespace-dc544.cloudfunctions.net/sendAdminNotificationFromKotlin', JSON.stringify(MessageBody), { headers: headers })
+          .subscribe(data => {
+            console.log(data);
+          })
+      }
+       
+    })
   }
 
 }

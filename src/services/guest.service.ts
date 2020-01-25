@@ -25,7 +25,7 @@ export class GuestService {
       "StartDate":(date['StartDate']=='')? "2019-08-11" : date['StartDate'],
       "ToDate": (date['Todate']=='')? formatDate(new Date(),'yyyy-MM-dd','en') : date['Todate']
     }
-    //console.log(visitorData);
+    console.log(visitorData);
    return this.http.post(url, JSON.stringify(visitorData), { headers: headers })
 
   }

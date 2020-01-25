@@ -273,16 +273,17 @@ export class UnitsComponent implements OnInit {
     this.blBlkName=blBlkName;
     this.blockID = blBlockID;
     this.blBlkName=blBlkName;
+    this.allUnitBYBlockID=[]
     //this.blBlockID=blBlockID;
 
     /*-------------------Get Unit List By Block ID ------------------*/
     this.viewUniService.GetUnitListByBlockID(blBlockID)
       .subscribe(data => {
-        //console.log('allUnitBYBlockID',data);
+        console.log('allUnitBYBlockID',data);
         this.allUnitBYBlockID = data['data'].unitsByBlockID;
             //
             this.sortedCollection = this.orderpipe.transform(this.allUnitBYBlockID, 'unUniName');
-            //console.log(this.sortedCollection);
+            console.log(this.sortedCollection);
       });
   }
 

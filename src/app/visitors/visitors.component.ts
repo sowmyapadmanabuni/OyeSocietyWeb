@@ -105,7 +105,7 @@ todayDate: Date;
     this.INEDate )
     let visitorData = {
       "MeMemID": 1,
-      "UnUnitID": this.globalService.currentUnitId,
+      "UnUnitID": this.globalService.getCurrentUnitId(),
       "INFName": this.INFName,
       "INLName": this.INLName,
       "INMobile": this.INMobile,
@@ -117,10 +117,11 @@ todayDate: Date;
       "INEDate": this.INEDate,
       "INPOfInv": this.INPOfInv,
       "INMultiEy": "true",
-      "ASAssnID": this.globalService.currentAssociationId,
+      "ASAssnID": this.globalService.getCurrentAssociationId(),
       "INQRCode": "True",
       "ACAccntID": this.globalService.getacAccntID()
     };
+    console.log(visitorData);
     this.addvisitorservice.addVisitor(visitorData)
     .subscribe(data=>{
       console.log(data);

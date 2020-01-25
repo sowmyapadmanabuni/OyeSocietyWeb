@@ -127,14 +127,15 @@ export class AppComponent {
    })
   }
   getAssociation(){
-    //console.log('this.accountID',this.accountID);
+    this.uniqueAssociations=[];
+    console.log('this.accountID',this.accountID);
     this.dashBoardService.getAssociation(this.accountID).subscribe(res => {
-      //console.log(JSON.stringify(res));
+      console.log(res);
       var data:any = res;
-      //console.log(data);
+      console.log(data);
       this.associations = data.data.memberListByAccount;
       this.associations = _.sortBy(this.associations, e => e.asAsnName);
-      //console.log('associations',this.associations);
+      console.log('associations',this.associations);
       for (let i = 0; i < this.associations.length; i++) {
         //console.log( this.uniqueAssociations);
         //console.log( this.associations[i]['asAsnName']);
@@ -143,10 +144,11 @@ export class AppComponent {
           this.uniqueAssociations.push(this.associations[i]);
         }
       }
+      console.log(this.uniqueAssociations);
       console.log(this.uniqueAssociations[0]['asAsnName']);
       this.globalService.setCurrentAssociationName(this.uniqueAssociations[0]['asAsnName']);
       console.log(this.globalService.currentAssociationName);
-        this.loadAssociation(this.uniqueAssociations[0]['asAsnName'],'');
+        this.loadAssociation(this.uniqueAssociations[0]['asAsnName'],'id');
       },
       res=>{
         //console.log('Error in getting Associations',res);
@@ -156,7 +158,7 @@ export class AppComponent {
     console.log(associationName, param);
     let params={
       "associationName":associationName,
-      "param":param
+      "param":param //id
     }
     console.log(params);
     this.globalService.sendMessage(params);

@@ -12,5 +12,6 @@ export class UnitListForRoleChange {
         private roleid,
         private unOcStat,
         private blBlockID,
-        private vehcleCount) { }
+        private vehcleCount,
+        private SetIndividualNotification) { }
 }

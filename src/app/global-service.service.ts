@@ -124,6 +124,7 @@ public setMrmRoleID(MrmRoleID){
   }
 
   sendMessage(message: any) {
+    console.log("sendMessage", message)
     this.subject1.next({ msg: message });
   }
   sendUnitListForAssociation(message: any){
