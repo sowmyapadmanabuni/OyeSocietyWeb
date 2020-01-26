@@ -580,16 +580,6 @@ export class ExpenseManagementComponent implements OnInit {
         anchorDivs = $('div.stepwizard-row div'),
         Divs = $('div.stepwizard div div');
       //console.log(anchorDivs);
-      anchorDivs.click(function(){
-       var $item = $(this);
-        var $childitem = $($($item.children()[0]).attr('href'));
-        Divs.removeClass('step-active');
-        $item.addClass('step-active');
-        //console.log($childitem);
-        allWells.hide();
-        $childitem.show();
-        $childitem.find('input:eq(0)').focus();
-      })
 
       navListItems.click(function (e) {
         e.preventDefault();
@@ -597,14 +587,15 @@ export class ExpenseManagementComponent implements OnInit {
           $item = $(this),
           $divTgt = $(this).parent();
           anchorDivs.removeClass('step-active');
-        if (!$item.hasClass('disabled')) {
-          navListItems.removeClass('btn-success').addClass('btn-default');
           $item.addClass('btn-success');
           $divTgt.addClass('step-active');
           allWells.hide();
           $target.show();
           $target.find('input:eq(0)').focus();
-          //console.log($target);
+
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          navListItems.removeClass('active').addClass('disabled');
         }
       });
   

@@ -130,6 +130,7 @@ export class InvoicesComponent implements OnInit {
   ddNo: string;
   chequeNo: string;
   PaidUnpaidinvoiceLists:any[];
+  residentInvoiceList:any[];
   toggle:any;
   invoicenumber:any;
   totalAmountDue:any;
@@ -188,6 +189,7 @@ export class InvoicesComponent implements OnInit {
     this.BankName = 'Bank';
     this.viewinvoiceservice.invoiceBlock = '';
     this.PaidUnpaidinvoiceLists=[];
+    this.residentInvoiceList=[];
     this.toggle='All';
     this.paymentMethodType='Select Payment Method';
     this.expensedataBABName='Bank';
@@ -285,6 +287,7 @@ export class InvoicesComponent implements OnInit {
           this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
       .subscribe(data => {
         console.log(data);
+        this.residentInvoiceList=data['data']['invoices'];
       },
         err => {
           console.log(err);

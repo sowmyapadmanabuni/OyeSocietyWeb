@@ -36,7 +36,7 @@
   
   }
   .dash-bg-2{background: #ddc385;}
-  .dash-bg-1{background: #edf6f9;}
+  .dash-bg-1{background: #ffffff;margin-top:50px}
 
   .b-l{border-left: 2px solid rgb(242, 238, 238)}
   
@@ -355,7 +355,7 @@
 
       /* Colors when tab is active */
 
-      background: #f7b844; 
+      background: #ebc65e; 
 
       color: black; 
 
@@ -391,18 +391,20 @@
 
     }
 
-    .tabs .active:before, .tabs .active:after {
+    .tabs .active:before{
 
-      background: #f7b844; 
-
-      
-
-      /* Squares below circles */
+      background: #ebc65e; /* Squares below circles */
 
       z-index: 1;
 
     }
+  .tabs .active:after {
 
+      background: #ebc65e; /* Squares below circles */
+
+      z-index: 1;
+
+    }
     /* Squares */
 
     .tabs li:before, .tabs li:after {

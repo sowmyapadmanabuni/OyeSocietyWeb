@@ -1,5 +1,5 @@
 .bg{padding: 50px 0px !important;}
-.enroll{display: flex;justify-content: space-between;align-items: center;margin-bottom: 30px;}
+.enroll{display: flex;justify-content: space-between;align-items: center;}
     /* .bg-grey{background: #f1eded26;} */
     a{cursor: pointer;}
     .f-des{padding-left: 10px;font-weight: 500;}

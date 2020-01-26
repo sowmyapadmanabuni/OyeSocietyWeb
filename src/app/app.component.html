@@ -20,7 +20,7 @@
               <span id="assname" *ngIf="hideTitle">&nbsp;{{globalService.getCurrentAssociationName()}}</span>
               <div class="dropdown search-dropd sha" style="margin-top:0px" *ngIf="globalService.getAssnDropDownHiddenByDefaultValue() == 'true'">
                   <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm br overh" type="button"
-                          data-toggle="dropdown">{{globalService.currentAssociationName}}
+                          data-toggle="dropdown">{{globalService.getCurrentAssociationName()}}
                           <span class="caret"></span></button>
                   <ul class="dropdown-menu fullw fdrop">
                           <li (click)="loadAssociation(association['asAsnName'],'')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>

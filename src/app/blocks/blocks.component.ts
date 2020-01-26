@@ -196,17 +196,17 @@ export class BlocksComponent implements OnInit {
         Divs = $('div.stepwizard div div');
 
       //console.log(anchorDivs);
-      anchorDivs.click(function () {
-        var $item = $(this);
-        var $childitem = $($($item.children()[0]).attr('href'));
+      // anchorDivs.click(function () {
+      //   var $item = $(this);
+      //   var $childitem = $($($item.children()[0]).attr('href'));
 
-        Divs.removeClass('step-active');
-        $item.addClass('step-active');
-        //console.log($childitem);
-        allWells.hide();
-        $childitem.show();
-        $childitem.find('input:eq(0)').focus();
-      })
+      //   Divs.removeClass('step-active');
+      //   $item.addClass('step-active');
+      //   //console.log($childitem);
+      //   allWells.hide();
+      //   $childitem.show();
+      //   $childitem.find('input:eq(0)').focus();
+      // })
 
       navListItems.click(function (e) {
         e.preventDefault();
@@ -214,22 +214,25 @@ export class BlocksComponent implements OnInit {
           $item = $(this),
           $divTgt = $(this).parent();
         anchorDivs.removeClass('step-active');
+        $item.addClass('btn-success');
+        $divTgt.addClass('step-active');
+        allWells.hide();
+        $target.show();
+        $target.find('input:eq(0)').focus();
 
         if (!$item.hasClass('disabled')) {
           navListItems.removeClass('btn-success').addClass('btn-default');
-          $item.addClass('btn-success');
-          $divTgt.addClass('step-active');
-          allWells.hide();
-          $target.show();
-          $target.find('input:eq(0)').focus();
+          navListItems.removeClass('active').addClass('disabled');
         }
       });
+
 
       allNextBtn.click(function () {
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          curInputs = curStep.find("input[type='text']"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
 
         $(".form-group").removeClass("has-error");
@@ -240,7 +243,10 @@ export class BlocksComponent implements OnInit {
           }
         }
 
-        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        if (isValid) {
+          nextStepWizard.trigger('click');
+          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        }
       });
 
       $('div.setup-panel div a.btn-success').trigger('click');

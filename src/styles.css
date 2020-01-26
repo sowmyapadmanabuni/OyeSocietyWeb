@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 /* body{ background: url('assets/bg.png');background-position: 100% 30%;background-repeat: no-repeat;background-size: contain;overflow-x: hidden;} */
 .build-bg{background-color: #fff;}
+.nm{margin:0px !important}
+.excel{width: 34px;}
+.enr-bt{display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}
 .title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}
 .wel,#assname {font-size: 15px;margin: 0px;display: inline-block;font-weight: 600;padding: 8px 0px;}
@@ -64,12 +67,12 @@ font-size: 19px;
 
 .form-control
 {   
-background: #fbfaf9 !important;
-border: 1px solid #cfd3d4 !important;
-color: #4a4948 !important;
-height: 41px !important;
-box-shadow: 0px 0px 6px 1px #e0dbdb !important;
-border-radius: 6px !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #cfd3d4 !important;
+    color: #4a4948 !important;
+    height: 42px !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
 }
 .fgm-r{margin-right:20px;}      
 .form-group {margin-bottom: 15px; width: 240px;}
@@ -312,7 +315,7 @@ label{font-size:12px !important;font-weight: 500 !important}
 
 /*orange tab css*/
 .nav-pills>li.active>a{background: #ffb818 !important;border-radius: 30px;color: #fff !important;font-size: 15px;font-weight: 600;}  
-.nav-pills{display: flex;    text-align: center;justify-content: flex-end;align-items: center;margin-bottom: 20px !important; width: 144px;border: 2px solid #ffb818;border-radius: 33px;height: 43px;}
+.nav-pills{display: flex;    text-align: center;justify-content: flex-end;align-items: center;margin-bottom: 0px !important; width: 144px;border: 2px solid #ffb818;border-radius: 33px;height: 43px;}
 .nav>li>a:hover{color: #000 !important;background: #d4d1ef !important;border-radius: 30px;transition: all 900ms;}
 .nav>li>a{color:#000 !important;font-weight: 600;}
 

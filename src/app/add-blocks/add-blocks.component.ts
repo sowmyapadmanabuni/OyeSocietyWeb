@@ -326,10 +326,10 @@ rate1:any;
         ]
       }
 
-      //console.log('CreateBockData', CreateBockData);
+      console.log('CreateBockData', CreateBockData);
       this.addblockservice.createBlock(CreateBockData)
         .subscribe(data => {
-          //console.log(data);
+          console.log(data);
           if(data['data'].blockID){
             swal.fire({
               title: "Block Created Successfully",
@@ -408,10 +408,10 @@ rate1:any;
                   }
 
                   this.viewUniService.createUnit(createUnitData).subscribe(data => {
-                    //console.log(data);
+                    console.log(data);
                   },
                     err => {
-                      //console.log(err);
+                      console.log(err);
                     })
 
                   //this.router.navigate(['home/viewBlocks']);
@@ -428,10 +428,11 @@ rate1:any;
           }
        
         },
-          () => {
+          (err) => {
+            console.log(err);
             swal.fire({
               title: "Error",
-              text: "Block Creation Unsuccessfull",
+              text: `${err['error']['error']['message']}`,
               type: "error",
               confirmButtonColor: "#f69321"
             });

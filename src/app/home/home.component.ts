@@ -177,7 +177,7 @@ export class HomeComponent implements OnInit {
     this.dashBrdService.getAmount(this.associationID).subscribe(res => {
       //console.log('amount',res);
       this.associationAmountDue = res['data']['payments'];
-      //console.log(this.associationAmountDue);
+      console.log(this.associationAmountDue);
       // if (res['data']['errorResponse']) {
       //   this.amount = "0";
       // }
@@ -199,7 +199,7 @@ export class HomeComponent implements OnInit {
       //console.log(this.amount);
     }, err => {
       this.amount = 0;
-      //console.log(err);
+      console.log(err);
     })
   }
   OpenModalBlockDetails(viewBlockDetailsTemplate: TemplateRef<any>) {
@@ -255,12 +255,12 @@ export class HomeComponent implements OnInit {
       //this.dashBrdService.mrmRoleID = this.mrmRoleID;
       this.dashBrdService.GetUnitListCount(this.associationID)
         .subscribe(data => {
-          //console.log(data['data']['unit']);
+          console.log(data['data']['unit']);
           this.associationTotalMembers = data['data']['unit'];
           this.totalMember = data['data']['unit'].length;
         },
           err => {
-            //console.log(err);
+            console.log(err);
             this.totalMember = '0';
           })
       //this.totalMember = data.data.memberListByAccount.length;
@@ -389,7 +389,7 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationId(association.asAssnID);
         this.globalService.setCurrentAssociationName(asnName);
         this.associationID = this.globalService.getCurrentAssociationId();
-        //console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
+        console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
       }
 
     });

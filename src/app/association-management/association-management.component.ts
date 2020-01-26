@@ -370,16 +370,24 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.joinAsnEbld=false;
   }
   toggleIsGSTAvailable() {
-    console.log('test');
+    // console.log('test');
     this.toggleGSTAvailableTxt = !this.toggleGSTAvailableTxt;
+    if (this.toggleGSTAvailableTxt) {
+      (<HTMLInputElement>document.getElementById('GSTNumberID')).value='';
+      (<HTMLInputElement>document.getElementById('PANNumberID')).value='';
+      (<HTMLInputElement>document.getElementById('PANNumberID')).disabled=false;
+      // console.log((<HTMLInputElement>document.getElementById('PANNumberID')));
+    }
   }
   fillPANValue(){
-    console.log('test');
+    let PANNumberIDCtrl=document.getElementById('PANNumberID');
+    // console.log(PANNumberIDCtrl);
     if(!this.toggleGSTAvailableTxt){
-      console.log(this.crtAssn.GSTNumber.length);
+      // console.log(this.crtAssn.GSTNumber.length);
       if(this.crtAssn.GSTNumber.length == 15){
-        console.log(this.crtAssn.GSTNumber.substring(2,12));
+        // console.log(this.crtAssn.GSTNumber.substring(2,12));
         this.crtAssn.PANNumber=this.crtAssn.GSTNumber.substring(2,12);
+        PANNumberIDCtrl.setAttribute('disabled','true');
       }
     }
   }
@@ -1025,6 +1033,8 @@ this.crtAssn.newBAActType='';
     }
   };
 
+  console.log(this.createAsssociationData);
+
     this.viewAssnService.createAssn(this.createAsssociationData).subscribe(res => {
       //console.log(res['data']['association']['asAssnID']);
       //console.log(res['association']['asAssnID']);
@@ -1283,36 +1293,39 @@ this.crtAssn.newBAActType='';
     $(document).ready(function () {
 
       var navListItems = $('div.setup-panel div a'),
-      AddExp = $('#AddExp'),
+        AddExp = $('#AddExp'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-       anchorDiv = $('div.setup-panel div'),
-       anchorDivs = $('div.stepwizard-row div');
+        anchorDiv = $('div.setup-panel div'),
+        anchorDivs = $('div.stepwizard-row div');
 
       allWells.hide();
 
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
-          $item = $(this), 
+          $item = $(this),
           $divTgt = $(this).parent();
-        // console.log($target);
-        // console.log($item);
+        console.log($target);
+        console.log($item);
         // console.log(anchorDiv);
         // console.log($divTgt);
         // console.log(anchorDivs);
         anchorDivs.removeClass('step-active');
-        //console.log(anchorDivs);
-        if (!$item.hasClass('disabled')) {
-          //console.log('disabled');
-          navListItems.removeClass('btn-success').addClass('btn-default');
-          $item.addClass('btn-success');
+        $item.addClass('btn-success');
           $divTgt.addClass('step-active');
           allWells.hide();
-          $target.show();
+          // if (document.forms["EnrollAssnID"].checkValidity()) {
+            $target.show();
+          //}
           $target.find('input:eq(0)').focus();
+        //console.log(anchorDivs);
+        if (!$item.hasClass('disabled')) {
+          console.log('disabled');
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          navListItems.removeClass('active').addClass('disabled');
         }
-      });
+      }); 
 
       allNextBtn.click(function () {
         var curStep = $(this).closest(".setup-content"),
@@ -1331,7 +1344,7 @@ this.crtAssn.newBAActType='';
         }
 
         if (isValid) {
-          nextStepWizard.removeAttr('disabled').trigger('click');
+          nextStepWizard.trigger('click');
           curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
         }
       });
