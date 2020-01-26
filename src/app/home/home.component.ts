@@ -77,6 +77,7 @@ export class HomeComponent implements OnInit {
   p: number;
   subscription: Subscription;
   subscription1: Subscription;
+  selectedAssociationSubscription: Subscription;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -109,17 +110,6 @@ export class HomeComponent implements OnInit {
     this.associationTotalMembers = [];
     this.p = 1;
     this.globalService.currentAssociationName = '';
-    this.globalService.getMessage()
-      .subscribe(msg => {
-        console.log(msg);
-        // console.log(asnName);
-        // console.log(typeof asnName);
-        this.getAssociation();
-        this.loadAssociation(msg['msg']['associationName'], msg['msg']['param']);
-      },
-        err => {
-          //console.log(err);
-        })
     //
     this.subscription1 = this.globalService.getUnit()
       .subscribe(msg => {
@@ -129,6 +119,15 @@ export class HomeComponent implements OnInit {
         err => {
           console.log(err);
         })
+    //
+    this.selectedAssociationSubscription=this.globalService.getSelectedAssociation()
+    .subscribe(msg=>{
+      console.log(msg);
+      this.loadAssociation(msg['msg']['associationName'],'','SelectedAssociation');
+    },
+    err=>{
+      console.log(err);
+    })
   }
 
   ngOnInit() {
@@ -143,6 +142,7 @@ export class HomeComponent implements OnInit {
     console.log(typeof this.globalService.currentAssociationName);
     this.localMrmRoleId = this.globalService.mrmroleId;
     this.GetVehicleListByAssocID();
+    this.getAssociation();
   }
   gotToResidentInvoice() {
     this.router.navigate(['resident-invoice']);
@@ -164,11 +164,11 @@ export class HomeComponent implements OnInit {
           this.uniqueAssociations.push(this.associations[i]);
         }
       }
-      //console.log(this.uniqueAssociations);
-      //this.loadAssociation(this.globalService.getCurrentAssociationName(),'');
+      console.log(this.uniqueAssociations);
+      this.loadAssociation(this.uniqueAssociations[0]['asAsnName'],this.uniqueAssociations,'id');
     },
       res => {
-        //console.log('Error in getting Associations',res);
+        console.log('Error in getting Associations',res);
       });
   }
   getAmount() {
@@ -210,11 +210,11 @@ export class HomeComponent implements OnInit {
     this.amountdue = 0;
     this.dashBrdService.GetAmountBalance(unUnitID)
       .subscribe(data => {
-        //console.log(data);
+        console.log(data);
         this.amountdue = data['data']['balanceDue'];
-        //console.log(this.amountdue);
+        console.log(this.amountdue);
       }, err => {
-        //console.log(err);
+        console.log(err);
       })
   }
   onPageChange(event) {
@@ -246,7 +246,7 @@ export class HomeComponent implements OnInit {
   // }
   getMembers() {
     this.associationTotalMembers = [];
-    this.dashBrdService.getMembers(this.accountID).subscribe(res => {
+    this.dashBrdService.getMembers(this.globalService.getacAccntID()).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
       this.allMemberByAccount = data.data.memberListByAccount;
@@ -314,16 +314,17 @@ export class HomeComponent implements OnInit {
   }
   getVehicle(unUnitID) {
     this.dashBrdService.getVehicle(unUnitID).subscribe(res => {
-      //console.log('vehicle',res);
+      console.log('vehicle',res);
       var data: any = res;
       this.allVehicleListByAssn = data.data.vehicleListByUnitID;
       let totalVehicles = data.data.vehicleListByUnitID.filter(item => {
         return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
       })
       this.totalVehicles = totalVehicles.length;
+      console.log(this.totalVehicles);
     },
       err => {
-        //console.log(err);
+        console.log(err);
         this.totalVehicles = '0';
       });
   }
@@ -354,7 +355,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  loadAssociation(associationName: string, param: any) {
+  loadAssociation(associationName,associationList, param: any) {
     console.log(associationName);
     console.log(param);
     // if(!this.globalService.toggledashboard){
@@ -387,6 +388,7 @@ export class HomeComponent implements OnInit {
         }
         console.log(this.unitlistForAssociation);
         this.globalService.setCurrentAssociationId(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForExpense(association.asAssnID);
         this.globalService.setCurrentAssociationName(asnName);
         this.associationID = this.globalService.getCurrentAssociationId();
         console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
@@ -433,6 +435,10 @@ export class HomeComponent implements OnInit {
     this.getVistors();
     this.GetVehicleListByAssocID();
     this.globalService.sendUnitListForAssociation(this.unitlistForAssociation);
+    if(param != 'SelectedAssociation'){
+      console.log('SelectedAssociation');
+      this.globalService.sendMessage(associationList);
+    }
   }
   GetVehicleListByAssocID() {
     this.dashBrdService.GetVehicleListByAssocID(this.associationID)
@@ -527,26 +533,26 @@ export class HomeComponent implements OnInit {
       "UNUnitID": unUnitID,
       "ACAccntID": this.accountID
     }
-    //console.log(visitorlog);
+    console.log(visitorlog);
     this.dashBrdService.GetVisitorLogByDatesAssocAndUnitID(visitorlog)
       .subscribe(data => {
-        //console.log(data); //totalUnitVisitors
+        console.log(data); //totalUnitVisitors
         this.totalUnitVisitors = data['data']['visitorlog'].length;
       },
         err => {
-          //console.log(err);
+          console.log(err);
         })
   }
   GetWorkersListByUnitID(unUnitID) {
     this.dashBrdService.GetWorkersListByUnitID(unUnitID)
       .subscribe(data => {
-        //console.log(data['data']);
+        console.log(data['data']);
         //console.log(data['data']['errorResponse']['message']);
         //console.log(data['data']['workersByUnit']);
         this.totalUnitStaffs = data['data'].length;
       },
         err => {
-          //console.log(err);
+          console.log(err);
         })
   }
   loadUnit(unit, unUnitID) {

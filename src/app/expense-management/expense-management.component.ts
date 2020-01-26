@@ -23,6 +23,7 @@ import { OrderPipe } from 'ngx-order-pipe';
 import {UtilsService} from '../utils/utils.service';
 import {ExpenseList} from '../models/expense-list';
 import * as XLSX from 'xlsx';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-expense-management',
@@ -109,6 +110,7 @@ export class ExpenseManagementComponent implements OnInit {
   ddno:any;
   DemandDraftDate:any;
   minDemandDraftDate:any;
+  currentAssociationIdForExpense: Subscription;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -226,6 +228,15 @@ export class ExpenseManagementComponent implements OnInit {
     this._viewexpensesByBlockId=[];
     this.expenseList=[];
     this.toggle='All';
+    //
+    this.currentAssociationIdForExpense=this.globalservice.getCurrentAssociationIdForExpense()
+    .subscribe(msg=>{
+      console.log(msg);
+      this.globalservice.setCurrentAssociationId(msg['msg']);
+      this.initialiseEXpense();
+    },err=>{
+      console.log(err);
+    })
   }
   GetexpenseList(param) {
     this.toggle = param;
@@ -256,25 +267,25 @@ export class ExpenseManagementComponent implements OnInit {
 
     //   });
 
-    this.viewexpenseservice.getAssociationList(this.currentAssociationID)
+    this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         this.associationlist = data['data'].association;
         this.associationDetails = data['data'].association;
         this.assnName = data['data'].association.asAsnName;
       });
 
-    //this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.currentAssociationID);
-    this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.currentAssociationID);
+    //this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
+    this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
     //http://apidev.oyespace.com/oyeliving/api/v1/Expense/GetExpenseListByBlockID/{BlockID}
 
 
-    this.addexpenseservice.GetPurchaseOrderListByAssocID(this.currentAssociationID)
+    this.addexpenseservice.GetPurchaseOrderListByAssocID(this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         //console.log(data);
         this.purchaseOrders = data;
       });
 
-    this.addexpenseservice.GetBlockListByAssocID(this.currentAssociationID)
+    this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
       .subscribe(item => {
         this.allBlocksLists = item;
         //console.log('allBlocksLists', this.allBlocksLists);
@@ -847,6 +858,34 @@ export class ExpenseManagementComponent implements OnInit {
         //console.log(exid);
         //console.log(this.exidList);
       }
+    }
+  }
+  initialiseEXpense(){
+    this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        this.associationlist = data['data'].association;
+        this.associationDetails = data['data'].association;
+        this.assnName = data['data'].association.asAsnName;
+      });
+
+    //this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
+    this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
+    //http://apidev.oyespace.com/oyeliving/api/v1/Expense/GetExpenseListByBlockID/{BlockID}
+
+
+    this.addexpenseservice.GetPurchaseOrderListByAssocID(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        //console.log(data);
+        this.purchaseOrders = data;
+      });
+
+    this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
+      .subscribe(item => {
+        this.allBlocksLists = item;
+        //console.log('allBlocksLists', this.allBlocksLists);
+      });
+    if (this.viewexpenseservice.currentBlockName != '' && this.viewexpenseservice.currentBlockId != '') {
+      this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
     }
   }
 }

@@ -60,17 +60,34 @@ export class AppComponent {
         this.globalService.NotMoreThanOneUnit=true;
         this.globalService.MoreThanOneUnit=true;
         this.globalService.HideUnitDropDwn=false; //yes
+        this.globalService.setUnitDropDownHiddenByDefault('true'); 
       }
     },
     err=>{
       console.log(err);
     })
+  //
+  this.globalService.getMessage()
+  .subscribe(msg => {
+    console.log(msg);
+    // console.log(asnName);
+    // console.log(typeof asnName);
+    this.uniqueAssociations=msg['msg'];
+    this.globalService.setCurrentAssociationName(msg['msg'][0]['asAsnName']);
+    this.hideTitle=true;
+    this.globalService.setAssnDropDownHiddenByDefault('false');
+  },
+    err => {
+      //console.log(err);
+    })
+  //
   }
   ngOnInit() {
-    this.getNotification();
-    this.getAssociation();
-    this.HideOrShowNotification=false;
-    
+    if(this.globalService.getacAccntID()){
+      this.getNotification();
+      //this.getAssociation();
+      this.HideOrShowNotification=false;
+    }    
   }
   ngAfterViewInit(){
     $(document).ready(function(){
@@ -161,7 +178,7 @@ export class AppComponent {
       "param":param //id
     }
     console.log(params);
-    this.globalService.sendMessage(params);
+    this.globalService.setSelectedAssociation(params);
     this.globalService.setCurrentAssociationName(associationName);
     this.hideTitle=true;
     this.globalService.setAssnDropDownHiddenByDefault('false');
