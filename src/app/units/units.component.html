@@ -37,7 +37,7 @@
                         <button style="float: right;" class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
                             aria-hidden="true"></i> Add Units</button>
                             <div class="upload_excel">
-                                <a><img class="excel" tooltip="Have more num of Units?" src="../../assets/images/upload.png" (click)="upLoad()"></a>
+                                <a><img class="excel" tooltip="Have more num of Units?" src="../../assets/images/upload.png" (click)="NavigateToBulkUpload()"></a>
                                     <a tooltip="click to download demo excel format"  href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/download.png"></a>
                                     <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
                                 </div>    

@@ -19,22 +19,19 @@
                             <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
                         </div>
                 </div> -->
-                <form>
+                <form *ngIf="ShowExcelUploadDiscription">
                     <div class="row">
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-6" style="display:flex">
-                            <span style="margin-left: 70px;">
-                                <ul>
-                                    <li style="display: block"> <img (click)="upLoad()"
-                                            src="../../assets/images/upload.png" width="45px" height="45px"
-                                            style="cursor: pointer;" /></li>
-                                    <li style="display: block"><span style="font-size: 11px;">Upload Block</span></li>
-                                </ul>
-                            </span>
-                            <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
-                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
-                        </div>
-                        <div class="col-sm-3">
+                        <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
+                            <div class="upload_excel">
+                                <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                                        tooltip="Have more num of Blocks?"></a>
+                                <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel"
+                                        src="../../assets/images/upload.png"
+                                        tooltip="click to download demo excel format"></a>
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
+                                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                    style="display:none" #file>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -48,16 +45,105 @@
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6"></div>
-                        <div class="col-sm-6">
-                            <button class="mdButton1" (click)='backtocreateorexistingasn()'
-                                style="margin-top:27px;font-size:18px;" type="button"><i class="fas fa-arrow-left"></i>
-                                Back to Create/Existing Association</button>
-                        </div>
-                    </div>
                 </form>
+                <!--  -->
+                <!--  -->
+                <!--  -->
+                <div class="table-responsive" *ngIf='ShowExcelDataList'>
+                    <table class="table table-bordered table-responsive"
+                        [mfData]="excelBlockList"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="BlockName">Block Name</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="BlockType">Block Type</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="NumberOfUnits">No Of Units</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="ManagerName">Manager Name</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="ManagerMobileNumber">Manager MobileNumber</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="ManagerEmailID">Manager EmailID</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="FlatRateValue(amount/flat)">FlatRateValue(amount/flat)</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="MaintenanceValue(Rupees/Sqft)">MaintenanceValue(Rupees/Sqft)</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="InvoiceCreationFrequency">InvoiceCreationFrequency</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="InvoiceGenerationDate">Invoice GenerationDate</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="InvoiceDueDate">Invoice DueDate</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="LatePaymentChargeType">LatePaymentChargeType</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="LatePaymentCharge">LatePaymentCharge</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="StartsFrom">StartsFrom</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="5" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{item['Sno']}}</td>
+                                    <td>{{item['BlockName']}}</td>
+                                    <td>{{item['BlockType']}}</td>
+                                    <td>{{item['NumberOfUnits']}}</td>
+                                    <td>{{item['ManagerName']}}</td>
+                                    <td>{{item['ManagerMobileNumber']}}</td>
+                                    <td>{{item['ManagerEmailID']}}</td>
+                                    <td>{{item['FlatRateValue(amount/flat)']}}</td>
+                                    <td>{{item['MaintenanceValue(Rupees/Sqft)']}}</td>
+                                    <td>{{item['InvoiceCreationFrequency']}}</td>
+                                    <td>{{item['InvoiceGenerationDate']}}</td>
+                                    <td>{{item['InvoiceDueDate']}}</td>
+                                    <td>{{item['LatePaymentChargeType']}}</td>
+                                    <td>{{item['LatePaymentCharge']}}</td>
+                                    <td>{{item['StartsFrom']}}</td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="15">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div>
+                        <button style="float: right;" class="btn-primary-purple" (click)="createBlockFromExcel()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Blocks</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+
+
+

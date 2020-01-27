@@ -41,6 +41,7 @@ import {AssociationVisitorComponent} from './association-visitor/association-vis
 import {MembersComponent} from './members/members.component';
 import {AppComponent} from './app.component';
 import {ExcelBlockUploadComponent} from './excel-block-upload/excel-block-upload.component';
+import {ExcelUnitUploadComponent} from './excel-unit-upload/excel-unit-upload.component';
 import { from } from 'rxjs';
 
 
@@ -54,6 +55,7 @@ const routes: Routes = [
     { path: 'location', component:LocationComponent, canActivate: [AuthGuard]},
     { path: 'members', component:MembersComponent, canActivate: [AuthGuard]},
     { path: 'excelblock', component:ExcelBlockUploadComponent, canActivate: [AuthGuard]},
+    { path: 'excelunit', component:ExcelUnitUploadComponent, canActivate: [AuthGuard]},
     { path: 'about', component:AboutComponent, canActivate: [AuthGuard]},
     { path: 'testimonials', component:TestimonialsComponent, canActivate: [AuthGuard]},
     { path: 'blogs', component:BlogsComponent, canActivate: [AuthGuard]},

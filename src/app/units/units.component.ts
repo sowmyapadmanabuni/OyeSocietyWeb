@@ -581,6 +581,8 @@ export class UnitsComponent implements OnInit {
   getCalculationTypesUpadte(UNCalType){
     this.UNCalType = UNCalType;
     // this.UNCalTypeForEdit = UNCalType;
-
+  }
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelunit']);
   }
 }
