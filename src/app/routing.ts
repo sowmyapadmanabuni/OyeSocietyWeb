@@ -40,6 +40,7 @@ import {ResidentInvoiceComponent} from './resident-invoice/resident-invoice.comp
 import {AssociationVisitorComponent} from './association-visitor/association-visitor.component';
 import {MembersComponent} from './members/members.component';
 import {AppComponent} from './app.component';
+import {ExcelBlockUploadComponent} from './excel-block-upload/excel-block-upload.component';
 import { from } from 'rxjs';
 
 
@@ -52,6 +53,7 @@ const routes: Routes = [
     { path: 'clients', component:ClientsComponent, canActivate: [AuthGuard]},
     { path: 'location', component:LocationComponent, canActivate: [AuthGuard]},
     { path: 'members', component:MembersComponent, canActivate: [AuthGuard]},
+    { path: 'excelblock', component:ExcelBlockUploadComponent, canActivate: [AuthGuard]},
     { path: 'about', component:AboutComponent, canActivate: [AuthGuard]},
     { path: 'testimonials', component:TestimonialsComponent, canActivate: [AuthGuard]},
     { path: 'blogs', component:BlogsComponent, canActivate: [AuthGuard]},

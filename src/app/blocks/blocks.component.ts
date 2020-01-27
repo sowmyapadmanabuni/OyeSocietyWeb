@@ -719,4 +719,7 @@ export class BlocksComponent implements OnInit {
     })
   }
   // CREATE BLOCK FROM EXCEL END HERE
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelblock']);
+  }
 }

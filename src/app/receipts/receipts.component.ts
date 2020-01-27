@@ -5,6 +5,7 @@ import {ViewReceiptService} from '../../services/view-receipt.service';
 import { GenerateReceiptService } from '../../services/generate-receipt.service';
 import {Router} from '@angular/router';
 import swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 declare var $: any;
 
@@ -31,6 +32,7 @@ export class ReceiptsComponent implements OnInit {
   AmountDue: any;
   paymentDate: any;
   Balance: any;
+  currentAssociationIdForReceipts:Subscription;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -44,9 +46,17 @@ export class ReceiptsComponent implements OnInit {
       this.pymtDate='';
       this.amountPaid='';
       this.unpaidUnits=[];
+      //
+      this.currentAssociationIdForReceipts=this.globalservice.getCurrentAssociationIdForReceipts()
+      .subscribe(msg=>{
+        console.log(msg);
+        this.globalservice.setCurrentAssociationId(msg['msg']);
+        this.initialiseReceipts();
+      })
     }
 
   ngOnInit() {
+    this.viewPayments=[];
     this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
     .subscribe(data=>{
       console.log(data['data']['payments']);
@@ -56,6 +66,14 @@ export class ReceiptsComponent implements OnInit {
     .subscribe(data => {
       this.allBlocksByAssnID = data['data'].blocksByAssoc;
       console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+    });
+  }
+  initialiseReceipts(){
+    this.viewPayments=[];
+    this.viewreceiptservice.getpaymentlist(this.globalservice.getCurrentAssociationId())
+    .subscribe(data=>{
+      console.log(data['data']['payments']);
+      this.viewPayments=data['data']['payments']
     });
   }
   goToExpense(){

@@ -24,7 +24,7 @@
                         <button class="btn-primary-purple" (click)="addBlocksShow()">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
                         <div class="upload_excel">
-                          <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png" tooltip="Have more num of Blocks?"></a>
+                          <a> <img class="excel" (click)="NavigateToBulkUpload()" src="../../assets/images/upload.png" tooltip="Have more num of Blocks?"></a>
                            <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
                             <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
                         </div>

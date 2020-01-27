@@ -24,6 +24,7 @@ export class GlobalServiceService {
    private CurrentAssociationIdForInvoice = new Subject<any>();
    private selectedAssociation = new Subject<any>();
    private CurrentAssociationIdForUnit = new Subject<any>();
+   private CurrentAssociationIdForReceipts = new Subject<any>();
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
    IsUnitCountOne;
@@ -73,6 +74,13 @@ public setUnitDropDownHiddenByDefault(UnitDropDownHiddenByDefault:any)
 public getUnitDropDownHiddenByDefault()
 {
   return localStorage.getItem("UnitDropDownHiddenByDefault");
+}
+public setCurrentAssociationIdForReceipts(message: any){
+  console.log("CurrentAssociationIdForReceipts", message)
+  this.CurrentAssociationIdForReceipts.next({ msg: message });
+}
+public getCurrentAssociationIdForReceipts(): Observable<any>{
+ return this.CurrentAssociationIdForReceipts.asObservable();
 }
 public getAssnDropDownHiddenByDefaultValue()
 {

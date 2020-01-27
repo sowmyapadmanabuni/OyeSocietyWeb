@@ -1,0 +1,63 @@
+<div class="container-fluid np">
+    <div class="col-sm-12">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+
+        <!--Profile section-->
+
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+
+                <!-- <div style="display: flex;margin-bottom: 20px;align-items: flex-start;">
+                        <button class="btn-primary-purple" (click)="addBlocksShow()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
+                        <div class="upload_excel">
+                          <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png" tooltip="Have more num of Blocks?"></a>
+                           <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
+                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+                        </div>
+                </div> -->
+                <form>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6" style="display:flex">
+                            <span style="margin-left: 70px;">
+                                <ul>
+                                    <li style="display: block"> <img (click)="upLoad()"
+                                            src="../../assets/images/upload.png" width="45px" height="45px"
+                                            style="cursor: pointer;" /></li>
+                                    <li style="display: block"><span style="font-size: 11px;">Upload Block</span></li>
+                                </ul>
+                            </span>
+                            <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
+                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+                        </div>
+                        <div class="col-sm-3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8" style="border: 1px solid #F08E33;border-radius: 18px;">
+                            <h1>Note:- Upload your Blocks & Units file in <i class="fa fa-file-excel-o"
+                                    aria-hidden="true"></i> excel format, the
+                                demo excel format can be downloaded from above
+                            </h1>
+
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6"></div>
+                        <div class="col-sm-6">
+                            <button class="mdButton1" (click)='backtocreateorexistingasn()'
+                                style="margin-top:27px;font-size:18px;" type="button"><i class="fas fa-arrow-left"></i>
+                                Back to Create/Existing Association</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

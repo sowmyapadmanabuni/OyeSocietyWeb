@@ -71,6 +71,9 @@ import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.co
 import { AssociationVisitorComponent } from './association-visitor/association-visitor.component';
 import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
 import { MembersComponent } from './members/members.component';
+import { ExcelBlockUploadComponent } from './excel-block-upload/excel-block-upload.component';
+import { ExcelUnitUploadComponent } from './excel-unit-upload/excel-unit-upload.component';
+import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expense-upload.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -124,7 +127,10 @@ import { MembersComponent } from './members/members.component';
     ResidentInvoiceComponent,
     GenerateReceiptComponent,
     AssociationVisitorComponent,
-    MembersComponent
+    MembersComponent,
+    ExcelBlockUploadComponent,
+    ExcelUnitUploadComponent,
+    ExcelExpenseUploadComponent
     ],
   imports: [
     BrowserModule,
