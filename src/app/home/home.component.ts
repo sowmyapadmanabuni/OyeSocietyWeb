@@ -151,8 +151,6 @@ export class HomeComponent implements OnInit {
     this.localMrmRoleId = this.globalService.mrmroleId;
     this.GetVehicleListByAssocID();
     this.getAssociation();
-    this.getBlockDetails();
-    this.getUnitsDetails();
   }
   gotToResidentInvoice() {
     this.router.navigate(['resident-invoice']);
@@ -447,6 +445,8 @@ export class HomeComponent implements OnInit {
     this.getStaff();
     this.getVistors();
     this.GetVehicleListByAssocID();
+    this.getBlockDetails();
+    this.getUnitsDetails();
     this.globalService.sendUnitListForAssociation(this.unitlistForAssociation);
     if(param != 'SelectedAssociation'){
       console.log('SelectedAssociation');
