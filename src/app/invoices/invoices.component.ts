@@ -14,6 +14,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import {ViewReceiptService} from '../../services/view-receipt.service';
 declare var $: any;
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -154,6 +155,7 @@ export class InvoicesComponent implements OnInit {
   receiptChequeDate:any;
   searchTxt:any;
   viewPayments: object[];
+  CurrentAssociationIdForInvoice:Subscription;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -243,6 +245,13 @@ export class InvoicesComponent implements OnInit {
     { 'name': 'Cheque', 'displayName': 'Cheque', 'id': 2 },
     { 'name': 'DemandDraft', 'displayName': 'DemandDraft', 'id': 3 },
     { 'name': 'OnlinePay', 'displayName': 'OnlinePay', 'id': 4 }]
+    //
+    this.CurrentAssociationIdForInvoice=this.globalservice.getCurrentAssociationIdForInvoice()
+    .subscribe(msg=>{
+      console.log(msg);
+      this.globalservice.setCurrentAssociationId(msg['msg']);
+      this.initialiseInvoice()
+    })
   }
 
   goToExpense() {
@@ -1104,5 +1113,46 @@ export class InvoicesComponent implements OnInit {
   }
   clearArea(txtArea) {
     console.log(txtArea);
+  }
+  initialiseInvoice(){
+    this.viewinvoiceservice.invoiceBlock='';
+    this.allBlocksByAssnID=[];
+    this.invoiceLists = [];
+    this.PaidUnpaidinvoiceLists=[];
+    this.viewreceiptservice.getpaymentlist(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        console.log(data['data']['payments']);
+        this.viewPayments = data['data']['payments']
+      });
+    //
+    this.payopt = false;
+    console.log('this.currentAssociationID', this.globalservice.getCurrentAssociationId());
+    this.viewinvoiceservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        this.allBlocksByAssnID = data;
+        this.asdPyDate = this.allBlocksByAssnID[0]['asdPyDate'];
+        this.blMgrMobile = this.allBlocksByAssnID[0]['blMgrMobile'];
+        console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+        if (this.viewinvoiceservice.invoiceBlock != '') {
+          this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
+        }
+      })
+    //
+    if(this.globalservice.mrmroleId != 1){
+          this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+      .subscribe(data => {
+        console.log(data);
+        this.residentInvoiceList=data['data']['invoices'];
+      },
+        err => {
+          console.log(err);
+          swal.fire({
+            title: "An error has occurred",
+            text: `${err['error']['error']['message']}`,
+            type: "error",
+            confirmButtonColor: "#f69321"
+          });
+        })
+    }
   }
 }

@@ -21,7 +21,9 @@ export class GlobalServiceService {
    private subject2 = new Subject<any>();
    private subject3 = new Subject<any>();
    private CurrentAssociationIdForExpense = new Subject<any>();
+   private CurrentAssociationIdForInvoice = new Subject<any>();
    private selectedAssociation = new Subject<any>();
+   private CurrentAssociationIdForUnit = new Subject<any>();
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
    IsUnitCountOne;
@@ -136,6 +138,20 @@ public setMrmRoleID(MrmRoleID){
   getCurrentAssociationIdForExpense(): Observable<any> {
     console.log("getCurrentAssociationIdForExpense");
     return this.CurrentAssociationIdForExpense.asObservable();
+  }
+  setCurrentAssociationIdForInvoice(message: any) {
+    console.log("setCurrentAssociationIdForInvoice", message)
+    this.CurrentAssociationIdForInvoice.next({ msg: message });
+  }
+  getCurrentAssociationIdForInvoice(): Observable<any> {
+   return this.CurrentAssociationIdForInvoice.asObservable();
+  }
+  setCurrentAssociationIdForUnit(message: any){
+    console.log("setCurrentAssociationIdForUnit", message)
+    this.CurrentAssociationIdForUnit.next({ msg: message });
+  }
+  getCurrentAssociationIdForUnit(): Observable<any>{
+   return this.CurrentAssociationIdForUnit.asObservable();
   }
   sendUnitListForAssociation(message: any){
     console.log(message);

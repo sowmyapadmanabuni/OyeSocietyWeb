@@ -3,6 +3,7 @@ import { CityList } from '../city-list';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HomeService } from '../../services/home.service';
 import { MapService } from '../map.service';
+import {ViewBlockService} from '../../services/view-block.service'
 import { Component, OnInit, ElementRef, ViewChild, TemplateRef, Input } from '@angular/core';
 import { DashBoardService } from '../../services/dash-board.service';
 import { GlobalServiceService } from '../global-service.service';
@@ -13,6 +14,8 @@ import { ViewAssociationService } from '../../services/view-association.service'
 import { UnitlistForAssociation } from '../models/unitlist-for-association';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
+import {UtilsService} from '../utils/utils.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -78,13 +81,18 @@ export class HomeComponent implements OnInit {
   subscription: Subscription;
   subscription1: Subscription;
   selectedAssociationSubscription: Subscription;
+  availableNoOfBlocks: any;
+  availableNoOfUnits: any;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
     private loginandregisterservice: LoginAndregisterService,
     private router: Router,
+    public viewBlkService: ViewBlockService,
     private viewassosiationservice: ViewAssociationService,
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private utilsService:UtilsService,
+    private http:HttpClient) {
     this.accountID = this.globalService.getacAccntID();
     console.log(this.accountID);
     //this.globalService.setAccountID('9539'); // 6457 9539
@@ -143,6 +151,8 @@ export class HomeComponent implements OnInit {
     this.localMrmRoleId = this.globalService.mrmroleId;
     this.GetVehicleListByAssocID();
     this.getAssociation();
+    this.getBlockDetails();
+    this.getUnitsDetails();
   }
   gotToResidentInvoice() {
     this.router.navigate(['resident-invoice']);
@@ -389,6 +399,8 @@ export class HomeComponent implements OnInit {
         console.log(this.unitlistForAssociation);
         this.globalService.setCurrentAssociationId(association.asAssnID);
         this.globalService.setCurrentAssociationIdForExpense(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForInvoice(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForUnit(association.asAssnID);
         this.globalService.setCurrentAssociationName(asnName);
         this.associationID = this.globalService.getCurrentAssociationId();
         console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
@@ -612,6 +624,36 @@ export class HomeComponent implements OnInit {
   }
   goToMembers() {
     this.router.navigate(['members']);
+  }
+  getBlockDetails() {
+    this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
+      this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
+      console.log(data);
+      console.log('allBlocksLists', this.availableNoOfBlocks);
+      //asbGnDate
+    },
+      err => {
+        console.log(err);
+      });
+  }
+  getUnitsDetails() {
+    let IPAddress = this.utilsService.getIPaddress();
+    let headers = this.getHttpheaders();
+    this.http.get(IPAddress + `oyeliving/api/v1/Unit/GetUnitListByAssocID/${this.globalService.getCurrentAssociationId()}`, { headers: headers })
+      .subscribe(data => {
+        console.log(data['data']['unit'].length);
+        this.availableNoOfUnits=data['data']['unit'].length;
+      },
+      err=>{
+        console.log(err);
+      })
+  }
+  getHttpheaders(): HttpHeaders {
+    const headers = new HttpHeaders()
+      .set('Authorization', 'my-auth-token')
+      .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+      .set('Content-Type', 'application/json');
+    return headers;
   }
 
 }

@@ -261,258 +261,79 @@
 
   /* Dashboard Tabs css */
 
-  #content { 
 
-    background: #FFF; 
 
-    min-height: 400px; 
 
-}
+  #content { background: #FFF; min-height: 400px; }
 
+.tabs { list-style: none; margin:0px auto; width: 100%;padding: 0px 0px;}
 
+.tabs li { float: left; width: 50%;position: relative; }
 
-.tabs { 
+.tabs a { float: left; padding: 23px 40px; text-decoration: none;color: black !important;font-size: 16px;font-weight: 500;text-align: center; background: #e3e4e5;  width: 100%;-webkit-border-bottom-left-radius: 32px;-webkit-border-bottom-right-radius: 32px;-moz-border-radius-bottomleft: 32px;-moz-border-radius-bottomright: 32px;border-bottom-left-radius: 32px;border-bottom-right-radius: 32px; }
 
-    list-style: none; 
+.tabs .active {z-index: 3;}
 
-    margin:0px auto; 
+.tabs .active a { background: #ffffff;color: black; }
 
-    width: 100%;
+.tabs li:before, .tabs li:after, .tabs li a:before, .tabs li a:after {position: absolute;bottom: 0;}
 
-    padding: 0px 0px;
+.tabs li:last-child:after,   .tabs li:last-child a:after,
 
-}
+.tabs li:first-child:before, .tabs li:first-child a:before,
 
-    .tabs li { 
+.tabs .active:after,   .tabs .active:before, 
 
-      /* Makes a horizontal row */
+.tabs .active a:after, .tabs .active a:before {content: "";}
 
-        float: left; 
+.tabs .left-tab:before{background:#fefaf000 !important;z-index: 1;}
 
-        width: 50%;
+.r-top{position: absolute;background: #fefaf0;left: 199px;z-index: 2;width: 9px;}
 
-        /* So the psueudo elements can be
+.l-top{position: absolute;background: #ffffff;right: 199px;z-index: 2;width: 9px;}
 
-           abs. positioned inside */
+.act-a{box-shadow:-3px 3px 3px -1px #dfdede;}
 
-        position: relative; 
+.act-b{box-shadow:2px 3px 3px -1px #dfdede;}
 
-    }
+.tabs .active:before{background: #ffffff; z-index: 1;}
 
-    .tabs a { 
+.tabs .active:after {background: #ffffff;z-index: 1;}
 
-      /* Make them block level
+.tabs .right-tab:after {background: rgba(255, 255, 255, 0);z-index: 1;}
 
-         and only as wide as they need */
+.tabs li:before, .tabs li:after {background: #fefaf0;width: 10px;height: 10px;}
 
-      float: left; 
-
-      padding: 23px 40px; 
-
-      text-decoration: none;
-
-      
-
-      /* Default colors */ 
-
-      color: black !important;
-
-      font-size: 16px;
-
-    font-weight: 500;
-
-    text-align: center;
-
-      background: #e3e4e5; 
-
-      width: 100%;
-
-      /* Only round the top corners */
-
-      -webkit-border-bottom-left-radius: 32px;
-
-      -webkit-border-bottom-right-radius: 32px;
-
-      -moz-border-radius-bottomleft: 32px;
-
-      -moz-border-radius-bottomright: 32px;
-
-      border-bottom-left-radius: 32px;
-
-      border-bottom-right-radius: 32px; 
-
-    }
-
-    .tabs .active {
-
-      /* Highest, active tab is on top */
-
-      z-index: 3;
-
-    }
-
-    .tabs .active a { 
-
-      /* Colors when tab is active */
-
-      background: #ebc65e; 
-
-      color: black; 
-
-    }
-
-    .tabs li:before, .tabs li:after, 
-
-    .tabs li a:before, .tabs li a:after {
-
-      /* All pseudo elements are 
-
-         abs. positioned and on bottom */
-
-      position: absolute;
-
-      bottom: 0;
-
-    }
-
-    /* Only the first, last, and active
-
-       tabs need pseudo elements at all */
-
-    .tabs li:last-child:after,   .tabs li:last-child a:after,
-
-    .tabs li:first-child:before, .tabs li:first-child a:before,
-
-    .tabs .active:after,   .tabs .active:before, 
-
-    .tabs .active a:after, .tabs .active a:before {
-
-      content: "";
-
-    }
-
-    .tabs .active:before{
-
-      background: #ebc65e; /* Squares below circles */
-
-      z-index: 1;
-
-    }
-  .tabs .active:after {
-
-      background: #ebc65e; /* Squares below circles */
-
-      z-index: 1;
-
-    }
-    /* Squares */
-
-    .tabs li:before, .tabs li:after {
-
-      background: #e3e4e5;
-
-      width: 10px;
-
-      height: 10px;
-
-    }
 .dash-tab{width: 100%;float: left;}
-    .tabs li:before {
 
-      left: -10px;     
+.tabs li:before { left: -10px;top: 0px; }
 
-      top: 0px; 
+.tabs li:after { right: -10px;top: 0px;}
 
-    }
 
-    .tabs li:after { 
 
-      right: -10px;
-
-      top: 0px;
-
-    }
 
     /* Circles */
 
-    .tabs li a:after{
 
-      width: 20px; 
 
-      height: 20px;
 
-      /* Circles are circular */
+    .tabs li a:after{width: 20px; height: 20px; -webkit-border-radius: 10px;-moz-border-radius:    10px;border-radius:10px;background: #FFF;z-index: 2;}
 
-      -webkit-border-radius: 10px;
+    .tabs li a:before {width: 20px; height: 20px;-webkit-border-radius: 10px;-moz-border-radius:10px; border-radius: 10px;background: #fefaf0;z-index: 2;}
 
-      -moz-border-radius:    10px;
+    .tabs .active a:after, .tabs .active a:before {background: #e3e4e5;}
 
-      border-radius:         10px;
 
-      background: #FFF;
 
-      
-
-      /* Circles over squares */
-
-      z-index: 2;
-
-    }
-    .tabs li a:before {
-
-      width: 20px; 
-
-      height: 20px;
-
-      /* Circles are circular */
-
-      -webkit-border-radius: 10px;
-
-      -moz-border-radius:    10px;
-
-      border-radius:         10px;
-
-      background: #fefaf0;
-
-      
-
-      /* Circles over squares */
-
-      z-index: 2;
-
-    }
-    .tabs .active a:after, .tabs .active a:before {
-
-      background: #e3e4e5;
-
-    }
 
     /* First and last tabs have different
+outside color needs */
 
-       outside color needs */
+    .tabs li:first-child.active a:before{background:#fefaf000;}
 
-    .tabs li:first-child.active a:before{
-      background:#fefaf0;
-    }
+    .tabs li:last-child.active a:after {background: #ffffff00;}
 
-    .tabs li:last-child.active a:after {
+    .tabs li a:before {left: -20px;top: 0px;}
 
-      background: #ffffff;
-
-    }
-
-    .tabs li a:before {
-
-      left: -20px;
-
-      top: 0px;
-
-    }
-
-    .tabs li a:after {
-
-      right: -20px;
-
-      top: 0px;
-
-    }
+    .tabs li a:after {right: -20px;top: 0px;}

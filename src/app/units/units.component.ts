@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { GlobalServiceService } from '../global-service.service';
 import { OrderPipe } from 'ngx-order-pipe';
 import * as XLSX from 'xlsx';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -95,6 +96,7 @@ export class UnitsComponent implements OnInit {
   blBlkName:any;
   searchTxt:any;
   unOcSDate:any;
+  currentAssociationIdForUnit:Subscription;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
@@ -151,7 +153,14 @@ export class UnitsComponent implements OnInit {
     this.ownerAltnumber='';
     this.ownerEmail='';
     this.ownerAltemail='';
-     }
+    //
+    this.currentAssociationIdForUnit = this.globalService.getCurrentAssociationIdForUnit()
+      .subscribe(msg => {
+        console.log(msg);
+        this.globalService.setCurrentAssociationId(msg['msg']);
+        this.initialiseUnit();
+      })
+  }
      pageChanged(event) {
       this.config.currentPage = event;
     }
@@ -179,8 +188,19 @@ export class UnitsComponent implements OnInit {
     this.getBlocks();
     this.viewUniService.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
+        this.allBlocksLists=[];
         this.allBlocksLists = data['data'].blocksByAssoc;
         //console.log('allBlocksLists',this.allBlocksLists);
+      });
+  }
+  initialiseUnit(){
+    this.allUnitBYBlockID=[];
+    this.blBlkName='Select Block Name';
+    this.viewUniService.GetBlockListByAssocID(this.globalService.getCurrentAssociationId())
+      .subscribe(data => {
+        this.allBlocksLists=[];
+        this.allBlocksLists = data['data'].blocksByAssoc;
+        console.log('allBlocksLists',this.allBlocksLists);
       });
   }
   getUnitDetails() {

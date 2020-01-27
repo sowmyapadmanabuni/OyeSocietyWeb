@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<b>{{patrolingShiftName}} - {{patrolingStartdate|date:'yyyy/MM/dd'}} to {{patrolingEnddate|date:'yyyy/MM/dd'}}</b>
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<b>{{patrolingShiftName}} - {{patrolingStartdate|date:'dd/MM/yyyy'}} to {{patrolingEnddate|date:'dd/MM/yyyy'}}</b>
                             <span style="float: right;"><i class="fa fa-share-alt" aria-hidden="true"></i>
                         </span>
                         <div class="dash-row table-responsive">
@@ -82,7 +82,7 @@
                                             <td colspan="6" align="center">No Data Found</td>
                                         </ng-container> -->
                                         <ng-container>
-                                            <td>{{item['ptsDateT']|date:'yyyy/MM/dd'}}</td>
+                                            <td>{{item['ptsDateT']|date:'dd/MM/yyyy'}}</td>
                                             <td>{{item['ptsDateT']|date:'h:mm a'}}</td>
                                             <td>{{item['pteDateT']|date:'h:mm a'}}</td>
                                             <td>{{item['ptStatus']}}</td>

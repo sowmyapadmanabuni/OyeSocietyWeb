@@ -861,6 +861,8 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   initialiseEXpense(){
+    this.expenseList=[];
+    this.viewexpenseservice.currentBlockName = '';
     this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         this.associationlist = data['data'].association;

@@ -33,6 +33,9 @@
                                 <h3 class="purple">{{globalService.currentAssociationName}}</h3>
                         </div> -->
                         <!--choice heading row end-->
+
+
+
                         <!--Dashboard icons for ADMIN start-->
                         <div class="dash-main">
                                 <div style="width: 70%;" *ngIf="localMrmRoleId == 1">
@@ -123,7 +126,8 @@
                                                                 <div><img class="dash-icon"
                                                                                 src="../../assets/images/icons/blocks-units.png">
                                                                 </div>
-                                                                <div class="f-des">Units And Blocks</div>
+                                                                <div class="f-des">{{availableNoOfUnits}}-Units <br>
+                                                                         {{availableNoOfBlocks}}-Blocks</div>
                                                         </div>
                                                         <div class="tile-link" (click)="goToReports()">
                                                                 <div>
@@ -187,12 +191,14 @@
                                 </div> -->
                                         </div>
                                         <div class="dash-tab">
+                                                <span class="l-top">&nbsp;</span>
                                                 <ul class="tabs group">
-                                                        <li (click)="AdminsUnitShow()" class="active"><a data-toggle="tab">MY UNIT</a>
+                                                        <li (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
                                                         </li>
                                                         <li *ngIf="globalService.mrmroleId == 1"
-                                                                (click)="AdminsButtonShow()"><a
-                                                                        data-toggle="tab">ADMIN</a></li>
+                                                                (click)="AdminsButtonShow()" class="active right-tab">
+                                                                <a class="act-b" data-toggle="tab">ADMIN</a></li>
+ 
                                                 </ul>
                                         </div>
                                 </div>
@@ -318,9 +324,10 @@
                                 </div> -->
                                         </div>
                                         <div class="dash-tab">
+                                                <span class="r-top">&nbsp;</span>
                                                 <ul class="tabs group">
-                                                        <li (click)="AdminsUnitShow()" class="active"><a
-                                                                        data-toggle="tab">MY UNIT</a></li>
+                                                        <li (click)="AdminsUnitShow()" class="active left-tab"><a class="act-a"
+                                                                data-toggle="tab">MY UNIT</a></li>
                                                         <li *ngIf="globalService.mrmroleId == 1"
                                                                 (click)="AdminsButtonShow()"><a
                                                                         data-toggle="tab">ADMIN</a></li>

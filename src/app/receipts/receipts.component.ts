@@ -25,6 +25,12 @@ export class ReceiptsComponent implements OnInit {
   unpaidUnits: any[];
   p: number=1;
   searchTxt:any;
+  UnitName: any;
+  InvoiceNum: any;
+  AmountPaid: any;
+  AmountDue: any;
+  paymentDate: any;
+  Balance: any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -79,7 +85,13 @@ export class ReceiptsComponent implements OnInit {
     this.generatereceiptservice.enableReceiptListView=false;
     this.generatereceiptservice.enableGenerateReceiptView=true;
   }
-  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pyDate,pyAmtPaid){
+  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pydCreated,pyAmtPaid,unUniName,pyAmtDue,pyBal){
+    this.UnitName=unUniName;
+    this.InvoiceNum=inNumber;
+    this.paymentDate=pydCreated;
+    this.AmountDue=pyAmtDue;
+    this.AmountPaid=pyAmtPaid;
+    this.Balance=pyBal;
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
 
