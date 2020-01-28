@@ -37,7 +37,7 @@
               <button class="btn-primary-purple" (click)="toggleAddExpenseView()"><i class="fa fa-plus"
                   aria-hidden="true"></i> Add Expense</button>
 
-                <a><img class="excel" src="../../assets/images/upload.png" (click)="NavigateToBulkUpload()" tooltip="Have more num of Blocks?"></a>
+                <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Blocks?"(click)="NavigateToBulkUpload()" tooltip="Have more num of Blocks?">Bulk Upload</a>
 
 
               <!-- <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download>
@@ -523,7 +523,7 @@
                     style="position:absolute;margin-left:93%;top:34%">
                     <i class="fa fa-cloud-upload"></i>
                   </button>
-                  <button style="position: absolute;top:31%;left:86%" class="btn btn-danger"
+                  <button style="position: absolute;top:31%;left:86%"
                     (click)='removeSelectedfile()'><i class="fa fa-trash"></i> </button>
                 </div>
                 <div *ngIf='dynamic > 0' class="row mb-2">

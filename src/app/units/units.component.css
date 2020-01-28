@@ -1,9 +1,7 @@
-.bg{
-    padding: 50px 0px !important;
-    }
+.bg{padding: 50px 0px !important;}
 .upload_excel{display: flex;
     justify-content: flex-end;
-    margin-bottom: 10px;
+    margin-top: 10px;
     align-items: center;}
     .enroll{    display: flex;
         justify-content: space-between;

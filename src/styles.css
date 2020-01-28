@@ -2,6 +2,8 @@
 /* body{ background: url('assets/bg.png');background-position: 100% 30%;background-repeat: no-repeat;background-size: contain;overflow-x: hidden;} */
 .build-bg{background-color: #fff;}
 .nm{margin:0px !important}
+.excel1{width: 100px;}
+
 .excel{width: 34px;}
 .enr-bt{display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}

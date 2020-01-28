@@ -6,23 +6,10 @@
 
         <app-left-bar></app-left-bar>
 
-
-
         <!--Profile section-->
-
-
-
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-
-
-
             <!--Dashboard icons start-->
-
             <div class="col-md-12 m-t-30 dash">
-
-
-
-
                 <div style="display: flex">
 
                     <span style="width: 263px;" class="purple">Units Management for Block</span>
@@ -39,9 +26,7 @@
                             <ul class="dropdown-menu fullw">
 
                                 <li *ngFor='let blck of blocks'
-                                    (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>
-
-                                        {{blck.blBlkName}}</a></li>
+                                    (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>{{blck.blBlkName}}</a></li>
 
                             </ul>
 
@@ -50,15 +35,9 @@
                     </div>
 
                 </div>
-
-
-
-                <form *ngIf="ShowExcelUploadDiscription">
-
+            <form *ngIf="ShowExcelUploadDiscription">
                     <div class="row">
-
-                        <div
-                            style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
+                        <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
 
                             <div class="upload_excel">
 
@@ -67,7 +46,7 @@
                                         tooltip="Have more num of Blocks?"></a>
 
                                 <a href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img class="excel"
-                                        src="../../assets/images/upload.png"
+                                        src="../../assets/images/download.png"
                                         tooltip="click to download demo excel format"></a>
 
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
@@ -82,23 +61,27 @@
 
                     <div class="row">
 
-                        <div class="col-sm-2"></div>
 
-                        <div class="col-sm-8" style="border: 1px solid #F08E33;border-radius: 18px;">
+                        <div class="col-sm-8">
 
-                            <h1>Note:- Upload your Blocks & Units file in
-                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                                excel format, the
+                            <div class="col-sm-8" style="border-radius: 18px;">
+                                <h4>Excel Upload Instructions & Format:</h4>
+                                <ul>
+                                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                                    <li>Nulla ut eros quis est feugiat condimentum.</li>
+                                    <li>Donec eget enim feugiat erat vehicula pretium non et urna.</li>
+                                    <li>Cras vitae neque imperdiet, rhoncus orci sed, dignissim magna.</li>
+                                    <li>Integer nec augue ut dolor efficitur auctor.</li>
+                                    <li>Note:- Bulk Upload your Units file in <i class="fa fa-file-excel-o"
+                                            aria-hidden="true"></i> excel format, the demo excel format can be
+                                        downloaded from above</li>
+                                </ul>
 
-                                demo excel format can be downloaded from above
-
-                            </h1>
-
+                            </div>
 
 
                         </div>
 
-                        <div class="col-sm-2"></div>
 
                     </div>
 
@@ -279,11 +262,8 @@
                     </table>
 
                     <div>
-
-                        <button style="float: right;" class="btn-primary-purple" (click)="createUnitFromExcel()"><i
-                                class="fa fa-plus" aria-hidden="true"></i>
-                            Upload Excel Blocks</button>
-
+                        <button style="float: right;" class="btn-primary-purple" (click)="createUnitFromExcel()">
+                            <i class="fa fa-plus" aria-hidden="true"></i>Upload Excel Blocks</button>
                     </div>
 
                 </div>
