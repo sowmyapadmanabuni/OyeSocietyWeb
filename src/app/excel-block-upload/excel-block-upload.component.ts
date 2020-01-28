@@ -177,7 +177,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       })(index)
     })
     Swal.fire({
-      title: "Blocks Created",
+      title: `${this.excelBlockList.length} - Blocks Created`,
       type: "success",
       confirmButtonColor: "#f69321",
       confirmButtonText: "Yes"

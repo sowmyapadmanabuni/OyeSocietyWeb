@@ -1,146 +1,299 @@
 <div class="container-fluid np">
+
     <div class="col-sm-12">
-        <!--Profile section-->
-        <app-left-bar></app-left-bar>
 
         <!--Profile section-->
+
+        <app-left-bar></app-left-bar>
+
+
+
+        <!--Profile section-->
+
+
 
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
 
+
+
             <!--Dashboard icons start-->
+
             <div class="col-md-12 m-t-30 dash">
 
-                <!-- <div style="display: flex;margin-bottom: 20px;align-items: flex-start;">
-                        <button class="btn-primary-purple" (click)="addBlocksShow()">
-                                <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
-                        <div class="upload_excel">
-                          <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png" tooltip="Have more num of Blocks?"></a>
-                           <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
-                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+
+
+
+                <div style="display: flex">
+
+                    <span style="width: 263px;" class="purple">Units Management for Block</span>
+
+                    <div style="float:left;margin:0px" class="form-group">
+
+                        <div class="dropdown">
+
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                data-toggle="dropdown">{{blBlkName}}
+
+                                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+
+                            <ul class="dropdown-menu fullw">
+
+                                <li *ngFor='let blck of blocks'
+                                    (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>
+
+                                        {{blck.blBlkName}}</a></li>
+
+                            </ul>
+
                         </div>
-                </div> -->
+
+                    </div>
+
+                </div>
+
+
+
                 <form *ngIf="ShowExcelUploadDiscription">
+
                     <div class="row">
-                        <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
+
+                        <div
+                            style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
+
                             <div class="upload_excel">
-                                <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+
+                                <a>
+                                    <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
                                         tooltip="Have more num of Blocks?"></a>
-                                <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel"
+
+                                <a href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img class="excel"
                                         src="../../assets/images/upload.png"
                                         tooltip="click to download demo excel format"></a>
+
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                     style="display:none" #file>
+
                             </div>
+
                         </div>
+
                     </div>
+
                     <div class="row">
+
                         <div class="col-sm-2"></div>
+
                         <div class="col-sm-8" style="border: 1px solid #F08E33;border-radius: 18px;">
-                            <h1>Note:- Upload your Blocks & Units file in <i class="fa fa-file-excel-o"
-                                    aria-hidden="true"></i> excel format, the
+
+                            <h1>Note:- Upload your Blocks & Units file in
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                excel format, the
+
                                 demo excel format can be downloaded from above
+
                             </h1>
 
+
+
                         </div>
+
                         <div class="col-sm-2"></div>
+
                     </div>
+
                 </form>
-                <!--  -->
-                <!--  -->
-                <!--  -->
+
+                <!-- -->
+
+                <!-- -->
+
+                <!-- -->
+
                 <div class="dash-row" *ngIf='ShowExcelDataList'>
-                    <table class="table table-bordered"
-                        [mfData]="excelBlockList"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+
+                    <table class="table table-bordered" [mfData]="excelUnitList" #mf="mfDataTable"
+                        (click)="onPageChange($event)" [mfRowsOnPage]="10">
+
                         <thead>
+
                             <tr>
+
                                 <th>
+
                                     S.No.
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="BlockName">Block Name</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="Unit Name - Flat no.">Unit Name - Flat no.</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="BlockType">Block Type</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="UnitType">Unit Type</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="NumberOfUnits">No Of Units</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="UnitDimension">Unit Dimension</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="ManagerName">Manager Name</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="UnitRate">Unit Rate</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="ManagerMobileNumber">Manager MobileNumber</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="CalculationType">Calculation Type</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="ManagerEmailID">Manager EmailID</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="OccupancyAndOwnershipStatus">Occupancy And OwnershipStatus
+                                    </mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="FlatRateValue(amount/flat)">FlatRateValue(amount/flat)</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="OwnerFirstName">Owner First Name</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="MaintenanceValue(Rupees/Sqft)">MaintenanceValue(Rupees/Sqft)</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="OwnerLastname">Owner Lastname</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="InvoiceCreationFrequency">InvoiceCreationFrequency</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="OwnerMobile">Owner Mobile</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="InvoiceGenerationDate">Invoice GenerationDate</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="OwnerEmailID">Owner EmailID</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="InvoiceDueDate">Invoice DueDate</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="TenantFirstName">Tenant FirstName</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="LatePaymentChargeType">LatePaymentChargeType</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="TenantLastName">Tenant LastName</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="LatePaymentCharge">LatePaymentCharge</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="TenantMobileNumber">Tenant MobileNumber</mfDefaultSorter>
+
                                 </th>
+
                                 <th>
-                                    <mfDefaultSorter by="StartsFrom">StartsFrom</mfDefaultSorter>
+
+                                    <mfDefaultSorter by="TenantEmail">Tenant EmailID</mfDefaultSorter>
+
                                 </th>
+
                             </tr>
+
                         </thead>
+
                         <tbody>
+
                             <tr *ngFor="let item of mf.data;let i=index">
+
                                 <ng-container *ngIf="item == -1">
+
                                     <td colspan="5" align="center">No Data Found</td>
+
                                 </ng-container>
+
                                 <ng-container *ngIf="item!=-1">
+
                                     <td>{{item['Sno']}}</td>
-                                    <td>{{item['BlockName']}}</td>
-                                    <td>{{item['BlockType']}}</td>
-                                    <td>{{item['NumberOfUnits']}}</td>
-                                    <td>{{item['ManagerName']}}</td>
-                                    <td>{{item['ManagerMobileNumber']}}</td>
+
+                                    <td>{{item['Unit Name - Flat no.']}}</td>
+
+                                    <td>{{item['UnitType']}}</td>
+
+                                    <td>{{item['UnitDimension']}}</td>
+
+                                    <td>{{item['UnitRate']}}</td>
+
+                                    <td>{{item['CalculationType']}}</td>
+
                                     <td>{{item['ManagerEmailID']}}</td>
-                                    <td>{{item['FlatRateValue(amount/flat)']}}</td>
-                                    <td>{{item['MaintenanceValue(Rupees/Sqft)']}}</td>
-                                    <td>{{item['InvoiceCreationFrequency']}}</td>
-                                    <td>{{item['InvoiceGenerationDate']}}</td>
-                                    <td>{{item['InvoiceDueDate']}}</td>
-                                    <td>{{item['LatePaymentChargeType']}}</td>
-                                    <td>{{item['LatePaymentCharge']}}</td>
-                                    <td>{{item['StartsFrom']}}</td>
+
+                                    <td>{{item['OccupancyAndOwnershipStatus']}}</td>
+
+                                    <td>{{item['OwnerFirstName']}}</td>
+
+                                    <td>{{item['OwnerLastname']}}</td>
+
+                                    <td>{{item['OwnerMobile']}}</td>
+
+                                    <td>{{item['OwnerEmailID']}}</td>
+
+                                    <td>{{item['TenantFirstName']}}</td>
+
+                                    <td>{{item['TenantLastName']}}</td>
+
+                                    <td>{{item['TenantMobileNumber']}}</td>
+
                                 </ng-container>
+
                             </tr>
+
                         </tbody>
+
                         <tfoot>
+
                             <tr>
+
                                 <td colspan="15">
+
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
+
                                 </td>
+
                             </tr>
+
                         </tfoot>
+
                     </table>
+
+                    <div>
+
+                        <button style="float: right;" class="btn-primary-purple" (click)="createUnitFromExcel()"><i
+                                class="fa fa-plus" aria-hidden="true"></i>
+                            Upload Excel Blocks</button>
+
+                    </div>
+
                 </div>
 
+
+
             </div>
+
         </div>
+
     </div>
+
 </div>
-
-
-
-

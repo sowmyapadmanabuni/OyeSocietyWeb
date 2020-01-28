@@ -23,9 +23,23 @@
                     <div class="row">
                         <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
                             <div class="upload_excel">
+                                <div style="display: flex;">
+                                    <span class="purple">Upload Expenses for </span>
+                                    <div class="dropdown"
+                                      style="width: 200px;margin-right: 11px !important;margin-top: -8px !important;margin-left: 7px !important;">
+                                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown"
+                                        style="width: 200px;margin-right: 20px;">{{(currentBlockName == ''?'Blocks':currentBlockName)}}
+                                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                      <ul class="dropdown-menu fullw ">
+                                        <li *ngFor='let item of allBlocksLists'
+                                          (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])">
+                                          <a>{{item['blBlkName']}}</a></li>
+                                      </ul>
+                                    </div>
+                                  </div>
                                 <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
                                         tooltip="Have more num of Blocks?"></a>
-                                <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel"
+                                <a href="../../assets/Excel/Demo_Expense_Template.xlsx" download><img class="excel"
                                         src="../../assets/images/upload.png"
                                         tooltip="click to download demo excel format"></a>
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
@@ -59,76 +73,92 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="BlockName">Block Name</mfDefaultSorter>
+                                    <mfDefaultSorter by="Expense Head">Expense Head</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="BlockType">Block Type</mfDefaultSorter>
+                                    <mfDefaultSorter by="Expense Description">Expense Description</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="NumberOfUnits">No Of Units</mfDefaultSorter>
+                                    <mfDefaultSorter by="Expense Recurance Type">Expense Recurance Type</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="ManagerName">Manager Name</mfDefaultSorter>
+                                    <mfDefaultSorter by="Applicable To Unit">Applicable To Unit</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="ManagerMobileNumber">Manager MobileNumber</mfDefaultSorter>
+                                    <mfDefaultSorter by="Expense Type">Expense Type</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="ManagerEmailID">Manager EmailID</mfDefaultSorter>
+                                    <mfDefaultSorter by="Amount Paid">Amount Paid</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="FlatRateValue(amount/flat)">FlatRateValue(amount/flat)</mfDefaultSorter>
+                                    <mfDefaultSorter by="Distribution Type">Distribution Type</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="MaintenanceValue(Rupees/Sqft)">MaintenanceValue(Rupees/Sqft)</mfDefaultSorter>
+                                    <mfDefaultSorter by="Bank">Bank</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="InvoiceCreationFrequency">InvoiceCreationFrequency</mfDefaultSorter>
+                                    <mfDefaultSorter by="Payment Method">Payment Method</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="InvoiceGenerationDate">Invoice GenerationDate</mfDefaultSorter>
+                                    <mfDefaultSorter by="Payee Name">Payee Name</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="InvoiceDueDate">Invoice DueDate</mfDefaultSorter>
+                                    <mfDefaultSorter by="Expenditure Date">Expenditure Date</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="LatePaymentChargeType">LatePaymentChargeType</mfDefaultSorter>
+                                    <mfDefaultSorter by="Invoice-Receipt No">Invoice-Receipt No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="LatePaymentCharge">LatePaymentCharge</mfDefaultSorter>
+                                    <mfDefaultSorter by="Payee Bank">Payee Bank</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="StartsFrom">StartsFrom</mfDefaultSorter>
+                                    <mfDefaultSorter by="Voucher No">Voucher No</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Cheque No">Cheque No</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Cheque Date">Cheque Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Demand Draft No">Demand Draft No</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Demand Draft Date">Demand Draft Date</mfDefaultSorter>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="5" align="center">No Data Found</td>
+                                    <td colspan="19" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{item['Sno']}}</td>
-                                    <td>{{item['BlockName']}}</td>
-                                    <td>{{item['BlockType']}}</td>
-                                    <td>{{item['NumberOfUnits']}}</td>
-                                    <td>{{item['ManagerName']}}</td>
-                                    <td>{{item['ManagerMobileNumber']}}</td>
-                                    <td>{{item['ManagerEmailID']}}</td>
-                                    <td>{{item['FlatRateValue(amount/flat)']}}</td>
-                                    <td>{{item['MaintenanceValue(Rupees/Sqft)']}}</td>
-                                    <td>{{item['InvoiceCreationFrequency']}}</td>
-                                    <td>{{item['InvoiceGenerationDate']}}</td>
-                                    <td>{{item['InvoiceDueDate']}}</td>
-                                    <td>{{item['LatePaymentChargeType']}}</td>
-                                    <td>{{item['LatePaymentCharge']}}</td>
-                                    <td>{{item['StartsFrom']}}</td>
+                                    <td>{{item['S.No']}}</td>
+                                    <td>{{item['Expense Head']}}</td>
+                                    <td>{{item['Expense Description']}}</td>
+                                    <td>{{item['Expense Recurance Type']}}</td>
+                                    <td>{{item['Applicable To Unit']}}</td>
+                                    <td>{{item['Expense Type']}}</td>
+                                    <td>{{item['Amount Paid']}}</td>
+                                    <td>{{item['Distribution Type']}}</td>
+                                    <td>{{item['Bank']}}</td>
+                                    <td>{{item['Payment Method']}}</td>
+                                    <td>{{item['Payee Name']}}</td>
+                                    <td>{{item['Expenditure Date']}}</td>
+                                    <td>{{item['Invoice-Receipt No']}}</td>
+                                    <td>{{item['Payee Bank']}}</td>
+                                    <td>{{item['Voucher No']}}</td>
+                                    <td>{{item['Cheque No']}}</td>
+                                    <td>{{item['Cheque Date']}}</td>
+                                    <td>{{item['Demand Draft No']}}</td>
+                                    <td>{{item['Demand Draft Date']}}</td>
                                 </ng-container>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="15">
+                                <td colspan="19">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>

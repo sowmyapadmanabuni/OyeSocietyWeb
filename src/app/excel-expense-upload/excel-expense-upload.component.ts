@@ -6,6 +6,7 @@ import { ViewUnitService } from 'src/services/view-unit.service';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { AddExpenseService } from 'src/services/add-expense.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-excel-expense-upload',
@@ -16,6 +17,9 @@ export class ExcelExpenseUploadComponent implements OnInit {
   excelExpenseList:any[];
   ShowExcelUploadDiscription:boolean;
   ShowExcelDataList:boolean;
+  allBlocksLists:any[];
+  currentBlockName:any;
+  blBlockID: any;
 
   constructor(public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
@@ -26,9 +30,16 @@ export class ExcelExpenseUploadComponent implements OnInit {
       this.excelExpenseList=[];
       this.ShowExcelUploadDiscription=true;
       this.ShowExcelDataList=false;
+    this.allBlocksLists=[];
+    this.currentBlockName='';
      }
 
   ngOnInit() {
+    this.addexpenseservice.GetBlockListByAssocID(this.globalService.getCurrentAssociationId())
+    .subscribe(item => {
+      this.allBlocksLists = item;
+      //console.log('allBlocksLists', this.allBlocksLists);
+    });
   }
   upLoad() {
     document.getElementById("file_upload_id").click();
@@ -60,31 +71,31 @@ export class ExcelExpenseUploadComponent implements OnInit {
     this.excelExpenseList.forEach(item=>{
       let expensedata={
        // "POEAmnt": "",
-        "EXChqNo": (item['ChequeNo']==undefined?'':item['ChequeNo']),
+        "EXChqNo": (item['Cheque No']==undefined?'':item['Cheque No']),
        // "BPID": "",
-        "INNumber": item['Invoice-ReceiptNo'],
+        "INNumber": item['Invoice-Receipt No'],
         "EXPyCopy": "",
         "ASAssnID":this.globalService.getCurrentAssociationId(),
-        "BLBlockID": '',//this.blockID,
-        "EXHead": item['ExpenseHead'],
-        "EXDesc": item['ExpenseDescription'],
-        "EXDCreated": item['ExpenditureDate'],
-        "EXPAmnt": item['AmountPaid'],
-        "EXRecurr": item['ExpenseRecurranceType'],
-        "EXApplTO": item['ApplicableToUnit'],
-        "EXType": item['ExpenseType'],
-        "EXDisType": item['DistributionType'],
+        "BLBlockID": this.blBlockID,
+        "EXHead": item['Expense Head'],
+        "EXDesc": item['Expense Description'],
+        "EXDCreated": item['Expenditure Date'],
+        "EXPAmnt": item['Amount Paid'],
+        "EXRecurr": item['Expense Recurance Type'],
+        "EXApplTO": item['Applicable To Unit'],
+        "EXType": item['Expense Type'],
+        "EXDisType": item['Distribution Type'],
         "UnUniIden": "",
         "PMID": 1,
         "BABName": item['Bank'],
-        "EXPBName": item['PayeeBankName'],
-        "EXChqDate": (item['ChequeDate']==undefined?'':item['ChequeDate']),
+        "EXPBName": item['Payee Bank'],
+        "EXChqDate": (item['Cheque Date']==undefined?'':item['Cheque Date']),
         "VNName": "Bills",
-        "EXDDNo": (item['DemandDraftNo']==undefined?'':item['DemandDraftNo']),
-        "EXDDDate": (item['DemandDraftDate']==undefined?'':item['DemandDraftDate']),
-        "EXVoucherNo": (item['VoucherNo']==undefined?'':item['VoucherNo']),
+        "EXDDNo": (item['Demand Draft No']==undefined?'':item['Demand Draft No']),
+        "EXDDDate": (item['Demand Draft Date']==undefined?'':item['Demand Draft Date']),
+        "EXVoucherNo": (item['Voucher No']==undefined?'':item['Voucher No']),
         "EXAddedBy":"",
-        "EXPName":item['PayeeName']
+        "EXPName":item['Payee Name']
       }
       this.addexpenseservice.createExpense(expensedata)
         .subscribe(
@@ -96,5 +107,23 @@ export class ExcelExpenseUploadComponent implements OnInit {
           }
         );
     })
+    Swal.fire({
+      title: `${this.excelExpenseList.length} - Expenses Created`,
+      type: "success",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "Yes"
+    }).then(
+      (result) => {
+        if (result.value) {
+          this.router.navigate(['expense']);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        }
+      }
+    )
+  }
+  GetExpenseListByBlockID(blBlockID,blBlkName) {
+    console.log(blBlockID,blBlkName);
+    this.blBlockID = blBlockID;
+    this.currentBlockName=blBlkName;
   }
 }
