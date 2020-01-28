@@ -15,6 +15,8 @@ import { formatDate } from '@angular/common';
 import {ViewReceiptService} from '../../services/view-receipt.service';
 declare var $: any;
 import { Subscription } from 'rxjs';
+import { ViewUnitService } from '../../services/view-unit.service';
+
 
 
 @Component({
@@ -46,6 +48,7 @@ export class InvoicesComponent implements OnInit {
   invValFinal: any;
   mainAmt: number;
   currentAssociationID: string;
+  UnitName:any;
   storeId: string;
   sharedSecret: string;
   charge: string;
@@ -129,6 +132,7 @@ export class InvoicesComponent implements OnInit {
   voucherNo: string;
   PymtRefNo: string;
   ddNo: string;
+  allUnitBYBlockID:any[];
   chequeNo: string;
   PaidUnpaidinvoiceLists:any[];
   residentInvoiceList:any[];
@@ -163,10 +167,12 @@ export class InvoicesComponent implements OnInit {
     public globalservice: GlobalServiceService,
     private router: Router,
     private orderpipe: OrderPipe,
+    public viewUniService: ViewUnitService,
     private generatereceiptservice: GenerateReceiptService,
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService) {
 
+    this.UnitName="";
     this.globalservice.getCurrentUnitName(),
     this.globalservice.getCurrentUnitId(),
     console.log(this.globalservice.getCurrentUnitName());
@@ -327,12 +333,14 @@ export class InvoicesComponent implements OnInit {
 
   }
   getCurrentBlockDetails(blBlockID, blBlkName) {
+    this.PaidUnpaidinvoiceLists=[];
+    this.UnitName='';
     this.viewinvoiceservice.invoiceBlock = blBlkName;
     this.viewinvoiceservice.invoiceBlockId = blBlockID;
     this.invoiceLists = [];
     this.blockid = blBlockID;
     console.log('blBlockID-' + blBlockID);
-    this.viewinvoiceservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
+    this.viewinvoiceservice.getCurrentBlockDetails(blBlockID,this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
         this.PaidUnpaidinvoiceLists=this.invoiceLists;
@@ -352,6 +360,7 @@ export class InvoicesComponent implements OnInit {
         })
     this.isChecked = false;
     this.checkAll = false;
+    this.getAllUnitDetailsByBlockID()
   }
 
   setOrder(value: string) {
@@ -785,9 +794,11 @@ export class InvoicesComponent implements OnInit {
 
     var discountData = {
       "INID": dscntInvinvoiceNumber,
-      "IDDesc": dscntInvdiscountedAmount,
-      "INDsCVal": dscntInvdescription
+      // "IDDesc": dscntInvdescription,
+      "INDisType"  : "Debit",
+      "INDsCVal": dscntInvdiscountedAmount
     }
+    console.log(discountData);
 
     this.viewinvoiceservice.UpdateInvoiceDiscountValueAndInsert(discountData)
       .subscribe(data => {
@@ -799,7 +810,14 @@ export class InvoicesComponent implements OnInit {
           type: "success",
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
-        })
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
+            } else if (result.dismiss === swal.DismissReason.cancel) {
+            }
+          }
+        )
       },
         err => {
           this.modalRef.hide();
@@ -1154,5 +1172,24 @@ export class InvoicesComponent implements OnInit {
           });
         })
     }
+  }
+  getAllUnitDetailsByBlockID() {
+    /*-------------------Get Unit List By Block ID ------------------*/
+    this.viewUniService.GetUnitListByBlockID(this.blockid)
+      .subscribe(data => {
+        console.log('allUnitBYBlockID',data);
+        this.allUnitBYBlockID = data['data'].unitsByBlockID;
+      },
+      err=>{
+        console.log(err);
+      });
+  }
+  getCurrentUnitDetails(unUnitID,unUniName){
+    this.UnitName=unUniName;
+    this.PaidUnpaidinvoiceLists=this.invoiceLists;
+    this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+      return item['unUnitID'] == unUnitID;
+    })
+    console.log(this.PaidUnpaidinvoiceLists)
   }
 }
