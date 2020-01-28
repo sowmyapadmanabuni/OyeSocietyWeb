@@ -8,6 +8,7 @@ import { formatDate } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { ViewUnitService } from '../../services/view-unit.service';
 import { AddBlockService } from '../../services/add-block.service';
+import { Subscription } from 'rxjs';
 
 declare var $: any;
 
@@ -88,6 +89,7 @@ export class BlocksComponent implements OnInit {
   enableBlockListView: boolean;
   rate: any;
   rate1: any;
+  CurrentAssociationIdForBlocks:Subscription;
 
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
@@ -95,6 +97,12 @@ export class BlocksComponent implements OnInit {
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
+      this.CurrentAssociationIdForBlocks=this.globalService.getCurrentAssociationIdForBlocks()
+        .subscribe(msg => {
+          console.log(msg);
+          this.globalService.setCurrentAssociationId(msg['msg']);
+          this.initialiseBlocks();
+        })
     //pagination
     this.config = {
       itemsPerPage: 10,
@@ -162,6 +170,15 @@ export class BlocksComponent implements OnInit {
 
   getBlockDetails() {
     this.viewBlkService.getBlockDetails(this.currentAssociationID).subscribe(data => {
+      this.allBlocksLists = data['data'].blocksByAssoc;
+      //console.log('allBlocksLists', this.allBlocksLists);
+      this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
+      //asbGnDate
+    });
+  }
+  initialiseBlocks(){
+    this.allBlocksLists=[];
+    this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
       this.allBlocksLists = data['data'].blocksByAssoc;
       //console.log('allBlocksLists', this.allBlocksLists);
       this.availableNoOfBlocks = data['data'].blocksByAssoc.length;

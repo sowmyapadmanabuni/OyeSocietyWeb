@@ -890,4 +890,7 @@ export class ExpenseManagementComponent implements OnInit {
       this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
     }
   }
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelexpense']);
+  }
 }

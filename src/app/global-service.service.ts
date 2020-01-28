@@ -25,6 +25,7 @@ export class GlobalServiceService {
    private selectedAssociation = new Subject<any>();
    private CurrentAssociationIdForUnit = new Subject<any>();
    private CurrentAssociationIdForReceipts = new Subject<any>();
+   private CurrentAssociationIdForBlocks = new Subject<any>();
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
    IsUnitCountOne;
@@ -81,6 +82,13 @@ public setCurrentAssociationIdForReceipts(message: any){
 }
 public getCurrentAssociationIdForReceipts(): Observable<any>{
  return this.CurrentAssociationIdForReceipts.asObservable();
+}
+public setCurrentAssociationIdForBlocks(message: any){
+  console.log("CurrentAssociationIdForBlocks", message)
+this.CurrentAssociationIdForBlocks.next({ msg: message });
+}
+public getCurrentAssociationIdForBlocks(): Observable<any>{
+return this.CurrentAssociationIdForBlocks.asObservable();
 }
 public getAssnDropDownHiddenByDefaultValue()
 {

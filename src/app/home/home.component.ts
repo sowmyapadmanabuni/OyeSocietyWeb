@@ -400,6 +400,7 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationIdForInvoice(association.asAssnID);
         this.globalService.setCurrentAssociationIdForUnit(association.asAssnID);
         this.globalService.setCurrentAssociationIdForReceipts(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForBlocks(association.asAssnID);
         this.globalService.setCurrentAssociationName(asnName);
         this.associationID = this.globalService.getCurrentAssociationId();
         console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
