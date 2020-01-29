@@ -3,7 +3,7 @@
 .build-bg{background-color: #fff;}
 .nm{margin:0px !important}
 .excel1{width: 100px;}
-
+.m-t-30{margin: 20px 0px;}
 .excel{width: 34px;}
 .enr-bt{display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}
