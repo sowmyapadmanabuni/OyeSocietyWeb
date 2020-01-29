@@ -21,6 +21,17 @@
                   <a>{{item['blBlkName']}}</a></li>
               </ul>
             </div>
+            <span class="black">Of Unit  </span> 
+            <div class="dropdown" style="width: 200px;margin-left: 10px; margin-top: -7px;">
+                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                    data-toggle="dropdown">{{(UnitName == ''?'Select Unit':UnitName)}}
+                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                <ul class="dropdown-menu fullw">
+                    <li *ngFor='let item of allUnitBYBlockID'
+                        (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
+                        <a>{{item['unUniName']}}</a></li>
+                </ul>
+            </div>
           </div>
           <div class="switch">
             <ul class="nav nav-pills">

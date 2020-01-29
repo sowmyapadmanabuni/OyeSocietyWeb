@@ -8,7 +8,17 @@
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
                 <div class="enr-bt">
-                    <span class="black">Receipts For {{globalservice.currentAssociationName}}</span>
+                    <span class="black">Receipts For {{globalservice.currentAssociationName}} Of Unit </span>
+                    <div class="dropdown" style="width: 200px;margin-left: 10px; margin-top: -7px;">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                            data-toggle="dropdown">{{(UnitNameForDisplay == ''?'Select Unit':UnitNameForDisplay)}}
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul class="dropdown-menu fullw">
+                            <li *ngFor='let item of associationTotalMembers'
+                                (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
+                                <a>{{item['unUniName']}}</a></li>
+                        </ul>
+                    </div> 
                     <div class="switch">
                         <ul class="nav nav-pills">
                             <li><a (click)="goToExpense()">Expenses</a></li>

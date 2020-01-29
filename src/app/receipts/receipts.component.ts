@@ -6,6 +6,9 @@ import { GenerateReceiptService } from '../../services/generate-receipt.service'
 import {Router} from '@angular/router';
 import swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
+import { DashBoardService } from '../../services/dash-board.service';
+
+
 
 declare var $: any;
 
@@ -16,6 +19,7 @@ declare var $: any;
 })
 export class ReceiptsComponent implements OnInit {
   viewPayments: object[];
+  viewPaymentList:any[];
   modalRef: BsModalRef;
   currentAssociationID: string;
   unitIdentifier:any;
@@ -25,17 +29,20 @@ export class ReceiptsComponent implements OnInit {
   allBlocksByAssnID: any[];
   unpaidUnits: any[];
   p: number=1;
+  UnitNameForDisplay:any;
   searchTxt:any;
   UnitName: any;
   InvoiceNum: any;
   AmountPaid: any;
   AmountDue: any;
   paymentDate: any;
+  associationTotalMembers:any[];
   Balance: any;
   currentAssociationIdForReceipts:Subscription;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
+    public dashBrdService: DashBoardService,
     private viewreceiptservice:ViewReceiptService,
     private router:Router,
     public generatereceiptservice: GenerateReceiptService) 
@@ -46,6 +53,8 @@ export class ReceiptsComponent implements OnInit {
       this.pymtDate='';
       this.amountPaid='';
       this.unpaidUnits=[];
+      this.UnitNameForDisplay='';
+      this.viewPaymentList=[];
       //
       this.currentAssociationIdForReceipts=this.globalservice.getCurrentAssociationIdForReceipts()
       .subscribe(msg=>{
@@ -56,11 +65,13 @@ export class ReceiptsComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.getMembers();
     this.viewPayments=[];
     this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
     .subscribe(data=>{
       console.log(data['data']['payments']);
       this.viewPayments=data['data']['payments']
+      this.viewPaymentList=data['data']['payments']
     });
     this.generatereceiptservice.GetBlockListByAssocID(this.currentAssociationID)
     .subscribe(data => {
@@ -135,5 +146,25 @@ export class ReceiptsComponent implements OnInit {
     if(event['srcElement']['text'] == '«'){
       this.p= 1;
     }
+  }
+  getMembers() {
+    this.associationTotalMembers = [];
+      this.dashBrdService.GetUnitListCount(this.globalservice.getCurrentAssociationId())
+        .subscribe(data => {
+          console.log(data['data']['unit']);
+          this.associationTotalMembers = data['data']['unit'];
+        },
+          err => {
+            console.log(err);
+          })
+  }
+
+  getCurrentUnitDetails(unUnitID,unUniName){
+    this.UnitNameForDisplay=unUniName;
+    this.viewPayments=this.viewPaymentList;
+    this.viewPayments = this.viewPayments.filter(item => {
+      return item['unUnitID'] == unUnitID;
+    })
+    console.log(this.viewPayments)
   }
 }

@@ -24,6 +24,8 @@ import {UtilsService} from '../utils/utils.service';
 import {ExpenseList} from '../models/expense-list';
 import * as XLSX from 'xlsx';
 import { Subscription } from 'rxjs';
+import { ViewUnitService } from '../../services/view-unit.service';
+
 
 @Component({
   selector: 'app-expense-management',
@@ -74,6 +76,8 @@ export class ExpenseManagementComponent implements OnInit {
   POEAmnt: number;
   p: number;
   dynamic: number;
+  allUnitBYBlockID:any[];
+  UnitName:any;
 
   currentAssociationID: string;
 
@@ -116,6 +120,7 @@ export class ExpenseManagementComponent implements OnInit {
     private modalService: BsModalService,
     public addexpenseservice: AddExpenseService,
     private router: Router,
+    public viewUniService: ViewUnitService,
     private toastr: ToastrService,
     public globalservice: GlobalServiceService,
     public viewinvoiceservice: ViewInvoiceService,
@@ -125,9 +130,10 @@ export class ExpenseManagementComponent implements OnInit {
   ) {
     this.currentassociationname=this.globalservice.getCurrentAssociationName();
     this.blockID = '';
+    this.UnitName='';
     this.todayDate = new Date();
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
-
+    this.allUnitBYBlockID=[];
     this.addexpenseservice.enableAddExpnseView = false;
     this.addexpenseservice.enableExpenseListView=true;
     //this.viewexpenseservice.GetExpenseListByAssocID();
@@ -299,6 +305,8 @@ export class ExpenseManagementComponent implements OnInit {
     this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
   }
   GetExpenseListByBlockID(blockID,blBlkName) {
+    this.UnitName='';
+    this.allUnitBYBlockID=[]
     this.expenseList=[];
     this.viewexpensesByBlockId=[];
     this.blockID=blockID;
@@ -327,6 +335,7 @@ export class ExpenseManagementComponent implements OnInit {
     ) 
     //this.viewexpenseservice.GetExpenseListByBlockID(blockID);
     //console.log(this.viewexpensesByBlockId);
+    this.getAllUnitDetailsByBlockID();
   }
 
   setOrder(value: string) {
@@ -861,6 +870,8 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   initialiseEXpense(){
+    this.UnitName='';
+    this.allUnitBYBlockID=[]
     this.expenseList=[];
     this.viewexpenseservice.currentBlockName = '';
     this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
@@ -892,5 +903,25 @@ export class ExpenseManagementComponent implements OnInit {
   }
   NavigateToBulkUpload(){
     this.router.navigate(['excelexpense']);
+  }
+  getAllUnitDetailsByBlockID() {
+    /*-------------------Get Unit List By Block ID ------------------*/
+    this.viewUniService.GetUnitListByBlockID(this.blockID)
+      .subscribe(data => {
+        console.log('allUnitBYBlockID',data);
+        this.allUnitBYBlockID = data['data'].unitsByBlockID;
+      },
+      err=>{
+        console.log(err);
+      });
+  }
+  getCurrentUnitDetails(unUnitID,unUniName){
+    this.UnitName=unUniName;
+    console.log(unUniName);
+    this.expenseList=this._viewexpensesByBlockId;
+    this.expenseList = this.expenseList.filter(item => {
+      return item['unUniIden'] == unUniName;
+    })
+    console.log(this.expenseList);
   }
 }
