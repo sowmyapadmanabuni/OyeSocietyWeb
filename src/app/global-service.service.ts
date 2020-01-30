@@ -30,6 +30,7 @@ export class GlobalServiceService {
    private AssociationListForReload = new Subject<any>();
    private setAssociationUnitList = new Subject<any>();
    private setAssociationList = new Subject<any>();
+   private currentAssociationIdForLeftBarComponent = new Subject<any>();
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
    IsUnitCountOne;
@@ -71,16 +72,18 @@ public getCurrentUnitId(){
 public SetAssociationList(message){
   console.log("setAssociationList", message)
   this.assnList=message;
+  localStorage.setItem("assnList",this.assnList);
   this.setAssociationList.next({ msg: message });
 }
 public GetAssociationList(): Observable<any>{
  return this.setAssociationList.asObservable();
-}
-public SetAssociationListForReload(){
-  console.log("SetAssociationListForReload");
-  console.log(this.assnList);
-this.AssociationListForReload.next({ msg: this.assnList });
-}
+  }
+  public SetAssociationListForReload() {
+    console.log("SetAssociationListForReload");
+    console.log(this.assnList);
+    console.log(localStorage.getItem("assnList"));
+    this.AssociationListForReload.next({ msg: localStorage.getItem("assnList") });
+  }
 public GetAssociationListForReload(): Observable<any>{
   return this.AssociationListForReload.asObservable();
 }
@@ -165,6 +168,13 @@ public getCurrentAssociationName(){
 public setCurrentAssociationName(associationName:string){
    this.currentAssociationName=associationName;
    localStorage.setItem("currentAssociationName", associationName);
+}
+public setCurrentAssociationIdForLeftBarComponent(message){
+  console.log("currentAssociationIdForLeftBarComponent", message);
+this.currentAssociationIdForLeftBarComponent.next({msg:message});
+}
+public getCurrentAssociationIdForLeftBarComponent(){
+return this.currentAssociationIdForLeftBarComponent.asObservable();
 }
 
 public setMrmRoleID(MrmRoleID){

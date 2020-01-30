@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {DashBoardService} from '../../services/dash-board.service';
 import {GlobalServiceService} from '../global-service.service';
 import {Router, NavigationEnd} from '@angular/router';
-import {ViewBlockService} from '../../services/view-block.service'
+import {ViewBlockService} from '../../services/view-block.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -16,13 +17,24 @@ export class LeftBarComponent implements OnInit {
   aclName: any;
   account:any[];
   availableNoOfBlocks:any[];
+  value:any;
+  max:any;
+  CurrentAssociationIdForLeftBarComponent:Subscription;
 
   constructor(public globalService: GlobalServiceService,
     private dashboardservice: DashBoardService,
     public viewBlkService: ViewBlockService,
-    private router:Router) {
-      this.acAccntID = this.globalService.getacAccntID();
-     }
+    private router: Router) {
+    this.acAccntID = this.globalService.getacAccntID();
+    this.value = 66;
+    this.max=100;
+    this.CurrentAssociationIdForLeftBarComponent = this.globalService.getCurrentAssociationIdForLeftBarComponent()
+      .subscribe(msg => {
+        this.globalService.setCurrentAssociationId(msg['msg']);
+        console.log(msg);
+        this.getBlockDetails();
+      })
+  }
 
   ngOnInit() {
     this.getAccountFirstName();
@@ -57,8 +69,14 @@ export class LeftBarComponent implements OnInit {
     console.log(e);
   }
   getBlockDetails() {
+    this.max=100;
+    this.value=66;
     this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
       this.availableNoOfBlocks = data['data'].blocksByAssoc;
+      if(this.availableNoOfBlocks[0]['asUniMsmt']){
+        this.value=100;
+        this.max=100;
+      }
       console.log('allBlocksLists', this.availableNoOfBlocks);
       //asbGnDate
     },
