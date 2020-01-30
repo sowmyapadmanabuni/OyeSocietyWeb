@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DashBoardService} from '../../services/dash-board.service';
 import {GlobalServiceService} from '../global-service.service';
 import {Router, NavigationEnd} from '@angular/router';
+import {ViewBlockService} from '../../services/view-block.service'
 
 
 @Component({
@@ -14,15 +15,19 @@ export class LeftBarComponent implements OnInit {
   acfName: any;
   aclName: any;
   account:any[];
+  availableNoOfBlocks:any[];
 
   constructor(public globalService: GlobalServiceService,
     private dashboardservice: DashBoardService,
+    public viewBlkService: ViewBlockService,
     private router:Router) {
       this.acAccntID = this.globalService.getacAccntID();
      }
 
   ngOnInit() {
     this.getAccountFirstName();
+    this.availableNoOfBlocks=[];
+    this.getBlockDetails();
   }
 
   getAccountFirstName(){
@@ -38,5 +43,27 @@ export class LeftBarComponent implements OnInit {
   logOut() {
     this.globalService.clear();
     this.router.navigate(['root']);
+  }
+  public pieChartLabels:string[] = ['Add maitainance & Bank details', 'Safari'];
+  public pieChartData:number[] = [70,30];
+  public pieChartType:string = 'pie';
+ 
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+  getBlockDetails() {
+    this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
+      this.availableNoOfBlocks = data['data'].blocksByAssoc;
+      console.log('allBlocksLists', this.availableNoOfBlocks);
+      //asbGnDate
+    },
+      err => {
+        console.log(err);
+      });
   }
 }

@@ -26,6 +26,10 @@ export class GlobalServiceService {
    private CurrentAssociationIdForUnit = new Subject<any>();
    private CurrentAssociationIdForReceipts = new Subject<any>();
    private CurrentAssociationIdForBlocks = new Subject<any>();
+   private CurrentAssociationIdForCustomerStatement = new Subject<any>();
+   private AssociationListForReload = new Subject<any>();
+   private setAssociationUnitList = new Subject<any>();
+   private setAssociationList = new Subject<any>();
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
    IsUnitCountOne;
@@ -33,6 +37,7 @@ export class GlobalServiceService {
    NotMoreThanOneUnit:any;
    MoreThanOneUnit:any;
    HideUnitDropDwn:any;
+   assnList:any;
 
   constructor() {
     this.currentAssociationName = '';
@@ -56,7 +61,29 @@ public getCurrentUnitId(){
   return localStorage.getItem("currentUnitId");
 
 }
-
+  public SetAssociationUnitList(message) {
+    console.log("SetAssociationUnitList", message)
+    this.setAssociationUnitList.next({ msg: message });
+  }
+  public GetAssociationUnitList(): Observable<any> {
+    return this.setAssociationUnitList.asObservable();
+  }
+public SetAssociationList(message){
+  console.log("setAssociationList", message)
+  this.assnList=message;
+  this.setAssociationList.next({ msg: message });
+}
+public GetAssociationList(): Observable<any>{
+ return this.setAssociationList.asObservable();
+}
+public SetAssociationListForReload(){
+  console.log("SetAssociationListForReload");
+  console.log(this.assnList);
+this.AssociationListForReload.next({ msg: this.assnList });
+}
+public GetAssociationListForReload(): Observable<any>{
+  return this.AssociationListForReload.asObservable();
+}
 public setCurrentAssociationId(associationId:string)
 {
   this.currentAssociationId = associationId;
@@ -89,6 +116,13 @@ this.CurrentAssociationIdForBlocks.next({ msg: message });
 }
 public getCurrentAssociationIdForBlocks(): Observable<any>{
 return this.CurrentAssociationIdForBlocks.asObservable();
+}
+public setCurrentAssociationIdForCustomerStatement(message: any){
+  console.log("CurrentAssociationIdForCustomerStatement", message)
+this.CurrentAssociationIdForCustomerStatement.next({ msg: message });
+}
+public getCurrentAssociationIdForCustomerStatement(): Observable<any>{
+return this.CurrentAssociationIdForCustomerStatement.asObservable();
 }
 public getAssnDropDownHiddenByDefaultValue()
 {

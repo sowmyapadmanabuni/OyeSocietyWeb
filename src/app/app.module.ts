@@ -71,6 +71,7 @@ import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.co
 import { AssociationVisitorComponent } from './association-visitor/association-visitor.component';
 import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
 import { MembersComponent } from './members/members.component';
+import { ChartsModule } from 'ng2-charts';
 import { ExcelBlockUploadComponent } from './excel-block-upload/excel-block-upload.component';
 import { ExcelUnitUploadComponent } from './excel-unit-upload/excel-unit-upload.component';
 import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expense-upload.component';
@@ -134,6 +135,7 @@ import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expens
     ],
   imports: [
     BrowserModule,
+    ChartsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,

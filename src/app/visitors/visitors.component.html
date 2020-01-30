@@ -79,8 +79,8 @@
                     <td>{{(i+1)}}</td>
                     <td>{{item['infName']}}</td>
                     <td>{{item['inpOfInv']}}</td>
-                    <td>{{item['insDate']}}</td>
-                    <td>{{item['ineDate']}}</td>
+                    <td>{{item['insDate']|date:'dd/MM/yyyy'}}</td>
+                    <td>{{item['ineDate']|date:'dd/MM/yyyy'}}</td>
                     <td>{{item['inVisCnt']}}</td>
                     <td>{{item['inMobile']}}</td>
                     <td>
@@ -354,6 +354,10 @@
  <ng-template #QRtemplate>
         <div class="modal-header">
           <h4 class="modal-title pull-left">Download Qr Code</h4>
+        <a href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site http://www.website.com."
+            title="Share by Email">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </a>
           <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
           </button>

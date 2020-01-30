@@ -25,6 +25,7 @@ export class AppComponent {
   uniqueAssociations :any[];
   associationName:any;
   subscription: Subscription;
+  associationListForReload: Subscription;
   unitlistForAssociation:any[];
   hideTitle:boolean;
   constructor(public globalService:GlobalServiceService,public router:Router,
@@ -66,6 +67,11 @@ export class AppComponent {
     err=>{
       console.log(err);
     })
+  //
+  this.associationListForReload=this.globalService.GetAssociationListForReload()
+  .subscribe(msg=>{
+    console.log(msg);
+  })
   //
   this.globalService.getMessage()
   .subscribe(msg => {
@@ -246,6 +252,8 @@ export class AppComponent {
       "unUniName":unUniName,
       "unUnitID":unUnitID
     }
+    this.globalService.setCurrentUnitName(unUniName);
+    this.globalService.getCurrentUnitName();
     this.globalService.setUnit(params);
     this.globalService.HideUnitDropDwn=false;
     this.globalService.NotMoreThanOneUnit=true;

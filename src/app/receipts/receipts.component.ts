@@ -85,7 +85,11 @@ export class ReceiptsComponent implements OnInit {
     .subscribe(data=>{
       console.log(data['data']['payments']);
       this.viewPayments=data['data']['payments']
+    },
+    err=>{
+      console.log(err);
     });
+  this.getMembers();
   }
   goToExpense(){
     this.router.navigate(['expense']);
@@ -149,6 +153,7 @@ export class ReceiptsComponent implements OnInit {
   }
   getMembers() {
     this.associationTotalMembers = [];
+    this.UnitNameForDisplay='';
       this.dashBrdService.GetUnitListCount(this.globalservice.getCurrentAssociationId())
         .subscribe(data => {
           console.log(data['data']['unit']);
@@ -160,10 +165,12 @@ export class ReceiptsComponent implements OnInit {
   }
 
   getCurrentUnitDetails(unUnitID,unUniName){
+    console.log(this.viewPaymentList);
+    console.log(unUnitID);
     this.UnitNameForDisplay=unUniName;
     this.viewPayments=this.viewPaymentList;
     this.viewPayments = this.viewPayments.filter(item => {
-      return item['unUnitID'] == unUnitID;
+      return item['unUniName'] == unUniName;
     })
     console.log(this.viewPayments)
   }

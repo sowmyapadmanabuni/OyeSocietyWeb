@@ -217,3 +217,8 @@ box-shadow: 0px 6px 9px 1px #ecebeb;}
 .qr{display: flex;}
 .qr-details>h3{font-size: 15px;justify-content: space-between;align-items: end;}
 /*qr code*/
+.fa-share-alt:before {
+  content: "\f1e0";
+  margin-right: 13px;
+  font-size: 17px;
+}

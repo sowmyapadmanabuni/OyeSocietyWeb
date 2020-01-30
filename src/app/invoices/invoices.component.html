@@ -25,7 +25,7 @@
                                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                         data-toggle="dropdown">{{(UnitName == ''?'Select Unit':UnitName)}}
                                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                                    <ul class="dropdown-menu fullw">
+                                    <ul class="dropdown-menu fullw" style="height: 200px;">
                                         <li *ngFor='let item of allUnitBYBlockID'
                                             (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
                                             <a>{{item['unUniName']}}</a></li>
@@ -71,9 +71,9 @@
                                 <th>
                                     S.No.
                                 </th>
-                                <th>
+                                <!-- <th>
                                     <mfDefaultSorter by="unUnitID">Unit ID</mfDefaultSorter>
-                                </th>
+                                </th> -->
                                 <th>
                                     <mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter>
                                 </th>
@@ -100,7 +100,7 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{ (10 * (p - 1) + i)+1 }}</td>
-                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td>
+                                    <!-- <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td> -->
                                     <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
                                     <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
                                     <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">

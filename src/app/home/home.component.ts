@@ -401,6 +401,7 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationIdForUnit(association.asAssnID);
         this.globalService.setCurrentAssociationIdForReceipts(association.asAssnID);
         this.globalService.setCurrentAssociationIdForBlocks(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForCustomerStatement(association.asAssnID);
         this.globalService.setCurrentAssociationName(asnName);
         this.associationID = this.globalService.getCurrentAssociationId();
         console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
@@ -424,6 +425,7 @@ export class HomeComponent implements OnInit {
     //if (param == 'id') {
       //this.globalService.setCurrentUnitName('Units');
       if (this.unitlistForAssociation.length) {
+        this.globalService.setCurrentUnitName(this.unitlistForAssociation[0]['unUniName']);
         this.loadUnit(this.unitlistForAssociation[0]['unUniName'], this.unitlistForAssociation[0]['unUnitID']);
         console.log(this.unitlistForAssociation[0]['unUnitID']);
         console.log(this.unitlistForAssociation[0]['unUniName']);
@@ -449,9 +451,11 @@ export class HomeComponent implements OnInit {
     this.getBlockDetails();
     this.getUnitsDetails();
     this.globalService.sendUnitListForAssociation(this.unitlistForAssociation);
+    this.globalService.SetAssociationUnitList(this.unitlistForAssociation);
     if(param != 'SelectedAssociation'){
       console.log('SelectedAssociation');
       this.globalService.sendMessage(associationList);
+      this.globalService.SetAssociationList(associationList);
     }
   }
   GetVehicleListByAssocID() {
@@ -542,7 +546,7 @@ export class HomeComponent implements OnInit {
   GetVisitorLogByDatesAssocAndUnitID(unUnitID) {
     let visitorlog = {
       "StartDate": "2019-08-16",
-      "EndDate": "2019-12-18",
+      "EndDate": "2020-01-29",
       "ASAssnID": this.associationID,
       "UNUnitID": unUnitID,
       "ACAccntID": this.accountID

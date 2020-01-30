@@ -1041,7 +1041,8 @@ this.crtAssn.newBAActType='';
       this.viewAssnService.associationId=res['data']['association']['asAssnID'];
       this.viewAssnService.asNofBlks=res['data']['association']['asNofBlks'];
       this.viewAssnService.asNofUnit=res['data']['association']['asNofUnit'];
-      Swal.fire({
+      this.router.navigate(['blocks']);
+     /* Swal.fire({
         title: 'Association Created Successfuly',
       }).then(
         (result) => {
@@ -1070,7 +1071,7 @@ this.crtAssn.newBAActType='';
             //this.router.navigate(['']);
           }
         }
-      )
+      ) */
     },
       res => {
         //console.log('error', res);

@@ -20,6 +20,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     //alert('in authGaurd,accountID-'+this.accountID);
     //if (this.accountID != undefined) {
     if (this.accountID) {
+      console.log('inside auth guard');
+      this.globalService.SetAssociationListForReload();
       //alert('accountID != undefined'+this.accountID);
       return true;
     }

@@ -57,7 +57,7 @@
                 </div> -->
                 <div *ngIf="unitList">
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="Search by Unit Name, Unit Type, Unit Dimension, Name, Email">
+                        placeholder="Search by Unit Name, Unit Type, Name, Email">
                 </div>
                 <div class="dash-row" *ngIf="unitList">
                     <table class="table table-bordered"
@@ -67,7 +67,7 @@
                             <tr>
                                 <th>S.No.</th>
                                 <th>
-                                    <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
+                                    <mfDefaultSorter by="unUniName">Unit Number</mfDefaultSorter>
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="unUniType">Unit Type</mfDefaultSorter>

@@ -28,7 +28,7 @@
 
 
         <div *ngIf='viewAssnService.vewAsnEnbled'>
-          <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by Association Name, Property Name, Locality, No of Blocks, No of Units">
+          <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by Association Name, Property Name, Locality">
         </div>
         <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row table-responsive">
           <table class="table table-bordered"
@@ -108,6 +108,22 @@
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
                   <a class="disabled" href="#step-4" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Other Amenities</span>
               </div>
+              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12 step-active">
+                <a class="disabled" href="#step-5" type="button" class="btn btn-circle-o"></a><span>Blocks
+                    Details</span>
+            </div>
+            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                <a class="disabled" href="#step-6" type="button" class="btn btn-circle-o"></a><span>Manager
+                    Details</span>
+            </div>
+            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                <a class="disabled" href="#step-7" type="button" class="btn btn-circle-o"></a><span>Maitainance
+                    Details</span>
+            </div>
+            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                <a class="disabled" href="#step-8" type="button" class="btn btn-circle-o"></a><span>Bank
+                    Details</span>
+            </div>
             </div>
           </div>
 

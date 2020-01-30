@@ -3,7 +3,7 @@ import { ViewreportService } from '../../services/viewreport.service';
 import { GlobalServiceService } from '../global-service.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { DashBoardService } from '../../services/dash-board.service';
-
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -28,6 +28,7 @@ export class CustomerStatementComponent implements OnInit {
   associationTotalMembers:any[];
   newAllPaymentList:any[];
   UnitNameForDisplay:any;
+  CurrentAssociationIdForCustomerStatement:Subscription;
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
@@ -43,10 +44,16 @@ export class CustomerStatementComponent implements OnInit {
     this.associationTotalMembers=[];
     this.newAllPaymentList=[];
     this.UnitNameForDisplay='';
+    this.CurrentAssociationIdForCustomerStatement=this.globalservice.getCurrentAssociationIdForCustomerStatement()
+    .subscribe(msg=>{
+      this.globalservice.setCurrentAssociationId(msg['msg']);
+      this.initialiseCustomerStatement();
+    })
   }
 
   getPaidUnpaidDetail(reportID) {
     console.log('reportID', reportID);
+    this.PaymentStatus=reportID;
     this.displaypaymentdetails = this.allpaymentdetails.filter(item => {
       return item['pyStat'] == reportID;
     })
@@ -64,6 +71,17 @@ export class CustomerStatementComponent implements OnInit {
     this.custtable = true;
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.getpaymentdetails();
+    this.getMembers();
+  }
+  initialiseCustomerStatement() {
+    this.UnitNameForDisplay='';
+    this.PaymentStatus='Select Payment Status';
+    this.displaypaymentdetails=[];
+    this.allpaymentdetails=[];
+    this.viewreportservice.getpaymentdetails(this.globalservice.getCurrentAssociationId()).subscribe((data) => {
+      this.allpaymentdetails = data['data']['payments'];
+      console.log('allpaymentdetails', this.allpaymentdetails);
+    })
     this.getMembers();
   }
   onPageChange(event) {

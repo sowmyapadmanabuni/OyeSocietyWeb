@@ -6,5 +6,12 @@
     <!-- <div tooltip="Settings"><i class="fa fa-cog" aria-hidden="true"></i></div> -->
     <div tooltip="Logout"><i (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i></div>
     <div><a tooltip="Broadcast"><img src="../../assets/images/icons/speaker.png"></a></div>
-
+    <div style="display: flex; width: 100%;">
+        <!-- <canvas style="align-self: flex-end; display: block; width: 150px; height: 75px;" baseChart
+              [data]="pieChartData"
+              [chartType]="pieChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas> -->
+    <progressbar max="100" [value]="66" type="danger" [striped]="true" [animate]="true"><i>{{(availableNoOfBlocks[0]['asUniMsmt']==''? '64%':'100%')}}</i></progressbar>
+    </div>
 </div>
