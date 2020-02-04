@@ -42,6 +42,9 @@ export class AppComponent {
     this.subscription=this.globalService.getUnitListForAssociation()
     .subscribe(msg=>{
       console.log(msg);
+      // this.unitlistForAssociation = msg['msg'].filter(item=>{
+      //   return item['unUniName'] != '';
+      // })
       this.unitlistForAssociation=msg['msg'];
       if(this.unitlistForAssociation.length == 0){
         console.log('inside unit length 0');
@@ -70,7 +73,11 @@ export class AppComponent {
   //
   this.associationListForReload=this.globalService.GetAssociationListForReload()
   .subscribe(msg=>{
+    console.log(JSON.parse(localStorage.getItem("assnList")));
     console.log(msg);
+    this.uniqueAssociations=JSON.parse(localStorage.getItem("assnList"));
+    this.hideTitle=true;
+    this.globalService.setAssnDropDownHiddenByDefault('false');
   })
   //
   this.globalService.getMessage()

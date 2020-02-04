@@ -1,5 +1,5 @@
 <!--/*/*/*/*/* ADMIN INVOICE START /*/*/*/*/*-->
-<div *ngIf="globalservice.mrmroleId == 1" class="container-fluid np">
+<div *ngIf="globalservice.mrmroleId == 1 && localMrmRoleId != '2'" class="container-fluid np">
     <div class="col-sm-12">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
@@ -174,7 +174,7 @@
 
 
 <!--/*/*/*/*/* RESIDENT INVOICE START /*/*/*/*/*-->
-<div *ngIf="globalservice.mrmroleId != 1" class="container-fluid np">
+<div *ngIf="globalservice.mrmroleId != 1 || localMrmRoleId == '2'" class="container-fluid np">
     <div class="col-sm-12">
         <!--Profile section-->
         <app-left-bar></app-left-bar>

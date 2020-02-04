@@ -67,6 +67,7 @@ const routes: Routes = [
     { path: 'expense', component:ExpenseManagementComponent, canActivate: [AuthGuard]},
     { path: 'blocks', component:BlocksComponent, canActivate: [AuthGuard]},
     { path: 'invoice', component:InvoicesComponent, canActivate: [AuthGuard]},
+    { path: 'invoice/:mrmroleId', component:InvoicesComponent, canActivate: [AuthGuard]},
     { path: 'receipts', component:ReceiptsComponent, canActivate: [AuthGuard]},
     { path: 'units', component:UnitsComponent, canActivate: [AuthGuard]},
     { path: 'vehicles', component:VehiclesComponent, canActivate: [AuthGuard]},

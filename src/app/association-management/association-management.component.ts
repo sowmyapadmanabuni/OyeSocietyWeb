@@ -14,6 +14,13 @@ import { OrderPipe } from 'ngx-order-pipe';
 import {DashBoardService} from '../../services/dash-board.service';
 import {HomeService} from '../../services/home.service';
 import { formatDate } from '@angular/common';
+import { ViewUnitService } from '../../services/view-unit.service';
+import { AddBlockService } from '../../services/add-block.service';
+import {BlockArrayDetail} from '../../app/models/block-array-detail';
+import {UnitArray} from '../models/unit-array'
+
+
+
 declare var $: any;
 
 
@@ -100,6 +107,7 @@ export class AssociationManagementComponent implements OnInit {
   editassndata: object;
   BankId:number;
   unUnitID:any;
+  blockname:any;
  
   
   //  firstLetter = crtAssn.name.charAt(0).toUpperCase();
@@ -213,6 +221,50 @@ export class AssociationManagementComponent implements OnInit {
   newdate:any;
   toggleGSTAvailableTxt:any;
   ASPropType:any;
+  blocktype: string;
+  blocktypeID: any;
+  noofunits: string;
+  mngName: string;
+  BlockManagermobile: string;
+  manageremail: string;
+  maintenanceValue: number;
+  flatRatevalue: number;
+  frequency: string;
+  billGenerationDate: Date;
+  latePymtChargeType: string;
+  latePymtChargeTypeId:any;
+  latePymtCharge: string;
+  startsFrom: Date;
+  dueDate: string;
+  check: any;
+  check1: any;
+  addRate: string;
+  addRate1: string;
+  invoicedatechanged: boolean;
+  minDateinNumber: number;
+  duedatechanged: boolean;
+  dueDateinNumber: number;
+  enableduedatevalidation: boolean;
+  startsFromMaxDate: Date;
+  startsfromDateChanged: boolean;
+  startsFromMaxDateinNumber: number;
+  enablestartfromdatevalidation: boolean;
+  blocktypes: { 'name': string; 'displayName': string; }[];
+  frequencies: { "name": string; "displayName": string; }[];
+  latePymtChrgTypes: { "name": string; "displayName": string; }[];
+  meter: string;
+  blockArray: BlockArrayDetail[];
+  unitArray: UnitArray[];
+  unitArrayList:any[];
+  unitTypes:object[];
+  unitType: any;
+  calculationTypes:object[];
+  calculationtype: any;
+  occupencys:object[];
+  occupency: any;
+  tenantDetails: boolean;
+  ownerDetails: boolean;
+  toggleunitvehicleinformation: boolean;
 
   constructor(private modalService: BsModalService,
     public viewAssnService: ViewAssociationService,
@@ -220,8 +272,43 @@ export class AssociationManagementComponent implements OnInit {
     private router: Router,
     private route:ActivatedRoute,
     private orderpipe: OrderPipe,
+    public viewUniService: ViewUnitService,
     private dashboardservice:DashBoardService,
-    private homeservice:HomeService) {
+    private homeservice:HomeService,
+    private addblockservice: AddBlockService) {
+    
+    this.meter='sqft';
+    this.blockArray=[];
+    this.unitArray=[];
+    this.unitArrayList=[];
+      this.latePymtChrgTypes = [
+        { "name": "Monthly", "displayName": "Monthly" },
+        { "name": "quaterly", "displayName": "Quaterly" },
+        { "name": "Annually", "displayName": "Annually" }
+      ];
+  
+      this.frequencies = [
+        { "name": "Monthly", "displayName": "Monthly" },
+        { "name": "Quarterly", "displayName": "Quarterly" },
+        { "name": "Half Yearly", "displayName": "Half Yearly" },
+        { "name": "Yearly", "displayName": "Yearly" }
+      ];
+  
+      this.blocktypes = [{
+        'name': 'Residential', 'displayName': 'Residential'
+      },
+      {
+        'name': 'Commercial', 'displayName': 'Commercial'
+      },
+      {
+        'name': 'Residential and Commercial', 'displayName': 'Residential and Commercial'
+      }];
+      
+      this.invoicedatechanged = false;
+      this.duedatechanged = false;
+      this.enableduedatevalidation = false;
+      this.startsfromDateChanged = false;
+      this.enablestartfromdatevalidation = false;
     this.BAActType='Select Account Type';
     this.ASCountry='Country';
     this.ASPropType='Select Property Type';
@@ -309,6 +396,18 @@ export class AssociationManagementComponent implements OnInit {
     this.activeEnabled=false;
     this.unUnitID=this.globalService.getCurrentUnitId();
 
+    this.blockname='';
+    this.blocktype = 'Select Block';
+    this.noofunits='';
+    this.mngName='';
+    this.BlockManagermobile='';
+    this.manageremail='';
+    this.maintenanceValue=0;
+    this.flatRatevalue=0;
+    this.frequency = '';
+    this.latePymtChargeType = 'SELECT CHARGE TYPE';
+    this.latePymtCharge='';
+
 
 
     this.accountTypes = [
@@ -332,6 +431,22 @@ export class AssociationManagementComponent implements OnInit {
       isAnimated: true
     });
     this.toggleGSTAvailableTxt=true;
+    this.unitTypes = [
+      { "name": "Flat" },
+      { "name": "Villa" },
+      { "name": "Vaccant Plot" }
+    ];
+    this.calculationTypes = [
+      { "name": "FlatRateValue","displayName":"Flat Rate Value" },
+      { "name": "dimension","displayName":"Dimension Based"  }
+    ];
+    this.occupencys = [
+      { "name": "Sold Owner Occupied Unit" },
+      { "name": "Sold Tenant Occupied Unit" },
+      { "name": "Sold Vacant Unit" },
+      { "name": "UnSold Vacant Unit" },
+      { "name": "UnSold Tenant Occupied Unit" }
+    ];
   }
 
   openModal(template: TemplateRef<any>) {
@@ -340,8 +455,142 @@ export class AssociationManagementComponent implements OnInit {
   ngAfterViewInit() {
     this.toggleStepWizrd();
   }
+  getUnitType(unitTpname,_id) {
+    ////console.log(unitTpname);
+    this.unitType = unitTpname;
+    for (let i = 0; i < this.unitArray.length; i++) {
+      if (this.unitArray[i]['_id'] == _id) {
+          this.unitArray[i]['_unitType'] = unitTpname;
+      }
+    }
+    console.log(this.unitArray);
+  }
+  getCalculationTypes(calculationTypename,_id) {
+    ////console.log(calculationTypename);
+    this.calculationtype = calculationTypename;
+    for (let i = 0; i < this.unitArray.length; i++) {
+      if (this.unitArray[i]['_id'] == _id) {
+          this.unitArray[i]['_calculationtype'] = calculationTypename;
+      }
+    }
+    console.log(this.unitArray);
+  }
+  tenantOwnerdiv(occupency,_id) {
+    this.occupency=occupency;
+    for (let i = 0; i < this.unitArray.length; i++) {
+      if (this.unitArray[i]['_id'] == _id) {
+          this.unitArray[i]['_occupency'] = occupency;
+      }
+    }
+    console.log(this.unitArray);
+    this.occupencys.forEach(item => {
+      if (occupency == 'UnSold Vacant Unit') {
+        this.tenantDetails = false;
+        this.ownerDetails = false;
+        this.toggleunitvehicleinformation=false;
+      }
+      else if (occupency == 'UnSold Tenant Occupied Unit') {
+        this.tenantDetails = true;
+        this.ownerDetails = false;
+        this.toggleunitvehicleinformation=true;
+      }
+      else if (occupency == 'Sold Tenant Occupied Unit') {
+        this.tenantDetails = true;
+        this.ownerDetails = true;
+        this.toggleunitvehicleinformation=true;
+      }
+      else {
+        this.tenantDetails = false;
+        this.ownerDetails = true;
+        this.toggleunitvehicleinformation=true;
+      }
+    })
+  }
   countryName(countryName) {
     this.ASCountry = countryName;
+  }
+  createUnit() {
+    console.log(this.unitArray);
+    this.unitArray.forEach((item,index)=> {
+      ((index) => {
+        setTimeout(() => {
+          let createUnitData =
+          {
+            "ASAssnID": this.globalService.getCurrentAssociationId(),
+            "ACAccntID": this.globalService.getacAccntID(),
+            "units": [
+              {
+                "UNUniName": item['_unitno'],
+                "UNUniType": item['_unitType'],
+                "UNRate": item['_unitrate'],
+                "UNOcStat": item['_occupency'],
+                "UNOcSDate": "2019-03-02",
+                "UNOwnStat": "null",
+                "UNSldDate": "2019-03-02",
+                "UNDimens": item['_unitdimension'],
+                "UNCalType": item['_calculationtype'],
+                "BLBlockID": item['_BlockID'],
+                "Owner":
+                  [{
+      
+                    "UOFName": item['_ownerFirtname'],
+                    "UOLName": item['_ownerLastname'],
+                    "UOMobile": item['_ownerMobnumber'],
+                    "UOISDCode": "+91",
+                    "UOMobile1": "",
+                    "UOMobile2": "null",
+                    "UOMobile3": "null",
+                    "UOMobile4": "null",
+                    "UOEmail": item['_ownerEmail'],
+                    "UOEmail1": "",
+                    "UOEmail2": "null",
+                    "UOEmail3": "null",
+                    "UOEmail4": "null",
+                    "UOCDAmnt": ""
+                  }],
+                "unitbankaccount":
+                {
+                  "UBName": "",
+                  "UBIFSC": "",
+                  "UBActNo": "",
+                  "UBActType": "",
+                  "UBActBal": 0,
+                  "BLBlockID": item['_BlockID']
+                },
+                "Tenant":
+                  [{
+      
+                    "UTFName": item['_tenantFirtname'],
+                    "UTLName": item['_tenantLastname'],
+                    "UTMobile": item['_tenantMobnumber'],
+                    "UTISDCode": "+91",
+                    "UTMobile1": "",
+                    "UTEmail": item['_tenantEmail'],
+                    "UTEmail1": ""
+                  }],
+                "UnitParkingLot":
+                  [
+                    {
+                      "UPLNum": "",
+                      "MEMemID": "",
+                      "UPGPSPnt": "null"
+      
+                    }
+                  ]
+              }
+            ]
+          }
+          console.log(createUnitData);
+      
+          this.viewUniService.createUnit(createUnitData).subscribe((response) => {
+            console.log(response);
+          },
+            (response) => {
+              console.log(response);
+            });
+        },300 * index)
+      })(index)
+    })
   }
   onPageChange(event) {
     //console.log(event['srcElement']['text']);
@@ -602,6 +851,8 @@ export class AssociationManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.check="true";
+    this.check1="true";
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 2
@@ -637,6 +888,45 @@ this.crtAssn.newBAActType='';
 
     })
   }
+  getLatePymtChargeType(name,Id) {
+    this.latePymtChargeType = name;
+    this.latePymtChargeTypeId=Id;
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+          this.blockArray[i]['latePymtChargeType'] = this.latePymtChargeType;
+      }
+    }
+    console.log(this.blockArray);
+  }
+  getBlockType(param,Id){
+    this.blocktype=param;
+    this.blocktypeID=Id;
+    console.log(Id);
+    console.log(typeof Id);
+    for(let i=0;i<this.blockArray.length;i++){
+      if(this.blockArray[i]['Id'] == Id){
+        this.blockArray[i]['blocktype']=this.blocktype;
+      }
+    }
+    console.log(this.blockArray);
+  }
+  onStartsFromDateValueChange(value: Date) {
+    if (value != null) {
+      this.startsfromDateChanged = true;
+      this.startsFromMaxDateinNumber = new Date(value).getTime();
+      if (this.duedatechanged) {
+        if (this.startsFromMaxDateinNumber < this.dueDateinNumber) {
+          this.enablestartfromdatevalidation = true;
+        }
+        else if (this.startsFromMaxDateinNumber > this.dueDateinNumber) {
+          this.enablestartfromdatevalidation = false;
+        }
+        else if (this.startsFromMaxDateinNumber == this.dueDateinNumber) {
+          this.enablestartfromdatevalidation = false;
+        }
+      }
+    }
+  }
   
   loadAssociation(asAssnID,asAsnName){
     this.blBlkName='Blocks';
@@ -655,6 +945,9 @@ this.crtAssn.newBAActType='';
   setPropertyType(propertyType){
     this.crtAssn.propertyType=propertyType;
   }
+  testCreateBlock(){
+    console.log(this.blockArray);
+  }
 
   _keyPress(event: any) {
     const pattern = /[0-9]/;
@@ -662,6 +955,100 @@ this.crtAssn.newBAActType='';
     if (!pattern.test(inputChar)) {
         event.preventDefault();
     }
+  }
+  checking(rate){
+    if(rate==true){
+      this.check="true";
+    }
+    else{
+      this.check="false";
+    }
+  }
+    checking1(rate1){
+     if(rate1==true){
+      this.check1="true";
+    }else{
+      this.check1="false";
+    }
+  }
+  checkRate(rate, Id) {
+    console.log(rate);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        if (rate == true) {
+          this.blockArray[i]['flatRate'] = 'flatRatevalue';
+        } else {
+          this.blockArray[i]['flatRate'] = '';
+        }
+      }
+    }
+    console.log(this.blockArray);
+  }
+
+  checkRate1(rate1,Id) {
+    console.log(rate1);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        if (rate1 == true) {
+          this.blockArray[i]['dimension'] = 'dimension';
+        } else {
+          this.blockArray[i]['dimension'] = '';
+        }
+      }
+    }
+    console.log(this.blockArray);
+  }
+  onValueChange(value: Date): void {
+    //console.log(value);
+    if (value != null) {
+      this.invoicedatechanged = true;
+      this.minDate = new Date(value);
+      this.minDateinNumber = new Date(value).getTime();
+      //console.log('minDateinNumber', this.minDateinNumber);
+      if (this.duedatechanged) {
+        if (this.dueDateinNumber < this.minDateinNumber) {
+          this.enableduedatevalidation = true;
+        }
+        else if (this.dueDateinNumber > this.minDateinNumber) {
+          this.enableduedatevalidation = false;
+        }
+        else if (this.dueDateinNumber == this.minDateinNumber) {
+          this.enableduedatevalidation = false;
+        }
+      }
+
+    }
+    //this.minDate.setDate(this.minDate.getDate() + 1);
+  }
+  onDueDateValueChange(value: Date) {
+    this.enableduedatevalidation = false;
+    if (value != null) {
+      this.duedatechanged = true;
+      this.startsFromMaxDate = new Date(value);
+      this.dueDateinNumber = new Date(value).getTime();
+      //console.log('dueDateinNumber', this.dueDateinNumber);
+      if (this.invoicedatechanged) {
+        if (this.dueDateinNumber < this.minDateinNumber) {
+          this.enableduedatevalidation = true;
+        }
+        else if (this.dueDateinNumber > this.minDateinNumber) {
+          this.enableduedatevalidation = false;
+        }
+        else if (this.dueDateinNumber == this.minDateinNumber) {
+          this.enableduedatevalidation = false;
+        }
+      }
+
+      if (this.startsfromDateChanged) {
+        if (this.startsFromMaxDateinNumber < this.dueDateinNumber) {
+          this.enablestartfromdatevalidation = true;
+        }
+        else if (this.startsFromMaxDateinNumber == this.dueDateinNumber) {
+          this.enablestartfromdatevalidation = false;
+        }
+      }
+    }
+    //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
   }
   enableActive(spanCtrl) {
     //console.log(spanCtrl);
@@ -961,7 +1348,7 @@ this.crtAssn.newBAActType='';
     this.crtAssn.totalNoUnits='';
   }
   onSubmit() {
-
+    this.blockArray=[];
     //console.log("Creating Association");
     //console.log("locality: " + this.crtAssn.locality);
     this.createAsssociationData = {
@@ -983,8 +1370,8 @@ this.crtAssn.newBAActType='';
         "ASPANStat": "True",
         //"ASPANNum":"AAAAm1234A",
         //"ASPANNum": this.crtAssn.assnPANNo,
-        "ASNofBlks": 1000000,//this.crtAssn.totalNoBlocks,
-        "ASNofUnit": 10000000,//this.crtAssn.totalNoUnits,
+        "ASNofBlks": this.crtAssn.totalNoBlocks,
+        "ASNofUnit": this.crtAssn.totalNoUnits,
         "ASONStat": "False",
         "ASOMStat": "False",
         "ASOLOStat": "False",
@@ -1033,15 +1420,21 @@ this.crtAssn.newBAActType='';
     }
   };
 
-  console.log(this.createAsssociationData);
-
+    console.log(this.createAsssociationData);
+    let blockArraylength = (Number(this.crtAssn.totalNoBlocks));
+    // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
+    for(let i=0;i<blockArraylength;i++){
+      this.blockArray.push(new BlockArrayDetail(i,'','','','','','','','','','','','','','','','','','',''));
+    }
+    console.log(this.blockArray.length);
+    console.log(this.blockArray);
     this.viewAssnService.createAssn(this.createAsssociationData).subscribe(res => {
-      //console.log(res['data']['association']['asAssnID']);
-      //console.log(res['association']['asAssnID']);
+      console.log(res['data']['association']['asAssnID']);
+      console.log(res);
       this.viewAssnService.associationId=res['data']['association']['asAssnID'];
       this.viewAssnService.asNofBlks=res['data']['association']['asNofBlks'];
       this.viewAssnService.asNofUnit=res['data']['association']['asNofUnit'];
-      this.router.navigate(['blocks']);
+      //this.router.navigate(['blocks']);
      /* Swal.fire({
         title: 'Association Created Successfuly',
       }).then(
@@ -1074,14 +1467,158 @@ this.crtAssn.newBAActType='';
       ) */
     },
       res => {
-        //console.log('error', res);
+        console.log('error', res);
       });
 
   }
+  //  */*/*/*/*/*/*/*/block creation along with association start*/*/*/*/*/*/*/*/*/*/*/*/
+  createBlock() {
+    this.unitArray=[];
+    let isBlockNameNull: any = false;
+    this.blockArray.forEach(item => {
+      if (item['blkNme'] == '') {
+        isBlockNameNull = true;
+      }
+    })
+    if (!isBlockNameNull) {
+      this.blockArray.forEach((item, index) => {
+        ((index) => {
+          setTimeout(() => {
+            let CreateBockData = {
+              "ASAssnID": this.viewAssnService.associationId,
+              "ACAccntID": this.globalService.getacAccntID(),
+              "blocks": [
+                {
+                  "ASAssnID": this.viewAssnService.associationId,
+                  "BLBlkName": item['blkNme'],
+                  "BLBlkType": item['blocktype'],
+                  "BLNofUnit": item['noofunits'],
+                  "BLMgrName": item['mngName'],
+                  "BLMgrMobile": item['BlockManagermobile'],
+                  "BLMgrEmail": item['manageremail'],
+                  "ASMtType": '',
+                  "ASMtDimBs": item['maintenanceValue'],
+                  "ASMtFRate": item['flatRatevalue'],
+                  "ASUniMsmt": 'sqft',
+                  "ASIcRFreq": item['frequency'],
+                  "ASBGnDate": formatDate(item['billGenerationDate'], 'yyyy/MM/dd', 'en'),
+                  "ASLPCType": item['latePymtChargeType'],
+                  "ASLPChrg": item['latePymtCharge'],
+                  "ASLPSDate": formatDate(item['startsFrom'], 'yyyy/MM/dd', 'en'),
+                  "ASDPyDate": formatDate(item['dueDate'], 'yyyy/MM/dd', 'en'),
+                  "BankDetails": ''
+                }
+              ]
+            }
+
+            console.log('CreateBockData', CreateBockData);
+            this.addblockservice.createBlock(CreateBockData)
+              .subscribe(data => {
+                console.log(data);
+                let unitArraylength = (Number(item['noofunits']));
+                // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
+                for(let i=0;i<unitArraylength;i++){
+                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','',''));
+                }
+                console.log(this.unitArray);
+                if (data['data'].blockID) {
+                  let createUnitData =
+                  {
+                    "ASAssnID": this.viewAssnService.associationId,
+                    "ACAccntID": this.globalService.getacAccntID(),
+                    "units": [
+                      {
+                        "UNUniName": item['blkNme'] + "-" + "Common",
+                        "UNUniType": '',
+                        "UNRate": '',
+                        "UNOcStat": '',
+                        "UNOcSDate": '',
+                        "UNOwnStat": '',
+                        "UNSldDate": '',
+                        "UNDimens": '',
+                        "UNCalType": '',
+                        "BLBlockID": data['data'].blockID,
+                        "Owner":
+                          [{
+
+                            "UOFName": '',
+                            "UOLName": '',
+                            "UOMobile": '',
+                            "UOISDCode": '',
+                            "UOMobile1": '',
+                            "UOMobile2": '',
+                            "UOMobile3": '',
+                            "UOMobile4": '',
+                            "UOEmail": '',
+                            "UOEmail1": '',
+                            "UOEmail2": '',
+                            "UOEmail3": '',
+                            "UOEmail4": '',
+                            "UOCDAmnt": ''
+                          }],
+                        "unitbankaccount":
+                        {
+                          "UBName": '',
+                          "UBIFSC": '',
+                          "UBActNo": '',
+                          "UBActType": '',
+                          "UBActBal": '',
+                          "BLBlockID": data['data'].blockID
+                        },
+                        "Tenant":
+                          [{
+
+                            "UTFName": '',
+                            "UTLName": '',
+                            "UTMobile": '',
+                            "UTISDCode": '',
+                            "UTMobile1": '',
+                            "UTEmail": '',
+                            "UTEmail1": ''
+                          }],
+                        "UnitParkingLot":
+                          [
+                            {
+                              "UPLNum": '',
+                              "MEMemID": '',
+                              "UPGPSPnt": ''
+
+                            }
+                          ]
+                      }
+                    ]
+                  }
+
+                  this.viewUniService.createUnit(createUnitData).subscribe(data => {
+                    console.log(data);
+                  },
+                    err => {
+                      console.log(err);
+                    })
+                }
+              },
+                (err) => {
+                  console.log(err);
+                });
+          }, 2000 * index)
+        })(index)
+      })
+    }
+    else {
+      Swal.fire({
+        title: "Error",
+        text: "Add data for all Blocks",
+        type: "error",
+        confirmButtonColor: "#f69321"
+      });
+    }
+    setTimeout(() => { 
+      this.unitArrayList = this.unitArray;
+      console.log(this.unitArrayList);
+     }, (2000 * (this.blockArray.length + 1)));
+  }
+  // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
   OpenSendRequest(OpenSendRequest: TemplateRef<any>){
-
-
-
     this.modalRef = this.modalService.show(OpenSendRequest,
       Object.assign({}, { class: 'gray modal-lg' }));
   }
@@ -1353,8 +1890,23 @@ this.crtAssn.newBAActType='';
         console.log(this);
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
-          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]')
-        curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text']"),
+        isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for (var i = 0; i < curInputs.length; i++) {
+          if (!curInputs[i].validity.valid) {
+            isValid = false;
+            $(curInputs[i]).closest(".form-group").addClass("has-error");
+          }
+        }
+
+        if (isValid) {
+          nextStepWizard.trigger('click');
+          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        }
       })
 
       $('div.setup-panel div a.btn-success').trigger('click');
@@ -1365,6 +1917,27 @@ this.crtAssn.newBAActType='';
      //console.log(unUnitID);
      this.unUnitID=unUnitID;
     this.modalRef = this.modalService.show(jointemplate,
-     Object.assign({}, { class: 'gray modal-lg' }));}
+     Object.assign({}, { class: 'gray modal-lg' }));
+    }
+    resetStep5(){
+      this.blockname='';
+      this.blocktype = '';
+      this.noofunits='';
+    }
+    resetStep6(){
+      this.mngName='';
+      this.BlockManagermobile='';
+      this.manageremail='';
+    }
+    resetStep7() {
+      this.flatRatevalue = 0;
+      this.maintenanceValue = 0;
+      this.meter = '';
+      this.frequency = '';
+      this.billGenerationDate = null;
+      this.dueDate = '';
+      this.latePymtChargeType = 'SELECT CHARGE TYPE';
+      this.startsFrom = null;
+    }
   
 }

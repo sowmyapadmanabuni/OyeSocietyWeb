@@ -75,6 +75,8 @@ import { ChartsModule } from 'ng2-charts';
 import { ExcelBlockUploadComponent } from './excel-block-upload/excel-block-upload.component';
 import { ExcelUnitUploadComponent } from './excel-unit-upload/excel-unit-upload.component';
 import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expense-upload.component';
+import { BlockArrayComponent } from './block-array/block-array.component';
+import { CreateUnitWithAssociationComponent } from './create-unit-with-association/create-unit-with-association.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -131,7 +133,9 @@ import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expens
     MembersComponent,
     ExcelBlockUploadComponent,
     ExcelUnitUploadComponent,
-    ExcelExpenseUploadComponent
+    ExcelExpenseUploadComponent,
+    BlockArrayComponent,
+    CreateUnitWithAssociationComponent
     ],
   imports: [
     BrowserModule,

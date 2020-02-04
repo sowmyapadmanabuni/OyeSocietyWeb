@@ -93,6 +93,8 @@ export class HomeComponent implements OnInit {
     private modalService: BsModalService,
     private utilsService:UtilsService,
     private http:HttpClient) {
+      this.availableNoOfUnits=0;
+      this.availableNoOfBlocks=0;
     this.accountID = this.globalService.getacAccntID();
     console.log(this.accountID);
     //this.globalService.setAccountID('9539'); // 6457 9539
@@ -390,9 +392,9 @@ export class HomeComponent implements OnInit {
         //console.log(this.unitForAssociation);
         const found = this.unitlistForAssociation.some(el => el['unUnitID'] === association['unUnitID'] && el['unUniName'] === association['unUniName'] && el['mrmRoleID'] === association['mrmRoleID']);
         if (!found) {
-          if (association['unUniName'] != '' && association['unUnitID'] != 0) {
+          //if (association['unUniName'] != '' && association['unUnitID'] != 0) {
             this.unitlistForAssociation.push(new UnitlistForAssociation(association['unUniName'], association['unUnitID'], association['mrmRoleID']));
-          }
+          //}
         }
         console.log(this.unitlistForAssociation);
         this.globalService.setCurrentAssociationId(association.asAssnID);
@@ -426,10 +428,17 @@ export class HomeComponent implements OnInit {
     //if (param == 'id') {
       //this.globalService.setCurrentUnitName('Units');
       if (this.unitlistForAssociation.length) {
-        this.globalService.setCurrentUnitName(this.unitlistForAssociation[0]['unUniName']);
-        this.loadUnit(this.unitlistForAssociation[0]['unUniName'], this.unitlistForAssociation[0]['unUnitID']);
-        console.log(this.unitlistForAssociation[0]['unUnitID']);
-        console.log(this.unitlistForAssociation[0]['unUniName']);
+        this.unitlistForAssociation = this.unitlistForAssociation.filter(item=>{
+            return item['unUniName'] != '';
+          })
+        console.log(this.unitlistForAssociation);
+        this.globalService.setCurrentUnitName((this.unitlistForAssociation.length == 0?'NoUnit':this.unitlistForAssociation[0]['unUniName']));
+        if(this.unitlistForAssociation.length != 0) 
+        {
+          this.loadUnit(this.unitlistForAssociation[0]['unUniName'], this.unitlistForAssociation[0]['unUnitID']);
+        }
+        //console.log(this.unitlistForAssociation[0]['unUnitID']);
+        //console.log(this.unitlistForAssociation[0]['unUniName']);
         
       }
     //}
@@ -606,7 +615,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['expense']);
   }
   goToResidentInvoice() {
-    this.router.navigate(['invoice']);
+    this.router.navigate(['invoice',this.localMrmRoleId]);
   }
   goToFamily() {
     this.router.navigate(['family']);

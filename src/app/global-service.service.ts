@@ -39,6 +39,7 @@ export class GlobalServiceService {
    MoreThanOneUnit:any;
    HideUnitDropDwn:any;
    assnList:any;
+   blockArrayLength:any;
 
   constructor() {
     this.currentAssociationName = '';
@@ -72,7 +73,8 @@ public getCurrentUnitId(){
 public SetAssociationList(message){
   console.log("setAssociationList", message)
   this.assnList=message;
-  localStorage.setItem("assnList",this.assnList);
+  localStorage.setItem("assnList",JSON.stringify(this.assnList));
+  //console.log(JSON.parse(localStorage.getItem("assnList")));
   this.setAssociationList.next({ msg: message });
 }
 public GetAssociationList(): Observable<any>{
@@ -80,9 +82,7 @@ public GetAssociationList(): Observable<any>{
   }
   public SetAssociationListForReload() {
     console.log("SetAssociationListForReload");
-    console.log(this.assnList);
-    console.log(localStorage.getItem("assnList"));
-    this.AssociationListForReload.next({ msg: localStorage.getItem("assnList") });
+    this.AssociationListForReload.next({ msg: '' });
   }
 public GetAssociationListForReload(): Observable<any>{
   return this.AssociationListForReload.asObservable();

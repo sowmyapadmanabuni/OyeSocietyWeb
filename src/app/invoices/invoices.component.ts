@@ -6,7 +6,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 import { GlobalServiceService } from '../global-service.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { OrderPipe } from 'ngx-order-pipe';
 import { GenerateReceiptService } from '../../services/generate-receipt.service';
 import { PaymentService } from '../../services/payment.service';
@@ -160,6 +160,7 @@ export class InvoicesComponent implements OnInit {
   searchTxt:any;
   viewPayments: object[];
   CurrentAssociationIdForInvoice:Subscription;
+  localMrmRoleId: string;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -170,8 +171,13 @@ export class InvoicesComponent implements OnInit {
     public viewUniService: ViewUnitService,
     private generatereceiptservice: GenerateReceiptService,
     private paymentService: PaymentService,
-    private viewreceiptservice:ViewReceiptService) {
-
+    private viewreceiptservice:ViewReceiptService,
+    private route: ActivatedRoute) {
+    // this.localMrmRoleId = this.route.snapshot.queryParamMap.get('mrmroleId');
+    this.route.params.subscribe(data => {
+      console.log(data);
+      this.localMrmRoleId=data['mrmroleId'];
+    });
     this.UnitName="";
     this.globalservice.getCurrentUnitName(),
     this.globalservice.getCurrentUnitId(),
@@ -298,7 +304,7 @@ export class InvoicesComponent implements OnInit {
         }
       })
     //
-    if(this.globalservice.mrmroleId != 1){
+    if(this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2'){
           this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
       .subscribe(data => {
         console.log(data);

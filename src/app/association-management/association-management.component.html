@@ -90,43 +90,46 @@
       <!--Dashboard icons end-->
       <!--Enroll Association form Starts-->
       <div *ngIf='viewAssnService.enrlAsnEnbled' class="col-sm-12">
+        <div style="overflow-x: scroll;">
+            <div class="stepwizard" style="overflow-x: scroll;
+            width: 2000px;">
+              <div class="stepwizard-row setup-panel" style="display:flex">
+                <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                    <a class="active" href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Association
+                      Details</span>
+                </div>
+                <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                    <a class="disabled" href="#step-2" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Pan & Registration
+                      Details</span>
+                </div>
+                <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                    <a class="disabled" href="#step-3" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Block & Unit
+                      Details</span>
+                </div>
+                <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                    <a class="disabled" href="#step-4" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Other Amenities</span>
+                </div>
+                <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12 step-active">
+                  <a class="disabled" href="#step-5" type="button" class="btn btn-circle-o"></a><span>Blocks
+                      Details</span>
+              </div>
+              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                  <a class="disabled" href="#step-6" type="button" class="btn btn-circle-o"></a><span>Units
+                      Details</span>
+              </div>
+              <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                  <a class="disabled" href="#step-7" type="button" class="btn btn-circle-o"></a><span>Maitainance
+                      Details</span>
+              </div>
+              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+                  <a class="disabled" href="#step-8" type="button" class="btn btn-circle-o"></a><span>Bank
+                      Details</span>
+              </div> -->
+              </div>
+            </div>
+        </div>
         <div class="row">
-          <div class="stepwizard">
-            <div class="stepwizard-row setup-panel">
-              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a class="active" href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Association
-                    Details</span>
-              </div>
-              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a class="disabled" href="#step-2" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Pan & Registration
-                    Details</span>
-              </div>
-              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a class="disabled" href="#step-3" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Block & Unit
-                    Details</span>
-              </div>
-              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a class="disabled" href="#step-4" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Other Amenities</span>
-              </div>
-              <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12 step-active">
-                <a class="disabled" href="#step-5" type="button" class="btn btn-circle-o"></a><span>Blocks
-                    Details</span>
-            </div>
-            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a class="disabled" href="#step-6" type="button" class="btn btn-circle-o"></a><span>Manager
-                    Details</span>
-            </div>
-            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a class="disabled" href="#step-7" type="button" class="btn btn-circle-o"></a><span>Maitainance
-                    Details</span>
-            </div>
-            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a class="disabled" href="#step-8" type="button" class="btn btn-circle-o"></a><span>Bank
-                    Details</span>
-            </div>
-            </div>
-          </div>
-
+         
           <form id="EnrollAssnID" role="form">
             <div class="panel panel-primary setup-content" id="step-1">
               <!-- <div class="panel-heading">
@@ -249,9 +252,7 @@
                 <button class="btn btn-primary-purple nextBtn pull-right" type="reset"
                   (click)='resetStep1()'>Reset</button>
               </div>
-
             </div>
-
             <div class="panel panel-primary setup-content" id="step-2">
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Pan & Registration Details</h3>
@@ -261,7 +262,7 @@
                   <label class="control-label"><input tooltip="GST Available?" style="margin: 13px 24px 0px -41px;" type="checkbox" name="IsGSTAvailable" (change)='toggleIsGSTAvailable()'/>
                     GST Number</label>
                   <div style="display: flex;">
-                    <input id="GSTNumberID" [ngClass]="{'gst-hide':toggleGSTAvailableTxt}" type="text" name="GSTNumber" autocomplete='crtAss.GSTNumber' [(ngModel)]="crtAssn.GSTNumber"
+                    <input id="GSTNumberID" [disabled]="toggleGSTAvailableTxt" type="text" name="GSTNumber" autocomplete='crtAss.GSTNumber' [(ngModel)]="crtAssn.GSTNumber"
                       #GSTNumberControl="ngModel" class="form-control" (blur)="fillPANValue()" placeholder="GST NUMBER"
                       style="text-transform: uppercase; font-family: Quicksand; font-size: 13px;"
                       pattern="^([0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" minlegth=15 maxlength=15 />
@@ -292,9 +293,7 @@
                 <button class="btn btn-primary-purple nextBtn pull-right" type="reset"
                   (click)='resetStep2()'>Reset</button>
               </div>
-
             </div>
-
             <div class="panel panel-primary setup-content" id="step-3">
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Block & Unit Details</h3>
@@ -323,9 +322,7 @@
                 <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
                 <button class="btn btn-primary-purple pull-right" type="reset" (click)='resetStep3()'>Reset</button>
               </div>
-
             </div>
-
             <div class="panel panel-primary setup-content" id="step-4">
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Other Amenities</h3>
@@ -334,10 +331,326 @@
                 <app-new-amenity [newamenities]='newamenities' (addAmenities)='addAmenity($event)'
                   (deleteamenity)='deleteamenity($event)'></app-new-amenity>
               </div>
-              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit"
-                (click)="onSubmit()">Finish!</button>
-
+              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Next</button>
+              <button class="btn btn-primary-purple pull-right" type="reset">Reset</button>
             </div>
+            <div class="panel panel-primary setup-content" id="step-5">
+              <!-- <div class="panel-heading">
+               <h3 class="panel-title">Association Details</h3>
+          </div> -->
+  
+              <div class="panel-body">
+                <div *ngFor='let item of blockArray'> 
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                    <label id=label1>Block Name <span class="red">*</span></label>
+                    <input type="text" name="blkNme" id="input1" autocomplete='blkNme' [(ngModel)]="item['blkNme']"
+                      #blkNmeControl="ngModel" class="form-control" placeholder="Block Name" pattern="[a-zA-Z0-9 _]*" required />
+                    <p class="alerts" *ngIf="blkNmeControl.invalid && blkNmeControl.touched">Valid name is required</p>
+                  </div>
+                  <div class="form-group">
+                    <label>Block Type</label>
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(item['blocktype'] == ''?'Select Block':item['blocktype'])}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                      <ul class="dropdown-menu fullw">
+                        <li (click)="getBlockType('Residential',item['Id'])"><a>Residential</a></li>
+                        <li (click)="getBlockType('Commercial',item['Id'])"><a>Commercial</a></li>
+                        <li (click)="getBlockType('Residential and Commercial',item['Id'])"><a>Residential and Commercial</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label id=label3>No of Units <span class="red">*</span></label>
+                    <input type="text" name="noofunits" id="input3" autocomplete='noofunits' [(ngModel)]="item['noofunits']"
+                      #noofunitsControl="ngModel" class="form-control" placeholder="No Of Units" pattern="[0-9]*" required />
+                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of units are required</p>
+                  </div>
+                  <div class="form-group">
+                    <label id=label4>Manager Name <span class="red">*</span></label>
+                    <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="item['mngName']"
+                      #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z]*" required />
+                    <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>
+                  </div>
+                  <div class="form-group">
+                    <label id=label5>Manager Mobile Number <span class="red">*</span></label>
+                    <input type="text" name="BlockManagermobile" id="input5" autocomplete='BlockManagermobile'
+                      [(ngModel)]="item['BlockManagermobile']" #managernumberControl="ngModel" class="form-control"
+                      placeholder="Manager Mobile Number" minlength="10" maxlength="10" pattern="[0-9]*" required
+                      (keypress)=_keyPress($event) />
+                    <p class="alerts" *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager mobile number is
+                      required</p>
+                  </div>
+                  <div class="form-group">
+                    <label id=label6>Manager Email Id <span class="red">*</span></label>
+                    <input type="text" name="manageremail" id="input6" autocomplete='manageremail' [(ngModel)]="item['manageremail']"
+                      #manageremailControl="ngModel" class="form-control" placeholder="Manager Email Id"
+                      pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+                      required />
+                    <p class="alerts" *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager email-id is required
+                    </p>
+                  </div>
+                  <div class="form-group">
+                    <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate']" #rateControl="ngModel"
+                        (change)="checkRate(item['rate'],item['Id'])" value="flatRatevalue" (click)="checking(item['rate'])" required> Flat Rate Value</h5>
+                    <div *ngIf="item['flatRate'] == 'flatRatevalue'">
+                      <label>Flat Rate Value <span class="red">*</span></label>
+                      <input class="form-control" type="text" name="flatRatevalue" [(ngModel)]="item['flatRatevalue']" placeholder="Value"
+                        #flatRatevalueControl='ngModel' pattern="^[+-]?((\.\d+)|(\d+(\.\d+)?))$" required>
+                      <p class="classred" *ngIf="flatRatevalueControl.invalid && flatRatevalueControl.touched">Invalid flat rate
+                      </p>
+                      <small>Amount to be charged</small>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate1']" #rateControl="ngModel"
+                        (change)="checkRate1(item['rate1'],item['Id'])" value="dimension" (click)="checking1(item['rate1'])" required> Dimension Based</h5>
+                    <div *ngIf="item['dimension'] == 'dimension'">
+                      <label>Maintenance Value<span class="red">*</span></label>
+                      <input class="form-control" type="text" name="maintenanceValue" #maintenanceValueControl='ngModel'
+                        [(ngModel)]="item['maintenanceValue']" placeholder="Maintenance Value " required pattern="^[0-9]+(\.[0-9]{1,2})?$">
+                      <p class="classred" *ngIf="maintenanceValueControl.invalid && maintenanceValueControl.touched">Invalid Maintenance
+                        Value
+                      </p>
+                      <small>Rate (SQFT / SQMTR) </small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Unit of Measurement <span class="red">*</span></label>
+                    <input class="form-control" type="text" disabled="true" required name="measurements" autocomplete="measurements"
+                      [(ngModel)]="item['meter']" #measurementsControl='ngModel' placeholder="Measurement Type" [value]="meter">
+                  </div>
+                  <div class="form-group">
+                    <label>Invoice Creation Frequency <span class="red">*</span></label>
+                    <input class="form-control" list="frquency" name="frequency" [(ngModel)]="item['frequency']"
+                      placeholder="Search or Select Frequency" #frequencyControl='ngModel' required multiple>
+                    <datalist id="frquency">
+                      <option value="">Select Frequency</option>
+                      <option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">
+                        {{frequency['displayName']}}
+                      </option>
+                    </datalist>
+                    <p class="alerts" *ngIf="frequencyControl.invalid && frequencyControl.touched">Invalid Invoice Frequency
+                    </p>
+                  </div>
+                  <div class="form-group">
+                    <label>Invoice Generation Date <span class="red">*</span></label>
+                    <!-- <ejs-datepicker placeholder='Invoice Generation Date' [min]='todayDate' format='dd-MM-yyyy' ></ejs-datepicker> -->
+                    <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
+                      placeholder="Invoice Generation Date" [bsConfig]="bsConfig" [(ngModel)]="item['billGenerationDate']" bsDatepicker required
+                      (bsValueChange)="onValueChange($event)" [minDate]="todayDate" placement="top" />
+                  </div>
+                  <div class="form-group">
+                    <label>Due Date <span class="red">*</span></label>
+                    <input type="text" class="form-control" [class.enableBorderColor]="enableduedatevalidation"
+                      [class.classForInvalid]="enableduedatevalidation" name="dueDate" #DueDateControl='ngModel' placeholder="Due Date"
+                      [bsConfig]="bsConfig" [(ngModel)]="item['dueDate']" bsDatepicker required [minDate]="minDate"
+                      (bsValueChange)="onDueDateValueChange($event)" placement="top" />
+                    <ng-container *ngIf='enableduedatevalidation'>
+                      <p class="invalidFeedback">Due date should be greater than or equal to
+                        invoice date
+                      </p>
+                    </ng-container>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Late Payment Charge Type</label>
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(item['latePymtChargeType'] == ''?'SELECT CHARGE TYPE':item['latePymtChargeType'])}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                      <ul class="dropdown-menu fullw">
+                        <li *ngFor='let lpct of latePymtChrgTypes' (click)="getLatePymtChargeType(lpct['name'],item['Id'])"><a>{{lpct['name']}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Late Payment Charge <span class="red">*</span></label>
+                    <input class="form-control" type="text" #latePymtChargeControl='ngModel' name="latePymtCharge"
+                      autocomplete="latePymtCharge" [(ngModel)]="item['latePymtCharge']" placeholder="Late Payment charge"
+                      pattern="[0-9]+(\.[0-9][0-9]?)?" required>
+                    <p class="alerts" *ngIf="latePymtChargeControl.invalid && latePymtChargeControl.touched">Invalid Late Payment Charge
+                    </p>
+                  </div>
+                  <div class="form-group">
+                    <label>Starts From<span class="red">*</span></label>
+                    <input class="form-control" type="text" name="startsFrom" #StartsFromDateControl='ngModel'
+                      [class.classForInvalid]="enablestartfromdatevalidation" placeholder="Starts From Date" [bsConfig]="bsConfig"
+                      [(ngModel)]="item['startsFrom']" bsDatepicker required [minDate]='startsFromMaxDate'
+                      (bsValueChange)="onStartsFromDateValueChange($event)" placement="bottom" />
+                    <ng-container *ngIf='enablestartfromdatevalidation'>
+                      <p class="invalidFeedback">Starts from date should be greater than or equal to due date</p>
+                    </ng-container>
+                  </div>
+                </div>
+                <!-- <app-block-array></app-block-array> -->
+                </div>
+                 
+              </div>
+              <div class="col-sm-12 pull-right">
+                  <button class="btn btn-primary-purple nextBtn" type="reset" (click)='resetStep5()'>Reset</button>
+                  <button class="btn btn-primary-purple nextBtn" type="button" (click)='createBlock()'>Next</button>
+              </div>
+          </div>
+  
+          <div class="panel panel-primary setup-content" id="step-6">
+            <app-create-unit-with-association [unitArrayList]='unitArrayList'></app-create-unit-with-association>
+          </div>
+  
+          <!-- <div class="panel panel-primary setup-content" id="step-7">
+              <p class="title">Select Rate</p>
+  
+              <div class="panel-body"
+                  style="background: #f8f6f6;margin: 17px 52px;padding:16px 0px !important;">
+                  <div class="form-group">
+                      <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="rate" #rateControl="ngModel" (change)="checkRate(rate)"
+                          value="flatRatevalue" (click)="checking(rate)" required> Flat Rate Value</h5>
+                          <div *ngIf="addRate == 'flatRatevalue'">
+                              <label>Flat Rate Value <span class="red">*</span></label>
+                              <input class="form-control" type="text" name="flatRatevalue" [(ngModel)]="flatRatevalue"
+                                placeholder="Value" #flatRatevalueControl='ngModel' pattern="^[+-]?((\.\d+)|(\d+(\.\d+)?))$" required>
+                                <p class="classred" *ngIf="flatRatevalueControl.invalid && flatRatevalueControl.touched">Invalid flat rate
+                                </p>
+                              <small>Amount to be charged</small>
+                          </div>
+                  </div>
+  
+                  <div class="form-group">
+                      <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="rate1"  #rateControl="ngModel"
+                          (change)="checkRate1(rate1)" value="dimension"  (click)="checking1(rate1)" required > Dimension Based</h5>
+                      <div *ngIf="addRate1 == 'dimension'">
+                          <label>Maintenance Value<span class="red">*</span></label>
+                          <input class="form-control" type="text" name="maintenanceValue" #maintenanceValueControl='ngModel'
+                              [(ngModel)]="maintenanceValue" placeholder="Maintenance Value " required pattern="^[0-9]+(\.[0-9]{1,2})?$">
+                          <p class="classred" *ngIf="maintenanceValueControl.invalid && maintenanceValueControl.touched">Invalid Maintenance
+                              Value
+                          </p>
+                          <small>Rate (SQFT / SQMTR) </small>
+                      </div>
+                  </div>
+  
+              </div>
+              <div class="panel-body">
+                  <div class="form-group">
+                      <label>Unit of Measurement <span class="red">*</span></label>
+                      <input class="form-control" type="text" disabled="true" required name="measurements" autocomplete="measurements"
+                        [(ngModel)]="meter" #measurementsControl='ngModel' placeholder="Measurement Type" [value]="meter">
+                    </div>
+                  <div class="form-group">
+                      <label>Invoice Creation Frequency <span class="red">*</span></label>
+                      <input class="form-control" list="frquency" name="frequency" [(ngModel)]="frequency" placeholder="Search or Select Frequency" #frequencyControl='ngModel' required multiple>
+                      <datalist id="frquency">
+                        <option value="">Select Frequency</option>
+                        <option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">
+                          {{frequency['displayName']}}
+                        </option>
+                      </datalist>
+                      <p class="alerts" *ngIf="frequencyControl.invalid && frequencyControl.touched">Invalid Invoice Frequency
+                        </p>
+                    </div>
+                  <div class="form-group">
+                      <label>Invoice Generation Date <span class="red">*</span></label>
+                      <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
+                        placeholder="Invoice Generation Date" [bsConfig]="bsConfig" [(ngModel)]="billGenerationDate"
+                        bsDatepicker required (bsValueChange)="onValueChange($event)" [minDate]="todayDate" placement="top"/>
+                  </div>
+              </div>
+              <div class="panel-body">
+                  <div class="form-group">
+                      <label>Due Date <span class="red">*</span></label>
+                      <input type="text" class="form-control" [class.enableBorderColor]="enableduedatevalidation" [class.classForInvalid]="enableduedatevalidation" name="dueDate" #DueDateControl='ngModel' placeholder="Due Date"
+                        [bsConfig]="bsConfig" [(ngModel)]="dueDate" bsDatepicker required [minDate]="minDate"
+                        (bsValueChange)="onDueDateValueChange($event)" placement="top"/>
+                      <ng-container *ngIf='enableduedatevalidation'>
+                        <p class="invalidFeedback">Due date should be greater than or equal to
+                            invoice date
+                        </p>
+                      </ng-container>
+                    </div>
+                  <div class="form-group">
+                      <label class="control-label">Late Payment Charge Type</label>
+                      <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                              type="button" data-toggle="dropdown">{{latePymtChargeType}}
+                              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                          <ul class="dropdown-menu fullw">
+                              <li *ngFor='let lpct of latePymtChrgTypes' (click)="getLatePymtChargeType(lpct['name'])"><a>{{lpct['name']}}</a></li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Late Payment Charge <span class="red">*</span></label>
+                      <input class="form-control" type="text" #latePymtChargeControl='ngModel' name="latePymtCharge"
+                          autocomplete="latePymtCharge" [(ngModel)]="latePymtCharge" placeholder="Late Payment charge"
+                          pattern="[0-9]+(\.[0-9][0-9]?)?" required>
+                      <p class="alerts" *ngIf="latePymtChargeControl.invalid && latePymtChargeControl.touched">Invalid Late Payment Charge
+                      </p>
+                  </div>
+              </div>
+              <div class="panel-body">
+                  <div class="form-group">
+                      <label>Starts From<span class="red">*</span></label>
+                      <input class="form-control" type="text" name="startsFrom" #StartsFromDateControl='ngModel'
+                      [class.classForInvalid]="enablestartfromdatevalidation" placeholder="Starts From Date" [bsConfig]="bsConfig" [(ngModel)]="startsFrom" bsDatepicker required
+                        [minDate]='startsFromMaxDate' (bsValueChange)="onStartsFromDateValueChange($event)" placement="bottom"/>
+                      <ng-container *ngIf='enablestartfromdatevalidation'>
+                          <p class="invalidFeedback">Starts from date should be greater than or equal to due date</p>
+                      </ng-container>
+                    </div>
+                  <div class="form-group">
+  
+                  </div>
+                  <div class="form-group">
+  
+                  </div>
+  
+              </div>
+              <div class="col-sm-12 pull-right">
+                  <button class="btn btn-primary-purple nextBtn" type="reset" (click)='resetStep7()'>Reset</button>
+                  <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
+              </div>
+          </div> -->
+  
+          <!-- <div class="panel panel-primary setup-content" id="step-8">
+              <p class="title">Bank1</p>
+              <div class="panel-body">
+                  <div class="form-group" style="width:528px">
+                      <label class="control-label">Bank Name</label>
+                      <input maxlength="600" type="text" required="required" class="form-control"
+                          placeholder="Bank Name" />
+                  </div>
+                  <div class="form-group">
+                      <label class="control-label">IFSC</label>
+                      <input maxlength="200" type="text" required="required" class="form-control"
+                          placeholder="IFSC" />
+                  </div>
+              </div>
+              <div class="panel-body">
+                  <div class="form-group">
+                      <label class="control-label">Account Number</label>
+                      <input maxlength="200" type="text" required="required" class="form-control"
+                          placeholder="Account Number" />
+                  </div>
+                  <div class="form-group">
+                      <label class="control-label">Account Type</label>
+                      <input maxlength="200" type="text" required="required" class="form-control"
+                          placeholder="Account Type" />
+                  </div>
+                  <div class="form-group">
+                      <label class="control-label"></label>
+                      <p><i class="fa fa-circle-thin" aria-hidden="true"></i> Default</p>
+                  </div>
+              </div>
+              <div class="col-sm-12 purple pull-right" style="padding: 30px;">
+                  <i class="fa fa-plus" aria-hidden="true"></i> Add Bank
+              </div>
+              <div class="col-sm-12" style="padding:0px 30px;">
+                  <button class="btn btn-primary-purple nextBtn pull-right" (click)='createBlock()' type="submit">Add
+                      Block</button>
+              </div>
+          </div> -->
           </form>
         </div>
       </div>

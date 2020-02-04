@@ -1,0 +1,154 @@
+<div class="panel-body">
+    <div class="col-sm-12">
+      <div *ngFor='let item of unitArrayList'>
+        <div class="form-group">
+          <label class="control-label">Block Name<span class="red">*</span></label>
+          <input name="_blockName" id="_blockName" type="text" [(ngModel)]="item['_blockName']" class="form-control" disabled />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Unit No/Flat No<span class="red">*</span></label>
+          <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="item['_unitno']"
+            #unitnoControl="ngModel" class="form-control" placeholder="Unit No/Flat No" required />
+          <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Unit Type<span class="red">*</span></label>
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+              data-toggle="dropdown">{{item['_unitType']==''?'Select Unit Type':item['_unitType']}}
+              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+            <ul class="dropdown-menu fullw">
+              <li *ngFor="let unitTp of unitTypes" (click)="getUnitType(unitTp['name'],item['_id'])">
+                <a>{{unitTp['name']}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Unit Dimension<span class="red">*</span></label>
+          <input maxlength="100" type="text" name="unitdimension" id="unitdimension" #unitdimensionControl="ngModel"
+            required [(ngModel)]="item['_unitdimension']" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*"
+            required />
+          <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched"> Valid Unit dimension
+            is
+            required</p>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Unit Rate<span class="red">*</span></label>
+          <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="item['_unitrate']" #unitrateControl="ngModel"
+            class="form-control" placeholder="Unit Rate" />
+          <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched"> Valid unit rate is required</p>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Calculation Type<span class="red">*</span></label>
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+              data-toggle="dropdown">{{(item['_calculationtype']==''?'SelectType':item['_calculationtype'])}}
+              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+            <ul class="dropdown-menu fullw">
+              <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType.name,item['_id'])">
+                <a>{{calculationType.name}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+              data-toggle="dropdown">{{item['_occupency']==''?'SelectStatus':item['_occupency']}}
+              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+            <ul class="dropdown-menu fullw">
+              <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency.name,item['_id'])">
+                <a>{{occupency.name}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- OWNER INFORMATION -->
+        <div *ngIf="ownerDetails">
+          <div class="form-group">
+            <label class="control-label">Owner First Name<span class="red">*</span></label>
+            <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="item['_ownerFirtname']"
+              #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname" pattern="[a-zA-Z]*"
+              required />
+            <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner
+              firstname is
+              required</p>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Owner Last Name<span class="red">*</span></label>
+            <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="item['_ownerLastname']"
+              #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname" pattern="[a-zA-Z]*"
+              required />
+            <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname
+              is
+              required</p>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Owner Mobile Number<span class="red">*</span></label>
+            <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="item['_ownerMobnumber']"
+              #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number" minlength=10
+              maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event) />
+            <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+"
+              *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is
+              required</p>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Owner Email Id<span class="red">*</span></label>
+            <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="item['_ownerEmail']" #ownerEmailControl="ngModel"
+              class="form-control" placeholder="Owner email-id"
+              pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+              required />
+            <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required
+            </p>
+          </div>
+        </div>
+        <!-- TANENT INFORMATION -->
+        <div *ngIf="tenantDetails">
+          <div class="form-group">
+            <label class="control-label">Tenant First Name<span class="red">*</span></label>
+            <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="item['_tenantFirtname']"
+              #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname" pattern="[a-zA-Z]*"
+              required />
+            <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is
+              required</p>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Tenant Last Name<span class="red">*</span></label>
+            <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="item['_tenantLastname']"
+              #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname" pattern="[a-zA-Z]*"
+              required />
+            <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is
+              required</p>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Tenant Mobile Number<span class="red">*</span></label>
+            <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="item['_tenantMobnumber']"
+              #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number" minlength=10
+              maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event) />
+            <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile
+              number
+              is required</p>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Tenant Email Id<span class="red">*</span></label>
+            <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="item['_tenantEmail']"
+              #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
+              pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+              required />
+            <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is
+              required
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 pull-right">
+    <button class="btn btn-primary-purple nextBtn" type="reset" (click)='resetStep6()'>Reset</button>
+    <button class="btn btn-primary-purple nextBtn" type="button" (click)='createUnit()'>CreateUnit</button>
+  </div>

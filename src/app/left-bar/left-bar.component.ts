@@ -20,6 +20,7 @@ export class LeftBarComponent implements OnInit {
   value:any;
   max:any;
   CurrentAssociationIdForLeftBarComponent:Subscription;
+  displayValue:any;
 
   constructor(public globalService: GlobalServiceService,
     private dashboardservice: DashBoardService,
@@ -71,11 +72,13 @@ export class LeftBarComponent implements OnInit {
   getBlockDetails() {
     this.max=100;
     this.value=66;
+    this.displayValue='66%';
     this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
       this.availableNoOfBlocks = data['data'].blocksByAssoc;
       if(this.availableNoOfBlocks[0]['asUniMsmt']){
         this.value=100;
         this.max=100;
+        this.displayValue='100%';
       }
       console.log('allBlocksLists', this.availableNoOfBlocks);
       //asbGnDate
