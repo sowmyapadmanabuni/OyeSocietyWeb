@@ -606,6 +606,22 @@ export class AssociationManagementComponent implements OnInit {
       }
       }
     }
+    setTimeout(() => {
+      Swal.fire({
+        title: 'Unit Created Successfully',
+        text: "",
+        type: "success",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+          }
+        })
+    },600 * (this.BlockHrefDetail.length+this.unitArray.length));
   }
   onPageChange(event) {
     //console.log(event['srcElement']['text']);
@@ -1949,12 +1965,13 @@ this.crtAssn.newBAActType='';
       //e.preventDefault();
       console.log('div.setup-panel-stepseven div a');
       console.log($('div.setup-panel-stepseven div a'));
-      var navListItems = $('div.setup-panel-stepseven div a'),
+      var navListItems1 = $('div.setup-panel-stepseven div a'),
        StepTwo = $('#step-6'),
         allWells = $('.setup-content-seven'),
-        anchorDivs = $('div.stepwizard-row-stepseven div');
+        anchorDivs = $('div.stepwizard-row-stepseven div'),
+        createUnit=$('#CreateUnitId');
       allWells.hide();
-      navListItems.click(function (e) {
+      navListItems1.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
           $item = $(this),
@@ -1969,7 +1986,7 @@ this.crtAssn.newBAActType='';
         //console.log(anchorDivs);
         if (!$item.hasClass('disabled')) {
           console.log('disabled');
-          navListItems.removeClass('btn-success').addClass('btn-default');
+          navListItems1.removeClass('btn-success').addClass('btn-default');
           $item.addClass('btn-success');
           $divTgt.addClass('step-active');
           allWells.hide();
@@ -1981,7 +1998,10 @@ this.crtAssn.newBAActType='';
           $target.find('input:eq(0)').focus();
         }
       });
-      $('div.setup-panel-stepseven div a').trigger('click');
+      createUnit.click(function(){
+       console.log($(this).parent().parent());
+      });
+      $('div.setup-panel-stepseven div a.btn-success').trigger('click');
     });
   }
 
