@@ -460,33 +460,40 @@ export class AssociationManagementComponent implements OnInit {
     this.toggleStepWizrd();
   }
   getUnitType(unitTpname,_id) {
-    ////console.log(unitTpname);
-    this.unitType = unitTpname;
-    for (let i = 0; i < this.unitArray.length; i++) {
-      if (this.unitArray[i]['_id'] == _id) {
-          this.unitArray[i]['_unitType'] = unitTpname;
+    console.log(unitTpname);
+
+    for (let i = 0; i < this.BlockHrefDetail.length; i++) {
+      for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
+        if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
+          this.BlockHrefDetail[i]['UnitArray'][j]['_unitType'] = unitTpname;
+        }
       }
     }
-    console.log(this.unitArray);
+    console.log(this.BlockHrefDetail);
   }
   getCalculationTypes(calculationTypename,_id) {
-    ////console.log(calculationTypename);
+    console.log(calculationTypename);
     this.calculationtype = calculationTypename;
-    for (let i = 0; i < this.unitArray.length; i++) {
-      if (this.unitArray[i]['_id'] == _id) {
-          this.unitArray[i]['_calculationtype'] = calculationTypename;
+    for (let i = 0; i < this.BlockHrefDetail.length; i++) {
+      for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
+        if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
+          this.BlockHrefDetail[i]['UnitArray'][j]['_calculationtype'] = calculationTypename;
+        }
       }
     }
-    console.log(this.unitArray);
+    console.log(this.BlockHrefDetail);
   }
   tenantOwnerdiv(occupency,_id) {
     this.occupency=occupency;
-    for (let i = 0; i < this.unitArray.length; i++) {
-      if (this.unitArray[i]['_id'] == _id) {
-          this.unitArray[i]['_occupency'] = occupency;
+    for (let i = 0; i < this.BlockHrefDetail.length; i++) {
+      for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
+        if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
+          this.BlockHrefDetail[i]['UnitArray'][j]['_occupency'] = occupency;
+        }
       }
     }
-    console.log(this.unitArray);
+    console.log(this.BlockHrefDetail);  
+
     this.occupencys.forEach(item => {
       if (occupency == 'UnSold Vacant Unit') {
         this.tenantDetails = false;
@@ -514,87 +521,91 @@ export class AssociationManagementComponent implements OnInit {
     this.ASCountry = countryName;
   }
   createUnit() {
-    console.log(this.unitArray);
-    this.unitArray.forEach((item,index)=> {
-      ((index) => {
-        setTimeout(() => {
-          let createUnitData =
-          {
-            "ASAssnID": this.globalService.getCurrentAssociationId(),
-            "ACAccntID": this.globalService.getacAccntID(),
-            "units": [
-              {
-                "UNUniName": item['_unitno'],
-                "UNUniType": item['_unitType'],
-                "UNRate": item['_unitrate'],
-                "UNOcStat": item['_occupency'],
-                "UNOcSDate": "2019-03-02",
-                "UNOwnStat": "null",
-                "UNSldDate": "2019-03-02",
-                "UNDimens": item['_unitdimension'],
-                "UNCalType": item['_calculationtype'],
-                "BLBlockID": item['_BlockID'],
-                "Owner":
-                  [{
-      
-                    "UOFName": item['_ownerFirtname'],
-                    "UOLName": item['_ownerLastname'],
-                    "UOMobile": item['_ownerMobnumber'],
-                    "UOISDCode": "+91",
-                    "UOMobile1": "",
-                    "UOMobile2": "null",
-                    "UOMobile3": "null",
-                    "UOMobile4": "null",
-                    "UOEmail": item['_ownerEmail'],
-                    "UOEmail1": "",
-                    "UOEmail2": "null",
-                    "UOEmail3": "null",
-                    "UOEmail4": "null",
-                    "UOCDAmnt": ""
-                  }],
-                "unitbankaccount":
+    console.log(this.BlockHrefDetail);
+    for (let i = 0; i < this.BlockHrefDetail.length; i++) {
+      for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
+        if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'] != ''){
+        ((j) => {
+          setTimeout(() => {
+            let createUnitData =
+            {
+              "ASAssnID": this.globalService.getCurrentAssociationId(),
+              "ACAccntID": this.globalService.getacAccntID(),
+              "units": [
                 {
-                  "UBName": "",
-                  "UBIFSC": "",
-                  "UBActNo": "",
-                  "UBActType": "",
-                  "UBActBal": 0,
-                  "BLBlockID": item['_BlockID']
-                },
-                "Tenant":
-                  [{
-      
-                    "UTFName": item['_tenantFirtname'],
-                    "UTLName": item['_tenantLastname'],
-                    "UTMobile": item['_tenantMobnumber'],
-                    "UTISDCode": "+91",
-                    "UTMobile1": "",
-                    "UTEmail": item['_tenantEmail'],
-                    "UTEmail1": ""
-                  }],
-                "UnitParkingLot":
-                  [
-                    {
-                      "UPLNum": "",
-                      "MEMemID": "",
-                      "UPGPSPnt": "null"
-      
-                    }
-                  ]
-              }
-            ]
-          }
-          console.log(createUnitData);
-      
-          this.viewUniService.createUnit(createUnitData).subscribe((response) => {
-            console.log(response);
-          },
-            (response) => {
+                  "UNUniName": this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'],
+                  "UNUniType": this.BlockHrefDetail[i]['UnitArray'][j]['_unitType'],
+                  "UNRate": this.BlockHrefDetail[i]['UnitArray'][j]['_unitrate'],
+                  "UNOcStat": this.BlockHrefDetail[i]['UnitArray'][j]['_occupency'],
+                  "UNOcSDate": "2019-03-02",
+                  "UNOwnStat": "null",
+                  "UNSldDate": "2019-03-02",
+                  "UNDimens": this.BlockHrefDetail[i]['UnitArray'][j]['_unitdimension'],
+                  "UNCalType": this.BlockHrefDetail[i]['UnitArray'][j]['_calculationtype'],
+                  "BLBlockID": this.BlockHrefDetail[i]['UnitArray'][j]['_BlockID'],
+                  "Owner":
+                    [{
+        
+                      "UOFName": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerFirtname'],
+                      "UOLName": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerLastname'],
+                      "UOMobile": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerMobnumber'],
+                      "UOISDCode": "+91",
+                      "UOMobile1": "",
+                      "UOMobile2": "null",
+                      "UOMobile3": "null",
+                      "UOMobile4": "null",
+                      "UOEmail": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerEmail'],
+                      "UOEmail1": "",
+                      "UOEmail2": "null",
+                      "UOEmail3": "null",
+                      "UOEmail4": "null",
+                      "UOCDAmnt": ""
+                    }],
+                  "unitbankaccount":
+                  {
+                    "UBName": "",
+                    "UBIFSC": "",
+                    "UBActNo": "",
+                    "UBActType": "",
+                    "UBActBal": 0,
+                    "BLBlockID": this.BlockHrefDetail[i]['UnitArray'][j]['_BlockID']
+                  },
+                  "Tenant":
+                    [{
+        
+                      "UTFName": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantFirtname'],
+                      "UTLName": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantLastname'],
+                      "UTMobile": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantMobnumber'],
+                      "UTISDCode": "+91",
+                      "UTMobile1": "",
+                      "UTEmail": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantEmail'],
+                      "UTEmail1": ""
+                    }],
+                  "UnitParkingLot":
+                    [
+                      {
+                        "UPLNum": "",
+                        "MEMemID": "",
+                        "UPGPSPnt": "null"
+        
+                      }
+                    ]
+                }
+              ]
+            }
+            console.log(createUnitData);
+        
+            this.viewUniService.createUnit(createUnitData).subscribe((response) => {
               console.log(response);
-            });
-        },300 * index)
-      })(index)
-    })
+            },
+              (response) => {
+                console.log(response);
+              });
+          },600 * j)
+        })(j)
+      }
+      }
+    }
   }
   onPageChange(event) {
     //console.log(event['srcElement']['text']);
@@ -1623,13 +1634,19 @@ this.crtAssn.newBAActType='';
      groupedKeys.forEach((item,index)=>{
       console.log(item);
       console.log(index);
-      this.BlockHrefDetail.push({"Id":index+1,"blk":item,"step":"#step-"+(index+7).toString(),"elementID":"step-"+(index+7).toString()});
+      let _blk=this.unitArray.filter(itm=>{
+        console.log(itm);
+        return itm['_blockName']==item;
+      })
+      console.log(_blk);
+      this.BlockHrefDetail.push({"Id":index+1,"blk":item,"step":"#step-"+(index+7).toString(),"elementID":"step-"+(index+7).toString(),"UnitArray":_blk});
      })
      console.log(this.BlockHrefDetail);
       this.unitArrayList = this.unitArray;
       console.log(this.unitArrayList);
       this.globalService.SetCreateUnitWithAssociation(this.BlockHrefDetail,this.unitArrayList)
       this.enableCreateUnitWithAssociation=true;
+      this.toggleStepTest();
      }, (2000 * (this.blockArray.length + 1)));
   }
   // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
@@ -1927,47 +1944,52 @@ this.crtAssn.newBAActType='';
   //     $('div.setup-panel div a.btn-success').trigger('click');
   //   });
   // }
-  toggleStepTest(e, step) {
-    e.preventDefault();
-    var navListItems = $('div.setup-panel div a'),
-    StepTwo = $('#step-6'),
-      allWells = $('.setup-content'),
-     anchorDivs = $('div.stepwizard-row div');
-    allWells.hide();
-    navListItems.click(function (e) {
-      e.preventDefault();
-      var $target = $($(this).attr('href')),
-        $item = $(this), 
-        $divTgt = $(this).parent();
+  toggleStepTest() {
+    $(document).ready(function () {
+      //e.preventDefault();
+      console.log('div.setup-panel-stepseven div a');
+      console.log($('div.setup-panel-stepseven div a'));
+      var navListItems = $('div.setup-panel-stepseven div a'),
+       StepTwo = $('#step-6'),
+        allWells = $('.setup-content-seven'),
+        anchorDivs = $('div.stepwizard-row-stepseven div');
+      allWells.hide();
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this),
+          $divTgt = $(this).parent();
         console.log('test');
-      // console.log($target);
-      //console.log($item);
-      // console.log(anchorDiv);
-      // console.log($divTgt);
-      // console.log(anchorDivs);
-      anchorDivs.removeClass('step-active');
-      //console.log(anchorDivs);
-      if (!$item.hasClass('disabled')) {
-        console.log('disabled');
-        navListItems.removeClass('btn-success').addClass('btn-default');
-        $item.addClass('btn-success');
-        $divTgt.addClass('step-active');
-        allWells.hide();
-        console.log($target);
-        console.log(StepTwo);
-        StepTwo.show();
-        $target.show();
-        $target.find('input:eq(0)').focus();
-      }
+        //console.log($target);
+        console.log($item);
+        // console.log(anchorDiv);
+        // console.log($divTgt);
+        // console.log(anchorDivs);
+        anchorDivs.removeClass('step-active');
+        //console.log(anchorDivs);
+        if (!$item.hasClass('disabled')) {
+          console.log('disabled');
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          $item.addClass('btn-success');
+          $divTgt.addClass('step-active');
+          allWells.hide();
+          console.log(allWells);
+          console.log($target);
+         console.log(StepTwo);
+          StepTwo.show();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      });
+      $('div.setup-panel-stepseven div a').trigger('click');
     });
-    $('div.setup-panel div a.btn-success').trigger('click');
   }
 
   toggleStepWizrd() {
     $(document).ready(function () {
       var navListItems = $('div.setup-panel div a'),
       AddExp = $('#AddExp'),
-      StepTwo = $('#step-6'),
+     /* StepTwo = $('#step-6'),*/
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
        anchorDiv = $('div.setup-panel div'),
@@ -1993,8 +2015,8 @@ this.crtAssn.newBAActType='';
           $divTgt.addClass('step-active');
           allWells.hide();
           console.log($target);
-          console.log(StepTwo);
-          StepTwo.show();
+         /* console.log(StepTwo);
+          StepTwo.show(); */
           $target.show();
           $target.find('input:eq(0)').focus();
         }

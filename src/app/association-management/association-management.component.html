@@ -114,7 +114,7 @@
                       Details</span>
               </div>
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a (click)="toggleStepTest($event,'#step-6')" href="#step-6" type="button" class="btn btn-circle-o"></a><span>Units
+                  <a href="#step-6" type="button" class="btn btn-circle-o"></a><span>Units
                       Details</span>
               </div>
               <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
@@ -498,7 +498,7 @@
           <div class="panel panel-primary setup-content" id="step-6">
             <div class="row">
               <div class="stepwizard">
-                <div class="stepwizard-row setup-panel">
+                <div class="stepwizard-row-stepseven setup-panel-stepseven">
                   <div *ngFor='let item of BlockHrefDetail' style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12 step-active">
                       <a [href]="item['step']" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>{{item['blk']}}</span>
                   </div>
@@ -521,44 +521,44 @@
                   </div> -->
               </div>
               <form role="form" #createunitForm='ngForm'>
-                  <div *ngFor='let item of BlockHrefDetail' class="panel panel-primary setup-content" [id]="item['elementID']">            
-                      <div class="panel-body">
+                  <div *ngFor='let item of BlockHrefDetail' style="overflow-x: scroll;" class="panel panel-primary setup-content-seven" [id]="item['elementID']">            
+                      <div class="panel-body" *ngFor="let itm of item['UnitArray']">
                           <div class="form-group">
                               <label class="control-label">Unit No/Flat No<span class="red">*</span></label>
-                              <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="unitno" #unitnoControl="ngModel" class="form-control" placeholder="Unit No/Flat No" required />
+                              <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="itm['_unitno']" #unitnoControl="ngModel" class="form-control" placeholder="Unit No/Flat No" required />
                               <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
                           </div>
                           <div class="form-group">
                             <label class="control-label">Unit Type<span class="red">*</span></label>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                    data-toggle="dropdown">{{unitType}}
+                                    data-toggle="dropdown">{{(itm['_unitType']==''?'SelectUnitType':itm['_unitType'])}}
                                     <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                 <ul class="dropdown-menu fullw">
-                                    <li *ngFor="let unitTp of unitTypes" (click)="getUnitType(unitTp.name)">
-                                        <a>{{unitTp.name}}</a></li>
+                                    <li *ngFor="let unitTp of unitTypes" (click)="getUnitType(unitTp['name'],itm['_id'])">
+                                        <a>{{unitTp['name']}}</a></li>
                                 </ul>
                             </div>
                         </div>
                           <div class="form-group">
                               <label class="control-label">Unit Dimension<span class="red">*</span></label>
-                              <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
+                              <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="itm['_unitdimension']" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
                               <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched"> Valid Unit dimension is required</p>
                             </div>
                             <div class="form-group">
                               <label class="control-label">Unit Rate<span class="red">*</span></label>
-                              <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="unitrate" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
+                              <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="itm['_unitrate']" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
                               <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched"> Valid unit rate is required</p>
                           </div>
                           <div class="form-group">
                                   <label class="control-label">Calculation Type<span class="red">*</span></label>
                                   <div class="dropdown">
                                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                          data-toggle="dropdown">{{calculationtype}}
+                                          data-toggle="dropdown">{{(itm['_calculationtype']==''?'SelectCalculationType':itm['_calculationtype'])}}
                                           <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                       <ul class="dropdown-menu fullw">
-                                          <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType.name)">
-                                              <a>{{calculationType.name}}</a></li>
+                                          <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType['name'],itm['_id'])">
+                                              <a>{{calculationType['displayName']}}</a></li>
                                       </ul>
                                   </div>
                               </div>
@@ -566,28 +566,26 @@
                                   <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
                                   <div class="dropdown">
                                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                          data-toggle="dropdown">{{occupency}}
+                                          data-toggle="dropdown">{{(itm['_occupency']==''?'SelectOccupancy':itm['_occupency'])}}
                                           <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                       <ul class="dropdown-menu fullw">
-                                          <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency.name)">
-                                              <a>{{occupency.name}}</a></li>
+                                          <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency['name'],itm['_id'])">
+                                              <a>{{occupency['name']}}</a></li>
                                       </ul>
                                   </div>
                           </div>
                     <!-- OWNER INFORMATION -->
-                    <div *ngIf="ownerDetails">
-                      <div class="panel-body">
-            
+                    <div *ngIf="ownerDetails">            
                           <div class="form-group">
                               <label class="control-label">Owner First Name<span class="red">*</span></label>
-                              <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="ownerFirtname"
+                              <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
                                 #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
                                 pattern="[a-zA-Z]*" required/>
                                 <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
                             </div>
                           <div class="form-group">
                               <label class="control-label">Owner Last Name<span class="red">*</span></label>
-                              <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="ownerLastname"
+                              <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="itm['_ownerLastname']"
                                 #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname"
                                 pattern="[a-zA-Z]*" required/>
                                 <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is required</p>
@@ -595,29 +593,24 @@
                     
                           <div class="form-group">
                               <label class="control-label">Owner Mobile Number<span class="red">*</span></label>
-                              <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="ownerMobnumber"
+                              <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="itm['_ownerMobnumber']"
                                 #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number"
                                 minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                                 <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
                             </div>
-                      </div>
-                      <div class="panel-body">              
                           <div class="form-group">
                               <label class="control-label">Owner Email Id<span class="red">*</span></label>
-                              <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
+                              <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="itm['_ownerEmail']"
                                 #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
                                 pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
                                 <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
                             </div>
-                      </div>
                     </div>
                     <!-- TANENT INFORMATION -->
-                    <div *ngIf="tenantDetails">
-                        <div class="panel-body">
-                          
+                    <div *ngIf="tenantDetails">                          
                             <div class="form-group">
                                 <label class="control-label">Tenant First Name<span class="red">*</span></label>
-                                <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="tenantFirtname"
+                                <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="itm['_tenantFirtname']"
                                   #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
                                   pattern="[a-zA-Z]*" required/>
                                   <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
@@ -625,7 +618,7 @@
                             
                             <div class="form-group">
                                 <label class="control-label">Tenant Last Name<span class="red">*</span></label>
-                                <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="tenantLastname"
+                                <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="itm['_tenantLastname']"
                                   #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
                                   pattern="[a-zA-Z]*" required/>
                                   <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
@@ -633,22 +626,18 @@
                
                             <div class="form-group">
                                 <label class="control-label">Tenant Mobile Number<span class="red">*</span></label>
-                                <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="tenantMobnumber"
+                                <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="itm['_tenantMobnumber']"
                                   #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number"
                                   minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                                   <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
                               </div>
-                        </div>
-                        <div class="panel-body">
-            
                             <div class="form-group">
                                 <label class="control-label">Tenant Email Id<span class="red">*</span></label>
-                                <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="tenantEmail"
+                                <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="itm['_tenantEmail']"
                                   #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
                                   pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
                                   <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
                               </div>
-                        </div>
                       </div>
 
                       </div>
