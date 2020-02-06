@@ -17,6 +17,8 @@ export class GlobalServiceService {
    enableHomeView: boolean; 
    mrmroleId:any;
    mrmroleId1:any;
+   BlockHrefDetail:any[];
+   unitArrayList:any[];
    private subject1 = new Subject<any>();
    private subject2 = new Subject<any>();
    private subject3 = new Subject<any>();
@@ -31,6 +33,8 @@ export class GlobalServiceService {
    private setAssociationUnitList = new Subject<any>();
    private setAssociationList = new Subject<any>();
    private currentAssociationIdForLeftBarComponent = new Subject<any>();
+   private setCreateUnitWithAssociation = new Subject<any>();
+   
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
    IsUnitCountOne;
@@ -40,6 +44,7 @@ export class GlobalServiceService {
    HideUnitDropDwn:any;
    assnList:any;
    blockArrayLength:any;
+   progressbarValue:any;
 
   constructor() {
     this.currentAssociationName = '';
@@ -241,5 +246,12 @@ public setMrmRoleID(MrmRoleID){
   getSelectedAssociation(): Observable<any>{
     console.log("getSelectedAssociation");
     return this.selectedAssociation.asObservable();
+  }
+  SetCreateUnitWithAssociation(message1, message2) {
+    this.BlockHrefDetail = message1;
+    this.unitArrayList = message2;
+  }
+  GetCreateUnitWithAssociation(): Observable<any>{
+    return this.setCreateUnitWithAssociation.asObservable();
   }
 }

@@ -18,7 +18,7 @@ import { ViewUnitService } from '../../services/view-unit.service';
 import { AddBlockService } from '../../services/add-block.service';
 import {BlockArrayDetail} from '../../app/models/block-array-detail';
 import {UnitArray} from '../models/unit-array'
-
+import * as _ from 'underscore';
 
 
 declare var $: any;
@@ -265,6 +265,9 @@ export class AssociationManagementComponent implements OnInit {
   tenantDetails: boolean;
   ownerDetails: boolean;
   toggleunitvehicleinformation: boolean;
+  groupedArray:any;
+  BlockHrefDetail:any[];
+  enableCreateUnitWithAssociation:boolean;
 
   constructor(private modalService: BsModalService,
     public viewAssnService: ViewAssociationService,
@@ -276,11 +279,12 @@ export class AssociationManagementComponent implements OnInit {
     private dashboardservice:DashBoardService,
     private homeservice:HomeService,
     private addblockservice: AddBlockService) {
-    
+    this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
     this.blockArray=[];
     this.unitArray=[];
     this.unitArrayList=[];
+    this.BlockHrefDetail=[];
       this.latePymtChrgTypes = [
         { "name": "Monthly", "displayName": "Monthly" },
         { "name": "quaterly", "displayName": "Quaterly" },
@@ -1613,8 +1617,19 @@ this.crtAssn.newBAActType='';
       });
     }
     setTimeout(() => { 
+     this.groupedArray =  _.groupBy(this.unitArray,'_blockName');
+     console.log(Object.keys(this.groupedArray));
+     let groupedKeys = Object.keys(this.groupedArray);
+     groupedKeys.forEach((item,index)=>{
+      console.log(item);
+      console.log(index);
+      this.BlockHrefDetail.push({"Id":index+1,"blk":item,"step":"#step-"+(index+7).toString(),"elementID":"step-"+(index+7).toString()});
+     })
+     console.log(this.BlockHrefDetail);
       this.unitArrayList = this.unitArray;
       console.log(this.unitArrayList);
+      this.globalService.SetCreateUnitWithAssociation(this.BlockHrefDetail,this.unitArrayList)
+      this.enableCreateUnitWithAssociation=true;
      }, (2000 * (this.blockArray.length + 1)));
   }
   // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
@@ -1827,44 +1842,163 @@ this.crtAssn.newBAActType='';
           Object.assign({}, { class: 'gray modal-lg' }));
       }
 
+  // toggleStepWizrd() {
+  //   $(document).ready(function () {
+
+  //     var navListItems = $('div.setup-panel div a'),
+  //       AddExp = $('#AddExp'),
+  //       allWells = $('.setup-content'),
+  //       allNextBtn = $('.nextBtn'),
+  //       anchorDiv = $('div.setup-panel div'),
+  //       anchorDivs = $('div.stepwizard-row div');
+
+  //     allWells.hide();
+
+  //     navListItems.click(function (e) {
+  //       e.preventDefault();
+  //       var $target = $($(this).attr('href')),
+  //         $item = $(this),
+  //         $divTgt = $(this).parent();
+  //       console.log($target);
+  //       console.log($item);
+  //       // console.log(anchorDiv);
+  //       // console.log($divTgt);
+  //       // console.log(anchorDivs);
+  //       anchorDivs.removeClass('step-active');
+  //       $item.addClass('btn-success');
+  //         $divTgt.addClass('step-active');
+  //         allWells.hide();
+  //         // if (document.forms["EnrollAssnID"].checkValidity()) {
+  //           $target.show();
+  //         //}
+  //         $target.find('input:eq(0)').focus();
+  //       //console.log(anchorDivs);
+  //       if (!$item.hasClass('disabled')) {
+  //         console.log('disabled');
+  //         navListItems.removeClass('btn-success').addClass('btn-default');
+  //         navListItems.removeClass('active').addClass('disabled');
+  //       }
+  //     }); 
+
+  //     allNextBtn.click(function () {
+  //       var curStep = $(this).closest(".setup-content"),
+  //         curStepBtn = curStep.attr("id"),
+  //         nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+  //         curInputs = curStep.find("input[type='text']"),
+  //         curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+  //         isValid = true;
+
+  //       $(".form-group").removeClass("has-error");
+  //       for (var i = 0; i < curInputs.length; i++) {
+  //         if (!curInputs[i].validity.valid) {
+  //           isValid = false;
+  //           $(curInputs[i]).closest(".form-group").addClass("has-error");
+  //         }
+  //       }
+
+  //       if (isValid) {
+  //         nextStepWizard.trigger('click');
+  //         curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+  //       }
+  //     });
+  //     AddExp.click(function () {
+  //       console.log(this);
+  //       var curStep = $(this).closest(".setup-content"),
+  //         curStepBtn = curStep.attr("id"),
+  //         curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+  //         nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+  //         curInputs = curStep.find("input[type='text']"),
+  //       isValid = true;
+
+  //       $(".form-group").removeClass("has-error");
+  //       for (var i = 0; i < curInputs.length; i++) {
+  //         if (!curInputs[i].validity.valid) {
+  //           isValid = false;
+  //           $(curInputs[i]).closest(".form-group").addClass("has-error");
+  //         }
+  //       }
+
+  //       if (isValid) {
+  //         nextStepWizard.trigger('click');
+  //         curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+  //       }
+  //     })
+
+  //     $('div.setup-panel div a.btn-success').trigger('click');
+  //   });
+  // }
+  toggleStepTest(e, step) {
+    e.preventDefault();
+    var navListItems = $('div.setup-panel div a'),
+    StepTwo = $('#step-6'),
+      allWells = $('.setup-content'),
+     anchorDivs = $('div.stepwizard-row div');
+    allWells.hide();
+    navListItems.click(function (e) {
+      e.preventDefault();
+      var $target = $($(this).attr('href')),
+        $item = $(this), 
+        $divTgt = $(this).parent();
+        console.log('test');
+      // console.log($target);
+      //console.log($item);
+      // console.log(anchorDiv);
+      // console.log($divTgt);
+      // console.log(anchorDivs);
+      anchorDivs.removeClass('step-active');
+      //console.log(anchorDivs);
+      if (!$item.hasClass('disabled')) {
+        console.log('disabled');
+        navListItems.removeClass('btn-success').addClass('btn-default');
+        $item.addClass('btn-success');
+        $divTgt.addClass('step-active');
+        allWells.hide();
+        console.log($target);
+        console.log(StepTwo);
+        StepTwo.show();
+        $target.show();
+        $target.find('input:eq(0)').focus();
+      }
+    });
+    $('div.setup-panel div a.btn-success').trigger('click');
+  }
+
   toggleStepWizrd() {
     $(document).ready(function () {
-
       var navListItems = $('div.setup-panel div a'),
-        AddExp = $('#AddExp'),
+      AddExp = $('#AddExp'),
+      StepTwo = $('#step-6'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-        anchorDiv = $('div.setup-panel div'),
-        anchorDivs = $('div.stepwizard-row div');
-
+       anchorDiv = $('div.setup-panel div'),
+       anchorDivs = $('div.stepwizard-row div');
       allWells.hide();
-
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
-          $item = $(this),
+          $item = $(this), 
           $divTgt = $(this).parent();
-        console.log($target);
-        console.log($item);
+          console.log('test');
+        // console.log($target);
+        //console.log($item);
         // console.log(anchorDiv);
         // console.log($divTgt);
         // console.log(anchorDivs);
         anchorDivs.removeClass('step-active');
-        $item.addClass('btn-success');
-          $divTgt.addClass('step-active');
-          allWells.hide();
-          // if (document.forms["EnrollAssnID"].checkValidity()) {
-            $target.show();
-          //}
-          $target.find('input:eq(0)').focus();
         //console.log(anchorDivs);
         if (!$item.hasClass('disabled')) {
           console.log('disabled');
           navListItems.removeClass('btn-success').addClass('btn-default');
-          navListItems.removeClass('active').addClass('disabled');
+          $item.addClass('btn-success');
+          $divTgt.addClass('step-active');
+          allWells.hide();
+          console.log($target);
+          console.log(StepTwo);
+          StepTwo.show();
+          $target.show();
+          $target.find('input:eq(0)').focus();
         }
-      }); 
-
+      });
       allNextBtn.click(function () {
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
@@ -1872,7 +2006,6 @@ this.crtAssn.newBAActType='';
           curInputs = curStep.find("input[type='text']"),
           curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
-
         $(".form-group").removeClass("has-error");
         for (var i = 0; i < curInputs.length; i++) {
           if (!curInputs[i].validity.valid) {
@@ -1880,9 +2013,8 @@ this.crtAssn.newBAActType='';
             $(curInputs[i]).closest(".form-group").addClass("has-error");
           }
         }
-
         if (isValid) {
-          nextStepWizard.trigger('click');
+          nextStepWizard.removeAttr('disabled').trigger('click');
           curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
         }
       });
@@ -1890,25 +2022,9 @@ this.crtAssn.newBAActType='';
         console.log(this);
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
-          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
-          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text']"),
-        isValid = true;
-
-        $(".form-group").removeClass("has-error");
-        for (var i = 0; i < curInputs.length; i++) {
-          if (!curInputs[i].validity.valid) {
-            isValid = false;
-            $(curInputs[i]).closest(".form-group").addClass("has-error");
-          }
-        }
-
-        if (isValid) {
-          nextStepWizard.trigger('click');
-          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
-        }
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]')
+        curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
       })
-
       $('div.setup-panel div a.btn-success').trigger('click');
     });
   }

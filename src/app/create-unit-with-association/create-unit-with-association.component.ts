@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import {UnitArray} from '../models/unit-array';
 import { ViewUnitService } from '../../services/view-unit.service';
 import { GlobalServiceService } from '../global-service.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+declare var $: any;
+import {Subscription} from 'rxjs'
 
 
 @Component({
@@ -21,8 +25,18 @@ export class CreateUnitWithAssociationComponent implements OnInit {
   ownerDetails: boolean;
   toggleunitvehicleinformation: boolean;
   @Input() unitArrayList:any[];
+  @Input() BlockHrefDetail:any[];
+  createUnitWithAssociation:Subscription;
 
-  constructor(public viewUniService: ViewUnitService, public globalService: GlobalServiceService,) {
+  constructor(public viewUniService: ViewUnitService,
+    public globalService: GlobalServiceService,
+    private router: Router) {
+      // this.createUnitWithAssociation=this.globalService.GetCreateUnitWithAssociation()
+      // .subscribe(data=>{
+      //   console.log(data);
+      // })
+      console.log(this.globalService.BlockHrefDetail);
+      console.log(this.globalService.unitArrayList);
     this.unitTypes = [
       { "name": "Flat-1BHK" },
       { "name": "Flat-2BHK" },
@@ -46,6 +60,67 @@ export class CreateUnitWithAssociationComponent implements OnInit {
 
   ngOnInit() {
   }
+  ngAfterViewInit(){
+      $(document).ready(function () {
+        var navListItems = $('div.setup-panel div a'),
+        AddExp = $('#AddExp'),
+          allWells = $('.setup-content'),
+          allNextBtn = $('.nextBtn'),
+         anchorDiv = $('div.setup-panel div'),
+         anchorDivs = $('div.stepwizard-row div');
+        allWells.hide();
+        navListItems.click(function (e) {
+          e.preventDefault();
+          var $target = $($(this).attr('href')),
+            $item = $(this), 
+            $divTgt = $(this).parent();
+            console.log('test');
+          // console.log($target);
+          // console.log($item);
+          // console.log(anchorDiv);
+          // console.log($divTgt);
+          // console.log(anchorDivs);
+          anchorDivs.removeClass('step-active');
+          //console.log(anchorDivs);
+          if (!$item.hasClass('disabled')) {
+            //console.log('disabled');
+            navListItems.removeClass('btn-success').addClass('btn-default');
+            $item.addClass('btn-success');
+            $divTgt.addClass('step-active');
+            allWells.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+          }
+        });
+        allNextBtn.click(function () {
+          var curStep = $(this).closest(".setup-content"),
+            curStepBtn = curStep.attr("id"),
+            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            curInputs = curStep.find("input[type='text']"),
+            curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+            isValid = true;
+          $(".form-group").removeClass("has-error");
+          for (var i = 0; i < curInputs.length; i++) {
+            if (!curInputs[i].validity.valid) {
+              isValid = false;
+              $(curInputs[i]).closest(".form-group").addClass("has-error");
+            }
+          }
+          if (isValid) {
+            nextStepWizard.removeAttr('disabled').trigger('click');
+            curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+          }
+        });
+        AddExp.click(function () {
+          console.log(this);
+          var curStep = $(this).closest(".setup-content"),
+            curStepBtn = curStep.attr("id"),
+            curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]')
+          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        })
+        $('div.setup-panel div a.btn-success').trigger('click');
+      });
+  }
   getUnitType(unitTpname,_id) {
     console.log(unitTpname);
     this.unitType = unitTpname;
@@ -55,6 +130,12 @@ export class CreateUnitWithAssociationComponent implements OnInit {
       }
     }
     console.log(this.unitArrayList);
+  }
+  getID(Id) {
+    console.log(Id);
+  }
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelunit']);
   }
   getCalculationTypes(calculationTypename,_id) {
     ////console.log(calculationTypename);
@@ -179,7 +260,16 @@ export class CreateUnitWithAssociationComponent implements OnInit {
         },600 * index)
       })(index)
     })
+    setTimeout(()=>{
+      Swal.fire({
+        title: 'Unit Created Successfuly',
+        type: 'success',
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        cancelButtonText: "View Unit"
+      })
+    },(600 * (this.unitArrayList.length + 1)));
+
   }
-  
 
 }

@@ -95,26 +95,26 @@
             width: 2000px;">
               <div class="stepwizard-row setup-panel" style="display:flex">
                 <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                    <a class="active" href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Association
+                    <a href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Association
                       Details</span>
                 </div>
                 <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                    <a class="disabled" href="#step-2" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Pan & Registration
+                    <a href="#step-2" type="button" class="btn btn-circle-o"></a><span>Pan & Registration
                       Details</span>
                 </div>
                 <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                    <a class="disabled" href="#step-3" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Block & Unit
+                    <a href="#step-3" type="button" class="btn btn-circle-o"></a><span>Block & Unit
                       Details</span>
                 </div>
                 <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                    <a class="disabled" href="#step-4" type="button" class="btn btn-circle-o" disabled="disabled"></a><span>Other Amenities</span>
+                    <a href="#step-4" type="button" class="btn btn-circle-o"></a><span>Other Amenities</span>
                 </div>
                 <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12 step-active">
-                  <a class="disabled" href="#step-5" type="button" class="btn btn-circle-o"></a><span>Blocks
+                  <a href="#step-5" type="button" class="btn btn-circle-o"></a><span>Blocks
                       Details</span>
               </div>
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a class="disabled" href="#step-6" type="button" class="btn btn-circle-o"></a><span>Units
+                  <a (click)="toggleStepTest($event,'#step-6')" href="#step-6" type="button" class="btn btn-circle-o"></a><span>Units
                       Details</span>
               </div>
               <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
@@ -334,14 +334,14 @@
               <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Next</button>
               <button class="btn btn-primary-purple pull-right" type="reset">Reset</button>
             </div>
-            <div class="panel panel-primary setup-content" id="step-5">
+            <div class="panel panel-primary setup-content" id="step-5" style="overflow-x: scroll;">
               <!-- <div class="panel-heading">
                <h3 class="panel-title">Association Details</h3>
           </div> -->
   
-              <div class="panel-body">
+              <div class="panel-body" style="display: flex;flex-direction: column;">
                 <div *ngFor='let item of blockArray'> 
-                  <div class="col-sm-12">
+                  <div class="col-sm-12" style="display: flex;padding: 10px 20px;margin-bottom: 20px;">
                   <div class="form-group">
                     <label id=label1>Block Name <span class="red">*</span></label>
                     <input type="text" name="blkNme" id="input1" autocomplete='blkNme' [(ngModel)]="item['blkNme']"
@@ -392,7 +392,7 @@
                     </p>
                   </div>
                   <div class="form-group">
-                    <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate']" #rateControl="ngModel"
+                    <h5 style="margin-top: -27px;"><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate']" #rateControl="ngModel"
                         (change)="checkRate(item['rate'],item['Id'])" value="flatRatevalue" (click)="checking(item['rate'])" required> Flat Rate Value</h5>
                     <div *ngIf="item['flatRate'] == 'flatRatevalue'">
                       <label>Flat Rate Value <span class="red">*</span></label>
@@ -405,7 +405,7 @@
                   </div>
                   
                   <div class="form-group">
-                    <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate1']" #rateControl="ngModel"
+                    <h5 style="margin-top: -27px;"><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate1']" #rateControl="ngModel"
                         (change)="checkRate1(item['rate1'],item['Id'])" value="dimension" (click)="checking1(item['rate1'])" required> Dimension Based</h5>
                     <div *ngIf="item['dimension'] == 'dimension'">
                       <label>Maintenance Value<span class="red">*</span></label>
@@ -496,7 +496,170 @@
           </div>
   
           <div class="panel panel-primary setup-content" id="step-6">
-            <app-create-unit-with-association [unitArrayList]='unitArrayList'></app-create-unit-with-association>
+            <div class="row">
+              <div class="stepwizard">
+                <div class="stepwizard-row setup-panel">
+                  <div *ngFor='let item of BlockHrefDetail' style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12 step-active">
+                      <a [href]="item['step']" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>{{item['blk']}}</span>
+                  </div>
+              </div>
+                  <!-- <div class="stepwizard-row setup-panel">
+                      <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12 step-active">
+                          <a href="#step-7" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Unit
+                              Information</span>
+                      </div>
+                      <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
+                          <a href="#step-8" type="button" class="btn btn-circle-o"></a><span>Unit
+                              Owner/Tenent Information</span>
+                      </div>
+                      <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
+                          <a href="#step-9" type="button" class="btn btn-circle-o"></a><span>Unit
+                              Vehicle
+                              Information</span>
+                      </div>
+            
+                  </div> -->
+              </div>
+              <form role="form" #createunitForm='ngForm'>
+                  <div *ngFor='let item of BlockHrefDetail' class="panel panel-primary setup-content" [id]="item['elementID']">            
+                      <div class="panel-body">
+                          <div class="form-group">
+                              <label class="control-label">Unit No/Flat No<span class="red">*</span></label>
+                              <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="unitno" #unitnoControl="ngModel" class="form-control" placeholder="Unit No/Flat No" required />
+                              <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">Unit Type<span class="red">*</span></label>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                    data-toggle="dropdown">{{unitType}}
+                                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                <ul class="dropdown-menu fullw">
+                                    <li *ngFor="let unitTp of unitTypes" (click)="getUnitType(unitTp.name)">
+                                        <a>{{unitTp.name}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                          <div class="form-group">
+                              <label class="control-label">Unit Dimension<span class="red">*</span></label>
+                              <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
+                              <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched"> Valid Unit dimension is required</p>
+                            </div>
+                            <div class="form-group">
+                              <label class="control-label">Unit Rate<span class="red">*</span></label>
+                              <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="unitrate" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
+                              <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched"> Valid unit rate is required</p>
+                          </div>
+                          <div class="form-group">
+                                  <label class="control-label">Calculation Type<span class="red">*</span></label>
+                                  <div class="dropdown">
+                                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                          data-toggle="dropdown">{{calculationtype}}
+                                          <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                      <ul class="dropdown-menu fullw">
+                                          <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType.name)">
+                                              <a>{{calculationType.name}}</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          <div class="form-group">
+                                  <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
+                                  <div class="dropdown">
+                                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                          data-toggle="dropdown">{{occupency}}
+                                          <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                      <ul class="dropdown-menu fullw">
+                                          <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency.name)">
+                                              <a>{{occupency.name}}</a></li>
+                                      </ul>
+                                  </div>
+                          </div>
+                    <!-- OWNER INFORMATION -->
+                    <div *ngIf="ownerDetails">
+                      <div class="panel-body">
+            
+                          <div class="form-group">
+                              <label class="control-label">Owner First Name<span class="red">*</span></label>
+                              <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="ownerFirtname"
+                                #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
+                                pattern="[a-zA-Z]*" required/>
+                                <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
+                            </div>
+                          <div class="form-group">
+                              <label class="control-label">Owner Last Name<span class="red">*</span></label>
+                              <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="ownerLastname"
+                                #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname"
+                                pattern="[a-zA-Z]*" required/>
+                                <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is required</p>
+                            </div>
+                    
+                          <div class="form-group">
+                              <label class="control-label">Owner Mobile Number<span class="red">*</span></label>
+                              <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="ownerMobnumber"
+                                #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number"
+                                minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
+                                <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
+                            </div>
+                      </div>
+                      <div class="panel-body">              
+                          <div class="form-group">
+                              <label class="control-label">Owner Email Id<span class="red">*</span></label>
+                              <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
+                                #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
+                                pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
+                                <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
+                            </div>
+                      </div>
+                    </div>
+                    <!-- TANENT INFORMATION -->
+                    <div *ngIf="tenantDetails">
+                        <div class="panel-body">
+                          
+                            <div class="form-group">
+                                <label class="control-label">Tenant First Name<span class="red">*</span></label>
+                                <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="tenantFirtname"
+                                  #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
+                                  pattern="[a-zA-Z]*" required/>
+                                  <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
+                              </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label">Tenant Last Name<span class="red">*</span></label>
+                                <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="tenantLastname"
+                                  #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
+                                  pattern="[a-zA-Z]*" required/>
+                                  <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
+                              </div>
+               
+                            <div class="form-group">
+                                <label class="control-label">Tenant Mobile Number<span class="red">*</span></label>
+                                <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="tenantMobnumber"
+                                  #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number"
+                                  minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
+                                  <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
+                              </div>
+                        </div>
+                        <div class="panel-body">
+            
+                            <div class="form-group">
+                                <label class="control-label">Tenant Email Id<span class="red">*</span></label>
+                                <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="tenantEmail"
+                                  #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
+                                  pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
+                                  <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
+                              </div>
+                        </div>
+                      </div>
+
+                      </div>
+                  </div>
+            
+                      <div class="col-sm-12 pull-right">
+                          <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
+                          <button class="btn btn-primary-purple nextBtn" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
+                      </div>            
+              </form>
+            </div>
           </div>
   
           <!-- <div class="panel panel-primary setup-content" id="step-7">
