@@ -76,22 +76,25 @@
                         </ul>
               </div> -->
 
-              <button *ngIf="toggle == 'toggleNo'" class="btn-primary-purple" (click)="generateInvoice()"><i
-                  class="fa fa-file-text" aria-hidden="true"></i> Generate invoice</button>
+              
             </div>
 
 
           </div>
-          <div class="switch" *ngIf='addexpenseservice.enableExpenseListView'>
-            <ul class="nav1 nav-pills1">
-              <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All')">All</a>
-              </li>
-              <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a
-                  (click)="GetexpenseListByInvoiceID(true,'toggleYes')">Invoiced</a></li>
-              <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a
-                  (click)="GetexpenseListByInvoiceID(false,'toggleNo')">UnInvoiced</a></li>
-            </ul>
-          </div>
+          <div style="display: flex;flex-direction:column">
+            <div class="switch" *ngIf='addexpenseservice.enableExpenseListView'>
+                <ul class="nav1 nav-pills1">
+                  <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All')">All</a>
+                  </li>
+                  <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a
+                      (click)="GetexpenseListByInvoiceID(true,'toggleYes')">Invoiced</a></li>
+                  <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a
+                      (click)="GetexpenseListByInvoiceID(false,'toggleNo')">UnInvoiced</a></li>
+                </ul>
+              </div>
+            <button *ngIf="toggle == 'toggleNo'" class="btn-primary-purple" (click)="generateInvoice()"><i
+              class="fa fa-file-text" aria-hidden="true"></i> Generate invoice</button> 
+        </div>
 
         </div>
 
@@ -191,6 +194,11 @@
                       [(ngModel)]='item.checkedForGenerateInvoice'
                       (change)="getSelectedInv(item['exid'],item.checkedForGenerateInvoice)" />
                   </td>
+                </ng-container>
+              </tr>
+              <tr *ngIf="expenseList.length == 0">
+                <ng-container>
+                  <td colspan="10" align="center">No Data Found</td>
                 </ng-container>
               </tr>
             </tbody>

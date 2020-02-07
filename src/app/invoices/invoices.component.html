@@ -138,6 +138,11 @@
                                     </td>
                                 </ng-container>
                             </tr>
+                            <tr *ngIf="PaidUnpaidinvoiceLists.length == 0">
+                                <ng-container>
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                            </tr>
                         </tbody>
                         <tfoot>
                             <tr *ngIf="toggle == 'toggleYes'">

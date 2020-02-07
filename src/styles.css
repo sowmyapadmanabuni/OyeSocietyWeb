@@ -4,15 +4,23 @@
 .nm{margin:0px !important}
 .excel1{width: 100px;}
 .m-t-30{margin: 20px 0px;}
-.excel{width: 34px;}
+.excel{ text-align: right;
+        font-weight: 600;
+        font-size: 13px;
+    }
 .enr-bt{display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}
 .title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}
 .wel,#assname {font-size: 15px;margin: 0px;display: inline-block;font-weight: 600;padding: 8px 0px;}
 .zsiq_chatbtn {background-color: #919191 !important;}
+.purple, .black {
+    color: #5a51aa !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
+}
 a,a:hover,li a:hover{cursor:pointer;text-decoration: none}
-.purple,.black{color:#5a51aa !important;font-size: 18px !important;font-weight: 500 !important;}
-.np{padding:0px !important}
+.title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}.np{padding:0px !important}
 .orange{color: #5a51aa;}
 .foot-bg{background: wheat}
 tr>td:first-child{color: #5a51aa;font-weight: 500;cursor: pointer;}
@@ -31,7 +39,7 @@ a{color: #5a51aa !important;}
 .btn-warning1{background: #fff !important;color: #424040 !important;border-color: #9e9c9c !important;border-radius:20px !important;margin:6px 2px;}
 .fa-eye,.fa-pencil,.fa-trash, .fa-check-circle-o,.fa-circle-thin{color: #f5a953;    font-size: 18px;}
 .btn-primary{border-right: 2px solid #d0cccc !important; color: #0a0a0a !important;background-color: #fff !important;border: none !important;padding: 7px 20px;box-shadow: none !important;font-weight: 500 !important;}
-.btn-primary-purple{border-right: 2px solid #5a51aa !important; color: #fff !important;background-color: #5a51aa !important;border: none !important;padding: 7px 20px;box-shadow: none !important;font-weight: 500 !important;margin-right: 7px;border-radius: 4px;}
+.btn-primary-purple{border-right: 2px solid #5a51aa !important; color: #fff !important;background-color: #5a51aa !important;border: none !important;padding: 7px 20px;box-shadow: none !important;font-weight: 500 !important;margin-right: 0px;border-radius: 4px;}
 .btn-warning.active{color: #5a51aa;background-color: #fff !important;background-image: none;border-color: #fff;}
 .fa-heart-o{color: #5a51aa;font-size: 22px;font-weight: 300;}
 #example_wrapper{width:100% !important;}

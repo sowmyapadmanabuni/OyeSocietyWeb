@@ -6,113 +6,109 @@
 <!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
 <!-- Toolbar -->
 <div *ngIf='isAuthenticated()'>
-<!-- <div> -->
-<!-- Nav Bar start  -->
-<div class="row" style="padding:10px;background: #fafafa;">
-   <div class="col-sm-6">
-       <div class="col-sm-12" style="display: flex;">
-          <p class="wel" style="width:auto !important;">Welcome to&nbsp;</p>
-          <div id="dro-switch" *ngIf="globalService.getUnitDropDownHiddenByDefault() == 'true'">
-            <span *ngIf='globalService.NotMoreThanOneUnit' class="wel">&nbsp;&nbsp;Unit: {{globalService.getCurrentUnitName()}}</span>
-              <div *ngIf='globalService.HideUnitDropDwn' class="dropdown search-dropd sha1" style="margin-top:0px">
-                  <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm wel" type="button"
-                          data-toggle="dropdown">{{globalService.getCurrentUnitName()}}
-                          <span class="caret"></span></button>
-                  <ul class="dropdown-menu fullw">
-                          <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
-                  </ul>
-              </div>
-              <span *ngIf='globalService.MoreThanOneUnit' (click)='toggleUnitDropDwn()' class="switch">switch</span>
-          </div>
-          <p class="wel" style="width:auto !important;">&nbsp;&nbsp;in&nbsp;</p>
-          <div id="dro-switch">
-              <span id="assname" *ngIf="hideTitle">&nbsp;{{globalService.getCurrentAssociationName()}}</span>
-              <div class="dropdown search-dropd sha" style="margin-top:0px" *ngIf="globalService.getAssnDropDownHiddenByDefaultValue() == 'true'">
-                  <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm br overh" type="button"
-                          data-toggle="dropdown">{{globalService.getCurrentAssociationName()}}
-                          <span class="caret"></span></button>
-                  <ul class="dropdown-menu fullw fdrop">
-                          <li (click)="loadAssociation(association['asAsnName'],'')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
-                  </ul>
-              </div>
-             <span (click)='toggleAsnDropDwn()' class="switch">switch</span>
-          </div>
-
-       </div>
-       <div class="col-sm-12">
-          <div class="powered">
-              <span class="smalltext">Powered <br>by</span>  
-              <a (click)='toggleDashboard()' style="padding: 1px 6px;"><img src="../assets/OyeSociety.png" class="img-responsive"></a>
-          </div>
-       </div>
-
-
-          
-  </div>
-   <div class="col-sm-6">
-     <div class="topnav" id="myTopnav">
-      <div>
-          <a routerLink="home" class="active"></a>
-          <a routerLink="hiring" class="hire">We are hiring</a>
-          <div class="dropdown">
-            <button class="dropbtn">Our Brands
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="http://dev.oyehomes.in/">OyeHomes</a>
-              <a href="#">OyeOOH</a>
-              <a href="#">OyeSmile</a>
-              <a href="http://oyewallet.com/">OyeWallet</a>
+  <!-- <div> -->
+  <!-- Nav Bar start  -->
+  <div class="row" style="padding:10px;background: #fafafa;display: flex;align-items: center;">
+     <div class="col-sm-3">
+         <div class="col-sm-12">
+            <div class="powered">
+                <span class="smalltext">Powered <br>by</span>  
+                <a (click)='toggleDashboard()' style="padding: 1px 6px;"><img src="../assets/OyeSociety.png" class="img-responsive"></a>
             </div>
-          </div>
-          <a routerLink="clients">Clients</a> 
-          <a routerLink="location">Locations</a>
-          <a routerLink="blogs">Blogs</a>
-          <a routerLink="testimonials">Testimonials</a>
-          <a routerLink="about">About Us</a>
-          <a id="flip"><i class="fa fa-bell" aria-hidden="true"></i>
-          </a>
-          <div id="panel">
-            <p class="not-head-bg">{{notificationList.length}} Notifications</p>
-            <div class="not-cont">
-              <ng-container *ngFor='let item of notificationList'>
-                <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
-                  <p class="not-name">{{item['asAsnName']}}</p>
-                  <span class="not-desc">{{item['ntDesc']}}</span>
-                  <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
-                    <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
-                  </div>
-                  <div *ngIf="toggleName == item['ntid'] && ntType=='gate_app'" style="display: flex;justify-content: space-between;">
-                    <button (click)="EntryAprove('EntryApproved',item['sbMemID'])" class="btn-primary-purple">Allow</button><button (click)="EntryRjected('ExitApproved',item['sbMemID'])" class="btn-primary-purple">Deny</button>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-          <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
+         </div>         
+    </div>
+    <div class="col-sm-8">
+        <div class="col-sm-12" style="display: flex;">
+           <p class="wel" style="width:auto !important;">Welcome to&nbsp;</p>
+           <div id="dro-switch" *ngIf="globalService.getUnitDropDownHiddenByDefault() == 'true'">
+             <span *ngIf='globalService.NotMoreThanOneUnit' class="wel">&nbsp;&nbsp;Unit: {{globalService.getCurrentUnitName()}}</span>
+               <div *ngIf='globalService.HideUnitDropDwn' class="dropdown search-dropd sha1" style="margin-top:0px">
+                   <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm wel" type="button"
+                           data-toggle="dropdown">{{globalService.getCurrentUnitName()}}
+                           <span class="caret"></span></button>
+                   <ul class="dropdown-menu fullw">
+                           <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
+                   </ul>
+               </div>
+               <span *ngIf='globalService.MoreThanOneUnit' (click)='toggleUnitDropDwn()' class="switch">switch</span>
+           </div>
+           <p class="wel" style="width:auto !important;">&nbsp;&nbsp;in&nbsp;</p>
+           <div id="dro-switch">
+               <span id="assname" *ngIf="hideTitle">&nbsp;{{globalService.getCurrentAssociationName()}}</span>
+               <div class="dropdown search-dropd sha" style="margin-top:0px" *ngIf="globalService.getAssnDropDownHiddenByDefaultValue() == 'true'">
+                   <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm br overh" type="button"
+                           data-toggle="dropdown">{{globalService.getCurrentAssociationName()}}
+                           <span class="caret"></span></button>
+                   <ul class="dropdown-menu fullw fdrop">
+                           <li (click)="loadAssociation(association['asAsnName'],'')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
+                   </ul>
+               </div>
+              <span (click)='toggleAsnDropDwn()' class="switch">switch</span>
+           </div>
         </div>
+               
    </div>
+  
+     <div class="col-sm-1">
+        <a id="flip"><i tooltip="Notifications" class="fa fa-bell" aria-hidden="true"></i>
+        </a>
+        <div id="panel">
+          <p class="not-head-bg">{{notificationList.length}} Notifications</p>
+          <div class="not-cont">
+            <ng-container *ngFor='let item of notificationList'>
+              <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
+                <p class="not-name">{{item['asAsnName']}}</p>
+                <span class="not-desc">{{item['ntDesc']}}</span>
+                <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
+                  <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
+                </div>
+                <div *ngIf="toggleName == item['ntid'] && ntType=='gate_app'" style="display: flex;justify-content: space-between;">
+                  <button (click)="EntryAprove('EntryApproved',item['sbMemID'])" class="btn-primary-purple">Allow</button><button (click)="EntryRjected('ExitApproved',item['sbMemID'])" class="btn-primary-purple">Deny</button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+       <!-- <div class="topnav" id="myTopnav">
+        <div>
+            <a routerLink="home" class="active"></a>
+            <a routerLink="hiring" class="hire">We are hiring</a>
+            <div class="dropdown">
+              <button class="dropbtn">Our Brands
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <a href="http://dev.oyehomes.in/">OyeHomes</a>
+                <a href="#">OyeOOH</a>
+                <a href="#">OyeSmile</a>
+                <a href="http://oyewallet.com/">OyeWallet</a>
+              </div>
+            </div>
+            <a routerLink="clients">Clients</a> 
+            <a routerLink="location">Locations</a>
+            <a routerLink="blogs">Blogs</a>
+            <a routerLink="testimonials">Testimonials</a>
+            <a routerLink="about">About Us</a>
+            
+            <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
+          </div>
+     </div> -->
+    </div>
+  
   </div>
-
-
-</div>
-<!-- Nav Bar End -->
-
-
-<!--heading start-->
-
-<!--heading end-->
-<router-outlet></router-outlet>
-<!-- <app-chat></app-chat> -->
-<!-- Footer -->
-<footer>
-  <app-footer></app-footer>
-</footer>
-
-</div>
-<div *ngIf='!isAuthenticated()'>
-  <app-login></app-login>
-</div>
+  <!-- Nav Bar End -->
+  
+  <!--heading start-->
+  <!--heading end-->
+  <router-outlet></router-outlet>
+  <!-- <app-chat></app-chat> -->
+  <!-- Footer -->
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+  </div>
+  <div *ngIf='!isAuthenticated()'>
+    <app-login></app-login>
+  </div>

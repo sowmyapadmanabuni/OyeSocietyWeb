@@ -89,6 +89,11 @@
                                             class="fa fa-eye" tooltip="view Receipt"></i> </td>
                                 </ng-container>
                             </tr>
+                            <tr *ngIf="viewPayments.length == 0">
+                                <ng-container>
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                            </tr>
                         </tbody>
                         <tfoot>
                             <tr>
