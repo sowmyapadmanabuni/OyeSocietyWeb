@@ -83,6 +83,6 @@ div .stepwizard-step li{
 .container-outer { overflow: scroll; width: 500px; height: 210px; }
 .container-inner { width: 10000px; }
 
-.ng-star-inserted{
+.ng-star-inserted1{
     display: flex;
 }

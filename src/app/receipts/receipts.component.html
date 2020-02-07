@@ -34,8 +34,14 @@
 
 
                 <div *ngIf='generatereceiptservice.enableReceiptListView'>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="search name">
+                    <!-- <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+                        placeholder="search name"> -->
+                        <div class="enroll" style="background: #f8f8f8;padding: 20px 10px;">
+                            <div class="sea"><input type="text" class="form-control" [(ngModel)]="searchTxt" id="mySearch" name="searchTxt" placeholder="Search Name">
+                            </div>
+                            <div class="del-date cal"><input type="text" name="ReceiptStartDate" #InvoiceStartDateControl='ngModel' [(ngModel)]="ReceiptStartDate" placeholder="From Date" class="date" bsDatepicker></div>
+                            <div class="del-date cal"><input type="text" (change)='getReceiptListByDateRange()' name="ReceiptEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="ReceiptEndDate" placeholder="To Date" class="date" bsDatepicker></div>
+                        </div>
                 </div>
                 <div class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
 

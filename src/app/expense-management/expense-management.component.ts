@@ -115,6 +115,8 @@ export class ExpenseManagementComponent implements OnInit {
   DemandDraftDate:any;
   minDemandDraftDate:any;
   currentAssociationIdForExpense: Subscription;
+  ExpenseStartDate:any;
+  ExpenseEndDate:any;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -337,6 +339,16 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log(this.viewexpensesByBlockId);
     this.getAllUnitDetailsByBlockID();
   }
+  getExpenseListByDateRange(ExpenseStartDate) {
+    this.expenseList = this._viewexpensesByBlockId;
+    console.log(this.ExpenseStartDate);
+    console.log(this.ExpenseEndDate);
+    console.log(ExpenseStartDate);
+    this.expenseList = this.expenseList.filter(item=>{
+      console.log(item['exdUpdated']);
+      return 
+    })
+  }
 
   setOrder(value: string) {
     if (this.order === value) {
@@ -455,7 +467,7 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log('repexpense1-', repexpense1);
     //console.log('idx-', idx);
   }
-  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exDate, blBlockID) {
+  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exDate, blBlockID,unUniIden) {
     //console.log('purchaseOrders',this.purchaseOrders);
     //console.log('InvoiceNumber',inNumber);
     // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
@@ -470,13 +482,14 @@ export class ExpenseManagementComponent implements OnInit {
     this.editexpensedata.EXHead = exHead;
     this.editexpensedata.EXType = exType;
     this.editexpensedata.PMID = pmid;
-    this.editexpensedata.inNumber = inNumber;
+    this.editexpensedata.inNumber = exid.toString();
     this.editexpensedata.POID = poid;
     this.editexpensedata.EXPyCopy = exPyCopy;
     this.editexpensedata.EXRecurr = exRecurr;
     this.editexpensedata.EXDate = formatDate(exDate, 'dd/MM/yyyy', 'en');
     this.editexpensedata.BLBlockID = blBlockID;
-    //console.log(this.editexpensedata);
+    this.editexpensedata.unUniIden=unUniIden;
+    console.log(this.editexpensedata);
 
     this.modalRef = this.modalService.show(editexpensetemplate,
       Object.assign({}, { class: 'gray modal-lg' }));
@@ -832,12 +845,12 @@ export class ExpenseManagementComponent implements OnInit {
     this.viewexpenseservice.getExpenseListByDatesAndID(expenseList)
     .subscribe(data=>{
       this.expenseList=[];
-      //console.log(data['data']['expense']);
+      console.log(data['data']['expense']);
       this._viewexpensesByBlockId=data['data']['expense'];
       data['data']['expense'].forEach(item => {
         this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated']));
       })
-      //console.log(this.expenseList);
+      console.log(this.expenseList);
       this._viewexpensesByBlockId=this.expenseList;
       //console.log(this._viewexpensesByBlockId);
     },

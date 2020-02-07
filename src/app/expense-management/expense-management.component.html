@@ -116,8 +116,14 @@
         <!-- toggler switch -->
         <div *ngIf='addexpenseservice.enableExpenseListView'>
           <!-- <label>Search</label> -->
-          <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-            placeholder="Search by Expense Head, Applicability, Unit Name">
+          <!-- <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+            placeholder="Search by Expense Head, Applicability, Unit Name"> -->
+            <div class="enroll" style="background: #f8f8f8;padding: 20px 10px;">
+              <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search by Expense Head, Applicability, Unit Name">
+              </div>
+              <div class="del-date cal"><input type="text" name="ExpenseStartDate" #ExpenseStartDateControl='ngModel' [(ngModel)]="ExpenseStartDate" placeholder="From Date" class="date" bsDatepicker></div>
+              <div class="del-date cal"><input type="text" (bsValueChange)="getExpenseListByDateRange($event)" name="ExpenseEndDate" #ExpenseEndDateControl='ngModel'  [(ngModel)]="ExpenseEndDate" placeholder="To Date" class="date" bsDatepicker></div>
+          </div>
         </div>
         <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
           <table class="table table-bordered"
@@ -175,7 +181,7 @@
                   <td>{{dashboardservice.acfName | titlecase}}</td>
                   <td>
                     <i style="cursor: pointer;" [ngClass]="{'decrseopcty' : item.exIsInvD == true}"
-                      (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID)"
+                      (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])"
                       tooltip="EditExpense" class="fa fa-eye"> | </i> <i style="cursor: pointer;"
                       [ngClass]="{'decrseopcty' : item.exIsInvD == true}"
                       (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash"
@@ -234,7 +240,7 @@
                 <p>Date: <strong>{{todayDate | date: "d/M/y"}}</strong></p>
               </div>
               <div class="col-sm-3" style="text-align:pull-right">
-                <p>Invoice: <strong>{{editexpensedata.inNumber}}</strong></p>
+                <p>Expense Number: <strong>{{editexpensedata.inNumber}}</strong></p>
               </div>
             </div>
             <div class="col-sm-12">
@@ -402,7 +408,7 @@
             <div class="row frm-mb">
               <div class="col-sm-4 col-xs-12">
                 <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
-                  <label>Amount Paid<span class="red">*</span></label>
+                  <label>Expense Amount<span class="red">*</span></label>
                   <input type="text" class="form-control" name="EXPAmnt" [value]="editexpensedata.EXPAmnt"
                     [(ngModel)]="editexpensedata.EXPAmnt" #amountControl='ngModel' placeholder="Amount" required
                     pattern="^[0-9]*$" />
@@ -413,6 +419,13 @@
                     <p class="alerts" *ngIf="amountControl.errors.pattern">Please Enter Valid
                       Amount</p>
                   </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-xs-12">
+                <div class="form-group" [ngClass]="{'has-error' : UnitNumberControl.invalid && UnitNumberControl.touched}">
+                  <label>UnitNumber<span class="red">*</span></label>
+                  <input type="text" class="form-control" name="UnitNumber" [value]="editexpensedata.unUniIden"
+                    [(ngModel)]="editexpensedata.unUniIden" #UnitNumberControl='ngModel' disabled/>
                 </div>
               </div>
               <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All'">

@@ -532,7 +532,7 @@
                             <label class="control-label">Unit Type<span class="red">*</span></label>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                    data-toggle="dropdown">{{(itm['_unitType']==''?'SelectUnitType':itm['_unitType'])}}
+                                    data-toggle="dropdown">{{(itm['_unitType']==''?'Select Unit Type':itm['_unitType'])}}
                                     <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                 <ul class="dropdown-menu fullw">
                                     <li *ngFor="let unitTp of unitTypes" (click)="getUnitType(unitTp['name'],itm['_id'])">
@@ -541,12 +541,12 @@
                             </div>
                         </div>
                           <div class="form-group">
-                              <label class="control-label">Unit Dimension<span class="red">*</span></label>
+                              <label class="control-label">Unit Dimension(SqFt)<span class="red">*</span></label>
                               <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="itm['_unitdimension']" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
                               <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched"> Valid Unit dimension is required</p>
                             </div>
                             <div class="form-group">
-                              <label class="control-label">Unit Rate<span class="red">*</span></label>
+                              <label class="control-label">Cost\SqFt<span class="red">*</span></label>
                               <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="itm['_unitrate']" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
                               <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched"> Valid unit rate is required</p>
                           </div>
@@ -554,10 +554,10 @@
                                   <label class="control-label">Calculation Type<span class="red">*</span></label>
                                   <div class="dropdown">
                                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                          data-toggle="dropdown">{{(itm['_calculationtype']==''?'SelectCalculationType':itm['_calculationtype'])}}
+                                          data-toggle="dropdown">{{(itm['_calculationtype']==''?'Select Calculation Type':itm['_calculationtype'])}}
                                           <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                       <ul class="dropdown-menu fullw">
-                                          <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType['name'],itm['_id'])">
+                                          <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType['displayName'],itm['_id'])">
                                               <a>{{calculationType['displayName']}}</a></li>
                                       </ul>
                                   </div>
@@ -566,7 +566,7 @@
                                   <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
                                   <div class="dropdown">
                                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                          data-toggle="dropdown">{{(itm['_occupency']==''?'SelectOccupancy':itm['_occupency'])}}
+                                          data-toggle="dropdown">{{(itm['_occupency']==''?'Select Occupancy':itm['_occupency'])}}
                                           <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                       <ul class="dropdown-menu fullw">
                                           <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency['name'],itm['_id'])">
