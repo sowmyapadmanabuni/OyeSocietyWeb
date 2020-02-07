@@ -31,6 +31,7 @@ export class AppComponent {
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
     private http: HttpClient,private utilsService:UtilsService){
+      console.log(this.isAuthenticated());
       this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
     this.hideTitle=true;
@@ -264,6 +265,10 @@ export class AppComponent {
     this.globalService.setUnit(params);
     this.globalService.HideUnitDropDwn=false;
     this.globalService.NotMoreThanOneUnit=true;
+  }
+  logOut() {
+    this.globalService.clear();
+    this.router.navigate(['root']);
   }
 }
 

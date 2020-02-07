@@ -4,6 +4,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {RegisterService} from '../../services/register.service';
 import swal from 'sweetalert2';
 import {LoginAndregisterService} from '../../services/login-andregister.service';
+import {GlobalServiceService} from '../global-service.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,8 @@ export class RegisterComponent implements OnInit {
   constructor(private modalService: BsModalService,
     private requestService: RegisterService,
     private loginandregisterservice:LoginAndregisterService,
-    private router:Router ) {
+    private router:Router,
+    public globalservice:GlobalServiceService) {
       this.terms=false;
      }
 
@@ -105,7 +107,8 @@ export class RegisterComponent implements OnInit {
               this.lastName = '';
               this.email = '';
               this.mobilenumber = '';
-              this.router.navigate(['home']);
+              //this.router.navigate(['home']);
+              this.globalservice.toggleRegister(false);
             }
           });
         },

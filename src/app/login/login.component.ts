@@ -130,7 +130,11 @@ export class LoginComponent implements OnInit {
             text: 'Please register your Number!',
           }).then((result) => {
             if (result.value) {
-             this.router.navigate(['register']);
+              this.globalserviceservice.toggleRegister(true);
+              console.log(this.globalserviceservice.getToggleRegister());
+             //this.router.navigate(['home']);
+             //this.router.navigate(['register']);
+             this.router.navigate(['login']);
             }
           })
         }

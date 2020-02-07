@@ -39,6 +39,7 @@ export class ReceiptsComponent implements OnInit {
   associationTotalMembers:any[];
   Balance: any;
   currentAssociationIdForReceipts:Subscription;
+  ReceiptStartDate:any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -173,5 +174,22 @@ export class ReceiptsComponent implements OnInit {
       return item['unUniName'] == unUniName;
     })
     console.log(this.viewPayments)
+  }
+  getReceiptListByDateRange(ReceiptEndDate){
+    console.log(ReceiptEndDate);
+    if (ReceiptEndDate != null) {
+      console.log(this.viewPayments);
+      this.viewPayments = this.viewPaymentList;
+      console.log(new Date(this.ReceiptStartDate).getTime());
+      //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
+      console.log(new Date(ReceiptEndDate).getTime());
+      this.viewPayments = this.viewPayments.filter(item => {
+        if (new Date(this.ReceiptStartDate).getTime() <= new Date(item['pydCreated']).getTime() && new Date(ReceiptEndDate).getTime() >= new Date(item['pydCreated']).getTime()) {
+          console.log(new Date(item['pydCreated']).getTime());
+        }
+        return (new Date(this.ReceiptStartDate).getTime() <= new Date(item['pydCreated']).getTime() && new Date(ReceiptEndDate).getTime() >= new Date(item['pydCreated']).getTime());
+      })
+      console.log(this.viewPayments);
+    }
   }
 }

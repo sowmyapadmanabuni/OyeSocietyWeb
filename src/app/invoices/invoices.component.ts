@@ -161,6 +161,8 @@ export class InvoicesComponent implements OnInit {
   viewPayments: object[];
   CurrentAssociationIdForInvoice:Subscription;
   localMrmRoleId: string;
+  InvoiceStartDate:any;
+  InvoiceEndDate:any;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -173,6 +175,11 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.receiptVoucherNo='';
+      this.receiptChequeNo='';
+      this.receiptChequeDate='';
+      this.receiptddNo='';
+      this.receiptEXDDDate='';
     // this.localMrmRoleId = this.route.snapshot.queryParamMap.get('mrmroleId');
     this.route.params.subscribe(data => {
       console.log(data);
@@ -801,7 +808,7 @@ export class InvoicesComponent implements OnInit {
     var discountData = {
       "INID": dscntInvinvoiceNumber,
       // "IDDesc": dscntInvdescription,
-      "INDisType"  : "Debit",
+      "INDisType"  : "Credit",
       "INDsCVal": dscntInvdiscountedAmount
     }
     console.log(discountData);
@@ -915,20 +922,27 @@ export class InvoicesComponent implements OnInit {
   }
   generateInvoiceReceipt(){
     let genReceipt = {
-      "MEMemID": "",//this.MEMemID,
-      // "PYRefNo": this.PYRefNo,
-      "PYRefNo": "",
-      // "PYBkDet": this.bankname,
-      "PYBkDet": "",
       "PYAmtPaid": this.totalamountPaid,
       "INNumber": this.invoicenumber,
       "UNUnitID": this.receiptUnitID,
-      "PYTax": "",
       "ASAssnID": this.currentAssociationID,
-      // "PYDesc": "PaymentMade",
-      "PYDesc": "",
-      "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en')
-    }
+      "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en'),
+    
+      "MEMemID"  : "1",
+      "PYRefNo"  : "sfg54658",
+      "PYBkDet"  : this.expensedataBABName,
+      "PYTax"    : "12.6",
+      "PMID"     : 1,
+      "PYAmtDue" : this.totalAmountDue,
+      "PYDesc"   : "PaymentMade",
+      "PYVoucherNo" : this.receiptVoucherNo,
+      "PYChqNo" : this.receiptChequeNo,
+      "PYChqDate" :formatDate((this.receiptChequeDate==''?new Date():this.receiptChequeDate),'yyyy/MM/dd', 'en'),
+      "PYDDNo"   :this.receiptddNo,
+      "PYDDDate":formatDate((this.receiptEXDDDate==''?new Date():this.receiptEXDDDate),'yyyy/MM/dd', 'en')
+     
+  }
+ 
     console.log(genReceipt);
     this.viewinvoiceservice.generateInvoiceReceipt(genReceipt)
     .subscribe(data=>{
@@ -938,13 +952,30 @@ export class InvoicesComponent implements OnInit {
       console.log(err);
       swal.fire({
         title: "",
-        text: `${err['error']['error']['message']}`,
+        text: `${err['error']['exceptionMessage']}`,
         type: "error",
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK"
       })
     })
 
+  }
+  getInvoiceListByDateRange(InvoiceEndDate){
+    console.log(InvoiceEndDate);
+    if (InvoiceEndDate != null) {
+      console.log(this.invoiceLists);
+      this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      console.log(new Date(this.InvoiceStartDate).getTime());
+      //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
+      console.log(new Date(InvoiceEndDate).getTime());
+      this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+        if (new Date(this.InvoiceStartDate).getTime() <= new Date(item['inGenDate']).getTime() && new Date(InvoiceEndDate).getTime() >= new Date(item['inGenDate']).getTime()) {
+          console.log(new Date(item['inGenDate']).getTime());
+        }
+        return (new Date(this.InvoiceStartDate).getTime() <= new Date(item['inGenDate']).getTime() && new Date(InvoiceEndDate).getTime() >= new Date(item['inGenDate']).getTime());
+      })
+      console.log(this.PaidUnpaidinvoiceLists);
+    }
   }
   toggleAllCheck(event) {
     //alert('toggleAllCheck');

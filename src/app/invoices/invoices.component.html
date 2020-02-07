@@ -1,6 +1,6 @@
 <!--/*/*/*/*/* ADMIN INVOICE START /*/*/*/*/*-->
 <div *ngIf="globalservice.mrmroleId == 1 && localMrmRoleId != '2'" class="container-fluid np">
-    <div class="col-sm-12">
+    <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
@@ -66,7 +66,7 @@
                     <div class="sea"><input type="text" [(ngModel)]="searchTxt" id="mySearch" name="searchTxt" placeholder="Search Name">
                     </div>
                     <div class="del-date cal"><input type="text" name="InvoiceStartDate" #InvoiceStartDateControl='ngModel' [(ngModel)]="InvoiceStartDate" placeholder="From Date" class="date" bsDatepicker></div>
-                    <div class="del-date cal"><input type="text" (change)='getInvoiceListByDateRange()' name="InvoiceEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="InvoiceEndDate" placeholder="To Date" class="date" bsDatepicker></div>
+                    <div class="del-date cal"><input type="text" (bsValueChange)="getInvoiceListByDateRange($event)" name="InvoiceEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="InvoiceEndDate" placeholder="To Date" class="date" bsDatepicker></div>
                 </div>
                 <div class="dash-row">
                     <table class="table table-bordered"
@@ -117,7 +117,7 @@
                                             <button tooltip="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
                                                 <i class="fa fa-paper-plane"></i>
-                                            </button> | <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i>
+                                            </button> <!-- <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i> -->
                                             |
                                             <i tooltip="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
@@ -415,9 +415,9 @@
                                 <th class="clsAlignCenter clsthBorder">Description</th>
                                 <th class="clsalign clsthBorder" style="text-align: center"><span>Taxable Value</span>
                                 </th>
-                                <th class="clsalign clsthBorder" style="text-align: center"><span>CGST</span></th>
-                                <th class="clsalign clsthBorder" style="text-align: center"><span>SGST</span></th>
-                                <th class="clsalign clsthBorder" style="text-align: center"><span>IGST</span></th>
+                                <th class="clsalign clsthBorder" style="text-align: center"><span>GST</span></th>
+                                <!-- <th class="clsalign clsthBorder" style="text-align: center"><span>SGST</span></th> -->
+                                <!-- <th class="clsalign clsthBorder" style="text-align: center"><span>IGST</span></th> -->
                                 <th class="clsalign clsthBorder" style="text-align: center"><span>Total</span></th>
                                 <!-- <th class="clsthBorder"><span style="margin-left: 20%">Amount</span></th> -->
                             </tr>
@@ -431,8 +431,8 @@
                                             Due</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{previousDue}}.00</span></td>
                                 </tr>
@@ -442,8 +442,8 @@
                                             class="clsspacelft">Discount</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{discountedValue}}.00</span> </td>
                                 </tr>
@@ -453,8 +453,8 @@
                                             Meter</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -464,8 +464,8 @@
                                             class="clsspacelft">Common Area Electric Bill</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -475,8 +475,8 @@
                                             class="clsspacelft">Corpus</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -486,8 +486,8 @@
                                             Bill</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -497,8 +497,8 @@
                                             class="clsspacelft">Housekeeping</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -508,8 +508,8 @@
                                             Membership Fee</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -519,8 +519,8 @@
                                             Occupancy Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -530,8 +530,8 @@
                                             Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -541,8 +541,8 @@
                                             Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -552,8 +552,8 @@
                                             Maintenance</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -563,8 +563,8 @@
                                             class="clsspacelft">Bill</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -574,8 +574,8 @@
                                             OnBoarding Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -585,8 +585,8 @@
                                             Rental Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -1194,7 +1194,7 @@
                             </tr>
                         </ng-container>
                         <tr>
-                            <td colspan="6">Sub Total</td>
+                            <td colspan="6">Grand Total</td>
                             <td>{{InvoiceValue}}.00</td>
                         </tr>
 
@@ -1243,12 +1243,13 @@
             </div>
             <!--Payment Options-->
             <div class="pay-bt">
-                <div class="fb-share-button" data-href="http://localhost:4200/invoice" data-layout="button_count"><a target="_blank" href="https://www.facebook.com/messages" class="fb-xfbml-parse-ignore">
+                <!-- <div class="fb-share-button" data-href="http://localhost:4200/invoice" data-layout="button_count"><a target="_blank" href="https://www.facebook.com/messages" class="fb-xfbml-parse-ignore">
                     <i style="font-family:FontAwesome !important;margin-top: 5px;margin-right: 24px;font-size: 24px;" class="fa fa-share-alt" aria-hidden="true"></i></a>
-                </div>
-                <button (click)="printInvoice()" class="btn-primary-purple"><i style="font-family:FontAwesome !important" class="fa-file-pdf-o" aria-hidden="true"></i>&nbsp;Save as PDF</button>
+                </div> -->
+                <!-- <button (click)="printInvoice()" class="btn-primary-purple"><i style="font-family:FontAwesome !important" class="fa-file-pdf-o" aria-hidden="true"></i>&nbsp;Save as PDF</button> -->
                 <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
-                <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button>
+                <!-- <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button> -->
+                <button (click)="payThroughICICIPG($event)" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button>
                 <!-- <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate Receipt</button> -->
             </div>
 

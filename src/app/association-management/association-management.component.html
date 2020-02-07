@@ -1,5 +1,5 @@
 <div class="container-fluid np">
-  <div class="col-sm-12">
+  <div class="col-sm-12 mt-80">
     <!--Profile section-->
     <app-left-bar></app-left-bar>
     <!--Profile section-->
@@ -148,7 +148,7 @@
                 <div class="form-group">
                   <label class="control-label">Upload logo</label>
                   <input type="file" name="ASAsnLogo" [(ngModel)]="crtAssn.logo" #logoControl="ngModel"
-                    class="form-control" style="font-family: Quicksand" (change)='onFileSelected($event)'
+                    class="form-control" style="font-family: Quicksand" (change)='onFileChanged($event)'
                     pattern="(.*?)\.(png|jpeg|jpg)$" id="viewassosnuploadFileinput">
                 </div>
                 <div class="form-group">

@@ -1,6 +1,6 @@
 <!--/*/*/*/* RECIPTS FOR ADMIN START /*/*/*/*-->
 <div *ngIf="globalservice.mrmroleId == 1" class="container-fluid np">
-    <div class="col-sm-12">
+    <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
@@ -40,7 +40,7 @@
                             <div class="sea"><input type="text" class="form-control" [(ngModel)]="searchTxt" id="mySearch" name="searchTxt" placeholder="Search Name">
                             </div>
                             <div class="del-date cal"><input type="text" name="ReceiptStartDate" #InvoiceStartDateControl='ngModel' [(ngModel)]="ReceiptStartDate" placeholder="From Date" class="date" bsDatepicker></div>
-                            <div class="del-date cal"><input type="text" (change)='getReceiptListByDateRange()' name="ReceiptEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="ReceiptEndDate" placeholder="To Date" class="date" bsDatepicker></div>
+                            <div class="del-date cal"><input type="text" (bsValueChange)="getReceiptListByDateRange($event)" name="ReceiptEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="ReceiptEndDate" placeholder="To Date" class="date" bsDatepicker></div>
                         </div>
                 </div>
                 <div class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
@@ -65,9 +65,9 @@
                                 <th>
                                     <mfDefaultSorter by="pyAmtPaid">Amount</mfDefaultSorter>
                                 </th>
-                                <th>
+                                <!-- <th>
                                     Action
-                                </th>
+                                </th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -76,17 +76,17 @@
                                     <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
-                                    <td>{{item['unUniName']}}</td>
-                                    <td>{{item['inNumber']}}</td>
-                                    <td class="amount">{{item['pydCreated'] | date : "d-M-y"}}</td>
-                                    <td class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}.00</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])">{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])">{{item['unUniName']}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])" class="amount">{{item['pydCreated'] | date : "d-M-y"}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])" class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}.00</td>
                                     <!-- <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
                                             (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
                                             class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
-                                    <td> <i style="cursor: pointer"
-                                            (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])"
-                                            class="fa fa-eye" tooltip="view Receipt"></i> </td>
+
+                                    <!-- <td> <i style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])"
+                                            class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
                                 </ng-container>
                             </tr>
                             <tr *ngIf="viewPayments.length == 0">

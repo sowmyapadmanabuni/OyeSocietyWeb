@@ -2,7 +2,7 @@
     padding: 50px 0px !important;
     }
     .enroll{    display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         margin-bottom: 30px;}
     /* .bg-grey{background: #f1eded26;} */
@@ -54,16 +54,16 @@
     .nav>li>a:hover{background:none !important;color:#4c32af !important;}
     .nav>li>a{color:#ffb818 !important;font-weight: 600;}
     .orange{color:#ffb818;text-align: center}
-    .receipt-head{display: flex;justify-content: space-between;padding: 20px 0px;}
+    .receipt-head{display: flex;justify-content: space-between;padding: 0px 0px;}
     .summary{background: #f2eeee;text-align: center; padding: 10px 0px;font-weight: 600;}
     .print-receipt{display: flex;justify-content: center}
     .modal-header{border-bottom: none !important;
-        padding: 30px 0px;
+        padding: 17px 0px;
         background-image: url('../../assets/images/recipt-head.png');
         background-size: cover;
         background-position: bottom;
         background-color: #c2c2c2;}
-        .modal-body{	
+        .modal-body{    
             background-image: url('../../assets/images/receipt-body.png');
                 background-size: cover;
                 background-position: top;
@@ -88,6 +88,19 @@
     border-radius: 6px;
     box-shadow: 0px 6px 9px 1px #ecebeb;}
     } 
+    .cal::after {
+        content: "\f073";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        color: #f7b844;
+        font-size: 18px;
+        padding-right: 0.5em;
+        position: relative;
+        top: 3px;
+        right: 17px;
+    }
     @media only screen and (min-width: 230px) and (max-width: 992px)  {
     .profile{flex-direction: row;justify-content: space-evenly;}
     .b-l{border:none !important}
@@ -113,8 +126,3 @@
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
     }
-    
-    
-    
-    
-    

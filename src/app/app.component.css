@@ -1,5 +1,20 @@
 .sha{box-shadow: 1px 3px 1px -2px #8e8f905e;width: 200px !important;}
 .sha1{box-shadow: 1px 3px 1px -2px #8e8f905e;width: 130px !important;}
+.badgeAlert{display: inline-block;
+    min-width: 10px;
+    padding: 3px 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #d9534f;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -10px;}
 /* Add a black background color to the top navigation */
 .topnav {
   background-color:#fafafa;
@@ -22,7 +37,6 @@
   font-size: 13px;
   
 }
-
 /* Change the color of links on hover */
 .topnav a:hover {
   color: #f3ae41 !important;
@@ -61,7 +75,6 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-
 /* Style the links inside the dropdown */
 .dropdown-content a {
   float: none;
@@ -89,7 +102,6 @@
     display: block;
   }
 }
-
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 830px) {
   .topnav.responsive {position: relative;}
@@ -133,26 +145,21 @@
   }
 }
 
-
-
 /* Add an active class to highlight the current page */
 .topnav a.active {
   background-color: rgba(255, 255, 255, 0.021);
   color: white;
 }
-
 /* Hide the link that should open and close the topnav on small screens */
 .topnav .icon {
   display: none;
 }
-
 @media only screen and (min-width: 830px) and (max-width: 2000px)  {
   .topnav {display: flex;
     flex-direction: row;
     justify-content: space-between;
   align-items: center}
   .active{display: none !important}
-
   .dropdown-content {
     top: 52px;
     padding: 10px 0px;
@@ -165,7 +172,6 @@
       border-bottom: 1px solid #f3ae4121 !important;
      }
     }
-
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 830px) {
   .topnav a:not(:first-child) {display: none;}
@@ -179,7 +185,6 @@
   }
   .dropbtn{display:none}
 }
-
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 830px) {
   .topnav.responsive {position: relative;}
@@ -198,7 +203,6 @@
   .topnav.responsive a.icon{ border:none;font-size: 32px}
 }
 
-
 /*user profile menu*/
 .top-nav-details {
   margin:0;
@@ -209,7 +213,6 @@
   right:0;
   top:0;
 }
-
 .sub-menu {
   display:none;
   position:fixed;
@@ -221,22 +224,18 @@
   z-index:9;
   
 }
-
 .top-nav-details li a {
   display:block;
   color:#FFF;
   padding:10px;
 }
-
 .top-nav-details li:hover .sub-menu {
   display:block;
 }
-
 .sub-menu li {
   display:block;
   text-align:center;
 }
-
 .sub-menu li a {
   font-size:14px;
   font-weight:normal;
@@ -244,18 +243,15 @@
   color:rgba(255,255,255,0.5) ;
   text-align: left;
 }
-
 .sub-menu li a:hover {
   background-color:rgba(0,0,0,0.15);
   text-decoration:none;
   color:#FFF;
 }
 .sub-menu li a i{margin-right: 15px;}
-
 .logout-nav {
   padding: 12px;
 }
-
 /* Notification bar css */
 #panel, #flip {
   padding: 5px;
@@ -268,7 +264,6 @@
   font-size: 12px;
   color: red;
 }
-
 #panel {
   padding: 0px;
   display: none;

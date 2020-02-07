@@ -10,8 +10,8 @@
 <div *ngIf='isAuthenticated()'>
   <!-- <div> -->
   <!-- Nav Bar start  -->
-  <div class="row" style="padding:10px;background: #fafafa;display: flex;align-items: center;">
-     <div class="col-sm-3">
+  <div class="row" style="padding: 10px;background: #fafafa;display: flex;align-items: center;width: 100%;position: fixed;z-index: 100;margin: 0px;">
+     <div class="col-sm-2">
          <div class="col-sm-12">
             <div class="powered">
                 <span class="smalltext">Powered <br>by</span>  
@@ -19,8 +19,8 @@
             </div>
          </div>         
     </div>
-    <div class="col-sm-8">
-        <div class="col-sm-12" style="display: flex;">
+    <div class="col-sm-9">
+        <div class="col-sm-12" style="display: flex;justify-content: center;">
            <p class="wel" style="width:auto !important;">Welcome to&nbsp;</p>
            <div id="dro-switch" *ngIf="globalService.getUnitDropDownHiddenByDefault() == 'true'">
              <span *ngIf='globalService.NotMoreThanOneUnit' class="wel">&nbsp;&nbsp;Unit: {{globalService.getCurrentUnitName()}}</span>
@@ -50,11 +50,13 @@
         </div>
                
    </div>
-  
+   <!-- <div class="col-sm-1" tooltip="Logout"><i (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i></div> -->
      <div class="col-sm-1">
-        <a id="flip"><i tooltip="Notifications" class="fa fa-bell" aria-hidden="true"></i>
+        <i tooltip="Logout" (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i>
+        <a id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
         </a>
-        <div id="panel">
+        <span class="badgeAlert">{{notificationList.length}}</span>
+        <div id="panel">         
           <p class="not-head-bg">{{notificationList.length}} Notifications</p>
           <div class="not-cont">
             <ng-container *ngFor='let item of notificationList'>

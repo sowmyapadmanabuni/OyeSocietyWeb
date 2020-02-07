@@ -1,5 +1,5 @@
 <div class="container-fluid np">
-  <div class="col-sm-12">
+  <div class="col-sm-12 mt-80">
     <!--Profile section-->
     <app-left-bar></app-left-bar>
     <!--Profile section-->
@@ -158,9 +158,9 @@
                 <th>
                   Added By
                 </th>
-                <th [ngClass]="{'decrseopcty' : viewinvoiceservice.expid == 'true'}">
+                <!-- <th [ngClass]="{'decrseopcty' : viewinvoiceservice.expid == 'true'}">
                   Action
-                </th>
+                </th> -->
                 <th [ngClass]="{'decrseopcty' : viewinvoiceservice.expid == 'true'}"><input type="checkbox"
                     [(ngModel)]='togglegenerateinv' (click)='toggleGenerateInv()' /></th>
               </tr>
@@ -171,25 +171,25 @@
                   <td colspan="10" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
-                  <td>{{ (10 * (p - 1) + i)+1 }}</td>
-                  <td>{{item['exHead']}}</td>
-                  <td>{{item['exApplTO']}}</td>
-                  <td>{{item['unUniIden']}}</td>
-                  <td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{ (10 * (p - 1) + i)+1 }}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['exHead']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['exApplTO']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['unUniIden']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">
                     <span style="margin-left: 13px;" *ngIf="item.exIsInvD == true"> YES</span>
                     <span style="margin-left: 13px;" *ngIf="item.exIsInvD == false"> NO</span>
                   </td>
-                  <td class="amount">{{item.exdUpdated | date:"d/M/y"}}</td>
-                  <td class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
-                  <td>{{dashboardservice.acfName | titlecase}}</td>
-                  <td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])" class="amount">{{item.exdUpdated | date:"d/M/y"}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])" class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{dashboardservice.acfName | titlecase}}</td>
+                  <!-- <td>
                     <i style="cursor: pointer;" [ngClass]="{'decrseopcty' : item.exIsInvD == true}"
                       (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])"
                       tooltip="EditExpense" class="fa fa-eye"> | </i> <i style="cursor: pointer;"
                       [ngClass]="{'decrseopcty' : item.exIsInvD == true}"
                       (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash"
                       tooltip="DeleteExpense"></i>
-                  </td>
+                  </td> -->
                   <td><input [ngClass]="{'decrseopcty' : item.exIsInvD == true}" type="checkbox"
                       [(ngModel)]='item.checkedForGenerateInvoice'
                       (change)="getSelectedInv(item['exid'],item.checkedForGenerateInvoice)" />

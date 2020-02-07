@@ -339,15 +339,19 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log(this.viewexpensesByBlockId);
     this.getAllUnitDetailsByBlockID();
   }
-  getExpenseListByDateRange(ExpenseStartDate) {
+  getExpenseListByDateRange(ExpenseEndDate) {
+    console.log(this._viewexpensesByBlockId);
     this.expenseList = this._viewexpensesByBlockId;
-    console.log(this.ExpenseStartDate);
-    console.log(this.ExpenseEndDate);
-    console.log(ExpenseStartDate);
+    console.log(new Date(this.ExpenseStartDate).getTime());
+    //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
+    console.log(new Date(ExpenseEndDate).getTime());
     this.expenseList = this.expenseList.filter(item=>{
-      console.log(item['exdUpdated']);
-      return 
+      if(new Date(this.ExpenseStartDate).getTime() <= new Date(item['exdUpdated']).getTime() && new Date(ExpenseEndDate).getTime() >= new Date(item['exdUpdated']).getTime()){
+        console.log(new Date(item['exdUpdated']).getTime());
+      }
+      return (new Date(this.ExpenseStartDate).getTime() <= new Date(item['exdUpdated']).getTime() && new Date(ExpenseEndDate).getTime() >= new Date(item['exdUpdated']).getTime()); 
     })
+    console.log(this.expenseList);
   }
 
   setOrder(value: string) {

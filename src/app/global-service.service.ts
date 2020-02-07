@@ -161,6 +161,12 @@ public getacAccntID() :number{
   // return this.acAccntID;
   return Number(localStorage.getItem("login-status"));
 }
+public toggleRegister(booleanParam){
+  localStorage.setItem("toggle-register",booleanParam);
+}
+public getToggleRegister(){
+ return localStorage.getItem("toggle-register");
+}
 public clear(){
   localStorage.clear();
 }

@@ -1,5 +1,5 @@
 <div class="container-fluid np">
-    <div class="col-sm-12">
+    <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
 
@@ -20,14 +20,16 @@
                                 </ul>
                         </div>
                 </div>
-                <div style="display: flex;margin-bottom: 20px;align-items: flex-start;">
-                        <button class="btn-primary-purple" (click)="addBlocksShow()">
-                                <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
-                        <div class="upload_excel">
-                          <a class="excel1" (click)="NavigateToBulkUpload()" tooltip="Have more num of Blocks?">Bulk Upload</a>
-                           <!-- <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
-                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file> -->
-                        </div>
+                <div class="enroll">
+                    <div style="display: flex;justify-content: flex-end;flex-direction: column;">
+                            <button class="btn-primary-purple" (click)="addBlocksShow()">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
+                            <div class="upload_excel">
+                              <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Blocks?">Bulk Upload</a>
+                               <!-- <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file> -->
+                            </div>
+                    </div>
                 </div>
 
 

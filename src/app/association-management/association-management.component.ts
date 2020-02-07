@@ -268,6 +268,7 @@ export class AssociationManagementComponent implements OnInit {
   groupedArray:any;
   BlockHrefDetail:any[];
   enableCreateUnitWithAssociation:boolean;
+  selectedFile1: File
 
   constructor(private modalService: BsModalService,
     public viewAssnService: ViewAssociationService,
@@ -1219,7 +1220,11 @@ this.crtAssn.newBAActType='';
         this.bankings.splice(BankId, 1);
     }
 
-
+    // onFileChanged(event) {
+    //   this.selectedFile = event.target.files[0];
+    //   this.http.post('my-backend.com/file-upload', this.selectedFile)
+    //   .subscribe(...);
+    // }
 
   onFileSelected(event) {
     this.isLargefile = false;
