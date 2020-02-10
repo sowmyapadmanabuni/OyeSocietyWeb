@@ -108,7 +108,7 @@ export class RegisterComponent implements OnInit {
               this.email = '';
               this.mobilenumber = '';
               //this.router.navigate(['home']);
-              this.globalservice.toggleRegister(false);
+              this.globalservice.toggleregister=false;
             }
           });
         },

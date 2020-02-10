@@ -7,7 +7,7 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- Toolbar -->
-<div *ngIf='isAuthenticated()'>
+<div *ngIf='isAuthenticated() && !globalService.toggleregister'>
   <!-- <div> -->
   <!-- Nav Bar start  -->
   <div class="row" style="padding: 10px;background: #fafafa;display: flex;align-items: center;width: 100%;position: fixed;z-index: 100;margin: 0px;">
@@ -111,6 +111,9 @@
     <app-footer></app-footer>
   </footer>
   </div>
-  <div *ngIf='!isAuthenticated()'>
+  <div *ngIf='!isAuthenticated() && !globalService.toggleregister'>
     <app-login></app-login>
+  </div>
+  <div *ngIf='globalService.toggleregister'>
+    <app-register></app-register>
   </div>

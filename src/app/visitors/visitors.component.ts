@@ -204,10 +204,9 @@ todayDate: Date;
 
   // Multiple visitor toggle switch
   toggleEditable(event) {
-    if ( event.target.checked ) {
-        // this.MultipleVisitors = true? false : true;
-        this.MultipleVisitors = true;
-   }
+    console.log(event.target.checked);
+        this.MultipleVisitors = event.target.checked;
+        //this.MultipleVisitors = true;
 }
   ngAfterViewInit(){
     // Time Picker Initialization

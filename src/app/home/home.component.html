@@ -1,4 +1,53 @@
-<div class="container-fluid np">
+<!-- DASHBOARD FOR NON ASSOCIATION USER FOR ENROLL AND JOIN -->
+<div *ngIf='associations.length == 0' class="container-fluid np">
+        <div class="col-sm-12 np mt-80">
+                <!--Profile section-->
+                <app-left-bar></app-left-bar>
+                <!--Profile section-->
+                <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
+                        <div class="dash-main">
+                                <div style="width: 70%;">
+                                        <div class="col-md-12 dash dash-bg-1">
+                                                <div class="dash-row">
+                                                        <div class="tile-link" (click)="goToEnrollAssociation()">
+                                                                <div><img class="dash-icon"
+                                                                                src="../../assets/images/icons/expense-management.png">
+                                                                </div>
+                                                                <div class="f-des">Enroll <br>Association</div>
+                                                        </div>
+                                                        <div class="tile-link" (click)="goToJoinAssociation()">
+                                                                <div>
+                                                                        <div>Join Association</div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <div class="dash-row">
+                                                </div>
+                                                <div class="dash-row">
+                                                </div>
+                                        </div>
+                                        <!-- <div class="dash-tab">
+                                                <span class="l-top">&nbsp;</span>
+                                                <ul class="tabs group">
+                                                        <li (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
+                                                        </li>
+                                                        <li *ngIf="globalService.mrmroleId == 1"
+                                                                (click)="AdminsButtonShow()" class="active right-tab">
+                                                                <a class="act-b" data-toggle="tab">ADMIN</a></li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<!-- DASHBOARD FOR NON ASSOCIATION USER FOR ENROLL AND JOIN ENDS-->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<div *ngIf='associations.length != 0' class="container-fluid np">
         <div class="col-sm-12 np mt-80">
                 <!--Profile section-->
 

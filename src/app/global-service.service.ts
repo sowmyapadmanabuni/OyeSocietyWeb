@@ -45,6 +45,7 @@ export class GlobalServiceService {
    assnList:any;
    blockArrayLength:any;
    progressbarValue:any;
+   toggleregister:any;
 
   constructor() {
     this.currentAssociationName = '';

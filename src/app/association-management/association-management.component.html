@@ -851,8 +851,8 @@
           <div class="content">
             <label>Select Unit</label>
             <div class="block-row">
-              <span (click)='enableActive(spanCtrl)' #spanCtrl
-                *ngFor='let item of allUnitBlockID'>{{item['unUnitID']}}</span>
+              <span (click)="enableActive(spanCtrl,item['unUnitID'])" #spanCtrl
+                *ngFor='let item of allUnitBlockID'>{{item['unUniName']}}</span>
             </div>
           </div>
           <!--row3-->

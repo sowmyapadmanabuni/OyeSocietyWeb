@@ -2,6 +2,28 @@ body {
   background: #222D32;
   font-family: 'Quicksand', sans-serif !important;
 }
+/* FOR THE "OTP SENT SUCCESSFULLY" CSS */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(19, 19, 19);
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 20px;
+  font-size: 17px;
+  }
+  
+  #snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
 .bg{width: 100%;
   min-height: 100vh;
   display: -webkit-box;

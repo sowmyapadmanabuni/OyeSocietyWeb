@@ -43,8 +43,7 @@ import {AppComponent} from './app.component';
 import {ExcelBlockUploadComponent} from './excel-block-upload/excel-block-upload.component';
 import {ExcelUnitUploadComponent} from './excel-unit-upload/excel-unit-upload.component';
 import {ExcelExpenseUploadComponent} from './excel-expense-upload/excel-expense-upload.component';
-import { from } from 'rxjs';
-
+import {JoinAndEnrollComponent} from './join-and-enroll/join-and-enroll.component';
 
 
 const routes: Routes = [
@@ -92,7 +91,9 @@ const routes: Routes = [
     { path: 'profile', component:ProfileComponent, canActivate: [AuthGuard]},
     { path: 'payment-status', component:PaymentStatusComponent, canActivate: [AuthGuard]},
     { path: 'resident-invoice', component:ResidentInvoiceComponent, canActivate: [AuthGuard]},
-    { path: 'root', component:AppComponent, canActivate: [AuthGuard]}
+    { path: 'root', component:AppComponent, canActivate: [AuthGuard]},
+    { path: 'joinenroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
+    { path: 'joinenroll/:join_enroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

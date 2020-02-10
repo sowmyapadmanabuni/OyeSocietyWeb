@@ -28,6 +28,7 @@ export class ViewAssociationService {
   enrlAsnEnbled:boolean;
   vewAsnEnbled:boolean;
   joinAsnEbld:boolean;
+  join_enroll:any;
 
   onUpLoad(fd: FormData) {
     //let headers = this.getHttpheaders();

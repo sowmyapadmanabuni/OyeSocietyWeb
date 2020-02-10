@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.sendOTP();
     let url = `${ipAddress}oyeliving/api/v1/account/sendotp`
-    // document.getElementById("myButton1").value="Resend";
+    document.getElementById("myButton1").innerHTML="Resend";
     var mobileNoData = {
       // CountryCode: this.code,
       CountryCode: +91,
@@ -64,14 +64,14 @@ export class LoginComponent implements OnInit {
     var elem = document.getElementById('some_div');
     var element = <HTMLInputElement>document.getElementById("myButton1");
 
-    //var timerId = setInterval(countdown, 1000);
+    var timerId = setInterval(countdown, 1000);
 
-    /*function countdown() {
+    function countdown() {
       if (timeLeft == 0) {
         clearTimeout(timerId);
         if(element.value != null){
           element.disabled=false;
-          element.value = "Resend";
+          // element.innerHTML = "Resend";
          
           }
         // doSomething();
@@ -84,14 +84,14 @@ export class LoginComponent implements OnInit {
           clearTimeout(timerId);
           if(element.value != null){
             element.disabled=false;
-            element.value = "Resend";
+            // element.innerHTML = "Resend";
             }
         }
       }
       var x = document.getElementById("snackbar");
    x.className = "show";
    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-    } */
+    } 
 
     //console.log(mobileNoData);
     return this.http.post(url, JSON.stringify(mobileNoData), { headers: headers })
@@ -130,11 +130,11 @@ export class LoginComponent implements OnInit {
             text: 'Please register your Number!',
           }).then((result) => {
             if (result.value) {
-              this.globalserviceservice.toggleRegister(true);
-              console.log(this.globalserviceservice.getToggleRegister());
+              this.globalserviceservice.toggleregister=true;
+              console.log(this.globalserviceservice.toggleregister);
              //this.router.navigate(['home']);
              //this.router.navigate(['register']);
-             this.router.navigate(['login']);
+             //this.router.navigate(['login']);
             }
           })
         }
@@ -151,6 +151,7 @@ export class LoginComponent implements OnInit {
           //this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
           //console.log(this.dashboardservice.mrmRoleID);
           //alert('displaying dashboardservice.mrmRoleID..'+this.dashboardservice.mrmRoleID);
+          this.globalserviceservice.toggleregister=false;
           this.router.navigate(['home']);
           //this.globalserviceservice.enableHomeView = true;
           //this.globalserviceservice.enableLogin = false;
@@ -218,8 +219,8 @@ export class LoginComponent implements OnInit {
     };
     let url = `http://control.msg91.com/api/retryotp.php?authkey=261622AtznpKYJ5c5ab60e&mobile=${this.code}${this.mobilenumber}&retrytype=voice`;
     //http://control.msg91.com/api/retryotp.php?authkey=261622AtznpKYJ5c5ab60e&mobile=917975536425&retrytype=voice
-    //console.log(url);
-    //console.log('reSendOtpData', reSendOtpData);
+    console.log(url);
+    console.log('reSendOtpData', reSendOtpData);
     this.http.get(url)
       .subscribe(data => {
         //console.log(data)
@@ -273,6 +274,16 @@ export class LoginComponent implements OnInit {
   _keyPress(event) {
     if(event.keyCode == 13) {
       this.sendOTP();
+     }
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
+  _keyPress1(event) {
+    if(event.keyCode == 13) {
+      this.verifyOtp();
      }
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);

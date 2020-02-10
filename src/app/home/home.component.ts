@@ -83,6 +83,7 @@ export class HomeComponent implements OnInit {
   selectedAssociationSubscription: Subscription;
   availableNoOfBlocks: any;
   availableNoOfUnits: any;
+  join_enroll:any;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -133,7 +134,7 @@ export class HomeComponent implements OnInit {
     this.selectedAssociationSubscription=this.globalService.getSelectedAssociation()
     .subscribe(msg=>{
       console.log(msg);
-      this.loadAssociation(msg['msg']['associationName'],'','SelectedAssociation');
+      this.loadAssociation(msg['msg']['associationName'],'',msg['param']);
     },
     err=>{
       console.log(err);
@@ -175,7 +176,7 @@ export class HomeComponent implements OnInit {
         }
       }
       console.log(this.uniqueAssociations);
-      this.loadAssociation(this.uniqueAssociations[0]['asAsnName'],this.uniqueAssociations,'id');
+      this.loadAssociation((this.globalService.getCurrentAssociationName()==null?this.uniqueAssociations[0]['asAsnName']:this.globalService.getCurrentAssociationName()),this.uniqueAssociations,'id');
     },
       res => {
         console.log('Error in getting Associations',res);
@@ -380,7 +381,10 @@ export class HomeComponent implements OnInit {
     console.log(asnName);
     console.log(this.associations);
     //console.log(typeof associationName);
-    this.globalService.setCurrentAssociationName(asnName);
+    console.log(this.globalService.getCurrentAssociationName());
+    if(this.globalService.getCurrentAssociationName()==null && param == 'id'){
+      this.globalService.setCurrentAssociationName(asnName);
+    }
     this.currentAssociationName = asnName;
     // let filteredAssociations = this.associations.filter(association=>association.asAsnName==asnName);
     this.associations.forEach(association => {
@@ -405,7 +409,9 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationIdForBlocks(association.asAssnID);
         this.globalService.setCurrentAssociationIdForCustomerStatement(association.asAssnID);
         this.globalService.setCurrentAssociationIdForLeftBarComponent(association.asAssnID);
-        this.globalService.setCurrentAssociationName(asnName);
+        if(param == ''){
+          this.globalService.setCurrentAssociationName(asnName);
+        }
         this.associationID = this.globalService.getCurrentAssociationId();
         console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
       }
@@ -462,7 +468,7 @@ export class HomeComponent implements OnInit {
     this.getUnitsDetails();
     this.globalService.sendUnitListForAssociation(this.unitlistForAssociation);
     this.globalService.SetAssociationUnitList(this.unitlistForAssociation);
-    if(param != 'SelectedAssociation'){
+    if(param != ''){
       console.log('SelectedAssociation');
       this.globalService.sendMessage(associationList);
       this.globalService.SetAssociationList(associationList);
@@ -670,6 +676,14 @@ export class HomeComponent implements OnInit {
       .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
       .set('Content-Type', 'application/json');
     return headers;
+  }
+  goToEnrollAssociation(){
+    this.join_enroll=1;
+    this.router.navigate(['joinenroll',this.join_enroll]);
+  }
+  goToJoinAssociation(){
+    this.join_enroll=2;
+    this.router.navigate(['joinenroll',this.join_enroll]);
   }
 
 }

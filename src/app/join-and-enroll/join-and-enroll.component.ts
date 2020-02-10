@@ -1,3 +1,4 @@
+
 import { Component, OnInit, TemplateRef, Input } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
@@ -23,14 +24,12 @@ import * as _ from 'underscore';
 
 declare var $: any;
 
-
 @Component({
-  selector: 'app-association-management',
-  templateUrl: './association-management.component.html',
-  styleUrls: ['./association-management.component.css']
+  selector: 'app-join-and-enroll',
+  templateUrl: './join-and-enroll.component.html',
+  styleUrls: ['./join-and-enroll.component.css']
 })
-
-export class AssociationManagementComponent implements OnInit {
+export class JoinAndEnrollComponent implements OnInit {
   modalRef: BsModalRef;
   assnID:any;
   @Input() amenityType: string;
@@ -269,6 +268,7 @@ export class AssociationManagementComponent implements OnInit {
   BlockHrefDetail:any[];
   enableCreateUnitWithAssociation:boolean;
   selectedFile1: File
+  join_enroll:any;
   UnitIDforJoinAssn: any;
 
   constructor(private modalService: BsModalService,
@@ -281,6 +281,10 @@ export class AssociationManagementComponent implements OnInit {
     private dashboardservice:DashBoardService,
     private homeservice:HomeService,
     private addblockservice: AddBlockService) {
+    this.route.params.subscribe(data => {
+      console.log(data['join_enroll']);
+      this.join_enroll = data['join_enroll'];
+    });
     this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
     this.blockArray=[];
@@ -744,7 +748,6 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.GetUnitListByBlockID(blBlockID)
       .subscribe(res => {
         var data: any = res;
-        console.log(res);
         this.allUnitBlockID= data.data.unitsByBlockID;
         //console.log('allUnitBlockID',this.allUnitBlockID);
         //console.log(res);
@@ -1084,7 +1087,7 @@ this.crtAssn.newBAActType='';
     }
     //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
   }
-  enableActive(spanCtrl, unUnitID) {
+  enableActive(spanCtrl,unUnitID) {
     this.UnitIDforJoinAssn=unUnitID;
     //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
@@ -1709,11 +1712,11 @@ this.crtAssn.newBAActType='';
         "SoldDate": "2019-03-02",
         "OccupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
       }
-      console.log(senddataForJoinOwner);
+      //console.log(senddataForJoinOwner);
       this.viewAssnService.joinAssociation(senddataForJoinOwner)
         .subscribe(
           (data) => {
-            console.log(data);
+            //this.modalRef.hide();
             Swal.fire({
               title: 'Joined Successfully',
               showCancelButton: true,
@@ -1723,7 +1726,7 @@ this.crtAssn.newBAActType='';
             //console.log(data);
           },
           err => {
-            console.log(err);
+            //console.log(err);
             Swal.fire({
               title: "Error",
               type: 'error',
@@ -2105,5 +2108,4 @@ this.crtAssn.newBAActType='';
       this.latePymtChargeType = 'SELECT CHARGE TYPE';
       this.startsFrom = null;
     }
-  
 }

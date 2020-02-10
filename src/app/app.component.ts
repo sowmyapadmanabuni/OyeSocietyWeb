@@ -31,8 +31,9 @@ export class AppComponent {
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
     private http: HttpClient,private utilsService:UtilsService){
-      console.log(this.isAuthenticated());
-      this.accountID=this.globalService.getacAccntID();
+    this.globalService.toggleregister=false;
+    console.log(this.isAuthenticated());
+    this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
     this.hideTitle=true;
     this.notificationList=[];

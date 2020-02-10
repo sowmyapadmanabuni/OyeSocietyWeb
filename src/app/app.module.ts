@@ -42,7 +42,8 @@ import { DataTablesModule } from 'angular-datatables';
 import { DataTableModule } from "angular-6-datatable";
 import { SearchPipe } from './search.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {ReceiptsComponent} from './receipts/receipts.component'
+import {ReceiptsComponent} from './receipts/receipts.component';
+import {Ng2TelInputModule} from 'ng2-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { WordsPipe } from './pipes/words.pipe';
@@ -77,6 +78,7 @@ import { ExcelUnitUploadComponent } from './excel-unit-upload/excel-unit-upload.
 import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expense-upload.component';
 import { BlockArrayComponent } from './block-array/block-array.component';
 import { CreateUnitWithAssociationComponent } from './create-unit-with-association/create-unit-with-association.component';
+import { JoinAndEnrollComponent } from './join-and-enroll/join-and-enroll.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -135,9 +137,11 @@ import { CreateUnitWithAssociationComponent } from './create-unit-with-associati
     ExcelUnitUploadComponent,
     ExcelExpenseUploadComponent,
     BlockArrayComponent,
-    CreateUnitWithAssociationComponent
+    CreateUnitWithAssociationComponent,
+    JoinAndEnrollComponent
     ],
   imports: [
+    Ng2TelInputModule,
     BrowserModule,
     ChartsModule,
     BrowserAnimationsModule,
