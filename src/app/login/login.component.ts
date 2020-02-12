@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   // @ViewChild('myButton1') myButton1: any;
   @Output() toggleMyMenus:EventEmitter<string>;
   returnUrl: string;
+  hideShowEye: boolean;
 
   constructor(private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit {
       MobileNumber: this.mobilenumber
     };
 
-    var timeLeft = 30;
+    var timeLeft = 60;
     var elem = document.getElementById('some_div');
     var element = <HTMLInputElement>document.getElementById("myButton1");
 
@@ -109,6 +110,7 @@ export class LoginComponent implements OnInit {
   }
 
   verifyOtp() {
+    this.globalserviceservice.saveMobileNumberforRegister='';
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.verifyOtp();
     let url = `${ipAddress}oyeliving/api/v1/account/verifyotp`
@@ -124,12 +126,12 @@ export class LoginComponent implements OnInit {
         if (data['data'] == null) {
           Swal.fire({
             type: 'error',
-            title: 'Oops...',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK',
-            text: 'Please register your Number!',
+            text: 'Number not registered continue with registration',
           }).then((result) => {
             if (result.value) {
+              this.globalserviceservice.saveMobileNumberforRegister= this.mobilenumber;
               this.globalserviceservice.toggleregister=true;
               console.log(this.globalserviceservice.toggleregister);
              //this.router.navigate(['home']);
@@ -226,7 +228,16 @@ export class LoginComponent implements OnInit {
         //console.log(data)
       })
   }
-
+  showHidePassword() {
+    var x = document.getElementById("OTPInput") as HTMLInputElement;
+    if (x.type === "password") {
+      x.type = "text";
+      this.hideShowEye=true;
+    } else {
+      x.type = "password";
+      this.hideShowEye=false;
+    }
+  }
 
 
 
@@ -247,9 +258,6 @@ export class LoginComponent implements OnInit {
         //console.log(data)
       })
   }
-
-
-
   telInputObject(telinputobj) {
     this.code = '+' + telinputobj['b'].getAttribute('data-dial-code');
     //console.log(this.code);
@@ -264,9 +272,6 @@ export class LoginComponent implements OnInit {
     this.code = countryobj['dialCode']
     //console.log(countryobj);
   }
-
-
-
 
   getCountryData() {
     //alert('test')

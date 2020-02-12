@@ -85,14 +85,14 @@ export class RegisterComponent implements OnInit {
         'ACFName': this.firstName,
         'ACLName': this.lastName,
         'ACEmail': this.email,
-        'ACMobile': this.mobilenumber
+        'ACMobile': this.globalservice.saveMobileNumberforRegister//this.mobilenumber
       }
-      //console.log('requestData', JSON.stringify(requestData));
+      console.log('requestData', JSON.stringify(requestData));
 
 
       this.requestService.register(requestData)
         .subscribe((response) => {
-          //console.log('response', response);
+          console.log('response', response);
           swal.fire({
             title: "Registered Successfully",
             text: "",

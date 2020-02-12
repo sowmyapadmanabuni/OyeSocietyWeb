@@ -46,6 +46,7 @@ export class GlobalServiceService {
    blockArrayLength:any;
    progressbarValue:any;
    toggleregister:any;
+   saveMobileNumberforRegister:any;
 
   constructor() {
     this.currentAssociationName = '';

@@ -44,6 +44,7 @@ import {ExcelBlockUploadComponent} from './excel-block-upload/excel-block-upload
 import {ExcelUnitUploadComponent} from './excel-unit-upload/excel-unit-upload.component';
 import {ExcelExpenseUploadComponent} from './excel-expense-upload/excel-expense-upload.component';
 import {JoinAndEnrollComponent} from './join-and-enroll/join-and-enroll.component';
+import {EditAssociationComponent} from './edit-association/edit-association.component';
 
 
 const routes: Routes = [
@@ -93,7 +94,8 @@ const routes: Routes = [
     { path: 'resident-invoice', component:ResidentInvoiceComponent, canActivate: [AuthGuard]},
     { path: 'root', component:AppComponent, canActivate: [AuthGuard]},
     { path: 'joinenroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
-    { path: 'joinenroll/:join_enroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]}
+    { path: 'joinenroll/:join_enroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
+    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

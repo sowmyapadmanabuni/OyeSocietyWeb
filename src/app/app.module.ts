@@ -79,6 +79,7 @@ import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expens
 import { BlockArrayComponent } from './block-array/block-array.component';
 import { CreateUnitWithAssociationComponent } from './create-unit-with-association/create-unit-with-association.component';
 import { JoinAndEnrollComponent } from './join-and-enroll/join-and-enroll.component';
+import { EditAssociationComponent } from './edit-association/edit-association.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -138,7 +139,8 @@ import { JoinAndEnrollComponent } from './join-and-enroll/join-and-enroll.compon
     ExcelExpenseUploadComponent,
     BlockArrayComponent,
     CreateUnitWithAssociationComponent,
-    JoinAndEnrollComponent
+    JoinAndEnrollComponent,
+    EditAssociationComponent
     ],
   imports: [
     Ng2TelInputModule,

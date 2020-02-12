@@ -283,16 +283,29 @@
 							<form>
 								<div class="form-group first-row">
 									<div class="user-wrapper">
-										<input placeholder="First Name" name="firstName" [(ngModel)]="firstName" type="text" />
+										<input style="width: 110%;" placeholder="First Name" name="firstName" [(ngModel)]="firstName" type="text" />
 									</div>
 									<div>
-										<input placeholder="Last Name" name="lastName" [(ngModel)]="lastName" type="text" />
+										<input style="width: 110%;" placeholder="Last Name" name="lastName" [(ngModel)]="lastName" type="text" />
 									</div>
 								</div>
 								<div class="form-group first-row">
-										<div class="mobile-wrapper">
-											<input placeholder="Mobile Number" name="mobilenumber" [(ngModel)]='mobilenumber' type="text" />
-										</div>
+										<!-- <div class="mobile-wrapper">
+											<input placeholder="Mobile Number" style="cursor: not-allowed" disabled name="mobilenumber" [(ngModel)]='globalservice.saveMobileNumberforRegister' type="text" />
+                                        </div> -->
+                                        <input [ngClass]="{'has-error' : mobilenumbers.invalid && mobilenumbers.touched}" 
+                                            type="text"
+                                            (keypress)=_keyPress($event)
+                                             ng2TelInput [ng2TelInputOptions]="{initialCountry: 'in'}" 
+                                             (hasError)="hasError($event)"
+                                            (ng2TelOutput)="getNumber($event)" 
+                                            (intlTelInputObject)="telInputObject($event)"
+                                            (countryChange)="onCountryChange($event)" 
+                                            name="saveMobileNumberforRegister" placeholder="Mobile Number" 
+                                            #mobilenumbers='ngModel' disabled
+                                            id="mobnum" pattern="^[6-9]{1}[0-9]{9}$" required 
+                                            [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }"
+											[(ngModel)]='globalservice.saveMobileNumberforRegister' maxlength="10" ç style="border-bottom: 1px solid #F08A33;" />
 										<div>
 										</div>
 									</div>

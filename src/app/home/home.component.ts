@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit {
     this.selectedAssociationSubscription=this.globalService.getSelectedAssociation()
     .subscribe(msg=>{
       console.log(msg);
-      this.loadAssociation(msg['msg']['associationName'],'',msg['param']);
+      this.loadAssociation(msg['msg']['associationName'],'',msg['msg']['param']);
     },
     err=>{
       console.log(err);
@@ -179,6 +179,8 @@ export class HomeComponent implements OnInit {
       this.loadAssociation((this.globalService.getCurrentAssociationName()==null?this.uniqueAssociations[0]['asAsnName']:this.globalService.getCurrentAssociationName()),this.uniqueAssociations,'id');
     },
       res => {
+        console.log(this.associations);
+        this.globalService.sendMessage([]);
         console.log('Error in getting Associations',res);
       });
   }
@@ -294,7 +296,7 @@ export class HomeComponent implements OnInit {
       }
       // var data:any = res;
     }, err => {
-      //console.log(err);
+      console.log(err);
     });
   }
   enroll() {
@@ -321,6 +323,9 @@ export class HomeComponent implements OnInit {
       this.dashBrdService.acfName = this.acfName;
       this.dashBrdService.aclName = this.aclName;
       this.dashBrdService.acMobile = this.acMobile;
+    },
+    err=>{
+      console.log(err);
     });
   }
   getVehicle(unUnitID) {
@@ -350,6 +355,9 @@ export class HomeComponent implements OnInit {
         this.totalStaffs = res['data']['worker'].length;
 
       }
+    },
+    err=>{
+      console.log(err);
     })
   }
   getVistors() {
@@ -363,11 +371,15 @@ export class HomeComponent implements OnInit {
         this.totalVisitors = res['data']['visitorLog'].length;
 
       }
+    },
+    err=>{
+      console.log(err);
     })
   }
 
   loadAssociation(associationName,associationList, param: any) {
     console.log(associationName);
+    console.log(associationList);
     console.log(param);
     // if(!this.globalService.toggledashboard){
     //   console.log('false');
@@ -411,6 +423,7 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationIdForLeftBarComponent(association.asAssnID);
         if(param == ''){
           this.globalService.setCurrentAssociationName(asnName);
+          console.log(this.globalService.getCurrentAssociationName());
         }
         this.associationID = this.globalService.getCurrentAssociationId();
         console.log("Selected AssociationId: " + this.globalService.getCurrentAssociationId());
@@ -468,7 +481,7 @@ export class HomeComponent implements OnInit {
     this.getUnitsDetails();
     this.globalService.sendUnitListForAssociation(this.unitlistForAssociation);
     this.globalService.SetAssociationUnitList(this.unitlistForAssociation);
-    if(param != ''){
+    if(param == 'id'){
       console.log('SelectedAssociation');
       this.globalService.sendMessage(associationList);
       this.globalService.SetAssociationList(associationList);
@@ -484,7 +497,7 @@ export class HomeComponent implements OnInit {
         this.totalAssociationVehicles = totalAssociationVehicles.length;
 
       }, err => {
-        //console.log(err);
+        console.log(err);
       })
 
     /* this.dashBrdService.getVehicle(unUnitID).subscribe(res => {

@@ -1825,6 +1825,7 @@ this.crtAssn.newBAActType='';
 
       OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID,BAActID,AMID) {
         //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
+        let EditAssociationData={};
         this.ASAsnName = asAsnName;
         this.ASCountry = asCountry;
         this.ASAddress = asAddress;
@@ -1865,22 +1866,60 @@ this.crtAssn.newBAActType='';
           var data: any = res;
           //console.log(res['data']['association']['amenities'][0].amType);
           //console.log(res['data']['association']['amenities'][0].noofAmenities);
-          this.AMType = res['data']['association']['amenities'][0].amType;
-          this.NoofAmenities = res['data']['association']['amenities'][0].noofAmenities;
+          if(res['data']['association']['amenities'].length!=0){
+            this.AMType = res['data']['association']['amenities'][0].amType;
+            this.NoofAmenities = res['data']['association']['amenities'][0].noofAmenities;
+          }
+          else{
+            this.AMType = '';
+            this.NoofAmenities='';
+          }
           //console.log(res['data']['association']['bankDetails'][0].babName);
           //console.log(res['data']['association']['bankDetails'][0].baifsc);
           //console.log(res['data']['association']['bankDetails'][0].baActNo);
           //console.log(res['data']['association']['bankDetails'][0].baActType);
-          this.BABName = res['data']['association']['bankDetails'][0].babName;
-          this.BAIFSC = res['data']['association']['bankDetails'][0].baifsc;
-          this.BAActNo = res['data']['association']['bankDetails'][0].baActNo;
-          this.BAActType = res['data']['association']['bankDetails'][0].baActType;
+          if(res['data']['association']['bankDetails'].length !=0){
+            this.BABName = res['data']['association']['bankDetails'][0].babName;
+            this.BAIFSC = res['data']['association']['bankDetails'][0].baifsc;
+            this.BAActNo = res['data']['association']['bankDetails'][0].baActNo;
+            this.BAActType = res['data']['association']['bankDetails'][0].baActType;
+          }
+          else{
+            this.BABName = '';
+            this.BAIFSC = '';
+            this.BAActNo = '';
+            this.BAActType = '';
+          }
           console.log(res['data']['association']['asPrpType']);
           this.ASPrpType = res['data']['association']['asPrpType'];
+           //
+        EditAssociationData['ASAsnName'] = asAsnName;
+        EditAssociationData['ASCountry'] = asCountry;
+        EditAssociationData['ASAddress'] = asAddress;
+        EditAssociationData['ASCity'] = asCity;
+        EditAssociationData['ASState'] = asState;
+        EditAssociationData['ASPinCode'] = asPinCode;
+        EditAssociationData['ASPrpType'] = asPrpType;
+        EditAssociationData['ASPrpName'] = asPrpName;
+        EditAssociationData['ASNofBlks'] = asNofBlks;
+        EditAssociationData['ASNofUnit'] = asNofUnit;
+        EditAssociationData['asAssnID']=asAssnID;
+        EditAssociationData['BAActID']=BAActID;
+        EditAssociationData['AMID']=AMID;
+        EditAssociationData['AMType']= this.AMType;
+        EditAssociationData['NoofAmenities']= this.NoofAmenities;
+        EditAssociationData['BABName']= this.BABName;
+        EditAssociationData['BAIFSC']= this.BAIFSC;
+        EditAssociationData['BAActNo']= this.BAActNo;
+        EditAssociationData['BAActType']= this.BAActType;
+        EditAssociationData['ASPrpType'] = this.ASPrpType;
+
+        console.log(EditAssociationData);
+        this.viewAssnService.EditAssociationData=EditAssociationData;
+        this.router.navigate(['editassociation']);
         });
-    
-        this.modalRef = this.modalService.show(template,
-          Object.assign({}, { class: 'gray modal-lg' }));
+        // this.modalRef = this.modalService.show(template,
+        //   Object.assign({}, { class: 'gray modal-lg' }));
       }
 
   // toggleStepWizrd() {

@@ -31,7 +31,8 @@
 								</div>
 								<div class="form-group">
 									<div class="input-wrapper1">
-											<input placeholder="Enter OTP" (keypress)=_keyPress1($event) [(ngModel)]="otp" name="otp" type="text" />
+											<input type="password" id="OTPInput" placeholder="Enter OTP" (keypress)=_keyPress1($event) [(ngModel)]="otp" name="otp" />
+											<i (click)="showHidePassword()" style="cursor: pointer;position: relative;right: -285px;top: -33px; color: black;" class="fa" [ngClass]="{'fa-eye-slash':hideShowEye,'fa-eye':!hideShowEye}" aria-hidden="true"></i>
 									</div>
 									
 									<p class="otp" (click)="otpCall($event)" >OTP by Call</p>

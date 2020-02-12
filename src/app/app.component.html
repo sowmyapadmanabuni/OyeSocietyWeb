@@ -20,7 +20,8 @@
          </div>         
     </div>
     <div class="col-sm-9">
-        <div class="col-sm-12" style="display: flex;justify-content: center;">
+      <!--Test1-->
+        <div class="col-sm-12" *ngIf='uniqueAssociations.length != 0' style="display: flex;justify-content: center;">
            <p class="wel" style="width:auto !important;">Welcome to&nbsp;</p>
            <div id="dro-switch" *ngIf="globalService.getUnitDropDownHiddenByDefault() == 'true'">
              <span *ngIf='globalService.NotMoreThanOneUnit' class="wel">&nbsp;&nbsp;Unit: {{globalService.getCurrentUnitName()}}</span>
@@ -47,12 +48,21 @@
                </div>
               <span (click)='toggleAsnDropDwn()' class="switch">switch</span>
            </div>
+           
         </div>
-               
+        <!--Test1--> 
+      <!--Test2--> 
+      <div class="col-sm-12" *ngIf='uniqueAssociations.length == 0' style="display: flex;justify-content: center;">
+        <pre class="wel" style="width:auto !important;">Welcome to OyeSociety
+        your number is not mapped to any of the OyeSociety associations click enroll association for registering
+        your association on OyeSociety, the most advance ERP system for your association
+              Click on join association ti send the join request if your association is already on OyeSociety</pre>
+     </div>   
+      <!--Test2-->   
    </div>
    <!-- <div class="col-sm-1" tooltip="Logout"><i (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i></div> -->
      <div class="col-sm-1">
-        <i tooltip="Logout" (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i>
+        <i tooltip="Logout" (click)='logOut()' style="cursor:pointer; margin-right: 20px;" class="fa fa-power-off" aria-hidden="true"></i>
         <a id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
         </a>
         <span class="badgeAlert">{{notificationList.length}}</span>

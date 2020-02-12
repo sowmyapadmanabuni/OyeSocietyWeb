@@ -26,6 +26,7 @@ export class AppComponent {
   associationName:any;
   subscription: Subscription;
   associationListForReload: Subscription;
+  getAssociationListSubscription: Subscription;
   unitlistForAssociation:any[];
   hideTitle:boolean;
   constructor(public globalService:GlobalServiceService,public router:Router,
@@ -77,25 +78,38 @@ export class AppComponent {
   .subscribe(msg=>{
     console.log(JSON.parse(localStorage.getItem("assnList")));
     console.log(msg);
-    this.uniqueAssociations=JSON.parse(localStorage.getItem("assnList"));
+    if(JSON.parse(localStorage.getItem("assnList"))==null){
+      this.uniqueAssociations=[];
+    }
+    else{
+      this.uniqueAssociations=JSON.parse(localStorage.getItem("assnList"));
+    }
     this.hideTitle=true;
     this.globalService.setAssnDropDownHiddenByDefault('false');
   })
   //
-  this.globalService.getMessage()
-  .subscribe(msg => {
-    console.log(msg);
-    // console.log(asnName);
-    // console.log(typeof asnName);
-    this.uniqueAssociations=msg['msg'];
-    this.globalService.setCurrentAssociationName(msg['msg'][0]['asAsnName']);
-    this.hideTitle=true;
-    this.globalService.setAssnDropDownHiddenByDefault('false');
-  },
-    err => {
-      //console.log(err);
-    })
-  //
+ this.getAssociationListSubscription = this.globalService.getMessage()
+    .subscribe(msg => {
+      console.log(msg);
+      // console.log(asnName);
+      // console.log(typeof asnName);
+      this.uniqueAssociations = msg['msg'];
+      console.log(this.uniqueAssociations);
+      this.globalService.setCurrentAssociationName(msg['msg'][0]['asAsnName']);
+      this.hideTitle = true;
+      this.globalService.setAssnDropDownHiddenByDefault('false');
+    },
+      err => {
+        console.log(err);
+      })
+      //
+      if(JSON.parse(localStorage.getItem("assnList"))==null){
+        this.uniqueAssociations=[];
+      }
+      else{
+        this.uniqueAssociations=JSON.parse(localStorage.getItem("assnList"));
+      }
+        //
   }
   ngOnInit() {
     if(this.globalService.getacAccntID()){
