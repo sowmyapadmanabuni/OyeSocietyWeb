@@ -25,7 +25,8 @@ import {ExpenseList} from '../models/expense-list';
 import * as XLSX from 'xlsx';
 import { Subscription } from 'rxjs';
 import { ViewUnitService } from '../../services/view-unit.service';
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-expense-management',
@@ -353,7 +354,29 @@ export class ExpenseManagementComponent implements OnInit {
     })
     console.log(this.expenseList);
   }
+  convert() {
 
+    let doc = new jsPDF();
+    let head = ["exHead","exApplTO","unUniIden","exIsInvD","exDate","expAmnt"];
+    let body = [];
+
+    /* The following array of object as response from the API req  */
+
+  /*  var itemNew = [
+      { id: 'Case Number', name: '101111111' },
+      { id: 'Patient Name', name: 'UAT DR' },
+      { id: 'Hospital Name', name: 'Dr Abcd' }
+    ] */
+
+
+    this.expenseList.forEach(element => {
+      let temp = [element['exHead'], element['exApplTO'], element['unUniIden'], element['exIsInvD'].toString(), element['exDate'], element['expAmnt']];
+      body.push(temp);
+    });
+    console.log(body);
+    doc.autoTable({ head: [head], body: body });
+    doc.save('Expense.pdf');
+    }
   setOrder(value: string) {
     if (this.order === value) {
       this.reverse = !this.reverse;

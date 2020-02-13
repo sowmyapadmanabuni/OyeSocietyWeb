@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Input } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input,ElementRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { ViewAssociationService } from '../../services/view-association.service';
@@ -19,7 +19,10 @@ import { AddBlockService } from '../../services/add-block.service';
 import {BlockArrayDetail} from '../../app/models/block-array-detail';
 import {UnitArray} from '../models/unit-array'
 import * as _ from 'underscore';
-
+import {ImageSnippet} from '../models/image-snippet';
+import { ImageService } from 'src/services/image.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import {HttpParams} from '@angular/common/http';
 
 declare var $: any;
 
@@ -39,6 +42,7 @@ export class AssociationManagementComponent implements OnInit {
   joinAssociation: boolean;
   viewAssociation_Table: boolean;
   private newAttribute: any = {};
+  uploadForm: FormGroup; 
 
   //crtAssn:CreateAssn;
   selectedFile: File;
@@ -270,8 +274,11 @@ export class AssociationManagementComponent implements OnInit {
   enableCreateUnitWithAssociation:boolean;
   selectedFile1: File
   UnitIDforJoinAssn: any;
+  selectedFile2: ImageSnippet;
+  @ViewChild('avatar',{static:true}) avatar:any;
 
   constructor(private modalService: BsModalService,
+    private formBuilder: FormBuilder,
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private router: Router,
@@ -280,7 +287,9 @@ export class AssociationManagementComponent implements OnInit {
     public viewUniService: ViewUnitService,
     private dashboardservice:DashBoardService,
     private homeservice:HomeService,
-    private addblockservice: AddBlockService) {
+    private addblockservice: AddBlockService,
+    private imageService: ImageService,
+    private http:HttpClient) {
     this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
     this.blockArray=[];
@@ -461,6 +470,7 @@ export class AssociationManagementComponent implements OnInit {
   ngAfterViewInit() {
     this.toggleStepWizrd();
   }
+
   getUnitType(unitTpname,_id) {
     console.log(unitTpname);
 
@@ -472,6 +482,33 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
+  }
+  processFile() {
+   /* const formData = new FormData();
+    console.log(e.target.files[0]);
+    console.log(e.target.files[0].name);
+    formData.append('avatar',e.target.files[0],e.target.files[0].name);
+    console.log(formData);
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
+    this.http.post('https://mediauploaduat.oyespace.com/oyeliving/api/V1/association/upload', formData)
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );*/
+    const formData = new FormData();
+    formData.append('file', this.uploadForm.get('profile').value);
+    console.log(this.uploadForm.get('profile').value);
+    this.http.post('https://mediauploaduat.oyespace.com/oyeliving/api/V1/association/upload', formData)
+      .subscribe(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      );
   }
   getCalculationTypes(calculationTypename,_id) {
     console.log(calculationTypename);
@@ -885,6 +922,10 @@ export class AssociationManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.uploadForm = this.formBuilder.group({
+      profile: ['']
+    });
+
     this.check="true";
     this.check1="true";
     this.dtOptions = {
@@ -922,6 +963,13 @@ this.crtAssn.newBAActType='';
 
     })
   }
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.uploadForm.get('profile').setValue(file);
+    }
+  }
+
   getLatePymtChargeType(name,Id) {
     this.latePymtChargeType = name;
     this.latePymtChargeTypeId=Id;

@@ -20,6 +20,7 @@
                                 <a>{{item['unUniName']}}</a></li>
                         </ul>
                     </div> 
+                    <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Receipts?"(click)="NavigateToBulkUpload()">Bulk Upload</a>
                 </div>
                     <div class="switch">
                         <ul class="nav nav-pills">
@@ -103,7 +104,7 @@
                             </tr>
                         </tfoot>
                     </table>
-
+                    <a (click)="convert()">Generate PDF</a>
                 </div>
                 <div *ngIf='generatereceiptservice.enableGenerateReceiptView' class="dash-row">
                     <app-generate-receipt></app-generate-receipt>

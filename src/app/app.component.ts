@@ -95,7 +95,7 @@ export class AppComponent {
       // console.log(typeof asnName);
       this.uniqueAssociations = msg['msg'];
       console.log(this.uniqueAssociations);
-      this.globalService.setCurrentAssociationName(msg['msg'][0]['asAsnName']);
+      //this.globalService.setCurrentAssociationName(msg['msg'][0]['asAsnName']);
       this.hideTitle = true;
       this.globalService.setAssnDropDownHiddenByDefault('false');
     },

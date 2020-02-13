@@ -68,14 +68,15 @@ todayDate: Date;
   ngOnInit() {
     this.guestList=true;
     this.addGuest=false;
-    this.getVisitorList();
+    this.getVisitorList('');
     this.AssociationName = this.globalService.currentAssociationName;
   }
   // 
-  getVisitorList(){
+  getVisitorList(event){
+    console.log(event);
     let date = {
       "StartDate": this.StartDate,
-      "Todate": this.ToDate
+      "Todate": (event==null?'':event)
     }
     console.log(date);
     this.guestService.getVisitorList(date,"Invited")
@@ -125,7 +126,7 @@ todayDate: Date;
     this.addvisitorservice.addVisitor(visitorData)
     .subscribe(data=>{
       console.log(data);
-      this.getVisitorList();
+      this.getVisitorList('');
       swal.fire({
         title: "Visitor Added Successfully",
         text: "",

@@ -159,7 +159,14 @@ export class EditAssociationComponent implements OnInit {
           text: `${err['error']['exceptionMessage']}`,
           type: "error",
           confirmButtonColor: "#f69321"
-        });
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.router.navigate(['association']);
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+            }
+          });
       });
   }
 

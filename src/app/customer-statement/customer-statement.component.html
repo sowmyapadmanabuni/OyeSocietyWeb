@@ -82,7 +82,7 @@
       <!--Details Panel-->
 
       <table class="table table-bordered"
-        [mfData]="displaypaymentdetails | search:['unUnitID', 'pyDesc', 'pyDate','pyAmtDue']:searchTxt"
+        [mfData]="allpaymentdetails | search:['unUnitID', 'pyDesc', 'pyDate','pyAmtDue']:searchTxt"
         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
 
         <thead>
@@ -159,7 +159,7 @@
 
               <td class="amount">{{'₹ '+item.pyAmtPaid+'.00'}}</td>
 
-              <td><i (click)='OpenCustomerModel(customertemplate)' class="fa fa-eye"></i> | <i class="fa fa-pencil"></i>
+              <td><i (click)="OpenCustomerModel(customertemplate,item['pyDate'],item['acAccntID'],item['pyBal'])" class="fa fa-eye"></i>
               </td>
 
             </ng-container>
@@ -230,7 +230,7 @@
 
           <p></p>
 
-          <p><b>Date:</b> November 30, 2019</p>
+          <p><b>Date:</b> {{pyDate|date:'dd/MM/yyyy'}}</p>
 
           <p class="bill">Bill To</p>
 
@@ -248,13 +248,13 @@
 
         <div class="cus-details">
 
-          <p><b>Statement:</b> November 30, 2019</p>
+          <!-- <p><b>Statement:</b> November 30, 2019</p> -->
 
-          <p><b>Customer Id:</b> YUI18293</p>
+          <p><b>Customer Id:</b>{{acAccntID}}</p>
 
           <p class="bill">Account Summary</p>
 
-          <p><b>Previous Balance</b></p>
+          <p><b>Previous Balance:</b>{{pyBal}}</p>
 
           <p><b>Credits</b></p>
 

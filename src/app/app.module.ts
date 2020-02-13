@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routing } from './routing';
 import { RequestformComponent } from './requestform/requestform.component';
 import { ModalModule } from 'ngx-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HiringComponent } from './hiring/hiring.component';
 import { MapsComponent } from './maps/maps.component';
 import { AgmCoreModule } from '@agm/core';
@@ -80,6 +80,7 @@ import { BlockArrayComponent } from './block-array/block-array.component';
 import { CreateUnitWithAssociationComponent } from './create-unit-with-association/create-unit-with-association.component';
 import { JoinAndEnrollComponent } from './join-and-enroll/join-and-enroll.component';
 import { EditAssociationComponent } from './edit-association/edit-association.component';
+import { ExcelReceiptUploadComponent } from './excel-receipt-upload/excel-receipt-upload.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -140,9 +141,11 @@ import { EditAssociationComponent } from './edit-association/edit-association.co
     BlockArrayComponent,
     CreateUnitWithAssociationComponent,
     JoinAndEnrollComponent,
-    EditAssociationComponent
+    EditAssociationComponent,
+    ExcelReceiptUploadComponent
     ],
   imports: [
+    ReactiveFormsModule,
     Ng2TelInputModule,
     BrowserModule,
     ChartsModule,

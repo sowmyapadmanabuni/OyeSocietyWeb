@@ -16,7 +16,8 @@ import {ViewReceiptService} from '../../services/view-receipt.service';
 declare var $: any;
 import { Subscription } from 'rxjs';
 import { ViewUnitService } from '../../services/view-unit.service';
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 @Component({
@@ -375,6 +376,29 @@ export class InvoicesComponent implements OnInit {
     this.checkAll = false;
     this.getAllUnitDetailsByBlockID()
   }
+  convert(){
+
+    let doc = new jsPDF();
+    let head = ["inNumber", "inGenDate","inTotVal"];
+    let body = [];
+
+    /* The following array of object as response from the API req  */
+
+  /*  var itemNew = [
+      { id: 'Case Number', name: '101111111' },
+      { id: 'Patient Name', name: 'UAT DR' },
+      { id: 'Hospital Name', name: 'Dr Abcd' }
+    ] */
+
+
+    this.invoiceLists.forEach(element => {
+      let temp = [element['inNumber'], element['inGenDate'], element['inTotVal']];
+      body.push(temp);
+    });
+    console.log(body);
+    doc.autoTable({ head: [head], body: body });
+    doc.save('Invoice.pdf');
+  }
 
   setOrder(value: string) {
     if (this.order === value) {
@@ -716,6 +740,114 @@ export class InvoicesComponent implements OnInit {
           console.log(err);
         })
   }
+  payThroughICICIPGtest(e,inid,unUnitID){
+    e.preventDefault();
+    console.log(inid,unUnitID);
+    this.viewinvoiceservice.invoiceDetails(inid, unUnitID)
+    .subscribe(data => {
+      this.InvoiceValue = 0;
+      console.log('invoiceDetails--', data['data']['invoiceDetails']);
+      this.invoiceDetails = data['data']['invoiceDetails'];
+      data['data']['invoiceDetails'].forEach(item => {
+
+        if (item['idDesc'] == "Common Area Electric Bill") {
+          this.commonareafee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Fixed Maintenance") {
+          this.fixedmaintenancefee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Generator") {
+          this.generatorfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Security Fees") {
+          this.securityfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Unsold Rental Fees") {
+          this.unsoldrentalfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Corpus") {
+          this.corpusfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "HouseKeeping") {
+          this.housekeepingfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Water Meter") {
+          this.watermeterfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "One Time Membership fee") {
+          this.onetimemembershipfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "One Time OnBoarding Fees") {
+          this.OneTimeOnBoardingFees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "One Time Occupancy Fees") {
+          this.onetimeoccupancyfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Renting Fees") {
+          this.rentingfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "bill") {
+          //this.rentingfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Cleaning") {
+          //this.rentingfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+      })
+      let paymentDetails = {
+        "chargetotal": this.InvoiceValue + '.00',
+        "customerID": 9539 //set customer Id
+      }
+  
+      this.paymentService.postToICICIPG(paymentDetails)
+        .subscribe((res: any) => {
+          console.log(JSON.stringify(res));
+          let response = res.data.paymentICICI;
+          this.iciciPayForm = {
+            txntype: response.txntype, //'sale'
+            timezone: response.timezone, //'Asia/Calcutta',
+            txndatetime: response.txndatetime, //this.utilService.getDateTime(),//,
+            hash_algorithm: response.hash_algorithm,
+            hash: response.response_hash,
+            storename: response.storename, //'3300002052',
+            mode: response.mode, // "payonly" ,
+            currency: response.currency,
+            responseSuccessURL: response.pgStatURL,
+            responseFailURL: response.pgStatURL,
+            language: response.language, //"en_US",
+            chargetotal: response.chargetotal,
+            oid: response.oid
+          }
+          console.log(JSON.stringify(this.iciciPayForm));
+          setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
+        },
+          err => {
+            console.log(err);
+          })
+    },
+      err => {
+        console.log(err);
+        swal.fire({
+          title: "Error",
+          text: `${err['error']['error']['message']}`,
+          type: "error",
+          confirmButtonColor: "#f69321"
+        });
+      }) 
+  }
   kotakPay(e) {
     let paymentDetails = {
       "chargetotal": this.InvoiceValue + '.00',
@@ -947,6 +1079,22 @@ export class InvoicesComponent implements OnInit {
     this.viewinvoiceservice.generateInvoiceReceipt(genReceipt)
     .subscribe(data=>{
       console.log(data);
+      this.modalRef.hide();
+      swal.fire({
+        title: "Receipt Generated Successfully",
+        text: "",
+        type: "success",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+            
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+
+          }
+        })
+
     },
     err=>{
       console.log(err);
@@ -1203,7 +1351,7 @@ export class InvoicesComponent implements OnInit {
           console.log(err);
           swal.fire({
             title: "An error has occurred",
-            text: `${err['error']['error']['message']}`,
+            text: `${err['error']['message']}`,
             type: "error",
             confirmButtonColor: "#f69321"
           });

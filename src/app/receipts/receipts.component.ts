@@ -7,7 +7,8 @@ import {Router} from '@angular/router';
 import swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { DashBoardService } from '../../services/dash-board.service';
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 declare var $: any;
@@ -95,6 +96,9 @@ export class ReceiptsComponent implements OnInit {
   goToExpense(){
     this.router.navigate(['expense']);
   }
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelreceipt'])
+  }
   goToInvoice(){
     this.router.navigate(['invoice']);
   }
@@ -174,6 +178,29 @@ export class ReceiptsComponent implements OnInit {
       return item['unUniName'] == unUniName;
     })
     console.log(this.viewPayments)
+  }
+  convert(){
+
+    let doc = new jsPDF();
+    let head = ["unUniName", "inNumber","pyDate","pyAmtPaid"];
+    let body = [];
+
+    /* The following array of object as response from the API req  */
+
+  /*  var itemNew = [
+      { id: 'Case Number', name: '101111111' },
+      { id: 'Patient Name', name: 'UAT DR' },
+      { id: 'Hospital Name', name: 'Dr Abcd' }
+    ] */
+
+
+    this.viewPayments.forEach(element => {
+      let temp = [element['unUniName'], element['inNumber'], element['pyDate'], element['pyAmtPaid']];
+      body.push(temp);
+    });
+    console.log(body);
+    doc.autoTable({ head: [head], body: body });
+    doc.save('Receipt.pdf');
   }
   getReceiptListByDateRange(ReceiptEndDate){
     console.log(ReceiptEndDate);

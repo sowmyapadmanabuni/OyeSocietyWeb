@@ -127,6 +127,13 @@
                                             |
                                             <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
                                         </span>
+                                        <span *ngIf="item['inPaid'] == 'No'">
+                                            |
+                                            <svg height="15" width="20" class="blinking">
+                                                <circle cx="10" cy="10" r="5" fill="orange" />
+                                                Sorry, your browser does not support inline SVG.  
+                                              </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer;">Pay now</a>
+                                        </span>
                                         <span *ngIf="item['inPaid'] == 'Yes'">
                                             |
                                             <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
@@ -162,6 +169,7 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <a (click)="convert()">Generate PDF</a>
                 </div>
             </div>
             <!--Dashboard icons end-->

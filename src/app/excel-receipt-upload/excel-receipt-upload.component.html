@@ -1,0 +1,122 @@
+<div class="container-fluid np">
+    <div class="col-sm-12 mt-80">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+
+        <!--Profile section-->
+
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+
+                <!-- <div style="display: flex;margin-bottom: 20px;align-items: flex-start;">
+                        <button class="btn-primary-purple" (click)="addBlocksShow()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
+                        <div class="upload_excel">
+                          <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png" tooltip="Have more num of Blocks?"></a>
+                           <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
+                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+                        </div>
+                </div> -->
+                <form>
+                    <div class="row">
+                        <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
+                            <div class="upload_excel">
+                                <a> <img style="width: 60px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                                        tooltip="Have more num of Receipts?"></a>
+                                <a href="../../assets/Excel/Demo_Receipt_Detailstemplate.xlsx" download><img style="width: 60px;" class="excel"
+                                        src="../../assets/images/download.png"
+                                        tooltip="click to download demo excel format"></a>
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
+                                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                    style="display:none" #file>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-8" style="border-radius: 18px;">
+                                    <h4>Excel Upload Instructions & Format:</h4>
+                                    
+                                    <ul>
+                                       <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                                       <li>Nulla ut eros quis est feugiat condimentum.</li>
+                                       <li>Donec eget enim feugiat erat vehicula pretium non et urna.</li>
+                                       <li>Cras vitae neque imperdiet, rhoncus orci sed, dignissim magna.</li>
+                                       <li>Integer nec augue ut dolor efficitur auctor.</li>
+                                       <li>Note:- Bulk Upload your Blocks file in <i class="fa fa-file-excel-o"
+                                         aria-hidden="true"></i> excel format, the demo excel format can be downloaded from above</li>
+                                     </ul> 
+    
+                            </div>
+                    </div>
+                </form>
+                <!--  -->
+                <!--  -->
+                <!--  -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive"
+                        [mfData]="ReceiptList"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Unit Name - Flat no">UnitName-FlatNo</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="InvoiceNumber">Invoice Number</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="AmountDue">Amount Due</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="AmountPaid">Amount Paid</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Cash(VoucherNumber)">Cash (VoucherNumber)</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Cash(PaymentDate)">Cash (PaymentDate)</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="5" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{item['Sno']}}</td>
+                                    <td>{{item['Unit Name - Flat no']}}</td>
+                                    <td>{{item['InvoiceNumber']}}</td>
+                                    <td>{{item['AmountDue']}}</td>
+                                    <td>{{item['AmountPaid']}}</td>
+                                    <td>{{item['Cash(VoucherNumber)']}}</td>
+                                    <td>{{item['Cash(PaymentDate)']}}</td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="15">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div>
+                        <button style="float: right;" class="btn-primary-purple" (click)="createBlockFromExcel()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Blocks</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
