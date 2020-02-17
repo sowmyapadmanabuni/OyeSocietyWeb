@@ -286,6 +286,9 @@ export class InvoicesComponent implements OnInit {
   goToReceipts() {
     this.router.navigate(['receipts']);
   }
+  goToResidentReceipts() {
+    this.router.navigate(['receipts',2]);
+  }
   goToVehicles() {
     this.router.navigate(['vehicles']);
   }

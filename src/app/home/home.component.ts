@@ -615,6 +615,7 @@ export class HomeComponent implements OnInit {
     this.GetAmountBalance(unUnitID);
     this.GetVisitorLogByDatesAssocAndUnitID(unUnitID);
     this.GetWorkersListByUnitID(unUnitID);
+    this.GetFamilyMemberVehicleCountByAssocAcntUnitID();
   }
   AdminsUnitShow() {
     this.localMrmRoleId = 2;
@@ -697,6 +698,9 @@ export class HomeComponent implements OnInit {
   goToJoinAssociation(){
     this.join_enroll=2;
     this.router.navigate(['joinenroll',this.join_enroll]);
+  }
+  GetFamilyMemberVehicleCountByAssocAcntUnitID(){
+
   }
 
 }

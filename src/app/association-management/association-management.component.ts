@@ -276,6 +276,7 @@ export class AssociationManagementComponent implements OnInit {
   UnitIDforJoinAssn: any;
   selectedFile2: ImageSnippet;
   @ViewChild('avatar',{static:true}) avatar:any;
+  ASAsnLogo:any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -501,14 +502,27 @@ export class AssociationManagementComponent implements OnInit {
           console.log(error);
         }
       );*/
-    const formData = new FormData();
-    formData.append('file', this.uploadForm.get('profile').value);
+    //const formData = new FormData();
+    //formData.append('file', this.uploadForm.get('profile').value);
     console.log(this.uploadForm.get('profile').value);
-    this.http.post('https://mediauploaduat.oyespace.com/oyeliving/api/V1/association/upload', formData)
-      .subscribe(
-        (res) => console.log(res),
-        (err) => console.log(err)
-      );
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadForm.get('profile').value);
+    reader.onload = ()=> {
+      console.log(reader.result);
+      this.ASAsnLogo=reader.result;
+      this.ASAsnLogo=this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3);
+      //console.log(this.ASAsnLogo.indexOf('64')+1);
+      //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+      console.log(this.ASAsnLogo);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+    // this.http.post('https://mediauploaduat.oyespace.com/oyeliving/api/V1/association/upload', formData)
+    //   .subscribe(
+    //     (res) => console.log(res),
+    //     (err) => console.log(err)
+    //   );
   }
   getCalculationTypes(calculationTypename,_id) {
     console.log(calculationTypename);
@@ -966,6 +980,7 @@ this.crtAssn.newBAActType='';
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
+      console.log(file);
       this.uploadForm.get('profile').setValue(file);
     }
   }
@@ -1445,7 +1460,7 @@ this.crtAssn.newBAActType='';
         "ASAddress": this.crtAssn.locality,
         "ASCountry": this.crtAssn.country,
         "ASCity": this.crtAssn.city,
-        "ASAsnLogo": "logo",
+        "ASAsnLogo": this.ASAsnLogo,
         "ASState": this.crtAssn.state,
         "ASPinCode": this.crtAssn.postalCode,
         "ASAsnName": this.crtAssn.name,

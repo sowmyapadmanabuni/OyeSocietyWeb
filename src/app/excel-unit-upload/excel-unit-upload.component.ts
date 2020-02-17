@@ -81,81 +81,86 @@ export class ExcelUnitUploadComponent implements OnInit {
   //CREATE UNIT FROM EXCEL
   createUnitFromExcel() {
     // console.log(typeof jsonData);
-    this.excelUnitList.forEach(item => {
-      let createUnitData =
-      {
-        "ASAssnID": this.currentAssociationID,
-        "ACAccntID": this.globalService.getacAccntID(),
-        "units": [
+    this.excelUnitList.forEach((item,idx) => {
+      ((idx) => {
+        setTimeout(() => {
+          let createUnitData =
           {
-            "UNUniName": item['Unit Name - Flat no.'],
-            "UNUniType": (item['UnitType'] == undefined ? "" : item['UnitType']),
-            "UNRate": (item['UnitRate'] == undefined ? "" : item['UnitRate']),
-            "UNOcStat": (item['OccupancyAndOwnershipStatus'] == undefined ? "UnSold Vacant Unit" : item['OccupancyAndOwnershipStatus']),
-            "UNOcSDate": "2019-03-02",
-            "UNOwnStat": "null",
-            "UNSldDate": "2019-03-02",
-            "UNDimens": (item['UnitDimension'] == undefined ? "" : item['UnitDimension']),
-            "UNCalType": (item['CalculationType'] == undefined ? "" : item['CalculationType']),
-            "BLBlockID": this.currentSelectedBlockID,
-            "Owner":
-              [{
+            "ASAssnID": this.currentAssociationID,
+            "ACAccntID": this.globalService.getacAccntID(),
+            "units": [
+              {
+                "UNUniName": item['Unit Name - Flat no.'],
+                "UNUniType": (item['UnitType'] == undefined ? "" : item['UnitType']),
+                "UNRate": (item['UnitRate'] == undefined ? "" : item['UnitRate']),
+                "UNOcStat": (item['OccupancyAndOwnershipStatus'] == undefined ? "UnSold Vacant Unit" : item['OccupancyAndOwnershipStatus']),
+                "UNOcSDate": "2019-03-02",
+                "UNOwnStat": "null",
+                "UNSldDate": "2019-03-02",
+                "UNDimens": (item['UnitDimension'] == undefined ? "" : item['UnitDimension']),
+                "UNCalType": (item['CalculationType'] == undefined ? "" : item['CalculationType']),
+                "BLBlockID": this.currentSelectedBlockID,
+                "Owner":
+                  [{
 
-                "UOFName": (item['OwnerFirstName'] == undefined ? "" : item['OwnerFirstName']),
-                "UOLName": (item['OwnerLastname'] == undefined ? "" : item['OwnerLastname']),
-                "UOMobile": (item['OwnerMobile'] == undefined ? "" : item['OwnerMobile']),
-                "UOISDCode": "+91",
-                "UOMobile1": "null",
-                "UOMobile2": "null",
-                "UOMobile3": "null",
-                "UOMobile4": "null",
-                "UOEmail": (item['OwnerEmailID'] == undefined ? "" : item['OwnerEmailID']),
-                "UOEmail1": "null",
-                "UOEmail2": "null",
-                "UOEmail3": "null",
-                "UOEmail4": "null",
-                "UOCDAmnt": ""
-              }],
-            "unitbankaccount":
-            {
-              "UBName": "",
-              "UBIFSC": "",
-              "UBActNo": "",
-              "UBActType": "",
-              "UBActBal": 0,
-              "BLBlockID": this.currentSelectedBlockID
-            },
-            "Tenant":
-              [{
-
-                "UTFName": (item['TenantFirstName'] == undefined ? "" : item['TenantFirstName']),
-                "UTLName": (item['TenantLastName'] == undefined ? "" : item['TenantLastName']),
-                "UTMobile": (item['TenantMobileNumber'] == undefined ? "" : item['TenantMobileNumber']),
-                "UTISDCode": "+91",
-                "UTMobile1": "",
-                "UTEmail": (item['TenantEmail'] == undefined ? "" : item['TenantEmail']),
-                "UTEmail1": ""
-              }],
-            "UnitParkingLot":
-              [
+                    "UOFName": (item['OwnerFirstName'] == undefined ? "" : item['OwnerFirstName']),
+                    "UOLName": (item['OwnerLastname'] == undefined ? "" : item['OwnerLastname']),
+                    "UOMobile": (item['OwnerMobile'] == undefined ? "" : item['OwnerMobile']),
+                    "UOISDCode": "+91",
+                    "UOMobile1": "null",
+                    "UOMobile2": "null",
+                    "UOMobile3": "null",
+                    "UOMobile4": "null",
+                    "UOEmail": (item['OwnerEmailID'] == undefined ? "" : item['OwnerEmailID']),
+                    "UOEmail1": "null",
+                    "UOEmail2": "null",
+                    "UOEmail3": "null",
+                    "UOEmail4": "null",
+                    "UOCDAmnt": ""
+                  }],
+                "unitbankaccount":
                 {
-                  "UPLNum": "",
-                  "MEMemID": "",
-                  "UPGPSPnt": "null"
+                  "UBName": "",
+                  "UBIFSC": "",
+                  "UBActNo": "",
+                  "UBActType": "",
+                  "UBActBal": 0,
+                  "BLBlockID": this.currentSelectedBlockID
+                },
+                "Tenant":
+                  [{
 
-                }
-              ]
+                    "UTFName": (item['TenantFirstName'] == undefined ? "" : item['TenantFirstName']),
+                    "UTLName": (item['TenantLastName'] == undefined ? "" : item['TenantLastName']),
+                    "UTMobile": (item['TenantMobileNumber'] == undefined ? "" : item['TenantMobileNumber']),
+                    "UTISDCode": "+91",
+                    "UTMobile1": "",
+                    "UTEmail": (item['TenantEmail'] == undefined ? "" : item['TenantEmail']),
+                    "UTEmail1": ""
+                  }],
+                "UnitParkingLot":
+                  [
+                    {
+                      "UPLNum": "",
+                      "MEMemID": "",
+                      "UPGPSPnt": "null"
+
+                    }
+                  ]
+              }
+            ]
           }
-        ]
-      }
-      console.log(createUnitData);
+          console.log(createUnitData);
 
-      this.viewUniService.createUnit(createUnitData).subscribe((response) => {
-        console.log(response);
-      },
-        (response) => {
-          console.log(response);
-        });
+          this.viewUniService.createUnit(createUnitData).subscribe((response) => {
+            console.log(response);
+          },
+            (response) => {
+              console.log(response);
+            });
+          //
+        }, 1500 * idx)
+      })(idx)
     })
     Swal.fire({
       title: `${this.excelUnitList.length} - Unit Created Successfuly`,

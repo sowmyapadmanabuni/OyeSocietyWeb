@@ -2,6 +2,7 @@
 .black{color: #333333;}
 .enroll{display: flex;justify-content: flex-end;align-items: center;}
 /* .bg-grey{background: #f1eded26;} */
+.lab{ width: 250px;}
 a{cursor: pointer;}
 .mr{margin-right: 20px;}
 .f-des{padding-left: 10px;font-weight: 500;}

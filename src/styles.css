@@ -185,7 +185,7 @@ color: #7e7f80;
 .alerts
 {
 color: red;
-position: absolute;
+position: relative;
 font-size: 12px;
 }
 .mandate{color: red}
@@ -420,3 +420,4 @@ tbody>tr>td:last-child{text-align: center !important}
      }
     button{display: none;}
     }
+    .t-right{text-align: right;}

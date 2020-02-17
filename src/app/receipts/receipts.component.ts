@@ -3,7 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {GlobalServiceService} from '../global-service.service';
 import {ViewReceiptService} from '../../services/view-receipt.service';
 import { GenerateReceiptService } from '../../services/generate-receipt.service';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { DashBoardService } from '../../services/dash-board.service';
@@ -41,14 +41,21 @@ export class ReceiptsComponent implements OnInit {
   Balance: any;
   currentAssociationIdForReceipts:Subscription;
   ReceiptStartDate:any;
+  localMrmRoleId: any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
     public dashBrdService: DashBoardService,
     private viewreceiptservice:ViewReceiptService,
     private router:Router,
-    public generatereceiptservice: GenerateReceiptService) 
+    public generatereceiptservice: GenerateReceiptService,
+    private route: ActivatedRoute) 
     { 
+      this.route.params.subscribe(data => {
+        console.log(data);
+        this.localMrmRoleId=data['mrmroleId'];
+      });
+      
       this.currentAssociationID=this.globalservice.getCurrentAssociationId();
       this.unitIdentifier='';
       this.invoiceNumber='';
@@ -99,6 +106,9 @@ export class ReceiptsComponent implements OnInit {
 
   goToInvoice(){
     this.router.navigate(['invoice']);
+  }
+  goToResidentInvoice(){
+    this.router.navigate(['invoice',2]);
   }
   goToReceipts(){
     this.generatereceiptservice.enableReceiptListView=true;

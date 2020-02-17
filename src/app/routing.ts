@@ -70,6 +70,7 @@ const routes: Routes = [
     { path: 'invoice', component:InvoicesComponent, canActivate: [AuthGuard]},
     { path: 'invoice/:mrmroleId', component:InvoicesComponent, canActivate: [AuthGuard]},
     { path: 'receipts', component:ReceiptsComponent, canActivate: [AuthGuard]},
+    { path: 'receipts/:mrmroleId', component:ReceiptsComponent, canActivate: [AuthGuard]},
     { path: 'units', component:UnitsComponent, canActivate: [AuthGuard]},
     { path: 'vehicles', component:VehiclesComponent, canActivate: [AuthGuard]},
     { path: 'addunit', component:AddUnitComponent, canActivate: [AuthGuard]},

@@ -46,9 +46,43 @@ export class VehiclesComponent implements OnInit {
       this.VehicleCarousel1=[];
       this.j=0;
       this.getUnitID=this.globalserviceservice.getCurrentUnitIdSubject()
-      .subscribe(data=>{
-        console.log(data);
-      })
+        .subscribe(data => {
+          console.log(data);
+          this.VehicleDataNew = [];
+          this.VehicleCarousel=[];
+          this.VehicleCarousel1=[];
+          this.addvehicleservice.getVehicleDetails(data.UnitID)
+            .subscribe(data => {
+              console.log(data);
+              this.VehicleData = data['data']['vehicleListByUnitID'];
+              console.log(this.VehicleData);
+              this.VehicleData.forEach(item => {
+                if (this.VehicleData.length > 0) {
+                  this.vehicledatalength = true;
+                  if (item['veType'] != '' && item['veMakeMdl'] != '' && item['veRegNo'] != '' && item['veStickNo'] != '') {
+                    this.VehicleDataNew.push(new VehicleDataNew(item['veType'], item['veMakeMdl'], item['veRegNo'], item['veStickNo'], item['veid']));
+                    console.log('test',this.VehicleDataNew);
+                  }
+                }
+              })
+
+
+              for (let i = 0; i < this.VehicleDataNew.length; i++) {
+                if (i < 4) {
+                  this.VehicleCarousel[i] = this.VehicleDataNew[i];
+                }
+                else {
+                  this.VehicleCarousel1[this.j] = this.VehicleDataNew[i];
+                  this.j++;
+                }
+              }
+              //console.log(this.VehicleCarousel);
+              //console.log(this.VehicleCarousel1);
+            },
+              err => {
+                //console.log(err);
+              })
+        })
      }
   ngOnInit() {
     this.CurrentUnitID = this.globalserviceservice.getCurrentUnitId();

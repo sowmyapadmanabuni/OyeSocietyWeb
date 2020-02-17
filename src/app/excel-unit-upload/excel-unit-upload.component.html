@@ -92,7 +92,7 @@
 
                 <!-- -->
 
-                <div class="dash-row" *ngIf='ShowExcelDataList'>
+                <div class="dash-row" style="overflow-x: scroll;" *ngIf='ShowExcelDataList'>
 
                     <table class="table table-bordered" [mfData]="excelUnitList" #mf="mfDataTable"
                         (click)="onPageChange($event)" [mfRowsOnPage]="10">
