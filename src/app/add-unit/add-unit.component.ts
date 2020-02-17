@@ -207,10 +207,11 @@ export class AddUnitComponent implements OnInit {
           "UNRate": this.unitrate,
           "UNOcStat": this.occupency,
           "UNOcSDate": "2019-03-02",
-          "UNOwnStat": "null",
+          "UNOwnStat": "",
           "UNSldDate": "2019-03-02",
           "UNDimens": this.unitdimension,
           "UNCalType": this.calculationtype,
+          "FLFloorID": 14,
           "BLBlockID": this.viewUniService.blockIDforUnitCreation,
           "Owner":
           [{
@@ -220,23 +221,23 @@ export class AddUnitComponent implements OnInit {
             "UOMobile": this.ownerMobnumber,
             "UOISDCode": "+91",
             "UOMobile1": this.ownerAltnumber,
-            "UOMobile2": "null",
-            "UOMobile3": "null",
-            "UOMobile4": "null",
+            "UOMobile2": "",
+            "UOMobile3": "",
+            "UOMobile4": "",
             "UOEmail": this.ownerEmail,
             "UOEmail1": this.ownerAltemail,
-            "UOEmail2": "null",
-            "UOEmail3": "null",
-            "UOEmail4": "null",
-            "UOCDAmnt": ""
+            "UOEmail2": "",
+            "UOEmail3": "",
+            "UOEmail4": "",
+            "UOCDAmnt": "2000"
           }],
           "unitbankaccount":
           {
-            "UBName": "",
-            "UBIFSC": "",
-            "UBActNo": "",
-            "UBActType": "",
-            "UBActBal": 0,
+            "UBName": "SBI",
+            "UBIFSC": "SBIN0014",
+            "UBActNo": "LOP9090909",
+            "UBActType": "Savings",
+            "UBActBal": 12.3,
             "BLBlockID": this.blockID
           },
         "Tenant":
@@ -253,9 +254,9 @@ export class AddUnitComponent implements OnInit {
           "UnitParkingLot":
             [
               {
-                "UPLNum": "",
-                "MEMemID": "",
-                "UPGPSPnt": "null"
+                "UPLNum": "1902",
+                "MEMemID": 287,
+                "UPGPSPnt": "24.0088 23. 979"
 
               }
             ]

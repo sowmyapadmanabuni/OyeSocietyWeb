@@ -8,7 +8,7 @@ import {UtilsService} from '../app/utils/utils.service';
   providedIn: 'root'
 })
 export class GenerateReceiptService {
-
+  ReceiptListArrayForComapreWithExcel:any[];
   ipAddress: string;
   url: string;
   enableGenerateReceiptView:boolean;
@@ -18,6 +18,7 @@ export class GenerateReceiptService {
     this.ipAddress = 'http://apidev.oyespace.com/';
     this.enableGenerateReceiptView=false;
     this.enableReceiptListView=true;
+    this.ReceiptListArrayForComapreWithExcel=[];
   }
 
   GetBlockListByAssocID(currentAssociationID){

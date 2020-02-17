@@ -159,7 +159,7 @@
 
               <td class="amount">{{'₹ '+item.pyAmtPaid+'.00'}}</td>
 
-              <td><i (click)="OpenCustomerModel(customertemplate,item['pyDate'],item['acAccntID'],item['pyBal'])" class="fa fa-eye"></i>
+              <td><i (click)="OpenCustomerModel(customertemplate,item['pyDate'],item['acAccntID'],item['pyBal'],item['pyAmtDue'],item['inNumber'],item['pyDesc'],item['pyAmtPaid'],item['pyStat'],item['unUnitID'])" class="fa fa-eye"></i>
               </td>
 
             </ng-container>
@@ -198,9 +198,201 @@
 
 </div>
 
-
-
+<!--  -->
 <ng-template #customertemplate>
+
+  <div class="modal-content">
+
+    <div class="cus-panel">
+
+      <div>
+
+        <!--top header-->
+
+        <div><img src="../../assets/sOyeSociety.png"></div>
+
+        <div>
+
+          <h3>{{globalservice.getCurrentAssociationName()}}</h3>
+
+        </div>
+
+        <div><img src="../../assets/images/icons/printer.png"></div>
+
+        <!--top header-->
+
+      </div>
+
+      <div>
+
+        <div class="cus-details">
+
+          <p></p>
+
+          <p><b>Date:</b> {{pyDate|date:'dd/MM/yyyy'}}</p>
+
+          <p class="bill">Bill To</p>
+
+          <p><b>Name:</b> {{ResidentName}}</p>
+
+          <p><b>Last Name:</b> {{ResidentLastName}}</p>
+
+          <p><b>Street Address:</b></p>
+
+          <p><b>City:</b> Banglore</p>
+
+          <p><b>Phone Number:</b> {{ResidentMobileNum}}</p>
+
+        </div>
+
+        <div class="cus-details">
+
+          <!-- <p><b>Statement:</b> November 30, 2019</p> -->
+
+          <p><b>Customer Id:</b>{{acAccntID}}</p>
+
+          <p class="bill">Account Summary</p>
+
+          <p><b>Previous Balance:</b>{{pyBal}}</p>
+
+          <!-- <p><b>Credits</b></p> -->
+
+          <!-- <p><b>New Charges</b></p> -->
+
+          <p><b>Total Balance Due:</b>{{pyAmtDue}}</p>
+
+          <p><b>Payment Due Date</b></p>
+
+        </div>
+
+      </div>
+
+
+
+      <div>
+
+        <table class="table table-bordered">
+
+          <thead>
+
+            <tr>
+
+              <th style="color: #fff !important;">Date</th>
+
+              <th style="color: #fff !important;">Invoice</th>
+
+              <th style="color: #fff !important;">Description</th>
+
+              <!-- <th style="color: #fff !important;"> Charges</th> -->
+
+              <!-- <th style="color: #fff !important;">Credits</th> -->
+
+              <th style="color: #fff !important;">Paid</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr>
+
+              <td>{{pyDate|date:'dd/MM/yyyy'}}</td>
+
+              <td>{{inNumber}}</td>
+
+              <td>{{pyDesc}}</td>
+
+              <!-- <td>120</td> -->
+
+              <!-- <td>10</td> -->
+
+              <td><i class="fa fa-inr"></i>{{pyAmtPaid}}.00</td>
+
+            </tr>
+
+            <!-- <tr>
+
+              <td>09-12-2019</td>
+
+              <td>xxxxx</td>
+
+              <td>lorem ipsum</td>
+
+              <td>120</td>
+
+              <td>10</td>
+
+              <td>12345</td>
+
+            </tr> -->
+
+            <!-- <tr>
+
+              <td>09-12-2019</td>
+
+              <td>xxxxx</td>
+
+              <td>lorem ipsum</td>
+
+              <td>120</td>
+
+              <td>10</td>
+
+              <td>12345</td>
+
+            </tr> -->
+
+            <tr style="text-align: right;">
+
+              <td colspan="6">
+
+                <p style="color: #000;font-size: 17px;">Paid amount:  <i class="fa fa-inr"></i>{{pyAmtPaid}}</p>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <p class="txt-center">It is a long established fact that a reader will be distracted by the readable content
+
+        of
+
+        a page when looking at its layout. The point of using Lorem Ipsum</p>
+
+      <p class="txt-center">Make All the cheque payable to my company name</p>
+
+      <h5 class="txt-center">Thank You For Your Business</h5>
+
+      <hr>
+
+      <p style="text-align: center;">Neo Town, Electronic city Phase 1, Bengaluru-560010</p>
+
+      <div>
+
+        <p><b>Telephone:</b> 7876878576</p>
+
+        <p><b>Fax:</b> 343233454352</p>
+
+        <p><b>Email:</b> info@OyeSpace.com</p>
+
+        <p><b>Website:</b> www.OyeSpace.com</p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ng-template>
+<!--  -->
+
+<ng-template #RenameItWhileUsing>
 
   <div class="modal-content">
 

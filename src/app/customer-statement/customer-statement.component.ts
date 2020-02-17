@@ -4,6 +4,7 @@ import { GlobalServiceService } from '../global-service.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { DashBoardService } from '../../services/dash-board.service';
 import { Subscription } from 'rxjs';
+import {ViewInvoiceService} from '../../services/view-invoice.service'
 
 
 @Component({
@@ -32,9 +33,17 @@ export class CustomerStatementComponent implements OnInit {
   pyDate: any;
   acAccntID: any;
   pyBal: any;
+  pyAmtDue: any;
+  inNumber: any;
+  pyDesc: any;
+  pyAmtPaid: any;
+  ResidentName: any;
+  ResidentLastName: any;
+  ResidentMobileNum: any;
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
+    public viewInvoiceService: ViewInvoiceService,
     public globalservice: GlobalServiceService,private modalService: BsModalService) {
       this.acAccntID=0;
       this.pyBal=0;
@@ -109,13 +118,48 @@ export class CustomerStatementComponent implements OnInit {
     this.custpanel = true;
     this.custtable = false;
   }
-  OpenCustomerModel(customertemplate: TemplateRef<any>,pyDate,acAccntID,pyBal){
+  OpenCustomerModel(customertemplate: TemplateRef<any>,pyDate,acAccntID,pyBal,pyAmtDue,inNumber,pyDesc,pyAmtPaid,pyStat,unUnitID){
     console.log(pyDate);
     console.log(acAccntID);
     console.log(pyBal);
+    console.log(pyAmtDue);
+    console.log(inNumber);
+    console.log(pyDesc);
+    console.log(pyAmtPaid);
+    console.log(unUnitID);
+    console.log(pyStat);
     this.pyDate=pyDate;
     this.acAccntID=acAccntID;
     this.pyBal=pyBal;
+    this.pyAmtDue=pyAmtDue;
+    this.inNumber=inNumber;
+    this.pyDesc=pyDesc;
+    this.pyAmtPaid=pyAmtPaid;
+    // Fetch unit owner details start here
+    //http://apiuat.oyespace.com/oyeliving/api/v1/Unit/GetUnitListByUnitID/40853
+    this.viewInvoiceService.GetUnitListByUnitID(unUnitID)
+    .subscribe(data=>{
+      console.log(data);
+      
+      if(data['data']['unit']['owner'].length!=0){
+        this.ResidentName=data['data']['unit']['owner'][0]['uofName'];
+        this.ResidentLastName=data['data']['unit']['owner'][0]['uolName'];
+        this.ResidentMobileNum=data['data']['unit']['owner'][0]['uoMobile']
+      }
+      else if(data['data']['unit']['tenant'].length!=0){
+        this.ResidentName=data['data']['unit']['tenant'][0]['utfName'];
+        this.ResidentLastName=data['data']['unit']['tenant'][0]['utlName'];
+        this.ResidentMobileNum=data['data']['unit']['tenant'][0]['utMobile']
+      }
+      else{
+        this.ResidentName='';
+        this.ResidentMobileNum='';
+      }
+    },
+    err=>{
+      console.log(err);
+    })
+    // Fetch unit owner details end here
     this.modalRef = this.modalService.show(customertemplate,
       Object.assign({}, { class: 'gray modal-lg' }));
   }

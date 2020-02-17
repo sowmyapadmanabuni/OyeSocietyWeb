@@ -96,9 +96,7 @@ export class ReceiptsComponent implements OnInit {
   goToExpense(){
     this.router.navigate(['expense']);
   }
-  NavigateToBulkUpload(){
-    this.router.navigate(['excelreceipt'])
-  }
+
   goToInvoice(){
     this.router.navigate(['invoice']);
   }

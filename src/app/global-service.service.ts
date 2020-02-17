@@ -34,6 +34,7 @@ export class GlobalServiceService {
    private setAssociationList = new Subject<any>();
    private currentAssociationIdForLeftBarComponent = new Subject<any>();
    private setCreateUnitWithAssociation = new Subject<any>();
+   private setCurrentUnitIDSubject = new Subject<any>();
    
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
@@ -140,8 +141,13 @@ public getAssnDropDownHiddenByDefaultValue()
 }
 public setCurrentUnitId(unitId)
 {
+  this.setCurrentUnitIDSubject.next({UnitID:unitId});
   this.currentUnitId = unitId;
   localStorage.setItem("currentUnitId", unitId);
+}
+public getCurrentUnitIdSubject(): Observable<any>
+{
+  return this.setCurrentUnitIDSubject.asObservable();
 }
 public setCurrentUnitName(unitName)
 {

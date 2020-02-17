@@ -4,6 +4,7 @@ import { GlobalServiceService } from '../global-service.service';
 import {AddVehicleService} from '../../services/add-vehicle.service';
 import swal from 'sweetalert2';
 import {VehicleDataNew} from '../models/vehicle-data-new';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-vehicles',
@@ -19,11 +20,11 @@ export class VehiclesComponent implements OnInit {
   vehicledatalength: boolean;
   veMakeMdl: string;
   veRegNo: string;
-  veStickNo:string;
+  veStickNo: string;
   uplNum: string;
   veType: string;
-  j:any;
-  
+  j: any;
+
   vehiclename: any;
   vehiclenumber: any;
   vehiclesticker: any;
@@ -31,6 +32,8 @@ export class VehiclesComponent implements OnInit {
   VEID: any;
   makemodel: any;
   VehicleDataNew: VehicleDataNew[];
+  getUnitID: Subscription;
+
   constructor(private modalService: BsModalService, 
     private globalserviceservice: GlobalServiceService, 
     private bsModalService: BsModalService, 
@@ -42,6 +45,10 @@ export class VehiclesComponent implements OnInit {
       this.VehicleCarousel=[];
       this.VehicleCarousel1=[];
       this.j=0;
+      this.getUnitID=this.globalserviceservice.getCurrentUnitIdSubject()
+      .subscribe(data=>{
+        console.log(data);
+      })
      }
   ngOnInit() {
     this.CurrentUnitID = this.globalserviceservice.getCurrentUnitId();
@@ -208,5 +215,8 @@ export class VehiclesComponent implements OnInit {
       swal.fire('Error', 'Something went wrong!', 'error')
       this.modalRef.hide();
     })
+  }
+  ngOnDestroy(){
+    this.getUnitID.unsubscribe();
   }
 }

@@ -277,6 +277,9 @@ export class InvoicesComponent implements OnInit {
   goToExpense() {
     this.router.navigate(['expense']);
   }
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelreceipt'])
+  }
   goToInvoice() {
     this.router.navigate(['invoice']);
   }
@@ -359,6 +362,7 @@ export class InvoicesComponent implements OnInit {
         this.invoiceLists = data['data'].invoices;
         this.PaidUnpaidinvoiceLists=this.invoiceLists;
         console.log('invoiceLists?', this.invoiceLists);
+        this.generatereceiptservice.ReceiptListArrayForComapreWithExcel=this.invoiceLists;
         //
         this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
         console.log(this.sortedCollection);
