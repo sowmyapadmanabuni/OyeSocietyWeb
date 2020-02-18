@@ -6,7 +6,7 @@
                 <!--Profile section-->
                 <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
                         <div class="dash-main">
-                                <div style="width: 70%;">
+                                <div style="width:800px">
                                         <div class="col-md-12 dash dash-bg-1">
                                                 <div class="dash-row">
                                                         <div class="tile-link" (click)="goToEnrollAssociation()">
@@ -87,7 +87,7 @@
 
                         <!--Dashboard icons for ADMIN start-->
                         <div class="dash-main">
-                                <div style="width: 70%;" *ngIf="localMrmRoleId == 1">
+                                <div style="width: 800px" *ngIf="localMrmRoleId == 1">
                                         <div class="col-md-12 dash dash-bg-1">
                                                 <div class="dash-row">
                                                         <div class="tile-link"
@@ -345,7 +345,10 @@
                                                                                 src="../../assets/images/icons/family-members.png">
                                                                 </div>
                                                                 <div>
-                                                                        Family Members
+                                                                        <div class="number">
+                                                                                {{(familyMemberCount=='0'?'0':familyMemberCount)}}
+                                                                        </div>
+                                                                       <div>Family Members</div> 
                                                                 </div>
                                                         </div>
                                                         <!-- <div class="tile-link" (click)="goToVisitors()">

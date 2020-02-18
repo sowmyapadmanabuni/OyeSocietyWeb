@@ -62,4 +62,9 @@ export class ViewUnitService {
                 let scopeIP=this.utilsService.createUnit();
                 return this.http.post(scopeIP + 'oyeliving/api/v1/Unit/UpdateUnitDetails' ,  updateUnitData, {headers:this.headers});
               }
+              AssociationCompletionStatusUpdate(AssociationId){
+                //http://localhost:54400/oyeliving/api/v1/AssociationCompletionStatusUpdate/%7BAssociationID%7D
+                let scopeIP=this.utilsService.getIPaddress();
+                return this.http.get(scopeIP + 'oyeliving/api/v1/AssociationCompletionStatusUpdate/'+ AssociationId , {headers:this.headers});
+              }
 }

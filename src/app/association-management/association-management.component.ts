@@ -669,12 +669,19 @@ export class AssociationManagementComponent implements OnInit {
       }).then(
         (result) => {
           if (result.value) {
-
+            // this.viewUniService.AssociationCompletionStatusUpdate(this.globalService.getCurrentAssociationId())
+            // .subscribe(data=>{
+            //   console.log(data);
+            // },
+            // err=>{
+            //   console.log(err);
+            // })
           } else if (result.dismiss === Swal.DismissReason.cancel) {
 
           }
         })
     },600 * (this.BlockHrefDetail.length+this.unitArray.length));
+
   }
   onPageChange(event) {
     //console.log(event['srcElement']['text']);

@@ -6,6 +6,7 @@ import {UtilsService} from '../app/utils/utils.service';
 import {DashBoardService} from '../services/dash-board.service';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
+import { UnitlistForAssociation } from './models/unitlist-for-association';
 
 
 @Component({
@@ -78,6 +79,21 @@ export class AppComponent {
   .subscribe(msg=>{
     console.log(JSON.parse(localStorage.getItem("assnList")));
     console.log(msg);
+    console.log(this.globalService.getCurrentAssociationName());
+    console.log(this.unitlistForAssociation);
+    //this.unitlistForAssociation=[];
+   /* JSON.parse(localStorage.getItem("assnList")).forEach(item => {
+      if(item['asAsnName'] == this.globalService.getCurrentAssociationName()){
+        console.log('test');
+        const found = this.unitlistForAssociation.some(el => el['unUnitID'] === item['unUnitID'] && el['unUniName'] === item['unUniName'] && el['mrmRoleID'] === item['mrmRoleID']);
+        if (!found) {
+          //if (item['unUniName'] != '' && item['unUnitID'] != 0) {
+            this.unitlistForAssociation.push(new UnitlistForAssociation(item['unUniName'], item['unUnitID'], item['mrmRoleID']));
+          //}
+        }
+      }
+    }); */
+    console.log(this.unitlistForAssociation);
     if(JSON.parse(localStorage.getItem("assnList"))==null){
       this.uniqueAssociations=[];
     }

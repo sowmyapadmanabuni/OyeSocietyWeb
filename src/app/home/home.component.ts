@@ -84,6 +84,7 @@ export class HomeComponent implements OnInit {
   availableNoOfBlocks: any;
   availableNoOfUnits: any;
   join_enroll:any;
+  familyMemberCount: any;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -611,11 +612,11 @@ export class HomeComponent implements OnInit {
     console.log(this.globalService.currentUnitName);
     console.log(this.globalService.getCurrentUnitName());
     console.log(this.globalService.getCurrentUnitId());
-    this.getVehicle(unUnitID);
+    //this.getVehicle(unUnitID);
     this.GetAmountBalance(unUnitID);
     this.GetVisitorLogByDatesAssocAndUnitID(unUnitID);
     this.GetWorkersListByUnitID(unUnitID);
-    this.GetFamilyMemberVehicleCountByAssocAcntUnitID();
+    this.GetFamilyMemberVehicleCountByAssocAcntUnitID(this.globalService.getacAccntID(),this.globalService.getCurrentAssociationId(),unUnitID);
   }
   AdminsUnitShow() {
     this.localMrmRoleId = 2;
@@ -699,8 +700,17 @@ export class HomeComponent implements OnInit {
     this.join_enroll=2;
     this.router.navigate(['joinenroll',this.join_enroll]);
   }
-  GetFamilyMemberVehicleCountByAssocAcntUnitID(){
-
+  GetFamilyMemberVehicleCountByAssocAcntUnitID(acAccntID, AssociationId, unUnitID) {
+    console.log(acAccntID, AssociationId, unUnitID);
+    this.dashBrdService.GetFamilyMemberVehicleCountByAssocAcntUnitID(acAccntID, AssociationId, unUnitID)
+    .subscribe(data=>{
+      console.log(data);
+      this.totalVehicles= data['data']['vehicleCount'];
+      this.familyMemberCount=data['data']['familyMemberCount'];
+    },
+    err=>{
+      console.log(err);
+    })
   }
 
 }

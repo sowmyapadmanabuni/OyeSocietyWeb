@@ -129,4 +129,13 @@ GetWorkersListByUnitID(unUnitID){
 let scopeIP=this.utilsService.getIPaddress();
 return this.http.get(scopeIP + 'oye247/api/v1/GetWorkersListByUnitID/'+unUnitID,{headers:headers});
 }
+  GetFamilyMemberVehicleCountByAssocAcntUnitID(acAccntID, AssociationId, unUnitID) {
+    console.log(acAccntID, AssociationId, unUnitID);
+    let scopeIP = this.utilsService.getIPaddress();
+    let headers = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
+    //http://localhost:64284/oyesafe/api/v1/GetFamilyMemberVehicleCountByAssocAcntUnitID/{AssociationID}/{AccountID}/{UnitID}
+    return this.http.get(scopeIP + `oyesafe/api/v1/GetFamilyMemberVehicleCountByAssocAcntUnitID/${Number(AssociationId)}/${acAccntID}/${unUnitID}`, { headers: headers });
+  }
 }//DashboardService Ends

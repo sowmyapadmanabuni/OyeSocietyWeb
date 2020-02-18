@@ -137,7 +137,8 @@ export class VehiclesComponent implements OnInit {
       'UNUnitID': this.globalserviceservice.currentUnitId,
       'MEMemID': '',
       'UPID': '',
-      'ASAssnID': this.globalserviceservice.currentAssociationId
+      'ASAssnID': this.globalserviceservice.currentAssociationId,
+      "PAccntID" :  this.globalserviceservice.getacAccntID()
     }
     //console.log(vehiclesData);
     this.addvehicleservice.addVehicle(vehiclesData)
@@ -162,7 +163,8 @@ export class VehiclesComponent implements OnInit {
       this.uplNum='';
       this.veType='';
      },
-     () => {
+     (err) => {
+       console.log(err);
       swal.fire('Error', 'Something went wrong!', 'error')
      })
      this.modalRef.hide();
