@@ -44,7 +44,7 @@
                             <div class="del-date cal"><input type="text" (bsValueChange)="getReceiptListByDateRange($event)" name="ReceiptEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="ReceiptEndDate" placeholder="To Date" class="date" bsDatepicker></div>
                         </div>
                 </div>
-                <div class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
+                <div style="overflow-y: scroll; height: 200px; padding-top: 261px;" class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pydCreated','pyAmtPaid']:searchTxt"
@@ -55,7 +55,7 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unUnitID">Unit Number</mfDefaultSorter>
+                                    <mfDefaultSorter by="unUnitID">Unit</mfDefaultSorter>
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="inNumber">Invoice No</mfDefaultSorter>
@@ -147,7 +147,7 @@
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="search name">
                 </div>
-                <div class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
+                <div style="overflow-y: scroll; height: 200px; padding-top: 261px;" class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt"
@@ -158,7 +158,7 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unUnitID">Unit Number</mfDefaultSorter>
+                                    <mfDefaultSorter by="unUnitID">Unit</mfDefaultSorter>
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="inNumber">Invoice No</mfDefaultSorter>
@@ -281,9 +281,9 @@
 <ng-template #Receipts>
     <div class="modal-header">
         <h4 class="modal-title orange">RECEIPT</h4>
-        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                <span aria-hidden="true">&times;</span>
-            </button> -->
+        <button type="button" style="margin-right: 11px;margin-top: -19px;" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div class="receipt-head">

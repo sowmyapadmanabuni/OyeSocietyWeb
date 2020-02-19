@@ -1285,11 +1285,12 @@ export class InvoicesComponent implements OnInit {
     this.BankName = bank;
   }
   onPageChange(event) {
+    console.log(this.p);
     console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
-    if(event['srcElement']['text'] != '1'){
+    if(event['srcElement']['text'] != undefined){
       this.p= Number(event['srcElement']['text'])-1;
     } 
     if(event['srcElement']['text'] == '«'){

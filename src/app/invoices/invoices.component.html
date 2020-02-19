@@ -69,7 +69,7 @@
                     <div class="del-date cal"><input type="text" name="InvoiceStartDate" #InvoiceStartDateControl='ngModel' [(ngModel)]="InvoiceStartDate" placeholder="From Date" class="date" bsDatepicker></div>
                     <div class="del-date cal"><input type="text" (bsValueChange)="getInvoiceListByDateRange($event)" name="InvoiceEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="InvoiceEndDate" placeholder="To Date" class="date" bsDatepicker></div>
                 </div>
-                <div class="dash-row">
+                <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
                         [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
                         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
@@ -114,30 +114,32 @@
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td>
-                                        <span>
+                                        <span *ngIf="item['inPaid'] != 'Yes'">
                                             <button tooltip="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
-                                                <i class="fa fa-paper-plane"></i>
-                                            </button> <!-- <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i> -->
-                                            |
-                                            <i tooltip="View Discount"
+                                               <a style="cursor: pointer; font-size: 12px;">Send Reminder |</a>
+                                            </button><!-- <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i> -->
+                                            <!-- <i tooltip="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
-                                                style="cursor: pointer;" class="fa fa-percent"></i>
+                                                style="cursor: pointer;" class="fa fa-percent"></i> -->
+                                                <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
+                                                style="cursor: pointer; font-size: 12px;">Adjustments</a>
                                         </span>
                                         <span *ngIf="item['inPaid'] == 'No'">
                                             |
-                                            <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                            <!-- <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
                                         </span>
                                         <span *ngIf="item['inPaid'] == 'No'">
                                             |
                                             <svg height="15" width="20" class="blinking">
                                                 <circle cx="10" cy="10" r="5" fill="orange" />
                                                 Sorry, your browser does not support inline SVG.  
-                                              </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer;">Pay now</a>
+                                              </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
                                         </span>
                                         <span *ngIf="item['inPaid'] == 'Yes'">
-                                            |
-                                            <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                            <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
                                         </span>
                                     </td>
                                     <td *ngIf="toggle == 'toggleNo'">
@@ -242,7 +244,7 @@
                 <div>
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by invoice number">
                 </div>
-                <div class="dash-row">
+                <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
                         [mfData]="residentInvoiceList | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
                         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
@@ -287,11 +289,13 @@
                                         </span>
                                         <span *ngIf="item['inPaid'] == 'No'">
                                             |
-                                            <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                            <!-- <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;">Generate Receipt</a>
                                         </span>
                                         <span *ngIf="item['inPaid'] == 'Yes'">
                                             |
-                                            <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i>
+                                            <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
                                         </span>
                                     </td>
                                     <td *ngIf="toggle == 'toggleNo'">
@@ -1040,16 +1044,16 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th colspan="7" style="text-align: center">Invoice Details</th>
+                            <th colspan="4" style="text-align: center">Invoice Details</th>
 
                         </tr>
                         <tr>
                             <th>Sl No</th>
                             <th>Description</th>
-                            <th>Taxable Value</th>
+                            <!-- <th>Taxable Value</th>
                             <th>CGST</th>
-                            <th>SGST</th>
-                            <th>IGST</th>
+                            <th>SGST</th> -->
+                            <th>GST</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -1060,18 +1064,18 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Previous
                                         Due</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{previousDue}}.00</span></td>
                             </tr>
                             <tr *ngIf='discountedValue > 0' style="font-weight:bold">
                                 <td>{{i+1}}</td>
                                 <td><span>Discount</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{discountedValue}}.00</span> </td>
                             </tr>
@@ -1079,27 +1083,27 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Water
                                         Meter</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Common Area Electric Bill' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>Common Area Electric Bill</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Corpus' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>Corpus</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1107,18 +1111,18 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Generator
                                         Bill</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'HouseKeeping' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>Housekeeping</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1126,9 +1130,9 @@
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         Membership Fee</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1136,9 +1140,9 @@
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         Occupancy Fees</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1146,9 +1150,9 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Renting
                                         Fees</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1156,9 +1160,9 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Security
                                         Fees</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1166,9 +1170,9 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Fixed
                                         Maintenance</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1176,18 +1180,18 @@
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         OnBoarding Fees</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'bill' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>All Sold Owner Occupied Units,</span><span>Tenant Occupied Units,</span><span>All UnSold Tenant Occupied Units</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1195,15 +1199,15 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Unsold
                                         Rental Fees</span></td>
+                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                         </ng-container>
                         <tr>
-                            <td colspan="6">Grand Total</td>
+                            <td colspan="3">Grand Total</td>
                             <td>{{InvoiceValue}}.00</td>
                         </tr>
 

@@ -128,7 +128,7 @@
               <div class="del-date cal"><input type="text" (bsValueChange)="getExpenseListByDateRange($event)" name="ExpenseEndDate" #ExpenseEndDateControl='ngModel'  [(ngModel)]="ExpenseEndDate" placeholder="To Date" class="date" bsDatepicker></div>
           </div>
         </div>
-        <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
+        <div class="dash-row" style="overflow-y: scroll; height: 200px;" *ngIf='addexpenseservice.enableExpenseListView'>
           <table class="table table-bordered"
             [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt"
             (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="10">
@@ -144,7 +144,7 @@
                   <mfDefaultSorter by="exApplTO">Applicability</mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="unUniIden">Unit Number</mfDefaultSorter>
+                  <mfDefaultSorter by="unUniIden">Unit</mfDefaultSorter>
                 </th>
                 <th>
                   <mfDefaultSorter by="exIsInvD">Invoiced</mfDefaultSorter>

@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {UtilsService} from '../utils/utils.service';
 import {GlobalServiceService} from '../global-service.service';
-import swal from 'sweetalert2';declare var $: any;
+import swal from 'sweetalert2';
+declare var $: any;
 
 
 @Component({
