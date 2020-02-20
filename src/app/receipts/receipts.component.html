@@ -63,7 +63,7 @@
                             </ul>
                         </div>
                 </div>
-                <div style="overflow-y: scroll; height: 200px; padding-top: 261px;" class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
+                <div  class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pydCreated','pyAmtPaid']:searchTxt"
@@ -166,7 +166,7 @@
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="search name">
                 </div>
-                <div style="overflow-y: scroll; height: 200px; padding-top: 261px;" class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
+                <div  class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt"

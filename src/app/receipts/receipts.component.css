@@ -4,7 +4,7 @@
     .enroll{    display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 30px;}
+        margin-bottom: 0px;}
     /* .bg-grey{background: #f1eded26;} */
     a{cursor: pointer;}
     th{background: #5a51aa !important;color: #fff !important;}

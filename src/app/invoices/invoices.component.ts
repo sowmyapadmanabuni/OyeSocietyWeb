@@ -166,7 +166,7 @@ export class InvoicesComponent implements OnInit {
   InvoiceEndDate:any;
   setnoofrows:any;
   rowsToDisplay:any[];
-  ShowNumberOfEntries: string;
+  Show: string;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -181,7 +181,7 @@ export class InvoicesComponent implements OnInit {
     private route: ActivatedRoute) {
       this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
       this.setnoofrows=10;
-      this.ShowNumberOfEntries='ShowNumberOfEntries';
+      this.Show='Show';
       this.receiptVoucherNo='';
       this.receiptChequeNo='';
       this.receiptChequeDate='';
@@ -280,7 +280,7 @@ export class InvoicesComponent implements OnInit {
     })
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
+    this.Show='abc';
     this.setnoofrows = RowNum;
   }
   goToExpense() {

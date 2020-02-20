@@ -120,7 +120,7 @@ export class ExpenseManagementComponent implements OnInit {
   ExpenseEndDate:any;
   setnoofrows:any;
   rowsToDisplay:any[];
-  ShowNumberOfEntries:any;
+  Show:any;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -136,7 +136,7 @@ export class ExpenseManagementComponent implements OnInit {
   ) {
     this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
     this.setnoofrows=10;
-    this.ShowNumberOfEntries='ShowNumberOfEntries';
+    this.Show='Show';
     this.currentassociationname=this.globalservice.getCurrentAssociationName();
     this.blockID = '';
     this.UnitName='';
@@ -257,7 +257,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.toggle = param;
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
+    this.Show='abc';
     this.setnoofrows = RowNum;
   }
   goToExpense(){
