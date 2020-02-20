@@ -389,7 +389,7 @@ appearance: none !important;
 table.dataTable{text-align: left}
 .table-bordered>thead>tr>td, .table-bordered>thead>tr>th{text-align: center !important;} 
 input[type=reset]{background-color: #a7a4a4 !important;}
-tbody>tr>td:last-child{text-align: center !important}
+tbody>tr>td:last-child{text-align: right !important }
 .btn-primary-reset {
     border-right: 2px solid #b3b0b0 !important;
         color: #fff !important;
@@ -415,7 +415,7 @@ tbody>tr>td:last-child{text-align: center !important}
     body * {
     visibility: hidden;
      }
-    #Invoice, #Invoice * {
+    #Invoice, #Invoice *,#printReceipt, #printReceipt * {
     visibility: visible;
      }
     button{display: none;}

@@ -90,6 +90,9 @@ export class BlocksComponent implements OnInit {
   rate: any;
   rate1: any;
   CurrentAssociationIdForBlocks:Subscription;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowNumberOfEntries:any;
 
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
@@ -97,6 +100,9 @@ export class BlocksComponent implements OnInit {
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
+      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.setnoofrows=10;
+      this.ShowNumberOfEntries='ShowNumberOfEntries';
       this.CurrentAssociationIdForBlocks=this.globalService.getCurrentAssociationIdForBlocks()
         .subscribe(msg => {
           console.log(msg);
@@ -142,7 +148,10 @@ export class BlocksComponent implements OnInit {
   pageChanged(event) {
     this.config.currentPage = event;
   }
-
+  setRows(RowNum) {
+    this.ShowNumberOfEntries='abc';
+    this.setnoofrows = RowNum;
+  }
   ngOnInit() {
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
@@ -191,15 +200,18 @@ export class BlocksComponent implements OnInit {
     this.enableBlockListView = false;
   }
   onPageChange(event) {
+    //console.log(event);
+    //console.log(this.p);
     //console.log(event['srcElement']['text']);
-    if (event['srcElement']['text'] == '1') {
-      this.p = 1;
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
     }
-    if (event['srcElement']['text'] != '1') {
-      this.p = Number(event['srcElement']['text']) - 1;
-    }
-    if (event['srcElement']['text'] == '«') {
-      this.p = 1;
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
+      this.p= Number(event['srcElement']['text']);
+    } 
+    if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
+      this.p= 1;
     }
   }
   toggleStepWizard() {

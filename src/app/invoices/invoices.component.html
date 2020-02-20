@@ -31,7 +31,7 @@
                                             <a>{{item['unUniName']}}</a></li>
                                     </ul>
                                 </div>  
-                                <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Receipts?"(click)="NavigateToBulkUpload()">Bulk Receipt Upload</a>               
+                                <!-- <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Receipts?"(click)="NavigateToBulkUpload()">Bulk Receipt Upload</a>                -->
                     </div>
                     <div class="switch">
                             <ul class="nav nav-pills">
@@ -69,10 +69,20 @@
                     <div class="del-date cal"><input type="text" name="InvoiceStartDate" #InvoiceStartDateControl='ngModel' [(ngModel)]="InvoiceStartDate" placeholder="From Date" class="date" bsDatepicker></div>
                     <div class="del-date cal"><input type="text" (bsValueChange)="getInvoiceListByDateRange($event)" name="InvoiceEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="InvoiceEndDate" placeholder="To Date" class="date" bsDatepicker></div>
                 </div>
+                <div class="dropdown" style="width: 200px;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowNumberOfEntries=='ShowNumberOfEntries'?ShowNumberOfEntries:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['RowNum'])">
+                            <a>{{rows['RowNum']}}</a></li>
+                    </ul>
+                </div>
+                <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Receipts?"(click)="NavigateToBulkUpload()">Bulk Receipt Upload</a>       
                 <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
                         [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
                         <thead>
                             <tr>
                                 <th>
@@ -113,31 +123,44 @@
                                     <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
-                                    <td>
+                                    <td class="amount">
                                         <span *ngIf="item['inPaid'] != 'Yes'">
+                                            <button tooltip="View Invoice" class="smallBtn"
+                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                               <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
+                                            </button> |
                                             <button tooltip="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
-                                               <a style="cursor: pointer; font-size: 12px;">Send Reminder |</a>
-                                            </button><!-- <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i> -->
+                                               <a style="cursor: pointer; font-size: 12px;">Send Reminder </a>
+                                            </button> |&nbsp;<!-- <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i> -->
                                             <!-- <i tooltip="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
                                                 style="cursor: pointer;" class="fa fa-percent"></i> -->
                                                 <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
                                                 style="cursor: pointer; font-size: 12px;">Adjustments</a>
-                                        </span>
+                                        </span> 
                                         <span *ngIf="item['inPaid'] == 'No'">
+                                           | <button tooltip="View Invoice" class="smallBtn"
+                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                               <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
+                                            </button>
                                             |
                                             <!-- <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
                                             <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
                                         </span>
-                                        <span *ngIf="item['inPaid'] == 'No'">
+                                        <!-- <span *ngIf="item['inPaid'] == 'No'">
                                             |
                                             <svg height="15" width="20" class="blinking">
                                                 <circle cx="10" cy="10" r="5" fill="orange" />
                                                 Sorry, your browser does not support inline SVG.  
                                               </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
-                                        </span>
+                                        </span> -->
                                         <span *ngIf="item['inPaid'] == 'Yes'">
+                                            <button tooltip="View Invoice" class="smallBtn"
+                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                               <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
+                                            </button>
+                                            |
                                             <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
                                             <a (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
                                         </span>
@@ -278,19 +301,27 @@
                                     </td>
                                     <td>
                                         <span>
-                                            <button tooltip="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
+                                            <!-- <button tooltip="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
                                                 <i class="fa fa-paper-plane"></i>
-                                            </button> | <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" class="fa fa-eye" ></i>
-                                            |
+                                            </button> -->
+                                            
+                                             <a (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" >View Invoice</a>
+                                        <!--     |
                                             <i tooltip="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
-                                                style="cursor: pointer;" class="fa fa-percent"></i>
-                                        </span>
+                                                style="cursor: pointer;" class="fa fa-percent"></i>-->
+                                        </span> 
                                         <span *ngIf="item['inPaid'] == 'No'">
                                             |
                                             <!-- <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
-                                            <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;">Generate Receipt</a>
+                                            <!-- <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;">Generate Receipt</a> -->
+                                            
+                                                <svg height="15" width="20" class="blinking">
+                                                    <circle cx="10" cy="10" r="5" fill="orange" />
+                                                    Sorry, your browser does not support inline SVG.  
+                                                  </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
+                                       
                                         </span>
                                         <span *ngIf="item['inPaid'] == 'Yes'">
                                             |
@@ -1262,7 +1293,7 @@
                 <!-- <button (click)="printInvoice()" class="btn-primary-purple"><i style="font-family:FontAwesome !important" class="fa-file-pdf-o" aria-hidden="true"></i>&nbsp;Save as PDF</button> -->
                 <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
                 <!-- <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button> -->
-                <button (click)="payThroughICICIPG($event)" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button>
+                <button *ngIf="globalservice.mrmroleId != 1 || localMrmRoleId == '2'" (click)="payThroughICICIPG($event)" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button>
                 <!-- <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate Receipt</button> -->
             </div>
 

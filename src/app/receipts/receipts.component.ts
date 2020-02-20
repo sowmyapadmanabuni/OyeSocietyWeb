@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs';
 import { DashBoardService } from '../../services/dash-board.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { formatDate } from '@angular/common';
+import { AddExpenseService } from '../../services/add-expense.service';
 
 
 declare var $: any;
@@ -42,15 +44,25 @@ export class ReceiptsComponent implements OnInit {
   currentAssociationIdForReceipts:Subscription;
   ReceiptStartDate:any;
   localMrmRoleId: any;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  allBlocksLists:any[];
+  currentBlockName:any;
+  ShowNumberOfEntries: string;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
     public dashBrdService: DashBoardService,
     private viewreceiptservice:ViewReceiptService,
+    public addexpenseservice:AddExpenseService,
     private router:Router,
     public generatereceiptservice: GenerateReceiptService,
     private route: ActivatedRoute) 
     { 
+      this.currentBlockName="";
+      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.setnoofrows=10;
+      this.ShowNumberOfEntries='ShowNumberOfEntries';
       this.route.params.subscribe(data => {
         console.log(data);
         this.localMrmRoleId=data['mrmroleId'];
@@ -86,6 +98,12 @@ export class ReceiptsComponent implements OnInit {
     .subscribe(data => {
       this.allBlocksByAssnID = data['data'].blocksByAssoc;
       console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+    });
+
+    this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
+    .subscribe(item => {
+      this.allBlocksLists = item;
+      console.log('allBlocksLists', this.allBlocksLists);
     });
   }
   initialiseReceipts(){
@@ -140,7 +158,10 @@ export class ReceiptsComponent implements OnInit {
     this.Balance=pyBal;
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
-
+  setRows(RowNum) {
+    this.ShowNumberOfEntries='abc';
+    this.setnoofrows = RowNum;
+  }
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
     console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
     this.unitIdentifier = unitIdentifier;
@@ -149,18 +170,17 @@ export class ReceiptsComponent implements OnInit {
     this.amountPaid = amountPaid;
   }
   onPageChange(event) {
-    console.log(event['srcElement']['text']);
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
-    if(event['srcElement']['text'] != '1'){
-      this.p= Number(event['srcElement']['text'])-1;
-      console.log(this.p);
-      if(this.p == 1){
-        this.p =2;
-      }
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
+      this.p= Number(event['srcElement']['text']);
     } 
     if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
       this.p= 1;
     }
   }
@@ -176,7 +196,9 @@ export class ReceiptsComponent implements OnInit {
             console.log(err);
           })
   }
-
+  printInvoice() {
+    window.print();
+  }
   getCurrentUnitDetails(unUnitID,unUniName){
     console.log(this.viewPaymentList);
     console.log(unUnitID);
@@ -190,7 +212,7 @@ export class ReceiptsComponent implements OnInit {
   convert(){
 
     let doc = new jsPDF();
-    let head = ["unUniName", "inNumber","pyDate","pyAmtPaid"];
+    let head = ["Unit", "Invoice Number","Payment Date","Amount"];
     let body = [];
 
     /* The following array of object as response from the API req  */
@@ -203,7 +225,7 @@ export class ReceiptsComponent implements OnInit {
 
 
     this.viewPayments.forEach(element => {
-      let temp = [element['unUniName'], element['inNumber'], element['pyDate'], element['pyAmtPaid']];
+      let temp = [element['unUniName'], element['inNumber'], formatDate(element['pyDate'], 'dd/MM/yyyy', 'en') , 'Rs.'+ element['pyAmtPaid']];
       body.push(temp);
     });
     console.log(body);

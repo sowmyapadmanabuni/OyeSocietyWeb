@@ -1,3 +1,4 @@
+.dash-shape{width: 850px;background: #e3e4e5;border-radius: 30px;margin-top: 50px;}
 .bg{background:url('../../assets/bg.png');margin: 0px 0px;
 
   background-position: left;
@@ -36,7 +37,7 @@
   
   }
   .dash-bg-2{background: #ddc385;}
-  .dash-bg-1{background: #ffffff;margin-top:50px}
+  .dash-bg-1{background: #ffffff;margin-top:0px}
 
   .b-l{border-left: 2px solid rgb(242, 238, 238)}
   

@@ -97,10 +97,16 @@ export class UnitsComponent implements OnInit {
   searchTxt:any;
   unOcSDate:any;
   currentAssociationIdForUnit:Subscription;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowNumberOfEntries: string;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
     private orderpipe: OrderPipe,private modalService: BsModalService) {
+      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.setnoofrows=10;
+      this.ShowNumberOfEntries='ShowNumberOfEntries';
       this.blBlkName='Select Block Name';
       this.ACAccntID=this.globalService.getacAccntID();
     this.currentAssociationID=this.globalService.getCurrentAssociationId();
@@ -223,7 +229,10 @@ export class UnitsComponent implements OnInit {
 
     });
   }
-
+  setRows(RowNum) {
+    this.ShowNumberOfEntries='abc';
+    this.setnoofrows = RowNum;
+  }
   addBlockForm() {
     this.showCreateUnitemplate = true;
   }
@@ -584,5 +593,20 @@ export class UnitsComponent implements OnInit {
   }
   NavigateToBulkUpload(){
     this.router.navigate(['excelunit']);
+  }
+  onPageChange(event) {
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
+      this.p= Number(event['srcElement']['text']);
+    } 
+    if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
+      this.p= 1;
+    }
   }
 }

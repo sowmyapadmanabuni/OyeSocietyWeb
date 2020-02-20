@@ -118,6 +118,9 @@ export class ExpenseManagementComponent implements OnInit {
   currentAssociationIdForExpense: Subscription;
   ExpenseStartDate:any;
   ExpenseEndDate:any;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowNumberOfEntries:any;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -131,6 +134,9 @@ export class ExpenseManagementComponent implements OnInit {
     private orderpipe: OrderPipe,
     private utilsService:UtilsService
   ) {
+    this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+    this.setnoofrows=10;
+    this.ShowNumberOfEntries='ShowNumberOfEntries';
     this.currentassociationname=this.globalservice.getCurrentAssociationName();
     this.blockID = '';
     this.UnitName='';
@@ -250,6 +256,10 @@ export class ExpenseManagementComponent implements OnInit {
   GetexpenseList(param) {
     this.toggle = param;
   }
+  setRows(RowNum) {
+    this.ShowNumberOfEntries='abc';
+    this.setnoofrows = RowNum;
+  }
   goToExpense(){
     this.router.navigate(['expense']);
   }
@@ -357,7 +367,7 @@ export class ExpenseManagementComponent implements OnInit {
   convert() {
 
     let doc = new jsPDF();
-    let head = ["exHead","exApplTO","unUniIden","exIsInvD","exDate","expAmnt"];
+    let head = ["Expense Head","Applicable","Unit","Invoice Generated","Date","Amount"];
     let body = [];
 
     /* The following array of object as response from the API req  */
@@ -370,7 +380,7 @@ export class ExpenseManagementComponent implements OnInit {
 
 
     this.expenseList.forEach(element => {
-      let temp = [element['exHead'], element['exApplTO'], element['unUniIden'], element['exIsInvD'].toString(), element['exDate'], element['expAmnt']];
+      let temp = [element['exHead'], element['exApplTO'], element['unUniIden'], element['exIsInvD'].toString(), formatDate(element['exDate'],'dd/MM/yyyy','en') , 'Rs.'+element['expAmnt']];
       body.push(temp);
     });
     console.log(body);
@@ -405,18 +415,17 @@ export class ExpenseManagementComponent implements OnInit {
       });
   }
   onPageChange(event) {
+    //console.log(event);
+    //console.log(this.p);
     //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
-    if(event['srcElement']['text'] != '1'){
-      this.p= Number(event['srcElement']['text'])-1;
-      //console.log(this.p);
-      if(this.p == 1){
-        this.p =2;
-      }
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
+      this.p= Number(event['srcElement']['text']);
     } 
     if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
       this.p= 1;
     }
   }

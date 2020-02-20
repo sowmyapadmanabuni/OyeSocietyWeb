@@ -277,6 +277,10 @@ export class AssociationManagementComponent implements OnInit {
   selectedFile2: ImageSnippet;
   @ViewChild('avatar',{static:true}) avatar:any;
   ASAsnLogo:any;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowNumberOfEntries:any;
+  columnName: any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -291,6 +295,10 @@ export class AssociationManagementComponent implements OnInit {
     private addblockservice: AddBlockService,
     private imageService: ImageService,
     private http:HttpClient) {
+      this.columnName='col';
+      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.setnoofrows=10;
+      this.ShowNumberOfEntries='ShowNumberOfEntries';
     this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
     this.blockArray=[];
@@ -471,7 +479,10 @@ export class AssociationManagementComponent implements OnInit {
   ngAfterViewInit() {
     this.toggleStepWizrd();
   }
-
+  setRows(RowNum) {
+    this.ShowNumberOfEntries='abc';
+    this.setnoofrows = RowNum;
+  }
   getUnitType(unitTpname,_id) {
     console.log(unitTpname);
 
@@ -684,19 +695,27 @@ export class AssociationManagementComponent implements OnInit {
 
   }
   onPageChange(event) {
-    //console.log(event['srcElement']['text']);
+    console.log(event);
+    console.log(this.p);
+    console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
-    if(event['srcElement']['text'] != '1'){
-      this.p= Number(event['srcElement']['text'])-1;
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
+      this.p= Number(event['srcElement']['text']);
+      console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
       this.p= 1;
     }
+    console.log(this.p);
   }
   pageChanged(event: any): void {
     this.page = event.page;
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   getAccountType(accounttypeName) {
     this.BAActType = accounttypeName;

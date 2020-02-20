@@ -27,9 +27,15 @@ export class MembersComponent implements OnInit {
   ChangeRole: any;
   SelectedUnitID: any;
   toggleSetNotification: any;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowNumberOfEntries: string;
 
   constructor(public dashBrdService: DashBoardService, private http: HttpClient,
     public globalService: GlobalServiceService, public utilsService: UtilsService) {
+      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.setnoofrows=10;
+      this.ShowNumberOfEntries='ShowNumberOfEntries';
     this.ChangeRole = 'SelectRole';
     this.associationTotalMembers = [];
     this.allMemberByAccount = [];
@@ -195,7 +201,10 @@ export class MembersComponent implements OnInit {
         console.log(data);
       })
   }
-
+  setRows(RowNum) {
+    this.ShowNumberOfEntries='abc';
+    this.setnoofrows = RowNum;
+  }
   SendNotificationToAll(){
     this.allMemberByAccount.forEach(item=>{
       if(item['SetIndividualNotification']== true){

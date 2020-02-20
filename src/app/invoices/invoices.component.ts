@@ -164,6 +164,9 @@ export class InvoicesComponent implements OnInit {
   localMrmRoleId: string;
   InvoiceStartDate:any;
   InvoiceEndDate:any;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowNumberOfEntries: string;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -176,6 +179,9 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.setnoofrows=10;
+      this.ShowNumberOfEntries='ShowNumberOfEntries';
       this.receiptVoucherNo='';
       this.receiptChequeNo='';
       this.receiptChequeDate='';
@@ -273,7 +279,10 @@ export class InvoicesComponent implements OnInit {
       this.initialiseInvoice()
     })
   }
-
+  setRows(RowNum) {
+    this.ShowNumberOfEntries='abc';
+    this.setnoofrows = RowNum;
+  }
   goToExpense() {
     this.router.navigate(['expense']);
   }
@@ -386,7 +395,7 @@ export class InvoicesComponent implements OnInit {
   convert(){
 
     let doc = new jsPDF();
-    let head = ["inNumber", "inGenDate","inTotVal"];
+    let head = ["Invoice Number", "Invoice Date","Amount"];
     let body = [];
 
     /* The following array of object as response from the API req  */
@@ -399,7 +408,7 @@ export class InvoicesComponent implements OnInit {
 
 
     this.invoiceLists.forEach(element => {
-      let temp = [element['inNumber'], element['inGenDate'], element['inTotVal']];
+      let temp = [element['inNumber'], formatDate(element['inGenDate'], 'dd/MM/yyyy', 'en') , 'Rs.'+element['inTotVal']];
       body.push(temp);
     });
     console.log(body);
@@ -1285,18 +1294,27 @@ export class InvoicesComponent implements OnInit {
     this.BankName = bank;
   }
   onPageChange(event) {
+    console.log(event);
     console.log(this.p);
     console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
+      console.log('test1');
       this.p=1;
     }
-    if(event['srcElement']['text'] != undefined){
-      this.p= Number(event['srcElement']['text'])-1;
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
+      this.p= Number(event['srcElement']['text']);
+      console.log('test2');
+      console.log(this.p);
+      console.log(typeof this.p);
+        this.p=1;
     } 
     if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
+      console.log('test3');
       this.p= 1;
     }
   }
+  
   resetForm(){
 
   }

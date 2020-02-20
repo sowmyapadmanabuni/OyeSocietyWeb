@@ -61,10 +61,19 @@
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="Search by Unit Name, Unit Type, Name, Email">
                 </div>
+                <div class="dropdown" style="width: 200px;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowNumberOfEntries=='ShowNumberOfEntries'?ShowNumberOfEntries:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['RowNum'])">
+                            <a>{{rows['RowNum']}}</a></li>
+                    </ul>
+                </div>
                 <div class="dash-row" *ngIf="unitList">
                     <table class="table table-bordered"
                         [mfData]="allUnitBYBlockID | search:['unUniName','unUniType','unDimens']:searchTxt"
-                        #mf="mfDataTable" [mfRowsOnPage]="10">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
