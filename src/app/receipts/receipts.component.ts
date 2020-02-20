@@ -49,6 +49,7 @@ export class ReceiptsComponent implements OnInit {
   allBlocksLists:any[];
   currentBlockName:any;
   ShowNumberOfEntries: string;
+  columnName: any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -121,7 +122,9 @@ export class ReceiptsComponent implements OnInit {
   goToExpense(){
     this.router.navigate(['expense']);
   }
-
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
+  }
   goToInvoice(){
     this.router.navigate(['invoice']);
   }

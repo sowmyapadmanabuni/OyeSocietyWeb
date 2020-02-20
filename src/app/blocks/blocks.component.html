@@ -62,13 +62,13 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="blBlkName">Block Name</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('BlockName')" by="blBlkName">Block Name<i [hidden]="columnName=='BlockName'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="blBlkType">Block Type</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('BlockType')" by="blBlkType">Block Type<i [hidden]="columnName=='BlockType'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="blNofUnit">No Of Units</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('NoOfUnits')" by="blNofUnit">No Of Units<i [hidden]="columnName=='NoOfUnits'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
                                     Action

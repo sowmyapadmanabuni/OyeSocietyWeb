@@ -93,6 +93,7 @@ export class BlocksComponent implements OnInit {
   setnoofrows:any;
   rowsToDisplay:any[];
   ShowNumberOfEntries:any;
+  columnName: any;
 
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
@@ -151,6 +152,9 @@ export class BlocksComponent implements OnInit {
   setRows(RowNum) {
     this.ShowNumberOfEntries='abc';
     this.setnoofrows = RowNum;
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   ngOnInit() {
     this.currentAssociationID = this.globalService.getCurrentAssociationId();

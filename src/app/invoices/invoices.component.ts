@@ -167,6 +167,7 @@ export class InvoicesComponent implements OnInit {
   setnoofrows:any;
   rowsToDisplay:any[];
   ShowNumberOfEntries: string;
+  columnName: any;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -282,6 +283,9 @@ export class InvoicesComponent implements OnInit {
   setRows(RowNum) {
     this.ShowNumberOfEntries='abc';
     this.setnoofrows = RowNum;
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   goToExpense() {
     this.router.navigate(['expense']);

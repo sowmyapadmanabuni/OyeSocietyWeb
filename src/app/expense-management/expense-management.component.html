@@ -140,7 +140,7 @@
             </ul>
           </div>
         </div>
-        <div class="dash-row" style="overflow-y: scroll; height: 200px;" *ngIf='addexpenseservice.enableExpenseListView'>
+        <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
           <table class="table table-bordered"
             [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt"
             (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="setnoofrows">
@@ -150,22 +150,22 @@
                   S.No.
                 </th>
                 <th>
-                  <mfDefaultSorter by="exHead">Expense Head</mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('ExpenseHead')" by="exHead">Expense Head<i [hidden]="columnName=='ExpenseHead'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="exApplTO">Applicability</mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Applicability')" by="exApplTO">Applicability<i [hidden]="columnName=='Applicability'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="unUniIden">Unit</mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniIden">Unit<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="exIsInvD">Invoiced</mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Invoiced')" by="exIsInvD">Invoiced<i [hidden]="columnName=='Invoiced'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="exdUpdated">Date</mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Date')" by="exdUpdated">Date<i [hidden]="columnName=='Date'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th style="width:120px">
-                  <mfDefaultSorter by="expAmnt">Amount</mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Amount')" by="expAmnt">Amount<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
                   Added By

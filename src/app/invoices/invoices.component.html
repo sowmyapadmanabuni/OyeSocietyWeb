@@ -92,13 +92,13 @@
                                     <mfDefaultSorter by="unUnitID">Unit ID</mfDefaultSorter>
                                 </th> -->
                                 <th>
-                                    <mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNumber')" by="inNumber">Invoice Number<i [hidden]="columnName=='InvoiceNumber'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inGenDate">Invoice Date</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceDate')" by="inGenDate">Invoice Date<i [hidden]="columnName=='InvoiceDate'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inTotVal">Amount</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="inTotVal">Amount<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
                                     Action

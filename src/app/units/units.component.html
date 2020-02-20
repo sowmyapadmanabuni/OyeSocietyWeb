@@ -78,19 +78,19 @@
                             <tr>
                                 <th>S.No.</th>
                                 <th>
-                                    <mfDefaultSorter by="unUniName">Unit</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unUniType">Unit Type</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('UnitType')" by="unUniType">Unit Type<i [hidden]="columnName=='UnitType'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unDimens">Unit Dimension</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('UnitDimension')" by="unDimens">Unit Dimension<i [hidden]="columnName=='UnitDimension'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="uofName">Name</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="uoEmail">Email</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Email')" by="uoEmail">Email<i [hidden]="columnName=='Email'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>Action</th>
                             </tr>

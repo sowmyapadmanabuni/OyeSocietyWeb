@@ -74,16 +74,16 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unUnitID">Unit</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUnitID">Unit<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inNumber">Invoice No</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNo')" by="inNumber">Invoice No<i [hidden]="columnName=='InvoiceNo'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="pydCreated">Payment Date</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pydCreated">Payment Date<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="pyAmtPaid">Amount</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <!-- <th>
                                     Action

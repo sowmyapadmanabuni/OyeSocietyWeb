@@ -35,25 +35,25 @@
                                 S.No.
                             </th>
                             <th>
-                                <mfDefaultSorter by="blBlkName">Block Name</mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('BlockName')" by="blBlkName">Block Name<i [hidden]="columnName=='BlockName'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter by="unUniName">Unit</mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter by="uofName">Name</mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter by="uoMobile">Mobile Number</mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('MobileNumber')" by="uoMobile">Mobile Number<i [hidden]="columnName=='MobileNumber'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter by="unOcStat">Occupancy Status</mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('OccupancyStatus')" by="unOcStat">Occupancy Status<i [hidden]="columnName=='OccupancyStatus'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter by="vehcleCount">Vehicles</mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Vehicles')" by="vehcleCount">Vehicles<i [hidden]="columnName=='Vehicles'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter by="uoRoleID">Role</mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Role')" by="uoRoleID">Role<i [hidden]="columnName=='Role'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
                                 <mfDefaultSorter>Change Role</mfDefaultSorter>

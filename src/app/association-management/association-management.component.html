@@ -47,19 +47,19 @@
               <tr>
                 <th>S.No.</th>
                 <th>
-                  <mfDefaultSorter by="asAsnName">Association Name<i [hidden]="columnName=='AssociationName'" (click)="removeColumnSort('AssociationName')" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('AssociationName')" by="asAsnName">Association Name<i [hidden]="columnName=='AssociationName'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="asPrpName">Property Name<i [hidden]="columnName=='PropertyName'" (click)="removeColumnSort('PropertyName')" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('PropertyName')" by="asPrpName">Property Name<i [hidden]="columnName=='PropertyName'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="asAddress">Locality<i [hidden]="columnName=='Locality'" (click)="removeColumnSort('Locality')" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Locality')" by="asAddress">Locality<i [hidden]="columnName=='Locality'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="asNofBlks">No of Blocks<i [hidden]="columnName=='NoofBlocks'" (click)="removeColumnSort('NoofBlocks')" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('NoofBlocks')" by="asNofBlks">No of Blocks<i [hidden]="columnName=='NoofBlocks'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter by="asNofUnit">No of Units<i [hidden]="columnName=='NoofUnits'" (click)="removeColumnSort('NoofUnits')" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('NoofUnits')" by="asNofUnit">No of Units<i [hidden]="columnName=='NoofUnits'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>Action</th>
               </tr>

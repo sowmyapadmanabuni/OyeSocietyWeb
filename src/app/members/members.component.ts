@@ -30,6 +30,7 @@ export class MembersComponent implements OnInit {
   setnoofrows:any;
   rowsToDisplay:any[];
   ShowNumberOfEntries: string;
+  columnName: any;
 
   constructor(public dashBrdService: DashBoardService, private http: HttpClient,
     public globalService: GlobalServiceService, public utilsService: UtilsService) {
@@ -204,6 +205,9 @@ export class MembersComponent implements OnInit {
   setRows(RowNum) {
     this.ShowNumberOfEntries='abc';
     this.setnoofrows = RowNum;
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   SendNotificationToAll(){
     this.allMemberByAccount.forEach(item=>{

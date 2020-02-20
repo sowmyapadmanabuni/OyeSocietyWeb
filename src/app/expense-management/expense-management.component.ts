@@ -121,6 +121,7 @@ export class ExpenseManagementComponent implements OnInit {
   setnoofrows:any;
   rowsToDisplay:any[];
   ShowNumberOfEntries:any;
+  columnName: any;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -274,6 +275,9 @@ export class ExpenseManagementComponent implements OnInit {
   }
   ngAfterViewInit() {
 
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   ngOnInit() {
     // this.addexpenseservice.GetBlockListByAssocID()

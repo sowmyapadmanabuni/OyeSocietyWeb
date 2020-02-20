@@ -100,6 +100,7 @@ export class UnitsComponent implements OnInit {
   setnoofrows:any;
   rowsToDisplay:any[];
   ShowNumberOfEntries: string;
+  columnName: any;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
@@ -232,6 +233,9 @@ export class UnitsComponent implements OnInit {
   setRows(RowNum) {
     this.ShowNumberOfEntries='abc';
     this.setnoofrows = RowNum;
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   addBlockForm() {
     this.showCreateUnitemplate = true;
