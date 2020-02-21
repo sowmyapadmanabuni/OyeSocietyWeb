@@ -55,11 +55,11 @@
                         </div>
                         <div class="dropdown" style="width: 200px;">
                             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                data-toggle="dropdown">{{(ShowNumberOfEntries=='ShowNumberOfEntries'?ShowNumberOfEntries:setnoofrows)}}
+                                data-toggle="dropdown">{{(ShowRecords=='ShowRecords'?ShowRecords:setnoofrows)}}
                                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                             <ul class="dropdown-menu fullw">
-                                <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['RowNum'])">
-                                    <a>{{rows['RowNum']}}</a></li>
+                                <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                                    <a>{{rows['Display']}}</a></li>
                             </ul>
                         </div>
                 </div>
@@ -74,16 +74,16 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUnitID">Unit<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUnitID">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNo')" by="inNumber">Invoice No<i [hidden]="columnName=='InvoiceNo'" class="fa fa-sort"></i></mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNo')" by="inNumber">Invoice No&nbsp;<i [hidden]="columnName=='InvoiceNo'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pydCreated">Payment Date<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pydCreated">Payment Date&nbsp;<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <!-- <th>
                                     Action
@@ -374,7 +374,8 @@
                         <th style="text-align: center;">Amout Recieved</th>
                     </tr>
                     <tr>
-                        <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td>
+                        <!-- <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td> -->
+                        <td>Amount Paid {{paymentDate|date:'dd/MM/yyyy'}}</td>
                         <td>₹ {{AmountDue}}.00</td>
                     </tr>
                    
@@ -388,7 +389,7 @@
                     </div>
             </div>
             <p class="succtrans">Transaction Successful</p>
-            <p style="text-align: center;">Electronically Generated,Doesn't Require Signature.</p>
+            <p style="text-align: center;">Electronically generated;does not require a signature.</p>
             <p style="text-align: right;">Generated From : <strong>OyeSociety</strong></p>
             <div class="print-receipt">
                 <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print Receipt</button>

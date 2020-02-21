@@ -99,15 +99,20 @@ export class UnitsComponent implements OnInit {
   currentAssociationIdForUnit:Subscription;
   setnoofrows:any;
   rowsToDisplay:any[];
-  ShowNumberOfEntries: string;
+  ShowRecords: string;
   columnName: any;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
     private orderpipe: OrderPipe,private modalService: BsModalService) {
-      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.rowsToDisplay = [{ 'Display': 'Show 5 Records', 'Row': 5 },
+      { 'Display': 'Show 10 Records', 'Row': 10 },
+      { 'Display': 'Show 15 Records', 'Row': 15 },
+      { 'Display': 'Show 50 Records', 'Row': 50 },
+      { 'Display': 'Show 100 Records', 'Row': 100 },
+      { 'Display': 'Show All Records', 'Row': 'All' }];
       this.setnoofrows=10;
-      this.ShowNumberOfEntries='ShowNumberOfEntries';
+      this.ShowRecords='ShowRecords';
       this.blBlkName='Select Block Name';
       this.ACAccntID=this.globalService.getacAccntID();
     this.currentAssociationID=this.globalService.getCurrentAssociationId();
@@ -231,8 +236,8 @@ export class UnitsComponent implements OnInit {
     });
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
-    this.setnoofrows = RowNum;
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.allUnitBYBlockID.length:RowNum);
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;

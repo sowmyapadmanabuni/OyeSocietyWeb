@@ -166,7 +166,7 @@ export class InvoicesComponent implements OnInit {
   InvoiceEndDate:any;
   setnoofrows:any;
   rowsToDisplay:any[];
-  Show: string;
+  ShowRecords: string;
   columnName: any;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
@@ -180,9 +180,14 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
-      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.rowsToDisplay = [{ 'Display': 'Show 5 Records', 'Row': 5 },
+      { 'Display': 'Show 10 Records', 'Row': 10 },
+      { 'Display': 'Show 15 Records', 'Row': 15 },
+      { 'Display': 'Show 50 Records', 'Row': 50 },
+      { 'Display': 'Show 100 Records', 'Row': 100 },
+      { 'Display': 'Show All Records', 'Row': 'All' }];
       this.setnoofrows=10;
-      this.Show='Show';
+      this.ShowRecords='ShowRecords';
       this.receiptVoucherNo='';
       this.receiptChequeNo='';
       this.receiptChequeDate='';
@@ -281,8 +286,8 @@ export class InvoicesComponent implements OnInit {
     })
   }
   setRows(RowNum) {
-    this.Show='abc';
-    this.setnoofrows = RowNum;
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.PaidUnpaidinvoiceLists.length:RowNum);
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;

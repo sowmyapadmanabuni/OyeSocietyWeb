@@ -29,14 +29,19 @@ export class MembersComponent implements OnInit {
   toggleSetNotification: any;
   setnoofrows:any;
   rowsToDisplay:any[];
-  ShowNumberOfEntries: string;
+  ShowRecords: string;
   columnName: any;
 
   constructor(public dashBrdService: DashBoardService, private http: HttpClient,
     public globalService: GlobalServiceService, public utilsService: UtilsService) {
-      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.rowsToDisplay = [{ 'Display': 'Show 5 Records', 'Row': 5 },
+      { 'Display': 'Show 10 Records', 'Row': 10 },
+      { 'Display': 'Show 15 Records', 'Row': 15 },
+      { 'Display': 'Show 50 Records', 'Row': 50 },
+      { 'Display': 'Show 100 Records', 'Row': 100 },
+      { 'Display': 'Show All Records', 'Row': 'All' }];
       this.setnoofrows=10;
-      this.ShowNumberOfEntries='ShowNumberOfEntries';
+      this.ShowRecords='ShowRecords';
     this.ChangeRole = 'SelectRole';
     this.associationTotalMembers = [];
     this.allMemberByAccount = [];
@@ -215,8 +220,8 @@ export class MembersComponent implements OnInit {
       })
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
-    this.setnoofrows = RowNum;
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.allMemberByAccount.length:RowNum);
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;

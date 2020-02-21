@@ -43,6 +43,7 @@ export class CustomerStatementComponent implements OnInit {
   setnoofrows:any;
   rowsToDisplay:any[];
   ShowNumberOfEntries:any;
+  columnName: any;
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
@@ -136,6 +137,9 @@ export class CustomerStatementComponent implements OnInit {
   viewCustDetail() {
     this.custpanel = true;
     this.custtable = false;
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   OpenCustomerModel(customertemplate: TemplateRef<any>,pyDate,acAccntID,pyBal,pyAmtDue,inNumber,pyDesc,pyAmtPaid,pyStat,unUnitID){
     console.log(pyDate);

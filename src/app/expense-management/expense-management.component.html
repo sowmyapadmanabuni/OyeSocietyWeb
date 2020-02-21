@@ -132,11 +132,11 @@
             </div>
           <div class="dropdown" style="width: 200px;">
             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-              data-toggle="dropdown">{{(Show=='Show'?Show:setnoofrows)}}
+              data-toggle="dropdown">{{(ShowRecords=='ShowRecords'?ShowRecords:setnoofrows)}}
               <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
             <ul class="dropdown-menu fullw">
-              <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['RowNum'])">
-                <a>{{rows['RowNum']}}</a></li>
+              <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                <a>{{rows['Display']}}</a></li>
             </ul>
           </div>
         </div>
@@ -150,22 +150,22 @@
                   S.No.
                 </th>
                 <th>
-                  <mfDefaultSorter (click)="removeColumnSort('ExpenseHead')" by="exHead">Expense Head<i [hidden]="columnName=='ExpenseHead'" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('ExpenseHead')" by="exHead">Expense Head&nbsp;<i [hidden]="columnName=='ExpenseHead'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter (click)="removeColumnSort('Applicability')" by="exApplTO">Applicability<i [hidden]="columnName=='Applicability'" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Applicability')" by="exApplTO">Applicability&nbsp;<i [hidden]="columnName=='Applicability'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniIden">Unit<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniIden">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter (click)="removeColumnSort('Invoiced')" by="exIsInvD">Invoiced<i [hidden]="columnName=='Invoiced'" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Invoiced')" by="exIsInvD">Invoiced&nbsp;<i [hidden]="columnName=='Invoiced'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
-                  <mfDefaultSorter (click)="removeColumnSort('Date')" by="exdUpdated">Date<i [hidden]="columnName=='Date'" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Date')" by="exdUpdated">Date&nbsp;<i [hidden]="columnName=='Date'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th style="width:120px">
-                  <mfDefaultSorter (click)="removeColumnSort('Amount')" by="expAmnt">Amount<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
+                  <mfDefaultSorter (click)="removeColumnSort('Amount')" by="expAmnt">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
                 </th>
                 <th>
                   Added By

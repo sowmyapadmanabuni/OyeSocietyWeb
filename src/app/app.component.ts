@@ -99,6 +99,7 @@ export class AppComponent {
     }
     else{
       this.uniqueAssociations=JSON.parse(localStorage.getItem("assnList"));
+      console.log(this.uniqueAssociations);
     }
     this.hideTitle=true;
     this.globalService.setAssnDropDownHiddenByDefault('false');
@@ -124,6 +125,7 @@ export class AppComponent {
       }
       else{
         this.uniqueAssociations=JSON.parse(localStorage.getItem("assnList"));
+        console.log(this.uniqueAssociations);
       }
         //
   }

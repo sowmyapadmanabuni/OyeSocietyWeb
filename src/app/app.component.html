@@ -22,9 +22,9 @@
     <div class="col-sm-9">
       <!--Test1-->
         <div class="col-sm-12" *ngIf='uniqueAssociations.length != 0' style="display: flex;justify-content: center;">
-           <p class="wel" style="width:auto !important;">Welcome to&nbsp;</p>
+           <p class="wel" style="width:auto !important;">Welcome to</p>
            <div id="dro-switch" *ngIf="globalService.getUnitDropDownHiddenByDefault() == 'true'">
-             <span *ngIf='globalService.NotMoreThanOneUnit' class="wel">&nbsp;&nbsp;Unit: {{globalService.getCurrentUnitName()}}</span>
+             <span *ngIf='globalService.NotMoreThanOneUnit' class="wel">&nbsp;Unit: {{globalService.getCurrentUnitName()}}</span>
                <div *ngIf='globalService.HideUnitDropDwn' class="dropdown search-dropd sha1" style="margin-top:0px">
                    <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm wel" type="button"
                            data-toggle="dropdown">{{globalService.getCurrentUnitName()}}
@@ -35,9 +35,9 @@
                </div>
                <span *ngIf='globalService.MoreThanOneUnit' (click)='toggleUnitDropDwn()' class="switch">switch</span>
            </div>
-           <p class="wel" style="width:auto !important;">&nbsp;&nbsp;in&nbsp;</p>
+           <p class="wel" style="width:auto !important;">&nbsp;in</p>
            <div id="dro-switch">
-               <span id="assname" *ngIf="hideTitle">&nbsp;{{globalService.getCurrentAssociationName()}}</span>
+               &nbsp;<span id="assname" *ngIf="hideTitle">{{globalService.getCurrentAssociationName()}}</span>
                <div class="dropdown search-dropd sha" style="margin-top:0px" *ngIf="globalService.getAssnDropDownHiddenByDefaultValue() == 'true'">
                    <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm br overh" type="button"
                            data-toggle="dropdown">{{globalService.getCurrentAssociationName()}}
@@ -53,10 +53,15 @@
         <!--Test1--> 
       <!--Test2--> 
       <div class="col-sm-12" *ngIf='uniqueAssociations.length == 0' style="display: flex;justify-content: center;">
-        <pre class="wel" style="width:auto !important;">Welcome to OyeSociety your number is not mapped to any of the OyeSociety associations click enroll association 
+        <!-- <pre class="wel" style="width:auto !important;">Welcome to OyeSociety your number is not mapped to any of the OyeSociety associations click enroll association 
                                                         for registering your association on OyeSociety, the most advance ERP system for your association,
                                                         Click on join association to send the join request if your association is already on OyeSociety
-        </pre>
+        </pre> -->
+        <div class="alert alert-info">
+          <strong>Welcome to OyeSociety your number is not mapped to any of the OyeSociety associations click enroll association 
+            for registering your association on OyeSociety, the most advance ERP system for your association,
+            Click on join association to send the join request if your association is already on OyeSociety</strong>
+        </div>
      </div>   
       <!--Test2-->   
    </div>

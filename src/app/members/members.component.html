@@ -18,11 +18,11 @@
                 </div>
                 <div class="dropdown" style="width: 200px;">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                        data-toggle="dropdown">{{(ShowNumberOfEntries=='ShowNumberOfEntries'?ShowNumberOfEntries:setnoofrows)}}
+                        data-toggle="dropdown">{{(ShowRecords=='ShowRecords'?ShowRecords:setnoofrows)}}
                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                     <ul class="dropdown-menu fullw">
-                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['RowNum'])">
-                            <a>{{rows['RowNum']}}</a></li>
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                            <a>{{rows['Display']}}</a></li>
                     </ul>
                 </div>
                 <div class="dash-row">
@@ -35,25 +35,25 @@
                                 S.No.
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('BlockName')" by="blBlkName">Block Name<i [hidden]="columnName=='BlockName'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('BlockName')" by="blBlkName">Block Name&nbsp;<i [hidden]="columnName=='BlockName'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name&nbsp;<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('MobileNumber')" by="uoMobile">Mobile Number<i [hidden]="columnName=='MobileNumber'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('MobileNumber')" by="uoMobile">Mobile Number&nbsp;<i [hidden]="columnName=='MobileNumber'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('OccupancyStatus')" by="unOcStat">Occupancy Status<i [hidden]="columnName=='OccupancyStatus'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('OccupancyStatus')" by="unOcStat">Occupancy Status&nbsp;<i [hidden]="columnName=='OccupancyStatus'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('Vehicles')" by="vehcleCount">Vehicles<i [hidden]="columnName=='Vehicles'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Vehicles')" by="vehcleCount">Vehicles&nbsp;<i [hidden]="columnName=='Vehicles'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('Role')" by="uoRoleID">Role<i [hidden]="columnName=='Role'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Role')" by="uoRoleID">Role&nbsp;<i [hidden]="columnName=='Role'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
                                 <mfDefaultSorter>Change Role</mfDefaultSorter>

@@ -171,9 +171,11 @@ export class HomeComponent implements OnInit {
       for (let i = 0; i < this.associations.length; i++) {
         //console.log( this.uniqueAssociations);
         //console.log( this.associations[i]['asAsnName']);
-        const found = this.uniqueAssociations.some(el => el['asAsnName'] === this.associations[i]['asAsnName']);
-        if (!found) {
-          this.uniqueAssociations.push(this.associations[i]);
+        if(this.associations[i]['asAsnName'] != ''){
+          const found = this.uniqueAssociations.some(el => el['asAsnName'] === this.associations[i]['asAsnName']);
+          if (!found) {
+            this.uniqueAssociations.push(this.associations[i]);
+          }
         }
       }
       console.log(this.uniqueAssociations);

@@ -92,7 +92,7 @@ export class BlocksComponent implements OnInit {
   CurrentAssociationIdForBlocks:Subscription;
   setnoofrows:any;
   rowsToDisplay:any[];
-  ShowNumberOfEntries:any;
+  ShowRecords:any;
   columnName: any;
 
   constructor(private viewBlkService: ViewBlockService,
@@ -101,9 +101,14 @@ export class BlocksComponent implements OnInit {
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
-      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.rowsToDisplay=[{'Display':'Show 5 Records','Row':5},
+      {'Display':'Show 10 Records','Row':10},
+      {'Display':'Show 15 Records','Row':15},
+      {'Display':'Show 50 Records','Row':50},
+      {'Display':'Show 100 Records','Row':100},
+      {'Display':'Show All Records','Row':'All'}];
       this.setnoofrows=10;
-      this.ShowNumberOfEntries='ShowNumberOfEntries';
+      this.ShowRecords='ShowRecords';
       this.CurrentAssociationIdForBlocks=this.globalService.getCurrentAssociationIdForBlocks()
         .subscribe(msg => {
           console.log(msg);
@@ -150,8 +155,8 @@ export class BlocksComponent implements OnInit {
     this.config.currentPage = event;
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
-    this.setnoofrows = RowNum;
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.allBlocksLists.length:RowNum);
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;

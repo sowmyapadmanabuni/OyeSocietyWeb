@@ -48,7 +48,7 @@ export class ReceiptsComponent implements OnInit {
   rowsToDisplay:any[];
   allBlocksLists:any[];
   currentBlockName:any;
-  ShowNumberOfEntries: string;
+  ShowRecords: string;
   columnName: any;
   pyRefNo: any;
   pyVoucherNo: any;
@@ -63,9 +63,14 @@ export class ReceiptsComponent implements OnInit {
     private route: ActivatedRoute) 
     { 
       this.currentBlockName="";
-      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.rowsToDisplay = [{ 'Display': 'Show 5 Records', 'Row': 5 },
+      { 'Display': 'Show 10 Records', 'Row': 10 },
+      { 'Display': 'Show 15 Records', 'Row': 15 },
+      { 'Display': 'Show 50 Records', 'Row': 50 },
+      { 'Display': 'Show 100 Records', 'Row': 100 },
+      { 'Display': 'Show All Records', 'Row': 'All' }];
       this.setnoofrows=10;
-      this.ShowNumberOfEntries='ShowNumberOfEntries';
+      this.ShowRecords='ShowRecords';
       this.route.params.subscribe(data => {
         console.log(data);
         this.localMrmRoleId=data['mrmroleId'];
@@ -166,8 +171,8 @@ export class ReceiptsComponent implements OnInit {
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
-    this.setnoofrows = RowNum;
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.viewPayments.length:RowNum);
   }
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
     console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);

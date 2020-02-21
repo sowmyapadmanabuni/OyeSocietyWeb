@@ -105,31 +105,31 @@
 
             <th>
 
-              <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
+              <mfDefaultSorter (click)="removeColumnSort('UnitName')" by="unUniName">Unit Name&nbsp;<i [hidden]="columnName=='UnitName'" class="fa fa-sort"></i></mfDefaultSorter>
 
             </th>
 
             <th>
 
-              <mfDefaultSorter by="pyDesc">Payment Description</mfDefaultSorter>
+              <mfDefaultSorter (click)="removeColumnSort('PaymentDescription')" by="pyDesc">Payment Description&nbsp;<i [hidden]="columnName=='PaymentDescription'" class="fa fa-sort"></i></mfDefaultSorter>
 
             </th>
 
             <th>
 
-              <mfDefaultSorter by="pydCreated">Payment Date</mfDefaultSorter>
+              <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pydCreated">Payment Date&nbsp;<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
 
             </th>
 
             <th>
 
-              <mfDefaultSorter by="pyAmtDue">Amount Due</mfDefaultSorter>
+              <mfDefaultSorter (click)="removeColumnSort('AmountDue')" by="pyAmtDue">Amount Due&nbsp;<i [hidden]="columnName=='AmountDue'" class="fa fa-sort"></i></mfDefaultSorter>
 
             </th>
 
             <th>
 
-              <mfDefaultSorter by="pyAmtPaid">Amount Paid</mfDefaultSorter>
+              <mfDefaultSorter (click)="removeColumnSort('AmountPaid')" by="pyAmtPaid">Amount Paid&nbsp;<i [hidden]="columnName=='AmountPaid'" class="fa fa-sort"></i></mfDefaultSorter>
 
             </th>
 
