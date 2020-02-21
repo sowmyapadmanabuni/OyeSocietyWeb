@@ -6,7 +6,7 @@
     .enroll{    display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 30px;}
+        margin-bottom: 0px;}
     /* .bg-grey{background: #f1eded26;} */
     a{cursor: pointer;}
     .f-des{padding-left: 10px;font-weight: 500;}

@@ -166,7 +166,7 @@ export class InvoicesComponent implements OnInit {
   InvoiceEndDate:any;
   setnoofrows:any;
   rowsToDisplay:any[];
-  ShowNumberOfEntries: string;
+  Show: string;
   columnName: any;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
@@ -182,7 +182,7 @@ export class InvoicesComponent implements OnInit {
     private route: ActivatedRoute) {
       this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
       this.setnoofrows=10;
-      this.ShowNumberOfEntries='ShowNumberOfEntries';
+      this.Show='Show';
       this.receiptVoucherNo='';
       this.receiptChequeNo='';
       this.receiptChequeDate='';
@@ -281,7 +281,7 @@ export class InvoicesComponent implements OnInit {
     })
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
+    this.Show='abc';
     this.setnoofrows = RowNum;
   }
   removeColumnSort(columnName) {
@@ -1298,25 +1298,29 @@ export class InvoicesComponent implements OnInit {
     this.BankName = bank;
   }
   onPageChange(event) {
-    console.log(event);
-    console.log(this.p);
-    console.log(event['srcElement']['text']);
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
-      console.log('test1');
       this.p=1;
     }
-    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
-      this.p= Number(event['srcElement']['text']);
-      console.log('test2');
-      console.log(this.p);
-      console.log(typeof this.p);
-        this.p=1;
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
+        let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+        this.p= Number(element.children[0]['text']);
+      //console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
       //console.log(this.p);
-      console.log('test3');
       this.p= 1;
     }
+    //console.log(this.p);
+    let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    this.p=Number(element.children[0]['text']);
   }
   
   resetForm(){

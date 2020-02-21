@@ -120,7 +120,7 @@
           <!-- <label>Search</label> -->
           <!-- <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
             placeholder="Search by Expense Head, Applicability, Unit Name"> -->
-            <div class="enroll" style="background: #f8f8f8;padding: 20px 10px;">
+            <div class="enroll" style="background: #f8f8f8;padding: 10px;">
               <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt"
                   placeholder="Search by Expense Head, Applicability, Unit Name">
               </div>
@@ -132,7 +132,7 @@
             </div>
           <div class="dropdown" style="width: 200px;">
             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-              data-toggle="dropdown">{{(ShowNumberOfEntries=='ShowNumberOfEntries'?ShowNumberOfEntries:setnoofrows)}}
+              data-toggle="dropdown">{{(Show=='Show'?Show:setnoofrows)}}
               <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
             <ul class="dropdown-menu fullw">
               <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['RowNum'])">

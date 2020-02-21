@@ -210,13 +210,23 @@ export class BlocksComponent implements OnInit {
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
-    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
-      this.p= Number(event['srcElement']['text']);
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
+        let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+        this.p= Number(element.children[0]['text']);
+      //console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
       //console.log(this.p);
       this.p= 1;
     }
+    //console.log(this.p);
+    let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    this.p=Number(element.children[0]['text']);
   }
   toggleStepWizard() {
 

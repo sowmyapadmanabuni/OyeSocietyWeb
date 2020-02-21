@@ -50,6 +50,8 @@ export class ReceiptsComponent implements OnInit {
   currentBlockName:any;
   ShowNumberOfEntries: string;
   columnName: any;
+  pyRefNo: any;
+  pyVoucherNo: any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -152,13 +154,15 @@ export class ReceiptsComponent implements OnInit {
     this.generatereceiptservice.enableReceiptListView=false;
     this.generatereceiptservice.enableGenerateReceiptView=true;
   }
-  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pydCreated,pyAmtPaid,unUniName,pyAmtDue,pyBal){
+  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pydCreated,pyAmtPaid,unUniName,pyAmtDue,pyBal,pyRefNo,pyVoucherNo){
     this.UnitName=unUniName;
     this.InvoiceNum=inNumber;
     this.paymentDate=pydCreated;
     this.AmountDue=pyAmtDue;
     this.AmountPaid=pyAmtPaid;
     this.Balance=pyBal;
+    this.pyRefNo=pyRefNo;
+    this.pyVoucherNo=pyVoucherNo;
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
   setRows(RowNum) {
@@ -179,13 +183,23 @@ export class ReceiptsComponent implements OnInit {
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
-    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1')){
-      this.p= Number(event['srcElement']['text']);
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
+        let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+        this.p= Number(element.children[0]['text']);
+      //console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
       //console.log(this.p);
       this.p= 1;
     }
+    //console.log(this.p);
+    let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    this.p=Number(element.children[0]['text']);
   }
   getMembers() {
     this.associationTotalMembers = [];

@@ -141,17 +141,29 @@ export class MembersComponent implements OnInit {
   }
 
   onPageChange(event) {
-    //this.p= 1;
+    //console.log(event);
+    //console.log(this.p);
     //console.log(event['srcElement']['text']);
-    if (event['srcElement']['text'] == '1') {
-      this.p = 1;
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
     }
-    if (event['srcElement']['text'] != '1') {
-      this.p = Number(event['srcElement']['text']) - 1;
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
+        let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+        this.p= Number(element.children[0]['text']);
+      //console.log(this.p);
+    } 
+    if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
+      this.p= 1;
     }
-    if (event['srcElement']['text'] == '«') {
-      this.p = 1;
-    }
+    //console.log(this.p);
+    let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    this.p=Number(element.children[0]['text']);
   }
   SendNotification() {
     console.log(this.allMemberByAccount);
