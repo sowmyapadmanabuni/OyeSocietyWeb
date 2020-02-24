@@ -296,14 +296,14 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http:HttpClient) {
       this.columnName='col';
-      this.rowsToDisplay=[{'Display':'Show 5 Records','Row':5},
-                          {'Display':'Show 10 Records','Row':10},
-                          {'Display':'Show 15 Records','Row':15},
-                          {'Display':'Show 50 Records','Row':50},
-                          {'Display':'Show 100 Records','Row':100},
+      this.rowsToDisplay=[{'Display':'5','Row':5},
+                          {'Display':'10','Row':10},
+                          {'Display':'15','Row':15},
+                          {'Display':'50','Row':50},
+                          {'Display':'100','Row':100},
                           {'Display':'Show All Records','Row':'All'}];
       this.setnoofrows=10;
-      this.ShowRecords='ShowRecords';
+      this.ShowRecords='Show Records';
     this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
     this.blockArray=[];
@@ -558,33 +558,34 @@ export class AssociationManagementComponent implements OnInit {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
           this.BlockHrefDetail[i]['UnitArray'][j]['_occupency'] = occupency;
+          this.BlockHrefDetail[i]['UnitArray'][j]['_uniqueId'] = _id;
+
+          this.occupencys.forEach(item => {
+            if (occupency == 'UnSold Vacant Unit') {
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
+              this.toggleunitvehicleinformation=false;
+            }
+            else if (occupency == 'UnSold Tenant Occupied Unit') {
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
+              this.toggleunitvehicleinformation=true;
+            }
+            else if (occupency == 'Sold Tenant Occupied Unit') {
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
+              this.toggleunitvehicleinformation=true;
+            }
+            else {
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
+              this.toggleunitvehicleinformation=true;
+            }
+          })
         }
       }
     }
     console.log(this.BlockHrefDetail);  
-
-    this.occupencys.forEach(item => {
-      if (occupency == 'UnSold Vacant Unit') {
-        this.tenantDetails = false;
-        this.ownerDetails = false;
-        this.toggleunitvehicleinformation=false;
-      }
-      else if (occupency == 'UnSold Tenant Occupied Unit') {
-        this.tenantDetails = true;
-        this.ownerDetails = false;
-        this.toggleunitvehicleinformation=true;
-      }
-      else if (occupency == 'Sold Tenant Occupied Unit') {
-        this.tenantDetails = true;
-        this.ownerDetails = true;
-        this.toggleunitvehicleinformation=true;
-      }
-      else {
-        this.tenantDetails = false;
-        this.ownerDetails = true;
-        this.toggleunitvehicleinformation=true;
-      }
-    })
   }
   countryName(countryName) {
     this.ASCountry = countryName;
@@ -1659,7 +1660,7 @@ this.crtAssn.newBAActType='';
                 let unitArraylength = (Number(item['noofunits']));
                 // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
                 for(let i=0;i<unitArraylength;i++){
-                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','',''));
+                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','','','','',''));
                 }
                 console.log(this.unitArray);
                 if (data['data'].blockID) {

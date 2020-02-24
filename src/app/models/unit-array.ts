@@ -16,6 +16,9 @@ export class UnitArray {
         private _tenantFirtname,
         private _tenantLastname,
         private _tenantMobnumber,
-        private _tenantEmail
+        private _tenantEmail,
+        private _uniqueId,
+        private _tenantDetails,
+        private _ownerDetails
         ){}
 }

@@ -1560,7 +1560,7 @@ this.crtAssn.newBAActType='';
                 let unitArraylength = (Number(item['noofunits']));
                 // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
                 for(let i=0;i<unitArraylength;i++){
-                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','',''));
+                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','','','','',''));
                 }
                 console.log(this.unitArray);
                 if (data['data'].blockID) {

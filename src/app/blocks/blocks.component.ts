@@ -101,14 +101,14 @@ export class BlocksComponent implements OnInit {
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
-      this.rowsToDisplay=[{'Display':'Show 5 Records','Row':5},
-      {'Display':'Show 10 Records','Row':10},
-      {'Display':'Show 15 Records','Row':15},
-      {'Display':'Show 50 Records','Row':50},
-      {'Display':'Show 100 Records','Row':100},
-      {'Display':'Show All Records','Row':'All'}];
+      this.rowsToDisplay=[{'Display':'5','Row':5},
+                          {'Display':'10','Row':10},
+                          {'Display':'15','Row':15},
+                          {'Display':'50','Row':50},
+                          {'Display':'100','Row':100},
+                          {'Display':'Show All Records','Row':'All'}];
       this.setnoofrows=10;
-      this.ShowRecords='ShowRecords';
+      this.ShowRecords='Show Records';
       this.CurrentAssociationIdForBlocks=this.globalService.getCurrentAssociationIdForBlocks()
         .subscribe(msg => {
           console.log(msg);

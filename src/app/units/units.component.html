@@ -63,7 +63,7 @@
                 </div>
                 <div class="dropdown" style="width: 200px;">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                        data-toggle="dropdown">{{(ShowRecords=='ShowRecords'?ShowRecords:setnoofrows)}}
+                        data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                     <ul class="dropdown-menu fullw">
                         <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">

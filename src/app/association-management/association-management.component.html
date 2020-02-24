@@ -32,7 +32,7 @@
         </div>
         <div *ngIf='viewAssnService.vewAsnEnbled' class="dropdown" style="width: 200px;">
           <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-              data-toggle="dropdown">{{(ShowRecords=='ShowRecords'?ShowRecords:setnoofrows)}}
+              data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
               <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
           <ul class="dropdown-menu fullw">
               <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
@@ -589,7 +589,7 @@
                                   </div>
                           </div>
                     <!-- OWNER INFORMATION -->
-                    <div *ngIf="ownerDetails" style="display: flex">            
+                    <div *ngIf="itm['_ownerDetails'] == true && itm['_uniqueId']==itm['_id']" style="display: flex">            
                           <div class="form-group mr">
                               <label class="control-label lab">Owner First Name<span class="red">*</span></label>
                               <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
@@ -621,7 +621,7 @@
                             </div>
                     </div>
                     <!-- TANENT INFORMATION -->
-                    <div *ngIf="tenantDetails" style="display: flex">                          
+                    <div *ngIf="itm['_tenantDetails'] == true && itm['_uniqueId']==itm['_id']" style="display: flex">                          
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
                                 <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="itm['_tenantFirtname']"

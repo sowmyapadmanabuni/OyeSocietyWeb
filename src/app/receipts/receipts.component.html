@@ -55,7 +55,7 @@
                         </div>
                         <div class="dropdown" style="width: 200px;">
                             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                data-toggle="dropdown">{{(ShowRecords=='ShowRecords'?ShowRecords:setnoofrows)}}
+                                data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
                                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                             <ul class="dropdown-menu fullw">
                                 <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
@@ -166,27 +166,36 @@
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="search name">
                 </div>
+                <div *ngIf='generatereceiptservice.enableReceiptListView' class="dropdown" style="width: 200px;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                            <a>{{rows['Display']}}</a></li>
+                    </ul>
+                </div>
                 <div  class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
                         <thead>
                             <tr>
                                 <th>
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unUnitID">Unit</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUnitID">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inNumber">Invoice No</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNo')" by="inNumber">Invoice No&nbsp;<i [hidden]="columnName=='InvoiceNo'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="pyDate">Payment Date</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pyDate">Payment Date&nbsp;<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="pyAmtPaid">Amount</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <!-- <th>
                                     Action
