@@ -269,10 +269,10 @@
                         <thead>
                             <tr>
                                 <th>S.No.</th>
-                                <th><mfDefaultSorter by="unUnitID">Unit ID</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="inGenDate">Invoice Date</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="inTotVal">Amount</mfDefaultSorter></th>
+                                <th><mfDefaultSorter (click)="removeColumnSort('UnitID')" by="unUnitID">Unit ID&nbsp;<i [hidden]="columnName=='UnitID'" class="fa fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter (click)="removeColumnSort('InvoiceNumber')" by="inNumber">Invoice Number&nbsp;<i [hidden]="columnName=='InvoiceNumber'" class="fa fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter (click)="removeColumnSort('InvoiceDate')" by="inGenDate">Invoice Date&nbsp;<i [hidden]="columnName=='InvoiceDate'" class="fa fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter (click)="removeColumnSort('Amount')" by="inTotVal">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter></th>
                                 <th>Action</th>
                                 <th *ngIf="toggle == 'toggleNo'">
                                     <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;

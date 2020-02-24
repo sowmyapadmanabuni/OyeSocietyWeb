@@ -42,16 +42,21 @@ export class CustomerStatementComponent implements OnInit {
   ResidentMobileNum: any;
   setnoofrows:any;
   rowsToDisplay:any[];
-  ShowNumberOfEntries:any;
+  ShowRecords:any;
   columnName: any;
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
     public viewInvoiceService: ViewInvoiceService,
     public globalservice: GlobalServiceService,private modalService: BsModalService) {
-      this.rowsToDisplay=[{'RowNum':5},{'RowNum':10},{'RowNum':15}];
+      this.rowsToDisplay=[{'Display':'Show 5 Records','Row':5},
+      {'Display':'Show 10 Records','Row':10},
+      {'Display':'Show 15 Records','Row':15},
+      {'Display':'Show 50 Records','Row':50},
+      {'Display':'Show 100 Records','Row':100},
+      {'Display':'Show All Records','Row':'All'}];
       this.setnoofrows=10;
-      this.ShowNumberOfEntries='ShowNumberOfEntries';
+      this.ShowRecords='ShowRecords';
       this.acAccntID=0;
       this.pyBal=0;
     this.frequencys = [
@@ -106,8 +111,8 @@ export class CustomerStatementComponent implements OnInit {
     this.getMembers();
   }
   setRows(RowNum) {
-    this.ShowNumberOfEntries='abc';
-    this.setnoofrows = RowNum;
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.allpaymentdetails.length:RowNum);
   }
   onPageChange(event) {
     //console.log(event);
