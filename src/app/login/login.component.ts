@@ -90,8 +90,10 @@ export class LoginComponent implements OnInit {
         }
       }
       var x = document.getElementById("snackbar");
-   x.className = "show";
-   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      if(x != null){
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      }
     } 
 
     //console.log(mobileNoData);
@@ -161,21 +163,29 @@ export class LoginComponent implements OnInit {
         res=>{
           //alert('dashboardservice.mrmRoleID'+this.dashboardservice.mrmRoleID);
           //console.log(res);
-          Swal.fire({
+         /* Swal.fire({
             title: "Error",
             text: res['error']['message'],
             type: "error",
             confirmButtonColor: "#f69321"
           }).then(
             (result) => {
-              if (result.value) {
+              if (result.value) { */
                 this.router.navigate(['home']);
-              }});
+              //}});
           
         });
         //this.router.navigate(['home']);
         //alert('navigate to home component...');
         }
+      },
+      err=>{
+        Swal.fire({
+          title: "Error",
+          text: err['error']['error']['message'],
+          type: "error",
+          confirmButtonColor: "#f69321"
+        })
       })
      
   }

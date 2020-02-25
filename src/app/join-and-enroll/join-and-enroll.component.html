@@ -569,7 +569,7 @@
                                     </div>
                             </div>
                       <!-- OWNER INFORMATION -->
-                      <div *ngIf="ownerDetails" style="display: flex">            
+                      <div *ngIf="itm['_ownerDetails'] == true && itm['_uniqueId']==itm['_id']" style="display: flex">            
                             <div class="form-group mr">
                                 <label class="control-label">Owner First Name<span class="red">*</span></label>
                                 <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
@@ -601,7 +601,7 @@
                               </div>
                       </div>
                       <!-- TANENT INFORMATION -->
-                      <div *ngIf="tenantDetails" style="display: flex">                          
+                      <div *ngIf="itm['_tenantDetails'] == true && itm['_uniqueId']==itm['_id']" style="display: flex">                          
                               <div class="form-group mr">
                                   <label class="control-label">Tenant First Name<span class="red">*</span></label>
                                   <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="itm['_tenantFirtname']"

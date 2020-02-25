@@ -554,6 +554,8 @@ export class AssociationManagementComponent implements OnInit {
   }
   tenantOwnerdiv(occupency,_id) {
     this.occupency=occupency;
+    console.log(occupency);
+    console.log(_id);
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -562,21 +564,25 @@ export class AssociationManagementComponent implements OnInit {
 
           this.occupencys.forEach(item => {
             if (occupency == 'UnSold Vacant Unit') {
+              console.log('UnSold Vacant Unit');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
               this.toggleunitvehicleinformation=false;
             }
             else if (occupency == 'UnSold Tenant Occupied Unit') {
+              console.log('UnSold Tenant Occupied Unit');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
               this.toggleunitvehicleinformation=true;
             }
             else if (occupency == 'Sold Tenant Occupied Unit') {
+              console.log('Sold Tenant Occupied Unit');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
               this.toggleunitvehicleinformation=true;
             }
             else {
+              console.log('else');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
               this.toggleunitvehicleinformation=true;

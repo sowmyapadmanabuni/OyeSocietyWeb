@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit {
     this.dashBrdService.getAssociation(this.accountID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
-      //console.log(data);
+      console.log(data);
       this.associations = data.data.memberListByAccount;
       this.associations = _.sortBy(this.associations, e => e.asAsnName);
       console.log('associations', this.associations);

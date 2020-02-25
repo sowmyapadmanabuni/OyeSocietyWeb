@@ -1392,12 +1392,12 @@ export class InvoicesComponent implements OnInit {
       },
         err => {
           console.log(err);
-          swal.fire({
+         /* swal.fire({
             title: "An error has occurred",
             text: `${err['error']['message']}`,
             type: "error",
             confirmButtonColor: "#f69321"
-          });
+          }); */
         })
     }
   }
