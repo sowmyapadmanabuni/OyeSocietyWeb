@@ -922,7 +922,7 @@ export class AssociationManagementComponent implements OnInit {
   UpdateAssociation(){
     
     //console.log("Updating Association");
-    this.editassndata = {
+   /* this.editassndata = {
       ASAsnName:this.ASAsnName,
       ASCountry:this.ASCountry,
       ASAddress:this.ASAddress,
@@ -948,7 +948,36 @@ export class AssociationManagementComponent implements OnInit {
         ASAssnID:this.asAssnID,
         BAActID:this.BAActID
       }]
-  };
+  }; */
+    this.editassndata = {
+      "ASAddress": this.ASAddress,
+      "ASCountry": this.ASCountry,
+      "ASAsnName": this.ASAsnName,
+      "ASPANNum": "",
+      "ASRegrNum": "",
+      "ASCity": this.ASCity,
+      "ASState": this.ASState,
+      "ASPinCode": this.ASPinCode,
+      "ASPrpName": this.ASPrpName,
+      "ASPrpType": this.ASPrpType,
+      "ASNofBlks": this.ASNofBlks,
+      "ASNofUnit": this.ASNofUnit,
+      "ASAssnID": this.asAssnID,
+      "Amenities":
+        [{
+          "AMType": "Club",
+          "NoofAmenities": 2,
+          "AMID": "1"
+        }],
+
+      "BankDetails": [{
+        "BABName": "SBI",
+        "BAIFSC": "iciic89898989",
+        "BAActNo": "7654324567890",
+        "BAActType": "savings",
+        "BAActID": "1"
+      }]
+    }
     console.log(this.editassndata);
     this.viewAssnService.UpdateAssociation(this.editassndata).subscribe(res => {
       //console.log("Done");
@@ -1825,10 +1854,16 @@ this.crtAssn.newBAActType='';
             console.log(data);
             Swal.fire({
               title: 'Joined Successfully',
-              showCancelButton: true,
               type: 'success',
               confirmButtonColor: "#f69321"
-            })
+            }).then(
+              (result) => {
+                if (result.value) {
+                  this.router.navigate(['home']);      
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                  //this.router.navigate(['']);
+                }
+              })
             //console.log(data);
           },
           err => {
@@ -1850,6 +1885,24 @@ this.crtAssn.newBAActType='';
   requestForJoin(){
     //console.log(this.OwnerType);
       this.OnSendButton(this.OwnerType);
+  }
+  resetJoinAssociation(){
+    this.assnName='Associations';
+    this.blBlkName='Blocks';
+    this.OwnerType='';
+    this.UNOcSDate = '';
+    let activespan= document.querySelectorAll('span.active');
+    console.log(activespan.length);
+    console.log(this.OwnerType);
+    if(activespan.length > 0){
+      Array.from(activespan).forEach(item=>{
+        //console.log(item);
+        item.className='';
+      })
+    }
+    else{
+     console.log(activespan);
+    }
   }
   validateGST() {
     let firstLetter = this.crtAssn.name.charAt(0).toUpperCase();
@@ -2017,14 +2070,44 @@ this.crtAssn.newBAActType='';
         EditAssociationData['AMID']=AMID;
         EditAssociationData['AMType']= this.AMType;
         EditAssociationData['NoofAmenities']= this.NoofAmenities;
-        EditAssociationData['BABName']= this.BABName;
-        EditAssociationData['BAIFSC']= this.BAIFSC;
-        EditAssociationData['BAActNo']= this.BAActNo;
-        EditAssociationData['BAActType']= this.BAActType;
+        EditAssociationData['BABName']= "SBI";
+        EditAssociationData['BAIFSC']= "iciic89898989";
+        EditAssociationData['BAActNo']= "7654324567890";
+        EditAssociationData['BAActType']= "savings";
         EditAssociationData['ASPrpType'] = this.ASPrpType;
 
-        console.log(EditAssociationData);
-        this.viewAssnService.EditAssociationData=EditAssociationData;
+          let editAssociationData = {
+            "ASAddress": asAddress,
+            "ASCountry": asCountry,
+            "ASAsnName": asAsnName,
+            "ASPANNum": "",
+            "ASRegrNum": "",
+            "ASCity": asCity,
+            "ASState": asState,
+            "ASPinCode": asPinCode,
+            "ASPrpName": asPrpName,
+            "ASPrpType": asPrpType,
+            "ASNofBlks": asNofBlks,
+            "ASNofUnit": asNofUnit,
+            "ASAssnID": asAssnID,
+            "Amenities":
+              [{
+                "AMType": "Club",
+                "NoofAmenities": 2,
+                "AMID": "1"
+              }],
+
+            "BankDetails": [{
+              "BABName": "SBI",
+              "BAIFSC": "iciic89898989",
+              "BAActNo": "7654324567890",
+              "BAActType": "savings",
+              "BAActID": "1"
+            }]
+          }
+
+          console.log(editAssociationData);
+        this.viewAssnService.EditAssociationData=editAssociationData;
         this.router.navigate(['editassociation']);
         });
         // this.modalRef = this.modalService.show(template,

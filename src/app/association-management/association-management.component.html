@@ -184,14 +184,14 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">State</label>
+                  <label class="control-label">State <span class="red">*</span></label>
                   <input type="text" required name="ASState" autocomplete='crtAss.state' [(ngModel)]="crtAssn.state"
                     #stateControl="ngModel" class="form-control" placeholder="STATE" style="font-family: Quicksand"
                     pattern="[a-zA-Z\s]*" />
                   <p class="alerts" *ngIf="stateControl.invalid && stateControl.touched"> Valid State is required</p>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">City</label>
+                  <label class="control-label">City <span class="red">*</span></label>
                   <input type="text" required name="ASCity" autocomplete='crtAss.city' [(ngModel)]="crtAssn.city"
                     #cityControl="ngModel" class="form-control" placeholder="CITY" style="font-family: Quicksand"
                     pattern="[a-zA-Z\s]*" />
@@ -201,7 +201,7 @@
               <div class="panel-body">
                 <div class="form-group"
                   [ngClass]="{'was-validated' : postalcodeControl.invalid && postalcodeControl.touched}">
-                  <label class="control-label">Pin/Zip/Postal Code</label>
+                  <label class="control-label">Pin/Zip/Postal Code <span class="red">*</span></label>
                   <input type="text" required name="ASPinCode" autocomplete='crtAss.postalCode'
                     [(ngModel)]="crtAssn.postalCode" #postalcodeControl="ngModel" class="form-control"
                     placeholder="PIN/ZIP" style="font-family: Quicksand" pattern="^\d{6,}$" minlength="5"
@@ -222,7 +222,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Property Name</label>
+                  <label class="control-label">Property Name <span class="red">*</span></label>
                   <input type="text" required name="ASPrpName" autocomplete='crtAss.propertyName'
                     [(ngModel)]="crtAssn.propertyName" #propertynameControl="ngModel" class="form-control"
                     placeholder="PROPERTY NAME" style="font-family: Quicksand" pattern="[a-zA-Z\s]*"
@@ -233,7 +233,7 @@
               </div>
               <div class="panel-body">
                 <div class="form-group">
-                  <label class="control-label">Locality</label>
+                  <label class="control-label">Locality <span class="red">*</span></label>
                   <input type="text" required name="ASAddress" autocomplete='crtAssn.locality'
                     [(ngModel)]="crtAssn.locality" #localityControl="ngModel" class="form-control" maxlength="255"
                     placeholder="LOCALITY " style="font-family: Quicksand" pattern="[A-Za-z\s]+" />
@@ -242,10 +242,10 @@
                   <br>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Association Email</label>
+                  <label class="control-label">Association Email <span class="red">*</span></label>
                   <input type="text" name="ASAsnEmail" autocomplete='crtAssn.email' [(ngModel)]="crtAssn.email"
                     #emailControl="ngModel" class="form-control" maxlength="255" placeholder="EMAIL ID "
-                    style="font-family: Quicksand" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                    style="font-family: Quicksand" required pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                   <p class="alerts" *ngIf="emailControl.invalid && emailControl.touched"> Valid EmailID is Required
                   </p>
                   <br>
@@ -314,10 +314,10 @@
                           </div> -->
               <div class="panel-body">
                 <div class="form-group">
-                  <label class="control-label">Total No of Blocks</label>
+                  <label class="control-label">Total No of Blocks <span class="red">*</span></label>
                   <input type="text" name="ASNofBlks" autocomplete='crtAss.totalNoBlocks'
                     [(ngModel)]="crtAssn.totalNoBlocks" #totalNoBlocksControl="ngModel" class="form-control"
-                    placeholder="NO OF BLOCKS" style="font-family: Quicksand" pattern="[0-9]*"
+                    placeholder="NO OF BLOCKS" style="font-family: Quicksand" required pattern="[0-9]*"
                     (keypress)=_keyPress($event) />
                   <p class="alerts" *ngIf="totalNoBlocksControl.invalid && totalNoBlocksControl.touched"> Valid blocks
                     no is required</p>
@@ -897,9 +897,8 @@
           </div>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-primary-purple nextBtn pull-right" type="button"
-            (click)='requestForJoin()'>Join</button>
-          <input class="btn btn-primary-purple nextBtn pull-right" type="reset" value="Reset">
+          <button class="btn btn-primary-purple nextBtn pull-right" type="button"(click)='requestForJoin()'>Join</button>
+          <input class="btn btn-primary-purple nextBtn pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="reset" value="Reset">
         </div>
       </div>
       <!--Join Association form Ends-->
