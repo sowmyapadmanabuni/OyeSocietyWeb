@@ -97,5 +97,5 @@
     }
     .upload_excel{display: flex;
         justify-content: flex-end;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
         align-items: center;}

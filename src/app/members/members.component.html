@@ -14,7 +14,7 @@
                     <button style="float: right;margin-bottom: 5px;" class="btn-primary-purple" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotificationAll"><i class="fa fa-bell-o" aria-hidden="true"></i> Send Notification</button>
                 </div>
                 <div>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name">
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search name">
                 </div>
                 <div class="dropdown" style="width: 200px;">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -72,15 +72,15 @@
                                 <td colspan="5" align="center">No Data Found</td>
                             </ng-container>
                             <ng-container *ngIf="item!=-1">
-                                <td>{{ (10 * (p - 1) + i)+1 }}</td>
+                                <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
                                 <td>{{item['blBlkName']}}</td>
                                 <td>{{item['unUniName']}}</td>
                                 <td>{{item['uofName']}}</td>
                                 <td>{{item['uoMobile']}}</td>
                                 <td>{{item['unOcStat']}}</td>
-                                <td>{{item['vehcleCount']}}</td>
+                                <td class="txt-middle">{{item['vehcleCount']}}</td>
                                 <td>{{item['uoRoleID']}}</td>
-                                <td>
+                                <td class="txt-middle">
                                     <div *ngIf="item['uoRoleID']!=''" class="dropdown search-dropd" style="margin-top:0px">
                                         <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
                                                 data-toggle="dropdown">{{(SelectedUnitID==item['unUnitID']?ChangeRole:'SelectRole')}}
@@ -90,8 +90,8 @@
                                         </ul>
                                     </div>
                                 </td>
-                                <td><i class="fa fa-bell-o" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotification"></i></td>
-                                <td><input type="checkbox" [value]="item.SetIndividualNotification" (change)="setIndividualNotification(item.SetIndividualNotification)" [(ngModel)]='item.SetIndividualNotification'/>
+                                <td class="txt-middle"><i class="fa fa-bell-o" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotification"></i></td>
+                                <td class="txt-middle"><input type="checkbox" [value]="item.SetIndividualNotification" (change)="setIndividualNotification(item.SetIndividualNotification)" [(ngModel)]='item.SetIndividualNotification'/>
                                 </td>
                             </ng-container>
                         </tr>

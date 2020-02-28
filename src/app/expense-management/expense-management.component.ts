@@ -123,6 +123,7 @@ export class ExpenseManagementComponent implements OnInit {
   ShowRecords:any;
   columnName: any;
   unUnitID: any;
+  toggleTd: boolean;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -259,6 +260,7 @@ export class ExpenseManagementComponent implements OnInit {
     },err=>{
       console.log(err);
     })
+  this.toggleTd=true;
   }
   GetexpenseList(param) {
     this.toggle = param;
@@ -910,6 +912,17 @@ export class ExpenseManagementComponent implements OnInit {
           this.expenseList = this._viewexpensesByBlockId;
         }
       }
+    //
+      if (param == 'toggleYes') {
+        this.toggleTd = false;
+      }
+      else if (param == 'toggleNo') {
+        this.toggleTd = true;
+      }
+      else if (param == 'All') {
+        this.toggleTd = true;
+      }
+    //
     }
   }
   getExpenseListByDatesAndID() {

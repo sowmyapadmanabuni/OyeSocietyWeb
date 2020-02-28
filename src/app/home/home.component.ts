@@ -16,7 +16,7 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import {UtilsService} from '../utils/utils.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+declare var $ :any;
 
 @Component({
   selector: 'app-home',

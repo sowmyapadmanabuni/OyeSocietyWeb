@@ -8,25 +8,17 @@
 
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
+                <div class="enroll" style="justify-content: space-between;align-items: baseline;margin-bottom: 0px;">
                 <h3 class="black">Family Members</h3>
-                <div class="enroll">
-                    <div>
-                        <button class="btn-primary-purple" (click)="addMemberShow()"><i class="fa fa-plus"
-                                aria-hidden="true"></i> Add Members</button>
-
-                    </div>
-
-                </div>
-
+                <button class="btn-primary-purple" (click)="addMemberShow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Members</button>
+            </div>
                 <div class="dash-row" *ngIf='memberList'>
                     <table class="table table-bordered"
                         [mfData]="familymemberarray | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt"
                         #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr style="background: #ededed;">
-                                <th>
-                                    S.No.
-                                </th>
+                                <th>S.No.</th>
                                 <th>
                                     <mfDefaultSorter by="fmName">Member Name</mfDefaultSorter>
                                 </th>
@@ -47,11 +39,11 @@
                                     <td colspan="5" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{(i+1)}}</td>
+                                    <td class="txt-middle">{{(i+1)}}</td>
                                     <td>{{item['fmName']}}</td>
                                     <td>{{item['fmRltn']}}</td>
                                     <td>{{item['fmMobile']}}</td>
-                                    <td>
+                                    <td class="txt-middle">
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                                             (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['unUnitID'],item['fmid'])"
                                             class="fa fa-pencil"></i>&nbsp;|&nbsp;<i data-toggle="modal"
@@ -82,7 +74,7 @@
             <!--Enroll Association form Starts-->
             <div class="col-sm-12" *ngIf="addMember">
                 <div class="row">
-                    <form #addFamilyFrm='ngForm' role="form">
+                    <form #addFamilyMem="ngForm" role="form">
                         <div class="panel panel-primary setup-content">
                             <!-- <div class="panel-heading">
                                          <h3 class="panel-title">Pan & Registration Details</h3>
@@ -91,28 +83,27 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label class="control-label">Relationship<span class="red">*</span></label>
-                                    <input maxlength="20" type="text" [(ngModel)]='Relation' name="Relation"
-                                        #relationshipControl="ngModel" required="required" class="form-control"
-                                        placeholder="Relationship" />
+                                    <input pattern="[a-zA-Z]*" maxlength="20" type="text" [(ngModel)]='Relation'
+                                        name="Relation" #relationshipControl="ngModel"
+                                        class="form-control" placeholder="Relationship" required/>
                                     <p class="alerts"
                                         *ngIf="relationshipControl.invalid && relationshipControl.touched"> Enter the
                                         Relation</p>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">First Name<span class="red">*</span></label>
-                                    <input maxlength="200" type="text" [(ngModel)]='FirstName' maxlength="30"
-                                        #fnameControl="ngModel" name="FirstName" required="required"
-                                        class="form-control" placeholder="First Name" />
+                                    <input pattern="[a-zA-Z]*" type="text" [(ngModel)]='FirstName' maxlength="30"
+                                        #fnameControl="ngModel" name="FirstName"
+                                        class="form-control" placeholder="First Name" required/>
                                     <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter the
                                         Name</p>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Mobile Number<span class="red">*</span></label>
-                                    <input maxlength="20" [(ngModel)]='MobileNumber' name="MobileNumber" type="text"
-                                        #mobileControl="ngModel" required="required" class="form-control"
-                                        placeholder="Mobile Number" />
-                                    <p class="alerts" *ngIf="mobileControl.invalid && mobileControl.touched"> Enter the
-                                        10 digit number</p>
+                                    <input minlength=10 maxlength=10 pattern="[0-9]*" [(ngModel)]='MobileNumber'
+                                        name="MobileNumber" type="text" #mobileControl="ngModel"
+                                        class="form-control" placeholder="Mobile Number" (keypress)=_keyPress($event) required/>
+                                    <p class="alerts" *ngIf="mobileControl.invalid && mobileControl.touched"> Enter the 10 digit number</p>
                                 </div>
                             </div>
                             <div class="panel-body">
@@ -127,9 +118,7 @@
                                             [(ngModel)]='ToggleGurdian' [checked]="ToggleGurdian =='xyz'"
                                             name="optradio">No
                                     </div>
-
                                 </div>
-
                                 <div class="form-group" *ngIf="ToggleGurdian=='abc'">
                                     <label class="control-label">Gardien's Name</label>
                                     <input maxlength="200" type="text" required="required" class="form-control"
@@ -142,14 +131,12 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <button [disabled]='addFamilyFrm.invalid' class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()"
+                                <button [disabled]="addFamilyMem.invalid" class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()"
                                     type="button">Submit</button>
                                 <input class="btn btn-primary-purple nextBtn pull-right"
                                     (click)="resetFamilyMemberModal()" type="reset" value="Reset">
                             </div>
-
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -256,16 +243,16 @@
             <div>
                 <label><b>Family Member Name</b></label>
                 <input type="text" placeholder="First Name" [(ngModel)]='EditFirstName' maxlength="30"
-                    name="EditFirstName" class="form-control" #FirstNameControl="ngModel" style="margin-bottom: 20px;">
+                    name="EditFirstName" class="form-control" #FirstNameControl="ngModel" style="margin-bottom: 10px;" required>
 
                 <label><b>Mobile Number</b></label>
-                <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' maxlength="20"
+                <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' minlength=10 maxlength=10 pattern="[0-9]*"
                     name="EditMobileNumber" class="form-control" #MobileNumberControl="ngModel"
-                    style="margin-bottom: 20px;">
+                    style="margin-bottom: 10px;" (keypress)=_keyPress($event) required>
 
                 <label><b>Relation</b></label>
                 <input type="text" placeholder="Relation" [(ngModel)]='EditRelation' maxlength="20" name="EditRelation"
-                    class="form-control" #RelationControl="ngModel" style="margin-bottom: 20px;">
+                    class="form-control" #RelationControl="ngModel" style="margin-bottom: 10px;">
 
                 <div style="margin-top: 20px;">
                     <button type="submit" class="btn btn-primary-purple nextBtn"

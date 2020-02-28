@@ -15,17 +15,11 @@
                   <button class="btn-primary-purple" (click)="enblEnrlAsnVew()" style="margin-right: 16px;"><i class="fa fa-plus" aria-hidden="true"></i>
                     Enroll Association</button>
                   <button class="btn-primary-purple" (click)="enblJoinAsnVew()">
-                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Join Association</button>
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Association</button>
                 </div>
               </div>
          </div>
         <!-- Title and enroll button part -->
-
-          
-
-        
-
-
 
         <div *ngIf='viewAssnService.vewAsnEnbled'>
           <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by Association Name, Property Name, Locality">
@@ -70,13 +64,13 @@
                   <td colspan="7" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
-                  <td>{{ (10 * (p - 1) + i)+1 }}</td>
+                  <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
                   <td>{{item['asAsnName']}}</td>
                   <td>{{item['asPrpName']}}</td>
                   <td>{{item['asAddress']}}</td>
-                  <td>{{item['asNofBlks']}}</td>
-                  <td>{{item['asNofUnit']}}</td>
-                  <td>
+                  <td class="txt-middle">{{item['asNofBlks']}}</td>
+                  <td class="txt-middle">{{item['asNofUnit']}}</td>
+                  <td class="txt-middle">
                     <i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewAssociation"
                       (click)="openViewAssociation(viewreceiptmodal,item.asAsnName,item.asPrpName,item.asAddress,item.asNofUnit,item.asCountry,item.asPinCode,item.asState,item.asPrpType,item.asNofBlks,item.asRegrNum,item.asAsnLogo,item.asCity,item.aspanNum,item.aspanDoc,item.asAssnID,item.asgstNo)"></i>
                     |
@@ -162,7 +156,7 @@
                     <!-- <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)"> -->
                     <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
                         <input type="file" name="profile" (change)="onFileSelect($event)" />
-                        <button type="submit">Upload</button>
+                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>
                     </form>
                 </div>
                 <div class="form-group">
@@ -172,7 +166,7 @@
               </div>
               <div class="panel-body">
                 <div class="form-group">
-                  <label class="control-label">Country</label>
+                  <!-- <label class="control-label">Country</label> -->
                   <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                       data-toggle="dropdown">{{crtAssn.country}}
@@ -264,7 +258,7 @@
               <div class="col-sm-12">
                 <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
                 <button class="btn btn-primary-purple nextBtn pull-right" type="reset"
-                  (click)='resetStep1()'>Reset</button>
+                  (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
               </div>
             </div>
             <div class="panel panel-primary setup-content" id="step-2">
@@ -505,8 +499,8 @@
                  
               </div>
               <div class="col-sm-12 pull-right">
-                  <button class="btn btn-primary-purple nextBtn" type="reset" (click)='resetStep5()'>Reset</button>
-                  <button class="btn btn-primary-purple nextBtn" type="button" (click)='createBlock()'>Next</button>
+                  <button class="btn btn-primary-purple nextBtn pull-right" type="reset" (click)='resetStep5()'>Reset</button>
+                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='createBlock()'>Next</button>
               </div>
           </div>
   
@@ -657,8 +651,8 @@
 
                       </div>
                       <div class="col-sm-12 pull-right">
-                        <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
-                        <button id="CreateUnitId" class="btn btn-primary-purple nextBtn" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
+                        <button type="reset" class="btn btn-primary-purple nextBtn pull-right">Reset</button>
+                        <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
                     </div> 
                   </div>           
               </form>
@@ -915,7 +909,7 @@
 <ng-template #viewreceiptmodal>
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">View association</h5>
+      <h5 class="modal-title" id="exampleModalLabel">View Association</h5>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -928,7 +922,7 @@
         <div class="col-sm-12" style="margin-top: 20px;">
           <h5 style="color:#5a51aa">Enroll Information</h5>
           <div class="col-sm-4">
-            <p><b>Association name : </b>{{associationname}}</p>
+            <p><b>Association Name : </b>{{associationname}}</p>
           </div>
           <div class="col-sm-4">
             <p><b>Uploaded File : </b> <span>{{file}}</span></p>
@@ -951,17 +945,14 @@
             <p><b>Property Type : </b> <span>{{propertyType}}</span></p>
           </div>
           <div class="col-sm-4">
-            <p><b>PropertyName : </b> <span>{{propertyName}}</span></p>
+            <p><b>Property Name : </b> <span>{{propertyName}}</span></p>
           </div>
           <div class="col-sm-4">
             <p><b>Locality : </b> <span>{{locality}}</span></p>
           </div>
         </div>
-
         <div class="col-sm-12" style="margin-top: 20px;">
-
           <h5 style="color:#5a51aa">Blocks & Unit details</h5>
-
           <!-- <div class="col-sm-4">
                          <p>State : <span>{{State}}</span></p>
                      </div> -->
@@ -1187,7 +1178,7 @@
                   <div class="form-group fulw"
                     [ngClass]="{'has-error' : amenitytypeControl.invalid && amenitytypeControl.touched}">
                     <label>Amenity Type<span class="red">*</span></label>
-                    <input type="text" class="form-control" name="AMType" [(ngModel)]="AMType"
+                    <input type="text"  class="form-control" name="AMType" [(ngModel)]="AMType"
                       #amenitytypeControl='ngModel' placeholder="Amenity Type" pattern="[a-zA-Z0-9- _]*" required />
                     <p class="alerts" *ngIf="amenitytypeControl.invalid && amenitytypeControl.touched">Amenity Name is
                       required</p>

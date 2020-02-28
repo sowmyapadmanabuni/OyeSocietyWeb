@@ -2,7 +2,6 @@
     <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
-
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
             <!--Dashboard icons start-->
@@ -32,13 +31,7 @@
                  </div>
                  <div class="enroll">
                     <div style="display: flex;justify-content: flex-end;flex-direction: column;">
-                           <button style="float: right;" class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
-                               aria-hidden="true"></i> Add Units</button>
-                               <div class="upload_excel">
-                                   <a class="excel" tooltip="Have more num of Units?"  (click)="NavigateToBulkUpload()">Bulk Upload</a>
-                                       <!-- <a tooltip="click to download demo excel format"  href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/download.png"></a>
-                                       <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file> -->
-                                   </div>    
+                              
                     </div>
                    </div>
                
@@ -61,14 +54,23 @@
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="Search by Unit Name, Unit Type, Name, Email">
                 </div>
-                <div class="dropdown" style="width: 200px;">
-                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                <div class="dropdown" style="display: flex;justify-content: space-between;">
+                    <button style="width: 200px;" class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                         data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                     <ul class="dropdown-menu fullw">
                         <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
                             <a>{{rows['Display']}}</a></li>
                     </ul>
+                    <div style="display: flex;flex-direction: column;">
+                    <button style="float: right;" class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
+                        aria-hidden="true"></i> Add Units</button>
+                        <div class="upload_excel">
+                            <a class="excel" tooltip="Have more num of Units?"  (click)="NavigateToBulkUpload()">Bulk Upload</a>
+                                <!-- <a tooltip="click to download demo excel format"  href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/download.png"></a>
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file> -->
+                         </div> 
+                    </div>
                 </div>
                 <div class="dash-row" *ngIf="unitList">
                     <table class="table table-bordered"
@@ -101,7 +103,7 @@
                                     <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
                                     <td>{{item.unUniName}}</td>
                                     <td>{{item.unUniType}}</td>
                                     <td>{{item.unDimens}} SqFt</td>
@@ -109,7 +111,7 @@
                                     </td>
                                     <td>{{(item.owner.length > 0 ? item.owner[0].uoEmail : ((item.tenant.length > 0) ? item.tenant[0].utEmail :''))}}
                                     </td>
-                                    <td>
+                                    <td class="txt-middle">
                                         <i style="cursor: pointer;" data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
                                             class="fa fa-eye" tooltip="View Unit"></i>&nbsp;|&nbsp; <i style="cursor: pointer;" data-toggle="modal"
                                             (click)="OpenModal(editUnits,item['unUnitID'],item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'],item['undCreated'])" class="fa fa-pencil" tooltip="Edit Unit"></i>

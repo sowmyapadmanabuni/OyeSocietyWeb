@@ -7,7 +7,7 @@ import {DashBoardService} from '../services/dash-board.service';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { UnitlistForAssociation } from './models/unitlist-for-association';
-
+declare var $:any;
 
 @Component({
   selector: 'app-root',
@@ -142,6 +142,7 @@ export class AppComponent {
         $("#panel").slideToggle("slow");
       });
     });
+    
   }
   myFunction() {
     let x = document.getElementById("myTopnav");
@@ -303,5 +304,6 @@ export class AppComponent {
     this.globalService.clear();
     this.router.navigate(['root']);
   }
+ 
 }
 
