@@ -16,6 +16,7 @@ declare var $: any;
   templateUrl: './family-members.component.html',
   styleUrls: ['./family-members.component.css']
 })
+
 export class FamilyMembersComponent implements OnInit {
   modalRef: BsModalRef;
   memberList: boolean;
@@ -129,7 +130,7 @@ updatefamilymember() {
   //console.log(updateFmailyMember);
   this.http.post(scopeIP + `oyesafe/api/v1/FamilyMemberDetails/update`, JSON.stringify(updateFmailyMember), { headers: headers })
   .subscribe(data=>{
-    //console.log(data);
+    console.log(data);
     if(data['data'] != null){
             Swal.fire({
       title: "Error",
@@ -163,7 +164,13 @@ updatefamilymember() {
 }
 // UPDATE FAMILY MEMBER API CALL END
 
-
+_keyPress(event: any) {
+  const pattern = /[0-9]/;
+  let inputChar = String.fromCharCode(event.charCode);
+  if (!pattern.test(inputChar)) {
+      event.preventDefault();
+  }
+}
 // ADD FAMILY MEMBER START
 addfamilymember() {
   let familymember = {
@@ -186,21 +193,41 @@ addfamilymember() {
   let scopeIP = this.utilsService.addfamilymember();
   this.http.post(scopeIP + `oyesafe/api/v1/FamilyMember/create`, JSON.stringify(familymember), { headers: headers })
     .subscribe(data => {
-      //console.log(data);
+      console.log(data);
       this.addMember=false;
       this.memberList=true;
       this.getFamilyMember();
-      
-      Swal.fire({
-        title: "Family Member Added Successfully",
-        text: "",
-        type: "success",
-        confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
-      })
+      if(!data['success']){
+        Swal.fire({
+          title: "Sorry! MobileNumber already Exists",
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        })
+      }
+      else{
+        Swal.fire({
+          title: "Family Member Added Successfully",
+          text: "",
+          type: "success",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.Relation='';
+              this.FirstName='';
+              this.MobileNumber='';
+              this.ToggleGurdian='';           
+            } else if (result.dismiss === swal.DismissReason.cancel) {
+              this.router.navigate(['']);
+            }
+          })
+      }   
     },
       err => {
-        //console.log(err);
+        console.log(err);
       })
 }
 

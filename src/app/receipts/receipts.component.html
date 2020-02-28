@@ -208,10 +208,10 @@
                                     <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])">{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
                                     <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])">{{item['unUniName']}}</td>
                                     <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])">{{item['inNumber']}}</td>
-                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="amount">{{item['pyDate'] | date : "d-M-y"}}</td>
+                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="txt-middle">{{item['pyDate'] | date : "d-M-y"}}</td>
                                     <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}.00</td>
                                     <!-- <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
                                             (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"

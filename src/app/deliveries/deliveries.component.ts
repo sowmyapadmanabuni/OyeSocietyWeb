@@ -17,6 +17,7 @@ export class DeliveriesComponent implements OnInit {
   StartDate: any;
   searchTxt:any;
   todayDate:any;
+  bsConfig:any;
 
   constructor(private globalService: GlobalServiceService, private deliveryService: ViewDeliveryService,
     private modalService: BsModalService,
@@ -25,6 +26,12 @@ export class DeliveriesComponent implements OnInit {
     this.deliveryListLength = false;
     this.EndDate = '';
     this.StartDate = ''
+    this.bsConfig = Object.assign({}, {
+      // containerClass: 'theme-orange',
+      dateInputFormat: 'DD-MM-YYYY',
+      showWeekNumbers: false,
+      isAnimated: true
+      });
   }
 
   ngOnInit() {

@@ -1,3 +1,3 @@
 export class VehicleDataNew {
-    constructor(private veType, private veMakeMdl, private veRegNo, private veStickNo,private veid ){}
+    constructor(private veType, private veMakeMdl, private veRegNo, private veStickNo,private veid,private uplNum ){}
 }

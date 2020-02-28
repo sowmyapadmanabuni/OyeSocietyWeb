@@ -19,11 +19,11 @@
                         </div>
                         <div class="del-date cal">From<input type="text" class="date ng-pristine ng-valid ng-touched" name="StartDate" #StartDateControl='ngModel'
                                   placeholder="Start Date"  [(ngModel)]="StartDate"
-                                  bsDatepicker required [minDate]="todayDate" placement="side"/>
+                                  bsDatepicker required [bsConfig]="bsConfig" [minDate]="todayDate" placement="side"/>
                         </div>
 
                         <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="Due Date"
-                            [(ngModel)]="EndDate" bsDatepicker required 
+                            [(ngModel)]="EndDate" [bsConfig]="bsConfig" bsDatepicker required 
                             placement="bottom"/>
                         </div>                   
                     </div>

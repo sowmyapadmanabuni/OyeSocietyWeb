@@ -2,8 +2,8 @@
 // import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { GlobalServiceService } from '../global-service.service';
-import {GuestService} from '../../services/guest.service';
-import {AddVisitorService} from '../../services/add-visitor.service'
+import { GuestService } from '../../services/guest.service';
+import { AddVisitorService } from '../../services/add-visitor.service'
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert2';
@@ -15,8 +15,9 @@ declare var $: any;
   templateUrl: './visitors.component.html',
   styleUrls: ['./visitors.component.css']
 })
+
 export class VisitorsComponent implements OnInit {
-  public searchTxt: any;
+public searchTxt: any;
 guestList:boolean;
 addGuest:boolean;
 mytime: Date = new Date();
@@ -42,6 +43,7 @@ INVisCnt: any;
 INSDate: any;
 INEDate: any;
 todayDate: Date;
+bsConfig:any;
 // ADD VISITOR DATA/*/*/*/*/*/*
 
   constructor(private globalService: GlobalServiceService, private guestService: GuestService,
@@ -63,6 +65,12 @@ todayDate: Date;
       this.INSDate = '';
       this.INEDate = '';
       this.todayDate=new Date();
+      this.bsConfig = Object.assign({}, {
+        // containerClass: 'theme-orange',
+        dateInputFormat: 'DD-MM-YYYY',
+        showWeekNumbers: false,
+        isAnimated: true
+        });
      }
 
   ngOnInit() {
@@ -70,6 +78,7 @@ todayDate: Date;
     this.addGuest=false;
     this.getVisitorList('');
     this.AssociationName = this.globalService.currentAssociationName;
+    console.log(this.AssociationName);
   }
   // 
   getVisitorList(event){
@@ -134,7 +143,23 @@ todayDate: Date;
         showCancelButton: false,
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK",
-      });
+      }).then(
+        (result) => {
+
+          if (result.value) {
+            this.INFName='';
+            this.INLName='';
+            this.INMobile='';
+            this.INVchlNo='';
+            this.INEmail='';
+            this.INPOfInv='';
+            this.INSDate='';
+            this.INEDate='';
+            this.INVisCnt='';
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            this.router.navigate(['']);
+          }
+        })
     },
     err=>{
       console.log(err);
@@ -202,7 +227,13 @@ todayDate: Date;
   goToDelivery(){
     this.router.navigate(['deliveries']);
   }
-
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
   // Multiple visitor toggle switch
   toggleEditable(event) {
     console.log(event.target.checked);
