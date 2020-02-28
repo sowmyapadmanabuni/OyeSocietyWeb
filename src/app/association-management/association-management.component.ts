@@ -454,7 +454,7 @@ export class AssociationManagementComponent implements OnInit {
     this.assnID = this.globalService.currentAssociationId;
     this.UNOcSDate = '';
     this.bsConfig = Object.assign({}, {
-      containerClass: 'theme-orange',
+      //containerClass: 'theme-orange',
       dateInputFormat: 'DD-MM-YYYY',
       showWeekNumbers: false,
       isAnimated: true
@@ -605,7 +605,7 @@ export class AssociationManagementComponent implements OnInit {
           setTimeout(() => {
             let createUnitData =
             {
-              "ASAssnID": this.globalService.getCurrentAssociationId(),
+              "ASAssnID": this.viewAssnService.associationId,
               "ACAccntID": this.globalService.getacAccntID(),
               "units": [
                 {
@@ -692,13 +692,10 @@ export class AssociationManagementComponent implements OnInit {
       }).then(
         (result) => {
           if (result.value) {
-            // this.viewUniService.AssociationCompletionStatusUpdate(this.globalService.getCurrentAssociationId())
-            // .subscribe(data=>{
-            //   console.log(data);
-            // },
-            // err=>{
-            //   console.log(err);
-            // })
+            this.getAssociationDetails();
+            this.viewAssnService.enrlAsnEnbled = false;
+            this.viewAssnService.vewAsnEnbled = true;
+            this.viewAssnService.joinAsnEbld = false;
           } else if (result.dismiss === Swal.DismissReason.cancel) {
 
           }
@@ -1121,12 +1118,42 @@ this.crtAssn.newBAActType='';
     console.log(this.blockArray);
   }
 
-  _keyPress(event: any) {
+  _keyPress(event: any,Id) {
+    //console.log(Id);
+    //console.log(managernumberControl);
+    //console.log(managernumberControl.touched);
+    for(let i=0;i<this.blockArray.length;i++){
+      if(this.blockArray[i]['Id'] == Id){
+        this.blockArray[i]['uniqueID']=Id;
+      }
+      else{
+        this.blockArray[i]['uniqueID']='';
+      }
+    }
+    console.log(this.blockArray);
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
         event.preventDefault();
     }
+  }
+  _keyDown(event: any,Id){
+    console.log(event);
+    for(let i=0;i<this.blockArray.length;i++){
+        if(this.blockArray[i]['Id'] == Id){
+          this.blockArray[i]['uniqueID']=Id;
+          console.log(Id);
+        }
+        else{
+          this.blockArray[i]['uniqueID']='';
+        }
+      }
+      const pattern = /[0-9]/;
+      let inputChar = String.fromCharCode(event.charCode);
+      if (!pattern.test(inputChar)) {
+          event.preventDefault();
+      }
+      console.log(this.blockArray);
   }
   checking(rate){
     if(rate==true){
@@ -1601,7 +1628,7 @@ this.crtAssn.newBAActType='';
     let blockArraylength = (Number(this.crtAssn.totalNoBlocks));
     // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
     for(let i=0;i<blockArraylength;i++){
-      this.blockArray.push(new BlockArrayDetail(i,'','','','','','','','','','','','','','','','','','',''));
+      this.blockArray.push(new BlockArrayDetail(i+1,'','','','','','','','','sqft','','','','','','','','','','','',''));
     }
     console.log(this.blockArray.length);
     console.log(this.blockArray);
@@ -2300,11 +2327,29 @@ this.crtAssn.newBAActType='';
         }
       });
       AddExp.click(function () {
+        /*****/
+        
+        /*****/
         console.log(this);
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
-          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]')
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+          nextAnchorBtn=$('div.setup-panel div a[href="#step-5"]'),
+          target=$($(nextAnchorBtn).attr('href')),
+          allSetupContent = $('.setup-content'),
+          divTgt = $(nextAnchorBtn).parent();
         curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        console.log(curStep);
+        console.log(curStepBtn);
+        console.log(curAnchorBtn);
+        console.log(nextAnchorBtn);
+        console.log($($(nextAnchorBtn).attr('href')));
+        $(curAnchorBtn).parent().removeClass('step-active');
+        allSetupContent.hide();
+        target.show();
+        target.find('input:eq(0)').focus();
+        divTgt.addClass('step-active');
+        //var $target = $($(this).attr('href'))
       })
       $('div.setup-panel div a.btn-success').trigger('click');
     });

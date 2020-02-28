@@ -5,6 +5,7 @@ import { UtilsService } from '../utils/utils.service'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
 import { UnitListForRoleChange } from '../models/unit-list-for-role-change';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-members',
@@ -31,6 +32,7 @@ export class MembersComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords: string;
   columnName: any;
+  getMembersSubscription:Subscription;
 
   constructor(public dashBrdService: DashBoardService, private http: HttpClient,
     public globalService: GlobalServiceService, public utilsService: UtilsService) {
@@ -47,6 +49,11 @@ export class MembersComponent implements OnInit {
     this.allMemberByAccount = [];
     this.accountID = this.globalService.getacAccntID();
     this.associationID = this.globalService.getCurrentAssociationId();
+   this.getMembersSubscription = this.globalService.getCurrentAssociationIdForExpense()
+    .subscribe(data=>{
+      console.log(data);
+      this.GetMemberList(data['msg']);
+    })
     console.log(this.associationID);
     this.role = [{ 'Role': 'Admin', 'RoleId': 1 }, { 'Role': 'Owner', 'RoleId': 2 }];
   }

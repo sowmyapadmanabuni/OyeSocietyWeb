@@ -249,9 +249,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-
-
-
   resendOtp(e) {
     e.preventDefault();
     let headers = this.getHttpheaders();

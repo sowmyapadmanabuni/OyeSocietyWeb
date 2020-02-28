@@ -168,6 +168,7 @@ export class InvoicesComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords: string;
   columnName: any;
+  toggleDrpdown: boolean;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -315,10 +316,15 @@ export class InvoicesComponent implements OnInit {
     this.router.navigate(['vehicles']);
   }
   ngAfterViewInit() {
-    $('#pay').click(function() {
+    $('#pay').click(function () {
       $(this).toggleClass('.pay');
       $(this).toggleClass('.pay1');
-  });
+    });
+    //
+    // if (this.viewinvoiceservice.invoiceBlock == '') {
+    //   alert('test');
+    //   this.toggleDrpdown = true;
+    // }
   }
   ngOnInit() {
     this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
@@ -374,7 +380,19 @@ export class InvoicesComponent implements OnInit {
   iciciPay(e){
 
   }
+  chkUnitLength(){
+    //alert('test1');
+    if(this.viewinvoiceservice.invoiceBlock == ''){
+      alert('testt');
+      this.toggleDrpdown=false;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   getCurrentBlockDetails(blBlockID, blBlkName) {
+    this.toggleDrpdown=false;
     this.PaidUnpaidinvoiceLists=[];
     this.UnitName='';
     this.viewinvoiceservice.invoiceBlock = blBlkName;
@@ -403,7 +421,8 @@ export class InvoicesComponent implements OnInit {
         })
     this.isChecked = false;
     this.checkAll = false;
-    this.getAllUnitDetailsByBlockID()
+    this.getAllUnitDetailsByBlockID();
+    this.chkUnitLength();
   }
   convert(){
 
@@ -1413,11 +1432,11 @@ export class InvoicesComponent implements OnInit {
       });
   }
   getCurrentUnitDetails(unUnitID,unUniName){
-    this.UnitName=unUniName;
-    this.PaidUnpaidinvoiceLists=this.invoiceLists;
-    this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
-      return item['unUnitID'] == unUnitID;
-    })
-    console.log(this.PaidUnpaidinvoiceLists)
+      this.UnitName=unUniName;
+      this.PaidUnpaidinvoiceLists=this.invoiceLists;
+      this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+        return item['unUnitID'] == unUnitID;
+      })
+      console.log(this.PaidUnpaidinvoiceLists)
   }
 }

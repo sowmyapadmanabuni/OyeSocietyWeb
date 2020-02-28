@@ -101,6 +101,9 @@ export class UnitsComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords: string;
   columnName: any;
+  undCreated: any;
+  SelectOccupancyOwnershipStatus: string;
+  SelectUnitType: string;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
@@ -172,23 +175,27 @@ export class UnitsComponent implements OnInit {
         this.globalService.setCurrentAssociationId(msg['msg']);
         this.initialiseUnit();
       })
+    this.SelectOccupancyOwnershipStatus='Select Occupancy Ownership Status';
+    this.SelectUnitType='Select Unit Type';
   }
      pageChanged(event) {
       this.config.currentPage = event;
     }
 
-    OpenModal(editUnits: TemplateRef<any>,unUnitID,unUniType,unOcStat,unDimens,unCalType,blBlockID,asAssnID,acAccntID,unUniName) 
-    {
-      this.unUniName = unUniName,
+  OpenModal(editUnits: TemplateRef<any>, unUnitID, unUniType, unOcStat, unDimens, unCalType, blBlockID, asAssnID, acAccntID, unUniName, undCreated) {
+    this.SelectOccupancyOwnershipStatus = 'Select Occupancy Ownership Status';
+    this.SelectUnitType = 'Select Unit Type';
+    this.unUniName = unUniName,
       this.unitTypeForEdit = unUniType,
-      this.occupencyInEditUnit  = unOcStat,
-      this.UNDimens  = unDimens,
+      this.occupencyInEditUnit = unOcStat,
+      this.UNDimens = unDimens,
       this.UNCalType = unCalType,
       // this.FLFloorID = 1,
       this.BLBlockID = blBlockID,
-      this.UNUnitID  = unUnitID
-      this.modalRef = this.modalService.show(editUnits);
-    }
+      this.UNUnitID = unUnitID
+    this.undCreated = undCreated;
+    this.modalRef = this.modalService.show(editUnits);
+  }
 
   ngOnInit() {
     this.addUnits = false;
@@ -587,11 +594,13 @@ export class UnitsComponent implements OnInit {
   // UPDATE UNIT FUNCTION END HERE
 
   SelectOccupencyStatus(UNOcStat){
+    this.SelectOccupancyOwnershipStatus='abc';
     this.UNOcStat=UNOcStat;
     this.occupencyInEditUnit=UNOcStat;
   }
 
   getUnitType(unitTpname) {
+    this.SelectUnitType='abc';
     this.UNUniType = unitTpname;
     this.unitTypeForEdit = unitTpname;
   }

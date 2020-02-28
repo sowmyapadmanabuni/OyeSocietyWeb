@@ -122,6 +122,7 @@ export class ExpenseManagementComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords:any;
   columnName: any;
+  unUnitID: any;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -446,7 +447,9 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+    }
   }
   generateInvoice() {
     //console.log(this.blockID);
@@ -850,13 +853,15 @@ export class ExpenseManagementComponent implements OnInit {
         confirmButtonText: "OK"
       })
     }else{
-      //console.log(IsInvoiced);
+      console.log(IsInvoiced);
       this.toggle=param;
       let expid='';
       if(IsInvoiced == true){
+        console.log('IsInvoiced == true');
         expid='true'
       }
       else if(IsInvoiced == false){
+        console.log('IsInvoiced == false');
         expid='false'
       }
       //console.log('expid',typeof expid);
@@ -866,6 +871,7 @@ export class ExpenseManagementComponent implements OnInit {
       //console.log('expid',expid);
       //console.log('expid',typeof expid);
       if (expid == 'true') {
+        console.log('expid == true');
         this.Invoiced='Yes';
         this.toggleGenerateInvButton = true;
       }
@@ -877,14 +883,32 @@ export class ExpenseManagementComponent implements OnInit {
       if(expid == 'true' || expid == 'false'){
         //console.log(this.viewexpensesByBlockId);
         this.expenseList = this.expenseList.filter(item=>{
-          //console.log('exIsInvD',typeof item['exIsInvD']);
-          //console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
-          return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
+          console.log('exIsInvD',typeof item['exIsInvD']);
+          console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
+          if(this.UnitName==''){
+            return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
+          }
+          else{
+            return ((item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase()) && (item['unUniIden'] == this.UnitName));
+          }
         })
-        //console.log(this.expenseList);
+        console.log(this.expenseList);
       }
       if(param == 'All'){
+        console.log('test1');
         this.expenseList = this._viewexpensesByBlockId;
+        console.log(this.expenseList);
+        if(this.UnitName!=''){
+          console.log('test2');
+          this.expenseList = this.expenseList.filter(item=>{
+              return item['unUniIden'] == this.UnitName;
+          })
+          console.log(this.expenseList);
+        }
+        else{
+          console.log('test3');
+          this.expenseList = this._viewexpensesByBlockId;
+        }
       }
     }
   }
@@ -924,7 +948,8 @@ export class ExpenseManagementComponent implements OnInit {
     })
   }
   getSelectedInv(exid,e){
-    //console.log(e);
+    console.log(exid);
+    console.log(e);
     this.togglegenerateinv=false;
     if (e) {
       const found = this.exidList.some(el => el['EXID'] === exid);
@@ -932,8 +957,8 @@ export class ExpenseManagementComponent implements OnInit {
         this.togglegenerateinv = true;
         let _exid = { 'EXID': exid }
         this.exidList.push(_exid);
-        //console.log(exid);
-        //console.log(this.exidList);
+        console.log(exid);
+        console.log(this.exidList);
       }
     }
   }
@@ -985,11 +1010,21 @@ export class ExpenseManagementComponent implements OnInit {
   }
   getCurrentUnitDetails(unUnitID,unUniName){
     this.UnitName=unUniName;
+    this.unUnitID=unUnitID;
     console.log(unUniName);
     this.expenseList=this._viewexpensesByBlockId;
     this.expenseList = this.expenseList.filter(item => {
       return item['unUniIden'] == unUniName;
     })
     console.log(this.expenseList);
+    if(this.toggle=='toggleNo'){
+      this.expenseList=this._viewexpensesByBlockId;
+      this.expenseList = this.expenseList.filter(item=>{
+        console.log('exIsInvD',typeof item['exIsInvD']);
+        console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
+          return ((item['exIsInvD'].toString().toLowerCase() == false) && (item['unUniIden'] == this.UnitName));
+      })
+      console.log(this.expenseList);
+    }
   }
 }

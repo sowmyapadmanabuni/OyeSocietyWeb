@@ -1473,7 +1473,7 @@ this.crtAssn.newBAActType='';
     let blockArraylength = (Number(this.crtAssn.totalNoBlocks));
     // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
     for(let i=0;i<blockArraylength;i++){
-      this.blockArray.push(new BlockArrayDetail(i,'','','','','','','','','','','','','','','','','','',''));
+      this.blockArray.push(new BlockArrayDetail(i,'','','','','','','','','','','','','','','','','','','','',''));
     }
     console.log(this.blockArray.length);
     console.log(this.blockArray);

@@ -18,6 +18,8 @@ export class BlockArrayDetail {
         private flatRatevalue,
         private maintenanceValue,
         private flatRate,
-        private dimension
+        private dimension,
+        private uniqueID,
+        private valid
         ){}
 }

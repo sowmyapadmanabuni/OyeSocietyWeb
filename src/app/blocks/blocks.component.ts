@@ -51,12 +51,12 @@ export class BlocksComponent implements OnInit {
   ASMtFRate: number;
   ASMtDimBs: string;
   ASUniMsmt: string;
-  ASDPyDate: string;
+  ASDPyDate: any;
   ASLPCType: string;
   ASLPChrg: number;
-  ASLPSDate: string;
+  ASLPSDate: any;
   BLBlockID: string;
-  ASBGnDate: string;
+  ASBGnDate: any;
   ASIcRFreq: string;
 
   addRate: string;
@@ -94,6 +94,7 @@ export class BlocksComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords:any;
   columnName: any;
+  formatDate: string;
 
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
@@ -122,7 +123,8 @@ export class BlocksComponent implements OnInit {
     };
 
     this.bsConfig = Object.assign({}, {
-      containerClass: 'theme-orange', dateInputFormat: 'DD-MM-YYYY',
+      containerClass: 'theme-orange', 
+      //dateInputFormat: 'DD-MM-YYYY',
       showWeekNumbers: false,
       isAnimated: true
     });
@@ -231,7 +233,9 @@ export class BlocksComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+    }
   }
   toggleStepWizard() {
 
@@ -497,7 +501,9 @@ export class BlocksComponent implements OnInit {
   }
 
   OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, blMgrName, blMgrMobile, blMgrEmail, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate) {
-
+    console.log('asbGnDate', asbGnDate);
+    console.log('asdPyDate', asdPyDate);
+    console.log('aslpsDate', aslpsDate);
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
@@ -510,9 +516,16 @@ export class BlocksComponent implements OnInit {
     this.ASUniMsmt = asUniMsmt;
 
     this.ASLPCType = aslpcType;
-    this.ASBGnDate = formatDate(asbGnDate, 'dd/MM/yyyy', 'en');
-    this.ASDPyDate = formatDate(asdPyDate, 'dd/MM/yyyy', 'en');
-    this.ASLPSDate = formatDate(aslpsDate, 'dd/MM/yyyy', 'en');
+    // this.ASBGnDate = formatDate(asbGnDate, 'dd/MM/yyyy', 'en');
+    // this.ASDPyDate = formatDate(asdPyDate, 'dd/MM/yyyy', 'en');
+    // this.ASLPSDate = formatDate(aslpsDate, 'dd/MM/yyyy', 'en');
+    //console.log(formatDate(asbGnDate,'dd/MM/yyyy', 'en','T12:00:00'));
+    //this.formatDate=formatDate(asbGnDate,'dd/MM/yyyy', 'en');
+    //console.log(new Date(asbGnDate).setHours(12,0,0));
+    //console.log(typeof formatDate(asbGnDate,'dd/MM/yyyy', 'en'));
+    this.ASBGnDate = new Date(asbGnDate);
+    this.ASDPyDate = new Date(asdPyDate);
+    this.ASLPSDate = new Date(aslpsDate);
     this.ASLPChrg = aslpChrg;
     this.BLBlockID = blBlockID;
     this.ASIcRFreq = asiCrFreq;
@@ -522,11 +535,12 @@ export class BlocksComponent implements OnInit {
     //console.log(this.BLNofUnit);
     //console.log(this.BLMgrEmail);
     //console.log(this.ASUniMsmt);
-    //console.log('ASDPyDate',this.ASDPyDate);
+    console.log('ASDPyDate',this.ASDPyDate);
     //console.log(this.ASLPChrg);
-    //console.log(this.ASLPSDate);
+    console.log(this.ASLPSDate);
+    console.log(this.ASBGnDate);
     //console.log(this.BLBlockID);
-    //console.log(this.ASBGnDate);
+    console.log(new Date(asbGnDate).toISOString());
     this.modalRef = this.modalService.show(editBlocktemplate,
       Object.assign({}, { class: 'gray modal-lg' }));
 

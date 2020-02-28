@@ -86,14 +86,14 @@ export class VehiclesComponent implements OnInit {
      }
   ngOnInit() {
     this.CurrentUnitID = this.globalserviceservice.getCurrentUnitId();
-    //console.log(this.CurrentUnitID);
+    console.log(this.CurrentUnitID);
     this.getVehicles();
   }
   getVehicles(){
     this.VehicleDataNew=[];
     this.addvehicleservice.getVehicleDetails(this.CurrentUnitID)
     .subscribe(data =>{
-      //console.log(data);
+      console.log(data);
       this.VehicleData=data['data']['vehicleListByUnitID'];
       //console.log(this.VehicleData);
       this.VehicleData.forEach(item => {

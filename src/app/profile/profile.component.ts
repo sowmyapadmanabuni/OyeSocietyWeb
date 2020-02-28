@@ -107,18 +107,19 @@ console.log(this.currentaccountid);
 
     this.editprofileservice.updateEditProfile(this.updateProfileData).subscribe(res => {
       console.log(JSON.stringify(res));
-      Swal.fire({
+       Swal.fire({
         title: 'Profile Updated Successfuly',
-       }).then(
+        text: "",
+        type: "success",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
          (result) => {
-       
            if (result.value) {
              //this.form.reset();
-             this.modalRef.hide();
-             this.router.navigate(['home/dashboard']);
-           
+             this.router.navigate(['home']);
            } else if (result.dismiss === Swal.DismissReason.cancel) {
-             this.router.navigate(['home/dashboard']);
+             this.router.navigate(['home']);
            }
          })
        },

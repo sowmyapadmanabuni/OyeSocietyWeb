@@ -390,11 +390,12 @@
                   <div class="form-group mr">
                     <label id=label5>Manager Mobile Number <span class="red">*</span></label>
                     <input type="text" name="BlockManagermobile" id="input5" autocomplete='BlockManagermobile'
-                      [(ngModel)]="item['BlockManagermobile']" #managernumberControl="ngModel" class="form-control"
+                      [(ngModel)]="item['BlockManagermobile']" #managernumberControl='ngModel' class="form-control"
                       placeholder="Manager Mobile Number" minlength="10" maxlength="10" pattern="[0-9]*" required
-                      (keypress)=_keyPress($event) />
-                    <p class="alerts" *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager mobile number is
-                      required</p>
+                       (keypress)="_keyPress($event,item['Id'])"/>
+                    <p class="alerts" *ngIf="item['Id']==item['uniqueID'] && managernumberControl.invalid && managernumberControl.touched">
+                      Manager mobile number is required
+                    </p>
                   </div>
                   <div class="form-group mr">
                     <label id=label6>Manager Email Id <span class="red">*</span></label>
@@ -434,7 +435,7 @@
                   <div class="form-group mr">
                     <label>Unit of Measurement <span class="red">*</span></label>
                     <input class="form-control" type="text" disabled="true" required name="measurements" autocomplete="measurements"
-                      [(ngModel)]="item['meter']" #measurementsControl='ngModel' placeholder="Measurement Type" [value]="meter">
+                      [(ngModel)]="item['meter']" #measurementsControl='ngModel'>
                   </div>
                   <div class="form-group mr">
                     <label>Invoice Creation Frequency <span class="red">*</span></label>
@@ -594,14 +595,14 @@
                               <label class="control-label lab">Owner First Name<span class="red">*</span></label>
                               <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
                                 #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
-                                pattern="[a-zA-Z]*" required/>
+                                pattern="[a-zA-Z _]*" required/>
                                 <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
                             </div>
                           <div class="form-group mr">
                               <label class="control-label lab">Owner Last Name<span class="red">*</span></label>
                               <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="itm['_ownerLastname']"
                                 #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname"
-                                pattern="[a-zA-Z]*" required/>
+                                pattern="[a-zA-Z _]*" required/>
                                 <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is required</p>
                             </div>
                     
@@ -626,7 +627,7 @@
                                 <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
                                 <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="itm['_tenantFirtname']"
                                   #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
-                                  pattern="[a-zA-Z]*" required/>
+                                  pattern="[a-zA-Z _]*" required/>
                                   <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
                               </div>
                             
@@ -634,7 +635,7 @@
                                 <label class="control-label lab">Tenant Last Name<span class="red">*</span></label>
                                 <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="itm['_tenantLastname']"
                                   #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
-                                  pattern="[a-zA-Z]*" required/>
+                                  pattern="[a-zA-Z _]*" required/>
                                   <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
                               </div>
                

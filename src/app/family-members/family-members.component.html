@@ -82,7 +82,7 @@
             <!--Enroll Association form Starts-->
             <div class="col-sm-12" *ngIf="addMember">
                 <div class="row">
-                    <form role="form">
+                    <form #addFamilyFrm='ngForm' role="form">
                         <div class="panel panel-primary setup-content">
                             <!-- <div class="panel-heading">
                                          <h3 class="panel-title">Pan & Registration Details</h3>
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <button class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()"
+                                <button [disabled]='addFamilyFrm.invalid' class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()"
                                     type="button">Submit</button>
                                 <input class="btn btn-primary-purple nextBtn pull-right"
                                     (click)="resetFamilyMemberModal()" type="reset" value="Reset">
