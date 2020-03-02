@@ -174,7 +174,7 @@
                 <!-- <th [ngClass]="{'decrseopcty' : viewinvoiceservice.expid == 'true'}">
                   Action
                 </th> -->
-                <th [ngClass]="{'decrseopcty' : viewinvoiceservice.expid == 'true'}"><input type="checkbox"
+                <th *ngIf="toggleTd" [ngClass]="{'decrseopcty' : viewinvoiceservice.expid == 'true'}"><input type="checkbox"
                     [(ngModel)]='togglegenerateinv' (click)='toggleGenerateInv()' /></th>
               </tr>
             </thead>

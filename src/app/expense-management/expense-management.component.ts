@@ -260,7 +260,7 @@ export class ExpenseManagementComponent implements OnInit {
     },err=>{
       console.log(err);
     })
-  this.toggleTd=true;
+  this.toggleTd=false;
   }
   GetexpenseList(param) {
     this.toggle = param;
@@ -920,7 +920,7 @@ export class ExpenseManagementComponent implements OnInit {
         this.toggleTd = true;
       }
       else if (param == 'All') {
-        this.toggleTd = true;
+        this.toggleTd = false;
       }
     //
     }
