@@ -2,7 +2,6 @@ body {
   background: #222D32;
   font-family: 'Quicksand', sans-serif !important;
 }
-/* FOR THE "OTP SENT SUCCESSFULLY" CSS */
 #snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -21,8 +20,6 @@ body {
   
   #snackbar.show {
   visibility: visible;
-  /* -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s; */
   }
 .bg{width: 100%;
   min-height: 100vh;

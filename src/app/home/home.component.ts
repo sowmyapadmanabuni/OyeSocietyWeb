@@ -9,7 +9,7 @@ import { DashBoardService } from '../../services/dash-board.service';
 import { GlobalServiceService } from '../global-service.service';
 import { AppComponent } from '../app.component';
 import { LoginAndregisterService } from '../../services/login-andregister.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ViewAssociationService } from '../../services/view-association.service';
 import { UnitlistForAssociation } from '../models/unitlist-for-association';
 import * as _ from 'lodash';
@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
     private viewassosiationservice: ViewAssociationService,
     private modalService: BsModalService,
     private utilsService:UtilsService,
-    private http:HttpClient) {
+    private http:HttpClient,private route: ActivatedRoute) {
       this.availableNoOfUnits=0;
       this.availableNoOfBlocks=0;
     this.accountID = this.globalService.getacAccntID();
@@ -140,6 +140,10 @@ export class HomeComponent implements OnInit {
     err=>{
       console.log(err);
     })
+  //
+  this.route.params.subscribe(data => {
+    console.log(data);
+  });
   }
 
   ngOnInit() {

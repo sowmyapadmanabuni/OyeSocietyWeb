@@ -13,7 +13,6 @@
 							<form>
 								<div class="form-group first-row">
 									<div class="input-wrapper">
-										<!-- <input placeholder="Mobile Number" type="text" name="mobilenumber" [(ngModel)]='mobilenumber' pattern="^[6-9]{1}[0-9]{9}$" required /> -->
 										<input [ngClass]="{'has-error' : mobilenumbers.invalid && mobilenumbers.touched}" type="text"
 											(keypress)=_keyPress($event) ng2TelInput [ng2TelInputOptions]="{initialCountry: 'in'}" (hasError)="hasError($event)"
 											(ng2TelOutput)="getNumber($event)" (intlTelInputObject)="telInputObject($event)"
