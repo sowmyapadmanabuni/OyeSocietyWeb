@@ -81,6 +81,11 @@ import { CreateUnitWithAssociationComponent } from './create-unit-with-associati
 import { JoinAndEnrollComponent } from './join-and-enroll/join-and-enroll.component';
 import { EditAssociationComponent } from './edit-association/edit-association.component';
 import { ExcelReceiptUploadComponent } from './excel-receipt-upload/excel-receipt-upload.component';
+import { PartnersComponent } from './partners/partners.component';
+import { LocationsComponent } from './locations/locations.component';
+import {AboutusComponent} from './aboutus/aboutus.component'
+ 
+import { from } from 'rxjs';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -94,6 +99,9 @@ import { ExcelReceiptUploadComponent } from './excel-receipt-upload/excel-receip
     JwPaginationComponent,
     MapsComponent,
     ClientsComponent,
+    AboutusComponent,
+    LocationsComponent,
+    PartnersComponent,
     TestimonialsComponent,
     LocationComponent,
     AboutComponent,

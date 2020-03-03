@@ -20,6 +20,11 @@ export class LoginComponent implements OnInit {
   ipAddress = 'http://api.oyespace.com';
   inpt: any;
   public countrydata: object;
+  toggleShowClientContent:boolean;
+  toggleShowPartnersContent:boolean;
+  toggleLoginContent:boolean;
+  toggleShowLocationsContent:boolean;
+  toggleShowAboutUsContent:boolean;
   // @ViewChild('myButton1') myButton1: any;
   @Output() toggleMyMenus:EventEmitter<string>;
   returnUrl: string;
@@ -28,6 +33,11 @@ export class LoginComponent implements OnInit {
   constructor(private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
     private dashboardservice:DashBoardService,private utilsService:UtilsService) {
+    this.toggleLoginContent=true;
+    this.toggleShowClientContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
       //alert('inside login component');
     // redirect to home if already logged in
     if (this.globalserviceservice.acAccntID) {
@@ -48,7 +58,17 @@ export class LoginComponent implements OnInit {
      // get return url from route parameters or default to '/'
      //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
-
+  ngAfterViewInit(){
+    $("#login").on('click',function() {
+      $("#login-form").slideDown();
+    });
+    // $("#login").on('focusout',function() {
+    //   $("#login-form").slideUp();
+    // });
+    $("#login-form").mouseleave(function() {
+      $("#login-form").slideUp();
+    });
+  } 
   sendOTP() {
     //alert('inside sendOTP');
     let headers = this.getHttpheaders();
@@ -309,5 +329,40 @@ export class LoginComponent implements OnInit {
       this.verifyOtp();
      }
   }
+  showClientContent() {
+    this.toggleShowClientContent = true;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
+  }
+
+  showPartnersContent(){
+    this.toggleShowClientContent = false;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=true;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
+  }
+
+  showLocationContent(){
+    this.toggleShowClientContent = false;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=true;
+    this.toggleShowAboutUsContent=false;
+  }
+
+
+  showAboutUsContent(){
+    this.toggleShowClientContent = false;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=true;
+  }
+
+  
 
 }
+

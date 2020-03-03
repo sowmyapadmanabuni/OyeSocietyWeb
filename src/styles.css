@@ -74,7 +74,7 @@ hr { margin-top: 5px !important;margin-bottom: 5px !important;}
 a,a:hover,li a:hover{cursor:pointer;text-decoration: none}
 .title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}.np{padding:0px !important}
 .orange{color: #5a51aa;}
-.foot-bg{background: wheat}
+.foot-bg{background: rgb(70, 69, 69)}
 tr>td:first-child{color: #5a51aa;font-weight: 500;cursor: pointer;}
 a{color: #5a51aa !important;}
 .cont-middle{text-align: center}

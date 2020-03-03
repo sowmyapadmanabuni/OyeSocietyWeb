@@ -51,7 +51,6 @@ import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-
 const routes: Routes = [
     { path: '',redirectTo:'home', pathMatch: 'full'},
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'home/:accntID', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'hiring', component: HiringComponent, canActivate: [AuthGuard] },
     { path: 'maps', component:MapsComponent, canActivate: [AuthGuard]},
     { path: 'clients', component:ClientsComponent, canActivate: [AuthGuard]},
