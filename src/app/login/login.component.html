@@ -55,7 +55,7 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- Toolbar -->
 <div class="topnav" id="myTopnav">
-	<div> <a href="#"><img class="img-responsive logo" src="../../assets/OyeSociety.png" style="margin-top: 20px;"></a></div>
+	<div> <a (click)="GoToHome()"><img class="img-responsive logo" src="../../assets/OyeSociety.png" style="margin-top: 20px;"></a></div>
 	<div class="alig">
 	<a class="first"></a>
 	<!-- <a routerLink="home">Home</a> -->
@@ -94,28 +94,29 @@
 		  <div class="form-group first-row">
 			<div class="input-wrapper">
 			  <!-- <input placeholder="Mobile Number" type="text" name="mobilenumber" [(ngModel)]='mobilenumber' pattern="^[6-9]{1}[0-9]{9}$" required /> -->
-			  <input type="text" name="mobilenumber" placeholder="Mobile Number" #mobilenumbers='ngModel' (keypress)=_keyPress1($event)
-				id="mobnum" pattern="^[6-9]{1}[0-9]{9}$" required 
-				[(ngModel)]='mobilenumber' maxlength="10" ç style="border-bottom: 1px solid #F08A33;" />
+			  <input id="mobnum" id="mobleNumberForOTP" type="text" name="mobilenumber" placeholder="Mobile Number" autocomplete="off" #mobilenumbers='ngModel' (keypress)=_keyPress1($event)
+				id="mobnum" pattern="^[6-9]{1}[0-9]{9}$" required
+				[(ngModel)]='mobilenumber' minlength="10" maxlength="10" ç style="border-bottom: 1px solid #F08A33;" />
 			</div>
 			<div>
-			  <button id="myButton1" class="btn btn-primary" (click)="sendOTP()" style="border-radius: 20px;">Get OTP</button>
+			  <button id="myButton1" class="btn btn-primary" (click)="sendOTP()" [disabled]='mobilenumber==""' style="border-radius: 20px;">Get OTP</button>
 			</div>
-			<div id="some_div" style="position: absolute; margin: 14% 0% 0% 56%;"></div>
+			<div id="some_div" style="position: absolute; margin: 14% 0% 0% 48%;"></div>
 		  </div>
 		  <div class="form-group">
 			<div class="input-wrapper1">
-				<input type="password" id="OTPInput" placeholder="Enter OTP" (keypress)=_keyPress1($event) [(ngModel)]="otp" name="otp" />
+				<input type="password" id="OTPInput" placeholder="Enter OTP" (keypress)=_keyPress1($event) [(ngModel)]="otp" maxlength="6" name="otp" />
 				<i (click)="showHidePassword()" style="cursor: pointer;position: relative;right: -249px;top: -33px; color: black;" class="fa" [ngClass]="{'fa-eye-slash':hideShowEye,'fa-eye':!hideShowEye}" aria-hidden="true"></i>
 			</div>              
 			<p class="otp" (click)="otpCall($event)" >OTP by Call</p>
 		  </div>
 		  <div class="col-lg-12 loginbttm">
-			<div id="snackbar">OTP Sent</div>
+			<!-- <div id="snackbar">OTP Sent</div> -->
 			<div class="col-lg-6 login-btm login-button">
 			  <button (keydown)="verifyOtp()" (click)="verifyOtp()" type="submit" class="btn btn-primary1">Get In</button>
 			</div>
 		  </div>
+		  <div id="snackbar1" [ngStyle]="{'display':isOTPSent?'block':'none'}" class="col-lg-12 succ">otp sent successfully</div>
 		</form>
 	  </div>
 	</div>

@@ -461,6 +461,10 @@ li{list-style: none;}
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s
  }
+
+ .showOTPSent {
+  display:none;
+ }
  
  /* Add animation (fade in the popup) */
  @-webkit-keyframes fadeIn {
@@ -636,7 +640,7 @@ li{list-style: none;}
 }
 .otp{color: #ef7038;
   display: flex;
-  padding-top: 13px;
+  padding-top: 0px;
   font-weight: 500;justify-content: flex-end;}
 .btn-primary1 {
   color: #fff;
@@ -644,7 +648,12 @@ li{list-style: none;}
   border-color: #f1853b !important;
   
   border-radius: 30px !important;
-  padding: 14px 50px !important;
+  padding: 10px 35px !important;
+}
+.succ{text-align: center;
+  padding-top: 10px;
+  color: green;
+  text-transform: capitalize;
 }
 .loginbttm{display: flex;
   justify-content: center;
@@ -699,7 +708,7 @@ input {
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
   }
 a { color: #f1853b;}
-.first-row{display: flex;justify-content: space-between;margin: 0px 0px 30px 0px;}
+.first-row{display: flex;justify-content: space-between;margin: 0px 0px 20px 0px;}
 input{display: block;width: 100%;height: 43px;padding: 6px 23px;font-size: 14px;background: #ecebf4;}
 .form-head{text-align: center;padding: 20px 0px;font-weight: 600;text-transform: uppercase;}
 .login-box{background: #ecebf4;border-radius: 9px;box-shadow: 0px 0px 13px 0px #525254;padding: 30px 0px;width: 334px;

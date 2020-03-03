@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   code: string;
   title = 'mylogin';
   mobile: number;
-  mobilenumber: number;
+  mobilenumber: any;
   otp: number;
   ipAddress = 'http://api.oyespace.com';
   inpt: any;
@@ -29,15 +29,19 @@ export class LoginComponent implements OnInit {
   @Output() toggleMyMenus:EventEmitter<string>;
   returnUrl: string;
   hideShowEye: boolean;
+  isOTPSent:boolean;
+  disableMobileNumField:boolean;
 
   constructor(private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
     private dashboardservice:DashBoardService,private utilsService:UtilsService) {
+      this.mobilenumber='';
     this.toggleLoginContent=true;
     this.toggleShowClientContent=false;
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
+    this.isOTPSent=false;
       //alert('inside login component');
     // redirect to home if already logged in
     if (this.globalserviceservice.acAccntID) {
@@ -65,11 +69,12 @@ export class LoginComponent implements OnInit {
     // $("#login").on('focusout',function() {
     //   $("#login-form").slideUp();
     // });
-    $("#login-form").mouseleave(function() {
-      $("#login-form").slideUp();
-    });
+    // $("#login-form").mouseleave(function() {
+    //   $("#login-form").slideUp();
+    // });
   } 
   sendOTP() {
+    $("#snackbar1").show();
     //alert('inside sendOTP');
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.sendOTP();
@@ -84,6 +89,7 @@ export class LoginComponent implements OnInit {
     var timeLeft = 60;
     var elem = document.getElementById('some_div');
     var element = <HTMLInputElement>document.getElementById("myButton1");
+    var disableInput = <HTMLInputElement>document.getElementById("mobnum");
 
     var timerId = setInterval(countdown, 1000);
 
@@ -92,12 +98,13 @@ export class LoginComponent implements OnInit {
         clearTimeout(timerId);
         if(element.value != null){
           element.disabled=false;
+          disableInput.disabled=false;
           // element.innerHTML = "Resend";
-         
           }
         // doSomething();
       } else {
         element.disabled=true;
+        disableInput.disabled=true;
         elem.innerHTML = timeLeft - 1 + ' seconds to resend';
         timeLeft--;
         if (timeLeft == 0) {
@@ -105,21 +112,44 @@ export class LoginComponent implements OnInit {
           clearTimeout(timerId);
           if(element.value != null){
             element.disabled=false;
+            disableInput.disabled=false;
             // element.innerHTML = "Resend";
             }
         }
-      }
-      var x = document.getElementById("snackbar");
-      if(x != null){
-        x.className = "show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
       }
     } 
 
     //console.log(mobileNoData);
     return this.http.post(url, JSON.stringify(mobileNoData), { headers: headers })
       .subscribe(data => { 
-        //console.log(data) 
+        console.log(data) 
+        this.isOTPSent=true;
+        // var x = document.getElementById("snackbar1");
+        // console.log(x);
+        // if(x != null){
+        //   console.log('test');
+        //   setTimeout(function(){ x.className = "showOTPSent" }, 3000);
+        // }
+        setTimeout(function(){$("#snackbar1").hide();},3000);
+      },
+      err=>{
+        console.log(err);
+        if (err['statusText'] == "Unknown Error") {
+          Swal.fire({
+            title: "Error",
+            text: "Check your Internet",
+            type: "error",
+            confirmButtonColor: "#f69321"
+          })
+        }
+        else{
+          Swal.fire({
+            title: "Error",
+            text: "Error while login",
+            type: "error",
+            confirmButtonColor: "#f69321"
+          })
+        }
       })
   }
 
@@ -200,9 +230,10 @@ export class LoginComponent implements OnInit {
         }
       },
       err=>{
+        console.log(err);
         Swal.fire({
-          title: "Error",
-          text: err['error']['error']['message'],
+          // title: "Error",
+          text: "Invalid OTP",
           type: "error",
           confirmButtonColor: "#f69321"
         })
@@ -360,6 +391,13 @@ export class LoginComponent implements OnInit {
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=true;
+  }
+  GoToHome(){
+    this.toggleShowClientContent = false;
+    this.toggleLoginContent=true;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
   }
 
   
