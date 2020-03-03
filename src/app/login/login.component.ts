@@ -81,8 +81,7 @@ export class LoginComponent implements OnInit {
     let url = `${ipAddress}oyeliving/api/v1/account/sendotp`
     document.getElementById("myButton1").innerHTML="Resend";
     var mobileNoData = {
-      // CountryCode: this.code,
-      CountryCode: +91,
+      CountryCode: this.code,
       MobileNumber: this.mobilenumber
     };
 
@@ -167,7 +166,7 @@ export class LoginComponent implements OnInit {
     let ipAddress=this.utilsService.verifyOtp();
     let url = `${ipAddress}oyeliving/api/v1/account/verifyotp`
     var otpdata = {
-      CountryCode: '+91',
+      CountryCode: this.code,
       MobileNumber: this.mobilenumber,
       OTPnumber: this.otp
     };
@@ -328,7 +327,7 @@ export class LoginComponent implements OnInit {
   }
   onCountryChange(countryobj) {
     this.code = countryobj['dialCode']
-    //console.log(countryobj);
+    console.log(this.code);
   }
 
   getCountryData() {
@@ -345,6 +344,7 @@ export class LoginComponent implements OnInit {
     }
   }
   _keyPress1(event) {
+    //console.log(event.target.value);
     if(event.keyCode == 13) {
       this.verifyOtp();
      }
@@ -352,6 +352,14 @@ export class LoginComponent implements OnInit {
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
         event.preventDefault();
+    }
+  }
+  countMobileNumberLength(event){
+    console.log(event.target.value);
+    console.log(event.target.value.length);
+    console.log(this.mobilenumber.length);
+    if(event.target.value.length ==10){
+
     }
   }
 
