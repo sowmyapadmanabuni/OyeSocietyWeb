@@ -5,6 +5,19 @@
     font-size: 38px;
     margin: 50px 0px 15px 0px;
 }
+.page-title-area {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
+  background-image: url(../../assets/images/page-title-bg.png);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid #eeeeee;
+  padding-top: 160px;
+  padding-bottom: 90px;
+}
 .about-content span {
     display: block;
     color: #ff5d24;
