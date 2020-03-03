@@ -431,3 +431,10 @@ input[type=reset]{background-color: #a7a4a4 !important;}
     }
     .t-right{text-align: right;}
     .pull-right{margin-right: 10px;}
+
+@media only screen and (max-width: 2000px) and (min-width: 830px){
+            .alig {
+                display: flex;
+                align-items: flex-end;
+            }
+    }
