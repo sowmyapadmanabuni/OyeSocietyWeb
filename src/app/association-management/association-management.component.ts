@@ -307,7 +307,9 @@ export class AssociationManagementComponent implements OnInit {
       this.ShowRecords='Show Records';
     this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
-    this.blockArray=[];
+    if(localStorage.getItem('AssociationCreationStatus') == 'completed') {
+      this.blockArray=[];
+    }
     this.unitArray=[];
     this.unitArrayList=[];
     this.BlockHrefDetail=[];
@@ -478,17 +480,27 @@ export class AssociationManagementComponent implements OnInit {
       { "name": "UnSold Tenant Occupied Unit" }
     ];
     //
-    if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
-      this.crtAssn.name = localStorage.getItem('')
-      this.crtAssn.country = localStorage.getItem('')
-      this.crtAssn.state = localStorage.getItem('')
-      this.crtAssn.city = localStorage.getItem('')
-      this.crtAssn.postalCode = localStorage.getItem('')
-      this.crtAssn.propertyType = localStorage.getItem('')
-      this.crtAssn.propertyName = localStorage.getItem('')
-      this.crtAssn.locality = localStorage.getItem('')
-      this.crtAssn.email = localStorage.getItem('')
-    }
+    localStorage.setItem('AssociationCreationStatus','pending');
+
+        if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
+        this.crtAssn.name = localStorage.getItem('AssociationName')
+        this.crtAssn.country = localStorage.getItem('AssociationCountry')
+        this.crtAssn.state = localStorage.getItem('AssociationState')
+        this.crtAssn.city = localStorage.getItem('AssociationCity')
+        this.crtAssn.postalCode = localStorage.getItem('AssociationPostalCode')
+        this.crtAssn.propertyType = localStorage.getItem('AssociationPropertyType')
+        this.crtAssn.propertyName = localStorage.getItem('AssociationPropertyName')
+        this.crtAssn.locality = localStorage.getItem('AssociationLocality')
+        this.crtAssn.email = localStorage.getItem('AssociationEmail')
+        this.crtAssn.GSTNumber = localStorage.getItem('AssociationGST')
+        this.crtAssn.PANNumber = localStorage.getItem('AssociationPAN')
+        this.crtAssn.totalNoBlocks = localStorage.getItem('AssociationBlockNumber')
+        this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber')
+        this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities'))==null?[]:JSON.parse(localStorage.getItem('AssociationAmenities')))
+        this.blockArray = JSON.parse(localStorage.getItem('AssociationBlockArray'))
+        console.log(JSON.parse(localStorage.getItem('AssociationBlockArray')))
+        console.log(this.blockArray);
+      }
   }
 
   openModal(template: TemplateRef<any>) {
@@ -496,6 +508,7 @@ export class AssociationManagementComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.toggleStepWizrd();
+    $(".se-pre-con").fadeOut("slow");
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
@@ -769,6 +782,7 @@ export class AssociationManagementComponent implements OnInit {
     }
   }
   fillPANValue(){
+    localStorage.setItem('AssociationGST',this.crtAssn.GSTNumber);
     let PANNumberIDCtrl=document.getElementById('PANNumberID');
     // console.log(PANNumberIDCtrl);
     if(!this.toggleGSTAvailableTxt){
@@ -777,6 +791,7 @@ export class AssociationManagementComponent implements OnInit {
         // console.log(this.crtAssn.GSTNumber.substring(2,12));
         this.crtAssn.PANNumber=this.crtAssn.GSTNumber.substring(2,12);
         PANNumberIDCtrl.setAttribute('disabled','true');
+        localStorage.setItem('AssociationPAN',this.crtAssn.PANNumber);
       }
     }
   }
@@ -1090,6 +1105,7 @@ this.crtAssn.newBAActType='';
         this.blockArray[i]['blocktype']=this.blocktype;
       }
     }
+    localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray))
     console.log(this.blockArray);
   }
   onStartsFromDateValueChange(value: Date) {
@@ -1126,7 +1142,7 @@ this.crtAssn.newBAActType='';
   }
   setPropertyType(propertyType){
     this.crtAssn.propertyType=propertyType;
-    localStorage
+    localStorage.setItem('AssociationPropertyType',this.crtAssn.propertyType);
   }
   testCreateBlock(){
     console.log(this.blockArray);
@@ -1169,18 +1185,20 @@ this.crtAssn.newBAActType='';
       }
       console.log(this.blockArray);
   }
-  checkMobileNumberValidity(Id){
+  checkMobileNumberValidity(Id,BlockManagermobile){
     console.log('blur');
     console.log(Id);
     for(let i=0;i<this.blockArray.length;i++){
       if(this.blockArray[i]['Id'] == Id){
         this.blockArray[i]['uniqueID']=Id;
+        this.blockArray[i]['BlockManagermobile']=BlockManagermobile;
         console.log(Id);
       }
       else{
         this.blockArray[i]['uniqueID']='';
       }
     }
+    localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
   }
   checking(rate){
     if(rate==true){
@@ -1377,6 +1395,7 @@ this.crtAssn.newBAActType='';
     if(event['AMType'] !== "" && event['NoofAmenities'] !== ""){
        //alert('inside if condition null');
        this.newamenities.push(new Amenity(event['AMType'],event['NoofAmenities']));
+       localStorage.setItem('AssociationAmenities',JSON.stringify(this.newamenities))
     }
     //console.log('newamenities',this.newamenities);
   }
@@ -1583,7 +1602,9 @@ this.crtAssn.newBAActType='';
     this.crtAssn.totalNoUnits='';
   }
   onSubmit() {
-    this.blockArray=[];
+    if (localStorage.getItem('AssociationCreationStatus') == 'completed') {
+      this.blockArray=[];
+    }
     //console.log("Creating Association");
     //console.log("locality: " + this.crtAssn.locality);
     this.createAsssociationData = {
@@ -1658,9 +1679,19 @@ this.crtAssn.newBAActType='';
     console.log(this.createAsssociationData);
     let blockArraylength = (Number(this.crtAssn.totalNoBlocks));
     // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
-    for(let i=0;i<blockArraylength;i++){
-      this.blockArray.push(new BlockArrayDetail(i+1,'','','','','','','','','sqft','','','','','','','','','','','',''));
+    if (localStorage.getItem('AssociationCreationStatus') == 'completed') {
+      for (let i = 0; i < blockArraylength; i++) {
+        this.blockArray.push(new BlockArrayDetail(i + 1, '', '', '', '', '', '', '', '', 'sqft', '', '', '', '', '', '', '', '', '', '', '', ''));
+      }
     }
+    else if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
+      if(this.blockArray.length == 0){
+        for (let i = 0; i < blockArraylength; i++) {
+          this.blockArray.push(new BlockArrayDetail(i + 1, '', '', '', '', '', '', '', '', 'sqft', '', '', '', '', '', '', '', '', '', '', '', ''));
+        }
+      }
+    }
+
     console.log(this.blockArray.length);
     console.log(this.blockArray);
     this.viewAssnService.createAssn(this.createAsssociationData).subscribe(res => {
@@ -2441,7 +2472,64 @@ this.crtAssn.newBAActType='';
     getAssnEmail(){
       console.log(this.crtAssn.email);
       localStorage.setItem('AssociationEmail',this.crtAssn.email);
-      localStorage.setItem('AssociationCreationStatus','pending');
+    }
+    getNumberOfBlocks(){
+      console.log(this.crtAssn.totalNoBlocks)
+      localStorage.setItem('AssociationBlockNumber',this.crtAssn.totalNoBlocks)
+    }
+    getNumberOfUnits(){
+      console.log(this.crtAssn.totalNoUnits)
+      localStorage.setItem('AssociationUnitNumber',this.crtAssn.totalNoUnits)
+    }
+    getBlockName(Id,blkNme){
+      console.log(Id);
+      for (let i = 0; i < this.blockArray.length; i++) {
+        if (this.blockArray[i]['Id'] == Id) {
+            this.blockArray[i]['blkNme'] = blkNme;
+        }
+      }
+      console.log(this.blockArray);
+      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
+    }
+    getNoOfUnits(Id,noofunits){
+      console.log(Id);
+      for (let i = 0; i < this.blockArray.length; i++) {
+        if (this.blockArray[i]['Id'] == Id) {
+            this.blockArray[i]['noofunits'] = noofunits;
+        }
+      }
+      console.log(this.blockArray);
+      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
+    }
+    getManagerName(Id,mngName){
+      console.log(Id);
+      for (let i = 0; i < this.blockArray.length; i++) {
+        if (this.blockArray[i]['Id'] == Id) {
+            this.blockArray[i]['mngName'] = mngName;
+        }
+      }
+      console.log(this.blockArray);
+      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
+    }
+    getManagerEmail(Id,manageremail){
+      console.log(Id);
+      for (let i = 0; i < this.blockArray.length; i++) {
+        if (this.blockArray[i]['Id'] == Id) {
+            this.blockArray[i]['manageremail'] = manageremail;
+        }
+      }
+      console.log(this.blockArray);
+      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
+    }
+    getInvoiceCreationFrequency(Id,frequency){
+      console.log(Id);
+      for (let i = 0; i < this.blockArray.length; i++) {
+        if (this.blockArray[i]['Id'] == Id) {
+            this.blockArray[i]['frequency'] = frequency;
+        }
+      }
+      console.log(this.blockArray);
+      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
     }
   
 }

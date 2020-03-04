@@ -25,7 +25,7 @@ declare var $ :any;
 })
 
 export class HomeComponent implements OnInit {
-  associations: any = [];
+  associations: any[];
   allMemberByAccount = [];
   allTicketByAssociation = [];
   allVehicleListByAssn = [];
@@ -144,6 +144,9 @@ export class HomeComponent implements OnInit {
   this.route.params.subscribe(data => {
     console.log(data);
   });
+  //
+  $(".se-pre-con").show();
+  this.associations=[];
   }
 
   ngOnInit() {
@@ -184,6 +187,7 @@ export class HomeComponent implements OnInit {
       }
       console.log(this.uniqueAssociations);
       this.loadAssociation((this.globalService.getCurrentAssociationName()==null?this.uniqueAssociations[0]['asAsnName']:this.globalService.getCurrentAssociationName()),this.uniqueAssociations,'id');
+      $(".se-pre-con").fadeOut("slow");
     },
       res => {
         console.log(this.associations);

@@ -309,7 +309,7 @@
               <div class="panel-body">
                 <div class="form-group">
                   <label class="control-label">Total No of Blocks <span class="red">*</span></label>
-                  <input type="text" name="ASNofBlks" autocomplete='crtAss.totalNoBlocks'
+                  <input type="text" name="ASNofBlks" autocomplete='crtAss.totalNoBlocks' (blur)='getNumberOfBlocks()'
                     [(ngModel)]="crtAssn.totalNoBlocks" #totalNoBlocksControl="ngModel" class="form-control"
                     placeholder="NO OF BLOCKS" style="font-family: Quicksand" required pattern="[0-9]*"
                     (keypress)=_keyPress($event) />
@@ -320,7 +320,7 @@
                   <label class="control-label">Total No of Units</label>
                   <input type="text" name="ASNofUnit" autocomplete='crtAss.totalNoUnits'
                     [(ngModel)]="crtAssn.totalNoUnits" #totalNoUnitsControl="ngModel" class="form-control"
-                    placeholder="NO OF UNITS" style="font-family: Quicksand" pattern="[0-9]*"
+                    placeholder="NO OF UNITS" style="font-family: Quicksand" pattern="[0-9]*" (blur)='getNumberOfUnits()'
                     (keypress)=_keyPress($event) />
                   <p class="alerts" *ngIf="totalNoUnitsControl.invalid && totalNoUnitsControl.touched"> Valid no units
                     are required</p>
@@ -353,7 +353,7 @@
                   <div class="form-group mr">
                     <label id=label1>Block Name <span class="red">*</span></label>
                     <input type="text" name="blkNme" id="input1" autocomplete='blkNme' [(ngModel)]="item['blkNme']"
-                      #blkNmeControl="ngModel" class="form-control" placeholder="Block Name" pattern="[a-zA-Z0-9 _]*" required />
+                     (blur)="getBlockName(item['Id'],item['blkNme'])" #blkNmeControl="ngModel" class="form-control" placeholder="Block Name" pattern="[a-zA-Z0-9 _]*" required />
                     <p class="alerts" *ngIf="blkNmeControl.invalid && blkNmeControl.touched">Valid name is required</p>
                   </div>
                   <div class="form-group mr">
@@ -372,13 +372,13 @@
                   <div class="form-group mr">
                     <label id=label3>No of Units <span class="red">*</span></label>
                     <input type="text" name="noofunits" id="input3" autocomplete='noofunits' [(ngModel)]="item['noofunits']"
-                      #noofunitsControl="ngModel" class="form-control" placeholder="No Of Units" pattern="[0-9]*" required />
+                     (blur)="getNoOfUnits(item['Id'],item['noofunits'])" #noofunitsControl="ngModel" class="form-control" placeholder="No Of Units" pattern="[0-9]*" required />
                     <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of units are required</p>
                   </div>
                   <div class="form-group mr">
                     <label id=label4>Manager Name <span class="red">*</span></label>
                     <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="item['mngName']"
-                      #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z]*" required />
+                     (blur)="getManagerName(item['Id'],item['mngName'])" #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z]*" required />
                     <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>
                   </div>
                   <div class="form-group mr">
@@ -386,7 +386,7 @@
                     <input type="text" name="BlockManagermobile" id="input5" autocomplete='BlockManagermobile'
                       [(ngModel)]="item['BlockManagermobile']" #managernumberControl='ngModel' class="form-control"
                       placeholder="Manager Mobile Number" minlength="10" maxlength="10" pattern="[0-9]*" required
-                      (blur)="checkMobileNumberValidity(item['Id'])" (keypress)="_keyPress($event,item['Id'])"/>
+                      (blur)="checkMobileNumberValidity(item['Id'],item['BlockManagermobile'])" (keypress)="_keyPress($event,item['Id'])"/>
                     <p class="alerts" *ngIf="item['Id']==item['uniqueID'] && managernumberControl.invalid && managernumberControl.touched">
                       Manager mobile number is required
                     </p>
@@ -396,7 +396,7 @@
                     <input type="text" name="manageremail" id="input6" autocomplete='manageremail' [(ngModel)]="item['manageremail']"
                       #manageremailControl="ngModel" class="form-control" placeholder="Manager Email Id"
                       pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-                      required />
+                     (blur)="getManagerEmail(item['Id'],item['manageremail'])" required />
                     <p class="alerts" *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager email-id is required
                     </p>
                   </div>
@@ -434,7 +434,7 @@
                   <div class="form-group mr">
                     <label>Invoice Creation Frequency <span class="red">*</span></label>
                     <input class="form-control" list="frquency" name="frequency" [(ngModel)]="item['frequency']"
-                      placeholder="Search or Select Frequency" #frequencyControl='ngModel' required multiple>
+                     (change)="getInvoiceCreationFrequency(item['Id'],item['frequency'])" placeholder="Search or Select Frequency" #frequencyControl='ngModel' required multiple>
                     <datalist id="frquency">
                       <option value="">Select Frequency</option>
                       <option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">
