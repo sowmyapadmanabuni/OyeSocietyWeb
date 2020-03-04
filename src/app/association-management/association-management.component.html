@@ -144,7 +144,7 @@
                   <input type="text" required name="ASAsnName" id="input15" autocomplete="off"
                     [(ngModel)]="crtAssn.name" #nameControl="ngModel" class="form-control" pattern="[A-Za-z\s]+"
                     style="text-transform: uppercase; font-family: Quicksand; font-size: 13px;"
-                    placeholder="Association Name" />
+                   (blur)="getAssonName()" placeholder="Association Name" />
                   <p class="alerts" *ngIf="nameControl.invalid && nameControl.touched"> Valid Association name is
                     required</p>
                 </div>
@@ -181,14 +181,14 @@
                   <label class="control-label">State <span class="red">*</span></label>
                   <input type="text" required name="ASState" autocomplete='crtAss.state' [(ngModel)]="crtAssn.state"
                     #stateControl="ngModel" class="form-control" placeholder="STATE" style="font-family: Quicksand"
-                    pattern="[a-zA-Z\s]*" />
+                   (blur)="getState()" pattern="[a-zA-Z\s]*" />
                   <p class="alerts" *ngIf="stateControl.invalid && stateControl.touched"> Valid State is required</p>
                 </div>
                 <div class="form-group">
                   <label class="control-label">City <span class="red">*</span></label>
                   <input type="text" required name="ASCity" autocomplete='crtAss.city' [(ngModel)]="crtAssn.city"
                     #cityControl="ngModel" class="form-control" placeholder="CITY" style="font-family: Quicksand"
-                    pattern="[a-zA-Z\s]*" />
+                   (blur)="getCity()" pattern="[a-zA-Z\s]*" />
                   <p class="alerts" *ngIf="cityControl.invalid && cityControl.touched"> Valid City is required</p>
                 </div>
               </div>
@@ -199,7 +199,7 @@
                   <input type="text" required name="ASPinCode" autocomplete='crtAss.postalCode'
                     [(ngModel)]="crtAssn.postalCode" #postalcodeControl="ngModel" class="form-control"
                     placeholder="PIN/ZIP" style="font-family: Quicksand" pattern="^\d{6,}$" minlength="5"
-                    pattern="[0-9]*" (keypress)=_keyPress($event) maxlength="6" />
+                   (blur)="getPinPostalCode()" pattern="[0-9]*" (keypress)=_keyPress($event) maxlength="6" />
                   <p class="alerts" *ngIf="postalcodeControl.invalid && postalcodeControl.touched"> Valid pincode is
                     required</p>
                 </div>
@@ -218,7 +218,7 @@
                 <div class="form-group">
                   <label class="control-label">Property Name <span class="red">*</span></label>
                   <input type="text" required name="ASPrpName" autocomplete='crtAss.propertyName'
-                    [(ngModel)]="crtAssn.propertyName" #propertynameControl="ngModel" class="form-control"
+                    (blur)="getPropertyName()" [(ngModel)]="crtAssn.propertyName" #propertynameControl="ngModel" class="form-control"
                     placeholder="PROPERTY NAME" style="font-family: Quicksand" pattern="[a-zA-Z\s]*"
                     style="text-transform: uppercase; font-family: Quicksand; font-size: 13px;" />
                   <p class="alerts" *ngIf="propertynameControl.invalid && propertynameControl.touched">Valid property
@@ -229,7 +229,7 @@
                 <div class="form-group">
                   <label class="control-label">Locality <span class="red">*</span></label>
                   <input type="text" required name="ASAddress" autocomplete='crtAssn.locality'
-                    [(ngModel)]="crtAssn.locality" #localityControl="ngModel" class="form-control" maxlength="255"
+                    (blur)="getLocality()" [(ngModel)]="crtAssn.locality" #localityControl="ngModel" class="form-control" maxlength="255"
                     placeholder="LOCALITY " style="font-family: Quicksand" pattern="[A-Za-z\s]+" />
                   <p class="alerts" *ngIf="localityControl.invalid && localityControl.touched"> Valid locality is
                     required</p>
@@ -239,7 +239,7 @@
                   <label class="control-label">Association Email <span class="red">*</span></label>
                   <input type="text" name="ASAsnEmail" autocomplete='crtAssn.email' [(ngModel)]="crtAssn.email"
                     #emailControl="ngModel" class="form-control" maxlength="255" placeholder="EMAIL ID "
-                    style="font-family: Quicksand" required pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                   (blur)="getAssnEmail()" style="font-family: Quicksand" required pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                   <p class="alerts" *ngIf="emailControl.invalid && emailControl.touched"> Valid EmailID is Required
                   </p>
                   <br>
@@ -257,7 +257,7 @@
               </div>
               <div class="col-sm-12">
                 <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
-                <button class="btn btn-primary-purple nextBtn pull-right" type="reset"
+                <button class="btn btn-primary-purple pull-right" type="reset"
                   (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
               </div>
             </div>
@@ -298,7 +298,7 @@
               </div>
               <div class="col-sm-12">
                 <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
-                <button class="btn btn-primary-purple nextBtn pull-right" type="reset"
+                <button class="btn btn-primary-purple pull-right" type="reset"
                   (click)='resetStep2()'>Reset</button>
               </div>
             </div>
@@ -357,7 +357,7 @@
                     <p class="alerts" *ngIf="blkNmeControl.invalid && blkNmeControl.touched">Valid name is required</p>
                   </div>
                   <div class="form-group mr">
-                    <label>Block Type</label>
+                    <label>Block Type<span class="red">*</span></label>
                     <div class="dropdown">
                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                         data-toggle="dropdown">{{(item['blocktype'] == ''?'Select Block':item['blocktype'])}}
@@ -386,7 +386,7 @@
                     <input type="text" name="BlockManagermobile" id="input5" autocomplete='BlockManagermobile'
                       [(ngModel)]="item['BlockManagermobile']" #managernumberControl='ngModel' class="form-control"
                       placeholder="Manager Mobile Number" minlength="10" maxlength="10" pattern="[0-9]*" required
-                       (keypress)="_keyPress($event,item['Id'])"/>
+                      (blur)="checkMobileNumberValidity(item['Id'])" (keypress)="_keyPress($event,item['Id'])"/>
                     <p class="alerts" *ngIf="item['Id']==item['uniqueID'] && managernumberControl.invalid && managernumberControl.touched">
                       Manager mobile number is required
                     </p>
@@ -464,7 +464,7 @@
                     </ng-container>
                   </div>
                   <div class="form-group mr">
-                    <label class="control-label">Late Payment Charge Type</label>
+                    <label class="control-label">Late Payment Charge Type<span class="red">*</span></label>
                     <div class="dropdown">
                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                         data-toggle="dropdown">{{(item['latePymtChargeType'] == ''?'SELECT CHARGE TYPE':item['latePymtChargeType'])}}
@@ -499,7 +499,7 @@
                  
               </div>
               <div class="col-sm-12 pull-right">
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="reset" (click)='resetStep5()'>Reset</button>
+                  <button class="btn btn-primary-purple pull-right" type="reset" (click)='resetStep5()'>Reset</button>
                   <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='createBlock()'>Next</button>
               </div>
           </div>
@@ -651,7 +651,7 @@
 
                       </div>
                       <div class="col-sm-12 pull-right">
-                        <button type="reset" class="btn btn-primary-purple nextBtn pull-right">Reset</button>
+                        <button type="reset" class="btn btn-primary-purple pull-right">Reset</button>
                         <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
                     </div> 
                   </div>           
@@ -893,7 +893,7 @@
         </div>
         <div class="col-sm-12">
           <button class="btn btn-primary-purple nextBtn pull-right" type="button"(click)='requestForJoin()'>Join</button>
-          <input class="btn btn-primary-purple nextBtn pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="reset" value="Reset">
+          <input class="btn btn-primary-purple pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="reset" value="Reset">
         </div>
       </div>
       <!--Join Association form Ends-->
@@ -1124,7 +1124,7 @@
 
                 <div class="col-sm-4 col-xs-12">
                   <div class="form-group fulw">
-                    <label>Property Type</label>
+                    <label>Property Type<span class="red">*</span></label>
                     <div class="dropdown">
                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                         data-toggle="dropdown">{{ASPrpType}}

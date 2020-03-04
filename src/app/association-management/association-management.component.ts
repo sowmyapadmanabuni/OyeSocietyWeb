@@ -295,6 +295,7 @@ export class AssociationManagementComponent implements OnInit {
     private addblockservice: AddBlockService,
     private imageService: ImageService,
     private http:HttpClient) {
+
       this.columnName='col';
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
@@ -476,6 +477,18 @@ export class AssociationManagementComponent implements OnInit {
       { "name": "UnSold Vacant Unit" },
       { "name": "UnSold Tenant Occupied Unit" }
     ];
+    //
+    if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
+      this.crtAssn.name = localStorage.getItem('')
+      this.crtAssn.country = localStorage.getItem('')
+      this.crtAssn.state = localStorage.getItem('')
+      this.crtAssn.city = localStorage.getItem('')
+      this.crtAssn.postalCode = localStorage.getItem('')
+      this.crtAssn.propertyType = localStorage.getItem('')
+      this.crtAssn.propertyName = localStorage.getItem('')
+      this.crtAssn.locality = localStorage.getItem('')
+      this.crtAssn.email = localStorage.getItem('')
+    }
   }
 
   openModal(template: TemplateRef<any>) {
@@ -1113,6 +1126,7 @@ this.crtAssn.newBAActType='';
   }
   setPropertyType(propertyType){
     this.crtAssn.propertyType=propertyType;
+    localStorage
   }
   testCreateBlock(){
     console.log(this.blockArray);
@@ -1154,6 +1168,19 @@ this.crtAssn.newBAActType='';
           event.preventDefault();
       }
       console.log(this.blockArray);
+  }
+  checkMobileNumberValidity(Id){
+    console.log('blur');
+    console.log(Id);
+    for(let i=0;i<this.blockArray.length;i++){
+      if(this.blockArray[i]['Id'] == Id){
+        this.blockArray[i]['uniqueID']=Id;
+        console.log(Id);
+      }
+      else{
+        this.blockArray[i]['uniqueID']='';
+      }
+    }
   }
   checking(rate){
     if(rate==true){
@@ -1311,6 +1338,7 @@ this.crtAssn.newBAActType='';
 
   }
   openPANfield(countryname) {
+    localStorage.setItem('AssociationCountry',countryname);
     this.crtAssn.country=countryname;
     if (this.crtAssn.country == "India") {
       this.PANdiv1 = true;
@@ -1530,6 +1558,9 @@ this.crtAssn.newBAActType='';
   ];
 
   resetStep1(){
+    let countrie=this.countries
+    this.countries=[];
+    this.countries=countrie;
     this.crtAssn.name='';
     this.crtAssn.logo='';
     this.crtAssn.country='SELECT COUNTRY';
@@ -2319,6 +2350,8 @@ this.crtAssn.newBAActType='';
           if (!curInputs[i].validity.valid) {
             isValid = false;
             $(curInputs[i]).closest(".form-group").addClass("has-error");
+            console.log($(curInputs[i]));
+            console.log($(curInputs[i]).closest(".alerts"));
           }
         }
         if (isValid) {
@@ -2380,6 +2413,35 @@ this.crtAssn.newBAActType='';
       this.dueDate = '';
       this.latePymtChargeType = 'SELECT CHARGE TYPE';
       this.startsFrom = null;
+    }
+    getAssonName(){
+      console.log(this.crtAssn.name);
+      localStorage.setItem('AssociationName',this.crtAssn.name);
+    }
+    getState(){
+      console.log(this.crtAssn.state);
+      localStorage.setItem('AssociationState',this.crtAssn.state);
+    }
+    getCity(){
+      console.log(this.crtAssn.city);
+      localStorage.setItem('AssociationCity',this.crtAssn.city);
+    }
+    getPinPostalCode(){
+      console.log(this.crtAssn.postalCode);
+      localStorage.setItem('AssociationPostalCode',this.crtAssn.postalCode);
+    }
+    getPropertyName(){
+      console.log(this.crtAssn.propertyName);
+      localStorage.setItem('AssociationPropertyName',this.crtAssn.propertyName);
+    }
+    getLocality(){
+      console.log(this.crtAssn.locality);
+      localStorage.setItem('AssociationLocality',this.crtAssn.locality);
+    }
+    getAssnEmail(){
+      console.log(this.crtAssn.email);
+      localStorage.setItem('AssociationEmail',this.crtAssn.email);
+      localStorage.setItem('AssociationCreationStatus','pending');
     }
   
 }
