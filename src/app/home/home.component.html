@@ -243,7 +243,7 @@
                                         <div class="dash-tab">
                                                 <span class="l-top">&nbsp;</span>
                                                 <ul class="tabs group">
-                                                        <li (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
+                                                        <li *ngIf='globalService.currentUnitName!="NoUnit"' (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
                                                         </li>
                                                         <li *ngIf="globalService.mrmroleId == 1"
                                                                 (click)="AdminsButtonShow()" class="active right-tab">

@@ -179,10 +179,19 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label">State <span class="red">*</span></label>
-                  <input type="text" required name="ASState" autocomplete='crtAss.state' [(ngModel)]="crtAssn.state"
+                  <!-- <input type="text" required name="ASState" autocomplete='crtAss.state' [(ngModel)]="crtAssn.state"
                     #stateControl="ngModel" class="form-control" placeholder="STATE" style="font-family: Quicksand"
                    (blur)="getState()" pattern="[a-zA-Z\s]*" />
-                  <p class="alerts" *ngIf="stateControl.invalid && stateControl.touched"> Valid State is required</p>
+                  <p class="alerts" *ngIf="stateControl.invalid && stateControl.touched"> Valid State is required</p> -->
+                  <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                      data-toggle="dropdown">{{crtAssn.state}}
+                      <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul style="height: 250px;" class="dropdown-menu fullw">
+                      <li *ngFor='let state of stateList' (click)="getState(state)">
+                        <a>{{state}}</a></li>
+                    </ul>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label">City <span class="red">*</span></label>
@@ -239,7 +248,7 @@
                   <label class="control-label">Association Email <span class="red">*</span></label>
                   <input type="text" name="ASAsnEmail" autocomplete='crtAssn.email' [(ngModel)]="crtAssn.email"
                     #emailControl="ngModel" class="form-control" maxlength="255" placeholder="EMAIL ID "
-                   (blur)="getAssnEmail()" style="font-family: Quicksand" required pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                   (blur)="getAssnEmail()" style="font-family: Quicksand" required pattern="[0-9]*[a-zA-Z_]+[a-zA-Z0-9_]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                   <p class="alerts" *ngIf="emailControl.invalid && emailControl.touched"> Valid EmailID is Required
                   </p>
                   <br>
@@ -257,7 +266,7 @@
               </div>
               <div class="col-sm-12">
                 <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
-                <button class="btn btn-primary-purple pull-right" type="reset"
+                <button class="btn btn-primary-purple pull-right" type="button"
                   (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
               </div>
             </div>
@@ -298,7 +307,7 @@
               </div>
               <div class="col-sm-12">
                 <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
-                <button class="btn btn-primary-purple pull-right" type="reset"
+                <button class="btn btn-primary-purple pull-right" type="button"
                   (click)='resetStep2()'>Reset</button>
               </div>
             </div>
@@ -328,7 +337,7 @@
               </div>
               <div class="col-sm-12">
                 <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
-                <button class="btn btn-primary-purple pull-right" type="reset" (click)='resetStep3()'>Reset</button>
+                <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep3()'>Reset</button>
               </div>
             </div>
             <div class="panel panel-primary setup-content" id="step-4">
@@ -340,7 +349,7 @@
                   (deleteamenity)='deleteamenity($event)'></app-new-amenity>
               </div>
               <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Next</button>
-              <button class="btn btn-primary-purple pull-right" type="reset">Reset</button>
+              <button class="btn btn-primary-purple pull-right" type="button">Reset</button>
             </div>
             <div class="panel panel-primary setup-content" id="step-5" style="overflow-x: scroll;">
               <!-- <div class="panel-heading">
@@ -449,7 +458,7 @@
                     <!-- <ejs-datepicker placeholder='Invoice Generation Date' [min]='todayDate' format='dd-MM-yyyy' ></ejs-datepicker> -->
                     <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
                       placeholder="Invoice Generation Date" [bsConfig]="bsConfig" [(ngModel)]="item['billGenerationDate']" bsDatepicker required
-                      (bsValueChange)="onValueChange($event)" [minDate]="todayDate" placement="top" />
+                      (bsValueChange)="onValueChange($event,item['billGenerationDate'])" [minDate]="todayDate" placement="top" />
                   </div>
                   <div class="form-group mr">
                     <label>Due Date <span class="red">*</span></label>
@@ -499,7 +508,7 @@
                  
               </div>
               <div class="col-sm-12 pull-right">
-                  <button class="btn btn-primary-purple pull-right" type="reset" (click)='resetStep5()'>Reset</button>
+                  <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep5()'>Reset</button>
                   <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='createBlock()'>Next</button>
               </div>
           </div>
@@ -651,7 +660,7 @@
 
                       </div>
                       <div class="col-sm-12 pull-right">
-                        <button type="reset" class="btn btn-primary-purple pull-right">Reset</button>
+                        <button type="button" class="btn btn-primary-purple pull-right">Reset</button>
                         <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
                     </div> 
                   </div>           
@@ -893,7 +902,7 @@
         </div>
         <div class="col-sm-12">
           <button class="btn btn-primary-purple nextBtn pull-right" type="button"(click)='requestForJoin()'>Join</button>
-          <input class="btn btn-primary-purple pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="reset" value="Reset">
+          <input class="btn btn-primary-purple pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="button" value="Reset">
         </div>
       </div>
       <!--Join Association form Ends-->

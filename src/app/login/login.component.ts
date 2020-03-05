@@ -72,6 +72,7 @@ export class LoginComponent implements OnInit {
     // $("#login-form").mouseleave(function() {
     //   $("#login-form").slideUp();
     // });
+    $(".se-pre-con").fadeOut("slow");
   } 
   sendOTP() {
     $("#snackbar1").show();

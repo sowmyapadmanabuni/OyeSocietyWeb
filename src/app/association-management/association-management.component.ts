@@ -281,6 +281,7 @@ export class AssociationManagementComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords:any;
   columnName: any;
+  stateList: string[];
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -295,6 +296,8 @@ export class AssociationManagementComponent implements OnInit {
     private addblockservice: AddBlockService,
     private imageService: ImageService,
     private http:HttpClient) {
+      this.crtAssn.state='Select State';
+       this.stateList = [ "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttarakhand","Uttar Pradesh","West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli","Daman and Diu","Delhi","Lakshadweep","Puducherry"]
 
       this.columnName='col';
       this.rowsToDisplay=[{'Display':'5','Row':5},
@@ -497,7 +500,7 @@ export class AssociationManagementComponent implements OnInit {
         this.crtAssn.totalNoBlocks = localStorage.getItem('AssociationBlockNumber')
         this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber')
         this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities'))==null?[]:JSON.parse(localStorage.getItem('AssociationAmenities')))
-        this.blockArray = JSON.parse(localStorage.getItem('AssociationBlockArray'))
+        this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray'))==null?[]:JSON.parse(localStorage.getItem('AssociationBlockArray')))
         console.log(JSON.parse(localStorage.getItem('AssociationBlockArray')))
         console.log(this.blockArray);
       }
@@ -508,7 +511,7 @@ export class AssociationManagementComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.toggleStepWizrd();
-    $(".se-pre-con").fadeOut("slow");
+    //$(".se-pre-con").fadeOut("slow");
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
@@ -788,6 +791,7 @@ export class AssociationManagementComponent implements OnInit {
     if(!this.toggleGSTAvailableTxt){
       // console.log(this.crtAssn.GSTNumber.length);
       if(this.crtAssn.GSTNumber.length == 15){
+        console.log('test');
         // console.log(this.crtAssn.GSTNumber.substring(2,12));
         this.crtAssn.PANNumber=this.crtAssn.GSTNumber.substring(2,12);
         PANNumberIDCtrl.setAttribute('disabled','true');
@@ -1152,15 +1156,18 @@ this.crtAssn.newBAActType='';
     //console.log(Id);
     //console.log(managernumberControl);
     //console.log(managernumberControl.touched);
-    for(let i=0;i<this.blockArray.length;i++){
-      if(this.blockArray[i]['Id'] == Id){
-        this.blockArray[i]['uniqueID']=Id;
-      }
-      else{
-        this.blockArray[i]['uniqueID']='';
-      }
-    }
-    console.log(this.blockArray);
+    // console.log(this.blockArray.length);
+    // if(this.blockArray.length != null){
+    //   for(let i=0;i<this.blockArray.length;i++){
+    //     if(this.blockArray[i]['Id'] == Id){
+    //       this.blockArray[i]['uniqueID']=Id;
+    //     }
+    //     else{
+    //       this.blockArray[i]['uniqueID']='';
+    //     }
+    //   }
+    // }
+    // console.log(this.blockArray);
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
@@ -1242,8 +1249,9 @@ this.crtAssn.newBAActType='';
     }
     console.log(this.blockArray);
   }
-  onValueChange(value: Date): void {
-    //console.log(value);
+  onValueChange(value: Date,billGenerationDate): void {
+    console.log(value);
+    console.log(billGenerationDate);
     if (value != null) {
       this.invoicedatechanged = true;
       this.minDate = new Date(value);
@@ -1347,7 +1355,7 @@ this.crtAssn.newBAActType='';
     this.fifthLetter = this.crtAssn.PANNumber.charAt(4).toUpperCase();
     //console.log(this.firstLetter, this.fifthLetter);
     if (this.firstLetter == this.fifthLetter) {
-      
+      localStorage.setItem('AssociationPAN',this.crtAssn.PANNumber);
       this.matching = false;
     } else {
       
@@ -2449,7 +2457,8 @@ this.crtAssn.newBAActType='';
       console.log(this.crtAssn.name);
       localStorage.setItem('AssociationName',this.crtAssn.name);
     }
-    getState(){
+    getState(state){
+      this.crtAssn.state=state;
       console.log(this.crtAssn.state);
       localStorage.setItem('AssociationState',this.crtAssn.state);
     }
