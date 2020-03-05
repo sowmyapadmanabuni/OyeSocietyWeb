@@ -226,7 +226,7 @@ export class UnitsComponent implements OnInit {
     // console.log(this.associationID);
     //console.log(" Current association ID:" + this.currentAssociationID);
     this.viewUniService.getUnitDetails(this.currentAssociationID).subscribe(res => {
-      //console.log(JSON.stringify(res));
+      console.log(res);
       var data: any = res;
       this.units = data.data.unit;
       //console.log(this.units);

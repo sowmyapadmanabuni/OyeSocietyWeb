@@ -193,6 +193,7 @@ export class HomeComponent implements OnInit {
         console.log(this.associations);
         this.globalService.sendMessage([]);
         console.log('Error in getting Associations',res);
+        $(".se-pre-con").fadeOut("slow");
       });
   }
   getAmount() {

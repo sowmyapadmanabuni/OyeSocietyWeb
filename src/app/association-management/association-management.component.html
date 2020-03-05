@@ -458,14 +458,14 @@
                     <!-- <ejs-datepicker placeholder='Invoice Generation Date' [min]='todayDate' format='dd-MM-yyyy' ></ejs-datepicker> -->
                     <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
                       placeholder="Invoice Generation Date" [bsConfig]="bsConfig" [(ngModel)]="item['billGenerationDate']" bsDatepicker required
-                      (bsValueChange)="onValueChange($event,item['billGenerationDate'])" [minDate]="todayDate" placement="top" />
+                      (bsValueChange)="onValueChange($event,item['Id'],item['billGenerationDate'])" [minDate]="todayDate" placement="top" />
                   </div>
                   <div class="form-group mr">
                     <label>Due Date <span class="red">*</span></label>
                     <input type="text" class="form-control" [class.enableBorderColor]="enableduedatevalidation"
                       [class.classForInvalid]="enableduedatevalidation" name="dueDate" #DueDateControl='ngModel' placeholder="Due Date"
                       [bsConfig]="bsConfig" [(ngModel)]="item['dueDate']" bsDatepicker required [minDate]="minDate"
-                      (bsValueChange)="onDueDateValueChange($event)" placement="top" />
+                      (bsValueChange)="onDueDateValueChange($event,item['Id'],item['dueDate'])" placement="top" />
                     <ng-container *ngIf='enableduedatevalidation'>
                       <p class="invalidFeedback">Due date should be greater than or equal to
                         invoice date
@@ -487,7 +487,7 @@
                   <div class="form-group mr">
                     <label>Late Payment Charge <span class="red">*</span></label>
                     <input class="form-control" type="text" #latePymtChargeControl='ngModel' name="latePymtCharge"
-                      autocomplete="latePymtCharge" [(ngModel)]="item['latePymtCharge']" placeholder="Late Payment charge"
+                     (blur)="getLatePaymentCharge(item['Id'],item['latePymtCharge'])" autocomplete="latePymtCharge" [(ngModel)]="item['latePymtCharge']" placeholder="Late Payment charge"
                       pattern="[0-9]+(\.[0-9][0-9]?)?" required>
                     <p class="alerts" *ngIf="latePymtChargeControl.invalid && latePymtChargeControl.touched">Invalid Late Payment Charge
                     </p>
@@ -497,7 +497,7 @@
                     <input class="form-control" type="text" name="startsFrom" #StartsFromDateControl='ngModel'
                       [class.classForInvalid]="enablestartfromdatevalidation" placeholder="Starts From Date" [bsConfig]="bsConfig"
                       [(ngModel)]="item['startsFrom']" bsDatepicker required [minDate]='startsFromMaxDate'
-                      (bsValueChange)="onStartsFromDateValueChange($event)" placement="bottom" />
+                      (bsValueChange)="onStartsFromDateValueChange($event,item['Id'],item['startsFrom'])" placement="bottom" />
                     <ng-container *ngIf='enablestartfromdatevalidation'>
                       <p class="invalidFeedback">Starts from date should be greater than or equal to due date</p>
                     </ng-container>
@@ -543,7 +543,7 @@
                       <div class="panel-body" *ngFor="let itm of item['UnitArray']">
                           <div class="form-group mr">
                               <label class="control-label lab">Unit No/Flat No<span class="red">*</span></label>
-                              <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="itm['_unitno']" #unitnoControl="ngModel" class="form-control" placeholder="Unit No/Flat No" required />
+                              <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="itm['_unitno']" #unitnoControl="ngModel" class="form-control" (blur)="getUnitNoFlatNo(itm['_id'],itm['_unitno'])" placeholder="Unit No/Flat No" required />
                               <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
                           </div>
                           <div class="form-group mr">
@@ -560,12 +560,12 @@
                         </div>
                           <div class="form-group mr">
                               <label class="control-label lab">Unit Dimension<span class="red">*</span></label>
-                              <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="itm['_unitdimension']" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
+                              <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="itm['_unitdimension']" (blur)="getUnitDimension(itm['_id'],itm['_unitdimension'])" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
                               <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched"> Valid Unit dimension is required</p>
                             </div>
                             <div class="form-group mr">
                               <label class="control-label lab">Unit Rate<span class="red">*</span></label>
-                              <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="itm['_unitrate']" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
+                              <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="itm['_unitrate']" (blur)="getUnitRate(itm['_id'],itm['_unitrate'])" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
                               <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched"> Valid unit rate is required</p>
                           </div>
                           <div class="form-group mr">
@@ -598,12 +598,12 @@
                               <label class="control-label lab">Owner First Name<span class="red">*</span></label>
                               <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
                                 #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
-                                pattern="[a-zA-Z _]*" required/>
+                                (blur)="getOwnerFirstName(itm['_id'],itm['_ownerFirtname'])" pattern="[a-zA-Z _]*" required/>
                                 <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
                             </div>
                           <div class="form-group mr">
                               <label class="control-label lab">Owner Last Name<span class="red">*</span></label>
-                              <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="itm['_ownerLastname']"
+                              <input type="text" name="ownerLastname" id="ownerLastname" (blur)="getOwnerLastName(itm['_id'],itm['_ownerLastname'])" [(ngModel)]="itm['_ownerLastname']"
                                 #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname"
                                 pattern="[a-zA-Z _]*" required/>
                                 <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is required</p>
@@ -611,14 +611,14 @@
                     
                           <div class="form-group mr">
                               <label class="control-label lab">Owner Mobile Number<span class="red">*</span></label>
-                              <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="itm['_ownerMobnumber']"
+                              <input type="text" name="ownerMobnumber" id="ownerMobnumber" (blur)="getOwnerMobileNumber(itm['_id'],itm['_ownerMobnumber'])" [(ngModel)]="itm['_ownerMobnumber']"
                                 #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number"
                                 minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                                 <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
                             </div>
                           <div class="form-group mr">
                               <label class="control-label lab">Owner Email Id<span class="red">*</span></label>
-                              <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="itm['_ownerEmail']"
+                              <input type="text" name="ownerEmail" id="ownerEmail" (blur)="getOwnerEmailId(itm['_id'],itm['_ownerEmail'])" [(ngModel)]="itm['_ownerEmail']"
                                 #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
                                 pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
                                 <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
@@ -628,7 +628,7 @@
                     <div *ngIf="itm['_tenantDetails'] == true && itm['_uniqueId']==itm['_id']" style="display: flex">                          
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
-                                <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="itm['_tenantFirtname']"
+                                <input type="text" name="tenantFirtname" id="tenantFirtname" (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"
                                   #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
                                   pattern="[a-zA-Z _]*" required/>
                                   <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
@@ -636,7 +636,7 @@
                             
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant Last Name<span class="red">*</span></label>
-                                <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="itm['_tenantLastname']"
+                                <input type="text" name="tenantLastname" id="tenantLastname" (blur)="getTenantLastName(itm['_id'],itm['_tenantLastname'])" [(ngModel)]="itm['_tenantLastname']"
                                   #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
                                   pattern="[a-zA-Z _]*" required/>
                                   <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
@@ -644,14 +644,14 @@
                
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant Mobile Number<span class="red">*</span></label>
-                                <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="itm['_tenantMobnumber']"
+                                <input type="text" name="tenantMobnumber" id="tenantMobnumber" (blur)="getTenantMobileNumber(itm['_id'],itm['_tenantMobnumber'])" [(ngModel)]="itm['_tenantMobnumber']"
                                   #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number"
                                   minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                                   <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
                               </div>
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant Email Id<span class="red">*</span></label>
-                                <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="itm['_tenantEmail']"
+                                <input type="text" name="tenantEmail" id="tenantEmail" (blur)="getTenantEmailId(itm['_id'],itm['_tenantEmail'])" [(ngModel)]="itm['_tenantEmail']"
                                   #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
                                   pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
                                   <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>

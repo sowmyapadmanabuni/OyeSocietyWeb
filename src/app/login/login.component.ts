@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   title = 'mylogin';
   mobile: number;
   mobilenumber: any;
-  otp: number;
+  otp: string;
   ipAddress = 'http://api.oyespace.com';
   inpt: any;
   public countrydata: object;
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
   constructor(private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
     private dashboardservice:DashBoardService,private utilsService:UtilsService) {
+      this.otp='';
       this.mobilenumber='';
     this.toggleLoginContent=true;
     this.toggleShowClientContent=false;

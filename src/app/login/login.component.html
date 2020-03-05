@@ -79,7 +79,7 @@
 	  <a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
 	  <a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
 	  <a (click)="showAboutUsContent()" routerLinkActive="active-link">About Us</a>
-	  <a id="login" style="cursor: pointer" target="_blank"><img  src="../../assets/images/getin.png"></a>
+	  <a id="login" style="cursor: pointer" target="_blank"><img tooltip="Login/SignUp" [adaptivePosition]="false" placement="top" src="../../assets/images/getin.png"></a>
 	  <!-- <a routerLink="faq">FAQ's</a> -->
 	  <!-- <a href="http://devapp.oyespace.com/" target="_blank">Login</a> -->
 	  <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
@@ -120,7 +120,7 @@
 		  <div class="col-lg-12 loginbttm">
 			<!-- <div id="snackbar">OTP Sent</div> -->
 			<div class="col-lg-6 login-btm login-button">
-			  <button (keydown)="verifyOtp()" (click)="verifyOtp()" type="submit" class="btn btn-primary1">Get In</button>
+			  <button (keydown)="verifyOtp()" (click)="verifyOtp()" type="submit" class="btn btn-primary1" [disabled]='otp=="" || otp.length !=6'>Get In</button>
 			</div>
 		  </div>
 		  <div id="snackbar1" [ngStyle]="{'display':isOTPSent?'block':'none'}" class="col-lg-12 succ">otp sent successfully</div>
