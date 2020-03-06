@@ -50,7 +50,7 @@ export class VehiclesComponent implements OnInit {
         this.VehicleDataNew = [];
         this.VehicleCarousel = [];
         this.VehicleCarousel1 = [];
-        this.addvehicleservice.getVehicleDetails(data.UnitID)
+        this.addvehicleservice.getVehicleDetails(data.UnitID,this.globalserviceservice.getCurrentAssociationId(),this.globalserviceservice.getacAccntID())
           .subscribe(data => {
             console.log(data);
             this.VehicleData = data['data']['vehicleListByUnitID'];
@@ -94,7 +94,7 @@ export class VehiclesComponent implements OnInit {
 
   getVehicles() {
     this.VehicleDataNew = [];
-    this.addvehicleservice.getVehicleDetails(this.CurrentUnitID)
+    this.addvehicleservice.getVehicleDetails(this.CurrentUnitID,this.globalserviceservice.getCurrentAssociationId(),this.globalserviceservice.getacAccntID())
       .subscribe(data => {
         //console.log(data);
         this.VehicleData = data['data']['vehicleListByUnitID'];

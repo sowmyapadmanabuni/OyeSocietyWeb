@@ -2565,14 +2565,21 @@ this.crtAssn.newBAActType='';
           console.log($target.attr("id"));
           if ($target.attr("id") == 'step-6') {
             /**/
-            var navListItems1 = $('div.setup-panel-stepseven div a')
-            console.log(Array.from(navListItems1)[0]);
-           console.log($(Array.from(navListItems1)[0]));
+            var navListItems1 = $('div.setup-panel-stepseven div a');
+            var navListItemsDiv = $('div.setup-panel-stepseven div');
+            navListItemsDiv.removeClass('step-active');
             //navListItems1.hide();
-            var $target = $($(navListItems1).attr('href'))
-            console.log($target);
-           var test = $(Array.from(navListItems1)[0]);
-           test.trigger('click');
+            //navListItemsDiv.hide();
+            var allWellss = $('.setup-content-seven');
+            allWellss.hide();
+            // Array.from(navListItems1).forEach(item=>{
+            //   console.log(item);
+            // })
+            var navListItemsDivAnchr=$(Array.from(navListItemsDiv)[0]);
+            navListItemsDivAnchr.addClass('step-active');
+            var $targett = $($(Array.from(navListItems1)[0]).attr('href'));
+            console.log($targett);
+            $targett.show();
             /**/
           }
          /* console.log(StepTwo);

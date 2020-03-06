@@ -123,13 +123,13 @@
 			  <button (keydown)="verifyOtp()" (click)="verifyOtp()" type="submit" class="btn btn-primary1" [disabled]='otp=="" || otp.length !=6'>Get In</button>
 			</div>
 		  </div>
-		  <div id="snackbar1" [ngStyle]="{'display':isOTPSent?'block':'none'}" class="col-lg-12 succ">otp sent successfully</div>
+		  <div id="snackbar1" [ngStyle]="{'display':isOTPSent?'block':'none'}" class="col-lg-12 succ">OTP sent successfully</div>
 		</form>
 	  </div>
 	</div>
 	<div class="col-lg-4 col-md-4"></div>
   </div>
-  <div *ngIf="toggleLoginContent" class="row">
+  <div id="topDiv" *ngIf="toggleLoginContent" class="row">
 			<!--Slider Part Start-->
 			<section>
 				<div class="col-sm-12 bg">

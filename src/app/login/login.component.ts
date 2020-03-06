@@ -64,15 +64,30 @@ export class LoginComponent implements OnInit {
      //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
   ngAfterViewInit(){
-    $("#login").on('click',function() {
-      $("#login-form").slideDown();
-    });
+    // $("#login").on('click',function(event) {
+    //   $("#login-form").slideDown();
+    //   event.stopPropagation();
+    // });
     // $("#login").on('focusout',function() {
     //   $("#login-form").slideUp();
     // });
-    // $("#login-form").mouseleave(function() {
+
+    // $("body").click(function (event) {
+    //   // event.stopPropagation();
+    //   $("#login-form").slideUp();
+    //   event.stopPropagation();
+    // });
+    $("#login").click(function(e){
+      $("#login-form").slideDown();
+      e.stopPropagation();
+    });
+    $("#topDiv").click(function(){
+      $("#login-form").slideUp();
+    });
+    // $("#login-form").on('blur', function () {
     //   $("#login-form").slideUp();
     // });
+
     $(".se-pre-con").fadeOut("slow");
   } 
   sendOTP() {
