@@ -144,6 +144,7 @@ console.log(this.currentaccountid);
       this.ACEmail1='';
   }
   ngAfterViewInit() {
+    $(".se-pre-con").fadeOut("slow");
   }
   OpenFileUpload(){
     let _uploadFileinput = <HTMLInputElement>document.getElementById("uploadFileinput");

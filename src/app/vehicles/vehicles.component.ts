@@ -88,6 +88,10 @@ export class VehiclesComponent implements OnInit {
     this.getVehicles();
   }
 
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
+
   getVehicles() {
     this.VehicleDataNew = [];
     this.addvehicleservice.getVehicleDetails(this.CurrentUnitID)

@@ -146,11 +146,12 @@ export class ReceiptsComponent implements OnInit {
   goToVehicles(){
     this.router.navigate(['vehicles']);
   }
-  // ngAfterViewInit() {
-  //   $(document).ready(function () {
-  //     $('#example').DataTable();
-  //   });
-  // }
+  ngAfterViewInit() {
+    $(".se-pre-con").fadeOut("slow");
+    // $(document).ready(function () {
+    //   $('#example').DataTable();
+    // });
+  }
 
   gotoGenerateReceipt(){
     this.router.navigate(['home/generatereceipt']);

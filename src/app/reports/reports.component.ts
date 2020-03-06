@@ -17,6 +17,9 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit() {
   }
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
 
   goToCustomerStatement(){
     this.router.navigate(['customer']);

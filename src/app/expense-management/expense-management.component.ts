@@ -282,7 +282,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.router.navigate(['vehicles']);
   }
   ngAfterViewInit() {
-
+    $(".se-pre-con").fadeOut("slow");
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;

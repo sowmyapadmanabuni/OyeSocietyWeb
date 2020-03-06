@@ -173,10 +173,10 @@ export class ViewExpensesService {
         "BlockID": this.currentBlockId,
         "expenses": _exidList
       }
-      //console.log(expenseListforGenInv);
-      //console.log('currentBlockId', this.currentBlockId);
-      //console.log('currentAssociationID', currentAssociationID);
-      //console.log('expensesforGenInv', expenseListforGenInv);
+      console.log(expenseListforGenInv);
+      console.log('currentBlockId', this.currentBlockId);
+      console.log('currentAssociationID', currentAssociationID);
+      console.log('expensesforGenInv', expenseListforGenInv);
       let headers = this.getHttpheaders();
       let ipAddress = this.utilsService.generateInvoice();
       this.url = `${ipAddress}oyeliving/api/v1/invoice/list`;
@@ -188,9 +188,9 @@ export class ViewExpensesService {
         "BlockID": this.currentBlockId,
         "expenses": exidList
       }
-      //console.log('currentBlockId', this.currentBlockId);
-      //console.log('currentAssociationID', currentAssociationID);
-      //console.log('expensesforGenInv', expensesforGenInv);
+      console.log('currentBlockId', this.currentBlockId);
+      console.log('currentAssociationID', currentAssociationID);
+      console.log('expensesforGenInv', expensesforGenInv);
       let headers = this.getHttpheaders();
       let ipAddress = this.utilsService.generateInvoice();
       this.url = `${ipAddress}oyeliving/api/v1/invoice/list`;

@@ -41,6 +41,9 @@ export class ExcelExpenseUploadComponent implements OnInit {
       //console.log('allBlocksLists', this.allBlocksLists);
     });
   }
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
   upLoad() {
     document.getElementById("file_upload_id").click();
   }

@@ -99,6 +99,10 @@ export class CustomerStatementComponent implements OnInit {
     this.getpaymentdetails();
     this.getMembers();
   }
+
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
   initialiseCustomerStatement() {
     this.UnitNameForDisplay='';
     this.PaymentStatus='Select Payment Status';

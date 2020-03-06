@@ -61,6 +61,10 @@ export class MembersComponent implements OnInit {
   ngOnInit() {
     this.GetMemberList(this.associationID);
   }
+
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
   GetMemberList(associationID) {
     this.allMemberByAccount = [];
     console.log(associationID);

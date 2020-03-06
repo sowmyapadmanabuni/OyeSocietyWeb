@@ -241,6 +241,7 @@ bsConfig:any;
         //this.MultipleVisitors = true;
 }
   ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
     // Time Picker Initialization
 // $('#input_starttime').pickatime({});
   }

@@ -186,6 +186,7 @@ export class BlocksComponent implements OnInit {
         });
       });
     });
+    $(".se-pre-con").fadeOut("slow");
   }
 
   getBlockDetails() {

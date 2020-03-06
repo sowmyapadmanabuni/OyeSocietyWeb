@@ -31,6 +31,9 @@ ReceiptList:any[];
 
   ngOnInit() {
   }
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
   upLoad() {
     document.getElementById("file_upload_id").click();
   }

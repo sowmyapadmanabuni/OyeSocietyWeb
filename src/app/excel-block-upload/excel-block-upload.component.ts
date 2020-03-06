@@ -34,6 +34,9 @@ export class ExcelBlockUploadComponent implements OnInit {
 
   ngOnInit() {
   }
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
   upLoad() {
     document.getElementById("file_upload_id").click();
   }

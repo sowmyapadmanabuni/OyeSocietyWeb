@@ -52,11 +52,12 @@ export class FamilyMembersComponent implements OnInit {
     this.addMember=false;
     this.getFamilyMember();
   }
-  // ngAfterViewInit() {
+  ngAfterViewInit() {
+    $(".se-pre-con").fadeOut("slow");
   // $(document).ready(function () {
   //   $('#example').DataTable();
   // });
-  // }
+  }
 
   addMemberShow(){
     this.memberList=false;

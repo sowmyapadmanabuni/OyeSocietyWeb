@@ -196,7 +196,7 @@ li::before{content: url('../../assets/images/points.png');}
 ul,li{padding-left:0px !important}
 .pr{padding-right: 20px;}
 .fa{
-  color: #ffb923 !important;
+  color: #0c0c0b !important;
   margin-right: 2px;
 }
 li{list-style: none;}
@@ -583,7 +583,7 @@ li{list-style: none;}
   .active{display: none !important}
 
   .dropdown-content {
-    top: 56px;
+    top: 79px;
     padding: 10px 0px;
   }
  

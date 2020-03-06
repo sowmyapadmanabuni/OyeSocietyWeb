@@ -43,7 +43,9 @@ export class DashBoardService {
    getAssociation(accountID){
      let scopeIP=this.utilsService.getAssociation();
     // return this.http.get(this.scopeIP + 'oyeliving/api/v1/GetAssociationListByAccountID/' +accountID ,  {headers:this.headers});
-    return this.http.get(scopeIP + 'oyeliving/api/v1/Member/GetMemberListByAccountID/' +accountID ,  {headers:this.headers});
+    // http://apidev.oyespace.com/oyeliving/api/v1/GetMemberDetailsByAccountID/14958
+    // return this.http.get(scopeIP + 'oyeliving/api/v1/Member/GetMemberListByAccountID/' +accountID ,  {headers:this.headers});
+    return this.http.get(scopeIP + 'oyeliving/api/v1/GetMemberDetailsByAccountID/' +accountID ,  {headers:this.headers});
   }
   getAmount(associationID:string){
     let headers= new HttpHeaders().append('Content-Type',  'application/json')

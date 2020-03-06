@@ -505,10 +505,17 @@ export class AssociationManagementComponent implements OnInit {
         this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities'))==null?[]:JSON.parse(localStorage.getItem('AssociationAmenities')))
         this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray'))==null?[]:JSON.parse(localStorage.getItem('AssociationBlockArray')))
         this.BlockHrefDetail=(JSON.parse(localStorage.getItem('AssociationBlockHrefDetail'))==null?[]:JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
+        if(this.BlockHrefDetail.length==0){
+          localStorage.setItem('CreateUnitFromSavedData','false');
+        }
+        else{
+          localStorage.setItem('CreateUnitFromSavedData','true');
+        }
         console.log(this.blockArray);
         console.log(this.crtAssn.name);
         console.log(this.crtAssn.GSTNumber);
         console.log(this.BlockHrefDetail);
+        console.log(this.crtAssn.country);
       }
   }
 
@@ -517,7 +524,7 @@ export class AssociationManagementComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.toggleStepWizrd();
-    //$(".se-pre-con").fadeOut("slow");
+    $(".se-pre-con").fadeOut("slow");
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
@@ -1217,8 +1224,8 @@ export class AssociationManagementComponent implements OnInit {
 
 this.association="";
 this.association="";
-this.crtAssn.country='SELECT THE COUNTRY';
-this.crtAssn.propertyType='SELECT PROPERTY TYPE';
+//this.crtAssn.country='SELECT THE COUNTRY';
+//this.crtAssn.propertyType='SELECT PROPERTY TYPE';
 this.crtAssn.newBAActType='';
     this.viewAssnService.getAssociationAllDetails()
     .subscribe(item => {
@@ -1271,6 +1278,8 @@ this.crtAssn.newBAActType='';
     console.log(this.blockArray);
   }
   onStartsFromDateValueChange(value: Date,Id,startsFrom) {
+    console.log(startsFrom);
+    console.log(value);
     for(let i=0;i<this.blockArray.length;i++){
       if(this.blockArray[i]['Id'] == Id){
         this.blockArray[i]['startsFrom']=startsFrom;
@@ -2072,14 +2081,18 @@ this.crtAssn.newBAActType='';
         return itm['_blockName']==item;
       })
       console.log(_blk);
-      this.BlockHrefDetail.push({"Id":index+1,"blk":item,"step":"#step-"+(index+7).toString(),"elementID":"step-"+(index+7).toString(),"UnitArray":_blk});
+      if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
+        if(localStorage.getItem('CreateUnitFromSavedData')=='false'){
+          this.BlockHrefDetail.push({"Id":index+1,"blk":item,"step":"#step-"+(index+7).toString(),"elementID":"step-"+(index+7).toString(),"UnitArray":_blk});
+        }
+      }
      })
      console.log(this.BlockHrefDetail);
       this.unitArrayList = this.unitArray;
       console.log(this.unitArrayList);
       this.globalService.SetCreateUnitWithAssociation(this.BlockHrefDetail,this.unitArrayList)
       this.enableCreateUnitWithAssociation=true;
-      this.toggleStepTest();
+      this.toggleStepTest('');
      }, (2000 * (this.blockArray.length + 1)));
   }
   // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
@@ -2470,7 +2483,10 @@ this.crtAssn.newBAActType='';
   //     $('div.setup-panel div a.btn-success').trigger('click');
   //   });
   // }
-  toggleStepTest() {
+  toggleStepTest(event) {
+    if(event !=''){
+      event.preventDefault();
+    }
     $(document).ready(function () {
       //e.preventDefault();
       console.log('div.setup-panel-stepseven div a');
@@ -2516,6 +2532,7 @@ this.crtAssn.newBAActType='';
   }
 
   toggleStepWizrd() {
+
     $(document).ready(function () {
       var navListItems = $('div.setup-panel div a'),
       AddExp = $('#AddExp'),
@@ -2545,6 +2562,19 @@ this.crtAssn.newBAActType='';
           $divTgt.addClass('step-active');
           allWells.hide();
           console.log($target);
+          console.log($target.attr("id"));
+          if ($target.attr("id") == 'step-6') {
+            /**/
+            var navListItems1 = $('div.setup-panel-stepseven div a')
+            console.log(Array.from(navListItems1)[0]);
+           console.log($(Array.from(navListItems1)[0]));
+            //navListItems1.hide();
+            var $target = $($(navListItems1).attr('href'))
+            console.log($target);
+           var test = $(Array.from(navListItems1)[0]);
+           test.trigger('click');
+            /**/
+          }
          /* console.log(StepTwo);
           StepTwo.show(); */
           $target.show();

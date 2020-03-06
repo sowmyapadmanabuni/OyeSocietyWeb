@@ -518,7 +518,7 @@
               <div class="stepwizard">
                 <div class="stepwizard-row-stepseven setup-panel-stepseven">
                   <div *ngFor='let item of BlockHrefDetail' style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12 step-active">
-                      <a [href]="item['step']" type="button" [ngClass]="{'btn-success':item['Id']==1}" class="btn btn-default btn-circle-o"></a><span>{{item['blk']}}</span>
+                      <a (click)="toggleStepTest($event)" [href]="item['step']" type="button" [ngClass]="{'btn-success':item['Id']==1}" class="btn btn-default btn-circle-o"></a><span>{{item['blk']}}</span>
                   </div>
               </div>
                   <!-- <div class="stepwizard-row setup-panel">

@@ -325,6 +325,7 @@ export class InvoicesComponent implements OnInit {
     //   alert('test');
     //   this.toggleDrpdown = true;
     // }
+    $(".se-pre-con").fadeOut("slow");
   }
   ngOnInit() {
     this.viewreceiptservice.getpaymentlist(this.currentAssociationID)

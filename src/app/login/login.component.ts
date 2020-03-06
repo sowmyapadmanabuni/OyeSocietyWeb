@@ -175,7 +175,7 @@ export class LoginComponent implements OnInit {
     //console.log(otpdata);
     this.http.post(url, JSON.stringify(otpdata), { headers: headers })
       .subscribe(data => {
-        //console.log(data)
+        console.log(data)
         if (data['data'] == null) {
           Swal.fire({
             type: 'error',

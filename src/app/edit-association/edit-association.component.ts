@@ -110,6 +110,7 @@ export class EditAssociationComponent implements OnInit {
       })
       $('div.setup-panel div a.btn-success').trigger('click');
     });
+    $(".se-pre-con").fadeOut("slow");
   }
   getCountry(country){
     this.viewAssnService.EditAssociationData['ASCountry']=country;

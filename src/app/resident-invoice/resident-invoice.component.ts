@@ -217,7 +217,7 @@ export class ResidentInvoiceComponent implements OnInit {
     this.router.navigate(['vehicles']);
   }
   ngAfterViewInit() {
-
+    $(".se-pre-con").fadeOut("slow");
   }
   ngOnInit() {
     this.payopt = false;

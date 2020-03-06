@@ -212,6 +212,11 @@ export class UnitsComponent implements OnInit {
         //console.log('allBlocksLists',this.allBlocksLists);
       });
   }
+
+  ngAfterViewInit(){
+    $(".se-pre-con").fadeOut("slow");
+  }
+  
   initialiseUnit(){
     this.allUnitBYBlockID=[];
     this.blBlkName='Select Block Name';
