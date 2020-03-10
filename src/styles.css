@@ -14,7 +14,7 @@
     sup{color:red}
 .txt-middle{text-align: center !important}
 .btn{margin-right: 20px;}
-.mt-80{margin-top: 112px; }   
+.mt-80{margin-top: 80px; }   
 .enr-bt{display: flex;justify-content: space-between;align-items: center;margin-bottom: 5px;}
 body,h1,h2,h3,h4,h5,h6{font-family: 'Quicksand', sans-serif !important;overflow-x: hidden}
 .title-orange{color: #5a51aa;margin: 0px 0px;font-size: 36px;    font-weight: 300;}

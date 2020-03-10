@@ -83,7 +83,7 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label class="control-label">Relationship<span class="red">*</span></label>
-                                    <input pattern="[a-zA-Z]*" maxlength="20" type="text" [(ngModel)]='Relation'
+                                    <input pattern="[a-zA-Z _]*" maxlength="20" type="text" [(ngModel)]='Relation'
                                         name="Relation" #relationshipControl="ngModel"
                                         class="form-control" placeholder="Relationship" required/>
                                     <p class="alerts"

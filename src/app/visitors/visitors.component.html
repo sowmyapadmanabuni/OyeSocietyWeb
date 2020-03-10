@@ -34,8 +34,8 @@
                     <div class="sea">
                         <input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
                     </div>
-                    <div class="del-date cal"><input type="text" name="StartDate" #StartDateControl='ngModel' [(ngModel)]="StartDate" placeholder="From Date" class="date" bsDatepicker></div>
-                    <div class="del-date cal"><input type="text" (bsValueChange)='getVisitorList($event)' name="ToDate" #ToDateControl='ngModel'  [(ngModel)]="ToDate" placeholder="To Date" class="date" bsDatepicker></div>
+                    <div class="del-date cal"><input type="text" name="StartDate" #StartDateControl='ngModel' [(ngModel)]="StartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig"></div>
+                    <div class="del-date cal"><input type="text" (bsValueChange)='getVisitorList($event)' name="ToDate" #ToDateControl='ngModel'  [(ngModel)]="ToDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig"></div>
                 </div>
 <!--  -->
 <div class="dash-row" *ngIf='guestList'>
