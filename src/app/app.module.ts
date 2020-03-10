@@ -84,6 +84,9 @@ import { ExcelReceiptUploadComponent } from './excel-receipt-upload/excel-receip
 import { PartnersComponent } from './partners/partners.component';
 import { LocationsComponent } from './locations/locations.component';
 import {AboutusComponent} from './aboutus/aboutus.component'
+import {AccountingComponent} from './accounting/accounting.component'
+import {SafetyComponent} from './safety/safety.component'
+
  
 import { from } from 'rxjs';
 //export const firebaseConfig = environment.firebaseConfig;
@@ -150,7 +153,9 @@ import { from } from 'rxjs';
     CreateUnitWithAssociationComponent,
     JoinAndEnrollComponent,
     EditAssociationComponent,
-    ExcelReceiptUploadComponent
+    ExcelReceiptUploadComponent,
+    AccountingComponent,
+    SafetyComponent
     ],
   imports: [
     ReactiveFormsModule,

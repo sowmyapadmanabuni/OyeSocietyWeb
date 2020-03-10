@@ -640,6 +640,7 @@ export class InvoicesComponent implements OnInit {
             this.InvoiceValue += item['idValue'];
           }
         })
+        this.InvoiceValue=this.InvoiceValue-this.discountedValue;
       },
         err => {
           console.log(err);

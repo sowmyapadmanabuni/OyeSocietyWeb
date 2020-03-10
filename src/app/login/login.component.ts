@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
   toggleLoginContent:boolean;
   toggleShowLocationsContent:boolean;
   toggleShowAboutUsContent:boolean;
+  toggleShowAccountingContent:boolean;
+  toggleShowSafetyContent:boolean;
   // @ViewChild('myButton1') myButton1: any;
   @Output() toggleMyMenus:EventEmitter<string>;
   returnUrl: string;
@@ -45,6 +47,8 @@ export class LoginComponent implements OnInit {
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
     this.isOTPSent=false;
       //alert('inside login component');
     // redirect to home if already logged in
@@ -403,6 +407,8 @@ export class LoginComponent implements OnInit {
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
   }
 
   showPartnersContent(){
@@ -411,6 +417,8 @@ export class LoginComponent implements OnInit {
     this.toggleShowPartnersContent=true;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
   }
 
   showLocationContent(){
@@ -419,6 +427,8 @@ export class LoginComponent implements OnInit {
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=true;
     this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
   }
 
 
@@ -428,6 +438,8 @@ export class LoginComponent implements OnInit {
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=true;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
   }
   GoToHome(){
     this.toggleShowClientContent = false;
@@ -435,6 +447,30 @@ export class LoginComponent implements OnInit {
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
+  }
+
+  GoToSafety(){
+    this.toggleShowClientContent = false;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=true;
+    this.toggleShowAccountingContent=false;
+    
+  }
+
+
+  GoToAccounting(){
+    this.toggleShowClientContent = false;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=true;
   }
 
   

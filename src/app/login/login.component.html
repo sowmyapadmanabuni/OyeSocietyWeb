@@ -185,7 +185,7 @@
 							<span class="oye-bt">Safety.</span>
 							<p class="desc">“Your safety is priceless”, with this in focus is what we built ScuareX.   ScuareX has features that ensures safety of You, Your Family and Assets; by keeping your Security Guards alert and connected using simple yet advanced technologies.</p>
 							<div class="col-sm-12 np">
-								<a href="safety"><button class="btn btn-grey">Know more</button></a>
+								<a (click)="GoToSafety()"><button class="btn btn-grey">Know more</button></a>
 							</div>
 						</div>
 		
@@ -204,7 +204,7 @@
 							<span class="oye-bt">Accounting.</span>
 							<p class="desc">The nerve centre of community living is pooling in money by every home in the community to ‘maintain common facilities’.  ScuareX leverages the power of Data-science, Artificial Intelligence and Advanced Automation Algorithms easing this complex task.</p>
 							<div class="col-sm-12 np">
-								<a href="accounting"><button class="btn btn-grey">Know more</button></a>
+								<a (click)="GoToAccounting()"><button class="btn btn-grey">Know more</button></a>
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -259,6 +259,16 @@
 	<app-aboutus></app-aboutus>
 </div>
 <!-- AboutUs component Ends -->
+<!-- Accounting component starts -->
+<div *ngIf="toggleShowAccountingContent">
+	<app-accounting></app-accounting>
+</div>
+<!-- Accounting component Ends -->
+<!-- Safety component starts -->
+<div *ngIf="toggleShowSafetyContent">
+	<app-safety></app-safety>
+</div>
+<!-- Safety component Ends -->
 
 <!--footer links part-->
 <div class="row foot-bg">

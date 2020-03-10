@@ -45,6 +45,8 @@ import {ExcelUnitUploadComponent} from './excel-unit-upload/excel-unit-upload.co
 import {ExcelExpenseUploadComponent} from './excel-expense-upload/excel-expense-upload.component';
 import {JoinAndEnrollComponent} from './join-and-enroll/join-and-enroll.component';
 import {EditAssociationComponent} from './edit-association/edit-association.component';
+import {AccountingComponent} from './accounting/accounting.component'
+import {SafetyComponent} from './safety/safety.component'
 import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component'
 
 
@@ -56,6 +58,8 @@ const routes: Routes = [
     { path: 'clients', component:ClientsComponent, canActivate: [AuthGuard]},
     { path: 'location', component:LocationComponent, canActivate: [AuthGuard]},
     { path: 'members', component:MembersComponent, canActivate: [AuthGuard]},
+    { path: 'accounting', component:AccountingComponent, canActivate: [AuthGuard]},
+    { path: 'safety', component:SafetyComponent, canActivate: [AuthGuard]},
     { path: 'excelblock', component:ExcelBlockUploadComponent, canActivate: [AuthGuard]},
     { path: 'excelunit', component:ExcelUnitUploadComponent, canActivate: [AuthGuard]},
     { path: 'excelexpense', component:ExcelExpenseUploadComponent, canActivate: [AuthGuard]},
