@@ -169,6 +169,7 @@ export class InvoicesComponent implements OnInit {
   ShowRecords: string;
   columnName: any;
   toggleDrpdown: boolean;
+  toggleUL: boolean;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -181,6 +182,8 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.toggleUL=false;
+      this.allUnitBYBlockID=[];
       this.globalservice.IsEnrollAssociationStarted==false;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
@@ -411,6 +414,7 @@ export class InvoicesComponent implements OnInit {
         //
         this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
         console.log(this.sortedCollection);
+        this.toggleUL=true;
       },
         err => {
           console.log(err);
@@ -1440,5 +1444,12 @@ export class InvoicesComponent implements OnInit {
         return item['unUnitID'] == unUnitID;
       })
       console.log(this.PaidUnpaidinvoiceLists)
+  }
+  _keyPress1(event) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
   }
 }

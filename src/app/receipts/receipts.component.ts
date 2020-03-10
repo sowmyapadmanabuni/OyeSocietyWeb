@@ -52,6 +52,7 @@ export class ReceiptsComponent implements OnInit {
   columnName: any;
   pyRefNo: any;
   pyVoucherNo: any;
+  toggleUL:boolean;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -62,6 +63,7 @@ export class ReceiptsComponent implements OnInit {
     public generatereceiptservice: GenerateReceiptService,
     private route: ActivatedRoute) 
     { 
+      this.toggleUL=false;
       this.globalservice.IsEnrollAssociationStarted==true;
       this.currentBlockName="";
       this.rowsToDisplay=[{'Display':'5','Row':5},
@@ -153,7 +155,10 @@ export class ReceiptsComponent implements OnInit {
     //   $('#example').DataTable();
     // });
   }
-
+  getCurrentBlockName(blBlkName) {
+    this.currentBlockName = blBlkName;
+    this.toggleUL=true;
+  }
   gotoGenerateReceipt(){
     this.router.navigate(['home/generatereceipt']);
   }

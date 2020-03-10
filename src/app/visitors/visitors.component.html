@@ -189,9 +189,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="guest-input">
+                    <div class="form-group">
                         <label class="control-label">Guest count<sup>*</sup></label>
-                            <input style="width: 43%;" name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event)/>
+                            <input name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event)/>
                     </div>
                     <div class="col-sm-12 pull-right">
                         <button type="reset" class="btn btn-primary-reset">Reset</button>
@@ -215,10 +215,10 @@
  <ng-template #QRtemplate>
         <div class="modal-header">
           <h4 class="modal-title pull-left">Download Qr Code</h4>
-        <a href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site http://www.website.com."
+        <!-- <a href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site http://www.website.com."
             title="Share by Email">
             <i class="fa fa-share-alt" aria-hidden="true"></i>
-        </a>
+        </a> -->
           <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
           </button>

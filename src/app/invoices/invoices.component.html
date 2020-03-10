@@ -25,7 +25,7 @@
                                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                         data-toggle="dropdown">{{(UnitName == ''?'Select Unit':UnitName)}}
                                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                                    <ul class="dropdown-menu fullw" style="height: 200px">
+                                    <ul *ngIf="toggleUL" class="dropdown-menu fullw" style="height: 200px">
                                         <li *ngFor='let item of allUnitBYBlockID'
                                             (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
                                             <a>{{item['unUniName']}}</a></li>
@@ -1014,7 +1014,7 @@
                             <div class="form-group"
                                 [ngClass]="{'has-error' : dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched}">
                                 <label>Discounted Amount<span class="red">*</span></label>
-                                <input type="text" required name="dscntInvdiscountedAmount"
+                                <input type="text" required name="dscntInvdiscountedAmount" (keypress)=_keyPress1($event)
                                     #dscntInvdiscountedAmountControl='ngModel' [(ngModel)]="dscntInvdiscountedAmount"
                                     class="form-control" (blur)="checkDiscountedAmount(dscntInvdiscountedAmount)"
                                     placeholder="Amount After Discount" />
@@ -1093,6 +1093,17 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <ng-container>
+                            <tr *ngIf='discountedValue > 0' style="font-weight:bold">
+                                <td>{{i+1}}</td>
+                                <td><span>Discount</span></td>
+                                <!-- <td><span>-</span></td>
+                                <td><span>-</span></td>
+                                <td><span>-</span></td> -->
+                                <td><span>-</span></td>
+                                <td><span>₹ {{discountedValue}}.00</span> </td>
+                            </tr>
+                        </ng-container>
                         <ng-container *ngFor='let item of invoiceDetails;let i=index'>
 
                             <tr *ngIf='previousDue > 0' style="font-weight:bold">
@@ -1104,15 +1115,6 @@
                                 <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{previousDue}}.00</span></td>
-                            </tr>
-                            <tr *ngIf='discountedValue > 0' style="font-weight:bold">
-                                <td>{{i+1}}</td>
-                                <td><span>Discount</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
-                                <td><span>-</span></td>
-                                <td><span>₹ {{discountedValue}}.00</span> </td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Water Meter' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
