@@ -184,7 +184,7 @@
                   <td colspan="10" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item['exid'],item['exDesc'],item['expAmnt'],item['exApplTO'],item['exHead'],item['exType'],item['pmid'],item['inNumber'],item['poid'],item['exPyCopy'],item['exRecurr'],item['exDate'],item['blBlockID'],item['unUniIden'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
                   <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['exHead']}}</td>
                   <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['exApplTO']}}</td>
                   <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['unUniIden']}}</td>

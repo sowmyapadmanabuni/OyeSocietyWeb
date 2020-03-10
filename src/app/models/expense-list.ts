@@ -8,5 +8,9 @@ export class ExpenseList {
         private expAmnt,
         private checkedForGenerateInvoice,
         private inNumber,
-        private exdUpdated){}
+        private exdUpdated,
+        private exDesc,
+        private exRecurr,
+        private exType,
+        private pmid){}
 }

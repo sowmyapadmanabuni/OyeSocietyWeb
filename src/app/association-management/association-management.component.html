@@ -265,7 +265,7 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
                   (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
               </div>
@@ -306,7 +306,7 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
                   (click)='resetStep2()'>Reset</button>
               </div>
@@ -336,7 +336,7 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep3()'>Reset</button>
               </div>
             </div>
@@ -348,7 +348,7 @@
                 <app-new-amenity [newamenities]='newamenities' (addAmenities)='addAmenity($event)'
                   (deleteamenity)='deleteamenity($event)'></app-new-amenity>
               </div>
-              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Next</button>
+              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Save & continue</button>
               <button class="btn btn-primary-purple pull-right" type="button">Reset</button>
             </div>
             <div class="panel panel-primary setup-content" id="step-5" style="overflow-x: scroll;">
@@ -509,7 +509,7 @@
               </div>
               <div class="col-sm-12 pull-right">
                   <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep5()'>Reset</button>
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='createBlock()'>Next</button>
+                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='createBlock()'>Save & continue</button>
               </div>
           </div>
   
@@ -625,7 +625,7 @@
                             </div>
                     </div>
                     <!-- TANENT INFORMATION -->
-                    <div *ngIf="itm['_tenantDetails'] == true && itm['_uniqueId']==itm['_id']" style="display: flex">                          
+                    <div style="display: flex">                          
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
                                 <input type="text" name="tenantFirtname" id="tenantFirtname" (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"

@@ -137,6 +137,7 @@ export class ExpenseManagementComponent implements OnInit {
     private orderpipe: OrderPipe,
     private utilsService:UtilsService
   ) {
+    this.globalservice.IsEnrollAssociationStarted==false;
     this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
                           {'Display':'15','Row':15},
@@ -346,7 +347,7 @@ export class ExpenseManagementComponent implements OnInit {
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
           //console.log(item['inNumber']);
-          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated']));
+          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid']));
         })
         console.log(this.expenseList);
         this._viewexpensesByBlockId=this.expenseList;
@@ -533,6 +534,10 @@ export class ExpenseManagementComponent implements OnInit {
     // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
     // this.VNName = this.purchaseOrders[0]['poPrfVen'];
     // this.BPIden = this.purchaseOrders[0]['bpIden'];
+    console.log(exDesc);
+    console.log(exRecurr);
+    console.log(exType);
+    console.log(pmid);
     this.EXRABudg = 0;
 
     this.editexpensedata.EXID = exid;
@@ -940,7 +945,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(data['data']['expense']);
       this._viewexpensesByBlockId=data['data']['expense'];
       data['data']['expense'].forEach(item => {
-        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated']));
+        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid']));
       })
       console.log(this.expenseList);
       this._viewexpensesByBlockId=this.expenseList;

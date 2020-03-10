@@ -64,7 +64,7 @@ const routes: Routes = [
     { path: 'blogs', component:BlogsComponent, canActivate: [AuthGuard]},
     { path: 'jobs', component:JobsComponent, canActivate: [AuthGuard]},
     { path: 'googlemaps', component:GooglemapComponent, canActivate: [AuthGuard]},
-    { path: 'association', component:AssociationManagementComponent, canActivate: [AuthGuard]},
+    { path: 'association', component:AssociationManagementComponent, canActivate: [AuthGuard],canDeactivate:[AuthGuard]},
     { path: 'expense', component:ExpenseManagementComponent, canActivate: [AuthGuard]},
     { path: 'blocks', component:BlocksComponent, canActivate: [AuthGuard]},
     { path: 'invoice', component:InvoicesComponent, canActivate: [AuthGuard]},

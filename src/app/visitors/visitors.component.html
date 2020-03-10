@@ -189,8 +189,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="guest-input" *ngIf="MultipleVisitors">
-                            <input [pattern]="0-100" style="width: 43%;" name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event)/>
+                    <div class="guest-input">
+                        <label class="control-label">Guest count<sup>*</sup></label>
+                            <input style="width: 43%;" name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event)/>
                     </div>
                     <div class="col-sm-12 pull-right">
                         <button type="reset" class="btn btn-primary-reset">Reset</button>

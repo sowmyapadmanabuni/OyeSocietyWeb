@@ -281,7 +281,7 @@ export class HomeComponent implements OnInit {
   getMembers() {
     this.associationTotalMembers = [];
     this.dashBrdService.getMembers(this.globalService.getacAccntID()).subscribe(res => {
-      //console.log(JSON.stringify(res));
+      console.log(res);
       var data: any = res;
       this.allMemberByAccount = data.data.memberListByAccount;
       //console.log('allMemberByAccount', this.allMemberByAccount);
@@ -300,7 +300,7 @@ export class HomeComponent implements OnInit {
       //this.totalMember = data.data.memberListByAccount.length;
     },
       (res) => {
-        //console.log(res);
+        console.log(res);
         this.dashBrdService.memberdoesnotexist = true;
       });
   }

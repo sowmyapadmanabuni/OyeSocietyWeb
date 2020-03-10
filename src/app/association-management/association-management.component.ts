@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 import { OrderPipe } from 'ngx-order-pipe';
 import {DashBoardService} from '../../services/dash-board.service';
 import {HomeService} from '../../services/home.service';
-import { formatDate } from '@angular/common';
+import { formatDate, LocationStrategy } from '@angular/common';
 import { ViewUnitService } from '../../services/view-unit.service';
 import { AddBlockService } from '../../services/add-block.service';
 import {BlockArrayDetail} from '../../app/models/block-array-detail';
@@ -295,7 +295,15 @@ export class AssociationManagementComponent implements OnInit {
     private homeservice:HomeService,
     private addblockservice: AddBlockService,
     private imageService: ImageService,
-    private http:HttpClient) {
+    private http: HttpClient,
+    private location: LocationStrategy) {
+      this.globalService.IsEnrollAssociationStarted==false;
+      this.location.onPopState(() => {
+        // set isBackButtonClicked to true.
+        this.globalService.setBackClicked(true);
+        return false;
+      });
+      //
       this.crtAssn.state='Select State';
       this.crtAssn.name='';
       this.crtAssn.name='';
@@ -922,12 +930,15 @@ export class AssociationManagementComponent implements OnInit {
     this.BAActType = accounttypeName;
   }
   enblEnrlAsnVew() {
-    ////console.log('test');
-    //alert('test');
+    // console.log('test');
+    // alert('test');
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled=true;
     this.viewAssnService.vewAsnEnbled=false;
     this.viewAssnService.joinAsnEbld=false;
+    //localStorage.setItem('IsEnrollAssociationStarted','true');
+    this.globalService.IsEnrollAssociationStarted=true;
+    //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
   }
   toggleIsGSTAvailable() {
     // console.log('test');

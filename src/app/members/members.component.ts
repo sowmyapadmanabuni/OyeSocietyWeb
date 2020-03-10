@@ -80,8 +80,10 @@ export class MembersComponent implements OnInit {
 
 
           let headers = this.getHttpheaders();
-          return this.http.get(IPAddress + 'oyeliving/api/v1/Vehicle/GetVehicleListByUnitID/' + item['unUnitID'], { headers: headers })
+          return this.http.get(IPAddress + 'oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/'+item['asAssnID']+'/'+item['unUnitID']+'/'+item['acAccntID'], { headers: headers })
+          // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
             .subscribe(data => {
+              console.log(data);
               console.log(data['data']['vehicleListByUnitID'].length);
               this.allMemberByAccount.push(new UnitListForRoleChange(
                 item['asAssnID'],

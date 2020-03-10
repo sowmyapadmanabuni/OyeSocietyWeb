@@ -62,6 +62,7 @@ export class ReceiptsComponent implements OnInit {
     public generatereceiptservice: GenerateReceiptService,
     private route: ActivatedRoute) 
     { 
+      this.globalservice.IsEnrollAssociationStarted==true;
       this.currentBlockName="";
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},

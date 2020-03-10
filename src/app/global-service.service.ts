@@ -48,8 +48,11 @@ export class GlobalServiceService {
    progressbarValue:any;
    toggleregister:any;
    saveMobileNumberforRegister:any;
+   IsEnrollAssociationStarted:any;
+   BackClicked:any;
 
   constructor() {
+    this.IsEnrollAssociationStarted=false;
     this.currentAssociationName = '';
     this.currentUnitName = '';
     this.enableLogin = true;
@@ -70,6 +73,12 @@ public getCurrentUnitId(){
   //return this.currentUnitId;
   return localStorage.getItem("currentUnitId");
 
+}
+setBackClicked(param){
+this.BackClicked=param;
+}
+getBackClicked(){
+  return this.BackClicked;
 }
   public SetAssociationUnitList(message) {
     console.log("SetAssociationUnitList", message)

@@ -33,6 +33,8 @@ export class AppComponent {
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
     private http: HttpClient,private utilsService:UtilsService){
+      this.globalService.IsEnrollAssociationStarted=false;
+    //  
 
     this.globalService.toggleregister=false;
     console.log(this.isAuthenticated());
@@ -155,8 +157,21 @@ export class AppComponent {
   }
   toggleDashboard() {
     //console.log('inside toggleDashboard');
-    this.globalService.toggledashboard = true;
-    this.router.navigate(['home']);
+    //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
+    console.log(this.globalService.IsEnrollAssociationStarted);
+    this.globalService.IsEnrollAssociationStarted=true;
+    if(this.globalService.IsEnrollAssociationStarted==true){
+      let status = confirm('Changes you have made not saved');
+      console.log(status)
+      if(status){
+        this.globalService.toggledashboard = true;
+        this.router.navigate(['home']);
+      }
+    }
+    else{
+      this.globalService.toggledashboard = true;
+      this.router.navigate(['home']);
+    }
   }
   toggleAsnDropDwn(){
     console.log('test');

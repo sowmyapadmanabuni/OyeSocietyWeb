@@ -77,7 +77,7 @@ bsConfig:any;
     this.guestList=true;
     this.addGuest=false;
     this.getVisitorList('');
-    this.AssociationName = this.globalService.currentAssociationName;
+    this.AssociationName = this.globalService.getCurrentAssociationName();
     console.log(this.AssociationName);
   }
   // 
@@ -126,7 +126,7 @@ bsConfig:any;
       "INSDate": this.INSDate,
       "INEDate": this.INEDate,
       "INPOfInv": this.INPOfInv,
-      "INMultiEy": "true",
+      "INMultiEy": this.MultipleVisitors,
       "ASAssnID": this.globalService.getCurrentAssociationId(),
       "INQRCode": "True",
       "ACAccntID": this.globalService.getacAccntID()
@@ -156,6 +156,8 @@ bsConfig:any;
             this.INSDate='';
             this.INEDate='';
             this.INVisCnt='';
+            this.guestList=true;
+            this.addGuest=false;
           } else if (result.dismiss === swal.DismissReason.cancel) {
             this.router.navigate(['']);
           }

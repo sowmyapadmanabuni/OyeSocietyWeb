@@ -53,6 +53,9 @@
     //   // Animate loader off screen
     //   $(".se-pre-con").fadeOut("slow");
     // });
+    window.onbeforeunload = function () {
+       return "Are you sure you want to leave?";
+      };
   </script>
 </body>
 </html>
