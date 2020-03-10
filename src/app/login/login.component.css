@@ -166,7 +166,7 @@ a{cursor: pointer;}
 .slider{display: flex;justify-content: center;align-items: center;}
 .slide-head{font-size: 35px;font-weight: 500;overflow-y: hidden;margin: 0px;color: #feb81a;}
 .desc{padding: 18px 0px;color: #000;font-weight: 500;}
-li::before{content: url('../../assets/images/points.png');}
+/* li::before{content: url('../../assets/images/points.png');} */
 .btn-grey{background: #565555;color: #fff;border-radius: 7px !important;}
 .pt{padding-top: 150px !important;}
 .slide-text{padding: 60px 0px;height: auto;}
@@ -199,7 +199,7 @@ ul,li{padding-left:0px !important}
   color: #0c0c0b !important;
   margin-right: 2px;
 }
-li{list-style: none;}
+
 .about-content .about-features-list li i {
   color: #ffb923;
   margin-right: 2px;
@@ -378,7 +378,7 @@ li{list-style: none;}
 .np{padding: 0px}
 .oye-bt {
   display: inline-block;
-  color: #048490;
+  color: #581113;
   font-weight: 500;
   border-radius: 30px;
   margin-bottom: 0px;

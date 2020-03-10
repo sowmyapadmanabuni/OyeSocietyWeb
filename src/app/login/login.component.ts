@@ -1,10 +1,11 @@
-import { Component, ViewChild, ElementRef, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, EventEmitter, Output,TemplateRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import {GlobalServiceService} from '../global-service.service';
 import {DashBoardService} from '../../services/dash-board.service';
 import {UtilsService} from '../utils/utils.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-login',
@@ -31,8 +32,10 @@ export class LoginComponent implements OnInit {
   hideShowEye: boolean;
   isOTPSent:boolean;
   disableMobileNumField:boolean;
+  modalRef: any;
 
-  constructor(private http: HttpClient, public router: Router,
+  constructor(private modalService:BsModalService,
+    private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
     private dashboardservice:DashBoardService,private utilsService:UtilsService) {
       this.otp='';
@@ -62,6 +65,15 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
      // get return url from route parameters or default to '/'
      //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+  }
+  openModal3(privacy: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(privacy, { class: 'modal-lg' });
+  }
+  openModal4(refund: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(refund, { class: 'modal-md' });
+  }
+  openModal5(termsconditions: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(termsconditions, { class: 'modal-lg' });
   }
   ngAfterViewInit(){
     // $("#login").on('click',function(event) {
