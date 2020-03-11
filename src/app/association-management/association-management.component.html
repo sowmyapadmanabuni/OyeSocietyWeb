@@ -325,11 +325,11 @@
                     no is required</p>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Total No of Units</label>
+                  <label class="control-label">Total No of Units <span class="red">*</span></label>
                   <input type="text" name="ASNofUnit" autocomplete='crtAss.totalNoUnits'
                     [(ngModel)]="crtAssn.totalNoUnits" #totalNoUnitsControl="ngModel" class="form-control"
                     placeholder="NO OF UNITS" style="font-family: Quicksand" pattern="[0-9]*" (blur)='getNumberOfUnits()'
-                    (keypress)=_keyPress($event) />
+                    (keypress)=_keyPress($event) required/>
                   <p class="alerts" *ngIf="totalNoUnitsControl.invalid && totalNoUnitsControl.touched"> Valid no units
                     are required</p>
                 </div>
@@ -386,7 +386,7 @@
                   <div class="form-group mr">
                     <label id=label4>Manager Name <span class="red">*</span></label>
                     <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="item['mngName']"
-                     (blur)="getManagerName(item['Id'],item['mngName'])" #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z]*" required />
+                     (blur)="getManagerName(item['Id'],item['mngName'])" #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z _]*" required />
                     <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>
                   </div>
                   <div class="form-group mr">
@@ -504,11 +504,13 @@
                 </div>
                
                 <!-- <app-block-array></app-block-array> -->
+               
                 </div>
                 <div class="col-sm-12 pull-right">
-                  <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep5()'>Reset</button>
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='createBlock()'>Save & continue</button>
+                    <button class="btn btn-primary-purple  pull-right" type="button" (click)='createBlock()'>Save & continue</button>
+                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='resetStep5()'>Reset</button>
               </div>
+                
               </div>
               
           </div>

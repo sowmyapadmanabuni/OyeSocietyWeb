@@ -123,8 +123,7 @@ export class BlocksComponent implements OnInit {
     };
 
     this.bsConfig = Object.assign({}, {
-      containerClass: 'theme-orange', 
-      //dateInputFormat: 'DD-MM-YYYY',
+      dateInputFormat: 'DD-MM-YYYY',
       showWeekNumbers: false,
       isAnimated: true
     });
