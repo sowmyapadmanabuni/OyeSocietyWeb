@@ -22,7 +22,7 @@
                                   bsDatepicker required [bsConfig]="bsConfig" [minDate]="todayDate" placement="side"/>
                         </div>
 
-                        <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="Due Date"
+                        <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="End Date"
                             [(ngModel)]="EndDate" [bsConfig]="bsConfig" bsDatepicker required 
                             placement="bottom"/>
                         </div>                   
@@ -80,7 +80,7 @@
                             </table> 
                     </div>
                     <div>
-                            <button class="btn btn-primary-purple nextBtn">Leave with Vender</button>
+                            <button class="btn btn-primary-purple nextBtn">Leave with Vendor</button>
                     </div>
                 </div>
                 <!--Dashboard icons end-->
