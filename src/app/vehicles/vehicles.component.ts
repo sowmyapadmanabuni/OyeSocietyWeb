@@ -33,11 +33,13 @@ export class VehiclesComponent implements OnInit {
   makemodel: any;
   VehicleDataNew: VehicleDataNew[];
   getUnitID: Subscription;
+  deleteVehicleData:boolean;
 
   constructor(private modalService: BsModalService,
     private globalserviceservice: GlobalServiceService,
     private bsModalService: BsModalService,
     private addvehicleservice: AddVehicleService) {
+      this.deleteVehicleData=false;
     this.vehicledatalength = false;
     this.VehicleData = [];
     this.VehicleDataNew = [];
@@ -231,10 +233,10 @@ export class VehiclesComponent implements OnInit {
   DeleteVehicle(veid) {
     console.log(veid);
     let deleteData = {
-      "VEIsActive": false,
+      "VEIsActive": this.deleteVehicleData,
       "VEID": veid
     }
-    //console.log(deleteData);
+    console.log(deleteData);
     this.addvehicleservice.DeleteVehicle(deleteData)
       .subscribe((data) => {
         console.log(data);

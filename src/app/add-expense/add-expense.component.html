@@ -129,17 +129,6 @@
                     </div> -->
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="control-label">Select Bank</label>
-                        <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
-                                [disabled]="checkField == 'Cash'" type="button" data-toggle="dropdown">{{expensedata.BABName}}
-                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
-                                <ul class="dropdown-menu fullw fdrop">
-                                    <li *ngFor='let bank of bankList' (click)='getexpensedataBABName(bank)'><a>{{bank}}</a></li>
-                                </ul>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="control-label">Select Payment Method</label>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -151,6 +140,18 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label">Select Bank</label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                [disabled]="checkField == 'Cash'" type="button" data-toggle="dropdown">{{expensedata.BABName}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw fdrop">
+                                    <li *ngFor='let bank of bankList' (click)='getexpensedataBABName(bank)'><a>{{bank}}</a></li>
+                                </ul>
+                        </div>
+                    </div>
+           
                     <div *ngIf="checkField != 'Cash'" class="form-group" [ngClass]="{'has-error' : payeenameControl.invalid && payeenameControl.touched}">
                         <label>Payee Name </label>
                         <input type="text" class="form-control" name="EXPName" [(ngModel)]="expensedata.EXPName" #payeenameControl='ngModel'

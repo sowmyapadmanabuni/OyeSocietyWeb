@@ -61,7 +61,8 @@ export class ViewInvoiceService {
   }
 
   getCurrentBlockDetails(blockId,currentAssociationID) {
-    //console.log('getCurrentBlockDetails', blockId);
+    console.log('getCurrentBlockDetails', blockId);
+    console.log('getCurrentAssnID', currentAssociationID);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.getCurrentBlockDetails();
     this.url = `${ipAddress}oyeliving/api/v1/invoice/view/${currentAssociationID}/${blockId}`;

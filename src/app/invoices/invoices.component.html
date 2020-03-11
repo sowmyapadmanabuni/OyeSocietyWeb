@@ -1679,10 +1679,11 @@
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
                     <label>Amount Paid <span class="red">*</span></label>
-                    <input type="text" class="form-control" name="totalamountPaid" (keypress)=_keyPress($event) [(ngModel)]="totalamountPaid"
+                    <input type="text" class="form-control" name="totalamountPaid" (keyup)="getAmountPaid($event)" (keypress)=_keyPress($event) [(ngModel)]="totalamountPaid"
                       #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$"/>
                     <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
                     <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
+                    <p class="alerts" *ngIf="ValidateAmountPaid"> Please Enter Valid Amount to be Paid</p>
                   </div>
                 </div>
                 <div class="col-sm-6 col-xs-12">
@@ -1778,7 +1779,7 @@
                 
               </div>
               <div class="row">                
-                  <button style="float: right;" type="submit" class="btn btn-primary-purple" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal" type="submit" class="btn btn-primary-purple" (click)="generateInvoiceReceipt()"> Generate</button> 
                   <button style="float: right;" type="reset" (click)="resetForm()" class="btn btn-primary-purple">Reset </button>                           
               </div>
           

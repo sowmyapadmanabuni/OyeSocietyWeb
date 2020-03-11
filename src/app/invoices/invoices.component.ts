@@ -170,6 +170,8 @@ export class InvoicesComponent implements OnInit {
   columnName: any;
   toggleDrpdown: boolean;
   toggleUL: boolean;
+  ValidateAmountPaid: boolean;
+  ValidateReceiptModal:boolean;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -182,6 +184,8 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.ValidateAmountPaid=false;
+      this.ValidateReceiptModal=true;
       this.toggleUL=false;
       this.allUnitBYBlockID=[];
       this.globalservice.IsEnrollAssociationStarted==false;
@@ -374,6 +378,20 @@ export class InvoicesComponent implements OnInit {
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
         event.preventDefault();
+    }
+  }
+  getAmountPaid(event) {
+    console.log(event.target.value);
+    if(Number(event.target.value)>this.totalAmountDue){
+      console.log('inside');
+      this.ValidateAmountPaid=true;
+      this.ValidateReceiptModal=true;
+    }
+    else{
+      this.ValidateAmountPaid=false;
+      if(Number(event.target.value)<=this.totalAmountDue){
+        this.ValidateReceiptModal=false;
+      }
     }
   }
   OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>){
@@ -972,7 +990,8 @@ export class InvoicesComponent implements OnInit {
     this.dscntInvinvoiceID = inid;
     this.dscntInvinvoiceNumber = inNumber;
     this.dscntInvdescription = "Type Reason Here";
-    this.dscntInvdiscountedAmount = inTotVal;
+    // this.dscntInvdiscountedAmount = inTotVal;
+    this.dscntInvdiscountedAmount = 0;
     this.totalAmountForValidation = inTotVal;
   }
   emptyDisplaytext() {
