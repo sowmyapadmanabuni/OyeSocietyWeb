@@ -293,6 +293,11 @@ export class InvoicesComponent implements OnInit {
       this.globalservice.setCurrentAssociationId(msg['msg']);
       this.initialiseInvoice()
     })
+    this.bsConfig = Object.assign({}, {
+      dateInputFormat: 'DD-MM-YYYY',
+      showWeekNumbers: false,
+      isAnimated: true
+      });
   }
   setRows(RowNum) {
     this.ShowRecords='abc';

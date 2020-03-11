@@ -115,9 +115,9 @@
                   placeholder="Search by Expense Head, Applicability, Unit Name">
               </div>
               <div class="del-date cal"><input type="text" name="ExpenseStartDate" #ExpenseStartDateControl='ngModel'
-                  [(ngModel)]="ExpenseStartDate" placeholder="From Date" class="date" bsDatepicker></div>
+                  [(ngModel)]="ExpenseStartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig"></div>
               <div class="del-date cal"><input type="text" (bsValueChange)="getExpenseListByDateRange($event)" name="ExpenseEndDate"
-                  #ExpenseEndDateControl='ngModel' [(ngModel)]="ExpenseEndDate" placeholder="To Date" class="date" bsDatepicker>
+                  #ExpenseEndDateControl='ngModel' [(ngModel)]="ExpenseEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig">
               </div>
             </div>
           <div class="dropdown" style="display: flex;justify-content: space-between;align-items: baseline;">

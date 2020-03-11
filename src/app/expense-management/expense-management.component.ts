@@ -86,7 +86,7 @@ export class ExpenseManagementComponent implements OnInit {
 
   viewexpensesByBlockId: Object[];
   currentassociationname:string;
-  bsConfig: { containerClass: string; dateInputFormat: string; showWeekNumbers: boolean; isAnimated: boolean; };
+  bsConfig: {dateInputFormat: string; showWeekNumbers: boolean; isAnimated: boolean;};
   disableButton: boolean;
   isnotValidformat: boolean;
   isLargefile: boolean;
@@ -244,7 +244,7 @@ export class ExpenseManagementComponent implements OnInit {
                      { 'name': 'false', 'displayName': 'No', 'id': 2 }]
 
     this.bsConfig = Object.assign({}, {
-      containerClass: 'theme-orange',
+      //containerClass: 'theme-purple',
       dateInputFormat: 'DD-MM-YYYY',
       showWeekNumbers: false,
       isAnimated: true
@@ -262,6 +262,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(err);
     })
   this.toggleTd=false;
+  
   }
   GetexpenseList(param) {
     this.toggle = param;
@@ -393,7 +394,7 @@ export class ExpenseManagementComponent implements OnInit {
 
 
     this.expenseList.forEach(element => {
-      let temp = [element['exHead'], element['exApplTO'], element['unUniIden'], element['exIsInvD'].toString(), formatDate(element['exDate'],'dd/MM/yyyy','en') , 'Rs.'+element['expAmnt']];
+      let temp = [element['exHead'], element['exApplTO'], element['unUniIden'],(element['exIsInvD'].toString()=="true"?"Yes":"No") , formatDate(element['exDate'],'dd/MM/yyyy','en') , 'Rs.'+element['expAmnt']];
       body.push(temp);
     });
     console.log(body);

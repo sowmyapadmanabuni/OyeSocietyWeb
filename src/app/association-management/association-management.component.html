@@ -73,8 +73,7 @@
                   <td class="txt-middle">
                     <i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewAssociation"
                       (click)="openViewAssociation(viewreceiptmodal,item.asAsnName,item.asPrpName,item.asAddress,item.asNofUnit,item.asCountry,item.asPinCode,item.asState,item.asPrpType,item.asNofBlks,item.asRegrNum,item.asAsnLogo,item.asCity,item.aspanNum,item.aspanDoc,item.asAssnID,item.asgstNo)"></i>
-                    |
-                    <i (click)="OpenModal(template,item.asAsnName,item.asCountry,item.asAddress,item.asCity,item.asState,item.asPinCode,item.asPrpType,item.asPrpName,item.asNofBlks,item.asNofUnit,item.amType,item.noofAmenities,item.baBName,item.baIFSC,item.baActNo,item.baActType,item.asAssnID,'BAACID','AMID')"
+                    | <i (click)="OpenModal(template,item.asAsnName,item.asCountry,item.asAddress,item.asCity,item.asState,item.asPinCode,item.asPrpType,item.asPrpName,item.asNofBlks,item.asNofUnit,item.amType,item.noofAmenities,item.baBName,item.baIFSC,item.baActNo,item.baActType,item.asAssnID,'BAACID','AMID')"
                       class="fa fa-pencil" style="cursor: pointer;" tooltip="EditAssociation"></i>
                   </td>
                 </ng-container>
@@ -409,7 +408,7 @@
                     <p class="alerts" *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager email-id is required
                     </p>
                   </div>
-                  <div class="form-group mr">
+                  <!-- <div class="form-group mr">
                     <h5 style="margin-top: -27px;"><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate']" #rateControl="ngModel"
                         (change)="checkRate(item['rate'],item['Id'])" value="flatRatevalue" (click)="checking(item['rate'])" required> Flat Rate Value</h5>
                     <div *ngIf="item['flatRate'] == 'flatRatevalue'">
@@ -420,9 +419,9 @@
                       </p>
                       <small>Amount to be charged</small>
                     </div>
-                  </div>
+                  </div> -->
                   
-                  <div class="form-group mr">
+                  <!-- <div class="form-group mr">
                     <h5 style="margin-top: -27px;"><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="item['rate1']" #rateControl="ngModel"
                         (change)="checkRate1(item['rate1'],item['Id'])" value="dimension" (click)="checking1(item['rate1'])" required> Dimension Based</h5>
                     <div *ngIf="item['dimension'] == 'dimension'">
@@ -434,7 +433,7 @@
                       </p>
                       <small>Rate (SQFT / SQMTR) </small>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group mr">
                     <label>Unit of Measurement <span class="red">*</span></label>
                     <input class="form-control" type="text" disabled="true" required name="measurements" autocomplete="measurements"
@@ -503,14 +502,15 @@
                     </ng-container>
                   </div>
                 </div>
+               
                 <!-- <app-block-array></app-block-array> -->
                 </div>
-                 
-              </div>
-              <div class="col-sm-12 pull-right">
+                <div class="col-sm-12 pull-right">
                   <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep5()'>Reset</button>
                   <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='createBlock()'>Save & continue</button>
               </div>
+              </div>
+              
           </div>
   
           <div class="panel panel-primary setup-content" id="step-6"     style="overflow-x: scroll;">
