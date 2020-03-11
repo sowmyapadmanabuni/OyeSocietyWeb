@@ -13,10 +13,15 @@
                                         <i class="fa fa-plus" aria-hidden="true"></i> Add Vehicles</button>
                                         </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="VehicleDataNew.length==0">
+                                        <div class="alert alert-info" role="alert">
+                                         No Vehicles Found! Please click on add Vehicles to add.                                             
+                                        </div>
+                                </div>
+                                <div class="row" *ngIf="VehicleDataNew.length!=0">
                                         <div id="myCarousel" class="carousel slide" data-ride="carousel">
                                                 <!-- Indicators -->
-                                                <ol class="carousel-indicators">
+                                                <ol class="carousel-indicators" *ngIf="VehicleDataNew.length>4">
                                                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                                                         <li data-target="#myCarousel" data-slide-to="1"></li>
                                                         <li data-target="#myCarousel" data-slide-to="2"></li>
@@ -63,10 +68,10 @@
                                                         </div>
                                                 </div>
                                                 <!-- Left and right controls -->
-                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev" *ngIf="VehicleDataNew.length>4">
                                                 <i aria-hidden="true" class="fa fa-angle-left fa-2x" id="left"></i>
                                                 </a>
-                                                <a style=" width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next">
+                                                <a style=" width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next" *ngIf="VehicleDataNew.length>4">
                                                 <i aria-hidden="true" class="fa fa-angle-right fa-2x" id="right"></i>
                                                 </a>
                                         </div>
@@ -105,19 +110,19 @@
                         </div>
                         <div class="form-group">
                                 <label for="usr">Vehicle Number:<span class="red">*</span></label>
-                                <input type="text" name="veRegNo" #vehiclenumberControl="ngModel" [(ngModel)]="veRegNo" class="form-control" id="usr" required>
+                                <input type="text" minlength="10" maxlength="10" name="veRegNo" #vehiclenumberControl="ngModel" [(ngModel)]="veRegNo" class="form-control" id="usr" required>
                                 <p class="alerts" *ngIf="vehiclenumberControl.invalid && vehiclenumberControl.touched"> Valid Vehicle number required</p>
                         </div>
                 </div>
                 <div class="adveh">
                         <div class="form-group">
                                 <label for="usr">Vehicle Sticker Number:<span class="red">*</span></label>
-                                <input type="text" name="veStickNo" #stickerControl="ngModel" [(ngModel)]="veStickNo" class="form-control" id="usr" required>
+                                <input type="text"  name="veStickNo" #stickerControl="ngModel" [(ngModel)]="veStickNo" class="form-control" id="usr" required (keypress)=_keyPress($event)>
                                 <p class="alerts" *ngIf="stickerControl.invalid && stickerControl.touched"> Valid Vehicle number required</p>
                         </div>
                         <div class="form-group">
                                 <label for="usr">Parking Slot Number:<span class="red">*</span></label>
-                                <input type="text" name="uplNum" #parkingControl="ngModel" [(ngModel)]="uplNum" class="form-control" id="usr" required>
+                                <input type="text" name="uplNum" #parkingControl="ngModel" [(ngModel)]="uplNum" class="form-control" id="usr" required (keypress)=_keyPress($event)>
                                 <p class="alerts" *ngIf="parkingControl.invalid && parkingControl.touched"> Valid Vehicle number required</p>
                         </div>
                 </div>

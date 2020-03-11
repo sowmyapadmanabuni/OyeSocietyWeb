@@ -93,7 +93,28 @@ export class VehiclesComponent implements OnInit {
   ngAfterViewInit(){
     $(".se-pre-con").fadeOut("slow");
   }
-
+  _keyPress(event: any,Id) {
+    //console.log(Id);
+    //console.log(managernumberControl);
+    //console.log(managernumberControl.touched);
+    // console.log(this.blockArray.length);
+    // if(this.blockArray.length != null){
+    //   for(let i=0;i<this.blockArray.length;i++){
+    //     if(this.blockArray[i]['Id'] == Id){
+    //       this.blockArray[i]['uniqueID']=Id;
+    //     }
+    //     else{
+    //       this.blockArray[i]['uniqueID']='';
+    //     }
+    //   }
+    // }
+    // console.log(this.blockArray);
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
   getVehicles() {
     this.VehicleDataNew = [];
     this.addvehicleservice.getVehicleDetails(this.CurrentUnitID,this.globalserviceservice.getCurrentAssociationId(),this.globalserviceservice.getacAccntID())
@@ -175,7 +196,7 @@ export class VehiclesComponent implements OnInit {
       },
         (err) => {
           console.log(err);
-          swal.fire('Error', 'Something went wrong!', 'error')
+          swal.fire('Error', err['error']['error']['message'], 'error')
         })
     this.modalRef.hide();
   }
