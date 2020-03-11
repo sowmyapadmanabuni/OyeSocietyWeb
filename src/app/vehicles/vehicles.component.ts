@@ -119,7 +119,7 @@ export class VehiclesComponent implements OnInit {
     this.VehicleDataNew = [];
     this.addvehicleservice.getVehicleDetails(this.CurrentUnitID,this.globalserviceservice.getCurrentAssociationId(),this.globalserviceservice.getacAccntID())
       .subscribe(data => {
-        //console.log(data);
+        console.log(data);
         this.VehicleData = data['data']['vehicleListByUnitID'];
         console.log(this.VehicleData);
         this.VehicleData.forEach(item => {

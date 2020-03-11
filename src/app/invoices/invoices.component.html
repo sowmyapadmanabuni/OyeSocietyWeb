@@ -253,9 +253,9 @@
                 <!-- Toggler switch-->
                 <div class="switch">
                     <ul class="nav1 nav-pills1">
-                        <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetPaidInvoiceList('id','All')">All</a></li>
-                            <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetPaidInvoiceList(true,'toggleYes')">Paid</a></li>
-                            <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a (click)="GetPaidInvoiceList(false,'toggleNo')">Unpaid</a></li>
+                        <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetPaidInvoiceListResident('id','All')">All</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetPaidInvoiceListResident(true,'toggleYes')">Paid</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a (click)="GetPaidInvoiceListResident(false,'toggleNo')">Unpaid</a></li>
                         </ul>
                 </div>
                 <!-- Toggler switch-->
@@ -1652,9 +1652,9 @@
 <ng-template #Receipts>
     <div class="modal-header">
         <h4 class="modal-title orange">RECEIPT</h4>
-        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
-        </button> -->
+        </button>
     </div>
     <div class="modal-body">
           <div class="card">
@@ -1780,7 +1780,7 @@
               </div>
               <div class="row">                
                   <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal" type="submit" class="btn btn-primary-purple" (click)="generateInvoiceReceipt()"> Generate</button> 
-                  <button style="float: right;" type="reset" (click)="resetForm()" class="btn btn-primary-purple">Reset </button>                           
+                  <button style="float: right;" type="button" (click)="resetForm()" class="btn btn-primary-purple">Reset </button>                           
               </div>
           
             </form>

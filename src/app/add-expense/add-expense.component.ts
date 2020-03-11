@@ -78,13 +78,14 @@ export class AddExpenseComponent implements OnInit {
   paymentMethodType:any;
   @Output() invokeExpLst:EventEmitter<string>;
   voucherno:any;
+  invalidAmount: boolean;
 
   constructor(private addexpenseservice: AddExpenseService,
     private router: Router,
     private viewexpensesservice: ViewExpensesService,
-    private globalservice:GlobalServiceService) {
-
-    this.currentAssociationID=this.globalservice.getCurrentAssociationId();
+    private globalservice: GlobalServiceService) {
+    this.invalidAmount = false;
+    this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.currentAssociationName=this.globalservice.getCurrentAssociationName();
     this.expensedata = new ExpenseData();
     this.expensedataXlsx=new ExpenseData();
@@ -461,7 +462,7 @@ export class AddExpenseComponent implements OnInit {
             title: "Expense Added Successfully",
             text: "",
             type: "success",
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonColor: "#f69321",
             confirmButtonText: "Add New Expense",
             cancelButtonText: "View Expense"
@@ -509,7 +510,7 @@ export class AddExpenseComponent implements OnInit {
             title: "Expense Added Successfully",
             text: "",
             type: "success",
-            showCancelButton: true,
+            // showCancelButton: true,
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK"
             }).then(
@@ -597,6 +598,15 @@ export class AddExpenseComponent implements OnInit {
     this.expensedata.EXChqNo='';
     this.expensedata.EXDDNo='';
     this.voucherno='';
+  }
+  ValidateAmount(){
+    console.log(this.expensedata.EXPAmnt);
+    if(Number(this.expensedata.EXPAmnt)==0){
+      this.invalidAmount=true;
+    }
+    else{
+      this.invalidAmount=false;
+    }
   }
 
 }

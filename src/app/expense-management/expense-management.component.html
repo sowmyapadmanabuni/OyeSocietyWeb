@@ -81,7 +81,7 @@
                       (click)="GetexpenseListByInvoiceID(false,'toggleNo')">UnInvoiced</a></li>
                 </ul>
               </div>
-            <button *ngIf="toggle == 'toggleNo'" class="btn-primary-purple" (click)="generateInvoice()"><i
+            <button [disabled]="expenseList.length == 0" *ngIf="toggle == 'toggleNo'" class="btn-primary-purple" (click)="generateInvoice()"><i
               class="fa fa-file-text" aria-hidden="true"></i> Generate invoice</button> 
         </div>
 

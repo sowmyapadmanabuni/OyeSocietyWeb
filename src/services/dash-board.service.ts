@@ -48,6 +48,7 @@ export class DashBoardService {
     return this.http.get(scopeIP + 'oyeliving/api/v1/GetMemberDetailsByAccountID/' +accountID ,  {headers:this.headers});
   }
   getAmount(associationID:string){
+    console.log(associationID);
     let headers= new HttpHeaders().append('Content-Type',  'application/json')
                                    .append('X-Champ-APIKey','1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
                                    .append('Access-Control-Allow-Origin', "*");

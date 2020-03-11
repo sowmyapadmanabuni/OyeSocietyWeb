@@ -1317,13 +1317,44 @@ export class InvoicesComponent implements OnInit {
     }
 
   }
+  GetPaidInvoiceListResident(IsPaid,param) {
+      this.toggle=param;
+      console.log(IsPaid);
+      let paid = '';
+      if (IsPaid) {
+        paid = 'Yes';
+      }
+      else {
+        paid = 'No';
+      }
+      if(paid == 'Yes' || paid == 'No'){
+        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+          return item['inPaid'] == paid;
+        })
+      console.log(this.PaidUnpaidinvoiceLists);
+      }
+      if(param == 'All'){
+        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      }
+  }
   OpenReceiptModal(Receipts: TemplateRef<any>,inNumber,inTotVal,inAmtPaid,unUnitID){
     this.invoicenumber=inNumber;
     this.totalAmountDue=inTotVal;
     this.totalamountPaid=inAmtPaid;
     this.receiptUnitID=unUnitID;
+    //
+    //this.totalamountPaid='';
+    this.paymentMethodType='Select Payment Method';
+    this.expensedataBABName='Bank';
+    this.receiptVoucherNo='';
+    this.paymentDate='';
+    this.receiptddNo='';
+    this.receiptEXDDDate='';
+    this.receiptChequeNo='';
+    this.receiptChequeDate='';
 
-      this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
+    this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
   rowDetails(pyid, unUnitID) {
     console.log('pyid-' + pyid);
@@ -1378,7 +1409,15 @@ export class InvoicesComponent implements OnInit {
   }
   
   resetForm(){
-
+    this.totalamountPaid='';
+    this.paymentMethodType='Select Payment Method';
+    this.expensedataBABName='Bank';
+    this.receiptVoucherNo='';
+    this.paymentDate='';
+    this.receiptddNo='';
+    this.receiptEXDDDate='';
+    this.receiptChequeNo='';
+    this.receiptChequeDate='';
   }
   showMethod(PMID: string,displayName) {
     console.log(displayName);

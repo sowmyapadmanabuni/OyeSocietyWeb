@@ -199,7 +199,7 @@ export class HomeComponent implements OnInit {
   getAmount() {
     this.associationAmountDue = [];
     this.amount = 0;
-    this.dashBrdService.getAmount(this.associationID).subscribe(res => {
+    this.dashBrdService.getAmount(this.globalService.getCurrentAssociationId()).subscribe(res => {
       //console.log('amount',res);
       this.associationAmountDue = res['data']['payments'];
       console.log(this.associationAmountDue);
@@ -212,7 +212,7 @@ export class HomeComponent implements OnInit {
       // }
       this.amt = res['data']['payments'].filter(item => {
         //console.log(item);
-        if (item['pyStat'] == "UnPaid") {
+        if (item['pyStat'] == "Due") {
           return item['pyAmtDue'];
         }
       })
@@ -221,7 +221,7 @@ export class HomeComponent implements OnInit {
       this.amt.forEach(item => {
         this.amount += Number(item['pyAmtDue'])
       })
-      //console.log(this.amount);
+      console.log(this.amount);
     }, err => {
       this.amount = 0;
       console.log(err);

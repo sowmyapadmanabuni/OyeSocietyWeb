@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <form role="form">
+        <form #stepOneForm = "ngForm">
             <div class="panel panel-primary setup-content" id="step-1">
                 <!-- <div class="panel-heading">
                          <h3 class="panel-title">Association Details</h3>
@@ -76,12 +76,13 @@
                     <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
                             <label class="control-label">Amount Paid</label>
                             <input type="text" class="form-control" name="EXPAmnt" [(ngModel)]="expensedata.EXPAmnt" #amountControl='ngModel'
-                            placeholder="Amount" required pattern="^[0-9]*$" />
+                            placeholder="Amount" (blur)="ValidateAmount()" required pattern="^[0-9]*$" />
                     
                         <div *ngIf="amountControl.invalid && amountControl.touched">
                             <p class="alerts" *ngIf="amountControl.errors.required">Please Enter Amount</p>
                             <p class="alerts" *ngIf="amountControl.errors.pattern">Please Enter Valid Amount</p>
                         </div>
+                        <p class="alerts" *ngIf="invalidAmount">Please Enter Valid Amount</p>
                     </div>
                 </div>
                 <div class="panel-body" id="panelbody1" style="margin-left: 128px">
@@ -91,6 +92,7 @@
                                     <button class="btn btn-primary dropdown-toggle sdm br form-control"
                                         type="button" data-toggle="dropdown">{{expensedata.EXDisType}}
                                         <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+
                                     <ul class="dropdown-menu fullw">
                                         <li *ngFor='let item of distributionTypes' (click)="getExpenseDataEXDisType(item['name'])"><a>{{item['displayName']}}</a></li>
                                     </ul>
@@ -119,10 +121,12 @@
                     </div>
                 <div class="col-sm-12 pull-right">
                     <button (click)='resetStep1()' class="btn btn-primary-purple nextBtn">Reset</button>
-                    <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
+                    <button [disabled]="stepOneForm.invalid || expensedata.EXHead=='Select Expense Head' || expensedata.EXRecurr=='Select Expense Type' || expensedata.EXApplTO=='Select Applicable To Unit' || expensedata.EXDisType=='Select Distribution Type'" class="btn btn-primary-purple nextBtn" type="button">Next</button>
                 </div>
             </div>
+            </form>
 
+            <form #stepTwoForm="ngForm">
             <div class="panel panel-primary setup-content" id="step-2">
                 <!-- <div class="panel-heading">
                          <h3 class="panel-title">Pan & Registration Details</h3>
@@ -207,7 +211,7 @@
                 </div>
                 <div class="panel-body" *ngIf="checkField == 'Cheque'">
                     <div class="form-group" [ngClass]="{'has-error' : chequenoControl.invalid && chequenoControl.touched}">
-                        <label>Cheque No <span class="red"></span></label>
+                        <label>Cheque No <span class="red">*</span></label>
                         <input type="text" required class="form-control" name="EXChqNo" [(ngModel)]="expensedata.EXChqNo"
                             #chequenoControl='ngModel' placeholder="Cheque No " pattern="^[a-zA-Z0-9]*$" />
                 
@@ -261,7 +265,7 @@
                 </div>
                 <div class="col-sm-12 pull-right">
                     <button (click)='resetStep2()' class="btn btn-primary-purple nextBtn">Reset</button>
-                    <button id="AddExpense" class="btn btn-primary-purple nextBtn" (click)='addExp()' type="button">Add Expense</button>
+                    <button [disabled]="stepTwoForm.invalid" id="AddExpense" class="btn btn-primary-purple nextBtn" (click)='addExp()' type="button">Add Expense</button>
                 </div>
 
             </div>

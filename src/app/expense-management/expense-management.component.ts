@@ -356,6 +356,15 @@ export class ExpenseManagementComponent implements OnInit {
         //
         this.sortedCollection = this.orderpipe.transform(this.expenseList, 'exHead');
         //console.log(this.sortedCollection);
+      },
+      err=>{
+        console.log(err);
+        swal.fire({
+          title: "Error",
+          text: `No Data Found`,
+          type: "error",
+          confirmButtonColor: "#f69321"
+        });
       }
 
     ) 
@@ -875,6 +884,7 @@ export class ExpenseManagementComponent implements OnInit {
       this.viewinvoiceservice.expid=expid;
       //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
       this.expenseList = this._viewexpensesByBlockId;
+      console.log(this.expenseList);
       //console.log('expid',expid);
       //console.log('expid',typeof expid);
       if (expid == 'true') {
