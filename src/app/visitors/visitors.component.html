@@ -94,9 +94,7 @@
                         item['inVisCnt'],
                         item['asAssnID'],
                         item['inIsActive'] )" class="fa fa-qrcode" aria-hidden="true"></i>
-
                         <!-- &nbsp;|&nbsp;<i data-toggle="modal" data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])" class="fa fa-trash"></i> -->
-
                     </td>
                 </ng-container>
             </tr>
@@ -110,9 +108,7 @@
         </tfoot>
     </table>
 </div>
-<!--  -->          
 </div>
-
 
 <!--Dashboard icons end-->
           <div class="col-sm-12" *ngIf="addGuest">
@@ -123,7 +119,7 @@
                     <div class="guest-input">
                         <div class="form-group">
                             <label class="control-label">First Name<sup>*</sup></label>
-                            <input pattern="[a-zA-Z]*" maxlength="30" name="INFName" [(ngModel)]="INFName" #INFNameControl="ngModel" type="text" required class="form-control" placeholder="First Name" />
+                            <input pattern="[a-zA-Z _]*" maxlength="30" name="INFName" [(ngModel)]="INFName" #INFNameControl="ngModel" type="text" required class="form-control" placeholder="First Name" />
                             <p class="alerts" *ngIf="INFNameControl.invalid && INFNameControl.touched"> First name is required </p>
                         </div>
                         <div class="form-group">

@@ -2186,6 +2186,7 @@ this.crtAssn.newBAActType='';
     this.blBlkName='Blocks';
     this.OwnerType='';
     this.UNOcSDate = '';
+    this.allUnitBlockID=[];
     let activespan= document.querySelectorAll('span.active');
     console.log(activespan.length);
     console.log(this.OwnerType);

@@ -7,10 +7,9 @@
 .nm{margin:0px !important}
 .excel1{width: 100px;}
 .m-t-30{margin: 20px 0px;}
-.excel{ text-align: right;
-        font-weight: 600;
-        font-size: 13px;
-    }
+.excel{ text-align: right;font-weight: 600;font-size: 13px;}
+.form-control:focus{border-color: #9b9b9b !important}
+.has-error .form-control{border-color: #9b9b9b !important}
 .m-r{margin-right: 6px !important}
 sup{color:red}
 .txt-middle{text-align: center !important}

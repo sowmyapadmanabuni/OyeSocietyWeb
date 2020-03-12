@@ -120,7 +120,7 @@
                         </div>
                     </div>
                 <div class="col-sm-12 pull-right">
-                    <button (click)='resetStep1()' class="btn btn-primary-purple nextBtn">Reset</button>
+                    <button (click)='resetStep1()' class="btn btn-primary-purple nextBtn m-r">Reset</button>
                     <button [disabled]="stepOneForm.invalid || expensedata.EXHead=='Select Expense Head' || expensedata.EXRecurr=='Select Expense Type' || expensedata.EXApplTO=='Select Applicable To Unit' || expensedata.EXDisType=='Select Distribution Type'" class="btn btn-primary-purple nextBtn" type="button">Next</button>
                 </div>
             </div>
@@ -264,8 +264,8 @@
                     </div>
                 </div>
                 <div class="col-sm-12 pull-right">
-                    <button (click)='resetStep2()' class="btn btn-primary-purple nextBtn">Reset</button>
-                    <button [disabled]="stepTwoForm.invalid" id="AddExpense" class="btn btn-primary-purple nextBtn" (click)='addExp()' type="button">Add Expense</button>
+                    <button (click)='resetStep2()' class="btn btn-primary-purple nextBtn m-r">Reset</button>
+                    <button [disabled]="stepTwoForm.invalid" id="AddExpense" class="btn btn-primary-purple nextBtn m-r" (click)='addExp()' type="button">Add Expense</button>
                 </div>
 
             </div>

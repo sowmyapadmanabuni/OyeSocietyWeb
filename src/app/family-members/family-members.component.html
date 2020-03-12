@@ -3,9 +3,7 @@
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
-
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
                 <div class="enroll" style="justify-content: space-between;align-items: baseline;margin-bottom: 0px;">
@@ -63,11 +61,6 @@
                         </tfoot>
                     </table>
                 </div>
-
-
-
-
-
             </div>
             <!--Dashboard icons end-->
 
@@ -92,7 +85,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">First Name<span class="red">*</span></label>
-                                    <input pattern="[a-zA-Z]*" type="text" [(ngModel)]='FirstName' maxlength="30"
+                                    <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='FirstName' maxlength="30"
                                         #fnameControl="ngModel" name="FirstName"
                                         class="form-control" placeholder="First Name" required/>
                                     <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter the

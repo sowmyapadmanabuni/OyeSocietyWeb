@@ -473,7 +473,10 @@ export class LoginComponent implements OnInit {
     this.toggleShowAccountingContent=true;
   }
 
-  
+  myFunctionlowery() {
+    var popup = document.getElementById("lowery");
+    popup.classList.toggle("show");
+}
 
 }
 
