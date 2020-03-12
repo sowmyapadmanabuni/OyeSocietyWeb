@@ -293,6 +293,11 @@ export class InvoicesComponent implements OnInit {
       this.globalservice.setCurrentAssociationId(msg['msg']);
       this.initialiseInvoice()
     })
+    this.bsConfig = Object.assign({}, {
+      dateInputFormat: 'DD-MM-YYYY',
+      showWeekNumbers: false,
+      isAnimated: true
+      });
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
@@ -360,6 +365,7 @@ export class InvoicesComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.residentInvoiceList=data['data']['invoices'];
+        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
       },
         err => {
           console.log(err);
@@ -1328,14 +1334,14 @@ export class InvoicesComponent implements OnInit {
         paid = 'No';
       }
       if(paid == 'Yes' || paid == 'No'){
-        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
         this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
           return item['inPaid'] == paid;
         })
       console.log(this.PaidUnpaidinvoiceLists);
       }
       if(param == 'All'){
-        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
       }
   }
   OpenReceiptModal(Receipts: TemplateRef<any>,inNumber,inTotVal,inAmtPaid,unUnitID){

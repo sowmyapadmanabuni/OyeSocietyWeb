@@ -53,6 +53,7 @@ export class ReceiptsComponent implements OnInit {
   pyRefNo: any;
   pyVoucherNo: any;
   toggleUL:boolean;
+  bsConfig:any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -94,6 +95,12 @@ export class ReceiptsComponent implements OnInit {
         this.globalservice.setCurrentAssociationId(msg['msg']);
         this.initialiseReceipts();
       })
+      this.bsConfig = Object.assign({}, {
+        //containerClass: 'theme-orange',
+        dateInputFormat: 'DD-MM-YYYY',
+        showWeekNumbers: false,
+        isAnimated: true
+        });
     }
 
   ngOnInit() {

@@ -90,8 +90,8 @@
 
           </div>
           <div class="col-sm-12 pull-right">
-              <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
-              <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
+              <button type="reset" class="btn btn-primary-purple nextBtn m-r">Reset</button>
+              <button class="btn btn-primary-purple nextBtn" type="button m-r">Next</button>
           </div>
       </div>
 
@@ -123,16 +123,15 @@
                     minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                     <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
                 </div>
+                <div class="form-group">
+                    <label class="control-label">Owner Email Id<span class="red">*</span></label>
+                    <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
+                      #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
+                      pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
+                      <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
+                  </div>
           </div>
-          <div class="panel-body">              
-              <div class="form-group">
-                  <label class="control-label">Owner Email Id<span class="red">*</span></label>
-                  <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
-                    #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
-                    pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
-                    <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
-                </div>
-          </div>
+         
         </div>
         <!-- TANENT INFORMATION -->
         <div *ngIf="tenantDetails">
@@ -161,22 +160,19 @@
                       minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                       <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
                   </div>
-            </div>
-            <div class="panel-body">
-
-                <div class="form-group">
+                  <div class="form-group">
                     <label class="control-label">Tenant Email Id<span class="red">*</span></label>
                     <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="tenantEmail"
                       #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
                       pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
                       <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
                   </div>
-            </div>
+            </div>           
           </div>
 
           <div class="col-sm-12 pull-right">
-              <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
-              <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
+              <button type="reset" class="btn btn-primary-purple nextBtn m-r">Reset</button>
+              <button class="btn btn-primary-purple nextBtn" type="button m-r">Next</button>
           </div>
 
       </div>
@@ -213,8 +209,8 @@
           </div>
 
           <div class="col-sm-12 pull-right">
-              <button type="reset" class="btn btn-primary-purple nextBtn">Reset</button>
-              <button class="btn btn-primary-purple nextBtn" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
+              <button type="reset" class="btn btn-primary-purple nextBtn m-r">Reset</button>
+              <button class="btn btn-primary-purple nextBtn m-r" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
           </div>
       </div>
 
