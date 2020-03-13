@@ -177,7 +177,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">State <span class="red">*</span></label>
+                  <!-- <label class="control-label">State <span class="red">*</span></label> -->
                   <!-- <input type="text" required name="ASState" autocomplete='crtAss.state' [(ngModel)]="crtAssn.state"
                     #stateControl="ngModel" class="form-control" placeholder="STATE" style="font-family: Quicksand"
                    (blur)="getState()" pattern="[a-zA-Z\s]*" />
@@ -932,34 +932,43 @@
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">
           <h5 style="color:#5a51aa">Enroll Information</h5>
-          <div class="col-sm-4">
-            <p><b>Association Name : </b>{{associationname}}</p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>Association Name</b></p>
+            <p>{{associationname}}</p>
           </div>
-          <div class="col-sm-4">
-            <p><b>Uploaded File : </b> <span>{{file}}</span></p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>Uploaded File</b></p>
+            <p>{{file}}</p>
           </div>
-          <div class="col-sm-4">
-            <p><b>Country : </b> <span>{{country}}</span></p>
-          </div>
-
-          <div class="col-sm-4">
-            <p><b>PinCode : </b> <span>{{pincode}}</span></p>
-          </div>
-          <div class="col-sm-4">
-            <p><b>State : </b> <span>{{State}}</span></p>
-          </div>
-          <div class="col-sm-4">
-            <p><b>City : </b> <span>{{city}}</span></p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>Country</b></p>
+            <p>{{country}}</p>
           </div>
 
-          <div class="col-sm-4">
-            <p><b>Property Type : </b> <span>{{propertyType}}</span></p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>PinCode</b></p>
+            <p>{{pincode}}</p>
           </div>
-          <div class="col-sm-4">
-            <p><b>Property Name : </b> <span>{{propertyName}}</span></p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>State</b></p>
+            <p>{{State}}</p>
           </div>
-          <div class="col-sm-4">
-            <p><b>Locality : </b> <span>{{locality}}</span></p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>City</b></p>
+            <p>{{city}}</p>
+          </div>
+
+          <div class="col-sm-3">
+            <p class="view-head"><b>Property Type</b></p>
+            <p>{{propertyType}}</p>
+          </div>
+          <div class="col-sm-3">
+            <p class="view-head"><b>Property Name</b></p>
+            <p>{{propertyName}}</p>
+          </div>
+          <div class="col-sm-3">
+            <p class="view-head"><b>Locality</b></p>
+            <p>{{locality}}</p>
           </div>
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">
@@ -971,43 +980,52 @@
           <!-- <div class="col-sm-4">
                              <p>Property Type : <span>{{propertyType}}</span></p>
                          </div> -->
-          <div class="col-sm-4">
-            <p><b>No of Units :</b> <span>{{NoofUnits}}</span></p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>No of Units</b></p>
+            <p>{{NoofUnits}}</p>
           </div>
-          <div class="col-sm-4">
-            <p><b>TotalNoBlocks :</b> <span>{{blocks}}</span></p>
+          <div class="col-sm-3">
+            <p class="view-head"><b>TotalNoBlocks</b></p>
+            <p>{{blocks}}</p>
           </div>
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">
         
             <h5 style="color:#5a51aa">Pan and Registration details</h5>
 
-            <div class="col-sm-4">
-                <p><b>Pan or reg Number :</b> <span>{{panno}}</span></p>
+            <div class="col-sm-3">
+                <p class="view-head"><b>Pan or reg Number</b></p>
+                <p>{{panno}}</p>
               </div>
-              <div class="col-sm-4">
-                <p><b>GSTNumber :</b> <span>{{gstno}}</span></p>
+              <div class="col-sm-3">
+                <p class="view-head"><b>GSTNumber</b></p>
+                <p>{{gstno}}</p>
               </div>
-              <div class="col-sm-4">
-                <p><b>Uploaded Pan :</b> <span>{{pandoc}}</span></p>
+              <div class="col-sm-3">
+                <p class="view-head"><b>Uploaded Pan</b></p>
+                <p>{{pandoc}}</p>
               </div>
         
         </div>
 
         <div class="col-sm-12" style="margin-top: 20px;">
             <h5 style="color:#5a51aa">Bank Information</h5>
-            <div class="col-sm-4">
-                <p><b>Bank Name:</b> <span>{{BankName}}</span></p>
+            <div class="col-sm-3">
+                <p class="view-head"><b>Bank Name</b></p>
+                <p>{{BankName}}</p>
               </div>
       
-              <div class="col-sm-4">
-                <p><b>IFSC :</b> <span>{{IFSC}}</span></p>
+              <div class="col-sm-3">
+                <p class="view-head"><b>IFSC</b></p>
+                <p>{{IFSC}}</p>
               </div>
-              <div class="col-sm-4">
-                <p><b>Account Number :</b> <span>{{AccountNumber}}</span></p>
+              <div class="col-sm-3">
+                <p class="view-head"><b>Account Number</b></p>
+                <p>{{AccountNumber}}</p>
               </div>
-              <div class="col-sm-4">
-                <p><b>Account Type:</b> <span>{{accountType}}</span></p>
+              <div class="col-sm-3">
+                <p class="view-head"><b>Account Type</b></p>
+                <p>{{accountType}}</p>
               </div>    
         </div>
         
@@ -1015,11 +1033,13 @@
         <div class="col-sm-12" style="margin-top: 20px;">
             <h5 style="color:#5a51aa">Amenities</h5>
             <div class="col-sm-4">
-                <p><b>Amenity Type: </b><span>{{amenityType}}</span></p>
+                <p class="view-head"><b>Amenity Type</b></p>
+                <p>{{amenityType}}</p>
               </div>
               
               <div class="col-sm-4">
-                <p><b>Amenity Number :</b> <span>{{amenityNo}}</span></p>
+                <p class="view-head"><b>Amenity Number </b></p>
+                <p>{{amenityNo}}</p>
               </div>
         </div>     
       </div>
@@ -1060,10 +1080,9 @@
                 <div class="col-sm-1 col-xs-12"></div>
                 <div class="col-sm-11  col-xs-12">
                   <h4 class="headingOrange">Edit Association</h4>
-
                 </div>
               </div> -->
-
+              
               <div class="row">
                 <div class="col-sm-6 col-xs-12">
                   <div class="form-group fulw"

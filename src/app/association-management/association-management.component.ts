@@ -1,29 +1,28 @@
-import { Component, OnInit, TemplateRef, Input,ElementRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input, ElementRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { ViewAssociationService } from '../../services/view-association.service';
 import { GlobalServiceService } from '../global-service.service';
-import { Router,ActivatedRoute,ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Amenity } from '../models/amenity';
 import { ViewChild } from '@angular/core';
 import { Bank } from '../models/bank';
 import { BlocksByAssoc } from '../models/blocks-by-assoc';
-import{Sendrequest} from '../models/sendrequest';
+import { Sendrequest } from '../models/sendrequest';
 import Swal from 'sweetalert2';
 import { OrderPipe } from 'ngx-order-pipe';
-import {DashBoardService} from '../../services/dash-board.service';
-import {HomeService} from '../../services/home.service';
+import { DashBoardService } from '../../services/dash-board.service';
+import { HomeService } from '../../services/home.service';
 import { formatDate, LocationStrategy } from '@angular/common';
 import { ViewUnitService } from '../../services/view-unit.service';
 import { AddBlockService } from '../../services/add-block.service';
-import {BlockArrayDetail} from '../../app/models/block-array-detail';
-import {UnitArray} from '../models/unit-array'
+import { BlockArrayDetail } from '../../app/models/block-array-detail';
+import { UnitArray } from '../models/unit-array'
 import * as _ from 'underscore';
-import {ImageSnippet} from '../models/image-snippet';
+import { ImageSnippet } from '../models/image-snippet';
 import { ImageService } from 'src/services/image.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import {HttpParams} from '@angular/common/http';
-
+import { HttpParams } from '@angular/common/http';
 declare var $: any;
 
 
@@ -35,24 +34,24 @@ declare var $: any;
 
 export class AssociationManagementComponent implements OnInit {
   modalRef: BsModalRef;
-  assnID:any;
+  assnID: any;
   @Input() amenityType: string;
   @Input() amenityNo: string;
   enrollAssociation: boolean;
   joinAssociation: boolean;
   viewAssociation_Table: boolean;
   private newAttribute: any = {};
-  uploadForm: FormGroup; 
+  uploadForm: FormGroup;
 
   //crtAssn:CreateAssn;
   selectedFile: File;
-  @ViewChild('viewassociationForm',{static:true}) viewassociationForm: any;
+  @ViewChild('viewassociationForm', { static: true }) viewassociationForm: any;
   accountID: number;
   currentAssociationID: string;
   associations: any = [];
   crtAssn: any = {};
   am: any = {};
-  bankDetails: any ={};
+  bankDetails: any = {};
   createAsssociationData: any = {};
   association: any = {};
   amenity: any = {};
@@ -109,15 +108,12 @@ export class AssociationManagementComponent implements OnInit {
   firstLetter: string;
   fifthLetter: string;
   editassndata: object;
-  BankId:number;
-  unUnitID:any;
-  blockname:any;
- 
-  
+  BankId: number;
+  unUnitID: any;
+  blockname: any;
+
   //  firstLetter = crtAssn.name.charAt(0).toUpperCase();
   //   fifthLetter = this.panNo.charAt(4).toUpperCase();
-
-
   ASAsnName: string;
   ASCountry: string;
   ASAddress: string;
@@ -141,19 +137,19 @@ export class AssociationManagementComponent implements OnInit {
   newBABName: any;
   newBAIFSC: any;
   newAMTypes: any;
-  newNoofAmenitie:string;
+  newNoofAmenitie: string;
   newBAActNo: string;
   newBAActType: string;
-  allBlocksLists:BlocksByAssoc[];
-  allUnitBlockID:any[];
-  accountTypes:object[];
+  allBlocksLists: BlocksByAssoc[];
+  allUnitBlockID: any[];
+  accountTypes: object[];
   bankings: any;
   blockID: any;
   UOFName: string;
   UOLName: string;
   UOMobile: string;
   UOEmail: string;
-  unitId:string;
+  unitId: string;
   UTFName: string;
   UTLName: any;
   UTMobile: string;
@@ -171,20 +167,19 @@ export class AssociationManagementComponent implements OnInit {
   tlastname: string;
   tmobile: string;
   temail: string;
+  joinownername: string;
+  joinownerlastname: string;
+  joinownermobile: string;
+  joinowneremail: string;
 
-  joinownername:string;
-  joinownerlastname:string;
-  joinownermobile:string;
-  joinowneremail:string;
-
-  matching:boolean;
-  currentPage:number;
+  matching: boolean;
+  currentPage: number;
   page: number;
-  p: number=1;
-  
-  newamenities:any[];
+  p: number = 1;
 
-  togglevalidateGST:boolean;
+  newamenities: any[];
+
+  togglevalidateGST: boolean;
   defaultThumbnail: string;
   defaultPanThumbnail: string;
 
@@ -192,8 +187,8 @@ export class AssociationManagementComponent implements OnInit {
   reverse: boolean = false;
   sortedCollection: any[];
   _associations: any;
-  UNOcSDate:any;
-  bsConfig:any;
+  UNOcSDate: any;
+  bsConfig: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -212,19 +207,19 @@ export class AssociationManagementComponent implements OnInit {
   ];
 
   userlist: any[] = [];
-  assnName:any;
-  blBlkName:any;
-  activeEnabled:boolean;
-  OwnerType:any;
-  account:any;
-  toggleFaCircleO:boolean;
-  toggleFaCircle1:boolean;
-  amType:any;
-  noofAmenities:any;
-  minDate:any;
-  newdate:any;
-  toggleGSTAvailableTxt:any;
-  ASPropType:any;
+  assnName: any;
+  blBlkName: any;
+  activeEnabled: boolean;
+  OwnerType: any;
+  account: any;
+  toggleFaCircleO: boolean;
+  toggleFaCircle1: boolean;
+  amType: any;
+  noofAmenities: any;
+  minDate: any;
+  newdate: any;
+  toggleGSTAvailableTxt: any;
+  ASPropType: any;
   blocktype: string;
   blocktypeID: any;
   noofunits: string;
@@ -236,7 +231,7 @@ export class AssociationManagementComponent implements OnInit {
   frequency: string;
   billGenerationDate: Date;
   latePymtChargeType: string;
-  latePymtChargeTypeId:any;
+  latePymtChargeTypeId: any;
   latePymtCharge: string;
   startsFrom: Date;
   dueDate: string;
@@ -259,27 +254,27 @@ export class AssociationManagementComponent implements OnInit {
   meter: string;
   blockArray: BlockArrayDetail[];
   unitArray: UnitArray[];
-  unitArrayList:any[];
-  unitTypes:object[];
+  unitArrayList: any[];
+  unitTypes: object[];
   unitType: any;
-  calculationTypes:object[];
+  calculationTypes: object[];
   calculationtype: any;
-  occupencys:object[];
+  occupencys: object[];
   occupency: any;
   tenantDetails: boolean;
   ownerDetails: boolean;
   toggleunitvehicleinformation: boolean;
-  groupedArray:any;
-  BlockHrefDetail:any[];
-  enableCreateUnitWithAssociation:boolean;
+  groupedArray: any;
+  BlockHrefDetail: any[];
+  enableCreateUnitWithAssociation: boolean;
   selectedFile1: File
   UnitIDforJoinAssn: any;
   selectedFile2: ImageSnippet;
-  @ViewChild('avatar',{static:true}) avatar:any;
-  ASAsnLogo:any;
-  setnoofrows:any;
-  rowsToDisplay:any[];
-  ShowRecords:any;
+  @ViewChild('avatar', { static: true }) avatar: any;
+  ASAsnLogo: any;
+  setnoofrows: any;
+  rowsToDisplay: any[];
+  ShowRecords: any;
   columnName: any;
   stateList: string[];
 
@@ -288,80 +283,80 @@ export class AssociationManagementComponent implements OnInit {
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private router: Router,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private orderpipe: OrderPipe,
     public viewUniService: ViewUnitService,
-    private dashboardservice:DashBoardService,
-    private homeservice:HomeService,
+    private dashboardservice: DashBoardService,
+    private homeservice: HomeService,
     private addblockservice: AddBlockService,
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
-      this.globalService.IsEnrollAssociationStarted==false;
-      this.location.onPopState(() => {
-        // set isBackButtonClicked to true.
-        this.globalService.setBackClicked(true);
-        return false;
-      });
-      //
-      this.crtAssn.state='Select State';
-      this.crtAssn.name='';
-      this.crtAssn.name='';
-       this.stateList = [ "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttarakhand","Uttar Pradesh","West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli","Daman and Diu","Delhi","Lakshadweep","Puducherry"]
+    this.globalService.IsEnrollAssociationStarted == false;
+    this.location.onPopState(() => {
+      // set isBackButtonClicked to true.
+      this.globalService.setBackClicked(true);
+      return false;
+    });
+    //
+    this.crtAssn.state = 'Select the State';
+    this.crtAssn.name = '';
+    this.crtAssn.name = '';
+    this.stateList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttarakhand", "Uttar Pradesh", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry"]
 
-      this.columnName='col';
-      this.rowsToDisplay=[{'Display':'5','Row':5},
-                          {'Display':'10','Row':10},
-                          {'Display':'15','Row':15},
-                          {'Display':'50','Row':50},
-                          {'Display':'100','Row':100},
-                          {'Display':'Show All Records','Row':'All'}];
-      this.setnoofrows=10;
-      this.ShowRecords='Show Records';
-    this.enableCreateUnitWithAssociation=false;
-    this.meter='sqft';
-    if(localStorage.getItem('AssociationCreationStatus') == 'completed') {
-      this.blockArray=[];
-      this.BlockHrefDetail=[];
+    this.columnName = 'col';
+    this.rowsToDisplay = [{ 'Display': '5', 'Row': 5 },
+    { 'Display': '10', 'Row': 10 },
+    { 'Display': '15', 'Row': 15 },
+    { 'Display': '50', 'Row': 50 },
+    { 'Display': '100', 'Row': 100 },
+    { 'Display': 'Show All Records', 'Row': 'All' }];
+    this.setnoofrows = 10;
+    this.ShowRecords = 'Show Records';
+    this.enableCreateUnitWithAssociation = false;
+    this.meter = 'sqft';
+    if (localStorage.getItem('AssociationCreationStatus') == 'completed') {
+      this.blockArray = [];
+      this.BlockHrefDetail = [];
     }
-    this.unitArray=[];
-    this.unitArrayList=[];
-      this.latePymtChrgTypes = [
-        { "name": "Monthly", "displayName": "Monthly" },
-        { "name": "quaterly", "displayName": "Quaterly" },
-        { "name": "Annually", "displayName": "Annually" }
-      ];
-  
-      this.frequencies = [
-        { "name": "Monthly", "displayName": "Monthly" },
-        { "name": "Quarterly", "displayName": "Quarterly" },
-        { "name": "Half Yearly", "displayName": "Half Yearly" },
-        { "name": "Yearly", "displayName": "Yearly" }
-      ];
-  
-      this.blocktypes = [{
-        'name': 'Residential', 'displayName': 'Residential'
-      },
-      {
-        'name': 'Commercial', 'displayName': 'Commercial'
-      },
-      {
-        'name': 'Residential and Commercial', 'displayName': 'Residential and Commercial'
-      }];
-      
-      this.invoicedatechanged = false;
-      this.duedatechanged = false;
-      this.enableduedatevalidation = false;
-      this.startsfromDateChanged = false;
-      this.enablestartfromdatevalidation = false;
-    this.BAActType='Select Account Type';
-    this.ASCountry='Country';
-    this.ASPropType='Select Property Type';
-    this.toggleFaCircleO=false;
-    this.toggleFaCircle1=false;
-    this.viewAssnService.enrlAsnEnbled=false;
-    this.viewAssnService.vewAsnEnbled=true;
-    this.viewAssnService.joinAsnEbld=false;
+    this.unitArray = [];
+    this.unitArrayList = [];
+    this.latePymtChrgTypes = [
+      { "name": "Monthly", "displayName": "Monthly" },
+      { "name": "quaterly", "displayName": "Quaterly" },
+      { "name": "Annually", "displayName": "Annually" }
+    ];
+
+    this.frequencies = [
+      { "name": "Monthly", "displayName": "Monthly" },
+      { "name": "Quarterly", "displayName": "Quarterly" },
+      { "name": "Half Yearly", "displayName": "Half Yearly" },
+      { "name": "Yearly", "displayName": "Yearly" }
+    ];
+
+    this.blocktypes = [{
+      'name': 'Residential', 'displayName': 'Residential'
+    },
+    {
+      'name': 'Commercial', 'displayName': 'Commercial'
+    },
+    {
+      'name': 'Residential and Commercial', 'displayName': 'Residential and Commercial'
+    }];
+
+    this.invoicedatechanged = false;
+    this.duedatechanged = false;
+    this.enableduedatevalidation = false;
+    this.startsfromDateChanged = false;
+    this.enablestartfromdatevalidation = false;
+    this.BAActType = 'Select Account Type';
+    this.ASCountry = 'Country';
+    this.ASPropType = 'Select Property Type';
+    this.toggleFaCircleO = false;
+    this.toggleFaCircle1 = false;
+    this.viewAssnService.enrlAsnEnbled = false;
+    this.viewAssnService.vewAsnEnbled = true;
+    this.viewAssnService.joinAsnEbld = false;
     this.isLargefile = false;
     this.isnotValidformat = false;
     this.disableButton = false;
@@ -436,22 +431,22 @@ export class AssociationManagementComponent implements OnInit {
     this.newAMTypes = '';
     this.newNoofAmenitie = '';
     this.unitId = '';
-    this.assnName='Associations';
-    this.blBlkName='Blocks';
-    this.activeEnabled=false;
-    this.unUnitID=this.globalService.getCurrentUnitId();
+    this.assnName = 'Associations';
+    this.blBlkName = 'Blocks';
+    this.activeEnabled = false;
+    this.unUnitID = this.globalService.getCurrentUnitId();
 
-    this.blockname='';
+    this.blockname = '';
     this.blocktype = 'Select Block';
-    this.noofunits='';
-    this.mngName='';
-    this.BlockManagermobile='';
-    this.manageremail='';
-    this.maintenanceValue=0;
-    this.flatRatevalue=0;
+    this.noofunits = '';
+    this.mngName = '';
+    this.BlockManagermobile = '';
+    this.manageremail = '';
+    this.maintenanceValue = 0;
+    this.flatRatevalue = 0;
     this.frequency = '';
     this.latePymtChargeType = 'SELECT CHARGE TYPE';
-    this.latePymtCharge='';
+    this.latePymtCharge = '';
 
 
 
@@ -475,15 +470,15 @@ export class AssociationManagementComponent implements OnInit {
       showWeekNumbers: false,
       isAnimated: true
     });
-    this.toggleGSTAvailableTxt=true;
+    this.toggleGSTAvailableTxt = true;
     this.unitTypes = [
       { "name": "Flat" },
       { "name": "Villa" },
       { "name": "Vaccant Plot" }
     ];
     this.calculationTypes = [
-      { "name": "FlatRateValue","displayName":"Flat Rate Value" },
-      { "name": "dimension","displayName":"Dimension Based"  }
+      { "name": "FlatRateValue", "displayName": "Flat Rate Value" },
+      { "name": "dimension", "displayName": "Dimension Based" }
     ];
     this.occupencys = [
       { "name": "Sold Owner Occupied Unit" },
@@ -493,38 +488,38 @@ export class AssociationManagementComponent implements OnInit {
       { "name": "UnSold Tenant Occupied Unit" }
     ];
     //
-    localStorage.setItem('AssociationCreationStatus','pending');
+    localStorage.setItem('AssociationCreationStatus', 'pending');
 
-        if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
-          console.log(localStorage.getItem('AssociationName'));
-        this.crtAssn.name = ((localStorage.getItem('AssociationName')=='null')?'':localStorage.getItem('AssociationName'))
-        this.crtAssn.country = localStorage.getItem('AssociationCountry')
-        this.crtAssn.state = localStorage.getItem('AssociationState')
-        this.crtAssn.city = localStorage.getItem('AssociationCity')
-        this.crtAssn.postalCode = localStorage.getItem('AssociationPostalCode')
-        this.crtAssn.propertyType = localStorage.getItem('AssociationPropertyType')
-        this.crtAssn.propertyName = localStorage.getItem('AssociationPropertyName')
-        this.crtAssn.locality = localStorage.getItem('AssociationLocality')
-        this.crtAssn.email = localStorage.getItem('AssociationEmail')
-        this.crtAssn.GSTNumber = (localStorage.getItem('AssociationGST')=='null'?'':localStorage.getItem('AssociationGST'))
-        this.crtAssn.PANNumber = localStorage.getItem('AssociationPAN')
-        this.crtAssn.totalNoBlocks = localStorage.getItem('AssociationBlockNumber')
-        this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber')
-        this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities'))==null?[]:JSON.parse(localStorage.getItem('AssociationAmenities')))
-        this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray'))==null?[]:JSON.parse(localStorage.getItem('AssociationBlockArray')))
-        this.BlockHrefDetail=(JSON.parse(localStorage.getItem('AssociationBlockHrefDetail'))==null?[]:JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
-        if(this.BlockHrefDetail.length==0){
-          localStorage.setItem('CreateUnitFromSavedData','false');
-        }
-        else{
-          localStorage.setItem('CreateUnitFromSavedData','true');
-        }
-        console.log(this.blockArray);
-        console.log(this.crtAssn.name);
-        console.log(this.crtAssn.GSTNumber);
-        console.log(this.BlockHrefDetail);
-        console.log(this.crtAssn.country);
+    if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
+      console.log(localStorage.getItem('AssociationName'));
+      this.crtAssn.name = ((localStorage.getItem('AssociationName') == 'null') ? '' : localStorage.getItem('AssociationName'))
+      this.crtAssn.country = localStorage.getItem('AssociationCountry')
+      this.crtAssn.state = (localStorage.getItem('AssociationState') == '' || 'null' ? 'SELECT THE STATE' : localStorage.getItem('AssociationState'))
+      this.crtAssn.city = (localStorage.getItem('AssociationCity') == '' || 'null' ? '' : localStorage.getItem('AssociationCity'))
+      this.crtAssn.postalCode = (localStorage.getItem('AssociationPostalCode') == '' || 'null' ? '' : localStorage.getItem('AssociationPostalCode'))
+      this.crtAssn.propertyType = localStorage.getItem('AssociationPropertyType')
+      this.crtAssn.propertyName = localStorage.getItem('AssociationPropertyName')
+      this.crtAssn.locality = localStorage.getItem('AssociationLocality')
+      this.crtAssn.email = localStorage.getItem('AssociationEmail')
+      this.crtAssn.GSTNumber = (localStorage.getItem('AssociationGST') == 'null' ? '' : localStorage.getItem('AssociationGST'))
+      this.crtAssn.PANNumber = localStorage.getItem('AssociationPAN')
+      this.crtAssn.totalNoBlocks = localStorage.getItem('AssociationBlockNumber')
+      this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber')
+      this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities')) == null ? [] : JSON.parse(localStorage.getItem('AssociationAmenities')))
+      this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockArray')))
+      this.BlockHrefDetail = (JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
+      if (this.BlockHrefDetail.length == 0) {
+        localStorage.setItem('CreateUnitFromSavedData', 'false');
       }
+      else {
+        localStorage.setItem('CreateUnitFromSavedData', 'true');
+      }
+      console.log(this.blockArray);
+      console.log(this.crtAssn.name);
+      console.log(this.crtAssn.GSTNumber);
+      console.log(this.BlockHrefDetail);
+      console.log(this.crtAssn.country);
+    }
   }
 
   openModal(template: TemplateRef<any>) {
@@ -535,10 +530,10 @@ export class AssociationManagementComponent implements OnInit {
     $(".se-pre-con").fadeOut("slow");
   }
   setRows(RowNum) {
-    this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.associations.length:RowNum);
+    this.ShowRecords = 'abc';
+    this.setnoofrows = (RowNum == 'All' ? this.associations.length : RowNum);
   }
-  getUnitType(unitTpname,_id) {
+  getUnitType(unitTpname, _id) {
     console.log(unitTpname);
 
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -549,9 +544,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getUnitDimension(_id,_unitdimension){
+  getUnitDimension(_id, _unitdimension) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -560,9 +555,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getUnitRate(_id,_unitrate){
+  getUnitRate(_id, _unitrate) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -571,9 +566,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getUnitNoFlatNo(_id,_unitno){
+  getUnitNoFlatNo(_id, _unitno) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -582,35 +577,35 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   processFile() {
-   /* const formData = new FormData();
-    console.log(e.target.files[0]);
-    console.log(e.target.files[0].name);
-    formData.append('avatar',e.target.files[0],e.target.files[0].name);
-    console.log(formData);
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json');
-    this.http.post('https://mediauploaduat.oyespace.com/oyeliving/api/V1/association/upload', formData)
-      .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );*/
+    /* const formData = new FormData();
+     console.log(e.target.files[0]);
+     console.log(e.target.files[0].name);
+     formData.append('avatar',e.target.files[0],e.target.files[0].name);
+     console.log(formData);
+     const headers = new HttpHeaders();
+     headers.append('Content-Type', 'multipart/form-data');
+     headers.append('Accept', 'application/json');
+     this.http.post('https://mediauploaduat.oyespace.com/oyeliving/api/V1/association/upload', formData)
+       .subscribe(
+         (response) => {
+           console.log(response);
+         },
+         (error) => {
+           console.log(error);
+         }
+       );*/
     //const formData = new FormData();
     //formData.append('file', this.uploadForm.get('profile').value);
     console.log(this.uploadForm.get('profile').value);
     var reader = new FileReader();
     reader.readAsDataURL(this.uploadForm.get('profile').value);
-    reader.onload = ()=> {
+    reader.onload = () => {
       console.log(reader.result);
-      this.ASAsnLogo=reader.result;
-      this.ASAsnLogo=this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3);
+      this.ASAsnLogo = reader.result;
+      this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
       //console.log(this.ASAsnLogo.indexOf('64')+1);
       //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
       console.log(this.ASAsnLogo);
@@ -624,7 +619,7 @@ export class AssociationManagementComponent implements OnInit {
     //     (err) => console.log(err)
     //   );
   }
-  getCalculationTypes(calculationTypename,_id) {
+  getCalculationTypes(calculationTypename, _id) {
     console.log(calculationTypename);
     this.calculationtype = calculationTypename;
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -635,10 +630,10 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  tenantOwnerdiv(occupency,_id) {
-    this.occupency=occupency;
+  tenantOwnerdiv(occupency, _id) {
+    this.occupency = occupency;
     console.log(occupency);
     console.log(_id);
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -652,34 +647,34 @@ export class AssociationManagementComponent implements OnInit {
               console.log('UnSold Vacant Unit');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
-              this.toggleunitvehicleinformation=false;
+              this.toggleunitvehicleinformation = false;
             }
             else if (occupency == 'UnSold Tenant Occupied Unit') {
               console.log('UnSold Tenant Occupied Unit');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
-              this.toggleunitvehicleinformation=true;
+              this.toggleunitvehicleinformation = true;
             }
             else if (occupency == 'Sold Tenant Occupied Unit') {
               console.log('Sold Tenant Occupied Unit');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
-              this.toggleunitvehicleinformation=true;
+              this.toggleunitvehicleinformation = true;
             }
             else {
               console.log('else');
               this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
               this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
-              this.toggleunitvehicleinformation=true;
+              this.toggleunitvehicleinformation = true;
             }
           })
         }
       }
     }
-    console.log(this.BlockHrefDetail);  
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    console.log(this.BlockHrefDetail);
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getOwnerFirstName(_id,_ownerFirtname){
+  getOwnerFirstName(_id, _ownerFirtname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -688,9 +683,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getOwnerLastName(_id,_ownerLastname){
+  getOwnerLastName(_id, _ownerLastname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -699,9 +694,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getOwnerMobileNumber(_id,_ownerMobnumber){
+  getOwnerMobileNumber(_id, _ownerMobnumber) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -710,9 +705,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getOwnerEmailId(_id,_ownerEmail){
+  getOwnerEmailId(_id, _ownerEmail) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -721,9 +716,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getTenantFirstName(_id,_tenantFirtname){
+  getTenantFirstName(_id, _tenantFirtname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -732,9 +727,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getTenantLastName(_id,_tenantLastname){
+  getTenantLastName(_id, _tenantLastname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -743,9 +738,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getTenantMobileNumber(_id,_tenantMobnumber){
+  getTenantMobileNumber(_id, _tenantMobnumber) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -754,9 +749,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
-  getTenantEmailId(_id,_tenantEmail){
+  getTenantEmailId(_id, _tenantEmail) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
@@ -765,7 +760,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail',JSON.stringify(this.BlockHrefDetail));
+    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   countryName(countryName) {
     this.ASCountry = countryName;
@@ -774,86 +769,86 @@ export class AssociationManagementComponent implements OnInit {
     console.log(this.BlockHrefDetail);
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
-        if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'] != ''){
-        ((j) => {
-          setTimeout(() => {
-            let createUnitData =
-            {
-              "ASAssnID": this.viewAssnService.associationId,
-              "ACAccntID": this.globalService.getacAccntID(),
-              "units": [
-                {
-                  "UNUniName": this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'],
-                  "UNUniType": this.BlockHrefDetail[i]['UnitArray'][j]['_unitType'],
-                  "UNRate": this.BlockHrefDetail[i]['UnitArray'][j]['_unitrate'],
-                  "UNOcStat": this.BlockHrefDetail[i]['UnitArray'][j]['_occupency'],
-                  "UNOcSDate": "2019-03-02",
-                  "UNOwnStat": "null",
-                  "UNSldDate": "2019-03-02",
-                  "UNDimens": this.BlockHrefDetail[i]['UnitArray'][j]['_unitdimension'],
-                  "UNCalType": this.BlockHrefDetail[i]['UnitArray'][j]['_calculationtype'],
-                  "BLBlockID": this.BlockHrefDetail[i]['UnitArray'][j]['_BlockID'],
-                  "Owner":
-                    [{
-        
-                      "UOFName": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerFirtname'],
-                      "UOLName": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerLastname'],
-                      "UOMobile": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerMobnumber'],
-                      "UOISDCode": "+91",
-                      "UOMobile1": "",
-                      "UOMobile2": "null",
-                      "UOMobile3": "null",
-                      "UOMobile4": "null",
-                      "UOEmail": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerEmail'],
-                      "UOEmail1": "",
-                      "UOEmail2": "null",
-                      "UOEmail3": "null",
-                      "UOEmail4": "null",
-                      "UOCDAmnt": ""
-                    }],
-                  "unitbankaccount":
+        if (this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'] != '') {
+          ((j) => {
+            setTimeout(() => {
+              let createUnitData =
+              {
+                "ASAssnID": this.viewAssnService.associationId,
+                "ACAccntID": this.globalService.getacAccntID(),
+                "units": [
                   {
-                    "UBName": "",
-                    "UBIFSC": "",
-                    "UBActNo": "",
-                    "UBActType": "",
-                    "UBActBal": 0,
-                    "BLBlockID": this.BlockHrefDetail[i]['UnitArray'][j]['_BlockID']
-                  },
-                  "Tenant":
-                    [{
-        
-                      "UTFName": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantFirtname'],
-                      "UTLName": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantLastname'],
-                      "UTMobile": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantMobnumber'],
-                      "UTISDCode": "+91",
-                      "UTMobile1": "",
-                      "UTEmail": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantEmail'],
-                      "UTEmail1": ""
-                    }],
-                  "UnitParkingLot":
-                    [
-                      {
-                        "UPLNum": "",
-                        "MEMemID": "",
-                        "UPGPSPnt": "null"
-        
-                      }
-                    ]
-                }
-              ]
-            }
-            console.log(createUnitData);
-        
-            this.viewUniService.createUnit(createUnitData).subscribe((response) => {
-              console.log(response);
-            },
-              (abc) => {
-                console.log(abc);
-              });
-          },600 * j)
-        })(j)
-      }
+                    "UNUniName": this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'],
+                    "UNUniType": this.BlockHrefDetail[i]['UnitArray'][j]['_unitType'],
+                    "UNRate": this.BlockHrefDetail[i]['UnitArray'][j]['_unitrate'],
+                    "UNOcStat": this.BlockHrefDetail[i]['UnitArray'][j]['_occupency'],
+                    "UNOcSDate": "2019-03-02",
+                    "UNOwnStat": "null",
+                    "UNSldDate": "2019-03-02",
+                    "UNDimens": this.BlockHrefDetail[i]['UnitArray'][j]['_unitdimension'],
+                    "UNCalType": this.BlockHrefDetail[i]['UnitArray'][j]['_calculationtype'],
+                    "BLBlockID": this.BlockHrefDetail[i]['UnitArray'][j]['_BlockID'],
+                    "Owner":
+                      [{
+
+                        "UOFName": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerFirtname'],
+                        "UOLName": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerLastname'],
+                        "UOMobile": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerMobnumber'],
+                        "UOISDCode": "+91",
+                        "UOMobile1": "",
+                        "UOMobile2": "null",
+                        "UOMobile3": "null",
+                        "UOMobile4": "null",
+                        "UOEmail": this.BlockHrefDetail[i]['UnitArray'][j]['_ownerEmail'],
+                        "UOEmail1": "",
+                        "UOEmail2": "null",
+                        "UOEmail3": "null",
+                        "UOEmail4": "null",
+                        "UOCDAmnt": ""
+                      }],
+                    "unitbankaccount":
+                    {
+                      "UBName": "",
+                      "UBIFSC": "",
+                      "UBActNo": "",
+                      "UBActType": "",
+                      "UBActBal": 0,
+                      "BLBlockID": this.BlockHrefDetail[i]['UnitArray'][j]['_BlockID']
+                    },
+                    "Tenant":
+                      [{
+
+                        "UTFName": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantFirtname'],
+                        "UTLName": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantLastname'],
+                        "UTMobile": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantMobnumber'],
+                        "UTISDCode": "+91",
+                        "UTMobile1": "",
+                        "UTEmail": this.BlockHrefDetail[i]['UnitArray'][j]['_tenantEmail'],
+                        "UTEmail1": ""
+                      }],
+                    "UnitParkingLot":
+                      [
+                        {
+                          "UPLNum": "",
+                          "MEMemID": "",
+                          "UPGPSPnt": "null"
+
+                        }
+                      ]
+                  }
+                ]
+              }
+              console.log(createUnitData);
+
+              this.viewUniService.createUnit(createUnitData).subscribe((response) => {
+                console.log(response);
+              },
+                (abc) => {
+                  console.log(abc);
+                });
+            }, 600 * j)
+          })(j)
+        }
       }
     }
     setTimeout(() => {
@@ -870,55 +865,55 @@ export class AssociationManagementComponent implements OnInit {
             this.viewAssnService.enrlAsnEnbled = false;
             this.viewAssnService.vewAsnEnbled = true;
             this.viewAssnService.joinAsnEbld = false;
-            
-            localStorage.setItem('AssociationName','')
-           localStorage.setItem('AssociationCountry','')
-             localStorage.setItem('AssociationState','')
-            localStorage.setItem('AssociationCity','')
-            localStorage.setItem('AssociationPostalCode','')
-            localStorage.setItem('AssociationPropertyType','')
-             localStorage.setItem('AssociationPropertyName','')
-           localStorage.setItem('AssociationLocality','')
-             localStorage.setItem('AssociationEmail','')
-            localStorage.setItem('AssociationGST','')
-            localStorage.setItem('AssociationPAN','')
-            localStorage.setItem('AssociationBlockNumber','')
-            localStorage.setItem('AssociationUnitNumber','')
-            localStorage.setItem('AssociationAmenities','')
-            localStorage.setItem('AssociationBlockArray','')
-            localStorage.setItem('AssociationBlockHrefDetail','');
+
+            localStorage.setItem('AssociationName', '')
+            localStorage.setItem('AssociationCountry', '')
+            localStorage.setItem('AssociationState', '')
+            localStorage.setItem('AssociationCity', '')
+            localStorage.setItem('AssociationPostalCode', '')
+            localStorage.setItem('AssociationPropertyType', '')
+            localStorage.setItem('AssociationPropertyName', '')
+            localStorage.setItem('AssociationLocality', '')
+            localStorage.setItem('AssociationEmail', '')
+            localStorage.setItem('AssociationGST', '')
+            localStorage.setItem('AssociationPAN', '')
+            localStorage.setItem('AssociationBlockNumber', '')
+            localStorage.setItem('AssociationUnitNumber', '')
+            localStorage.setItem('AssociationAmenities', '')
+            localStorage.setItem('AssociationBlockArray', '')
+            localStorage.setItem('AssociationBlockHrefDetail', '');
 
           } else if (result.dismiss === Swal.DismissReason.cancel) {
 
           }
         })
-    },600 * (this.BlockHrefDetail.length+this.unitArray.length));
+    }, 600 * (this.BlockHrefDetail.length + this.unitArray.length));
 
   }
   onPageChange(event) {
     //console.log(event);
     //console.log(this.p);
     //console.log(event['srcElement']['text']);
-    if(event['srcElement']['text'] == '1'){
-      this.p=1;
+    if (event['srcElement']['text'] == '1') {
+      this.p = 1;
     }
-    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
-        //console.log('test');
-        //console.log(Number(event['srcElement']['text']) == NaN);
-        //console.log(Number(event['srcElement']['text']));
-        let element=document.querySelector('.page-item.active');
-    //console.log(element.children[0]['text']);
-        this.p= Number(element.children[0]['text']);
+    if ((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)) {
+      //console.log('test');
+      //console.log(Number(event['srcElement']['text']) == NaN);
+      //console.log(Number(event['srcElement']['text']));
+      let element = document.querySelector('.page-item.active');
+      //console.log(element.children[0]['text']);
+      this.p = Number(element.children[0]['text']);
       //console.log(this.p);
-    } 
-    if(event['srcElement']['text'] == '«'){
+    }
+    if (event['srcElement']['text'] == '«') {
       //console.log(this.p);
-      this.p= 1;
+      this.p = 1;
     }
     //console.log(this.p);
-    let element=document.querySelector('.page-item.active');
+    let element = document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
+    this.p = Number(element.children[0]['text']);
   }
   pageChanged(event: any): void {
     this.page = event.page;
@@ -933,42 +928,42 @@ export class AssociationManagementComponent implements OnInit {
     // console.log('test');
     // alert('test');
     this.toggleStepWizrd();
-    this.viewAssnService.enrlAsnEnbled=true;
-    this.viewAssnService.vewAsnEnbled=false;
-    this.viewAssnService.joinAsnEbld=false;
+    this.viewAssnService.enrlAsnEnbled = true;
+    this.viewAssnService.vewAsnEnbled = false;
+    this.viewAssnService.joinAsnEbld = false;
     //localStorage.setItem('IsEnrollAssociationStarted','true');
-    this.globalService.IsEnrollAssociationStarted=true;
+    this.globalService.IsEnrollAssociationStarted = true;
     //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
   }
   toggleIsGSTAvailable() {
     // console.log('test');
     this.toggleGSTAvailableTxt = !this.toggleGSTAvailableTxt;
     if (this.toggleGSTAvailableTxt) {
-      (<HTMLInputElement>document.getElementById('GSTNumberID')).value='';
-      (<HTMLInputElement>document.getElementById('PANNumberID')).value='';
-      (<HTMLInputElement>document.getElementById('PANNumberID')).disabled=false;
+      (<HTMLInputElement>document.getElementById('GSTNumberID')).value = '';
+      (<HTMLInputElement>document.getElementById('PANNumberID')).value = '';
+      (<HTMLInputElement>document.getElementById('PANNumberID')).disabled = false;
       // console.log((<HTMLInputElement>document.getElementById('PANNumberID')));
     }
   }
-  fillPANValue(){
-    localStorage.setItem('AssociationGST',this.crtAssn.GSTNumber);
-    let PANNumberIDCtrl=document.getElementById('PANNumberID');
+  fillPANValue() {
+    localStorage.setItem('AssociationGST', this.crtAssn.GSTNumber);
+    let PANNumberIDCtrl = document.getElementById('PANNumberID');
     // console.log(PANNumberIDCtrl);
-    if(!this.toggleGSTAvailableTxt){
+    if (!this.toggleGSTAvailableTxt) {
       // console.log(this.crtAssn.GSTNumber.length);
-      if(this.crtAssn.GSTNumber.length == 15){
+      if (this.crtAssn.GSTNumber.length == 15) {
         console.log('test');
         // console.log(this.crtAssn.GSTNumber.substring(2,12));
-        this.crtAssn.PANNumber=this.crtAssn.GSTNumber.substring(2,12);
-        PANNumberIDCtrl.setAttribute('disabled','true');
-        localStorage.setItem('AssociationPAN',this.crtAssn.PANNumber);
+        this.crtAssn.PANNumber = this.crtAssn.GSTNumber.substring(2, 12);
+        PANNumberIDCtrl.setAttribute('disabled', 'true');
+        localStorage.setItem('AssociationPAN', this.crtAssn.PANNumber);
       }
     }
   }
   enblJoinAsnVew() {
-    this.viewAssnService.enrlAsnEnbled=false;
-    this.viewAssnService.vewAsnEnbled=false;
-    this.viewAssnService.joinAsnEbld=true;
+    this.viewAssnService.enrlAsnEnbled = false;
+    this.viewAssnService.vewAsnEnbled = false;
+    this.viewAssnService.joinAsnEbld = true;
   }
   viewassociation(repviewreceiptmodalit: any) {
     //console.log(JSON.stringify(repviewreceiptmodalit));
@@ -982,7 +977,7 @@ export class AssociationManagementComponent implements OnInit {
       ownershipStatus: repviewreceiptmodalit.unOwnStat
     };
   }
-  
+
   onUpLoad() {
 
     const fd = new FormData();
@@ -1009,7 +1004,7 @@ export class AssociationManagementComponent implements OnInit {
 
   deleteamenity(AMType) {
     //console.log('AMType', AMType);
-    this.newamenities = this.newamenities.filter(item =>{return item['AMType'] != AMType});
+    this.newamenities = this.newamenities.filter(item => { return item['AMType'] != AMType });
   }
   // getBank(bankities: object) {
 
@@ -1020,24 +1015,24 @@ export class AssociationManagementComponent implements OnInit {
   //   this.accountType = '';
   //   //console.log('bankites', this.bankites);
   // }
-  prerequisitesAddUnit(blBlockID,blBlkName) {
+  prerequisitesAddUnit(blBlockID, blBlkName) {
     //console.log('prerequisitesAddUnit', blBlockID);
     this.blockID = blBlockID;
-    this.blBlkName=blBlkName;
+    this.blBlkName = blBlkName;
     let blockbyassoc = this.allBlocksLists.find(item => item['blBlockID'] == blBlockID);
     this.getAllUnitDetailsByBlockID(blBlockID);
-    this.toggleFaCircle1=true;
+    this.toggleFaCircle1 = true;
   }
 
   getAllUnitDetailsByBlockID(blBlockID) {
     //console.log('blockid', blBlockID);
-    this.allUnitBlockID=[];
+    this.allUnitBlockID = [];
     //this.route.params.subscribe(data=>{console.log(data['blBlockID']);
     this.viewAssnService.GetUnitListByBlockID(blBlockID)
       .subscribe(res => {
         var data: any = res;
         console.log(res);
-        this.allUnitBlockID= data.data.unitsByBlockID;
+        this.allUnitBlockID = data.data.unitsByBlockID;
         //console.log('allUnitBlockID',this.allUnitBlockID);
         //console.log(res);
         // console.log('allUnitBYBlockID',data);
@@ -1072,7 +1067,7 @@ export class AssociationManagementComponent implements OnInit {
         //console.log('bank', data['data']['association']['bankDetails'].length);
         //console.log('getAssociationDetail', data['data']['association']['amenities'][0]['amType']);
         //this.amenityType = data['data']['association']['amenities'][0]['amType'];
-       // console.log('getAssociationDetail', data['data']['association']['amenities'][0]['noofAmenities']);
+        // console.log('getAssociationDetail', data['data']['association']['amenities'][0]['noofAmenities']);
         //this.amenityNo = data['data']['association']['amenities'][0]['noofAmenities'];
 
         this.BankName = '';
@@ -1114,36 +1109,36 @@ export class AssociationManagementComponent implements OnInit {
       Object.assign({}, { class: 'gray modal-lg' }));
   }
 
-  UpdateAssociation(){
-    
+  UpdateAssociation() {
+
     //console.log("Updating Association");
-   /* this.editassndata = {
-      ASAsnName:this.ASAsnName,
-      ASCountry:this.ASCountry,
-      ASAddress:this.ASAddress,
-      ASCity:this.ASCity,
-      ASState:this.ASState,
-      ASPinCode:this.ASPinCode,
-      ASPrpType:this.ASPrpType,
-      ASPrpName:this.ASPrpName,
-      ASNofBlks:this.ASNofBlks,
-      ASNofUnit:this.ASNofUnit,
-      ASAssnID:this.asAssnID,
-      "Amenities":[{
-        AMType:this.AMType,
-        NoofAmenities:this.NoofAmenities,
-        AMID:this.AMID,
-        ASAssnID:this.asAssnID
-      }],
-      "BankDetails":[{
-        BABName:this.BABName,
-        BAIFSC:this.BAIFSC,
-        BAActType:this.BAActType,
-        BAActNo:this.BAActNo,
-        ASAssnID:this.asAssnID,
-        BAActID:this.BAActID
-      }]
-  }; */
+    /* this.editassndata = {
+       ASAsnName:this.ASAsnName,
+       ASCountry:this.ASCountry,
+       ASAddress:this.ASAddress,
+       ASCity:this.ASCity,
+       ASState:this.ASState,
+       ASPinCode:this.ASPinCode,
+       ASPrpType:this.ASPrpType,
+       ASPrpName:this.ASPrpName,
+       ASNofBlks:this.ASNofBlks,
+       ASNofUnit:this.ASNofUnit,
+       ASAssnID:this.asAssnID,
+       "Amenities":[{
+         AMType:this.AMType,
+         NoofAmenities:this.NoofAmenities,
+         AMID:this.AMID,
+         ASAssnID:this.asAssnID
+       }],
+       "BankDetails":[{
+         BABName:this.BABName,
+         BAIFSC:this.BAIFSC,
+         BAActType:this.BAActType,
+         BAActNo:this.BAActNo,
+         ASAssnID:this.asAssnID,
+         BAActID:this.BAActID
+       }]
+   }; */
     this.editassndata = {
       "ASAddress": this.ASAddress,
       "ASCountry": this.ASCountry,
@@ -1210,8 +1205,8 @@ export class AssociationManagementComponent implements OnInit {
       profile: ['']
     });
 
-    this.check="true";
-    this.check1="true";
+    this.check = "true";
+    this.check1 = "true";
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 2
@@ -1233,19 +1228,19 @@ export class AssociationManagementComponent implements OnInit {
     //   this.matching = true;
     // }
 
-this.association="";
-this.association="";
-//this.crtAssn.country='SELECT THE COUNTRY';
-//this.crtAssn.propertyType='SELECT PROPERTY TYPE';
-this.crtAssn.newBAActType='';
+    this.association = "";
+    this.association = "";
+    this.crtAssn.country = 'SELECT THE COUNTRY';
+    this.crtAssn.propertyType = 'SELECT PROPERTY TYPE';
+    this.crtAssn.newBAActType = '';
     this.viewAssnService.getAssociationAllDetails()
-    .subscribe(item => {
-      //console.log('getAssociationAllDetails',item);
-      this._associations= item['data']['associations'];
-     //this.availableNoOfBlocks = item.length;
-      //console.log('associations', this.associations);  
+      .subscribe(item => {
+        //console.log('getAssociationAllDetails',item);
+        this._associations = item['data']['associations'];
+        //this.availableNoOfBlocks = item.length;
+        //console.log('associations', this.associations);  
 
-    })
+      })
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {
@@ -1255,48 +1250,48 @@ this.crtAssn.newBAActType='';
     }
   }
 
-  getLatePymtChargeType(name,Id) {
+  getLatePymtChargeType(name, Id) {
     this.latePymtChargeType = name;
-    this.latePymtChargeTypeId=Id;
+    this.latePymtChargeTypeId = Id;
     for (let i = 0; i < this.blockArray.length; i++) {
       if (this.blockArray[i]['Id'] == Id) {
-          this.blockArray[i]['latePymtChargeType'] = this.latePymtChargeType;
+        this.blockArray[i]['latePymtChargeType'] = this.latePymtChargeType;
       }
     }
     console.log(this.blockArray);
-    localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
   }
-  getLatePaymentCharge(Id,latePymtCharge){
+  getLatePaymentCharge(Id, latePymtCharge) {
     for (let i = 0; i < this.blockArray.length; i++) {
       if (this.blockArray[i]['Id'] == Id) {
-          this.blockArray[i]['latePymtCharge'] = latePymtCharge;
+        this.blockArray[i]['latePymtCharge'] = latePymtCharge;
       }
     }
     console.log(this.blockArray);
-    localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
   }
-  getBlockType(param,Id){
-    this.blocktype=param;
-    this.blocktypeID=Id;
+  getBlockType(param, Id) {
+    this.blocktype = param;
+    this.blocktypeID = Id;
     console.log(Id);
     console.log(typeof Id);
-    for(let i=0;i<this.blockArray.length;i++){
-      if(this.blockArray[i]['Id'] == Id){
-        this.blockArray[i]['blocktype']=this.blocktype;
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['blocktype'] = this.blocktype;
       }
     }
-    localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray))
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray))
     console.log(this.blockArray);
   }
-  onStartsFromDateValueChange(value: Date,Id,startsFrom) {
+  onStartsFromDateValueChange(value: Date, Id, startsFrom) {
     console.log(startsFrom);
     console.log(value);
-    for(let i=0;i<this.blockArray.length;i++){
-      if(this.blockArray[i]['Id'] == Id){
-        this.blockArray[i]['startsFrom']=startsFrom;
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['startsFrom'] = startsFrom;
       }
     }
-    localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray))
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray))
     console.log(this.blockArray);
     if (value != null) {
       this.startsfromDateChanged = true;
@@ -1314,30 +1309,30 @@ this.crtAssn.newBAActType='';
       }
     }
   }
-  
-  loadAssociation(asAssnID,asAsnName){
-    this.blBlkName='Blocks';
+
+  loadAssociation(asAssnID, asAsnName) {
+    this.blBlkName = 'Blocks';
     //console.log('asAssnID',asAssnID);
-    this.assnName=asAsnName;
-    this.assnID=asAssnID;
+    this.assnName = asAsnName;
+    this.assnID = asAssnID;
     this.viewAssnService.getBlockDetailsByAssociationID(asAssnID)
-    .subscribe(response=>{
-      //console.log(response);
-     this.allBlocksLists= response['data']['blocksByAssoc'];
-     if(this.allBlocksLists.length > 0){
-       this.toggleFaCircleO=true;
-     }
-    })
+      .subscribe(response => {
+        //console.log(response);
+        this.allBlocksLists = response['data']['blocksByAssoc'];
+        if (this.allBlocksLists.length > 0) {
+          this.toggleFaCircleO = true;
+        }
+      })
   }
-  setPropertyType(propertyType){
-    this.crtAssn.propertyType=propertyType;
-    localStorage.setItem('AssociationPropertyType',this.crtAssn.propertyType);
+  setPropertyType(propertyType) {
+    this.crtAssn.propertyType = propertyType;
+    localStorage.setItem('AssociationPropertyType', this.crtAssn.propertyType);
   }
-  testCreateBlock(){
+  testCreateBlock() {
     console.log(this.blockArray);
   }
 
-  _keyPress(event: any,Id) {
+  _keyPress(event: any, Id) {
     //console.log(Id);
     //console.log(managernumberControl);
     //console.log(managernumberControl.touched);
@@ -1356,55 +1351,55 @@ this.crtAssn.newBAActType='';
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
-        event.preventDefault();
+      event.preventDefault();
     }
   }
-  _keyDown(event: any,Id){
+  _keyDown(event: any, Id) {
     console.log(event);
-    for(let i=0;i<this.blockArray.length;i++){
-        if(this.blockArray[i]['Id'] == Id){
-          this.blockArray[i]['uniqueID']=Id;
-          console.log(Id);
-        }
-        else{
-          this.blockArray[i]['uniqueID']='';
-        }
-      }
-      const pattern = /[0-9]/;
-      let inputChar = String.fromCharCode(event.charCode);
-      if (!pattern.test(inputChar)) {
-          event.preventDefault();
-      }
-      console.log(this.blockArray);
-  }
-  checkMobileNumberValidity(Id,BlockManagermobile){
-    console.log('blur');
-    console.log(Id);
-    for(let i=0;i<this.blockArray.length;i++){
-      if(this.blockArray[i]['Id'] == Id){
-        this.blockArray[i]['uniqueID']=Id;
-        this.blockArray[i]['BlockManagermobile']=BlockManagermobile;
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['uniqueID'] = Id;
         console.log(Id);
       }
-      else{
-        this.blockArray[i]['uniqueID']='';
+      else {
+        this.blockArray[i]['uniqueID'] = '';
       }
     }
-    localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
-  }
-  checking(rate){
-    if(rate==true){
-      this.check="true";
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
     }
-    else{
-      this.check="false";
+    console.log(this.blockArray);
+  }
+  checkMobileNumberValidity(Id, BlockManagermobile) {
+    console.log('blur');
+    console.log(Id);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['uniqueID'] = Id;
+        this.blockArray[i]['BlockManagermobile'] = BlockManagermobile;
+        console.log(Id);
+      }
+      else {
+        this.blockArray[i]['uniqueID'] = '';
+      }
+    }
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
+  }
+  checking(rate) {
+    if (rate == true) {
+      this.check = "true";
+    }
+    else {
+      this.check = "false";
     }
   }
-    checking1(rate1){
-     if(rate1==true){
-      this.check1="true";
-    }else{
-      this.check1="false";
+  checking1(rate1) {
+    if (rate1 == true) {
+      this.check1 = "true";
+    } else {
+      this.check1 = "false";
     }
   }
   checkRate(rate, Id) {
@@ -1421,7 +1416,7 @@ this.crtAssn.newBAActType='';
     console.log(this.blockArray);
   }
 
-  checkRate1(rate1,Id) {
+  checkRate1(rate1, Id) {
     console.log(rate1);
     for (let i = 0; i < this.blockArray.length; i++) {
       if (this.blockArray[i]['Id'] == Id) {
@@ -1434,14 +1429,14 @@ this.crtAssn.newBAActType='';
     }
     console.log(this.blockArray);
   }
-  onValueChange(value: Date,Id,billGenerationDate): void {
+  onValueChange(value: Date, Id, billGenerationDate): void {
     console.log(value);
     console.log(billGenerationDate);
     for (let i = 0; i < this.blockArray.length; i++) {
       if (this.blockArray[i]['Id'] == Id) {
-          this.blockArray[i]['dueDate'] = billGenerationDate;
+        this.blockArray[i]['dueDate'] = billGenerationDate;
       }
-    }    if (value != null) {
+    } if (value != null) {
       this.invoicedatechanged = true;
       this.minDate = new Date(value);
       this.minDateinNumber = new Date(value).getTime();
@@ -1461,14 +1456,14 @@ this.crtAssn.newBAActType='';
     }
     //this.minDate.setDate(this.minDate.getDate() + 1);
   }
-  onDueDateValueChange(value: Date,Id,dueDate) {
+  onDueDateValueChange(value: Date, Id, dueDate) {
     this.enableduedatevalidation = false;
     console.log(dueDate);
     for (let i = 0; i < this.blockArray.length; i++) {
       if (this.blockArray[i]['Id'] == Id) {
-          this.blockArray[i]['dueDate'] = dueDate;
+        this.blockArray[i]['dueDate'] = dueDate;
       }
-    }    if (value != null) {
+    } if (value != null) {
       this.duedatechanged = true;
       this.startsFromMaxDate = new Date(value);
       this.dueDateinNumber = new Date(value).getTime();
@@ -1497,7 +1492,7 @@ this.crtAssn.newBAActType='';
     //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
   }
   enableActive(spanCtrl, unUnitID) {
-    this.UnitIDforJoinAssn=unUnitID;
+    this.UnitIDforJoinAssn = unUnitID;
     //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
     spanCtrl.classList.toggle("active");
@@ -1549,17 +1544,17 @@ this.crtAssn.newBAActType='';
     this.fifthLetter = this.crtAssn.PANNumber.charAt(4).toUpperCase();
     //console.log(this.firstLetter, this.fifthLetter);
     if (this.firstLetter == this.fifthLetter) {
-      localStorage.setItem('AssociationPAN',this.crtAssn.PANNumber);
+      localStorage.setItem('AssociationPAN', this.crtAssn.PANNumber);
       this.matching = false;
     } else {
-      
+
       this.matching = true;
     }
 
   }
   openPANfield(countryname) {
-    localStorage.setItem('AssociationCountry',countryname);
-    this.crtAssn.country=countryname;
+    localStorage.setItem('AssociationCountry', countryname);
+    this.crtAssn.country = countryname;
     if (this.crtAssn.country == "India") {
       this.PANdiv1 = true;
     }
@@ -1586,18 +1581,18 @@ this.crtAssn.newBAActType='';
       }
     }
   }
-  addjoin(asAssnID){
+  addjoin(asAssnID) {
     //console.log(asAssnID);
-    this.router.navigate(['joinassociation',asAssnID]);
+    this.router.navigate(['joinassociation', asAssnID]);
   }
   addAmenity(event) {
     //console.log('amenity',event);
     //console.log('AMType'+ event['AMType']);
     //console.log('NoofAmenities'+ event['NoofAmenities']);
-    if(event['AMType'] !== "" && event['NoofAmenities'] !== ""){
-       //alert('inside if condition null');
-       this.newamenities.push(new Amenity(event['AMType'],event['NoofAmenities']));
-       localStorage.setItem('AssociationAmenities',JSON.stringify(this.newamenities))
+    if (event['AMType'] !== "" && event['NoofAmenities'] !== "") {
+      //alert('inside if condition null');
+      this.newamenities.push(new Amenity(event['AMType'], event['NoofAmenities']));
+      localStorage.setItem('AssociationAmenities', JSON.stringify(this.newamenities))
     }
     //console.log('newamenities',this.newamenities);
   }
@@ -1611,9 +1606,9 @@ this.crtAssn.newBAActType='';
   //   this.IFSC = '';
   //   this.AccountNumber='';
   //   this.accountType='';
-   
+
   // }
- 
+
   // deleteBank(BankId) {
   //   this.bankites.splice(BankId, 1);
   // }this.bankites.push(new Bank(bankities['BankName'], bankities['IFSC'], bankities['AccountNumber'], bankities['accountType'], bankities['BankId']));
@@ -1623,25 +1618,25 @@ this.crtAssn.newBAActType='';
   //   this.accountType = '';
   //   console.log('bankites', this.bankites);
   // }
-    
+
   addBank() {
-        this.BankId += 1;
-        this.bankings.push({"newBABName": this.newBABName, "newBAIFSC":this.newBAIFSC, "newBAActNo":this.newBAActNo, "newBAActType":this.newBAActType})
-        this.newBABName = '';
-        this.newBAIFSC = '';
-        this.newBAActNo = '';
-        this.newBAActType = '';        
-    }
+    this.BankId += 1;
+    this.bankings.push({ "newBABName": this.newBABName, "newBAIFSC": this.newBAIFSC, "newBAActNo": this.newBAActNo, "newBAActType": this.newBAActType })
+    this.newBABName = '';
+    this.newBAIFSC = '';
+    this.newBAActNo = '';
+    this.newBAActType = '';
+  }
 
-    deleteBank(BankId) {
-        this.bankings.splice(BankId, 1);
-    }
+  deleteBank(BankId) {
+    this.bankings.splice(BankId, 1);
+  }
 
-    // onFileChanged(event) {
-    //   this.selectedFile = event.target.files[0];
-    //   this.http.post('my-backend.com/file-upload', this.selectedFile)
-    //   .subscribe(...);
-    // }
+  // onFileChanged(event) {
+  //   this.selectedFile = event.target.files[0];
+  //   this.http.post('my-backend.com/file-upload', this.selectedFile)
+  //   .subscribe(...);
+  // }
 
   onFileSelected(event) {
     this.isLargefile = false;
@@ -1666,10 +1661,10 @@ this.crtAssn.newBAActType='';
     let currentdate = new Date();
     let expycopy = splitarr[0] + '_' + currentdate.getTime().toString() + '.' + splitarr[1];
 
-    let reader  = new FileReader();
+    let reader = new FileReader();
 
     reader.onloadend = function () {
-      imgthumbnailelement.src  = reader.result as string;;
+      imgthumbnailelement.src = reader.result as string;;
     }
     if (this.selectedFile) {
       reader.readAsDataURL(this.selectedFile);
@@ -1700,17 +1695,17 @@ this.crtAssn.newBAActType='';
       this.isLargefile = true;
       this.disableButton = true;
     }
-    
+
     let imgpanthumbnailelement = <HTMLInputElement>document.getElementById("assosnpanimgthumbnail");
     let splitarr = this.selectedFile['name'].split('.')
     let currentdate = new Date();
     let expycopy = splitarr[0] + '_' + currentdate.getTime().toString() + '.' + splitarr[1];
-    let reader  = new FileReader();
-   
-    
+    let reader = new FileReader();
+
+
     reader.onloadend = function () {
       // imgthumbnailelement.src  = reader.result as string;
-      imgpanthumbnailelement.src  = reader.result as string;
+      imgpanthumbnailelement.src = reader.result as string;
     }
     if (this.selectedFile) {
       reader.readAsDataURL(this.selectedFile);
@@ -1737,7 +1732,7 @@ this.crtAssn.newBAActType='';
   }
   removePanfile() {
     let imgpanthumbnailelement = <HTMLInputElement>document.getElementById("assosnpanimgthumbnail");
-   imgpanthumbnailelement.src = this.defaultPanThumbnail;
+    imgpanthumbnailelement.src = this.defaultPanThumbnail;
 
     const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
     dataTransfer.items.add('', '');
@@ -1773,39 +1768,39 @@ this.crtAssn.newBAActType='';
     { "name": "Commercial Property", "displayName": "Commercial Property" },
     { "name": "Residential And Commercial Property", "displayName": "Residential And Commercial Property" }
   ];
-  Roles: any=[
+  Roles: any = [
     { "name": "Owner" },
     { "name": "Tenant" }
   ];
 
-  resetStep1(){
-    let countrie=this.countries
-    this.countries=[];
-    this.countries=countrie;
-    this.crtAssn.name='';
-    this.crtAssn.logo='';
-    this.crtAssn.country='SELECT COUNTRY';
-    this.crtAssn.propertyType='SELECT PROPERTY TYPE';  
-    this.crtAssn.state='';
-    this.crtAssn.city='';
-    this.crtAssn.postalCode='';
-    this.crtAssn.propertyName='';
-    this.crtAssn.locality='';
-    this.crtAssn.email='';
-    this.crtAssn.url='';
+  resetStep1() {
+    let countrie = this.countries
+    this.countries = [];
+    this.countries = countrie;
+    this.crtAssn.name = '';
+    this.crtAssn.logo = '';
+    this.crtAssn.country = 'SELECT COUNTRY';
+    this.crtAssn.propertyType = 'SELECT PROPERTY TYPE';
+    this.crtAssn.state = '';
+    this.crtAssn.city = '';
+    this.crtAssn.postalCode = '';
+    this.crtAssn.propertyName = '';
+    this.crtAssn.locality = '';
+    this.crtAssn.email = '';
+    this.crtAssn.url = '';
   }
-  resetStep2(){
-    this.crtAssn.PANNumber='';
-    this.crtAssn.GSTNumber='';
-    this.crtAssn.uploadPANCard='';
+  resetStep2() {
+    this.crtAssn.PANNumber = '';
+    this.crtAssn.GSTNumber = '';
+    this.crtAssn.uploadPANCard = '';
   }
-  resetStep3(){
-    this.crtAssn.totalNoBlocks='';
-    this.crtAssn.totalNoUnits='';
+  resetStep3() {
+    this.crtAssn.totalNoBlocks = '';
+    this.crtAssn.totalNoUnits = '';
   }
   onSubmit() {
     if (localStorage.getItem('AssociationCreationStatus') == 'completed') {
-      this.blockArray=[];
+      this.blockArray = [];
     }
     //console.log("Creating Association");
     //console.log("locality: " + this.crtAssn.locality);
@@ -1816,12 +1811,12 @@ this.crtAssn.newBAActType='';
         "ASAddress": this.crtAssn.locality,
         "ASCountry": this.crtAssn.country,
         "ASCity": this.crtAssn.city,
-        "ASAsnLogo": (this.ASAsnLogo==undefined? '':this.ASAsnLogo),
+        "ASAsnLogo": (this.ASAsnLogo == undefined ? '' : this.ASAsnLogo),
         "ASState": this.crtAssn.state,
         "ASPinCode": this.crtAssn.postalCode,
         "ASAsnName": this.crtAssn.name,
         "ASPrpName": this.crtAssn.propertyName,
-        "ASRegrNum":  "avcx",    //this.crtAssn.assnRegisterNo,
+        "ASRegrNum": "avcx",    //this.crtAssn.assnRegisterNo,
         "ASPANNum": this.crtAssn.PANNumber,
         "ASPrpType": this.crtAssn.propertyType,
         //"ASWebURL":"",
@@ -1856,27 +1851,27 @@ this.crtAssn.newBAActType='';
         // "ASDUpdated": "2019-01-05",
         // "ASIsActive": "True",
         "ASFaceDet": "False",
-        "ASAsnEmail":this.crtAssn.email,
-        "ASWebURL":this.crtAssn.url,
+        "ASAsnEmail": this.crtAssn.email,
+        "ASWebURL": this.crtAssn.url,
         "Amenities": this.newamenities,
-      
-      "BankDetails": [{
-        // "BankName": this.bank.BankN,
-        // "IFSC": this.bank.IFSCN,
-        // "AccountNumber": this.bank.AccountN,
-        // "accountType": this.bank.accountT,
-        // "BankNam": this.BankName,
-        // "IFS": this.IFSC,
-        // "AccountNumbe": this.AccountNumber,
-        // "accountTyp": this.accountType,
 
-        "BABName": this.crtAssn.newBABName,    //this.BankName,
-        "BAIFSC": this.crtAssn.newBAIFSC,
-        "BAActNo": this.crtAssn.newBAActNo,
-        "BAActType": this.crtAssn.newBAActType
-      }]
-    }
-  };
+        "BankDetails": [{
+          // "BankName": this.bank.BankN,
+          // "IFSC": this.bank.IFSCN,
+          // "AccountNumber": this.bank.AccountN,
+          // "accountType": this.bank.accountT,
+          // "BankNam": this.BankName,
+          // "IFS": this.IFSC,
+          // "AccountNumbe": this.AccountNumber,
+          // "accountTyp": this.accountType,
+
+          "BABName": this.crtAssn.newBABName,    //this.BankName,
+          "BAIFSC": this.crtAssn.newBAIFSC,
+          "BAActNo": this.crtAssn.newBAActNo,
+          "BAActType": this.crtAssn.newBAActType
+        }]
+      }
+    };
 
     console.log(this.createAsssociationData);
     let blockArraylength = (Number(this.crtAssn.totalNoBlocks));
@@ -1887,7 +1882,7 @@ this.crtAssn.newBAActType='';
       }
     }
     else if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
-      if(this.blockArray.length == 0){
+      if (this.blockArray.length == 0) {
         for (let i = 0; i < blockArraylength; i++) {
           this.blockArray.push(new BlockArrayDetail(i + 1, '', '', '', '', '', '', '', '', 'sqft', '', '', '', '', '', '', '', '', '', '', '', ''));
         }
@@ -1899,40 +1894,40 @@ this.crtAssn.newBAActType='';
     this.viewAssnService.createAssn(this.createAsssociationData).subscribe(res => {
       console.log(res['data']['association']['asAssnID']);
       console.log(res);
-      this.viewAssnService.associationId=res['data']['association']['asAssnID'];
-      this.viewAssnService.asNofBlks=res['data']['association']['asNofBlks'];
-      this.viewAssnService.asNofUnit=res['data']['association']['asNofUnit'];
+      this.viewAssnService.associationId = res['data']['association']['asAssnID'];
+      this.viewAssnService.asNofBlks = res['data']['association']['asNofBlks'];
+      this.viewAssnService.asNofUnit = res['data']['association']['asNofUnit'];
       //this.router.navigate(['blocks']);
-     /* Swal.fire({
-        title: 'Association Created Successfuly',
-      }).then(
-        (result) => {
-  
-          if (result.value) {
-            //this.form.reset();
-            this.viewAssociation_Table = true;
-            this.enrollAssociation = false;
-            this.joinAssociation = false;
-
-            this.viewAssnService.getAssociationDetails(this.accountID).subscribe(res => {
-              //console.log(JSON.stringify(res));
-              this.viewAssnService.enrlAsnEnbled=false;
-              this.viewAssnService.vewAsnEnbled=true;
-              this.viewAssnService.joinAsnEbld=false;
-              var data: any = res;
-              //console.log(data.data.associationByAccount);
-              this.associations = data.data.associationByAccount;
-              //console.log(this.associations);
-            });
-
-            //
-            //this.router.navigate(['home/addblockunitxlsx']);
-
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            //this.router.navigate(['']);
-          }
-        }
-      ) */
+      /* Swal.fire({
+         title: 'Association Created Successfuly',
+       }).then(
+         (result) => {
+   
+           if (result.value) {
+             //this.form.reset();
+             this.viewAssociation_Table = true;
+             this.enrollAssociation = false;
+             this.joinAssociation = false;
+ 
+             this.viewAssnService.getAssociationDetails(this.accountID).subscribe(res => {
+               //console.log(JSON.stringify(res));
+               this.viewAssnService.enrlAsnEnbled=false;
+               this.viewAssnService.vewAsnEnbled=true;
+               this.viewAssnService.joinAsnEbld=false;
+               var data: any = res;
+               //console.log(data.data.associationByAccount);
+               this.associations = data.data.associationByAccount;
+               //console.log(this.associations);
+             });
+ 
+             //
+             //this.router.navigate(['home/addblockunitxlsx']);
+ 
+           } else if (result.dismiss === Swal.DismissReason.cancel) {
+             //this.router.navigate(['']);
+           }
+         }
+       ) */
     },
       res => {
         console.log('error', res);
@@ -1941,7 +1936,7 @@ this.crtAssn.newBAActType='';
   }
   //  */*/*/*/*/*/*/*/block creation along with association start*/*/*/*/*/*/*/*/*/*/*/*/
   createBlock() {
-    this.unitArray=[];
+    this.unitArray = [];
     let isBlockNameNull: any = false;
     this.blockArray.forEach(item => {
       if (item['blkNme'] == '') {
@@ -1985,8 +1980,8 @@ this.crtAssn.newBAActType='';
                 console.log(data);
                 let unitArraylength = (Number(item['noofunits']));
                 // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
-                for(let i=0;i<unitArraylength;i++){
-                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','','','','',''));
+                for (let i = 0; i < unitArraylength; i++) {
+                  this.unitArray.push(new UnitArray(item['blkNme'] + i.toString(), item['blkNme'], data['data'].blockID, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''));
                 }
                 console.log(this.unitArray);
                 if (data['data'].blockID) {
@@ -2080,39 +2075,39 @@ this.crtAssn.newBAActType='';
         confirmButtonColor: "#f69321"
       });
     }
-    setTimeout(() => { 
-     this.groupedArray =  _.groupBy(this.unitArray,'_blockName');
-     console.log(Object.keys(this.groupedArray));
-     let groupedKeys = Object.keys(this.groupedArray);
-     groupedKeys.forEach((item,index)=>{
-      console.log(item);
-      console.log(index);
-      let _blk=this.unitArray.filter(itm=>{
-        console.log(itm);
-        return itm['_blockName']==item;
-      })
-      console.log(_blk);
-      if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
-        if(localStorage.getItem('CreateUnitFromSavedData')=='false'){
-          this.BlockHrefDetail.push({"Id":index+1,"blk":item,"step":"#step-"+(index+7).toString(),"elementID":"step-"+(index+7).toString(),"UnitArray":_blk});
+    setTimeout(() => {
+      this.groupedArray = _.groupBy(this.unitArray, '_blockName');
+      console.log(Object.keys(this.groupedArray));
+      let groupedKeys = Object.keys(this.groupedArray);
+      groupedKeys.forEach((item, index) => {
+        console.log(item);
+        console.log(index);
+        let _blk = this.unitArray.filter(itm => {
+          console.log(itm);
+          return itm['_blockName'] == item;
+        })
+        console.log(_blk);
+        if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
+          if (localStorage.getItem('CreateUnitFromSavedData') == 'false') {
+            this.BlockHrefDetail.push({ "Id": index + 1, "blk": item, "step": "#step-" + (index + 7).toString(), "elementID": "step-" + (index + 7).toString(), "UnitArray": _blk });
+          }
         }
-      }
-     })
-     console.log(this.BlockHrefDetail);
+      })
+      console.log(this.BlockHrefDetail);
       this.unitArrayList = this.unitArray;
       console.log(this.unitArrayList);
-      this.globalService.SetCreateUnitWithAssociation(this.BlockHrefDetail,this.unitArrayList)
-      this.enableCreateUnitWithAssociation=true;
+      this.globalService.SetCreateUnitWithAssociation(this.BlockHrefDetail, this.unitArrayList)
+      this.enableCreateUnitWithAssociation = true;
       this.toggleStepTest('');
-     }, (2000 * (this.blockArray.length + 1)));
+    }, (2000 * (this.blockArray.length + 1)));
   }
   // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
-  OpenSendRequest(OpenSendRequest: TemplateRef<any>){
+  OpenSendRequest(OpenSendRequest: TemplateRef<any>) {
     this.modalRef = this.modalService.show(OpenSendRequest,
       Object.assign({}, { class: 'gray modal-lg' }));
   }
 
-  resetForm(){
+  resetForm() {
     //console.log('teSt');
     //console.log(this.crtAssn.propertyType);
     //console.log(this.ASPrpType);
@@ -2154,7 +2149,7 @@ this.crtAssn.newBAActType='';
             }).then(
               (result) => {
                 if (result.value) {
-                  this.router.navigate(['home']);      
+                  this.router.navigate(['home']);
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                   //this.router.navigate(['']);
                 }
@@ -2177,27 +2172,27 @@ this.crtAssn.newBAActType='';
       });
 
   }
-  requestForJoin(){
+  requestForJoin() {
     //console.log(this.OwnerType);
-      this.OnSendButton(this.OwnerType);
+    this.OnSendButton(this.OwnerType);
   }
-  resetJoinAssociation(){
-    this.assnName='Associations';
-    this.blBlkName='Blocks';
-    this.OwnerType='';
+  resetJoinAssociation() {
+    this.assnName = 'Associations';
+    this.blBlkName = 'Blocks';
+    this.OwnerType = '';
     this.UNOcSDate = '';
-    this.allUnitBlockID=[];
-    let activespan= document.querySelectorAll('span.active');
+    this.allUnitBlockID = [];
+    let activespan = document.querySelectorAll('span.active');
     console.log(activespan.length);
     console.log(this.OwnerType);
-    if(activespan.length > 0){
-      Array.from(activespan).forEach(item=>{
+    if (activespan.length > 0) {
+      Array.from(activespan).forEach(item => {
         //console.log(item);
-        item.className='';
+        item.className = '';
       })
     }
-    else{
-     console.log(activespan);
+    else {
+      console.log(activespan);
     }
   }
   validateGST() {
@@ -2215,21 +2210,21 @@ this.crtAssn.newBAActType='';
       }
     }
 
-  } 
+  }
 
 
 
-  OpenModalOwner(joinowner: TemplateRef<any>, acfName: string, aclName: string, acMobile: string, acEmail: string, acAccntID){
-  //   joinownername:string;
-  // joinownerlastname:string;
-  // joinownermobile:string;
-  // joinowneremail:string
+  OpenModalOwner(joinowner: TemplateRef<any>, acfName: string, aclName: string, acMobile: string, acEmail: string, acAccntID) {
+    //   joinownername:string;
+    // joinownerlastname:string;
+    // joinownermobile:string;
+    // joinowneremail:string
     this.joinownername = acfName;
     this.joinownerlastname = aclName;
     this.joinownermobile = acMobile;
     this.joinowneremail = acEmail;
-  
-    
+
+
 
     this.viewAssnService.GetAccountListByAccountID(acAccntID).subscribe(res => {
       var data: any = res;
@@ -2241,39 +2236,39 @@ this.crtAssn.newBAActType='';
       this.joinownername = res['data']['account'][0].acfName;
       this.joinownerlastname = res['data']['account'][0].aclName;
       this.joinownermobile = res['data']['account'][0].acMobile;
-      this.joinowneremail= res['data']['account'][0].acEmail;
+      this.joinowneremail = res['data']['account'][0].acEmail;
     })
 
     this.modalRef = this.modalService.show(joinowner,
       Object.assign({}, { class: 'gray modal-lg' }));
-    }
+  }
 
 
-    OpenModalTenant(jointenant: TemplateRef<any>, acfName: string, aclName: string, acMobile: string, acEmail: string, acAccntID){
-      this.tname = acfName;
-      this.tlastname = aclName;
-      this.tmobile = acMobile;
-      this.temail = acEmail;
-    
-      
-  
-      this.viewAssnService.GetAccountListByAccountID(acAccntID).subscribe(res => {
-        var data: any = res;
-        //console.log(res['data']['account'][0].acfName);
-        //console.log(res['data']['account'][0].aclName);
-        //console.log(res['data']['account'][0].acMobile);
-        //console.log(res['data']['account'][0].acEmail);
-  
-        this.tname = res['data']['account'][0].acfName;
-        this.tlastname = res['data']['account'][0].aclName;
-        this.tmobile = res['data']['account'][0].acMobile;
-        this.temail= res['data']['account'][0].acEmail;
-      })
-  
-      this.modalRef = this.modalService.show(jointenant,
-        Object.assign({}, { class: 'gray modal-lg' }));
-      }
-  
+  OpenModalTenant(jointenant: TemplateRef<any>, acfName: string, aclName: string, acMobile: string, acEmail: string, acAccntID) {
+    this.tname = acfName;
+    this.tlastname = aclName;
+    this.tmobile = acMobile;
+    this.temail = acEmail;
+
+
+
+    this.viewAssnService.GetAccountListByAccountID(acAccntID).subscribe(res => {
+      var data: any = res;
+      //console.log(res['data']['account'][0].acfName);
+      //console.log(res['data']['account'][0].aclName);
+      //console.log(res['data']['account'][0].acMobile);
+      //console.log(res['data']['account'][0].acEmail);
+
+      this.tname = res['data']['account'][0].acfName;
+      this.tlastname = res['data']['account'][0].aclName;
+      this.tmobile = res['data']['account'][0].acMobile;
+      this.temail = res['data']['account'][0].acEmail;
+    })
+
+    this.modalRef = this.modalService.show(jointenant,
+      Object.assign({}, { class: 'gray modal-lg' }));
+  }
+
   getpropertyType(propertyTypeName) {
     this.ASPrpType = propertyTypeName;
   }
@@ -2281,134 +2276,134 @@ this.crtAssn.newBAActType='';
 
 
 
-      OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID,BAActID,AMID) {
-        //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
-        let EditAssociationData={};
-        this.ASAsnName = asAsnName;
-        this.ASCountry = asCountry;
-        this.ASAddress = asAddress;
-        this.ASCity = asCity;
-        this.ASState = asState;
-        this.ASPinCode = asPinCode;
-        this.ASPrpType = asPrpType;
-        this.ASPrpName = asPrpName;
-        this.ASNofBlks = asNofBlks;
-        this.ASNofUnit = asNofUnit;
-        this.BABName = baBName;
-        this.BAIFSC = baIFSC;
-        this.BAActNo = baActNo;
-        this.BAActType = baActType;
-        this.asAssnID=asAssnID;
-        this.BAActID=BAActID;
-        this.AMID=AMID;
-        this.amType=amType;
-        this.noofAmenities=noofAmenities;
-        //console.log(asAsnName);
-        //console.log(asPrpName);
-        //console.log(asAddress);
-        //console.log(asNofUnit);
-        //console.log(asCountry);
-        //console.log(asPinCode);
-        //console.log(asState);
-        console.log(asPrpType);
-        console.log(this.BAActType);
-        //console.log(asCity);
-        //console.log(asAssnID);
-        //console.log(amType);
-        //console.log(baBName);
-    
-        this.viewAssnService.getAssociationDetails(asAssnID)
-    
-        this.viewAssnService.getAssociationDetailsByAssociationid(asAssnID).subscribe(res => {
-          console.log(JSON.stringify(res));
-          var data: any = res;
-          //console.log(res['data']['association']['amenities'][0].amType);
-          //console.log(res['data']['association']['amenities'][0].noofAmenities);
-          if(res['data']['association']['amenities'].length!=0){
-            this.AMType = res['data']['association']['amenities'][0].amType;
-            this.NoofAmenities = res['data']['association']['amenities'][0].noofAmenities;
-          }
-          else{
-            this.AMType = '';
-            this.NoofAmenities='';
-          }
-          //console.log(res['data']['association']['bankDetails'][0].babName);
-          //console.log(res['data']['association']['bankDetails'][0].baifsc);
-          //console.log(res['data']['association']['bankDetails'][0].baActNo);
-          //console.log(res['data']['association']['bankDetails'][0].baActType);
-          if(res['data']['association']['bankDetails'].length !=0){
-            this.BABName = res['data']['association']['bankDetails'][0].babName;
-            this.BAIFSC = res['data']['association']['bankDetails'][0].baifsc;
-            this.BAActNo = res['data']['association']['bankDetails'][0].baActNo;
-            this.BAActType = res['data']['association']['bankDetails'][0].baActType;
-          }
-          else{
-            this.BABName = '';
-            this.BAIFSC = '';
-            this.BAActNo = '';
-            this.BAActType = '';
-          }
-          console.log(res['data']['association']['asPrpType']);
-          this.ASPrpType = res['data']['association']['asPrpType'];
-           //
-        EditAssociationData['ASAsnName'] = asAsnName;
-        EditAssociationData['ASCountry'] = asCountry;
-        EditAssociationData['ASAddress'] = asAddress;
-        EditAssociationData['ASCity'] = asCity;
-        EditAssociationData['ASState'] = asState;
-        EditAssociationData['ASPinCode'] = asPinCode;
-        EditAssociationData['ASPrpType'] = asPrpType;
-        EditAssociationData['ASPrpName'] = asPrpName;
-        EditAssociationData['ASNofBlks'] = asNofBlks;
-        EditAssociationData['ASNofUnit'] = asNofUnit;
-        EditAssociationData['asAssnID']=asAssnID;
-        EditAssociationData['BAActID']=BAActID;
-        EditAssociationData['AMID']=AMID;
-        EditAssociationData['AMType']= this.AMType;
-        EditAssociationData['NoofAmenities']= this.NoofAmenities;
-        EditAssociationData['BABName']= "SBI";
-        EditAssociationData['BAIFSC']= "iciic89898989";
-        EditAssociationData['BAActNo']= "7654324567890";
-        EditAssociationData['BAActType']= "savings";
-        EditAssociationData['ASPrpType'] = this.ASPrpType;
+  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID) {
+    //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
+    let EditAssociationData = {};
+    this.ASAsnName = asAsnName;
+    this.ASCountry = asCountry;
+    this.ASAddress = asAddress;
+    this.ASCity = asCity;
+    this.ASState = asState;
+    this.ASPinCode = asPinCode;
+    this.ASPrpType = asPrpType;
+    this.ASPrpName = asPrpName;
+    this.ASNofBlks = asNofBlks;
+    this.ASNofUnit = asNofUnit;
+    this.BABName = baBName;
+    this.BAIFSC = baIFSC;
+    this.BAActNo = baActNo;
+    this.BAActType = baActType;
+    this.asAssnID = asAssnID;
+    this.BAActID = BAActID;
+    this.AMID = AMID;
+    this.amType = amType;
+    this.noofAmenities = noofAmenities;
+    //console.log(asAsnName);
+    //console.log(asPrpName);
+    //console.log(asAddress);
+    //console.log(asNofUnit);
+    //console.log(asCountry);
+    //console.log(asPinCode);
+    //console.log(asState);
+    console.log(asPrpType);
+    console.log(this.BAActType);
+    //console.log(asCity);
+    //console.log(asAssnID);
+    //console.log(amType);
+    //console.log(baBName);
 
-          let editAssociationData = {
-            "ASAddress": asAddress,
-            "ASCountry": asCountry,
-            "ASAsnName": asAsnName,
-            "ASPANNum": "",
-            "ASRegrNum": "",
-            "ASCity": asCity,
-            "ASState": asState,
-            "ASPinCode": asPinCode,
-            "ASPrpName": asPrpName,
-            "ASPrpType": asPrpType,
-            "ASNofBlks": asNofBlks,
-            "ASNofUnit": asNofUnit,
-            "ASAssnID": asAssnID,
-            "Amenities":
-              [{
-                "AMType": "Club",
-                "NoofAmenities": 2,
-                "AMID": "1"
-              }],
+    this.viewAssnService.getAssociationDetails(asAssnID)
 
-            "BankDetails": [{
-              "BABName": "SBI",
-              "BAIFSC": "iciic89898989",
-              "BAActNo": "7654324567890",
-              "BAActType": "savings",
-              "BAActID": "1"
-            }]
-          }
-
-          console.log(editAssociationData);
-        this.viewAssnService.EditAssociationData=editAssociationData;
-        this.router.navigate(['editassociation']);
-        });
-        // this.modalRef = this.modalService.show(template,
-        //   Object.assign({}, { class: 'gray modal-lg' }));
+    this.viewAssnService.getAssociationDetailsByAssociationid(asAssnID).subscribe(res => {
+      console.log(JSON.stringify(res));
+      var data: any = res;
+      //console.log(res['data']['association']['amenities'][0].amType);
+      //console.log(res['data']['association']['amenities'][0].noofAmenities);
+      if (res['data']['association']['amenities'].length != 0) {
+        this.AMType = res['data']['association']['amenities'][0].amType;
+        this.NoofAmenities = res['data']['association']['amenities'][0].noofAmenities;
       }
+      else {
+        this.AMType = '';
+        this.NoofAmenities = '';
+      }
+      //console.log(res['data']['association']['bankDetails'][0].babName);
+      //console.log(res['data']['association']['bankDetails'][0].baifsc);
+      //console.log(res['data']['association']['bankDetails'][0].baActNo);
+      //console.log(res['data']['association']['bankDetails'][0].baActType);
+      if (res['data']['association']['bankDetails'].length != 0) {
+        this.BABName = res['data']['association']['bankDetails'][0].babName;
+        this.BAIFSC = res['data']['association']['bankDetails'][0].baifsc;
+        this.BAActNo = res['data']['association']['bankDetails'][0].baActNo;
+        this.BAActType = res['data']['association']['bankDetails'][0].baActType;
+      }
+      else {
+        this.BABName = '';
+        this.BAIFSC = '';
+        this.BAActNo = '';
+        this.BAActType = '';
+      }
+      console.log(res['data']['association']['asPrpType']);
+      this.ASPrpType = res['data']['association']['asPrpType'];
+      //
+      EditAssociationData['ASAsnName'] = asAsnName;
+      EditAssociationData['ASCountry'] = asCountry;
+      EditAssociationData['ASAddress'] = asAddress;
+      EditAssociationData['ASCity'] = asCity;
+      EditAssociationData['ASState'] = asState;
+      EditAssociationData['ASPinCode'] = asPinCode;
+      EditAssociationData['ASPrpType'] = asPrpType;
+      EditAssociationData['ASPrpName'] = asPrpName;
+      EditAssociationData['ASNofBlks'] = asNofBlks;
+      EditAssociationData['ASNofUnit'] = asNofUnit;
+      EditAssociationData['asAssnID'] = asAssnID;
+      EditAssociationData['BAActID'] = BAActID;
+      EditAssociationData['AMID'] = AMID;
+      EditAssociationData['AMType'] = this.AMType;
+      EditAssociationData['NoofAmenities'] = this.NoofAmenities;
+      EditAssociationData['BABName'] = "SBI";
+      EditAssociationData['BAIFSC'] = "iciic89898989";
+      EditAssociationData['BAActNo'] = "7654324567890";
+      EditAssociationData['BAActType'] = "savings";
+      EditAssociationData['ASPrpType'] = this.ASPrpType;
+
+      let editAssociationData = {
+        "ASAddress": asAddress,
+        "ASCountry": asCountry,
+        "ASAsnName": asAsnName,
+        "ASPANNum": "",
+        "ASRegrNum": "",
+        "ASCity": asCity,
+        "ASState": asState,
+        "ASPinCode": asPinCode,
+        "ASPrpName": asPrpName,
+        "ASPrpType": asPrpType,
+        "ASNofBlks": asNofBlks,
+        "ASNofUnit": asNofUnit,
+        "ASAssnID": asAssnID,
+        "Amenities":
+          [{
+            "AMType": "Club",
+            "NoofAmenities": 2,
+            "AMID": "1"
+          }],
+
+        "BankDetails": [{
+          "BABName": "SBI",
+          "BAIFSC": "iciic89898989",
+          "BAActNo": "7654324567890",
+          "BAActType": "savings",
+          "BAActID": "1"
+        }]
+      }
+
+      console.log(editAssociationData);
+      this.viewAssnService.EditAssociationData = editAssociationData;
+      this.router.navigate(['editassociation']);
+    });
+    // this.modalRef = this.modalService.show(template,
+    //   Object.assign({}, { class: 'gray modal-lg' }));
+  }
 
   // toggleStepWizrd() {
   //   $(document).ready(function () {
@@ -2496,7 +2491,7 @@ this.crtAssn.newBAActType='';
   //   });
   // }
   toggleStepTest(event) {
-    if(event !=''){
+    if (event != '') {
       event.preventDefault();
     }
     $(document).ready(function () {
@@ -2504,10 +2499,10 @@ this.crtAssn.newBAActType='';
       console.log('div.setup-panel-stepseven div a');
       console.log($('div.setup-panel-stepseven div a'));
       var navListItems1 = $('div.setup-panel-stepseven div a'),
-       StepTwo = $('#step-6'),
+        StepTwo = $('#step-6'),
         allWells = $('.setup-content-seven'),
         anchorDivs = $('div.stepwizard-row-stepseven div'),
-        createUnit=$('#CreateUnitId');
+        createUnit = $('#CreateUnitId');
       allWells.hide();
       navListItems1.click(function (e) {
         e.preventDefault();
@@ -2530,14 +2525,14 @@ this.crtAssn.newBAActType='';
           allWells.hide();
           console.log(allWells);
           console.log($target);
-         console.log(StepTwo);
+          console.log(StepTwo);
           StepTwo.show();
           $target.show();
           $target.find('input:eq(0)').focus();
         }
       });
-      createUnit.click(function(){
-       console.log($(this).parent().parent());
+      createUnit.click(function () {
+        console.log($(this).parent().parent());
       });
       $('div.setup-panel-stepseven div a.btn-success').trigger('click');
     });
@@ -2547,19 +2542,19 @@ this.crtAssn.newBAActType='';
 
     $(document).ready(function () {
       var navListItems = $('div.setup-panel div a'),
-      AddExp = $('#AddExp'),
-     /* StepTwo = $('#step-6'),*/
+        AddExp = $('#AddExp'),
+        /* StepTwo = $('#step-6'),*/
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-       anchorDiv = $('div.setup-panel div'),
-       anchorDivs = $('div.stepwizard-row div');
+        anchorDiv = $('div.setup-panel div'),
+        anchorDivs = $('div.stepwizard-row div');
       allWells.hide();
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
-          $item = $(this), 
+          $item = $(this),
           $divTgt = $(this).parent();
-          console.log('test');
+        console.log('test');
         // console.log($target);
         //console.log($item);
         // console.log(anchorDiv);
@@ -2587,15 +2582,15 @@ this.crtAssn.newBAActType='';
             // Array.from(navListItems1).forEach(item=>{
             //   console.log(item);
             // })
-            var navListItemsDivAnchr=$(Array.from(navListItemsDiv)[0]);
+            var navListItemsDivAnchr = $(Array.from(navListItemsDiv)[0]);
             navListItemsDivAnchr.addClass('step-active');
             var $targett = $($(Array.from(navListItems1)[0]).attr('href'));
             console.log($targett);
             $targett.show();
             /**/
           }
-         /* console.log(StepTwo);
-          StepTwo.show(); */
+          /* console.log(StepTwo);
+           StepTwo.show(); */
           $target.show();
           $target.find('input:eq(0)').focus();
         }
@@ -2605,7 +2600,7 @@ this.crtAssn.newBAActType='';
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
           curInputs = curStep.find("input[type='text']"),
-          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+          curAnchorBtn = $('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
         $(".form-group").removeClass("has-error");
         for (var i = 0; i < curInputs.length; i++) {
@@ -2623,14 +2618,14 @@ this.crtAssn.newBAActType='';
       });
       AddExp.click(function () {
         /*****/
-        
+
         /*****/
         console.log(this);
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
-          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
-          nextAnchorBtn=$('div.setup-panel div a[href="#step-5"]'),
-          target=$($(nextAnchorBtn).attr('href')),
+          curAnchorBtn = $('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+          nextAnchorBtn = $('div.setup-panel div a[href="#step-5"]'),
+          target = $($(nextAnchorBtn).attr('href')),
           allSetupContent = $('.setup-content'),
           divTgt = $(nextAnchorBtn).parent();
         curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
@@ -2650,118 +2645,118 @@ this.crtAssn.newBAActType='';
     });
   }
 
-   OpenModals(jointemplate: TemplateRef<any>,unUnitID) {
-     //console.log(unUnitID);
-     this.unUnitID=unUnitID;
+  OpenModals(jointemplate: TemplateRef<any>, unUnitID) {
+    //console.log(unUnitID);
+    this.unUnitID = unUnitID;
     this.modalRef = this.modalService.show(jointemplate,
-     Object.assign({}, { class: 'gray modal-lg' }));
-    }
-    resetStep5(){
-      this.blockname='';
-      this.blocktype = '';
-      this.noofunits='';
-    }
-    resetStep6(){
-      this.mngName='';
-      this.BlockManagermobile='';
-      this.manageremail='';
-    }
-    resetStep7() {
-      this.flatRatevalue = 0;
-      this.maintenanceValue = 0;
-      this.meter = '';
-      this.frequency = '';
-      this.billGenerationDate = null;
-      this.dueDate = '';
-      this.latePymtChargeType = 'SELECT CHARGE TYPE';
-      this.startsFrom = null;
-    }
-    getAssonName(){
-      console.log(this.crtAssn.name);
-      localStorage.setItem('AssociationName',this.crtAssn.name);
-    }
-    getState(state){
-      this.crtAssn.state=state;
-      console.log(this.crtAssn.state);
-      localStorage.setItem('AssociationState',this.crtAssn.state);
-    }
-    getCity(){
-      console.log(this.crtAssn.city);
-      localStorage.setItem('AssociationCity',this.crtAssn.city);
-    }
-    getPinPostalCode(){
-      console.log(this.crtAssn.postalCode);
-      localStorage.setItem('AssociationPostalCode',this.crtAssn.postalCode);
-    }
-    getPropertyName(){
-      console.log(this.crtAssn.propertyName);
-      localStorage.setItem('AssociationPropertyName',this.crtAssn.propertyName);
-    }
-    getLocality(){
-      console.log(this.crtAssn.locality);
-      localStorage.setItem('AssociationLocality',this.crtAssn.locality);
-    }
-    getAssnEmail(){
-      console.log(this.crtAssn.email);
-      localStorage.setItem('AssociationEmail',this.crtAssn.email);
-    }
-    getNumberOfBlocks(){
-      console.log(this.crtAssn.totalNoBlocks)
-      localStorage.setItem('AssociationBlockNumber',this.crtAssn.totalNoBlocks)
-    }
-    getNumberOfUnits(){
-      console.log(this.crtAssn.totalNoUnits)
-      localStorage.setItem('AssociationUnitNumber',this.crtAssn.totalNoUnits)
-    }
-    getBlockName(Id,blkNme){
-      console.log(Id);
-      for (let i = 0; i < this.blockArray.length; i++) {
-        if (this.blockArray[i]['Id'] == Id) {
-            this.blockArray[i]['blkNme'] = blkNme;
-        }
+      Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  resetStep5() {
+    this.blockname = '';
+    this.blocktype = '';
+    this.noofunits = '';
+  }
+  resetStep6() {
+    this.mngName = '';
+    this.BlockManagermobile = '';
+    this.manageremail = '';
+  }
+  resetStep7() {
+    this.flatRatevalue = 0;
+    this.maintenanceValue = 0;
+    this.meter = '';
+    this.frequency = '';
+    this.billGenerationDate = null;
+    this.dueDate = '';
+    this.latePymtChargeType = 'SELECT CHARGE TYPE';
+    this.startsFrom = null;
+  }
+  getAssonName() {
+    console.log(this.crtAssn.name);
+    localStorage.setItem('AssociationName', this.crtAssn.name);
+  }
+  getState(state) {
+    this.crtAssn.state = state;
+    console.log(this.crtAssn.state);
+    localStorage.setItem('AssociationState', this.crtAssn.state);
+  }
+  getCity() {
+    console.log(this.crtAssn.city);
+    localStorage.setItem('AssociationCity', this.crtAssn.city);
+  }
+  getPinPostalCode() {
+    console.log(this.crtAssn.postalCode);
+    localStorage.setItem('AssociationPostalCode', this.crtAssn.postalCode);
+  }
+  getPropertyName() {
+    console.log(this.crtAssn.propertyName);
+    localStorage.setItem('AssociationPropertyName', this.crtAssn.propertyName);
+  }
+  getLocality() {
+    console.log(this.crtAssn.locality);
+    localStorage.setItem('AssociationLocality', this.crtAssn.locality);
+  }
+  getAssnEmail() {
+    console.log(this.crtAssn.email);
+    localStorage.setItem('AssociationEmail', this.crtAssn.email);
+  }
+  getNumberOfBlocks() {
+    console.log(this.crtAssn.totalNoBlocks)
+    localStorage.setItem('AssociationBlockNumber', this.crtAssn.totalNoBlocks)
+  }
+  getNumberOfUnits() {
+    console.log(this.crtAssn.totalNoUnits)
+    localStorage.setItem('AssociationUnitNumber', this.crtAssn.totalNoUnits)
+  }
+  getBlockName(Id, blkNme) {
+    console.log(Id);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['blkNme'] = blkNme;
       }
-      console.log(this.blockArray);
-      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
     }
-    getNoOfUnits(Id,noofunits){
-      console.log(Id);
-      for (let i = 0; i < this.blockArray.length; i++) {
-        if (this.blockArray[i]['Id'] == Id) {
-            this.blockArray[i]['noofunits'] = noofunits;
-        }
+    console.log(this.blockArray);
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
+  }
+  getNoOfUnits(Id, noofunits) {
+    console.log(Id);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['noofunits'] = noofunits;
       }
-      console.log(this.blockArray);
-      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
     }
-    getManagerName(Id,mngName){
-      console.log(Id);
-      for (let i = 0; i < this.blockArray.length; i++) {
-        if (this.blockArray[i]['Id'] == Id) {
-            this.blockArray[i]['mngName'] = mngName;
-        }
+    console.log(this.blockArray);
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
+  }
+  getManagerName(Id, mngName) {
+    console.log(Id);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['mngName'] = mngName;
       }
-      console.log(this.blockArray);
-      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
     }
-    getManagerEmail(Id,manageremail){
-      console.log(Id);
-      for (let i = 0; i < this.blockArray.length; i++) {
-        if (this.blockArray[i]['Id'] == Id) {
-            this.blockArray[i]['manageremail'] = manageremail;
-        }
+    console.log(this.blockArray);
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
+  }
+  getManagerEmail(Id, manageremail) {
+    console.log(Id);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['manageremail'] = manageremail;
       }
-      console.log(this.blockArray);
-      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
     }
-    getInvoiceCreationFrequency(Id,frequency){
-      console.log(Id);
-      for (let i = 0; i < this.blockArray.length; i++) {
-        if (this.blockArray[i]['Id'] == Id) {
-            this.blockArray[i]['frequency'] = frequency;
-        }
+    console.log(this.blockArray);
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
+  }
+  getInvoiceCreationFrequency(Id, frequency) {
+    console.log(Id);
+    for (let i = 0; i < this.blockArray.length; i++) {
+      if (this.blockArray[i]['Id'] == Id) {
+        this.blockArray[i]['frequency'] = frequency;
       }
-      console.log(this.blockArray);
-      localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
     }
-  
+    console.log(this.blockArray);
+    localStorage.setItem('AssociationBlockArray', JSON.stringify(this.blockArray));
+  }
 }
+
