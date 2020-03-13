@@ -12,5 +12,7 @@ export class ExpenseList {
         private exDesc,
         private exRecurr,
         private exType,
-        private pmid){}
+        private pmid,
+        private poid,
+        private blBlockID){}
 }

@@ -172,6 +172,7 @@ export class InvoicesComponent implements OnInit {
   toggleUL: boolean;
   ValidateAmountPaid: boolean;
   ValidateReceiptModal:boolean;
+  _discountedValue:number;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -184,6 +185,7 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this._discountedValue=0;
       this.ValidateAmountPaid=false;
       this.ValidateReceiptModal=true;
       this.toggleUL=false;
@@ -564,7 +566,6 @@ export class InvoicesComponent implements OnInit {
     this.discountedValue = inDsCVal;
     this.unitID = unUnitID;
 
-
     this.viewinvoiceservice.GetUnitListByUnitID(this.unitID)
       .subscribe(data => {
         console.log('GetUnitListByUnitID', data);
@@ -600,8 +601,6 @@ export class InvoicesComponent implements OnInit {
 
     this.viewinvoiceservice.invoiceDetails(inid, unUnitID)
       .subscribe(data => {
-        this.modalRef = this.modalService.show(invoicePop,
-          Object.assign({}, { class: 'gray modal-lg' }));
         this.InvoiceValue = 0;
         console.log('invoiceDetails--', data['data']['invoiceDetails']);
         this.invoiceDetails = data['data']['invoiceDetails'];
@@ -617,6 +616,9 @@ export class InvoicesComponent implements OnInit {
           }
           else if (item['idDesc'] == "Generator") {
             this.generatorfee = item['idValue'];
+            this.InvoiceValue += item['idValue'];
+          }
+          else if (item['idDesc'] == "xc") {
             this.InvoiceValue += item['idValue'];
           }
           else if (item['idDesc'] == "Security Fees") {
@@ -663,8 +665,16 @@ export class InvoicesComponent implements OnInit {
             //this.rentingfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
+          else if (item['idDesc'] == "Discount Value") {
+            //this._discountedValue += item['idValue'];
+            this.InvoiceValue += item['idValue'];
+            console.log(this._discountedValue);
+          }
         })
-        this.InvoiceValue=this.InvoiceValue-this.discountedValue;
+        console.log(this._discountedValue);
+       //let finalValueWithDiscount = this.InvoiceValue - this._discountedValue;
+        //console.log(finalValueWithDiscount);
+        this.modalRef = this.modalService.show(invoicePop,Object.assign({}, { class: 'gray modal-lg' }));
       },
         err => {
           console.log(err);
@@ -831,6 +841,9 @@ export class InvoicesComponent implements OnInit {
 
         if (item['idDesc'] == "Common Area Electric Bill") {
           this.commonareafee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "xc") {
           this.InvoiceValue += item['idValue'];
         }
         else if (item['idDesc'] == "Fixed Maintenance") {

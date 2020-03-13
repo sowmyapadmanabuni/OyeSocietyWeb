@@ -200,7 +200,7 @@ export class HomeComponent implements OnInit {
     this.associationAmountDue = [];
     this.amount = 0;
     this.dashBrdService.getAmount(this.globalService.getCurrentAssociationId()).subscribe(res => {
-      //console.log('amount',res);
+      console.log('amount',res);
       this.associationAmountDue = res['data']['payments'];
       console.log(this.associationAmountDue);
       // if (res['data']['errorResponse']) {

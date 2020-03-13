@@ -1068,7 +1068,7 @@
             <div class="inv-details t-right">
                 <!-- <img (click)="printInvoice()" src="../../assets/images/icons/printer.png"> -->
                 <button style="margin: -7% 0% 0% 0%;" type="button" class="close" aria-label="Close" (click)="modalRef.hide()"><span aria-hidden="true">&times;</span></button>
-                <h2 class="inv-title">{{associationDetails.asAsnName}}</h2>
+                <h2 class="inv-title">{{associationDetails['asAsnName']}}</h2>
                 <p>{{associationDetails.asAddress}}</p>
                 <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
             </div>
@@ -1083,7 +1083,7 @@
 
                         </tr>
                         <tr>
-                            <th>Sl No</th>
+                            <th>Sll No</th>
                             <th>Description</th>
                             <!-- <th>Taxable Value</th>
                             <th>CGST</th>
@@ -1093,26 +1093,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container>
+                        <!-- <ng-container>
                             <tr *ngIf='discountedValue > 0' style="font-weight:bold">
                                 <td>{{1}}</td>
                                 <td><span>Discount</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{discountedValue}}.00</span> </td>
                             </tr>
-                        </ng-container>
-                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+                        </ng-container> -->
+                        <!-- <ng-container *ngFor='let item of invoiceDetails;let i=index'>
 
                             <tr *ngIf='previousDue > 0' style="font-weight:bold">
                                 <td>{{i+1}}</td>
                                 <td><span>Previous
                                         Due</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{previousDue}}.00</span></td>
                             </tr>
@@ -1120,27 +1114,24 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Water
                                         Meter</span></td>
-                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td> -->
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'Discount Value' && item['idValue'] > 0">
+                                <td>{{i+1}}</td>
+                                <td><span>Discount Value</span></td>
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Common Area Electric Bill' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>Common Area Electric Bill</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Corpus' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>Corpus</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1148,18 +1139,12 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Generator
                                         Bill</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'HouseKeeping' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>Housekeeping</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1167,9 +1152,6 @@
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         Membership Fee</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1177,9 +1159,6 @@
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         Occupancy Fees</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1187,9 +1166,6 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Renting
                                         Fees</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1197,9 +1173,6 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Security
                                         Fees</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1207,9 +1180,12 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Fixed
                                         Maintenance</span></td>
-                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td> -->
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'xc' && item['idValue'] > 0">
+                                <td>{{i+1}}</td>
+                                <td><span>xc</span></td>
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1217,18 +1193,12 @@
                                 <td>{{i+1}}</td>
                                 <td><span>One Time
                                         OnBoarding Fees</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'bill' && item['idValue'] > 0">
                                 <td>{{i+1}}</td>
                                 <td><span>All Sold Owner Occupied Units,</span><span>Tenant Occupied Units,</span><span>All UnSold Tenant Occupied Units</span></td>
-                                <!-- <td><span>-</span></td>
-                                <td><span>-</span></td>
-                                <td><span>-</span></td> -->
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
@@ -1236,9 +1206,14 @@
                                 <td>{{i+1}}</td>
                                 <td><span>Unsold
                                         Rental Fees</span></td>
-                                <!-- <td><span>-</span></td>
                                 <td><span>-</span></td>
-                                <td><span>-</span></td> -->
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                        </ng-container> -->
+                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td><span>{{item['idDesc']}}</span></td>
                                 <td><span>-</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>

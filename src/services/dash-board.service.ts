@@ -60,7 +60,7 @@ export class DashBoardService {
       .append('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
       .append('Access-Control-Allow-Origin', "*");
     let scopeIP = this.utilsService.getIPaddress();
-    return this.http.get(scopeIP + 'oyeliving/api/v1/Payment/GetAmountBalance/' + 10852, { headers: headers });
+    return this.http.get(scopeIP + 'oyeliving/api/v1/Payment/GetAmountBalance/' + unUnitID, { headers: headers });
   }
 
   getMembers(accountID){

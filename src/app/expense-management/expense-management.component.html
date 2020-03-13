@@ -114,9 +114,9 @@
               <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt"
                   placeholder="Search by Expense Head, Applicability, Unit Name">
               </div>
-              <div class="del-date cal"><input type="text" name="ExpenseStartDate" #ExpenseStartDateControl='ngModel'
+              <div class="del-date cal"><input type="text" #StartDate name="ExpenseStartDate" #ExpenseStartDateControl='ngModel' (keyup)='validateDate($event,StartDate,EndDate)'
                   [(ngModel)]="ExpenseStartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig"></div>
-              <div class="del-date cal"><input type="text" (bsValueChange)="getExpenseListByDateRange($event)" name="ExpenseEndDate"
+              <div class="del-date cal"><input type="text" #EndDate (bsValueChange)="getExpenseListByDateRange($event)" name="ExpenseEndDate" (keyup)='validateDate($event,StartDate,EndDate)'
                   #ExpenseEndDateControl='ngModel' [(ngModel)]="ExpenseEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig">
               </div>
             </div>
@@ -144,7 +144,7 @@
         </div>
         <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
           <table class="table table-bordered"
-            [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exDate','expAmnt']:searchTxt"
+            [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exdUpdated','expAmnt']:searchTxt"
             (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="setnoofrows">
             <thead>
               <tr>
@@ -185,17 +185,17 @@
                   <td colspan="10" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item['exid'],item['exDesc'],item['expAmnt'],item['exApplTO'],item['exHead'],item['exType'],item['pmid'],item['inNumber'],item['poid'],item['exPyCopy'],item['exRecurr'],item['exDate'],item['blBlockID'],item['unUniIden'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['exHead']}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['exApplTO']}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{item['unUniIden']}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{item['exHead']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{item['exApplTO']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{item['unUniIden']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">
                     <span  *ngIf="item.exIsInvD == true"> YES</span>
                     <span  *ngIf="item.exIsInvD == false"> NO</span>
                   </td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])" class="txt-middle">{{item.exdUpdated | date:"d/M/y"}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])" class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])">{{dashboardservice.acfName | titlecase}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])" class="txt-middle">{{item.exdUpdated | date:"d/M/y"}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])" class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{dashboardservice.acfName | titlecase}}</td>
                   <!-- <td>
                     <i style="cursor: pointer;" [ngClass]="{'decrseopcty' : item.exIsInvD == true}"
                       (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])"
@@ -254,7 +254,7 @@
     <div class="modal-body">
       <div class="row">
         <div class="col-xs-12">
-          <form name="editExpense" autocomplete="off">
+          <form #editExpenseForm ='ngForm' name="editExpense" autocomplete="off">
             <div class="row">
               <div class="col-sm-6">
                 <p style="margin-left: 14px;">Association Name: <strong>{{assnName}}</strong></p>
@@ -432,21 +432,22 @@
               <div class="col-sm-4 col-xs-12">
                 <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
                   <label>Expense Amount<span class="red">*</span></label>
-                  <input type="text" class="form-control" name="EXPAmnt" [value]="editexpensedata.EXPAmnt"
+                  <input type="text" class="form-control" name="EXPAmnt" (keyup)="ValidateExpenseAmount()" [value]="editexpensedata.EXPAmnt"
                     [(ngModel)]="editexpensedata.EXPAmnt" #amountControl='ngModel' placeholder="Amount" required
                     pattern="^[0-9]*$" />
+                    <p class="alerts" *ngIf="invalidAmount">Please Enter Valid Amount</p>
 
-                  <div *ngIf="amountControl.invalid && amountControl.touched">
+                  <!-- <div *ngIf="amountControl.invalid && amountControl.touched">
                     <p class="alerts" *ngIf="amountControl.errors.required">Please Enter Amount
                     </p>
                     <p class="alerts" *ngIf="amountControl.errors.pattern">Please Enter Valid
                       Amount</p>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="col-sm-4 col-xs-12">
                 <div class="form-group" [ngClass]="{'has-error' : UnitNumberControl.invalid && UnitNumberControl.touched}">
-                  <label>UnitNumber<span class="red">*</span></label>
+                  <label>UnitNumber<span class="red"></span></label>
                   <input type="text" class="form-control" name="UnitNumber" [value]="editexpensedata.unUniIden"
                     [(ngModel)]="editexpensedata.unUniIden" #UnitNumberControl='ngModel' disabled/>
                 </div>
@@ -587,7 +588,7 @@
             <div class="from-group">
               <div class="form-group pull-right" style="padding-right:15px;">
                 <br>
-                <button type="submit" class="btn btn-primary-purple nextBtn" (click)="modalRef.hide()"
+                <button type="submit" class="btn btn-primary-purple nextBtn" (click)="modalRef.hide()" [disabled]="invalidAmount"
                   (click)="updateExpense()">Update</button>
               </div>
             </div>

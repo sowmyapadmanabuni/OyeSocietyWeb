@@ -124,6 +124,9 @@ export class ExpenseManagementComponent implements OnInit {
   columnName: any;
   unUnitID: any;
   toggleTd: boolean;
+  testDate: Date;
+  invalidAmount: boolean;
+  toggleDistributionType:boolean;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -137,6 +140,8 @@ export class ExpenseManagementComponent implements OnInit {
     private orderpipe: OrderPipe,
     private utilsService:UtilsService
   ) {
+    this.toggleDistributionType=false;
+    this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
     this.globalservice.IsEnrollAssociationStarted==false;
     this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
@@ -154,6 +159,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.allUnitBYBlockID=[];
     this.addexpenseservice.enableAddExpnseView = false;
     this.addexpenseservice.enableExpenseListView=true;
+    this.invalidAmount=false;
     //this.viewexpenseservice.GetExpenseListByAssocID();
     //this.mgrName= this.viewexpenseservice.GetBlockListByBlockID('1107');
     //this.viewexpenseservice.GetPurchaseOrderListByAssocID();
@@ -290,6 +296,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.columnName = columnName;
   }
   ngOnInit() {
+    
     // this.addexpenseservice.GetBlockListByAssocID()
     //   .subscribe(item => {
     //     console.log('item',item);
@@ -339,6 +346,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.blockID=blockID;
     console.log('GetExpenseListByBlockID',blockID);
     this.viewexpenseservice.currentBlockId=blockID;
+    this.editexpensedata.BLBlockID=blockID
     this.viewexpenseservice.currentBlockName=blBlkName;
     this.viewexpenseservice.GetExpenseListByBlockID(blockID)
     .subscribe(
@@ -348,7 +356,7 @@ export class ExpenseManagementComponent implements OnInit {
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
           //console.log(item['inNumber']);
-          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid']));
+          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
         })
         console.log(this.expenseList);
         this._viewexpensesByBlockId=this.expenseList;
@@ -361,9 +369,7 @@ export class ExpenseManagementComponent implements OnInit {
       err=>{
         console.log(err);
         swal.fire({
-          title: "Error",
           text: `No Data Found`,
-          type: "error",
           confirmButtonColor: "#f69321"
         });
       }
@@ -538,43 +544,59 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log('repexpense1-', repexpense1);
     //console.log('idx-', idx);
   }
-  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exDate, blBlockID,unUniIden) {
-    //console.log('purchaseOrders',this.purchaseOrders);
-    //console.log('InvoiceNumber',inNumber);
-    // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
-    // this.VNName = this.purchaseOrders[0]['poPrfVen'];
-    // this.BPIden = this.purchaseOrders[0]['bpIden'];
-    console.log(exDesc);
-    console.log(exRecurr);
-    console.log(exType);
-    console.log(pmid);
-    this.EXRABudg = 0;
+  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD) {
+    console.log(exIsInvD);
+    if (exIsInvD== false) {
+      //console.log('purchaseOrders',this.purchaseOrders);
+      //console.log('InvoiceNumber',inNumber);
+      // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
+      // this.VNName = this.purchaseOrders[0]['poPrfVen'];
+      // this.BPIden = this.purchaseOrders[0]['bpIden'];
+      //this.ValidateAmount()
+      console.log(poid);
+      console.log(exDesc);
+      console.log(exRecurr);
+      console.log(exType);
+      console.log(pmid);
+      console.log(new Date(exdUpdated));
+      console.log(new Date(exdUpdated).getDate());
+      console.log(new Date(exdUpdated).getMonth());
+      console.log(new Date(exdUpdated).getFullYear());
+      console.log(new Date(exdUpdated).getHours());
+      console.log(new Date(exdUpdated).getMinutes());
+      console.log(new Date(exdUpdated).getSeconds());
+      console.log(new Date(exdUpdated).getTimezoneOffset());
+      console.log(new Date(new Date(exdUpdated).getFullYear(), new Date(exdUpdated).getMonth(), new Date(exdUpdated).getDate(), 12, 0, 0));
+      this.EXRABudg = 0;
+      let formattedDate = new Date(new Date(exdUpdated).getFullYear(), new Date(exdUpdated).getMonth(), new Date(exdUpdated).getDate(), 12, 0, 0);
+      console.log(formattedDate);
+      console.log(formatDate(formattedDate, 'dd/MM/yyyy', 'en'));
+      this.editexpensedata.EXID = exid;
+      this.editexpensedata.EXDesc = exDesc;
+      this.editexpensedata.EXPAmnt = expAmnt;
+      this.editexpensedata.EXApplTO = exApplTO;
+      this.editexpensedata.EXHead = exHead;
+      this.editexpensedata.EXType = exType;
+      this.editexpensedata.PMID = pmid;
+      this.editexpensedata.inNumber = exid.toString();
+      this.editexpensedata.POID = poid;
+      this.editexpensedata.EXPyCopy = '';
+      this.editexpensedata.EXRecurr = exRecurr;
+      this.editexpensedata.EXDate = formattedDate;
+      this.editexpensedata.BLBlockID = blBlockID;
+      this.editexpensedata.unUniIden = unUniIden;
+      console.log(this.editexpensedata);
 
-    this.editexpensedata.EXID = exid;
-    this.editexpensedata.EXDesc = exDesc;
-    this.editexpensedata.EXPAmnt = expAmnt;
-    this.editexpensedata.EXApplTO = exApplTO;
-    this.editexpensedata.EXHead = exHead;
-    this.editexpensedata.EXType = exType;
-    this.editexpensedata.PMID = pmid;
-    this.editexpensedata.inNumber = exid.toString();
-    this.editexpensedata.POID = poid;
-    this.editexpensedata.EXPyCopy = exPyCopy;
-    this.editexpensedata.EXRecurr = exRecurr;
-    this.editexpensedata.EXDate = formatDate(exDate, 'dd/MM/yyyy', 'en');
-    this.editexpensedata.BLBlockID = blBlockID;
-    this.editexpensedata.unUniIden=unUniIden;
-    console.log(this.editexpensedata);
+      this.modalRef = this.modalService.show(editexpensetemplate,
+        Object.assign({}, { class: 'gray modal-lg' }));
 
-    this.modalRef = this.modalService.show(editexpensetemplate,
-      Object.assign({}, { class: 'gray modal-lg' }));
-
-    const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
-    dataTransfer.items.add(new File([exPyCopy], exPyCopy));
-    //console.log('dataTransfer', dataTransfer);
-    const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
-    //console.log('inputElement', inputElement.files);
-    inputElement.files = dataTransfer.files;
+      const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
+      dataTransfer.items.add(new File([exPyCopy], exPyCopy));
+      //console.log('dataTransfer', dataTransfer);
+      const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
+      //console.log('inputElement', inputElement.files);
+      inputElement.files = dataTransfer.files;
+    }
   }
 
   prerequisitesAddUnit(blockName: string) {
@@ -582,7 +604,7 @@ export class ExpenseManagementComponent implements OnInit {
   }
   applicableTo(applicableto: string) {
     let blockid = this.editexpensedata.BLBlockID;
-    //console.log(applicableto);
+    console.log(applicableto);
     this.applies = applicableto;
     if (this.applies == 'All' || this.applies == 'SoldOwnerOccupied' || this.applies == 'SoldTenantOccupied') {
       this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
@@ -809,29 +831,24 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   updateExpense() {
-    let exdate;
+   /* let exdate;
  
     let editexpenseobj
 
 
     if(typeof this.editexpensedata.EXDate == 'string'){
-      //alert('editexpensedata.EXDate is string');
       editexpenseobj=this.editexpensedata.EXDate.split('/');
-      //exdate = new Date(editexpenseobj[2]+'-'+editexpenseobj[1]+'-'+editexpenseobj[0]+'T00:00:00Z');
       exdate = new Date(editexpenseobj[2]+'-'+editexpenseobj[1]+'-'+editexpenseobj[0]+'T00:00:00Z');
-      //let newexdate = new Date(editexpenseobj[2]+'-'+editexpenseobj[1]+'-'+editexpenseobj[0]+'T00:00:00Z').toUTCString();
-      //alert('toString'+exdate);
     }
     else if(typeof this.editexpensedata.EXDate == 'object'){
-      //alert('this.editexpensedata.EXDate is object');
       exdate = this.editexpensedata.EXDate;
-      //alert(exdate);
     }
 
-    this.editexpensedata.EXDate = formatDate(exdate, 'yyyy/MM/dd', 'en'); //'2019-07-24T12:00:00';//
-    //console.log('editexpensedata', this.editexpensedata);
+    this.editexpensedata.EXDate = formatDate(exdate, 'yyyy/MM/dd', 'en');*/
+    console.log('editexpensedata', this.editexpensedata);
     this.viewexpenseservice.updateExpense(this.editexpensedata)
       .subscribe(data => {
+        console.log(data);
         swal.fire({
           title: "Expense update Successfully",
           text: "",
@@ -849,6 +866,9 @@ export class ExpenseManagementComponent implements OnInit {
               //.....code
             }
           })
+      },
+      err=>{
+        console.log(err);
       })
   }
 
@@ -956,14 +976,14 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(data['data']['expense']);
       this._viewexpensesByBlockId=data['data']['expense'];
       data['data']['expense'].forEach(item => {
-        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid']));
+        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
       })
       console.log(this.expenseList);
       this._viewexpensesByBlockId=this.expenseList;
       //console.log(this._viewexpensesByBlockId);
     },
     err=>{
-      //console.log(err);
+      console.log(err);
     })
   }
   toggleGenerateInv() {
@@ -1054,6 +1074,32 @@ export class ExpenseManagementComponent implements OnInit {
           return ((item['exIsInvD'].toString().toLowerCase() == false) && (item['unUniIden'] == this.UnitName));
       })
       console.log(this.expenseList);
+    }
+  }
+  ValidateAmount(){
+    console.log(this.editexpensedata.EXPAmnt);
+    if(Number(this.editexpensedata.EXPAmnt)==0){
+      this.invalidAmount=true;
+    }
+    else{
+      this.invalidAmount=false;
+    }
+  }
+  ValidateExpenseAmount(){
+    console.log(this.editexpensedata.EXPAmnt);
+    if(Number(this.editexpensedata.EXPAmnt)==0){
+      this.invalidAmount=true;
+    }
+    else{
+      this.invalidAmount=false;
+    }
+  }
+  validateDate(event, StartDate, EndDate) {
+    console.log(StartDate.value, EndDate.value);
+    if (event.keyCode == 8) {
+      if ((StartDate.value == '' || StartDate.value == null) && (EndDate.value == '' || EndDate.value == null)) {
+        console.log('test');
+      }
     }
   }
 }
