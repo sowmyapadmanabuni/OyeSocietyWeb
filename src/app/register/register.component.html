@@ -283,10 +283,14 @@
 							<form>
 								<div class="form-group first-row">
 									<div class="user-wrapper">
-										<input style="width: 110%;" placeholder="First Name" name="firstName" [(ngModel)]="firstName" type="text" />
+										<input  placeholder="First Name" name="firstName" [(ngModel)]="firstName" type="text" pattern="[A-Za-z\s]+"/>
 									</div>
-									<div>
-										<input style="width: 110%;" placeholder="Last Name" name="lastName" [(ngModel)]="lastName" type="text" />
+									
+                                </div>
+                                <div class="form-group first-row">
+									
+									<div class="user-wrapper" style="width: 100%;">
+										<input placeholder="Last Name" name="lastName" [(ngModel)]="lastName" type="text" pattern="[A-Za-z\s]+"/>
 									</div>
 								</div>
 								<div class="form-group first-row">
