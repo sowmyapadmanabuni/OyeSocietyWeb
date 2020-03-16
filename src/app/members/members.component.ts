@@ -33,9 +33,11 @@ export class MembersComponent implements OnInit {
   ShowRecords: string;
   columnName: any;
   getMembersSubscription:Subscription;
+  fillMemberArray: boolean;
 
   constructor(public dashBrdService: DashBoardService, private http: HttpClient,
     public globalService: GlobalServiceService, public utilsService: UtilsService) {
+      this.fillMemberArray=true;
       this.rowsToDisplay=[{'Display':'5','Row':5},
       {'Display':'10','Row':10},
       {'Display':'15','Row':15},
@@ -47,11 +49,13 @@ export class MembersComponent implements OnInit {
     this.ChangeRole = 'SelectRole';
     this.associationTotalMembers = [];
     this.allMemberByAccount = [];
+    this.fillMemberArray=true;
     this.accountID = this.globalService.getacAccntID();
     this.associationID = this.globalService.getCurrentAssociationId();
-   this.getMembersSubscription = this.globalService.getCurrentAssociationIdForExpense()
+   this.getMembersSubscription = this.globalService.getCurrentAssociationIdForMemberComponent()
     .subscribe(data=>{
       console.log(data);
+      //alert('Hi');
       this.GetMemberList(data['msg']);
     })
     console.log(this.associationID);
@@ -59,6 +63,7 @@ export class MembersComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('test2');
     this.GetMemberList(this.associationID);
   }
 
@@ -74,38 +79,37 @@ export class MembersComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         console.log(data['data']['unit']);
-        Array.from(data['data']['unit']).forEach(item => {
-
-          // TOTAL VEHICLE NUMBER START HERE
-
-
-          let headers = this.getHttpheaders();
-          return this.http.get(IPAddress + 'oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/'+item['asAssnID']+'/'+item['unUnitID']+'/'+item['acAccntID'], { headers: headers })
-          // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
-            .subscribe(data => {
-              console.log(data);
-              console.log(data['data']['vehicleListByUnitID'].length);
-              this.allMemberByAccount.push(new UnitListForRoleChange(
-                item['asAssnID'],
-                item['unUnitID'],
-                ((item['block'] == null || item['block'] == undefined) ? '' : item['block']['blBlkName']),
-                item['unUniName'],
-                ((item['owner'].length == 0) ? (item['tenant'].length == 0 ? '' : item['tenant'][0]['utfName']) : item['owner'][0]['uofName']),
-                ((item['owner'].length == 0) ? ((item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91", 3)) ? item['tenant'][0]['utMobile'].slice(3) : item['tenant'][0]['utMobile'])) : ((item['owner'][0]['uoMobile'].includes("+91", 3)) ? item['owner'][0]['uoMobile'].slice(3) : item['owner'][0]['uoMobile'])),
-                ((item['owner'].length == 0) ? '' : ((item['owner'][0]['uoRoleID'] == 1) ? 'Admin' : 'Owner')),
-                this.role,
-                '',
-                item['unOcStat'],
-                item['blBlockID'],
-                data['data']['vehicleListByUnitID'].length,
-                ''));
-              console.log(this.allMemberByAccount);
-            }, err => {
-              console.log(err);
-            })
+        this.allMemberByAccount = [];
+        Array.from(data['data']['unit']).forEach(item=> {
+              let headers = this.getHttpheaders();
+              return this.http.get(IPAddress + 'oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/'+item['asAssnID']+'/'+item['unUnitID']+'/'+item['acAccntID'], { headers: headers })
+              // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
+                .subscribe(data => {
+                  console.log(data);
+                  console.log(data['data']['vehicleListByUnitID'].length);
+                  this.allMemberByAccount.push(new UnitListForRoleChange(
+                    item['asAssnID'],
+                    item['unUnitID'],
+                    ((item['block'] == null || item['block'] == undefined) ? '' : item['block']['blBlkName']),
+                    item['unUniName'],
+                    ((item['owner'].length == 0) ? (item['tenant'].length == 0 ? '' : item['tenant'][0]['utfName']) : item['owner'][0]['uofName']),
+                    ((item['owner'].length == 0) ? ((item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91", 3)) ? item['tenant'][0]['utMobile'].slice(3) : item['tenant'][0]['utMobile'])) : ((item['owner'][0]['uoMobile'].includes("+91", 3)) ? item['owner'][0]['uoMobile'].slice(3) : item['owner'][0]['uoMobile'])),
+                    ((item['owner'].length == 0) ? '' : ((item['owner'][0]['uoRoleID'] == 1) ? 'Admin' : 'Owner')),
+                    this.role,
+                    '',
+                    item['unOcStat'],
+                    item['blBlockID'],
+                    data['data']['vehicleListByUnitID'].length,
+                    ''));
+                }, err => {
+                  console.log(err);
+                })
         })
+        console.log(this.allMemberByAccount);
       },
         err => {
+          console.log(err);
+          this.allMemberByAccount=[];
           swal.fire({
             title: "Error",
             text: `${err['error']['error']['message']}`,

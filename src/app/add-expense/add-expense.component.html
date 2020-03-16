@@ -75,13 +75,13 @@
                     </div>
                     <div class="form-group" [ngClass]="{'has-error' : amountControl.invalid && amountControl.touched}">
                             <label class="control-label">Amount Paid</label>
-                            <input type="text" class="form-control" name="EXPAmnt" [(ngModel)]="expensedata.EXPAmnt" #amountControl='ngModel'
+                            <input type="text" class="form-control" name="EXPAmnt" [(ngModel)]="expensedata.EXPAmnt" #amountControl='ngModel' (keypress)="_keyPress($event)"
                             placeholder="Amount" (blur)="ValidateAmount()" required pattern="^[0-9]*$" />
                     
-                        <div *ngIf="amountControl.invalid && amountControl.touched">
+                        <!-- <div *ngIf="amountControl.invalid && amountControl.touched">
                             <p class="alerts" *ngIf="amountControl.errors.required">Please Enter Amount</p>
                             <p class="alerts" *ngIf="amountControl.errors.pattern">Please Enter Valid Amount</p>
-                        </div>
+                        </div> -->
                         <p class="alerts" *ngIf="invalidAmount">Please Enter Valid Amount</p>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                     </div>
                 <div class="col-sm-12 pull-right">
                     <button (click)='resetStep1()' class="btn btn-primary-purple nextBtn m-r">Reset</button>
-                    <button [disabled]="stepOneForm.invalid || expensedata.EXHead=='Select Expense Head' || expensedata.EXRecurr=='Select Expense Type' || expensedata.EXApplTO=='Select Applicable To Unit' || expensedata.EXDisType=='Select Distribution Type'" class="btn btn-primary-purple nextBtn" type="button">Next</button>
+                    <button [disabled]="stepOneForm.invalid || invalidAmount || expensedata.EXHead=='Select Expense Head' || expensedata.EXRecurr=='Select Expense Type' || expensedata.EXApplTO=='Select Applicable To Unit' || expensedata.EXDisType=='Select Distribution Type'" class="btn btn-primary-purple nextBtn" type="button">Next</button>
                 </div>
             </div>
             </form>

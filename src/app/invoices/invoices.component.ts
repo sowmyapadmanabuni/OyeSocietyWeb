@@ -173,6 +173,12 @@ export class InvoicesComponent implements OnInit {
   ValidateAmountPaid: boolean;
   ValidateReceiptModal:boolean;
   _discountedValue:number;
+  UnitNameForViewReceipt: any;
+  InvoiceNumForViewReceipt: any;
+  paymentTypeInViewReceipt: any;
+  AmountDueForViewReceipt: any;
+  paymentDateForViewReceipt: any;
+  isPaidForViewReceipt: any;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -402,7 +408,15 @@ export class InvoicesComponent implements OnInit {
       }
     }
   }
-  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>){
+  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>, unUnitID, inid, inNumber, inTotVal, inPaid, inDisType,indCreated){
+    this.UnitNameForViewReceipt=unUnitID;
+    this.InvoiceNumForViewReceipt=inNumber;
+    this.paymentDateForViewReceipt=indCreated;
+    this.InvoiceNumForViewReceipt=inid;
+    this.AmountDueForViewReceipt=inTotVal;
+    this.paymentTypeInViewReceipt=inDisType;
+    this.isPaidForViewReceipt=inPaid;
+
     this.modalRef = this.modalService.show(ViewReceiptTemplate,Object.assign({}, { class: 'gray modal-md' }));
   }
   getexpensedataBABName(bank) {
@@ -558,7 +572,6 @@ export class InvoicesComponent implements OnInit {
     this.onetimeoccupancyfees = 0;
     this.rentingfees = 0;
     this.OneTimeOnBoardingFees = 0;
-
 
     this.invoiceID = inid;
     this.invoiceDate = inGenDate;

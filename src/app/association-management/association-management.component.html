@@ -385,7 +385,7 @@
                   </div>
                   <div class="form-group mr">
                     <label id=label4>Manager Name <span class="red">*</span></label>
-                    <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="item['mngName']"
+                    <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="item['mngName']" (keypress)="_keyPress2($event)"
                      (blur)="getManagerName(item['Id'],item['mngName'])" #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z _]*" required />
                     <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>
                   </div>

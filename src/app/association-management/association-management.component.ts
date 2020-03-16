@@ -2763,5 +2763,12 @@ this.crtAssn.newBAActType='';
       console.log(this.blockArray);
       localStorage.setItem('AssociationBlockArray',JSON.stringify(this.blockArray));
     }
+    _keyPress2(event) {
+      const pattern = /[a-zA-Z _]*/;
+      let inputChar = String.fromCharCode(event.charCode);
+      if (!pattern.test(inputChar)) {
+          event.preventDefault();
+      }
+    }
   
 }

@@ -157,7 +157,7 @@
                                                <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
                                             </button> |
                                             <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
-                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
+                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
                                         </span>
                                     </td>
                                     <td *ngIf="toggle == 'toggleNo'">
@@ -330,7 +330,7 @@
                                         <span *ngIf="item['inPaid'] == 'Yes'">
                                             |
                                             <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
-                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
+                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
                                         </span>
                                     </td>
                                     <td *ngIf="toggle == 'toggleNo'">
@@ -1764,11 +1764,61 @@
 </ng-template>
 
 <ng-template #ViewReceiptTemplate>
-    <div class="modal-header">
+
+    <div id="printReceipt">
+        <div class="modal-header">
+            <h4 class="modal-title orange">RECEIPT</h4>
+            <button type="button" style="margin-right: 11px;margin-top: -19px;" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="receipt-head">
+                <p class="purple">{{globalservice.getCurrentAssociationName()}}</p>
+                <p style="text-align: center">Address:No. 254/185/26, 2nd Main, “Baswer Sannidhi” Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd Bengaluru 560100 India</p>
+            </div>
+            <!-- <p class="summary">Receipt Summary</p> -->
+            <div class="receipt-head" style="align-items: flex-start;">
+                <div>
+                    <p class="nm"><strong>Unit:</strong> {{UnitNameForViewReceipt}}</p>
+                    <p class="nm"><strong>Invoice Number:</strong> {{InvoiceNumForViewReceipt}}</p>
+                    <p class="nm"><strong>Payment Date:</strong> {{paymentDateForViewReceipt|date:'dd/MM/yyyy'}}</p>
+                    <p><strong>Reciept Id:</strong> {{InvoiceNumForViewReceipt}}</p>
+                </div>
+            </div>
+            <p>Received Rupees <b>{{AmountDueForViewReceipt | words}}</b> from Name of Unit <b>{{UnitName}}</b></p>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Account Applied #BILL NO</th>
+                        <th style="text-align: center;">Amout Recieved</th>
+                    </tr>
+                    <tr>
+                        <!-- <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td> -->
+                        <td>Amount Paid {{paymentDateForViewReceipt|date:'dd/MM/yyyy'}}</td>
+                        <td>₹ {{AmountDueForViewReceipt}}.00</td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+            <div class="receipt-head" style="align-items: flex-start;">
+                    <div>
+                        <p><strong>Payment Instrument:</strong> {{paymentTypeInViewReceipt}}</p>
+                        <p><strong>Instrument Bank:</strong> {{isPaidForViewReceipt}}</p>
+                        <!-- <p><strong>Reference Number:</strong> {{pyRefNo}}</p> -->
+                    </div>
+            </div>
+            <p class="succtrans">Transaction Successful</p>
+            <p style="text-align: center;">Electronically generated;does not require a signature.</p>
+            <p style="text-align: right;">Generated From : <strong>OyeSociety</strong></p>
+            <div class="print-receipt">
+                <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print Receipt</button>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-header">
         <h4 class="modal-title orange">RECEIPT</h4>
-        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button> -->
+      
     </div>
     <div class="modal-body">
         <div class="receipt-head">
@@ -1805,5 +1855,5 @@
             <button class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print
                 Receipt</button>
         </div>
-    </div>
+    </div> -->
 </ng-template>

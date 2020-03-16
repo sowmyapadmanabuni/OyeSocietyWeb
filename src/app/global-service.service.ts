@@ -23,6 +23,7 @@ export class GlobalServiceService {
    private subject2 = new Subject<any>();
    private subject3 = new Subject<any>();
    private CurrentAssociationIdForExpense = new Subject<any>();
+   private CurrentAssociationIdForMember = new Subject<any>();
    private CurrentAssociationIdForInvoice = new Subject<any>();
    private selectedAssociation = new Subject<any>();
    private CurrentAssociationIdForUnit = new Subject<any>();
@@ -226,6 +227,14 @@ public setMrmRoleID(MrmRoleID){
   getCurrentAssociationIdForExpense(): Observable<any> {
     console.log("getCurrentAssociationIdForExpense");
     return this.CurrentAssociationIdForExpense.asObservable();
+  }
+  setCurrentAssociationIdForMemberComponent(message: any){
+    console.log("setCurrentAssociationIdForMemberComponent", message)
+    this.CurrentAssociationIdForMember.next({ msg: message });
+  }
+  getCurrentAssociationIdForMemberComponent(): Observable<any>{
+    console.log("setCurrentAssociationIdForMemberComponent")
+   return this.CurrentAssociationIdForMember.asObservable();
   }
   setCurrentAssociationIdForInvoice(message: any) {
     console.log("setCurrentAssociationIdForInvoice", message)
