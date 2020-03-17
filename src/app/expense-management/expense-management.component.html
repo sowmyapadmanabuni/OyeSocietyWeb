@@ -452,7 +452,7 @@
                     [(ngModel)]="editexpensedata.unUniIden" #UnitNumberControl='ngModel' disabled/>
                 </div>
               </div>
-              <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All'">
+              <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All Units'">
                 <div class="form-group"
                   [ngClass]="{'has-error' : distributionControl.invalid && distributionControl.touched}">
                   <label>Select Distribution Type<span class="red">*</span></label>
@@ -469,7 +469,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-4 col-xs-12" [hidden]="applies != 'Single'">
+              <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All Units'">
                 <div class="form-group" [ngClass]="{'has-error' : unitControl.invalid && unitControl.touched}">
                   <label>Select Unit<span class="red">*</span></label>
                   <select class="form-control" name="unUniIden" [(ngModel)]="editexpensedata.unUniIden"

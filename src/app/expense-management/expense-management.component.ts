@@ -606,13 +606,13 @@ export class ExpenseManagementComponent implements OnInit {
     let blockid = this.editexpensedata.BLBlockID;
     console.log(applicableto);
     this.applies = applicableto;
-    if (this.applies == 'All' || this.applies == 'SoldOwnerOccupied' || this.applies == 'SoldTenantOccupied') {
+    if (this.applies == 'All Units' || this.applies == 'SoldOwnerOccupied' || this.applies == 'SoldTenantOccupied') {
       this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
     }
     //  $scope.ascUnit = '';
     this.addexpenseservice.GetUnitListByBlockID(blockid)
       .subscribe(data => {
-        //console.log(data);
+        console.log(data);
         this.ascUnit = data;
       })
   }
