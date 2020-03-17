@@ -106,7 +106,7 @@
                         <div class="form-group">
                                 <label for="usr">Vehicle Name:<span class="red">*</span></label>
                                 <input type="text" name="veMakeMdl" #vehicleNameControl="ngModel" [(ngModel)]="veMakeMdl" class="form-control" id="usr" required>
-                                <p class="alerts" *ngIf="vehicleNameControl.invalid && vehicleNameControl.touched"> Valid Vehicle number required</p>
+                                <p class="alerts" *ngIf="vehicleNameControl.invalid && vehicleNameControl.touched"> Valid Vehicle Name required</p>
                         </div>
                         <div class="form-group">
                                 <label for="usr">Vehicle Number:<span class="red">*</span></label>
@@ -118,12 +118,12 @@
                         <div class="form-group">
                                 <label for="usr">Vehicle Sticker Number:<span class="red">*</span></label>
                                 <input type="text"  name="veStickNo" #stickerControl="ngModel" [(ngModel)]="veStickNo" class="form-control" id="usr" required (keypress)=_keyPress($event)>
-                                <p class="alerts" *ngIf="stickerControl.invalid && stickerControl.touched"> Valid Vehicle number required</p>
+                                <p class="alerts" *ngIf="stickerControl.invalid && stickerControl.touched"> Valid Vehicle Sticker number required</p>
                         </div>
                         <div class="form-group">
                                 <label for="usr">Parking Slot Number:<span class="red">*</span></label>
                                 <input type="text" name="uplNum" #parkingControl="ngModel" [(ngModel)]="uplNum" class="form-control" id="usr" required (keypress)=_keyPress($event)>
-                                <p class="alerts" *ngIf="parkingControl.invalid && parkingControl.touched"> Valid Vehicle number required</p>
+                                <p class="alerts" *ngIf="parkingControl.invalid && parkingControl.touched"> Valid Parking Slot number required</p>
                         </div>
                 </div>
                 <div class="adveh">
