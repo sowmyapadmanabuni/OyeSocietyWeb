@@ -506,12 +506,12 @@
                 </div>
                
                 <!-- <app-block-array></app-block-array> -->
-               
-                </div>
                 <div class="col-sm-12 pull-right">
                     <button class="btn btn-primary-purple  pull-right" type="button" (click)='createBlock()'>Save & continue</button>
                   <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='resetStep5()'>Reset</button>
               </div>
+                </div>
+                
                 
               </div>
               
@@ -661,12 +661,12 @@
                                   <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
                               </div>
                       </div>
-
-                      </div>
                       <div class="col-sm-12 pull-right">
-                        <button type="button" class="btn btn-primary-purple pull-right">Reset</button>
-                        <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
-                    </div> 
+                          <button type="button" class="btn btn-primary-purple pull-right">Reset</button>
+                          <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
+                      </div> 
+                      </div>
+                      
                   </div>           
               </form>
             </div>
