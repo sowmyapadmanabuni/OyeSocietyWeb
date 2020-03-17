@@ -204,7 +204,7 @@
                       (click)="deleteExpense(item.unUniIden,item.exApplTO,item.inGenDate)" class="fa fa-trash"
                       tooltip="DeleteExpense"></i>
                   </td> -->
-                  <td *ngIf="toggleTd"><input [ngClass]="{'decrseopcty' : item.exIsInvD == true}" type="checkbox" style="margin-left: 13px;"
+                  <td *ngIf="toggleTd" style="text-align: center;"><input [ngClass]="{'decrseopcty' : item.exIsInvD == true}" type="checkbox" 
                       [(ngModel)]='item.checkedForGenerateInvoice'
                       (change)="getSelectedInv(item['exid'],item.checkedForGenerateInvoice)" />
                   </td>

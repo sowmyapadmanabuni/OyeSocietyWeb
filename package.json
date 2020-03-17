@@ -27,6 +27,7 @@
     "agm-direction": "^0.7.9",
     "angular-6-datatable": "^0.8.0",
     "angular-datatables": "^8.0.0",
+    "angular-material-autocomplete-list": "^1.1.0",
     "angularfire2": "^5.2.1",
     "bootstrap": "^3.4.1",
     "datatables.net": "^1.10.20",

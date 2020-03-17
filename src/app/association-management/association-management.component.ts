@@ -2760,6 +2760,9 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
   }
+  goToBlocks() {
+    this.router.navigate(['blocks']);
+  }
   _keyPress2(event) {
     const pattern = /[a-zA-Z _]*/;
     let inputChar = String.fromCharCode(event.charCode);
