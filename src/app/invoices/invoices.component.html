@@ -1014,23 +1014,24 @@
                             <div class="form-group"
                                 [ngClass]="{'has-error' : dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched}">
                                 <label>Discounted Amount<span class="red">*</span></label>
-                                <input type="text" required name="dscntInvdiscountedAmount" (keypress)=_keyPress1($event)
+                                <input type="text" required name="dscntInvdiscountedAmount" (keyup)="ValidateAmount($event)" (keypress)=_keyPress1($event)
                                     #dscntInvdiscountedAmountControl='ngModel' [(ngModel)]="dscntInvdiscountedAmount"
                                     class="form-control" (blur)="checkDiscountedAmount(dscntInvdiscountedAmount)"
-                                    placeholder="Amount After Discount" />
-                                <p class="alerts"
+                                    placeholder="Discount Amount" />
+                                <!-- <p class="alerts"
                                     *ngIf="dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched">
                                     Discounted
-                                    Amount</p>
+                                    Amount</p> -->
+                                <p class="alerts" *ngIf="isInValidZeroAmount && dscntInvdiscountedAmountControl.touched">Invalid Discounted Amount</p>
                             </div>
                         </div>
                         <div class="col-sm-4 col-xs-12">
                             <div class="form-group"
                                 [ngClass]="{'has-error' : dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched}">
                                 <label>Discount Reason <span class="red">*</span></label>
-                                <input type="text" required name="dscntInvdescription"
+                                <input type="text" required name="dscntInvdescription" (blur)="ValidateDefaultDescription()"
                                     #dscntInvdescriptionControl='ngModel' (click)='emptyDisplaytext()'
-                                    [(ngModel)]="dscntInvdescription" class="form-control"
+                                    [(ngModel)]="dscntInvdescription" class="form-control" (keyup)="ValidateDescription($event)"
                                     placeholder="Discount Reason" />
                                 <p class="alerts"
                                     *ngIf="dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched">
@@ -1042,7 +1043,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
                             <div class="btn-group pull-right">
-                                <button type="button" class="btn btn-primary-purple nextBtn"
+                                <button type="button" class="btn btn-primary-purple nextBtn" [disabled]="isInValidZeroAmount || ValidateInvdescription"
                                     (click)="discountInvoice(dscntInvinvoiceID,dscntInvdiscountedAmount,dscntInvdescription)"><i
                                         class="fa fa-floppy-o"></i> Update & Save</button>
                             </div>
@@ -1655,7 +1656,7 @@
                   <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
                     <label>Amount Paid <span class="red">*</span></label>
                     <input type="text" class="form-control" name="totalamountPaid" (keyup)="getAmountPaid($event)" (keypress)=_keyPress($event) [(ngModel)]="totalamountPaid"
-                      #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$"/>
+                     (blur)="validateZeroAmount()" #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$"/>
                     <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
                     <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
                     <p class="alerts" *ngIf="ValidateAmountPaid"> Please Enter Valid Amount to be Paid</p>
@@ -1754,7 +1755,7 @@
                 
               </div>
               <div class="row">                
-                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
                   <button style="float: right;" type="button" (click)="resetForm()" class="btn btn-primary-purple m-r">Reset </button>                           
               </div>
           

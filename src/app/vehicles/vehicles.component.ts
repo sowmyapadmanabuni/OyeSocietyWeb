@@ -117,6 +117,7 @@ export class VehiclesComponent implements OnInit {
   }
   getVehicles() {
     this.VehicleDataNew = [];
+    this.j=0;
     this.addvehicleservice.getVehicleDetails(this.CurrentUnitID,this.globalserviceservice.getCurrentAssociationId(),this.globalserviceservice.getacAccntID())
       .subscribe(data => {
         console.log(data);
@@ -132,6 +133,9 @@ export class VehiclesComponent implements OnInit {
           }
         })
 
+        // this.VehicleCarousel=new Array(4);
+        // this.VehicleCarousel1=new Array(this.VehicleDataNew.length-4);
+        // console.log(this.VehicleCarousel,this.VehicleCarousel1);
 
         for (let i = 0; i < this.VehicleDataNew.length; i++) {
           if (i < 4) {
@@ -173,7 +177,7 @@ export class VehiclesComponent implements OnInit {
     console.log(vehiclesData);
     this.addvehicleservice.addVehicle(vehiclesData)
       .subscribe(() => {
-        this.getVehicles();
+        //this.getVehicles();
         swal.fire({
           title: "Vehicle added",
           text: "",
@@ -211,10 +215,10 @@ export class VehiclesComponent implements OnInit {
       "VEID": this.VEID,
       "ASAssnID": this.globalserviceservice.currentAssociationId
     }
-    //console.log(updateData);
+    console.log(updateData);
     this.addvehicleservice.updateVehicle(updateData)
       .subscribe((data) => {
-        //console.log(data);
+        console.log(data);
         swal.fire({
           title: "Vehicle data updated",
           text: "",

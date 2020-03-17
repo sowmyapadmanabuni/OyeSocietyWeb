@@ -132,6 +132,15 @@ export class EditAssociationComponent implements OnInit {
     //console.log('AMType', AMType);
     this.newamenities = this.newamenities.filter(item =>{return item['AMType'] != AMType});
   }
+  _keyPress(event: any) {
+    console.log('asd');
+    const pattern = /[a-zA-Z _]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      console.log('test');
+      event.preventDefault();
+    }
+  }
   UpdateAssociation(){
     console.log(this.viewAssnService.EditAssociationData);
     this.viewAssnService.UpdateAssociation(this.viewAssnService.EditAssociationData).subscribe(res => {

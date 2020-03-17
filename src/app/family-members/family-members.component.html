@@ -231,23 +231,35 @@
         </button>
     </div>
     <div class="modal-body">
-        <form>
+        <form #editFamilyMember="ngForm">
             <div>
-                <label><b>Family Member Name</b></label>
+                <div class="form-group">
+                    <label><b>Family Member Name</b></label>
                 <input type="text" placeholder="First Name" [(ngModel)]='EditFirstName' maxlength="30"
                     name="EditFirstName" class="form-control" #FirstNameControl="ngModel" style="margin-bottom: 10px;" required>
+                    <p class="alerts" *ngIf="FirstNameControl.touched && FirstNameControl.invalid"> Enter family member name</p>
+                </div>
+                
 
+                <div class="form-group">
                 <label><b>Mobile Number</b></label>
-                <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' minlength=10 maxlength=10 pattern="[0-9]*"
+                <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' minlength=10 maxlength=13 
                     name="EditMobileNumber" class="form-control" #MobileNumberControl="ngModel"
                     style="margin-bottom: 10px;" (keypress)=_keyPress($event) required>
+                    <p class="alerts" *ngIf="MobileNumberControl.errors?.pattern"> Enter valid mobile number</p>
+                </div>
 
+
+                <div class="form-group">
                 <label><b>Relation</b></label>
                 <input type="text" placeholder="Relation" [(ngModel)]='EditRelation' maxlength="20" name="EditRelation"
-                    class="form-control" #RelationControl="ngModel" style="margin-bottom: 10px;">
+                    class="form-control" #RelationControl="ngModel" style="margin-bottom: 10px;" required>
+                    <p class="alerts" *ngIf="RelationControl.touched && RelationControl.invalid"> Enter relation</p>
+                </div>
+
 
                 <div style="margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary-purple nextBtn"
+                    <button type="submit" class="btn btn-primary-purple nextBtn" [disabled]="editFamilyMember.invalid"
                         (click)='updatefamilymember()'>Update</button>
                 </div>
             </div>

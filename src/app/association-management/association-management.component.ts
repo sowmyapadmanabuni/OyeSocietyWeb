@@ -1153,6 +1153,8 @@ export class AssociationManagementComponent implements OnInit {
       "ASNofBlks": this.ASNofBlks,
       "ASNofUnit": this.ASNofUnit,
       "ASAssnID": this.asAssnID,
+      "asWebURL": "www.oyespace.com",
+      "asAsnEmail": "vinay@gmail.com",
       "Amenities":
         [{
           "AMType": "Club",
@@ -2276,7 +2278,7 @@ export class AssociationManagementComponent implements OnInit {
 
 
 
-  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID) {
+  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID,asWebURL,asAsnEmail) {
     //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
     let EditAssociationData = {};
     this.ASAsnName = asAsnName;
@@ -2381,6 +2383,8 @@ export class AssociationManagementComponent implements OnInit {
         "ASNofBlks": asNofBlks,
         "ASNofUnit": asNofUnit,
         "ASAssnID": asAssnID,
+        "asWebURL": asWebURL,
+        "asAsnEmail": asAsnEmail,
         "Amenities":
           [{
             "AMType": "Club",

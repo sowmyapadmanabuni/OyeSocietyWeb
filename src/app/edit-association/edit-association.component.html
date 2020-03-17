@@ -130,7 +130,7 @@
           </div>
           <div class="row">
            
-            <form id="EnrollAssnID" role="form">
+            <form #stepOneFrm="ngForm" id="EnrollAssnID" role="form">
               <div class="panel panel-primary setup-content" id="step-1">
                 <!-- <div class="panel-heading">
                                  <h3 class="panel-title">Association Details</h3>
@@ -141,7 +141,7 @@
                     <input type="text" required name="EditASAsnName" id="EditASAsnNameID" autocomplete="off"
                       [(ngModel)]="viewAssnService.EditAssociationData['ASAsnName']" #EditASAsnNameControl="ngModel" class="form-control" pattern="[A-Za-z\s]+"
                       style="text-transform: uppercase; font-family: Quicksand; font-size: 13px;"
-                      placeholder="Association Name" />
+                      placeholder="Association Name" (keypress)="_keyPress($event)"/>
                     <p class="alerts" *ngIf="EditASAsnNameControl.invalid && EditASAsnNameControl.touched"> Valid Association name is
                       required</p>
                   </div>
@@ -211,7 +211,7 @@
                     <input type="text" required name="EditASPrpName" autocomplete="viewAssnService.EditAssociationData['ASPrpName']"
                       [(ngModel)]="viewAssnService.EditAssociationData['ASPrpName']" #EditASPrpNameControl="ngModel" class="form-control"
                       placeholder="PROPERTY NAME" style="font-family: Quicksand" pattern="[a-zA-Z\s]*"
-                      style="text-transform: uppercase; font-family: Quicksand; font-size: 13px;" />
+                      style="text-transform: uppercase; font-family: Quicksand; font-size: 13px;" (keypress)="_keyPress($event)"/>
                     <p class="alerts" *ngIf="EditASPrpNameControl.invalid && EditASPrpNameControl.touched">Valid property
                       name is required</p>
                   </div>
@@ -226,32 +226,34 @@
                       required</p>
                     <br>
                   </div>
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                     <label class="control-label">Association Email</label>
-                    <input type="text" name="ASAsnEmail" autocomplete='crtAssn.email' [(ngModel)]="crtAssn.email"
+                    <input type="text" name="ASAsnEmail" autocomplete="viewAssnService.EditAssociationData['asAsnEmail']" [(ngModel)]="viewAssnService.EditAssociationData['asAsnEmail']"
                       #emailControl="ngModel" class="form-control" maxlength="255" placeholder="EMAIL ID "
-                      style="font-family: Quicksand" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
-                    <p class="alerts" *ngIf="emailControl.invalid && emailControl.touched"> Valid EmailID is Required
+                      style="font-family: Quicksand" required pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                    <p class="alerts" *ngIf="emailControl.invalid && emailControl.touched && emailControl.errors?.pattern"> Valid EmailID is Required
                     </p>
                     <br>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Website Url</label>
-                    <input type="text" name="ASWebURL" autocomplete='crtAssn.url' [(ngModel)]="crtAssn.url"
+                    <input type="text" name="ASWebURL" autocomplete="viewAssnService.EditAssociationData['asWebURL']" [(ngModel)]="viewAssnService.EditAssociationData['asWebURL']"
                       #urlControl="ngModel" class="form-control" maxlength="255" placeholder="URL "
-                      style="font-family: Quicksand"
+                      style="font-family: Quicksand" required
                       pattern="^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$" />
                     <p class="alerts" *ngIf="urlControl.invalid && urlControl.touched"> Valid URL is
                     </p>
                     <br>
-                  </div> -->
+                  </div>
                 </div>
                 <div class="col-sm-12">
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
+                  <button [disabled]="stepOneFrm.invalid" class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
                   <button class="btn btn-primary-purple nextBtn pull-right" type="reset"
                     (click)='resetStep1()'>Reset</button>
                 </div>
               </div>
+            </form>
+            <form #stepTwoFrm="ngForm">
               <div class="panel panel-primary setup-content" id="step-2">
                 <div class="panel-body">
                   <div class="form-group">
@@ -274,10 +276,12 @@
                   </div>
                 </div>
                 <div class="col-sm-12">
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
+                  <button [disabled]="stepTwoFrm.invalid" class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
                   <button class="btn btn-primary-purple pull-right" type="button">Reset</button>
                 </div>
               </div>
+            </form>
+            <form #stepThreeFrm="ngForm">
               <div class="panel panel-primary setup-content" id="step-3">
                 <div class="panel-body">
                   <app-new-amenity [newamenities]='newamenities' (addAmenities)='addAmenity($event)'

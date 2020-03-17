@@ -179,6 +179,8 @@ export class InvoicesComponent implements OnInit {
   AmountDueForViewReceipt: any;
   paymentDateForViewReceipt: any;
   isPaidForViewReceipt: any;
+  isInValidZeroAmount: boolean;
+  ValidateInvdescription:boolean;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -191,6 +193,8 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.ValidateInvdescription=true;
+      this.isInValidZeroAmount=true;
       this._discountedValue=0;
       this.ValidateAmountPaid=false;
       this.ValidateReceiptModal=true;
@@ -406,6 +410,13 @@ export class InvoicesComponent implements OnInit {
       if(Number(event.target.value)<=this.totalAmountDue){
         this.ValidateReceiptModal=false;
       }
+    }
+  }
+  validateZeroAmount(){
+    if(this.totalamountPaid==0){
+      this.ValidateAmountPaid=true;
+    }else{
+      this.ValidateAmountPaid=false;
     }
   }
   OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>, unUnitID, inid, inNumber, inTotVal, inPaid, inDisType,indCreated){
@@ -1015,6 +1026,8 @@ export class InvoicesComponent implements OnInit {
     // return value.toString(10)
   }
   discount(discount: TemplateRef<any>, inid, inNumber, inTotVal) {
+    this.isInValidZeroAmount=true;
+    this.ValidateInvdescription=true;
     this.modalRef = this.modalService.show(discount,
       Object.assign({}, { class: 'gray modal-lg' }));
 
@@ -1038,6 +1051,20 @@ export class InvoicesComponent implements OnInit {
       });
     } else {
       this.validationResult = false;
+    }
+    if(dscntInvdiscountedAmount == 0){
+      this.isInValidZeroAmount=true;
+    }
+    else{
+      this.isInValidZeroAmount=false;
+    }
+  }
+  ValidateAmount(event){
+    if(event.target.value > 0){
+      this.isInValidZeroAmount=false;
+    }
+    else{
+      this.isInValidZeroAmount=true;
     }
   }
   discountInvoice(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription) {
@@ -1317,14 +1344,17 @@ export class InvoicesComponent implements OnInit {
     );
   }
   GetPaidInvoiceList(IsPaid,param) {
-    if(this.viewinvoiceservice.invoiceBlock == ''){
-      swal.fire({
-        title: `Please Select Block`,
-        text: "",
-        type: "error",
-        confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
-      })
+    if (this.viewinvoiceservice.invoiceBlock == '') {
+      if (this.globalservice.mrmroleId == 1 && this.localMrmRoleId != '2') {
+        swal.fire({
+          title: `Please Select Block`,
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        })
+      }
+
     }
     else{
       this.toggle=param;
@@ -1541,6 +1571,25 @@ export class InvoicesComponent implements OnInit {
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
         event.preventDefault();
+    }
+  }
+  ValidateDefaultDescription(){
+    if(this.dscntInvdescription == "Type Reason Here"){
+      this.ValidateInvdescription=true;
+    }
+    else if(this.dscntInvdescription == ""){
+      this.ValidateInvdescription=true;
+    }
+    else{
+      this.ValidateInvdescription=false;
+    }
+  }
+  ValidateDescription(event){
+    if(this.dscntInvdescription != "Type Reason Here" && this.dscntInvdescription != ""){
+      this.ValidateInvdescription=false;
+    }
+    else{
+      this.ValidateInvdescription=true;
     }
   }
 }
