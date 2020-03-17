@@ -260,7 +260,7 @@ export class BlocksComponent implements OnInit {
       //   $childitem.find('input:eq(0)').focus();
       // })
 
-      navListItems.click(function (e) {
+     /* navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
           $item = $(this),
@@ -276,9 +276,30 @@ export class BlocksComponent implements OnInit {
           navListItems.removeClass('btn-success').addClass('btn-default');
           navListItems.removeClass('active').addClass('disabled');
         }
-      });
+      }); */
 
-
+      //
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this),
+          $divTgt = $(this).parent();
+        console.log('test');
+        anchorDivs.removeClass('step-active');
+        if (!$item.hasClass('disabled')) {
+          console.log('disabled');
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          $item.addClass('btn-success');
+          $divTgt.addClass('step-active');
+          allWells.hide();
+          console.log($target);
+          console.log($target.attr("id"));
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      })
+      //
+      
       allNextBtn.click(function () {
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
@@ -407,6 +428,13 @@ export class BlocksComponent implements OnInit {
       }
     }
     //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
+  }
+  EnableBlockListView(event) {
+    console.log(event);
+    if(event == 'EnableBlockList'){
+      this.enableBlockListView=true;
+      this.enableAddBlocksView=false;
+    }
   }
   onStartsFromDateValueChange(value: Date) {
     if (value != null) {

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild, Output,EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { AddBlockService } from '../../services/add-block.service';
 import { GlobalServiceService } from '../global-service.service';
@@ -63,6 +63,7 @@ export class AddBlocksComponent implements OnInit {
 check1:any;
 rate:any;
 rate1:any;
+@Output() EnableBlockListView:EventEmitter<string>;
 
 
   constructor(private addblockservice: AddBlockService,
@@ -70,6 +71,7 @@ rate1:any;
     private router:Router,
     private viewassn: ViewAssociationService,
     private viewUniService: ViewUnitService) {
+      this.EnableBlockListView=new EventEmitter<string>();
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.currentAssociationName = this.globalservice.getCurrentAssociationName();
     this.currentaccountID=this.globalservice.getacAccntID();
@@ -225,6 +227,13 @@ rate1:any;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
         event.preventDefault();
+    }
+  }
+  _keyPress2(event) {
+    const pattern = /[a-zA-Z _]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
     }
   }
 
@@ -409,7 +418,8 @@ rate1:any;
 
                   this.viewUniService.createUnit(createUnitData).subscribe(data => {
                     console.log(data);
-                  },
+                    this.EnableBlockListView.emit('EnableBlockList');
+                    },
                     err => {
                       console.log(err);
                     })

@@ -111,7 +111,7 @@
             <!--Add Blocks form Starts-->
             <div class="col-sm-12" *ngIf="enableAddBlocksView">
 
-                <app-add-blocks></app-add-blocks>
+                <app-add-blocks (EnableBlockListView)="EnableBlockListView($event)"></app-add-blocks>
             </div>
             <!--Add Blocks form Ends-->
         </div>

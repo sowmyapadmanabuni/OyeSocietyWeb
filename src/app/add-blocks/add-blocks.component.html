@@ -68,7 +68,7 @@
                 <div class="form-group">
                     <label id=label4>Manager Name <span class="red">*</span></label>
                     <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="mngName"
-                        #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z]*" required />
+                        #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z _]*" required (keypress)="_keyPress2($event)"/>
                     <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>
                 </div>
                 <div class="form-group">
@@ -99,9 +99,9 @@
             <!-- <div class="panel-heading">
              <h3 class="panel-title">Select Rate</h3>
         </div> -->
-            <p class="title">Select Rate</p>
+            <!-- <p class="title">Select Rate</p> -->
 
-            <div class="panel-body"
+            <!-- <div class="panel-body"
                 style="background: #f8f6f6;margin: 17px 52px;padding:16px 0px !important;">
                 <div class="form-group">
                     <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="rate" #rateControl="ngModel" (change)="checkRate(rate)"
@@ -130,7 +130,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div> -->
             <div class="panel-body">
                 <div class="form-group">
                     <label>Unit of Measurement <span class="red">*</span></label>

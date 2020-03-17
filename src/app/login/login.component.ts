@@ -209,7 +209,7 @@ export class LoginComponent implements OnInit {
         console.log(data)
         if (data['data'] == null) {
           Swal.fire({
-            type: 'error',
+            // type: 'error',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK',
             text: 'Number not registered continue with registration',
