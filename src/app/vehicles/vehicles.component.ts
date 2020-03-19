@@ -239,12 +239,12 @@ export class VehiclesComponent implements OnInit {
     this.modalRef.hide();
   }
   openModal(editVehicle: TemplateRef<any>, veType, veRegNo, veMakeMdl, veStickNo, uplNum, veid) {
-    //console.log(veType);
-    //console.log(veRegNo);
-    //console.log(veMakeMdl);
-    //console.log(veStickNo);
-    //console.log(uplNum);
-    //console.log(veid);
+    console.log(veType);
+    console.log(veRegNo);
+    console.log(veMakeMdl);
+    console.log(veStickNo);
+    console.log(uplNum);
+    console.log(veid);
     this.vehiclename = veMakeMdl;
     this.vehiclenumber = veRegNo;
     this.makemodel = veType;

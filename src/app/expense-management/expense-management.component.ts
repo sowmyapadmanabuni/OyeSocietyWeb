@@ -127,6 +127,8 @@ export class ExpenseManagementComponent implements OnInit {
   testDate: Date;
   invalidAmount: boolean;
   toggleDistributionType:boolean;
+  toggleUnitList: boolean;
+  isDateFieldEmpty: boolean;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -140,7 +142,10 @@ export class ExpenseManagementComponent implements OnInit {
     private orderpipe: OrderPipe,
     private utilsService:UtilsService
   ) {
+    this.checkField="xyz";
     this.toggleDistributionType=false;
+    this.toggleUnitList=true;
+    this.isDateFieldEmpty=false;
     this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
     this.globalservice.IsEnrollAssociationStarted==false;
     this.rowsToDisplay=[{'Display':'5','Row':5},
@@ -586,6 +591,15 @@ export class ExpenseManagementComponent implements OnInit {
       this.editexpensedata.BLBlockID = blBlockID;
       this.editexpensedata.unUniIden = unUniIden;
       console.log(this.editexpensedata);
+      this.checkField="xyz";
+      this.editexpensedata.PMID = '';
+
+      if(this.editexpensedata.EXApplTO == 'Single Unit'){
+        this.toggleUnitList=false;
+      }
+      else{
+        this.toggleUnitList=true;
+      }
 
       this.modalRef = this.modalService.show(editexpensetemplate,
         Object.assign({}, { class: 'gray modal-lg' }));
@@ -608,6 +622,12 @@ export class ExpenseManagementComponent implements OnInit {
     this.applies = applicableto;
     if (this.applies == 'All Units' || this.applies == 'SoldOwnerOccupied' || this.applies == 'SoldTenantOccupied') {
       this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
+    }
+    if(this.applies == 'Single Unit'){
+      this.toggleUnitList=false;
+    }
+    else{
+      this.toggleUnitList=true;
     }
     //  $scope.ascUnit = '';
     this.addexpenseservice.GetUnitListByBlockID(blockid)
@@ -1095,11 +1115,19 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   validateDate(event, StartDate, EndDate) {
+    this.isDateFieldEmpty=false;
     console.log(StartDate.value, EndDate.value);
     if (event.keyCode == 8) {
       if ((StartDate.value == '' || StartDate.value == null) && (EndDate.value == '' || EndDate.value == null)) {
         console.log('test');
+        this.isDateFieldEmpty=true;
+        this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId,this.viewexpenseservice.currentBlockName);
       }
+    }
+  }
+  GetExpenseList(){
+    if(this.isDateFieldEmpty==true){
+      this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId,this.viewexpenseservice.currentBlockName);
     }
   }
 }

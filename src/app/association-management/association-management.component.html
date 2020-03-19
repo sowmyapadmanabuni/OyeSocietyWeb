@@ -134,7 +134,7 @@
         </div>
         <div class="row">
          
-          <form id="EnrollAssnID" role="form">
+          <form #stepOneForm="ngForm" id="EnrollAssnID" role="form">
             <div class="panel panel-primary setup-content" id="step-1">
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Association Details</h3>
@@ -266,11 +266,13 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
+                <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'Select the State'" class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
                   (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
               </div>
             </div>
+            </form>
+            <form #stepTwoForm="ngForm">
             <div class="panel panel-primary setup-content" id="step-2">
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Pan & Registration Details</h3>
@@ -312,6 +314,8 @@
                   (click)='resetStep2()'>Reset</button>
               </div>
             </div>
+          </form>
+          <form #stepThreeForm="ngForm">
             <div class="panel panel-primary setup-content" id="step-3">
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Block & Unit Details</h3>
@@ -341,6 +345,8 @@
                 <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep3()'>Reset</button>
               </div>
             </div>
+            </form>
+            <form #stepFourForm="ngForm">
             <div class="panel panel-primary setup-content" id="step-4">
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Other Amenities</h3>
@@ -352,6 +358,7 @@
               <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Save & continue</button>
               <button class="btn btn-primary-purple pull-right" type="button">Reset</button>
             </div>
+            </form>
             <div class="panel panel-primary setup-content" id="step-5" style="overflow-x: scroll;">
               <!-- <div class="panel-heading">
                <h3 class="panel-title">Association Details</h3>
@@ -824,7 +831,6 @@
                       Block</button>
               </div>
           </div> -->
-          </form>
         </div>
       </div>
       <!--Enroll Association form Starts-->

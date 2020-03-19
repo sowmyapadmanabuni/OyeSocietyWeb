@@ -1808,7 +1808,7 @@ export class AssociationManagementComponent implements OnInit {
     //console.log("locality: " + this.crtAssn.locality);
     this.createAsssociationData = {
       // "ACAccntID":"2",
-      "ACAccntID": this.accountID,
+      "acAccntID": this.accountID,
       "association": {
         "ASAddress": this.crtAssn.locality,
         "ASCountry": this.crtAssn.country,
@@ -1818,6 +1818,8 @@ export class AssociationManagementComponent implements OnInit {
         "ASPinCode": this.crtAssn.postalCode,
         "ASAsnName": this.crtAssn.name,
         "ASPrpName": this.crtAssn.propertyName,
+        "ASBToggle": "True",
+        "ASAVPymnt": "False",
         "ASRegrNum": "avcx",    //this.crtAssn.assnRegisterNo,
         "ASPANNum": this.crtAssn.PANNumber,
         "ASPrpType": this.crtAssn.propertyType,
@@ -1827,7 +1829,7 @@ export class AssociationManagementComponent implements OnInit {
         //"ASPANNum": this.crtAssn.assnPANNo,
         "ASNofBlks": this.crtAssn.totalNoBlocks,
         "ASNofUnit": this.crtAssn.totalNoUnits,
-        "ASONStat": "False",
+        "ASONStat": "True",
         "ASOMStat": "False",
         "ASOLOStat": "False",
         "ASOTPStat": "False",
@@ -1847,8 +1849,12 @@ export class AssociationManagementComponent implements OnInit {
         "ASTrnsCur": "ghfy",
         "ASRefCode": "454545",
         //"ASGSTNo":"",        
-        "GSTNumber": this.crtAssn.GSTNumber,
+        "ASGSTNo": this.crtAssn.GSTNumber,
         "ASGPSPnt": "12.12.123",
+        "ASMtDimBs": 1.55,
+        "ASMgrName": "Ransingh",
+        "ASMgrMobile": "9490791523",
+        "ASMgrEmail": "sowmya_padmanabhuni@oyespace.com",
         // "ASDCreated": "2019-01-05",
         // "ASDUpdated": "2019-01-05",
         // "ASIsActive": "True",
@@ -2610,6 +2616,7 @@ export class AssociationManagementComponent implements OnInit {
         for (var i = 0; i < curInputs.length; i++) {
           if (!curInputs[i].validity.valid) {
             isValid = false;
+            console.log($(curInputs[i]))
             $(curInputs[i]).closest(".form-group").addClass("has-error");
             console.log($(curInputs[i]));
             console.log($(curInputs[i]).closest(".alerts"));

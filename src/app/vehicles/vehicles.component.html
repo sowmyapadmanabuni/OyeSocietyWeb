@@ -142,6 +142,7 @@
 <!--Add Vehicles-->
 <!--Edit Vehicles-->
 <ng-template #editVehicle>
+        <form #vehicleForm="ngForm">
                 <div class="modal-header">
                         <h4 class="modal-title pull-left">Edit Vehicle</h4>
                         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -152,30 +153,47 @@
                         <div class="adveh">
                                 <div class="form-group">
                                         <label for="usr">Vehicle Name:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="vehiclename" name="vehiclename" id="usr">
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclename" name="vehiclename" id="usr" required>
                                 </div>       
                                 <div class="form-group">
                                         <label for="usr">Vehicle Number:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="vehiclenumber" name="vehiclenumber" id="usr">
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclenumber" name="vehiclenumber" id="usr" required>
                                 </div>
                         </div>
                         <div class="adveh">
                                 <div class="form-group">
                                         <label for="usr">Vehicle Sticker Number:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="vehiclesticker" name="vehiclesticker" id="usr">
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclesticker" name="vehiclesticker" id="usr" required>
                                 </div>      
                                 <div class="form-group">
                                         <label for="usr">Parking Slot Number:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="parkingslot" name="parkingslot" id="usr">
+                                        <input type="text" class="form-control" [(ngModel)]="parkingslot" name="parkingslot" id="usr" required>
                                 </div>
                         </div>
                         <div class="adveh">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                         <label for="usr">Vehicle Type:</label>
                                         <input type="text" class="form-control" [(ngModel)]="makemodel" name="makemodel" id="usr">
-                                </div>     
+                                </div>      -->
+
+
                                 <div class="form-group">
-                                        <button (click)='UpdateVehicle()' type="button" class="btn btn-warning">Save Changes</button>       
+                                        <label class="control-label">Vehicle Type</label>
+                                        <div class="col-sm-6 np">
+                                                <input style="margin-right: 10px;" value="Two Wheeler" [(ngModel)]='makemodel' type="radio"
+                                                       [checked]="makemodel=='Two Wheeler'" name="optradio">Two Wheeler
+                                        </div>
+                                        <div class="col-sm-6 np">
+                                                <input style="margin-right: 10px;" value="Four Wheeler" type="radio" [(ngModel)]='makemodel'
+                                                        [checked]="makemodel=='Four Wheeler'" name="optradio">Four Wheeler
+                                        </div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                        <button (click)='UpdateVehicle()' [disabled]="vehicleForm.invalid" type="button" class="btn btn-warning">Save Changes</button>       
                                 </div>
                         </div>
                         <div class="adveh1">
@@ -183,5 +201,6 @@
                                 </div>
                         </div>
                 </div>
+        </form>
         </ng-template>
  <!--Edit Vehicles-->

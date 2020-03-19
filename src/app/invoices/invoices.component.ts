@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 import { ViewUnitService } from '../../services/view-unit.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -181,6 +182,7 @@ export class InvoicesComponent implements OnInit {
   isPaidForViewReceipt: any;
   isInValidZeroAmount: boolean;
   ValidateInvdescription:boolean;
+  isDateFieldEmpty: boolean;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -193,6 +195,7 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.isDateFieldEmpty=false;
       this.ValidateInvdescription=true;
       this.isInValidZeroAmount=true;
       this._discountedValue=0;
@@ -459,6 +462,7 @@ export class InvoicesComponent implements OnInit {
     this.viewinvoiceservice.getCurrentBlockDetails(blBlockID,this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
+        this.invoiceLists = _.sortBy(this.invoiceLists, e => e['inGenDate']).reverse();
         this.PaidUnpaidinvoiceLists=this.invoiceLists;
         console.log('invoiceLists?', this.invoiceLists);
         this.generatereceiptservice.ReceiptListArrayForComapreWithExcel=this.invoiceLists;
@@ -1590,6 +1594,22 @@ export class InvoicesComponent implements OnInit {
     }
     else{
       this.ValidateInvdescription=true;
+    }
+  }
+  validateDate(event, StartDate, EndDate) {
+    this.isDateFieldEmpty=false;
+    console.log(StartDate.value, EndDate.value);
+    if (event.keyCode == 8) {
+      if ((StartDate.value == '' || StartDate.value == null) && (EndDate.value == '' || EndDate.value == null)) {
+        console.log('test');
+        this.isDateFieldEmpty=true;
+        this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
+      }
+    }
+  }
+  GetInvoiceList(){
+    if(this.isDateFieldEmpty==true){
+      this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
     }
   }
 }

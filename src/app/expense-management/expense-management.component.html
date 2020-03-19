@@ -115,9 +115,9 @@
                   placeholder="Search by Expense Head, Applicability, Unit Name">
               </div>
               <div class="del-date cal"><input type="text" #StartDate name="ExpenseStartDate" #ExpenseStartDateControl='ngModel' (keyup)='validateDate($event,StartDate,EndDate)'
-                  [(ngModel)]="ExpenseStartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig"></div>
+                  [(ngModel)]="ExpenseStartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig" (blur)="GetExpenseList()"></div>
               <div class="del-date cal"><input type="text" #EndDate (bsValueChange)="getExpenseListByDateRange($event)" name="ExpenseEndDate" (keyup)='validateDate($event,StartDate,EndDate)'
-                  #ExpenseEndDateControl='ngModel' [(ngModel)]="ExpenseEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig">
+                  #ExpenseEndDateControl='ngModel' [(ngModel)]="ExpenseEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig" (blur)="GetExpenseList()">
               </div>
             </div>
           <div class="dropdown" style="display: flex;justify-content: space-between;align-items: baseline;">
@@ -445,14 +445,14 @@
                   </div> -->
                 </div>
               </div>
-              <div class="col-sm-4 col-xs-12">
+              <div class="col-sm-4 col-xs-12" [hidden]="editexpensedata.EXApplTO != 'Single Unit'">
                 <div class="form-group" [ngClass]="{'has-error' : UnitNumberControl.invalid && UnitNumberControl.touched}">
                   <label>UnitNumber<span class="red"></span></label>
                   <input type="text" class="form-control" name="UnitNumber" [value]="editexpensedata.unUniIden"
                     [(ngModel)]="editexpensedata.unUniIden" #UnitNumberControl='ngModel' disabled/>
                 </div>
               </div>
-              <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All Units'">
+              <div class="col-sm-4 col-xs-12">
                 <div class="form-group"
                   [ngClass]="{'has-error' : distributionControl.invalid && distributionControl.touched}">
                   <label>Select Distribution Type<span class="red">*</span></label>
@@ -469,7 +469,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-4 col-xs-12" [hidden]="applies != 'All Units'">
+              <div class="col-sm-4 col-xs-12" [hidden]="toggleUnitList">
                 <div class="form-group" [ngClass]="{'has-error' : unitControl.invalid && unitControl.touched}">
                   <label>Select Unit<span class="red">*</span></label>
                   <select class="form-control" name="unUniIden" [(ngModel)]="editexpensedata.unUniIden"
