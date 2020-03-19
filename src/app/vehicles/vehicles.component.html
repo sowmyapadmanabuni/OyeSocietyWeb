@@ -71,7 +71,7 @@
                                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev" *ngIf="VehicleDataNew.length>4">
                                                 <i aria-hidden="true" class="fa fa-angle-left fa-2x" id="left"></i>
                                                 </a>
-                                                <a style=" width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next" *ngIf="VehicleDataNew.length>4">
+                                                <a style="width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next" *ngIf="VehicleDataNew.length>4">
                                                 <i aria-hidden="true" class="fa fa-angle-right fa-2x" id="right"></i>
                                                 </a>
                                         </div>
@@ -99,7 +99,7 @@
                                 <input type="radio" name="optradio" value="Two Wheeler" [(ngModel)]="veType">Two Wheeler
                         </label>
                         <label class="radio-inline">
-                                <input type="radio" name="optradio" value="Four Wheeler" [(ngModel)]="veType" >Four Wheeler
+                                <input type="radio" name="optradio" value="Four Wheeler" [(ngModel)]="veType">Four Wheeler
                         </label>
                 </div>
                 <div class="adveh">
@@ -140,6 +140,7 @@
         </div>
 </ng-template>
 <!--Add Vehicles-->
+
 <!--Edit Vehicles-->
 <ng-template #editVehicle>
         <form #vehicleForm="ngForm">
@@ -188,10 +189,6 @@
                                                         [checked]="makemodel=='Four Wheeler'" name="optradio">Four Wheeler
                                         </div>
                                 </div>
-
-
-
-
                                 <div class="form-group">
                                         <button (click)='UpdateVehicle()' [disabled]="vehicleForm.invalid" type="button" class="btn btn-warning">Save Changes</button>       
                                 </div>

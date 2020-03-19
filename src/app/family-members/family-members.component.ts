@@ -220,7 +220,7 @@ addfamilymember() {
               this.Relation='';
               this.FirstName='';
               this.MobileNumber='';
-              this.ToggleGurdian='';           
+              // this.ToggleGurdian='';           
             } else if (result.dismiss === swal.DismissReason.cancel) {
               this.router.navigate(['']);
             }
