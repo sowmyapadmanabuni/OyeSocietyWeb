@@ -362,6 +362,7 @@ export class ExpenseManagementComponent implements OnInit {
         this.viewexpensesByBlockId.forEach(item => {
           //console.log(item['inNumber']);
           this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
+          this.GetexpenseListByInvoiceID('id','All');
         })
         console.log(this.expenseList);
         this._viewexpensesByBlockId=this.expenseList;

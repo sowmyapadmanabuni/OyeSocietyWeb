@@ -319,6 +319,7 @@ export class AppComponent {
   logOut() {
     this.globalService.clear();
     this.router.navigate(['root']);
+    window.scrollTo(0, 0); 
   }
  
 }

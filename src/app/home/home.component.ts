@@ -694,6 +694,7 @@ export class HomeComponent implements OnInit {
         console.log(err);
       });
   }
+
   getUnitsDetails() {
     let IPAddress = this.utilsService.getIPaddress();
     let headers = this.getHttpheaders();
