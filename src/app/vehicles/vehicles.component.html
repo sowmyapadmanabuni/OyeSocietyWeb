@@ -94,9 +94,17 @@
         </div>
         <div class="modal-body">
                 <form #addVehicleFrm="ngForm">
-                <div class="veh-opt">
+                <!-- <div class="veh-opt">
                         <label class="radio-inline">
                                 <input type="radio" name="optradio" value="TwoWheeler" [(ngModel)]="veType" [checked]="veType==TwoWheeler">Two Wheeler
+                        </label>
+                        <label class="radio-inline">
+                                <input type="radio" name="optradio" value="FourWheeler" [(ngModel)]="veType" >Four Wheeler
+                        </label>
+                </div> -->
+                <div class="veh-opt">
+                        <label class="radio-inline">
+                                <input type="radio" name="optradio" value="TwoWheeler" [(ngModel)]="veType">Two Wheeler
                         </label>
                         <label class="radio-inline">
                                 <input type="radio" name="optradio" value="FourWheeler" [(ngModel)]="veType" >Four Wheeler

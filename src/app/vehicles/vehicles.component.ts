@@ -39,7 +39,7 @@ export class VehiclesComponent implements OnInit {
     private globalserviceservice: GlobalServiceService,
     private bsModalService: BsModalService,
     private addvehicleservice: AddVehicleService) {
-    this.veType="TwoWheeler";
+   // this.veType="TwoWheeler";
       this.deleteVehicleData=false;
     this.vehicledatalength = false;
     this.VehicleData = [];
@@ -197,7 +197,7 @@ export class VehiclesComponent implements OnInit {
         this.veStickNo = '';
         this.uplNum = '';
         console.log(this.uplNum);
-        this.veType = '';
+        // this.veType = '';
       },
         (err) => {
           console.log(err);
@@ -259,7 +259,7 @@ export class VehiclesComponent implements OnInit {
   DeleteVehicle(veid) {
     console.log(veid);
     let deleteData = {
-      "VEIsActive": this.deleteVehicleData,
+      "VEIsActive": this.deleteVehicleData.toString(), //IsActive,IsNotActive
       "VEID": veid
     }
     console.log(deleteData);

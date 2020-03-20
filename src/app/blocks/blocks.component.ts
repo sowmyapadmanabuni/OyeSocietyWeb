@@ -40,7 +40,7 @@ export class BlocksComponent implements OnInit {
   allBlocksList: object;
 
   modalRef: BsModalRef;
-  myDate = new Date();
+   myDate : any;
   BLBlkName: string;
   BLBlkType: string;
   BLNofUnit: number;
@@ -529,10 +529,11 @@ export class BlocksComponent implements OnInit {
     }
   }
 
-  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, blMgrName, blMgrMobile, blMgrEmail, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate) {
+  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, blMgrName, blMgrMobile, blMgrEmail, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated) {
     console.log('asbGnDate', asbGnDate);
     console.log('asdPyDate', asdPyDate);
     console.log('aslpsDate', aslpsDate);
+    this.myDate =  bldCreated;
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;

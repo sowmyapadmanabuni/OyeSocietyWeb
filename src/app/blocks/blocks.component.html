@@ -90,7 +90,7 @@
                                             class="fa fa-eye" tooltip="View Block"></i>
                                             &nbsp;|&nbsp; --><i style="cursor: pointer;" data-toggle="modal"
                                             data-target="#editBlockDetails"
-                                            (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
+                                            (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate,item['bldCreated'])"
                                             class="fa fa-pencil" tooltip="Edit Block"></i>
 
                                     </td>
@@ -205,7 +205,7 @@
                                     <label id=label1>Block Name<span class="red">*</span> </label>
                                     <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
                                         [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
-                                        placeholder="Block Name" pattern="[a-zA-Z0-9]*" required />
+                                        placeholder="Block Name" pattern="[a-zA-Z0-9 _]*" required />
                                     <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
                                         name is required
                                     </p>
