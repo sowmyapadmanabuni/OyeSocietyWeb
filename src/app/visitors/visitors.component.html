@@ -42,9 +42,7 @@
     <table class="table table-bordered" [mfData]="invitationList | search:['infName', 'inpOfInv', 'insDate', 'ineDate', 'inVisCnt', 'inMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
         <thead>
             <tr>
-                <th>
-                    S.No.
-                </th>
+                <th>S.No.</th>
                 <th>
                     <mfDefaultSorter by="infName">Visitor Name</mfDefaultSorter>
                 </th>
@@ -124,7 +122,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Last Name<sup>*</sup></label>
-                            <input pattern="[a-zA-Z]*" maxlength="20" name="INLName" [(ngModel)]="INLName" #INLNameControl="ngModel" type="text" required class="form-control" placeholder="Last Name" />
+                            <input pattern="[a-zA-Z _]*" maxlength="20" name="INLName" [(ngModel)]="INLName" #INLNameControl="ngModel" type="text" required class="form-control" placeholder="Last Name" />
                             <p class="alerts" *ngIf="INLNameControl.invalid && INLNameControl.touched"> Last name is required </p>
                         </div>
                         <div class="form-group">
@@ -135,13 +133,13 @@
                     </div>
                     <div class="guest-input">                  
                         <div class="form-group">
-                            <label class="control-label">Vehicle Number<sup>*</sup></label>
-                            <input maxlength="100" name="INVchlNo" [(ngModel)]="INVchlNo" #INVchlNoControl="ngModel" type="text" required="required" class="form-control" placeholder="Vehicle Number" />
+                            <label class="control-label">Vehicle Number</label>
+                            <input maxlength="100" name="INVchlNo" [(ngModel)]="INVchlNo" #INVchlNoControl="ngModel" type="text" class="form-control" placeholder="Vehicle Number" />
                             <p class="alerts" *ngIf="INVchlNoControl.invalid && INVchlNoControl.touched"> Valid vehicle no is required </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Email Address<sup>*</sup></label>
-                            <input maxlength="100" name="INEmail" [(ngModel)]="INEmail" #INEmailControl="ngModel" type="email" required="required" class="form-control" placeholder="Email Address" />
+                            <label class="control-label">Email Address</label>
+                            <input maxlength="100" name="INEmail" [(ngModel)]="INEmail" #INEmailControl="ngModel" type="email"  class="form-control" placeholder="Email Address" pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"/>
                             <p class="alerts" *ngIf="INEmailControl.invalid && INEmailControl.touched"> Email address is required </p>
                         </div>
                         <div class="form-group">
@@ -151,7 +149,7 @@
                     <div class="guest-input1">           
                         <div class="form-group" style="width:100%">
                             <label class="control-label">Purpose of invitation<sup>*</sup></label>
-                            <textarea class="form-control" name="INPOfInv" [(ngModel)]="INPOfInv" #INPOfInvControl="ngModel" rows="10" id="comment"></textarea>
+                            <input class="form-control" name="INPOfInv" [(ngModel)]="INPOfInv" #INPOfInvControl="ngModel" rows="10" id="comment">
                         </div>
                     </div>
                     <p>Invitation Validity</p>

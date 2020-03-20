@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /* body{ background: url('assets/bg.png');background-position: 100% 30%;background-repeat: no-repeat;background-size: contain;overflow-x: hidden;} */
-.inv-align{    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;}
+.inv-align{display: flex;justify-content: space-between;align-items: flex-end;}
 .build-bg{background-color: #fff;}
 .nm{margin:0px !important}
 .excel1{width: 100px;}
@@ -91,6 +89,7 @@ a{color: #5a51aa !important;}
 .btn-warning:hover{color: #5a51aa !important;background-color: #fff !important;border-color: #5a51aa !important;border-radius: 30px !important; }
 .btn-warning1{background: #fff !important;color: #424040 !important;border-color: #9e9c9c !important;border-radius:20px !important;margin:6px 2px;}
 .fa-eye,.fa-pencil,.fa-trash, .fa-check-circle-o,.fa-circle-thin{color: #f5a953;    font-size: 18px;}
+.fa:hover{cursor: pointer;}
 .btn-primary{border-right: 2px solid #d0cccc !important; color: #0a0a0a !important;background-color: #fff !important;border: none !important;padding: 7px 20px;box-shadow: none !important;font-weight: 500 !important;}
 .btn-primary-purple{border-right: 2px solid #5a51aa !important; color: #fff !important;background-color: #5a51aa !important;border: none !important;padding: 7px 20px !important;box-shadow: none !important;font-weight: 500 !important;margin-right: 0px;border-radius: 4px;}
 .btn-warning.active{color: #5a51aa;background-color: #fff !important;background-image: none;border-color: #fff;}
