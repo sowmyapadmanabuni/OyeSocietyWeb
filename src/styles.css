@@ -9,7 +9,7 @@
 .form-control:focus{border-color: #72b8fa !important}
 .has-error .form-control{border-color: #72b8fa !important}
 .m-r{margin-right: 6px !important}
-sup{color:red}
+sup{color:red;font-size: 20px !important; top: 3px !important;}
 .txt-middle{text-align: center !important}
 .btn{margin-right: 20px;}
 .mt-80{margin-top: 100px; }   
@@ -206,7 +206,8 @@ font-size: 12px;
     padding: 0px !important;
 }
 .red{
-    color: red;
+    color: red;font-size: 20px !important;
+    top: 3px !important;
 }
 /* View Details pop up css start */
 .result-row{
@@ -350,7 +351,7 @@ label{font-size:12px !important;font-weight: 500 !important}
 .join_ass_opt{font-size: 15px;font-weight: 700;margin: 0px 0px 52px 0px;padding: 0px 0px 30px 0px;color: #5a51aa;}
 .block-row{display: flex;justify-content: space-between;flex-wrap: wrap;margin-bottom: 10px;}
 .block-row>.active{margin-bottom: 5px;background: #5a51aa;color: #fff;padding: 9px 17px;border-radius: 10px;font-weight: 600;}
-.block-row>span:hover{cursor:pointer;margin-bottom: 5px;background: #5a51aa;color: #fff;padding: 9px 17px;border-radius: 10px;font-weight: 600;}
+.block-row>span:hover{cursor:pointer;}
 .block-row>span{margin-bottom: 5px;background: #fff;color: #5a51aa;padding: 9px 17px;border-radius: 10px;font-weight: 600;box-shadow: 0px 0px 5px 1px #d5d2d2;}
 .b-left{border-left: 2px solid #ebe7e7;}
 .enrollassociation{display: none}
