@@ -95,9 +95,9 @@
                                 <th>
                                     S.No.
                                 </th>
-                                <!-- <th>
-                                    <mfDefaultSorter by="unUnitID">Unit ID</mfDefaultSorter>
-                                </th> -->
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('UnitName')" by="unUniName">Unit Number&nbsp;<i [hidden]="columnName=='UnitName'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
                                 <th>
                                     <mfDefaultSorter (click)="removeColumnSort('InvoiceNumber')" by="inNumber">Invoice Number&nbsp;<i [hidden]="columnName=='InvoiceNumber'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
@@ -124,7 +124,7 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
-                                    <!-- <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unUnitID']}}</td> -->
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unit']['unUniName']}}</td>
                                     <td class="txt-middle" style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
                                     <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
                                     <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
@@ -278,7 +278,7 @@
                         <thead>
                             <tr>
                                 <th>S.No.</th>
-                                <th><mfDefaultSorter (click)="removeColumnSort('UnitID')" by="unUnitID">Unit ID&nbsp;<i [hidden]="columnName=='UnitID'" class="fa fa-sort"></i></mfDefaultSorter></th>
+                                <!-- <th><mfDefaultSorter (click)="removeColumnSort('UnitID')" by="unUnitID">Unit ID&nbsp;<i [hidden]="columnName=='UnitID'" class="fa fa-sort"></i></mfDefaultSorter></th> -->
                                 <th><mfDefaultSorter (click)="removeColumnSort('InvoiceNumber')" by="inNumber">Invoice Number&nbsp;<i [hidden]="columnName=='InvoiceNumber'" class="fa fa-sort"></i></mfDefaultSorter></th>
                                 <th><mfDefaultSorter (click)="removeColumnSort('InvoiceDate')" by="inGenDate">Invoice Date&nbsp;<i [hidden]="columnName=='InvoiceDate'" class="fa fa-sort"></i></mfDefaultSorter></th>
                                 <th><mfDefaultSorter (click)="removeColumnSort('Amount')" by="inTotVal">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter></th>
@@ -297,7 +297,7 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{ (10 * (p - 1) + i)+1 }}</td>
-                                    <td>{{item['unUnitID']}}</td>
+                                    <!-- <td>{{item['unUnitID']}}</td> -->
                                     <td>{{item['inNumber']}}</td>
                                     <td>{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
                                     <td class="amount">

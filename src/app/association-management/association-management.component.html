@@ -249,7 +249,7 @@
                   <label class="control-label">Association Email <span class="red">*</span></label>
                   <input type="text" name="ASAsnEmail" autocomplete='crtAssn.email' [(ngModel)]="crtAssn.email"
                     #emailControl="ngModel" class="form-control" maxlength="255" placeholder="EMAIL ID "
-                   (blur)="getAssnEmail()" style="font-family: Quicksand" required pattern="[0-9]*[a-zA-Z_]+[a-zA-Z0-9_]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                   (blur)="getAssnEmail()" style="font-family: Quicksand" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
                   <p class="alerts" *ngIf="emailControl.invalid && emailControl.touched"> Valid EmailID is Required
                   </p>
                   <br>
@@ -266,7 +266,7 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'Select the State'" class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
+                <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'SELECT THE STATE' || crtAssn.propertyType == 'SELECT PROPERTY TYPE'" class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
                   (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
               </div>
@@ -631,7 +631,7 @@
                               <label class="control-label lab">Owner Email Id<span class="red">*</span></label>
                               <input type="text" name="ownerEmail" id="ownerEmail" (blur)="getOwnerEmailId(itm['_id'],itm['_ownerEmail'])" [(ngModel)]="itm['_ownerEmail']"
                                 #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
-                                pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
+                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
                                 <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
                             </div>
                     </div>
@@ -664,7 +664,7 @@
                                 <label class="control-label lab">Tenant Email Id<span class="red">*</span></label>
                                 <input type="text" name="tenantEmail" id="tenantEmail" (blur)="getTenantEmailId(itm['_id'],itm['_tenantEmail'])" [(ngModel)]="itm['_tenantEmail']"
                                   #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
-                                  pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
+                                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
                                   <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
                               </div>
                       </div>

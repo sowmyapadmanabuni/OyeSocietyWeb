@@ -260,7 +260,7 @@ export class MembersComponent implements OnInit {
         const headers = new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Access-Control-Allow-Origin', '*');
-        this.http.post('https://us-central1-oyespace-dc544.cloudfunctions.net/sendAdminNotificationFromKotlin', JSON.stringify(MessageBody), { headers: headers })
+        this.http.post('https://us-central1-oyespace-b7e2d.cloudfunctions.net/sendAdminNotificationFromKotlin', JSON.stringify(MessageBody), { headers: headers })
           .subscribe(data => {
             console.log(data);
           })

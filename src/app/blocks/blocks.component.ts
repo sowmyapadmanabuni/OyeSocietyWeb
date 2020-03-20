@@ -432,6 +432,7 @@ export class BlocksComponent implements OnInit {
   EnableBlockListView(event) {
     console.log(event);
     if(event == 'EnableBlockList'){
+      this.getBlockDetails();
       this.enableBlockListView=true;
       this.enableAddBlocksView=false;
     }

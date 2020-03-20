@@ -39,6 +39,7 @@ export class VehiclesComponent implements OnInit {
     private globalserviceservice: GlobalServiceService,
     private bsModalService: BsModalService,
     private addvehicleservice: AddVehicleService) {
+    this.veType="TwoWheeler";
       this.deleteVehicleData=false;
     this.vehicledatalength = false;
     this.VehicleData = [];

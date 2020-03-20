@@ -519,6 +519,8 @@ export class AssociationManagementComponent implements OnInit {
       console.log(this.crtAssn.GSTNumber);
       console.log(this.BlockHrefDetail);
       console.log(this.crtAssn.country);
+      console.log(this.crtAssn.propertyType);
+      console.log(this.crtAssn.state);
     }
   }
 
