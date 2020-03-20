@@ -189,7 +189,8 @@ export class AppComponent {
   isAuthenticated(){
     if(this.globalService.getacAccntID()){
       return true
-    } else {
+    } 
+    else {
       return false;
     }
   }
@@ -321,6 +322,5 @@ export class AppComponent {
     this.router.navigate(['root']);
     window.scrollTo(0, 0); 
   }
- 
 }
 
