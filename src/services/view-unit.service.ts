@@ -19,7 +19,8 @@ export class ViewUnitService {
       'Access-Control-Allow-Origin': "*"
     })
   };
-  
+  addUnits:boolean;
+  unitList:boolean;
 
   constructor(private globalServiceService: GlobalServiceService,
               private utilsService: UtilsService,private http:HttpClient) {

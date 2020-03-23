@@ -50,7 +50,7 @@
                     </div>
 
                 </div> -->
-                <div *ngIf="unitList">
+                <div *ngIf="viewUniService.unitList">
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="Search by Unit Name, Unit Type, Name, Email">
                 </div>
@@ -72,7 +72,7 @@
                          </div> 
                     </div>
                 </div>
-                <div class="dash-row" *ngIf="unitList">
+                <div class="dash-row" *ngIf="viewUniService.unitList">
                     <table class="table table-bordered"
                         [mfData]="allUnitBYBlockID | search:['unUniName','unUniType','unDimens']:searchTxt"
                         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
@@ -135,7 +135,7 @@
             </div>
             <!--Dashboard icons end-->
             <!--Add Units form Starts-->
-            <div class="col-sm-12" *ngIf="addUnits">
+            <div class="col-sm-12" *ngIf="viewUniService.addUnits">
                 <app-add-unit></app-add-unit>
             </div>
             <!--Add Units form Ends-->

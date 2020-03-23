@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input ,EventEmitter} from '@angular/core';
 import { ViewUnitService } from '../../services/view-unit.service';
 import Swal from 'sweetalert2';
 import {GlobalServiceService} from '../global-service.service';
@@ -53,6 +53,7 @@ export class AddUnitComponent implements OnInit {
   newParkingDetail:any={};
   parkingDetails:any[];
   deleteAmenity:any;
+  @Input() checkIsUnitCreated:EventEmitter<string>;
 
   constructor(private viewUniService: ViewUnitService,
     private globalservice:GlobalServiceService,
@@ -107,6 +108,7 @@ export class AddUnitComponent implements OnInit {
     this.parkingDetails = [];
     this.newParkingDetail.ParkingLotNumber = "";
     this.newParkingDetail.VehicleNumber = "";
+    this.checkIsUnitCreated=new EventEmitter<string>();
    }
 
   ngOnInit() {
@@ -238,7 +240,7 @@ export class AddUnitComponent implements OnInit {
             "UBActNo": "LOP9090909",
             "UBActType": "Savings",
             "UBActBal": 12.3,
-            "BLBlockID": this.blockID
+            "BLBlockID": this.viewUniService.blockIDforUnitCreation
           },
         "Tenant":
           [{
@@ -263,7 +265,7 @@ export class AddUnitComponent implements OnInit {
         }
       ]
     }
-    ////console.log(createUnitData);
+    console.log(createUnitData);
 
     this.viewUniService.createUnit(createUnitData).subscribe((response) => {
 
@@ -275,9 +277,11 @@ export class AddUnitComponent implements OnInit {
         cancelButtonText: "View Unit"
       }).then(
        (result) => {
-        this.router.navigate(['blocks']);
+        //this.globalservice.IsUnitCreated=true;
+        //this.router.navigate(['units']);
 
          if (result.value) {
+           console.log('inside unit test');
            //this.createunitForm.reset();
            this.unitno='';
            this.unitType='';
@@ -296,7 +300,9 @@ export class AddUnitComponent implements OnInit {
            this.tenantLastname='';
            this.tenantMobnumber='';
            this.tenantEmail='';
-
+           //this.checkIsUnitCreated.emit('true');
+           this.viewUniService.addUnits=false;
+           this.viewUniService.unitList=true;
 
          } else if (result.dismiss === Swal.DismissReason.cancel) {
            this.router.navigate(['home/viewunit']);
@@ -306,7 +312,7 @@ export class AddUnitComponent implements OnInit {
 
     },
       (response) => {
-        ////console.log(response);
+        console.log(response);
       }); 
 
     

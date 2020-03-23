@@ -36,6 +36,7 @@ export class FamilyMembersComponent implements OnInit {
   ToggleGurdian: any;
   searchTxt:any;
   joinassociation:any;
+  RelationsArray:any[];
 
   constructor(private http: HttpClient, private router: Router,
     private modalService: BsModalService,private utilsService:UtilsService,
@@ -45,6 +46,8 @@ export class FamilyMembersComponent implements OnInit {
     this.asAssnID='';
     this.loadchangedforassociation = false;
     this.ToggleGurdian = 'xyz';
+    this.RelationsArray=['Parent', 'Childern', 'Siblings', 'Relatives', 'Spouse', 'Cousin'];
+    this.Relation='Select Relation';
    }
 
   ngOnInit() {
@@ -236,6 +239,7 @@ resetFamilyMemberModal(){
   this.EditFirstName='';
   this.EditMobileNumber='';
   this.EditRelation='';
+  this.Relation='Select Relation';
 }
 resetUpdateFamilyMemberModal(){
   this.EditFirstName='';
@@ -278,4 +282,7 @@ deleteFamilyMember(fmid) {
 }
 // DELETE FAMILY MEMBER END
 
+setRelationType(relation){
+  this.Relation=relation;
+}
 }

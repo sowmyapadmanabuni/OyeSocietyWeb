@@ -68,8 +68,8 @@ export class UnitsComponent implements OnInit {
   unitTypes:object[];
   calculationTypes:object[];
   occupencys:object[];
-  addUnits: boolean;
-  unitList: boolean;
+  // addUnits: boolean;
+  // unitList: boolean;
 
   unitType:string;
   unitno:number;
@@ -198,8 +198,8 @@ export class UnitsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addUnits = false;
-    this.unitList = true;
+    this.viewUniService.addUnits = false;
+    this.viewUniService.unitList = true;
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
     //this.associationID="10";
@@ -211,6 +211,13 @@ export class UnitsComponent implements OnInit {
         this.allBlocksLists = data['data'].blocksByAssoc;
         //console.log('allBlocksLists',this.allBlocksLists);
       });
+  }
+  GetIsUnitCreated(event) {
+    console.log(event);
+    if (event == 'true') {
+      this.viewUniService.addUnits = false;
+      this.viewUniService.unitList = true;
+    }
   }
 
   ngAfterViewInit(){
@@ -375,7 +382,7 @@ export class UnitsComponent implements OnInit {
 
         //console.log(anchorDivs);
 
-      navListItems.click(function (e) {
+     /* navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
           $item = $(this),
@@ -392,7 +399,27 @@ export class UnitsComponent implements OnInit {
           navListItems.removeClass('btn-success').addClass('btn-default');
           navListItems.removeClass('active').addClass('disabled');
         }
-      });
+      }); */
+
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this),
+          $divTgt = $(this).parent();
+        console.log('test');
+        anchorDivs.removeClass('step-active');
+        if (!$item.hasClass('disabled')) {
+          console.log('disabled');
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          $item.addClass('btn-success');
+          $divTgt.addClass('step-active');
+          allWells.hide();
+          console.log($target);
+          console.log($target.attr("id"));
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      })
 
       allNextBtn.click(function () {
         var curStep = $(this).closest(".setup-content"),
@@ -431,8 +458,8 @@ export class UnitsComponent implements OnInit {
     }
     else{
     this.toggleStepWizard();
-    this.addUnits = true;
-    this.unitList = false;
+    this.viewUniService.addUnits = true;
+    this.viewUniService.unitList = false;
     }
   }
 

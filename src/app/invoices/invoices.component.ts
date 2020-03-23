@@ -1257,7 +1257,8 @@ export class InvoicesComponent implements OnInit {
         if (new Date(this.InvoiceStartDate).getTime() <= new Date(item['inGenDate']).getTime() && new Date(InvoiceEndDate).getTime() >= new Date(item['inGenDate']).getTime()) {
           console.log(new Date(item['inGenDate']).getTime());
         }
-        return (new Date(this.InvoiceStartDate).getTime() <= new Date(item['inGenDate']).getTime() && new Date(InvoiceEndDate).getTime() >= new Date(item['inGenDate']).getTime());
+        // return (new Date(this.InvoiceStartDate).getTime() <= new Date(item['inGenDate']).getTime() && new Date(InvoiceEndDate).getTime() >= new Date(item['inGenDate']).getTime());
+        return new Date(formatDate(this.InvoiceStartDate,'MM/dd/yyyy','en')) <= new Date(formatDate(item['inGenDate'],'MM/dd/yyyy','en')) && new Date(formatDate(InvoiceEndDate,'MM/dd/yyyy','en')) >= new Date(formatDate(item['inGenDate'],'MM/dd/yyyy','en'));
       })
       console.log(this.PaidUnpaidinvoiceLists);
     }

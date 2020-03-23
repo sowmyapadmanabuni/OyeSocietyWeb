@@ -73,15 +73,35 @@
                                     </div> -->
                             <h3 class="title">Family Details</h3>
                             <div class="panel-body">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label class="control-label">Relationship<span class="red">*</span></label>
-                                    <input pattern="[a-zA-Z _]*" maxlength="20" type="text" [(ngModel)]='Relation'
-                                        name="Relation" #relationshipControl="ngModel"
-                                        class="form-control" placeholder="Relationship" required/>
+                                    <input pattern="[a-zA-Z _]*" maxlength="20" type="text" [(ngModel)]='Relation' name="Relation" #relationshipControl="ngModel" class="form-control" placeholder="Relationship" required/>
+
                                     <p class="alerts"
                                         *ngIf="relationshipControl.invalid && relationshipControl.touched"> Enter the
                                         Relation</p>
+                                </div> -->
+
+
+                                <div class="form-group">
+                                    <label class="control-label">Relationship</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                            data-toggle="dropdown">{{Relation}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li *ngFor='let relation of RelationsArray' (click)="setRelationType(relation)">
+                                                <a>{{relation}}</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
+
+
+
+
+
+
+
                                 <div class="form-group">
                                     <label class="control-label">First Name<span class="red">*</span></label>
                                     <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='FirstName' maxlength="30"
@@ -123,7 +143,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <button [disabled]="addFamilyMem.invalid" class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()"
+                                <button [disabled]="addFamilyMem.invalid || Relation=='Select Relation'" class="btn btn-primary-purple nextBtn pull-right" (click)="addfamilymember()"
                                     type="button">Submit</button>
                                 <input class="btn btn-primary-purple nextBtn pull-right"
                                     (click)="resetFamilyMemberModal()" type="reset" value="Reset">

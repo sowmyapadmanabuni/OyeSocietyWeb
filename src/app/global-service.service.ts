@@ -51,8 +51,10 @@ export class GlobalServiceService {
    saveMobileNumberforRegister:any;
    IsEnrollAssociationStarted:any;
    BackClicked:any;
+   IsUnitCreated:boolean;
 
   constructor() {
+    this.IsUnitCreated=false;
     this.IsEnrollAssociationStarted=false;
     this.currentAssociationName = '';
     this.currentUnitName = '';

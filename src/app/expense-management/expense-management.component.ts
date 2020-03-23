@@ -367,7 +367,7 @@ export class ExpenseManagementComponent implements OnInit {
         console.log(this.expenseList);
         this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
         this._viewexpensesByBlockId=this.expenseList;
-        this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
+        //this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
         //console.log('viewexpensesByBlockId',this.expenseList);
         //
         this.sortedCollection = this.orderpipe.transform(this.expenseList, 'exHead');
@@ -400,22 +400,6 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')).getTime())
       console.log(new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime())
       console.log(new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime())
-      // if(new Date(new Date(this.ExpenseStartDate).getFullYear(),new Date(this.ExpenseStartDate).getMonth()+1,new Date(this.ExpenseStartDate).getDate()).getTime() <= new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime() && new Date(new Date(this.ExpenseEndDate).getFullYear(),new Date(this.ExpenseEndDate).getMonth()+1,new Date(this.ExpenseEndDate).getDate()).getTime() >= new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime()){
-      //   console.log('test1');
-      //   return true;
-      // }
-      // else if(new Date(new Date(this.ExpenseStartDate).getFullYear(),new Date(this.ExpenseStartDate).getMonth()+1,new Date(this.ExpenseStartDate).getDate()).getTime() <= new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime() && new Date(new Date(this.ExpenseEndDate).getFullYear(),new Date(this.ExpenseEndDate).getMonth()+1,new Date(this.ExpenseEndDate).getDate()).getTime() == new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime()){
-      //   console.log('test4');
-      //   return true;
-      // }
-      // if(new Date(new Date(this.ExpenseStartDate).getFullYear(),new Date(this.ExpenseStartDate).getMonth()+1,new Date(this.ExpenseStartDate).getDate()).getTime() == new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime() && new Date(new Date(this.ExpenseEndDate).getFullYear(),new Date(this.ExpenseEndDate).getMonth()+1,new Date(this.ExpenseEndDate).getDate()).getTime() == new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime()){
-      //   console.log('test2');
-      //   return true;
-      // }
-      // else if(new Date(new Date(this.ExpenseStartDate).getFullYear(),new Date(this.ExpenseStartDate).getMonth()+1,new Date(this.ExpenseStartDate).getDate()).getTime() == new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime() && new Date(new Date(this.ExpenseEndDate).getFullYear(),new Date(this.ExpenseEndDate).getMonth()+1,new Date(this.ExpenseEndDate).getDate()).getTime() >= new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime()){
-      //   console.log('test3');
-      //   return true;
-      // }
       console.log(new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')).getTime() <= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime() && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime() >= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime())
       //return new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')).getTime() <= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime() && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime() >= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime();
       return new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')) <= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')) && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')) >= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en'));

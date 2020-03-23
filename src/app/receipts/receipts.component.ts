@@ -54,6 +54,7 @@ export class ReceiptsComponent implements OnInit {
   pyVoucherNo: any;
   toggleUL:boolean;
   bsConfig:any;
+  isDateFieldEmpty: boolean;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -64,6 +65,7 @@ export class ReceiptsComponent implements OnInit {
     public generatereceiptservice: GenerateReceiptService,
     private route: ActivatedRoute) 
     { 
+      this.isDateFieldEmpty=false;
       this.toggleUL=false;
       this.globalservice.IsEnrollAssociationStarted==true;
       this.currentBlockName="";
@@ -277,12 +279,40 @@ export class ReceiptsComponent implements OnInit {
       //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
       console.log(new Date(ReceiptEndDate).getTime());
       this.viewPayments = this.viewPayments.filter(item => {
-        if (new Date(this.ReceiptStartDate).getTime() <= new Date(item['pydCreated']).getTime() && new Date(ReceiptEndDate).getTime() >= new Date(item['pydCreated']).getTime()) {
+        if (new Date(formatDate(this.ReceiptStartDate,'MM/dd/yyyy','en')) <= new Date(formatDate(item['pydCreated'],'MM/dd/yyyy','en')) && new Date(formatDate(ReceiptEndDate,'MM/dd/yyyy','en')) >= new Date(formatDate(item['pydCreated'],'MM/dd/yyyy','en'))) {
           console.log(new Date(item['pydCreated']).getTime());
         }
-        return (new Date(this.ReceiptStartDate).getTime() <= new Date(item['pydCreated']).getTime() && new Date(ReceiptEndDate).getTime() >= new Date(item['pydCreated']).getTime());
+        //return (new Date(this.ReceiptStartDate).getTime() <= new Date(item['pydCreated']).getTime() && new Date(ReceiptEndDate).getTime() >= new Date(item['pydCreated']).getTime());
+        return new Date(formatDate(this.ReceiptStartDate,'MM/dd/yyyy','en')) <= new Date(formatDate(item['pydCreated'],'MM/dd/yyyy','en')) && new Date(formatDate(ReceiptEndDate,'MM/dd/yyyy','en')) >= new Date(formatDate(item['pydCreated'],'MM/dd/yyyy','en'));
+
       })
       console.log(this.viewPayments);
+    }
+  }
+  validateDate(event, StartDate, EndDate) {
+    this.isDateFieldEmpty=false;
+    console.log(StartDate.value, EndDate.value);
+    if (event.keyCode == 8) {
+      if ((StartDate.value == '' || StartDate.value == null) && (EndDate.value == '' || EndDate.value == null)) {
+        console.log('test');
+        this.isDateFieldEmpty=true;
+        this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
+        .subscribe(data=>{
+          console.log(data['data']['payments']);
+          this.viewPayments=data['data']['payments']
+          this.viewPaymentList=data['data']['payments']
+        });
+      }
+    }
+  }
+  GetReceiptList(){
+    if(this.isDateFieldEmpty==true){
+      this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
+      .subscribe(data=>{
+        console.log(data['data']['payments']);
+        this.viewPayments=data['data']['payments']
+        this.viewPaymentList=data['data']['payments']
+      });
     }
   }
 }
