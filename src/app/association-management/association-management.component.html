@@ -173,7 +173,7 @@
                       data-toggle="dropdown">{{crtAssn.country}}
                       <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                     <ul class="dropdown-menu fullw fdrop">
-                      <li *ngFor='let country of countries' (click)="openPANfield(country['name'])">
+                      <li *ngFor='let country of countries | orderBy:order' (click)="openPANfield(country['name'])">
                         <a>{{country['name']}}</a></li>
                     </ul>
                   </div>
@@ -517,9 +517,7 @@
                     <button class="btn btn-primary-purple  pull-right" type="button" (click)='createBlock()'>Save & continue</button>
                   <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='resetStep5()'>Reset</button>
               </div>
-                </div>
-                
-                
+                </div>           
               </div>
               
           </div>
@@ -545,8 +543,7 @@
                           <a href="#step-9" type="button" class="btn btn-circle-o"></a><span>Unit
                               Vehicle
                               Information</span>
-                      </div>
-            
+                      </div>           
                   </div> -->
               </div>
               <form role="form" #createunitForm='ngForm'>
