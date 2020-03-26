@@ -1094,6 +1094,7 @@ export class ExpenseManagementComponent implements OnInit {
       return item['unUniIden'] == unUniName;
     })
     console.log(this.expenseList);
+    console.log(this.toggle);
     if(this.toggle=='toggleNo'){
       this.expenseList=this._viewexpensesByBlockId;
       this.expenseList = this.expenseList.filter(item=>{
