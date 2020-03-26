@@ -451,6 +451,7 @@ export class InvoicesComponent implements OnInit {
     }
   }
   getCurrentBlockDetails(blBlockID, blBlkName) {
+    this.p=1;
     this.toggleDrpdown=false;
     this.PaidUnpaidinvoiceLists=[];
     this.UnitName='';
@@ -1362,6 +1363,7 @@ export class InvoicesComponent implements OnInit {
 
     }
     else{
+      this.p=1;
       this.toggle=param;
       console.log(IsPaid);
       let paid = '';
@@ -1564,6 +1566,7 @@ export class InvoicesComponent implements OnInit {
       });
   }
   getCurrentUnitDetails(unUnitID,unUniName){
+    this.p=1;
       this.UnitName=unUniName;
       this.PaidUnpaidinvoiceLists=this.invoiceLists;
       this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {

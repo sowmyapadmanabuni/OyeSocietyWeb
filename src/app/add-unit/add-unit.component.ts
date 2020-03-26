@@ -69,7 +69,7 @@ export class AddUnitComponent implements OnInit {
       this.toggleunitvehicleinformation=true;
 
     this.blBlockID = '';
-    this.occupency='Select Occupency';
+    this.occupency='Select Occupancy';
     this.unitType='Select Unit Type';
     this.calculationtype='Select Calcula...';
     this.blockID='';
