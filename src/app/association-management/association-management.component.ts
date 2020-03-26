@@ -277,6 +277,7 @@ export class AssociationManagementComponent implements OnInit {
   ShowRecords: any;
   columnName: any;
   stateList: string[];
+  IsUnitNotSelected:boolean;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -292,6 +293,8 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
+    this.IsUnitNotSelected=true;
+    this.OwnerType = '';
     this.globalService.IsEnrollAssociationStarted == false;
     this.location.onPopState(() => {
       // set isBackButtonClicked to true.
@@ -1039,6 +1042,16 @@ export class AssociationManagementComponent implements OnInit {
         //console.log(res);
         // console.log('allUnitBYBlockID',data);
         // this.allUnitBYBlockID = data['data'].unitsByBlockID;
+        $(document).ready(function () {
+          let selectedSpan = document.querySelectorAll('div.block-row span.active');
+          let allSpan = document.querySelectorAll('div.block-row span');
+          console.log(selectedSpan.length);
+          console.log(allSpan);
+          if(selectedSpan.length==0){
+            this.IsUnitNotSelected=true;
+          }
+        });
+
       });
 
   }
@@ -1501,6 +1514,18 @@ export class AssociationManagementComponent implements OnInit {
     //spanCtrl.classList.add("active");
     spanCtrl.classList.toggle("active");
     //this.activeEnabled = true;
+    //$(document).ready(function () {
+      let selectedSpan = document.querySelectorAll('div.block-row span.active');
+      let allSpan = document.querySelectorAll('div.block-row span');
+      console.log(selectedSpan.length);
+      console.log(allSpan);
+      if(selectedSpan.length > 0){
+        this.IsUnitNotSelected=false;
+      }
+      else{
+        this.IsUnitNotSelected=true;
+      }
+    //});
   }
 
   getAssociationDetails() {
@@ -2778,6 +2803,9 @@ export class AssociationManagementComponent implements OnInit {
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     }
+  }
+  ValidateDateOfOccupancy(){
+    this.UNOcSDate=='';
   }
 }
 

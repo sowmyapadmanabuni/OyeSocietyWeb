@@ -913,7 +913,7 @@
         </form>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="assnName == 'Associations' || blBlkName == 'Blocks'" (click)='requestForJoin()'>Join</button>
+          <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="assnName == 'Associations' || blBlkName == 'Blocks' || IsUnitNotSelected || UNOcSDate == '' || OwnerType == ''" (click)='requestForJoin()'>Join</button>
           <input class="btn btn-primary-purple pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="button" value="Reset">
         </div>
       </div>
