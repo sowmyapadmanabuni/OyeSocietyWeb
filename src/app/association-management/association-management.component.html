@@ -843,6 +843,7 @@
             Units</p>
         </div>
         <div class="col-sm-9 b-left">
+          <form #JoinAsnFrm="ngForm">
           <!--row1-->
           <div class="content">
             <label>Select Association</label>
@@ -906,9 +907,10 @@
               </div>
             </div>
           </div>
+        </form>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-primary-purple nextBtn pull-right" type="button"(click)='requestForJoin()'>Join</button>
+          <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="assnName == 'Associations' || blBlkName == 'Blocks'" (click)='requestForJoin()'>Join</button>
           <input class="btn btn-primary-purple pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="button" value="Reset">
         </div>
       </div>

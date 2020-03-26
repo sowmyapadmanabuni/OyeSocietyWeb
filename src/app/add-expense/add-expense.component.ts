@@ -504,7 +504,9 @@ export class AddExpenseComponent implements OnInit {
     this.addexpenseservice.createExpense(this.expensedata)
       .subscribe(
         (data) => {
-          ////console.log(data);
+          // this.addexpenseservice.enableAddExpnseView = false;
+          // this.addexpenseservice.enableExpenseListView=true;
+          console.log(data);
           this.viewexpensesservice.currentBlockId = this.expensedata.BLBlockID;
           swal.fire({
             title: "Expense Added Successfully",

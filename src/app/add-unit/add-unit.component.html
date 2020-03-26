@@ -9,11 +9,11 @@
               <a class="disabled" href="#step-2" type="button" class="btn btn-circle-o"></a><span>Unit
                   Owner/Tenent Information</span>
           </div>
-          <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
+          <!-- <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
               <a class="disabled" href="#step-3" type="button" class="btn btn-circle-o"></a><span>Unit
                   Vehicle
                   Information</span>
-          </div>
+          </div> -->
 
       </div>
   </div>
@@ -48,15 +48,15 @@
 
               <div class="form-group">
                   <label class="control-label">Unit Dimension<span class="red">*</span></label>
-                  <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
-                  <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched"> Valid Unit dimension is required</p>
+                  <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" (keyup)="ValidateLessThanZeroValue()" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
+                  <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched || InvalidUnitDimension"> Valid Unit dimension is required</p>
                 </div>
           </div>
           <div class="panel-body">
               <div class="form-group">
                   <label class="control-label">Unit Rate<span class="red">*</span></label>
-                  <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="unitrate" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
-                  <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched"> Valid unit rate is required</p>
+                  <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="unitrate" #unitrateControl="ngModel" class="form-control" (keyup)="ValidateUnitRateLessThanZeroValue()" placeholder="Unit Rate" />
+                  <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched || InvalidUnitRate"> Valid unit rate is required</p>
               </div>
 
               <div class="form-group">
@@ -172,13 +172,15 @@
 
           <div class="col-sm-12 pull-right">
               <button type="reset" class="btn btn-primary-purple nextBtn m-r">Reset</button>
-              <button class="btn btn-primary-purple nextBtn" type="button m-r">Next</button>
+              <!-- <button class="btn btn-primary-purple nextBtn" type="button m-r">Next</button> -->
+              <button class="btn btn-primary-purple nextBtn m-r" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
+
           </div>
 
       </div>
 
       <div class="panel panel-primary setup-content" id="step-3">
-          <div class="panel-body" *ngFor="let item of parkingDetails">
+          <!-- <div class="panel-body" *ngFor="let item of parkingDetails">
               <div class="form-group">
                   <label class="control-label">Parking lot Number</label>
                   <input type="text" name="pkngLotNumber" id="pkngLotNumber" [(ngModel)]="item['ParkingLotNumber']" #parkingNoControl="ngModel" class="form-control" placeholder="Parking Lot number" style="font-family: Quicksand" pattern="A-Za-z0-9]*" />
@@ -192,8 +194,8 @@
                   <i class="fa fa-trash" (click)="deleteAmenity(item['ParkingLotNumber'])" aria-hidden="true"></i>
               </div>
 
-          </div>
-          <div class="panel-body">
+          </div> -->
+          <!-- <div class="panel-body">
               <div class="form-group">
                   <input maxlength="200" type="text" name="ParkingLotNumber" [(ngModel)]="newParkingDetail.ParkingLotNumber" class="form-control"
                       placeholder="Parking Lot number" />
@@ -206,7 +208,7 @@
                   <label class="control-label"></label>
                   <i style="cursor: pointer;" class="fa fa-plus-square" (click)="addParking()" aria-hidden="true"></i>
               </div>
-          </div>
+          </div> -->
 
           <div class="col-sm-12 pull-right">
               <button type="reset" class="btn btn-primary-purple nextBtn m-r">Reset</button>

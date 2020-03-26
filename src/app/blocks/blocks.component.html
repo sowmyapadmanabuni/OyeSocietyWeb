@@ -301,24 +301,22 @@
                             <h5 style="color:#e59400;">Maintenance details</h5>
                         </div>
                         <div class="row" style="padding-left:15px;padding-right:15px;">
-                            <div class="col-sm-4 col-xs-12">
+                            <!-- <div class="col-sm-4 col-xs-12">
                                 <div class="form-group">
-                                    <p>Select Rate <span class="red">*</span></p> 
-                                   <div style="display: flex;">
-                                        <input type="checkbox" name="rate" [(ngModel)]="rate" (change)="checkRate(rate)"
-                                        value="flatRatevalue">
-                                    <label>&nbsp;&nbsp;Flat Rate Value</label>
-
-                                   </div>
-                                    
-                                   <div style="display: flex;">
-                                    <input type="checkbox" name="rate" [(ngModel)]="rate1" (change)="checkRate1(rate1)"
-                                        value="dimension">
-                                    <label>&nbsp;&nbsp;Dimension Based</label>
-                                   </div>
-
+                                    <p>Select Rate <span class="red">*</span></p>
+                                    <div style="display: flex;">
+                                        <input type="checkbox" name="rate" [(ngModel)]="rate" (change)="checkRate(rate)" value="flatRatevalue">
+                                        <label>&nbsp;&nbsp;Flat Rate Value</label>
+                            
+                                    </div>
+                            
+                                    <div style="display: flex;">
+                                        <input type="checkbox" name="rate" [(ngModel)]="rate1" (change)="checkRate1(rate1)" value="dimension">
+                                        <label>&nbsp;&nbsp;Dimension Based</label>
+                                    </div>
+                            
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-sm-4 col-xs-12" *ngIf="addRate == 'flatRatevalue'">
                                 <div class="form-group"

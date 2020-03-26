@@ -54,11 +54,15 @@ export class AddUnitComponent implements OnInit {
   parkingDetails:any[];
   deleteAmenity:any;
   @Input() checkIsUnitCreated:EventEmitter<string>;
+  InvalidUnitDimension:boolean;
+  InvalidUnitRate:boolean;
 
   constructor(private viewUniService: ViewUnitService,
     private globalservice:GlobalServiceService,
     private router:Router,
     private http:HttpClient) {
+      this.InvalidUnitDimension = false;
+      this.InvalidUnitRate=false;
       this.scopeIP="https://apidev.oyespace.com/";
       this.currentAssociationName=this.globalservice.getCurrentAssociationName();
       this.accountID=this.globalservice.getacAccntID();
@@ -318,7 +322,24 @@ export class AddUnitComponent implements OnInit {
     
 
   } 
-
+  ValidateLessThanZeroValue() {
+    console.log(this.unitdimension);
+    if (Number(this.unitdimension) <= 0) {
+      this.InvalidUnitDimension = true;
+    }
+    else{
+      this.InvalidUnitDimension = false;
+    }
+  }
+  ValidateUnitRateLessThanZeroValue(){
+    console.log(this.unitrate);
+    if (Number(this.unitrate) <= 0) {
+      this.InvalidUnitRate = true;
+    }
+    else{
+      this.InvalidUnitRate = false;
+    }
+  }
   getHttpheaders(): HttpHeaders {
     const headers = new HttpHeaders()
     .set('Authorization', 'my-auth-token')

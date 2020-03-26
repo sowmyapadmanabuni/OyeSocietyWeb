@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
   isOTPSent:boolean;
   disableMobileNumField:boolean;
   modalRef: any;
+  hideGetInButton:boolean;
 
   constructor(private modalService:BsModalService,
     private http: HttpClient, public router: Router,
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit {
     this.toggleShowSafetyContent=false;
     this.toggleShowAccountingContent=false;
     this.isOTPSent=false;
+    this.hideGetInButton=false;
       //alert('inside login component');
     // redirect to home if already logged in
     if (this.globalserviceservice.acAccntID) {
@@ -194,87 +196,97 @@ export class LoginComponent implements OnInit {
   }
 
   verifyOtp() {
-    this.globalserviceservice.saveMobileNumberforRegister='';
-    let headers = this.getHttpheaders();
-    let ipAddress=this.utilsService.verifyOtp();
-    let url = `${ipAddress}oyeliving/api/v1/account/verifyotp`
-    var otpdata = {
-      CountryCode: this.code,
-      MobileNumber: this.mobilenumber,
-      OTPnumber: this.otp
-    };
-    //console.log(otpdata);
-    this.http.post(url, JSON.stringify(otpdata), { headers: headers })
-      .subscribe(data => {
-        console.log(data)
-        if (data['data'] == null) {
-          Swal.fire({
-            // type: 'error',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK',
-            text: 'Number not registered continue with registration',
-          }).then((result) => {
-            if (result.value) {
-              this.globalserviceservice.saveMobileNumberforRegister= this.mobilenumber;
-              this.globalserviceservice.toggleregister=true;
-              console.log(this.globalserviceservice.toggleregister);
-             //this.router.navigate(['home']);
-             //this.router.navigate(['register']);
-             //this.router.navigate(['login']);
-            }
-          })
-        }
-       else if (data['data'] != null){
-        //console.log('acAccntID',data['data']['account']['acAccntID']);
-        // this.globalserviceservice.acAccntID=data['data']['account']['acAccntID'];
-        this.globalserviceservice.setAccountID(data['data']['account']['acAccntID']);
-        //console.log(this.globalserviceservice.acAccntID);
-        //alert('assigned accountid to globalserviceservice.acAccntID');
-        //alert('displaying globalserviceservice.acAccntID'+this.globalserviceservice.acAccntID);
-        this.dashboardservice.getMembers(this.globalserviceservice.acAccntID).subscribe(res => {
-          //alert('assigning mrmRoleID...');
-          //console.log('memberListByAccount',res['data'].memberListByAccount);
-          //this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
-          //console.log(this.dashboardservice.mrmRoleID);
-          //alert('displaying dashboardservice.mrmRoleID..'+this.dashboardservice.mrmRoleID);
-          this.globalserviceservice.toggleregister=false;
-          this.router.navigate(['home']);
-          //this.globalserviceservice.enableHomeView = true;
-          //this.globalserviceservice.enableLogin = false;
-        },
-        res=>{
-          //alert('dashboardservice.mrmRoleID'+this.dashboardservice.mrmRoleID);
-          //console.log(res);
-         /* Swal.fire({
-            title: "Error",
-            text: res['error']['message'],
-            type: "error",
-            confirmButtonColor: "#f69321"
-          }).then(
-            (result) => {
-              if (result.value) { */
-                this.router.navigate(['home']);
-              //}});
-          
-        });
-        //this.router.navigate(['home']);
-        //alert('navigate to home component...');
-        }
-      },
-      err=>{
-        console.log(err);
-        Swal.fire({
-          // title: "Error",
-          text: "Invalid OTP",
-          type: "error",
-          confirmButtonColor: "#f69321"
-        })
-        this.otp='';
-      })
-     
+    if(this.hideGetInButton==false){
+        this.VerifyOTPonce();
+      } 
   }
 
+  VerifyOTPonce(){
+    this.globalserviceservice.saveMobileNumberforRegister='';
+  let headers = this.getHttpheaders();
+  let ipAddress=this.utilsService.verifyOtp();
+  let url = `${ipAddress}oyeliving/api/v1/account/verifyotp`
+  var otpdata = {
+    CountryCode: this.code,
+    MobileNumber: this.mobilenumber,
+    OTPnumber: this.otp
+  };
+  //console.log(otpdata);
+  this.http.post(url, JSON.stringify(otpdata), { headers: headers })
+    .subscribe(data => {
+      console.log(data)
+      if (data['data'] == null) {
+        Swal.fire({
+          // type: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK',
+          text: 'Number not registered continue with registration',
+        }).then((result) => {
+          if (result.value) {
+            this.globalserviceservice.saveMobileNumberforRegister= this.mobilenumber;
+            this.globalserviceservice.toggleregister=true;
+            console.log(this.globalserviceservice.toggleregister);
+           //this.router.navigate(['home']);
+           //this.router.navigate(['register']);
+           //this.router.navigate(['login']);
+          }
+        })
+      }
+     else if (data['data'] != null){
+      //console.log('acAccntID',data['data']['account']['acAccntID']);
+      // this.globalserviceservice.acAccntID=data['data']['account']['acAccntID'];
+      this.globalserviceservice.setAccountID(data['data']['account']['acAccntID']);
+      //console.log(this.globalserviceservice.acAccntID);
+      //alert('assigned accountid to globalserviceservice.acAccntID');
+      //alert('displaying globalserviceservice.acAccntID'+this.globalserviceservice.acAccntID);
+      this.dashboardservice.getMembers(this.globalserviceservice.acAccntID).subscribe(res => {
+        //alert('assigning mrmRoleID...');
+        //console.log('memberListByAccount',res['data'].memberListByAccount);
+        //this.dashboardservice.mrmRoleID = res['data'].memberListByAccount[0]['mrmRoleID'];
+        //console.log(this.dashboardservice.mrmRoleID);
+        //alert('displaying dashboardservice.mrmRoleID..'+this.dashboardservice.mrmRoleID);
+        this.globalserviceservice.toggleregister=false;
+        this.router.navigate(['home']);
+        //this.globalserviceservice.enableHomeView = true;
+        //this.globalserviceservice.enableLogin = false;
+      },
+      res=>{
+        //alert('dashboardservice.mrmRoleID'+this.dashboardservice.mrmRoleID);
+        //console.log(res);
+       /* Swal.fire({
+          title: "Error",
+          text: res['error']['message'],
+          type: "error",
+          confirmButtonColor: "#f69321"
+        }).then(
+          (result) => {
+            if (result.value) { */
+              this.router.navigate(['home']);
+            //}});
+        
+      });
+      //this.router.navigate(['home']);
+      //alert('navigate to home component...');
+      }
+    },
+    err=>{
+      this.otp='';
+      console.log(err);
+      Swal.fire({
+        // title: "Error",
+        text: "Invalid OTP",
+        type: "error",
+        confirmButtonColor: "#f69321"
+      })
+    })
+    this.hideGetInButton=true;
+}
+
+
+
+
   verifyOtp1() {
+
     //this.globalserviceservice.acAccntID = 9539; 
     this.globalserviceservice.setAccountID(9539); //11511 9539 160
     //console.log(this.globalserviceservice.acAccntID);
