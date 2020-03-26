@@ -269,6 +269,7 @@ export class LoginComponent implements OnInit {
           type: "error",
           confirmButtonColor: "#f69321"
         })
+        this.otp='';
       })
      
   }
