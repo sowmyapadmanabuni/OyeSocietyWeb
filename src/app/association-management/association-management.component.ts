@@ -1340,6 +1340,11 @@ export class AssociationManagementComponent implements OnInit {
           this.toggleFaCircleO = true;
         }
       })
+      this.blBlkName = 'Select Block';
+      this.allUnitBlockID=[];
+      this.UNOcSDate='';
+      
+
   }
   setPropertyType(propertyType) {
     this.crtAssn.propertyType = propertyType;
