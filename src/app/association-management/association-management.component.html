@@ -551,8 +551,8 @@
                       <div class="panel-body" *ngFor="let itm of item['UnitArray']">
                           <div class="form-group mr">
                               <label class="control-label lab">Unit No/Flat No<span class="red">*</span></label>
-                              <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="itm['_unitno']" #unitnoControl="ngModel" class="form-control" (blur)="getUnitNoFlatNo(itm['_id'],itm['_unitno'])" placeholder="Unit No/Flat No" required />
-                              <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
+                              <input maxlength="100" name="unitno" id="unitno" type="text" (keyup)="ValidateUnitNoFlatNo(itm['_id'],itm['_unitno'])" required [(ngModel)]="itm['_unitno']" #unitnoControl="ngModel" class="form-control" (blur)="getUnitNoFlatNo(itm['_id'],itm['_unitno'])" placeholder="Unit No/Flat No" required />
+                              <p class="alerts" *ngIf="itm['_UnitNoFlatNoValid']=='NotValid'"> Valid unit no is required</p>
                           </div>
                           <div class="form-group mr">
                             <label class="control-label lab">Unit Type<span class="red">*</span></label>
@@ -568,13 +568,13 @@
                         </div>
                           <div class="form-group mr">
                               <label class="control-label lab">Unit Dimension<span class="red">*</span></label>
-                              <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="itm['_unitdimension']" (blur)="getUnitDimension(itm['_id'],itm['_unitdimension'])" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
-                              <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched"> Valid Unit dimension is required</p>
+                              <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" required [(ngModel)]="itm['_unitdimension']" (keyup)="_keyUp3($event,itm['_id'],itm['_unitdimension'])" (blur)="getUnitDimension(itm['_id'],itm['_unitdimension'])" class="form-control" placeholder="Unit Dimension" pattern="[0-9]*" required/>
+                              <p class="alerts" *ngIf="itm['_UnitDimensionNotValid']=='NotValid'"> Valid Unit dimension is required</p>
                             </div>
                             <div class="form-group mr">
                               <label class="control-label lab">Unit Rate<span class="red">*</span></label>
-                              <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="itm['_unitrate']" (blur)="getUnitRate(itm['_id'],itm['_unitrate'])" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
-                              <p class="alerts" *ngIf="unitrateControl.invalid && unitrateControl.touched"> Valid unit rate is required</p>
+                              <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="itm['_unitrate']" (keyup)="ValidateUnitRate(itm['_id'],itm['_unitrate'])" (blur)="getUnitRate(itm['_id'],itm['_unitrate'])" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
+                              <p class="alerts" *ngIf="itm['_UnitRateNotValid']=='NotValid'"> Valid unit rate is required</p>
                           </div>
                           <div class="form-group mr">
                                   <label class="control-label lab">Calculation Type<span class="red">*</span></label>
@@ -601,7 +601,7 @@
                                   </div>
                           </div>
                     <!-- OWNER INFORMATION -->
-                    <div *ngIf="itm['_ownerDetails'] == true && itm['_uniqueId']==itm['_id']" style="display: flex">            
+                    <div *ngIf="itm['_ownerDetails'] == 'Sold Owner Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">            
                           <div class="form-group mr">
                               <label class="control-label lab">Owner First Name<span class="red">*</span></label>
                               <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
@@ -633,7 +633,7 @@
                             </div>
                     </div>
                     <!-- TANENT INFORMATION -->
-                    <div style="display: flex">                          
+                    <div *ngIf="itm['_tenantDetails'] == 'UnSold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Owner Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">                          
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
                                 <input type="text" name="tenantFirtname" id="tenantFirtname" (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"
@@ -664,15 +664,15 @@
                                   pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
                                   <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
                               </div>
-                      </div>
-                      <div class="col-sm-12 pull-right">
-                          <button type="button" class="btn btn-primary-purple pull-right">Reset</button>
-                          <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
                       </div> 
                       </div>
                       
                   </div>           
               </form>
+              <div class="col-sm-12 pull-right">
+                <button type="button" class="btn btn-primary-purple pull-right">Reset</button>
+                <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
+            </div>
             </div>
           </div>
   

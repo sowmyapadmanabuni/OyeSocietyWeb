@@ -19,6 +19,9 @@ export class UnitArray {
         private _tenantEmail,
         private _uniqueId,
         private _tenantDetails,
-        private _ownerDetails
+        private _ownerDetails,
+        private _UnitNoFlatNoValid,
+        private _UnitDimensionNotValid,
+        private _UnitRateNotValid
         ){}
 }

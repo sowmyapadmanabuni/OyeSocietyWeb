@@ -556,6 +556,13 @@ export class AssociationManagementComponent implements OnInit {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
           this.BlockHrefDetail[i]['UnitArray'][j]['_unitdimension'] = _unitdimension;
+          if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitdimension'] == ''){
+            console.log('test1');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitDimensionNotValid']='NotValid';
+          }
+          else{
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitDimensionNotValid']='';
+          }
         }
       }
     }
@@ -567,17 +574,46 @@ export class AssociationManagementComponent implements OnInit {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
           this.BlockHrefDetail[i]['UnitArray'][j]['_unitrate'] = _unitrate;
+          if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitrate'] == ''){
+            console.log('test1');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitRateNotValid']='NotValid';
+          }
+          else{
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitRateNotValid']='';
+          }
         }
       }
     }
     console.log(this.BlockHrefDetail);
     localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
+  ValidateUnitRate(id,unitrate){
+    for (let i = 0; i < this.BlockHrefDetail.length; i++) {
+      for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
+        if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == id) {
+          this.BlockHrefDetail[i]['UnitArray'][j]['_unitrate'] = unitrate;
+          if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitrate'] == ''){
+            console.log('test1');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitRateNotValid']='NotValid';
+          }
+          else{
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitRateNotValid']='';
+          }
+        }
+      }
+    }
+  }
   getUnitNoFlatNo(_id, _unitno) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
           this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'] = _unitno;
+          if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'] ==''){
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitNoFlatNoValid']='NotValid';
+          }
+          else{
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitNoFlatNoValid']='';
+          }
         }
       }
     }
@@ -637,6 +673,23 @@ export class AssociationManagementComponent implements OnInit {
     console.log(this.BlockHrefDetail);
     localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
+  ValidateUnitNoFlatNo(id,_unitno){
+    for (let i = 0; i < this.BlockHrefDetail.length; i++) {
+      for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
+        if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == id) {
+          console.log('test2');
+          this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'] = _unitno;
+          if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitno'] == ''){
+            console.log('test1');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitNoFlatNoValid']='NotValid';
+          }
+          else{
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitNoFlatNoValid']='';
+          }
+        }
+      }
+    }
+  }
   tenantOwnerdiv(occupency, _id) {
     this.occupency = occupency;
     console.log(occupency);
@@ -650,28 +703,34 @@ export class AssociationManagementComponent implements OnInit {
           this.occupencys.forEach(item => {
             if (occupency == 'UnSold Vacant Unit') {
               console.log('UnSold Vacant Unit');
-              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
-              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = '';
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = '';
               this.toggleunitvehicleinformation = false;
             }
             else if (occupency == 'UnSold Tenant Occupied Unit') {
               console.log('UnSold Tenant Occupied Unit');
-              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
-              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = false;
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = 'UnSold Tenant Occupied Unit';
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = '';
               this.toggleunitvehicleinformation = true;
             }
             else if (occupency == 'Sold Tenant Occupied Unit') {
               console.log('Sold Tenant Occupied Unit');
-              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = true;
-              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = 'Sold Tenant Occupied Unit';
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = 'Sold Tenant Occupied Unit';
               this.toggleunitvehicleinformation = true;
             }
-            else {
-              console.log('else');
-              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = false;
-              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = true;
+            else if (occupency == 'Sold Owner Occupied Unit') {
+              console.log('Sold Owner Occupied Unit');
+              this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = 'Sold Owner Occupied Unit';
+              this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = 'Sold Owner Occupied Unit';
               this.toggleunitvehicleinformation = true;
             }
+            // else {
+            //   console.log('else');
+            //   this.BlockHrefDetail[i]['UnitArray'][j]['_tenantDetails'] = '';
+            //   this.BlockHrefDetail[i]['UnitArray'][j]['_ownerDetails'] = '';
+            //   this.toggleunitvehicleinformation = true;
+            // }
           })
         }
       }
@@ -2016,7 +2075,7 @@ export class AssociationManagementComponent implements OnInit {
                 let unitArraylength = (Number(item['noofunits']));
                 // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
                 for (let i = 0; i < unitArraylength; i++) {
-                  this.unitArray.push(new UnitArray(item['blkNme'] + i.toString(), item['blkNme'], data['data'].blockID, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''));
+                  this.unitArray.push(new UnitArray(item['blkNme'] + i.toString(), item['blkNme'], data['data'].blockID, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','',''));
                 }
                 console.log(this.unitArray);
                 if (data['data'].blockID) {
@@ -2802,6 +2861,28 @@ export class AssociationManagementComponent implements OnInit {
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
+    }
+  }
+  _keyUp3(event,id,_unitdimension){
+    const pattern = /[0-9]*/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+    for (let i = 0; i < this.BlockHrefDetail.length; i++) {
+      for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
+        if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == id) {
+          console.log('test2');
+          this.BlockHrefDetail[i]['UnitArray'][j]['_unitdimension'] = _unitdimension;
+          if(this.BlockHrefDetail[i]['UnitArray'][j]['_unitdimension'] == ''){
+            console.log('test1');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitDimensionNotValid']='NotValid';
+          }
+          else{
+            this.BlockHrefDetail[i]['UnitArray'][j]['_UnitDimensionNotValid']='';
+          }
+        }
+      }
     }
   }
   ValidateDateOfOccupancy(){
