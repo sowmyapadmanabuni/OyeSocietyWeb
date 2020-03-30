@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./general-ledger.component.css']
 })
 export class GeneralLedgerComponent implements OnInit {
+  StartDate:any;
+  ToDate:any;
 
   constructor() { }
 
   ngOnInit() {
   }
-
+getVisitorList(){
+  
+}
 }

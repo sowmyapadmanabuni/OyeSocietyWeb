@@ -5,6 +5,11 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { formatDate } from '@angular/common';
+import * as XLSX from 'xlsx';
+import { ViewUnitService } from '../../services/view-unit.service';
+import { AddBlockService } from '../../services/add-block.service';
+import { Subscription } from 'rxjs';
+
 declare var $: any;
 
 @Component({
@@ -35,7 +40,7 @@ export class BlocksComponent implements OnInit {
   allBlocksList: object;
 
   modalRef: BsModalRef;
-  myDate = new Date();
+   myDate : any;
   BLBlkName: string;
   BLBlkType: string;
   BLNofUnit: number;
@@ -46,12 +51,12 @@ export class BlocksComponent implements OnInit {
   ASMtFRate: number;
   ASMtDimBs: string;
   ASUniMsmt: string;
-  ASDPyDate: string;
+  ASDPyDate: any;
   ASLPCType: string;
   ASLPChrg: number;
-  ASLPSDate: string;
+  ASLPSDate: any;
   BLBlockID: string;
-  ASBGnDate: string;
+  ASBGnDate: any;
   ASIcRFreq: string;
 
   addRate: string;
@@ -65,38 +70,63 @@ export class BlocksComponent implements OnInit {
   bsConfig: object;
 
   blocktypes: object[];
-  p: number;
+  p: number = 1;
 
-
- invoicedatechanged: boolean;
- minDate: Date;
- minDateinNumber: number;
- startsFromMaxDate: Date;
- dueDateinNumber: number;
- enableduedatevalidation: boolean;
- duedatechanged: boolean;
- startsFromMaxDateinNumber: number;
- enablestartfromdatevalidation: boolean;
- startsfromDateChanged: boolean;
- todayDate: Date;
+  invoicedatechanged: boolean;
+  minDate: Date;
+  minDateinNumber: number;
+  startsFromMaxDate: Date;
+  dueDateinNumber: number;
+  enableduedatevalidation: boolean;
+  duedatechanged: boolean;
+  startsFromMaxDateinNumber: number;
+  enablestartfromdatevalidation: boolean;
+  startsfromDateChanged: boolean;
+  todayDate: Date;
   enablestartfromdatevalid: boolean;
   public searchTxt: any;
-  enableAddBlocksView:boolean;
-  enableBlockListView:boolean;
+  enableAddBlocksView: boolean;
+  enableBlockListView: boolean;
+  rate: any;
+  rate1: any;
+  CurrentAssociationIdForBlocks:Subscription;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowRecords:any;
+  columnName: any;
+  formatDate: string;
 
   constructor(private viewBlkService: ViewBlockService,
-    private globalService: GlobalServiceService,
+    public viewUnitService: ViewUnitService,
+    public globalService: GlobalServiceService,
+    public addblockservice: AddBlockService,
     private router: Router,
-    private modalService: BsModalService) { 
+    private modalService: BsModalService) {
+      this.rowsToDisplay=[{'Display':'5','Row':5},
+                          {'Display':'10','Row':10},
+                          {'Display':'15','Row':15},
+                          {'Display':'50','Row':50},
+                          {'Display':'100','Row':100},
+                          {'Display':'Show All Records','Row':'All'}];
+      this.setnoofrows=10;
+      this.ShowRecords='Show Records';
+      this.CurrentAssociationIdForBlocks=this.globalService.getCurrentAssociationIdForBlocks()
+        .subscribe(msg => {
+          console.log(msg);
+          this.globalService.setCurrentAssociationId(msg['msg']);
+          this.initialiseBlocks();
+        })
     //pagination
     this.config = {
       itemsPerPage: 10,
       currentPage: 1
     };
 
-    this.bsConfig = Object.assign({}, { containerClass: 'theme-orange', dateInputFormat: 'DD-MM-YYYY' ,
-    showWeekNumbers:false,
-    isAnimated: true });
+    this.bsConfig = Object.assign({}, {
+      dateInputFormat: 'DD-MM-YYYY',
+      showWeekNumbers: false,
+      isAnimated: true
+    });
 
     this.allBlocksList = null;
 
@@ -110,34 +140,40 @@ export class BlocksComponent implements OnInit {
       'name': 'Residential and Commercial', 'displayName': 'Residential and Commercial'
     }]
 
-    this.ACAccntID=Number(this.globalService.getacAccntID());
+    this.ACAccntID = Number(this.globalService.getacAccntID());
     this.p = 1;
-    this.todayDate=new Date();
+    this.todayDate = new Date();
     this.enableduedatevalidation = false;
-   this.duedatechanged = false;
-   this.invoicedatechanged = false;
-   this.enablestartfromdatevalidation=false;
-   this.enableAddBlocksView=false;
-   this.enableBlockListView=true;
+    this.duedatechanged = false;
+    this.invoicedatechanged = false;
+    this.enablestartfromdatevalidation = false;
+    this.enableAddBlocksView = false;
+    this.enableBlockListView = true;
   }
 
 
   pageChanged(event) {
     this.config.currentPage = event;
   }
-
+  setRows(RowNum) {
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.allBlocksLists.length:RowNum);
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
+  }
   ngOnInit() {
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     this.currentAssociationName = this.globalService.getCurrentAssociationName();
-    console.log('this.currentAssociationName',this.currentAssociationName);
-    console.log('this.currentAssociationID',this.currentAssociationID);
+    //console.log('this.currentAssociationName',this.currentAssociationName);
+    //console.log('this.currentAssociationID',this.currentAssociationID);
     this.getBlockDetails();
     this.viewBlkService.getassociationlist(this.currentAssociationID)
       .subscribe(data => {
         this.assnName = data['data'].association.asAsnName;
         this.totalNoofblocks = data['data'].association.asNofBlks
       });
-      this.allBlocksLists='';
+    this.allBlocksLists = '';
   }
   ngAfterViewInit() {
     $(document).ready(function () {
@@ -149,20 +185,57 @@ export class BlocksComponent implements OnInit {
         });
       });
     });
+    $(".se-pre-con").fadeOut("slow");
   }
 
   getBlockDetails() {
     this.viewBlkService.getBlockDetails(this.currentAssociationID).subscribe(data => {
       this.allBlocksLists = data['data'].blocksByAssoc;
-      console.log('allBlocksLists', this.allBlocksLists);
+      //console.log('allBlocksLists', this.allBlocksLists);
+      this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
+      //asbGnDate
+    });
+  }
+  initialiseBlocks(){
+    this.allBlocksLists=[];
+    this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
+      this.allBlocksLists = data['data'].blocksByAssoc;
+      //console.log('allBlocksLists', this.allBlocksLists);
       this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
       //asbGnDate
     });
   }
   addBlocksShow() {
     this.toggleStepWizard();
-    this.enableAddBlocksView=true;
+    this.enableAddBlocksView = true;
     this.enableBlockListView = false;
+  }
+  onPageChange(event) {
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
+        let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+        this.p= Number(element.children[0]['text']);
+      //console.log(this.p);
+    } 
+    if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
+      this.p= 1;
+    }
+    //console.log(this.p);
+    let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+    }
   }
   toggleStepWizard() {
 
@@ -171,32 +244,68 @@ export class BlocksComponent implements OnInit {
       var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-        anchorDivs = $('div.stepwizard-row div');
+        anchorDivs = $('div.stepwizard-row div'),
+        Divs = $('div.stepwizard div div');
 
-      allWells.hide();
+      //console.log(anchorDivs);
+      // anchorDivs.click(function () {
+      //   var $item = $(this);
+      //   var $childitem = $($($item.children()[0]).attr('href'));
 
+      //   Divs.removeClass('step-active');
+      //   $item.addClass('step-active');
+      //   //console.log($childitem);
+      //   allWells.hide();
+      //   $childitem.show();
+      //   $childitem.find('input:eq(0)').focus();
+      // })
+
+     /* navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this),
+          $divTgt = $(this).parent();
+        anchorDivs.removeClass('step-active');
+        $item.addClass('btn-success');
+        $divTgt.addClass('step-active');
+        allWells.hide();
+        $target.show();
+        $target.find('input:eq(0)').focus();
+
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          navListItems.removeClass('active').addClass('disabled');
+        }
+      }); */
+
+      //
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
-          $item = $(this), 
+          $item = $(this),
           $divTgt = $(this).parent();
-          anchorDivs.removeClass('step-active');
-
+        console.log('test');
+        anchorDivs.removeClass('step-active');
         if (!$item.hasClass('disabled')) {
+          console.log('disabled');
           navListItems.removeClass('btn-success').addClass('btn-default');
           $item.addClass('btn-success');
           $divTgt.addClass('step-active');
           allWells.hide();
+          console.log($target);
+          console.log($target.attr("id"));
           $target.show();
           $target.find('input:eq(0)').focus();
         }
-      });
-
+      })
+      //
+      
       allNextBtn.click(function () {
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          curInputs = curStep.find("input[type='text']"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
 
         $(".form-group").removeClass("has-error");
@@ -207,7 +316,10 @@ export class BlocksComponent implements OnInit {
           }
         }
 
-        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        if (isValid) {
+          nextStepWizard.trigger('click');
+          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        }
       });
 
       $('div.setup-panel div a.btn-success').trigger('click');
@@ -239,7 +351,7 @@ export class BlocksComponent implements OnInit {
     this.blocksData = false;
     this.addBlock_form = true;
 
-    console.log(JSON.stringify(this.frequencys));
+    //console.log(JSON.stringify(this.frequencys));
   }
   /*
     checkRate(){
@@ -269,12 +381,12 @@ export class BlocksComponent implements OnInit {
 
   // }
   onValueChange(value: Date): void {
-    console.log(value);
+    //console.log(value);
     if (value != null) {
       this.invoicedatechanged = true;
       this.minDate = new Date(value);
       this.minDateinNumber = new Date(value).getTime();
-      console.log('minDateinNumber', this.minDateinNumber);
+      //console.log('minDateinNumber', this.minDateinNumber);
       if (this.duedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -294,7 +406,7 @@ export class BlocksComponent implements OnInit {
       this.duedatechanged = true;
       this.startsFromMaxDate = new Date(value);
       this.dueDateinNumber = new Date(value).getTime();
-      console.log('dueDateinNumber', this.dueDateinNumber);
+      //console.log('dueDateinNumber', this.dueDateinNumber);
       if (this.invoicedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -317,6 +429,14 @@ export class BlocksComponent implements OnInit {
     }
     //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
   }
+  EnableBlockListView(event) {
+    console.log(event);
+    if(event == 'EnableBlockList'){
+      this.getBlockDetails();
+      this.enableBlockListView=true;
+      this.enableAddBlocksView=false;
+    }
+  }
   onStartsFromDateValueChange(value: Date) {
     if (value != null) {
       this.startsfromDateChanged = true;
@@ -324,7 +444,7 @@ export class BlocksComponent implements OnInit {
       if (this.duedatechanged) {
         if (this.startsFromMaxDateinNumber < this.dueDateinNumber) {
           this.enablestartfromdatevalidation = true;
-        }else if (this.startsFromMaxDateinNumber > this.dueDateinNumber) {
+        } else if (this.startsFromMaxDateinNumber > this.dueDateinNumber) {
           this.enablestartfromdatevalidation = false;
         }
         else if (this.startsFromMaxDateinNumber == this.dueDateinNumber) {
@@ -381,9 +501,9 @@ export class BlocksComponent implements OnInit {
       }]
     };
 
-    console.log(JSON.stringify(this.createBlockData));
+    //console.log(JSON.stringify(this.createBlockData));
     this.viewBlkService.createBlock(this.createBlockData).subscribe(res => {
-      console.log("Done")
+      //console.log("Done")
       //alert("Block Created Successfully")
     });
 
@@ -405,12 +525,15 @@ export class BlocksComponent implements OnInit {
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
-        event.preventDefault();
+      event.preventDefault();
     }
   }
 
-  OpenModal(editBlocktemplate: TemplateRef<any>,blBlkName,blBlkType,blNofUnit,blMgrName,blMgrMobile,blMgrEmail,asMtType,asMtFRate,asMtDimBs,asUniMsmt,asbGnDate,asdPyDate,bldUpdated,aslpcType,aslpChrg,blBlockID,asiCrFreq,aslpsDate) {
-
+  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, blMgrName, blMgrMobile, blMgrEmail, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated) {
+    console.log('asbGnDate', asbGnDate);
+    console.log('asdPyDate', asdPyDate);
+    console.log('aslpsDate', aslpsDate);
+    this.myDate =  bldCreated;
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
@@ -423,29 +546,37 @@ export class BlocksComponent implements OnInit {
     this.ASUniMsmt = asUniMsmt;
 
     this.ASLPCType = aslpcType;
-    this.ASBGnDate = formatDate(asbGnDate, 'dd/MM/yyyy', 'en');
-    this.ASDPyDate = formatDate(asdPyDate, 'dd/MM/yyyy', 'en');
-    this.ASLPSDate = formatDate(aslpsDate, 'dd/MM/yyyy', 'en');
+    // this.ASBGnDate = formatDate(asbGnDate, 'dd/MM/yyyy', 'en');
+    // this.ASDPyDate = formatDate(asdPyDate, 'dd/MM/yyyy', 'en');
+    // this.ASLPSDate = formatDate(aslpsDate, 'dd/MM/yyyy', 'en');
+    //console.log(formatDate(asbGnDate,'dd/MM/yyyy', 'en','T12:00:00'));
+    //this.formatDate=formatDate(asbGnDate,'dd/MM/yyyy', 'en');
+    //console.log(new Date(asbGnDate).setHours(12,0,0));
+    //console.log(typeof formatDate(asbGnDate,'dd/MM/yyyy', 'en'));
+    this.ASBGnDate = new Date(asbGnDate);
+    this.ASDPyDate = new Date(asdPyDate);
+    this.ASLPSDate = new Date(aslpsDate);
     this.ASLPChrg = aslpChrg;
     this.BLBlockID = blBlockID;
-    this.ASIcRFreq =asiCrFreq;
+    this.ASIcRFreq = asiCrFreq;
 
-    console.log(this.BLBlkName);
-    console.log(this.BLBlkType);
-    console.log(this.BLNofUnit);
-    console.log(this.BLMgrEmail);
-    console.log(this.ASUniMsmt);
+    //console.log(this.BLBlkName);
+    //console.log(this.BLBlkType);
+    //console.log(this.BLNofUnit);
+    //console.log(this.BLMgrEmail);
+    //console.log(this.ASUniMsmt);
     console.log('ASDPyDate',this.ASDPyDate);
-    console.log(this.ASLPChrg);
+    //console.log(this.ASLPChrg);
     console.log(this.ASLPSDate);
-    console.log(this.BLBlockID);
     console.log(this.ASBGnDate);
+    //console.log(this.BLBlockID);
+    console.log(new Date(asbGnDate).toISOString());
     this.modalRef = this.modalService.show(editBlocktemplate,
       Object.assign({}, { class: 'gray modal-lg' }));
 
   }
 
-  
+
 
   UpdateBlock() {
     let asbgndate;
@@ -455,40 +586,40 @@ export class BlocksComponent implements OnInit {
     let asdpydateobj;
     let aslpsdateobj;
 
-    if(typeof this.ASBGnDate == 'string'){
+    if (typeof this.ASBGnDate == 'string') {
       //alert('ASBGnDate is string');
-      asbgndateobj=this.ASBGnDate.split('/');
-      asbgndate = new Date(asbgndateobj[2]+'-'+asbgndateobj[1]+'-'+asbgndateobj[0]+'T00:00:00Z');
+      asbgndateobj = this.ASBGnDate.split('/');
+      asbgndate = new Date(asbgndateobj[2] + '-' + asbgndateobj[1] + '-' + asbgndateobj[0] + 'T00:00:00Z');
       //alert(asbgndate);
     }
-    else if(typeof this.ASBGnDate == 'object'){
+    else if (typeof this.ASBGnDate == 'object') {
       //alert('ASBGnDate is object');
       asbgndate = this.ASBGnDate;
       //alert(asbgndate);
     }
-    if(typeof this.ASDPyDate == 'string'){
+    if (typeof this.ASDPyDate == 'string') {
       //alert('ASDPyDate is string');
-      asdpydateobj= this.ASDPyDate.split('/');
-      asdpydate = new Date(asdpydateobj[2]+'-'+asdpydateobj[1]+'-'+asdpydateobj[0]+'T00:00:00Z');
+      asdpydateobj = this.ASDPyDate.split('/');
+      asdpydate = new Date(asdpydateobj[2] + '-' + asdpydateobj[1] + '-' + asdpydateobj[0] + 'T00:00:00Z');
       //alert(asdpydate);
     }
-    else if(typeof this.ASDPyDate == 'object'){
+    else if (typeof this.ASDPyDate == 'object') {
       //alert('ASDPyDate is object');
       asdpydate = this.ASDPyDate;
       //alert(asdpydate);
     }
-    if(typeof this.ASLPSDate == 'string'){
+    if (typeof this.ASLPSDate == 'string') {
       //alert('ASLPSDate is string');
-      aslpsdateobj= this.ASLPSDate.split('/');
-      aslpsdate = new Date(aslpsdateobj[2]+'-'+aslpsdateobj[1]+'-'+aslpsdateobj[0]+'T00:00:00Z');
+      aslpsdateobj = this.ASLPSDate.split('/');
+      aslpsdate = new Date(aslpsdateobj[2] + '-' + aslpsdateobj[1] + '-' + aslpsdateobj[0] + 'T00:00:00Z');
       //alert(aslpsdate);
     }
-    else if(typeof this.ASLPSDate == 'object'){
+    else if (typeof this.ASLPSDate == 'object') {
       //alert('ASLPSDate is object');
       aslpsdate = this.ASLPSDate;
       //alert(aslpsdate);
     }
-     let editblockdata = {
+    let editblockdata = {
       BLBlkName: this.BLBlkName,
       BLBlkType: this.BLBlkType,
       BLNofUnit: this.BLNofUnit,
@@ -506,14 +637,14 @@ export class BlocksComponent implements OnInit {
       ASLPChrg: this.ASLPChrg,
       BLBlockID: this.BLBlockID,
       ASAssnID: this.currentAssociationID,
-      ASIcRFreq:this.ASIcRFreq
+      ASIcRFreq: this.ASIcRFreq
     };
 
-    console.log('editblockdata', editblockdata);
+    //console.log('editblockdata', editblockdata);
     this.viewBlkService.UpdateBlock(editblockdata).subscribe(res => {
-      console.log("Done");
-      console.log(JSON.stringify(res));
-      console.log('editblockdata', editblockdata);
+      //console.log("Done");
+      //console.log(JSON.stringify(res));
+      //console.log('editblockdata', editblockdata);
       this.modalRef.hide();
       Swal.fire({
         title: 'Block Updated Successfuly',
@@ -529,17 +660,46 @@ export class BlocksComponent implements OnInit {
         }
       )
 
-    }); 
+    });
 
   }
 
-  goToAssociation(){
+  goToAssociation() {
     this.router.navigate(['association']);
   }
-  goToBlocks(){
+  goToBlocks() {
     this.router.navigate(['blocks']);
   }
-  goToUnits(){
+  goToUnits() {
     this.router.navigate(['units']);
+  }
+  // UPLOAD BLOCK DATA FROM EXCEL
+  upLoad() {
+    document.getElementById("file_upload_id").click();
+  }
+  // below code is for the Excel file upload
+  onFileChange(ev) {
+    let workBook = null;
+    let jsonData = null;
+    const reader = new FileReader();
+    const file = ev.target.files[0];
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary' });
+      jsonData = workBook.SheetNames.reduce((initial, name) => {
+        const sheet = workBook.Sheets[name];
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        return initial;
+      }, {});
+      //const dataString = JSON.stringify(jsonData);
+      console.log(jsonData['Sheet1']);
+      
+    }
+    reader.readAsBinaryString(file);
+  }
+ 
+  // CREATE BLOCK FROM EXCEL END HERE
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelblock']);
   }
 }

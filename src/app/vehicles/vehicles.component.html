@@ -1,24 +1,28 @@
 <div class="container-fluid np">
-        <div class="col-sm-9">
+        <div class="col-sm-12 mt-80">
                 <!--Profile section-->
                 <app-left-bar></app-left-bar>
                 <!--Profile section-->
                 <div class="col-xs-12 col-sm-12 col-md-11 b-l">
                         <!--Dashboard icons start-->
                         <div class="col-md-12 m-t-30 dash">
-                                <h3 class="black">Vehicles</h3>
-                                <div class="enroll">
+                                <div class="enroll" style="justify-content: space-between;">
+                                        <h3 class="black">Vehicles</h3>
                                         <div>
-                                                <button class="btn-primary-purple" (click)="openModal(template)">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i> Add Vehicles</button>
+                                        <button class="btn-primary-purple" (click)="openModal(template,'veType','veRegNo','veMakeMdl','veStickNo','uplNum','veid')">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> Add Vehicles</button>
                                         </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="VehicleDataNew.length==0">
+                                        <div class="alert alert-info" role="alert">
+                                         No Vehicles Found! Please click on add Vehicles to add.                                             
+                                        </div>
+                                </div>
+                                <div class="row" *ngIf="VehicleDataNew.length!=0">
                                         <div id="myCarousel" class="carousel slide" data-ride="carousel">
                                                 <!-- Indicators -->
-                                                <ol class="carousel-indicators">
-                                                        <li data-target="#myCarousel" data-slide-to="0" class="active">
-                                                        </li>
+                                                <ol class="carousel-indicators" *ngIf="VehicleDataNew.length>4">
+                                                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                                                         <li data-target="#myCarousel" data-slide-to="1"></li>
                                                         <li data-target="#myCarousel" data-slide-to="2"></li>
                                                 </ol>
@@ -30,16 +34,15 @@
                                                                                 <p><strong>{{item['veType']}}</strong></p>
                                                                                 <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
-                                                                                                <!-- *ngIf="item['veType']!=''" -->
+                                                                                        <!-- *ngIf="item['veType']!=''" -->
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
                                                                                         <p><strong>Vehicle No:</strong> {{item['veRegNo']}}</p>
                                                                                         <p><strong>Vehicle Sticker No:</strong> {{item['veStickNo']}}</p>
                                                                                         <p><strong>Vehicle Slot No:</strong> {{item['uplNum']}}</p>
                                                                                 </div>
-                                                                                <div class="action"><i aria-hidden="true"
-                                                                                                class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
-                                                                                                &nbsp;&nbsp;&nbsp;<i aria-hidden="true" (click)="DeleteVehicle(item['veid'])"
-                                                                                                class="fa fa fa-trash orange"></i>
+                                                                                <div class="action">
+                                                                                        <i aria-hidden="true" class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
+                                                                      &nbsp;&nbsp;&nbsp;<i aria-hidden="true" (click)="DeleteVehicle(item['veid'])" class="fa fa fa-trash orange"></i>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -50,29 +53,26 @@
                                                                                 <p><strong>{{item['veType']}}</strong></p>
                                                                                 <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
-                                                                                                <!-- *ngIf="item['veType']!=''" -->
+                                                                                        <!-- *ngIf="item['veType']!=''" -->
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
                                                                                         <p><strong>Vehicle No:</strong> {{item['veRegNo']}}</p>
                                                                                         <p><strong>Vehicle Sticker No:</strong> {{item['veStickNo']}}</p>
                                                                                         <p><strong>Vehicle Slot No:</strong> {{item['uplNum']}}</p>
                                                                                 </div>
-                                                                                <div class="action"><i aria-hidden="true"
-                                                                                                class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
-                                                                                                &nbsp;&nbsp;&nbsp;<i aria-hidden="true" (click)="DeleteVehicle(item['veid'])"
-                                                                                                class="fa fa fa-trash orange"></i>
+                                                                                <div class="action">
+                                                                                <i aria-hidden="true" class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
+                                                                                &nbsp;&nbsp;&nbsp;<i aria-hidden="true" (click)="DeleteVehicle(item['veid'])" class="fa fa fa-trash orange"></i>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
                                                         </div>
                                                 </div>
                                                 <!-- Left and right controls -->
-                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                                        <i aria-hidden="true" class="fa fa-angle-left fa-2x"
-                                                                id="left"></i>
+                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev" *ngIf="VehicleDataNew.length>4">
+                                                <i aria-hidden="true" class="fa fa-angle-left fa-2x" id="left"></i>
                                                 </a>
-                                                <a style=" width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next">
-                                                        <i aria-hidden="true" class="fa fa-angle-right fa-2x"
-                                                                id="right"></i>
+                                                <a style="width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next" *ngIf="VehicleDataNew.length>4">
+                                                <i aria-hidden="true" class="fa fa-angle-right fa-2x" id="right"></i>
                                                 </a>
                                         </div>
                                 </div>
@@ -81,7 +81,7 @@
                 </div>
         </div>
         <!--rightBar start-->
-        <app-right-bar></app-right-bar>
+        <!-- <app-right-bar></app-right-bar> -->
         <!--rightBar end-->
 </div>
 <!--Add Vehicles-->
@@ -93,52 +93,64 @@
                 </button>
         </div>
         <div class="modal-body">
-                <div class="veh-opt">
+                <form #addVehicleFrm="ngForm">
+                <!-- <div class="veh-opt">
                         <label class="radio-inline">
-                                <input type="radio" name="optradio" value="Two Wheeler" [(ngModel)]="veType" checked>Two Wheeler
+                                <input type="radio" name="optradio" value="TwoWheeler" [(ngModel)]="veType" [checked]="veType==TwoWheeler">Two Wheeler
                         </label>
                         <label class="radio-inline">
-                                <input type="radio" name="optradio" value="Four Wheeler" [(ngModel)]="veType" >Four Wheeler
+                                <input type="radio" name="optradio" value="FourWheeler" [(ngModel)]="veType" >Four Wheeler
+                        </label>
+                </div> -->
+                <div class="veh-opt">
+                        <label class="radio-inline">
+                                <input type="radio" name="optradio" value="TwoWheeler" [(ngModel)]="veType">Two Wheeler
+                        </label>
+                        <label class="radio-inline">
+                                <input type="radio" name="optradio" value="FourWheeler" [(ngModel)]="veType" >Four Wheeler
                         </label>
                 </div>
                 <div class="adveh">
                         <div class="form-group">
                                 <label for="usr">Vehicle Name:<span class="red">*</span></label>
                                 <input type="text" name="veMakeMdl" #vehicleNameControl="ngModel" [(ngModel)]="veMakeMdl" class="form-control" id="usr" required>
-                                <p class="alerts" *ngIf="vehicleNameControl.invalid && vehicleNameControl.touched"> Valid Vehicle number required</p>
+                                <p class="alerts" *ngIf="vehicleNameControl.invalid && vehicleNameControl.touched"> Valid Vehicle Name required</p>
                         </div>
                         <div class="form-group">
                                 <label for="usr">Vehicle Number:<span class="red">*</span></label>
-                                <input type="text" name="veRegNo" #vehiclenumberControl="ngModel" [(ngModel)]="veRegNo" class="form-control" id="usr" required>
+                                <input type="text" minlength="10" maxlength="10" name="veRegNo" #vehiclenumberControl="ngModel" [(ngModel)]="veRegNo" class="form-control" id="usr" required>
                                 <p class="alerts" *ngIf="vehiclenumberControl.invalid && vehiclenumberControl.touched"> Valid Vehicle number required</p>
                         </div>
                 </div>
                 <div class="adveh">
                         <div class="form-group">
                                 <label for="usr">Vehicle Sticker Number:<span class="red">*</span></label>
-                                <input type="text" name="veStickNo" #stickerControl="ngModel" [(ngModel)]="veStickNo" class="form-control" id="usr" required>
-                                <p class="alerts" *ngIf="stickerControl.invalid && stickerControl.touched"> Valid Vehicle number required</p>
+                                <input type="text"  name="veStickNo" #stickerControl="ngModel" [(ngModel)]="veStickNo" class="form-control" id="usr" required (keypress)=_keyPress($event)>
+                                <p class="alerts" *ngIf="stickerControl.invalid && stickerControl.touched"> Valid Vehicle Sticker number required</p>
                         </div>
                         <div class="form-group">
                                 <label for="usr">Parking Slot Number:<span class="red">*</span></label>
-                                <input type="text" name="uplNum" #parkingControl="ngModel" [(ngModel)]="uplNum" class="form-control" id="usr" required>
-                                <p class="alerts" *ngIf="parkingControl.invalid && parkingControl.touched"> Valid Vehicle number required</p>
+                                <input type="text" name="uplNum" #parkingControl="ngModel" [(ngModel)]="uplNum" class="form-control" id="usr" required (keypress)=_keyPress($event)>
+                                <p class="alerts" *ngIf="parkingControl.invalid && parkingControl.touched"> Valid Parking Slot number required</p>
                         </div>
                 </div>
                 <div class="adveh">
                         <div class="form-group">
-                                <button (click)='AddVehicle()' type="button" class="btn btn-warning">Add Vehicle</button>
+                                <button id="add_veh" (click)='AddVehicle()' [disabled]='addVehicleFrm.invalid' type="button" class="btn btn-primary-purple">Add Vehicle</button>
+                                <button type="reset" style="margin-left: 17px;" class="btn btn-primary-reset">Reset</button>
                         </div>
                 </div>
                 <div class="adveh1">
                         <div class="form-group">
                         </div>
                 </div>
+        </form>
         </div>
 </ng-template>
 <!--Add Vehicles-->
 <!--Edit Vehicles-->
 <ng-template #editVehicle>
+        <form #vehicleForm="ngForm">
                 <div class="modal-header">
                         <h4 class="modal-title pull-left">Edit Vehicle</h4>
                         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -149,43 +161,50 @@
                         <div class="adveh">
                                 <div class="form-group">
                                         <label for="usr">Vehicle Name:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="vehiclename" name="vehiclename" id="usr">
-                                </div>
-        
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclename" name="vehiclename" id="usr" required>
+                                </div>       
                                 <div class="form-group">
                                         <label for="usr">Vehicle Number:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="vehiclenumber" name="vehiclenumber" id="usr">
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclenumber" name="vehiclenumber" id="usr" required>
                                 </div>
                         </div>
                         <div class="adveh">
                                 <div class="form-group">
                                         <label for="usr">Vehicle Sticker Number:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="vehiclesticker" name="vehiclesticker" id="usr">
-                                </div>
-        
+                                        <input type="text" class="form-control" [(ngModel)]="vehiclesticker" name="vehiclesticker" id="usr" required>
+                                </div>      
                                 <div class="form-group">
                                         <label for="usr">Parking Slot Number:</label>
-                                        <input type="text" class="form-control" [(ngModel)]="parkingslot" name="parkingslot" id="usr">
+                                        <input type="text" class="form-control" [(ngModel)]="parkingslot" name="parkingslot" id="usr" required>
                                 </div>
                         </div>
                         <div class="adveh">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                         <label for="usr">Vehicle Type:</label>
                                         <input type="text" class="form-control" [(ngModel)]="makemodel" name="makemodel" id="usr">
-                                </div>
-        
+                                </div>      -->
+
+
                                 <div class="form-group">
-                                        <button (click)='UpdateVehicle()' type="button" class="btn btn-warning">Save Changes</button>
-        
-        
+                                        <label class="control-label">Vehicle Type</label>
+                                        <div class="col-sm-6 np">
+                                                <input style="margin-right: 10px;" value="Two Wheeler" [(ngModel)]='makemodel' type="radio"
+                                                       [checked]="makemodel=='Two Wheeler'" name="optradio">Two Wheeler
+                                        </div>
+                                        <div class="col-sm-6 np">
+                                                <input style="margin-right: 10px;" value="Four Wheeler" type="radio" [(ngModel)]='makemodel'
+                                                        [checked]="makemodel=='Four Wheeler'" name="optradio">Four Wheeler
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                        <button (click)='UpdateVehicle()' [disabled]="vehicleForm.invalid" type="button" class="btn btn-warning">Save Changes</button>       
                                 </div>
                         </div>
                         <div class="adveh1">
                                 <div class="form-group">
                                 </div>
-        
                         </div>
-        
                 </div>
+        </form>
         </ng-template>
  <!--Edit Vehicles-->

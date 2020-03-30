@@ -26,6 +26,7 @@ export class JobsComponent implements OnInit {
   userName:any;
   userEmail:any;
   userPhone:any;
+  order:any;
 
   
 constructor(private jobListservice: JobopeningsService,private modalService: BsModalService) {

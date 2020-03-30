@@ -1,7 +1,26 @@
-body {
+/* body {
   background: #222D32;
   font-family: 'Quicksand', sans-serif !important;
 }
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(19, 19, 19);
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 20px;
+  font-size: 17px;
+  }
+  
+  #snackbar.show {
+  visibility: visible;
+  }
 .bg{width: 100%;
   min-height: 100vh;
   display: -webkit-box;
@@ -140,4 +159,641 @@ input{display: block;width: 100%;height: 43px;padding: 6px 23px;font-size: 14px;
   input {
     width: 100%;
     padding-right: 30px;
+  } */
+
+
+a{cursor: pointer;}
+.slider{display: flex;justify-content: center;align-items: center;}
+.slide-head{font-size: 35px;font-weight: 500;overflow-y: hidden;margin: 0px;color: #feb81a;}
+.desc{padding: 18px 0px;color: #000;font-weight: 500;}
+/* li::before{content: url('../../assets/images/points.png');} */
+.btn-grey{background: #565555;color: #fff;border-radius: 7px !important;}
+.pt{padding-top: 150px !important;}
+.slide-text{padding: 60px 0px;height: auto;}
+.sect2bg{background-image: url('../../assets/images/section2-banner.jpg');background-repeat: no-repeat;background-position: 24px top;padding: 30px;}
+.bg{background-image: url('../../assets/images/banner_right.png');    background-repeat: no-repeat;
+  /* background-position: right; */
+  background-size: 100%;height: 800px;}
+.bg1{background-image: url('../../assets/images/sec1-bg.png');    background-repeat: no-repeat;    background-position: top left;}
+.bg2{background-image: url('../../assets/images/sec2-bg.png');    background-repeat: no-repeat;    background-position: top right;}
+.single-box {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  background-color: #ff5d24;
+  padding: 25px;
+  overflow: hidden;
+  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.02);
+}
+.single-box h3 {
+  margin-top: 10px;
+  margin-bottom: 0;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+}
+ul,li{padding-left:0px !important}
+.pr{padding-right: 20px;}
+.fa{
+  color: #0c0c0b !important;
+  margin-right: 2px;
+}
+
+.about-content .about-features-list li i {
+  color: #ffb923;
+  margin-right: 2px;
+}
+
+.operate{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #f7fbfe;
+  padding: 20px;
+  border-radius: 31px;
+  margin-top: 30px;}
+  #opt{width:40%;margin:0px auto;
   }
+.monthly{font-size: 13px;color: #44a4b2;font-weight: 500;}
+.about-features-list li{-webkit-box-flex: 0;
+    flex: 0 0 100%;
+    max-width: 100%;
+    font-weight: 500;
+    color: #444;
+    padding-right: 15px;
+    align-items: center;
+    justify-content: start;
+    display: flex;
+    padding-top: 10px;}
+.mt-mb{
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+.abt-txt{margin-left: 80px;}
+.single-box.bg-43c784 {
+  background-color: #43c784;
+}
+.single-box.bg-f59f00 {
+  background-color: #f59f00;
+}
+.single-box .shape-box img:nth-child(1) {
+  position: absolute;
+  left: -60px;
+  top: -60px;
+  z-index: -1;
+}
+.single-box .shape-box img:nth-child(2) {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+.single-box.bg-43c784 .shape-box img:nth-child(1) {
+  left: auto;
+  right: -60px;
+  top: -60px;
+}
+.single-box.bg-43c784 .shape-box img:nth-child(2) {
+  right: auto;
+  bottom: 0;
+  left: 0;
+}
+.single-box.bg-f59f00 .shape-box img:nth-child(1) {
+  left: auto;
+  right: -60px;
+  top: auto;
+  bottom: -60px;
+}
+.single-box.bg-f59f00 .shape-box img:nth-child(2) {
+  bottom: auto;
+  left: -25px;
+  top: -25px;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.abt{
+  display: block;
+  color: #ff5d24;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+  padding-left: 15px;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  font-size: 15px;
+  font-weight: 400;
+}
+.section-title {
+  position: relative;
+  margin-bottom: 60px;
+}
+.about-content h2 {
+  margin-bottom: 0;
+  font-weight: 500;
+  font-size: 23px;
+}
+.about-content h2::first-letter{font-size: 32px;color:#06a3b2}
+.about-content {
+  padding-left: 30px;
+}
+.align-items-center {
+  -ms-flex-align: center!important;
+  align-items: center!important;
+}
+.about-content p {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.about-area {
+  position: relative;
+  z-index: 1;
+  padding:0px;
+}
+.bg-shape1 {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  bottom: 25px;
+}
+.align-items-center {
+  -ms-flex-align: center!important;
+  align-items: center!important;
+}
+.shape-img9 {
+  z-index: -1;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.single-services-box {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.02);
+  padding: 30px;
+  border-radius: 3px;
+  margin-bottom: 30px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+.section-title {
+  position: relative;
+  margin-bottom: 30px;
+}
+.single-services-box .icon {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  /* background: -webkit-gradient(linear, left top, left bottom, from(#ffdfd4), color-stop(#ffe6e0), color-stop(#ffeeeb), color-stop(#fff6f5), to(#fffefe)); */
+  background: linear-gradient(to bottom, #ffdfd4, #ffe6e0, #ffeeeb, #fff6f5, #fffefe);
+  text-align: center;
+  border-radius: 50%;
+  color: #ff5d24;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+.banner-image {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.banner-image img:nth-child(2) {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: -1;
+  opacity: .40;
+  -webkit-animation: movebounce 5s linear infinite;
+  animation: movebounce 5s linear infinite;
+}
+.np{padding: 0px}
+.oye-bt {
+  display: inline-block;
+  color: #581113;
+  font-weight: 500;
+  border-radius: 30px;
+  margin-bottom: 0px;
+  font-size: 32px;
+}
+.about-content span::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 50px;
+  background: #ff5d24;
+  z-index: -1;
+  opacity: .20;
+}
+.section-title span {
+  display: block;
+  color: #22b663;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 15px;
+  z-index: 1;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  font-size: 15px;
+  font-weight: 400;
+}
+.section-title span::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 50px;
+  background: #22b663;
+  z-index: -1;
+  opacity: .20;
+}
+.single-services-box:hover{transform: scale(1.1);cursor: pointer;}
+@media only screen and (min-width: 230px) and (max-width: 830px)  {
+    .slider{flex-direction: column;padding: 0px 40px;margin-top:0px}
+    .about-content{padding-left: 10px}
+    .single-box,.single-services-box{margin: 40px}
+    .sl-img,.abt-img{width:100% !important}
+    .mt-mb{margin:50px 20px !important;}
+    .oye-bt{font-size: 27px;}
+    .about-content,.section-title{padding: 20px 40px !important}
+    .section-title{margin-bottom: 0px !important}
+    .about-content {padding-left: 80px;}
+}
+
+
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+ }
+ 
+ /* The actual popup (appears on top) */
+ .popup .popuptext {
+  display:none;
+  width: 100vw;
+  height:100vh;
+  background: rgba(0,0,0,.8);
+  border-radius: 6px;
+  position: fixed;
+  z-index:1;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+ }
+ 
+ /* Toggle this class when clicking on the popup container (hide and show the popup) */
+ .popup .show {
+  display:block;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+ }
+
+ .showOTPSent {
+  display:none;
+ }
+ 
+ /* Add animation (fade in the popup) */
+ @-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+ }
+ 
+ @keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+ }
+ 
+ .coverlay{position:absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(250,250,250,.0);
+  border-radius: 8px 8px 0 0;
+  transition: background .5s;
+  /* background-image:url("http://wellscreate.com/wp-
+  content/uploads/2017/11/Untitled-1-01.png"); */
+  background-position: center bottom; 
+  background-repeat:no-repeat;
+  background-size:15%;
+ }
+ 
+ .coverlay:hover{
+  background: rgba(250,250,250,.5);
+  /* background-image:url("http://wellscreate.com/wp-
+  content/uploads/2017/11/Untitled-1-01.png"); */
+  background-position: center; 
+  background-repeat:no-repeat;
+  background-size:16%;
+ }
+
+
+/* Add a black background color to the top navigation */
+.topnav {position: absolute;overflow: hidden;padding: 0px 13px;top: 0px;z-index: 1000;width: 100%;}
+/*.dummy{display: none !important;} */
+/* Style the links inside the navigation bar */
+.topnav a {display: inline-block;color: #000 !important;text-align: center;padding: 0px 16px;text-decoration: none;font-size: 14px !important;font-weight: 500;text-transform: uppercase;}
+.first{display: none !important}
+/* Change the color of links on hover */
+.topnav a:hover {color: #000 !important}
+ .active{color:#000 !important}
+/* Dropdown container - needed to position the dropdown content */
+.dropdown {float: left;overflow: hidden;}
+/* Style the dropdown button to fit inside the topnav */
+.dropdown .dropbtn {text-transform: uppercase;font-size: 14px !important;font-weight: 500;border: none;outline: none;color: #2b2a2a;padding: 0px 0px;background-color: inherit;font-family: inherit;margin: 0;
+}
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {display: none;position: fixed;background-color: #f9f9f9;min-width: 126px;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;}
+
+/* Style the links inside the dropdown */
+.dropdown-content a {float: none;color: #000 !important;padding: 6px 16px;text-decoration: none;display: block;text-align: left;}
+.dropdown-content a:hover{background: #f7b847 !important}
+/* Show the dropdown menu when the user moves the mouse over the dropdown button */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 830px) {
+  .topnav a:not(:first-child), .dropdown .dropbtn {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 830px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .topnav.responsive .dropdown {float: none;}
+  .topnav.responsive .dropdown-content {position: relative;}
+  .topnav.responsive .dropdown .dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+
+
+/* Add an active class to highlight the current page */
+.topnav a.active {
+  background-color: rgba(255, 255, 255, 0.021);
+  color: white;
+}
+
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+  display: none;
+}
+
+@media only screen and (min-width: 830px) and (max-width: 2000px)  {
+  .topnav {display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   
+  align-items: center}
+  
+  .active{display: none !important}
+
+  .dropdown-content {
+    top: 79px;
+    padding: 10px 0px;
+  }
+ 
+  }
+  @media only screen and (min-width: 230px) and (max-width: 830px)  {
+   
+    .dropbtn{
+      border-bottom: 1px solid #f3ae4121 !important;
+     }
+    }
+
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 830px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+    font-size: 32px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .dropbtn{display:none}
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 830px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    
+  }
+  #talk{margin: 20px 15px;}
+  .first{display: none !important}
+  .topnav.responsive a{
+    float: none;
+    display: block;
+    text-align: left;
+    border-bottom: 1px solid #f3ae4121;
+    color:#000;
+  }
+  .topnav.responsive a.icon{ border:none;font-size: 32px}
+  .logo{width: 60%;margin-top: 20px;}
+}
+
+.btn-primary {
+  color: #fff;
+  background-color:#f1853b !important;
+  border-color: #f1853b !important;
+  border-radius: 30px !important;
+  padding: 10px !important;
+}
+.otp{color: #ef7038;
+  display: flex;
+  padding-top: 0px;
+  font-weight: 500;justify-content: flex-end;}
+.btn-primary1 {
+  color: #fff;
+  background-color:#f1853b !important;
+  border-color: #f1853b !important;
+  
+  border-radius: 30px !important;
+  padding: 10px 35px !important;
+}
+.succ{text-align: center;
+  padding-top: 10px;
+  color: green;
+  text-transform: capitalize;
+}
+.loginbttm{display: flex;
+  justify-content: center;
+  padding: 0px;}
+
+input {
+      outline: 0;
+      border-width: 0 0 1px;
+      border-color: #f1853b;
+    }
+    input:focus {
+      border-color: #f5b142 !important;
+    }
+.form-control {
+  background: #ecebf4 !important;
+  border: 1px solid #cfd3d4 !important;
+  color: #4a4948 !important;
+  height: 41px !important;
+  box-shadow: 0px 0px 6px 1px #e0dbdb !important;
+  border-radius: 6px !important;
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+#login-form  {
+  position: absolute;
+  margin-top: 9px;
+  display: none;
+  
+}
+
+/* FOR THE "OTP SENT SUCCESSFULLY" CSS */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(19, 19, 19);
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 20px;
+  font-size: 17px;
+  }
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+a { color: #f1853b;}
+.first-row{display: flex;justify-content: space-between;margin: 0px 0px 20px 0px;}
+input{display: block;width: 100%;height: 43px;padding: 6px 23px;font-size: 14px;background: #ecebf4;}
+.form-head{text-align: center;padding: 20px 0px;font-weight: 600;text-transform: uppercase;}
+.login-box{background: #ecebf4;border-radius: 9px;box-shadow: 0px 0px 13px 0px #525254;padding: 30px 0px;width: 334px;
+  position: absolute;
+  z-index: 200000;
+  right: 10px;
+  top: 78px;}
+.input-wrapper,.user-wrapper,.mobile-wrapper{position: relative; width: 200px;margin: 0px 15px 0px 0px;}
+.email-wrapper {position: relative;width: 100%;margin: 0px 15px 0px 0px;}
+.mobile-wrapper:before{
+      content: "\f098";
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      color: #f1853b;
+      font-size: 18px;
+      padding-right: 0.5em;
+      position: absolute;
+      top: 10px;
+      left: 0;
+   }
+   .user-wrapper:before{
+      content: "\f007";
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      color: #f1853b;
+      font-size: 18px;
+      padding-right: 0.5em;
+      position: absolute;
+      top: 10px;
+      left: 0; 
+   }
+   .email-wrapper:before{
+      content: "\f0e0";
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      color: #f1853b;
+      font-size: 18px;
+      padding-right: 0.5em;
+      position: absolute;
+      top: 10px;
+      left: 0;
+   }
+
+
+  .input-wrapper:before {
+      content: "\f098";
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      color: #f1853b;
+      font-size: 18px;
+      padding-right: 0.5em;
+      position: absolute;
+      top: 10px;
+      left: 0;
+  }
+  .reminder{font-size: 12px !important;font-weight: 500 !important;}
+  .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio]{margin-top: -11px;}
+  .form-group{width: 100% !important;}
+  input {width: 100%;padding-right: 30px;
+  }
+  .foot-row{display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;}
+.ptb{padding: 40px 0px;}
+.foot-head{color: #ffffff;font-size: 13px;text-transform: uppercase;}
+.app-img{width:160px}
+.soc-img{width:30px;height: 30px;}
+.foot-col4{margin-top: -68px;}
+a{color:#fff !important;cursor: pointer;text-decoration: none;}
+a:hover{color:#f7bd48 !important;cursor: pointer;text-decoration: none;}
+.foot-head>p>a{color: #000 !important}
+.bt{border-top:2px solid #4f515d;padding-top: 9px;}
+@media only screen and (min-width: 230px) and (max-width:835px)  {
+    .foot-row{flex-direction: column;justify-content:flex-start;margin-left:30px;align-items: flex-start;padding: 40px 0px !important;}
+    .ptb{padding: 40px}
+    .foot-col4{margin-top: 0px;}
+    .foot-col2,.foot-col3,.foot-col4{width: 196px;} 
+}
+

@@ -1,0 +1,179 @@
+<div class="container-fluid np">
+    <div class="col-sm-12 mt-80">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+
+        <!--Profile section-->
+
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+
+                <!-- <div style="display: flex;margin-bottom: 20px;align-items: flex-start;">
+                        <button class="btn-primary-purple" (click)="addBlocksShow()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Blocks</button>
+                        <div class="upload_excel">
+                          <a> <img class="excel" (click)="upLoad()" src="../../assets/images/upload.png" tooltip="Have more num of Blocks?"></a>
+                           <a  href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/upload.png" tooltip="click to download demo excel format"></a>
+                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file>
+                        </div>
+                </div> -->
+                <form *ngIf="ShowExcelUploadDiscription">
+                    <div class="row">
+                        <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
+                            <div class="upload_excel">
+                                <div style="display: flex;">
+                                    <span class="purple">Upload Expenses for </span>
+                                    <div class="dropdown"
+                                      style="width: 200px;margin-right: 11px !important;margin-top: -8px !important;margin-left: 7px !important;">
+                                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown"
+                                        style="width: 200px;margin-right: 20px;">{{(currentBlockName == ''?'Blocks':currentBlockName)}}
+                                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                      <ul class="dropdown-menu fullw ">
+                                        <li *ngFor='let item of allBlocksLists'
+                                          (click)="GetExpenseListByBlockID(item['blBlockID'],item['blBlkName'])">
+                                          <a>{{item['blBlkName']}}</a></li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                <a> <img style="width: 50px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                                        tooltip="Have more num of Blocks?"></a>
+                                <a href="../../assets/Excel/Demo_Expense_Template.xlsx" download><img style="width: 50px;" class="excel"
+                                        src="../../assets/images/upload.png"
+                                        tooltip="click to download demo excel format"></a>
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
+                                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                    style="display:none" #file>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8" style="border-radius: 18px;">
+                                <h4>Upload Instructions:</h4>
+                                <ul>
+                                   <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                                   <li>Nulla ut eros quis est feugiat condimentum.</li>
+                                   <li>Donec eget enim feugiat erat vehicula pretium non et urna.</li>
+                                   <li>Cras vitae neque imperdiet, rhoncus orci sed, dignissim magna.</li>
+                                   <li>Integer nec augue ut dolor efficitur auctor.</li>
+                                   <li>Note:- Bulk Upload your Expense file in <i class="fa fa-file-excel-o"
+                                     aria-hidden="true"></i> excel format, the demo excel format can be downloaded from above</li>
+                                 </ul> 
+
+                        </div>
+                    </div>
+                </form>
+                <!--  -->
+                <!--  -->
+                <!--  -->
+                <div class="table-responsive" *ngIf='ShowExcelDataList'>
+                    <table class="table table-bordered table-responsive"
+                        [mfData]="excelExpenseList"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Expense Head">Expense Head</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Expense Description">Expense Description</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Expense Recurance Type">Expense Recurance Type</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Applicable To Unit">Applicable To Unit</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Expense Type">Expense Type</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Amount Paid">Amount Paid</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Distribution Type">Distribution Type</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Bank">Bank</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Payment Method">Payment Method</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Payee Name">Payee Name</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Expenditure Date">Expenditure Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Invoice-Receipt No">Invoice-Receipt No</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Payee Bank">Payee Bank</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Voucher No">Voucher No</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Cheque No">Cheque No</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Cheque Date">Cheque Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Demand Draft No">Demand Draft No</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="Demand Draft Date">Demand Draft Date</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="19" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{item['S.No']}}</td>
+                                    <td>{{item['Expense Head']}}</td>
+                                    <td>{{item['Expense Description']}}</td>
+                                    <td>{{item['Expense Recurance Type']}}</td>
+                                    <td>{{item['Applicable To Unit']}}</td>
+                                    <td>{{item['Expense Type']}}</td>
+                                    <td>{{item['Amount Paid']}}</td>
+                                    <td>{{item['Distribution Type']}}</td>
+                                    <td>{{item['Bank']}}</td>
+                                    <td>{{item['Payment Method']}}</td>
+                                    <td>{{item['Payee Name']}}</td>
+                                    <td>{{item['Expenditure Date']}}</td>
+                                    <td>{{item['Invoice-Receipt No']}}</td>
+                                    <td>{{item['Payee Bank']}}</td>
+                                    <td>{{item['Voucher No']}}</td>
+                                    <td>{{item['Cheque No']}}</td>
+                                    <td>{{item['Cheque Date']}}</td>
+                                    <td>{{item['Demand Draft No']}}</td>
+                                    <td>{{item['Demand Draft Date']}}</td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="19">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div>
+                        <button style="float: right;" class="btn-primary-purple" (click)="createExpenseFromBlock()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Expense</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

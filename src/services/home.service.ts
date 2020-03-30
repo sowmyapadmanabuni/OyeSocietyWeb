@@ -20,10 +20,10 @@ export class HomeService {
     this.httpClient.post(this.scopeIP + 'oyehomes/api/RequestCall/Create ', JSON.stringify(reqAppDetails), { headers: headers })
     .subscribe(
       data=>{
-        console.log(data);
+        //console.log(data);
       },
       err=>{
-         console.log(err)
+         //console.log(err)
       }
       
     )
@@ -36,10 +36,10 @@ export class HomeService {
     this.httpClient.post(this.scopeIP + 'oyeliving/api/v1/ContactUsDetails/Create ', JSON.stringify(contactDetails), { headers: headers1 })
     .subscribe(
       data=>{
-        console.log(data);
+        //console.log(data);
       },
       err=>{
-         console.log(err)
+         //console.log(err)
       }
       
     )

@@ -1,15 +1,15 @@
 export class AssociationDetails {
 
     constructor(
-        private asAsnLogo,
-        private asAsnName,
-        private asAddress,
-        private asCountry,
-        private asPinCode,
-        private asMgrMobile,
-        private asWebURL,
-        private asAsnEmail,
-        private asdPyDate) {
+        public asAsnLogo,
+        public asAsnName,
+        public asAddress,
+        public asCountry,
+        public asPinCode,
+        public asMgrMobile,
+        public asWebURL,
+        public asAsnEmail,
+        public asdPyDate) {
     }
 
 }

@@ -18,7 +18,7 @@ export class AddVisitorService {
     let ipAddress = this.utilsService.getIPaddress();
     let url = `${ipAddress}oye247/api/v1/Invitation/create`
     
-    console.log(visitorData);
+    //console.log(visitorData);
     return this.http.post(url, JSON.stringify(visitorData), { headers: headers })
   }
 

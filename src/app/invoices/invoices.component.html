@@ -1,61 +1,116 @@
-<div class="container-fluid bg np">
-    <div class="col-sm-9">
+<!--/*/*/*/*/* ADMIN INVOICE START /*/*/*/*/*-->
+<div *ngIf="globalservice.mrmroleId == 1 && localMrmRoleId != '2'" class="container-fluid np">
+    <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Invoice For Manyata Association</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                <div class="switch">
-                    <ul class="nav nav-pills">
-                        <li><a (click)="goToExpense()">Expenses</a></li>
-                        <li class="active"><a (click)="goToInvoice()">Invoice</a></li>
-                        <li><a (click)="goToReceipts()">Receipts</a></li>
-                    </ul>
-                </div>
-                <div class="enroll">
-                    <div class="dropdown" style="width: 200px;">
-                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                            data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Blocks':viewinvoiceservice.invoiceBlock)}}
-                            <i  aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                        <ul class="dropdown-menu fullw">
-                            <li *ngFor='let item of allBlocksByAssnID'
-                                (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
-                                <a>{{item['blBlkName']}}</a></li>
-                        </ul>
+               <div class="enr-bt">
+                    <div style="display: flex;">
+                            <span class="black">Invoices for  </span>
+                                <div class="dropdown" style="width: 200px;margin-left: 10px; margin-top: -7px;">
+                                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                        data-toggle="dropdown">{{(viewinvoiceservice.invoiceBlock == ''?'Select Block':viewinvoiceservice.invoiceBlock)}}
+                                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                    <ul class="dropdown-menu fullw">
+                                        <li *ngFor='let item of allBlocksByAssnID'
+                                            (click)="getCurrentBlockDetails(item['blBlockID'],item['blBlkName'])">
+                                            <a>{{item['blBlkName']}}</a></li>
+                                    </ul>
+                                </div> 
+                                <span class="black">Of Unit  </span> 
+                                <div [ngClass]="{'dropdown open':viewinvoiceservice.invoiceBlock == '','dropdown':viewinvoiceservice.invoiceBlock != ''}" style="width: 200px;margin-left: 10px; margin-top: -7px;">
+                                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                        data-toggle="dropdown">{{(UnitName == ''?'Select Unit':UnitName)}}
+                                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                    <ul *ngIf="toggleUL" class="dropdown-menu fullw" style="height: 200px">
+                                        <li *ngFor='let item of allUnitBYBlockID'
+                                            (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
+                                            <a>{{item['unUniName']}}</a></li>
+                                    </ul>
+                                </div>  
+                                <!-- <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Receipts?"(click)="NavigateToBulkUpload()">Bulk Receipt Upload</a>                -->
                     </div>
+                    <div class="switch">
+                            <ul class="nav nav-pills">
+                                <li><a (click)="goToExpense()">Expenses</a></li>
+                                <li class="active"><a (click)="goToInvoice()">Invoice</a></li>
+                                <li><a (click)="goToReceipts()">Receipts</a></li>
+                            </ul>
+                    </div>
+               </div>
+
+
+
+                
+
+                
+                <div style="display: flex;justify-content: flex-end;align-items: baseline;">
+                    <!-- <label class="purple">Paid&nbsp;&nbsp;</label> -->
+                    <!-- <input type="checkbox" [(ngModel)]="IsPaid" (change)='GetPaidInvoiceList(IsPaid)' name="IsPaid"> -->
                 </div>
-                <div>
-                    <label>Search</label>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="search name">
+                <!-- Toggler switch-->
+                <div class="switch">
+                    <ul class="nav1 nav-pills1">
+                        <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetPaidInvoiceList('id','All')">All</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetPaidInvoiceList(true,'toggleYes')">Paid</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a (click)="GetPaidInvoiceList(false,'toggleNo')">Unpaid</a></li>
+                        </ul>
                 </div>
-                <div class="dash-row">
+                <!-- Toggler switch-->
+                <!-- <div>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search Name">
+                </div> -->
+                <div class="enroll" style="background: #f8f8f8;padding:10px;">
+                    <div class="sea"><input type="text" [(ngModel)]="searchTxt" id="mySearch" name="searchTxt" placeholder="Search Name">
+                    </div>
+                    <div class="del-date cal"><input type="text" name="InvoiceStartDate" #InvoiceStartDateControl='ngModel' #StartDate [(ngModel)]="InvoiceStartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig" (keyup)='validateDate($event,StartDate,EndDate)' (blur)="GetInvoiceList()"></div>
+                    <div class="del-date cal"><input type="text" (bsValueChange)="getInvoiceListByDateRange($event)" name="InvoiceEndDate" #InvoiceEndDateControl='ngModel' #EndDate  [(ngModel)]="InvoiceEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig" (keyup)='validateDate($event,StartDate,EndDate)' (blur)="GetInvoiceList()"></div>
+                </div>
+
+<div class="inv-align">
+    <div class="dropdown" style="width: 200px;">
+        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+            data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+        <ul class="dropdown-menu fullw">
+            <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                <a>{{rows['Display']}}</a></li>
+        </ul>
+    </div>
+    <a class="excel" (click)="NavigateToBulkUpload()" tooltip="Have more num of Receipts?"(click)="NavigateToBulkUpload()">Bulk Receipt Upload</a> 
+</div>
+
+                    
+                
+                
+                <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
-                        [mfData]="invoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
-                        #mf="mfDataTable" [mfRowsOnPage]="10">
+                        [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
                         <thead>
                             <tr>
                                 <th>
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unUnitID">Unit ID</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('UnitName')" by="unUniName">Unit Number&nbsp;<i [hidden]="columnName=='UnitName'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inNumber">Invoice Number</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNumber')" by="inNumber">Invoice Number&nbsp;<i [hidden]="columnName=='InvoiceNumber'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inGenDate">Invoice Date</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceDate')" by="inGenDate">Invoice Date&nbsp;<i [hidden]="columnName=='InvoiceDate'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="inTotVal">Curr.Inv.Amount</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="inTotVal">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
-                                <th>
+                                <th style="width: 400px;">
                                     Action
                                 </th>
-                                <th>
+                                <th *ngIf="toggle == 'toggleNo'">
                                     <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;
                                     <i *ngIf="isChecked" style="cursor:pointer" (click)="sendEmailToAll()"
                                         class="fa fa-paper-plane"></i>
@@ -68,26 +123,217 @@
                                     <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{(i+1)}}</td>
-                                    <td>{{item['unUnitID']}}</td>
+                                    <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unit']['unUniName']}}</td>
+                                    <td class="txt-middle" style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                        <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
+                                    </td>
+                                    <td class="amount">
+                                        <span *ngIf="item['inPaid'] == 'No'">
+                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
+                                               <a tooltip="Mail Invoice" (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)" style="cursor: pointer; font-size: 12px;">Send Reminder </a> | 
+                                               <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)" style="cursor: pointer; font-size: 12px;">Adjustments</a> | 
+                                               <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
+                                        </span> 
+                                        <!-- <span *ngIf="item['inPaid'] == 'No'">
+                                           | <button tooltip="View Invoice" class="smallBtn"
+                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                               <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
+                                            </button> |
+                                            <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
+                                        </span> -->
+                                        <!-- <span *ngIf="item['inPaid'] == 'No'">
+                                            |
+                                            <svg height="15" width="20" class="blinking">
+                                                <circle cx="10" cy="10" r="5" fill="orange" />
+                                                Sorry, your browser does not support inline SVG.  
+                                              </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
+                                        </span> -->
+                                        <span *ngIf="item['inPaid'] == 'Yes'">
+                                            <button tooltip="View Invoice" class="smallBtn"
+                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                               <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
+                                            </button> |
+                                            <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
+                                        </span>
+                                    </td>
+                                    <td *ngIf="toggle == 'toggleNo'">
+                                        <input class="chkBox" type="checkbox" [value]="item.inid" [checked]='checkAll'
+                                            (change)='toggleIsChecked($event)'>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr *ngIf="PaidUnpaidinvoiceLists.length == 0">
+                                <ng-container>
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr *ngIf="toggle == 'toggleYes'">
+                                <td colspan="7">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                            <tr *ngIf="toggle == 'toggleNo'">
+                                <td colspan="6">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                            <tr *ngIf="toggle == 'All'">
+                                <td colspan="7">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="t-right"><a (click)="convert()">Generate PDF</a></div>
+            </div>
+            <!--Dashboard icons end-->
+
+        </div>
+
+    </div>
+    <!--rightBar start-->
+    <!-- <app-right-bar></app-right-bar> -->
+    <!--rightBar end-->
+</div>
+<!--/*/*/*/*/* ADMIN INVOICE END /*/*/*/*/*-->
+
+
+
+
+
+
+
+
+
+
+<!--/*/*/*/*/* RESIDENT INVOICE START /*/*/*/*/*-->
+<div *ngIf="globalservice.mrmroleId != 1 || localMrmRoleId == '2'" class="container-fluid np">
+    <div class="col-sm-12 mt-80">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <div class="enr-bt">
+                   
+                        <div>
+                                <span class="black">Invoices for unit {{globalservice.getCurrentUnitName()}}  </span> 
+                        </div>
+                        <div class="switch">
+                                <ul class="nav nav-pills" style="width: 214px;">
+                                    <li class="active"><a (click)="goToInvoice()">Invoice</a></li>
+                                    <li><a (click)="goToResidentReceipts()">Receipts</a></li>
+                                </ul>
+                        </div> 
+                    
+                                      
+                </div>
+
+
+
+
+
+
+
+                
+
+                
+                <div style="display: flex;justify-content: flex-end;align-items: baseline;">
+                    <!-- <label class="purple">Paid&nbsp;&nbsp;</label> -->
+                    <!-- <input type="checkbox" [(ngModel)]="IsPaid" (change)='GetPaidInvoiceList(IsPaid)' name="IsPaid"> -->
+                </div>
+                <!-- Toggler switch-->
+                <div class="switch">
+                    <ul class="nav1 nav-pills1">
+                        <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetPaidInvoiceListResident('id','All')">All</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a (click)="GetPaidInvoiceListResident(true,'toggleYes')">Paid</a></li>
+                            <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a (click)="GetPaidInvoiceListResident(false,'toggleNo')">Unpaid</a></li>
+                        </ul>
+                </div>
+                <!-- Toggler switch-->
+                <div>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by invoice number">
+                </div>
+                <div class="dropdown" style="width: 200px;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setResidentRows(rows['Row'])">
+                            <a>{{rows['Display']}}</a></li>
+                    </ul>
+                </div>
+                <div class="dash-row" style="overflow-y: scroll;">
+                    <table class="table table-bordered"
+                        [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <!-- <th><mfDefaultSorter (click)="removeColumnSort('UnitID')" by="unUnitID">Unit ID&nbsp;<i [hidden]="columnName=='UnitID'" class="fa fa-sort"></i></mfDefaultSorter></th> -->
+                                <th><mfDefaultSorter (click)="removeColumnSort('InvoiceNumber')" by="inNumber">Invoice Number&nbsp;<i [hidden]="columnName=='InvoiceNumber'" class="fa fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter (click)="removeColumnSort('InvoiceDate')" by="inGenDate">Invoice Date&nbsp;<i [hidden]="columnName=='InvoiceDate'" class="fa fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter (click)="removeColumnSort('Amount')" by="inTotVal">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter></th>
+                                <th>Action</th>
+                                <th *ngIf="toggle == 'toggleNo'">
+                                    <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;
+                                    <i *ngIf="isChecked" style="cursor:pointer" (click)="sendEmailToAll()"
+                                        class="fa fa-paper-plane"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <!-- <td>{{item['unUnitID']}}</td> -->
                                     <td>{{item['inNumber']}}</td>
                                     <td>{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
-                                    <td>
+                                    <td class="amount">
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td>
                                         <span>
-                                            <button title="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
+                                            <!-- <button tooltip="Mail Invoice" [disabled]='item.ineSent' class="smallBtn"
                                                 (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)">
                                                 <i class="fa fa-paper-plane"></i>
-                                            </button> | <i (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" class="fa fa-eye" ></i>
-                                            |
-                                            <i title="View Discount"
+                                            </button> -->
+                                            
+                                             <a (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" tooltip="View Invoice" >View Invoice</a>
+                                        <!--     |
+                                            <i tooltip="View Discount"
                                                 (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)"
-                                                style="cursor: pointer;" class="fa fa-percent"></i>
+                                                style="cursor: pointer;" class="fa fa-percent"></i>-->
+                                        </span> 
+                                        <span *ngIf="item['inPaid'] == 'No'">
+                                            |
+                                            <!-- <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <!-- <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;">Generate Receipt</a> -->
+                                            
+                                                <svg height="15" width="20" class="blinking">
+                                                    <circle cx="10" cy="10" r="5" fill="orange" />
+                                                    Sorry, your browser does not support inline SVG.  
+                                                  </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
+                                       
+                                        </span>
+                                        <span *ngIf="item['inPaid'] == 'Yes'">
+                                            |
+                                            <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
                                         </span>
                                     </td>
-                                    <td>
+                                    <td *ngIf="toggle == 'toggleNo'">
                                         <input class="chkBox" type="checkbox" [value]="item.inid" [checked]='checkAll'
                                             (change)='toggleIsChecked($event)'>
                                     </td>
@@ -110,22 +356,13 @@
 
     </div>
     <!--rightBar start-->
-    <app-right-bar></app-right-bar>
+    <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
+<!--/*/*/*/*/* RESIDENT INVOICE END /*/*/*/*/*-->
 
 
-<ng-template #template1>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        This is a modal.
-    </div>
-</ng-template>
+
 
 <ng-template #template>
     <div id="viewinvoicetemplateId" class="modal-content1">
@@ -214,9 +451,9 @@
                                 <th class="clsAlignCenter clsthBorder">Description</th>
                                 <th class="clsalign clsthBorder" style="text-align: center"><span>Taxable Value</span>
                                 </th>
-                                <th class="clsalign clsthBorder" style="text-align: center"><span>CGST</span></th>
-                                <th class="clsalign clsthBorder" style="text-align: center"><span>SGST</span></th>
-                                <th class="clsalign clsthBorder" style="text-align: center"><span>IGST</span></th>
+                                <th class="clsalign clsthBorder" style="text-align: center"><span>GST</span></th>
+                                <!-- <th class="clsalign clsthBorder" style="text-align: center"><span>SGST</span></th> -->
+                                <!-- <th class="clsalign clsthBorder" style="text-align: center"><span>IGST</span></th> -->
                                 <th class="clsalign clsthBorder" style="text-align: center"><span>Total</span></th>
                                 <!-- <th class="clsthBorder"><span style="margin-left: 20%">Amount</span></th> -->
                             </tr>
@@ -230,8 +467,8 @@
                                             Due</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{previousDue}}.00</span></td>
                                 </tr>
@@ -241,8 +478,8 @@
                                             class="clsspacelft">Discount</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{discountedValue}}.00</span> </td>
                                 </tr>
@@ -252,8 +489,8 @@
                                             Meter</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -263,8 +500,8 @@
                                             class="clsspacelft">Common Area Electric Bill</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -274,8 +511,8 @@
                                             class="clsspacelft">Corpus</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -285,8 +522,8 @@
                                             Bill</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -296,8 +533,8 @@
                                             class="clsspacelft">Housekeeping</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -307,8 +544,8 @@
                                             Membership Fee</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -318,8 +555,8 @@
                                             Occupancy Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -329,8 +566,8 @@
                                             Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -340,8 +577,8 @@
                                             Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -351,8 +588,8 @@
                                             Maintenance</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -362,8 +599,8 @@
                                             class="clsspacelft">Bill</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -373,8 +610,8 @@
                                             OnBoarding Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -384,8 +621,8 @@
                                             Rental Fees</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
                                     <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
-                                    <td class="clsBorder"><span style="margin-left: 44%">-</span></td>
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
+                                    <!-- <td class="clsBorder"><span style="margin-left: 44%">-</span></td> -->
                                     <td class="clsBorder" style="text-align: right;"><span style="margin-left: 15%;"
                                             class="clsspaceright">₹ {{item['idValue']}}.00</span></td>
                                 </tr>
@@ -489,9 +726,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4 col-xs-4">
-                            <a (click)="iciciPay($event)">
-                                <img src="assets/images/icici.jpg" alt="ICICI Bank" class="img-responsive" />
+                        <div class="col-sm-4 col-xs-4 pay" >
+                            <a (click)="iciciPay($event)" >
+                                <img  src="assets/images/icici.jpg" alt="ICICI Bank" class="img-responsive" />
                                 <h6><b>₹ {{totalAmountPaid()}} + Service Fee & GST = ₹ {{invValFinal}}</b></h6>
                             </a>
                         </div>
@@ -586,7 +823,7 @@
                             [ngClass]="{'has-error' : unUnitIDControl.invalid && unUnitIDControl.touched}">
                             <label>Select Unit <span class="red">*</span></label>
                             <select class="custom-select" required name="pyid" #unUnitIDControl='ngModel'
-                                [(ngModel)]="pyid" (change)="rowDetails(pyid)">
+                                [(ngModel)]="pyid" (change)="rowDetails(pyid,'')">
                                 <option disabled="true" value="">Select Unit </option>
                                 <option *ngFor='let item of unpaidUnits' [value]="item['pyid']">
                                     {{item['unUnitID']}}
@@ -664,7 +901,7 @@
                             [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
                             <label>Payment Method <span class="red">*</span></label>
                             <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod"
-                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod)">
+                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod,'')">
                                 <option disabled="true" selected="true" value="">Select Method </option>
                                 <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
                                     {{paymentby['name']}}
@@ -688,7 +925,7 @@
                                 Voucher No</p>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Demand Draft' ">
+                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'DemandDraft' ">
                         <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
                             <label>Demand Draft No <span class="red">*</span></label>
                             <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo"
@@ -722,7 +959,7 @@
                 </div>
 
                 <div class="form-group pull-right">
-                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt()"
+                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt(generateReceiptModal1)"
                         style="margin-right: 3px"> Create <img *ngIf="true"
                             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button>
                     <button type="button" (click)="resetForm()" class="btn btn-primary btn-lg">Reset </button>
@@ -743,64 +980,69 @@
 <ng-template #discountModal>
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" style="position:absolute;left:40%" id="myModalLabel">Discount Invoice</h4>
+            <h4 class="modal-title" id="myModalLabel">Discount Invoice</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-              <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true">&times;</span>
             </button>
-          </div>
-          <div class="modal-body" style="padding-top: 0px;">
-            <form name="dscntInv" role="form" autocomplete="off" enctype="multipart/form-data">
-              <!--------------------------------  Block Details Section Starts Here  ------------------------>
-              <fieldset class="scheduler-border">
-                <legend class="scheduler-border headingOrange">Invoice Details</legend>
-                <div class="row">
-                  <div class="col-sm-4 col-xs-12">
-                    <div class="form-group">
-                      <label>Invoice Number</label>
-                      <input type="text" name="dscntInvinvoiceNumber" [(ngModel)]="dscntInvinvoiceNumber" class="form-control"
-                        placeholder="Invoice Number " disabled />
-                    </div>
-                  </div>
-                  <div class="col-sm-4 col-xs-12">
-                    <div class="form-group"
-                      [ngClass]="{'has-error' : dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched}">
-                      <label>Discounted Amount<span class="red">*</span></label>
-                      <input type="text" required name="dscntInvdiscountedAmount" #dscntInvdiscountedAmountControl='ngModel'
-                        [(ngModel)]="dscntInvdiscountedAmount" class="form-control"
-                        (blur)="checkDiscountedAmount(dscntInvdiscountedAmount)" placeholder="Amount After Discount" />
-                      <p class="alerts"
-                        *ngIf="dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched">Discounted
-                        Amount</p>
-                    </div>
-                  </div>
-                  <div class="col-sm-4 col-xs-12">
-                    <div class="form-group"
-                      [ngClass]="{'has-error' : dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched}">
-                      <label>Discount Reason <span class="red">*</span></label>
-                      <input type="text" required name="dscntInvdescription" #dscntInvdescriptionControl='ngModel'
-                        (click)='emptyDisplaytext()' [(ngModel)]="dscntInvdescription" class="form-control"
-                        placeholder="Discount Reason" />
-                      <p class="alerts" *ngIf="dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched">
-                        Discount Reason</p>
-                    </div>
-                  </div>
-      
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xs-12">
-                    <div class="btn-group pull-right">
-                      <button type="button" class="btn btn-primary-purple nextBtn"
-                        (click)="discountInvoice(dscntInvinvoiceID,dscntInvdiscountedAmount,dscntInvdescription)"><i
-                          class="fa fa-floppy-o"></i> Update & Save</button>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-      
-          </div>
         </div>
-      
+        <div class="modal-body" style="padding-top: 0px;">
+            <form name="dscntInv" role="form" autocomplete="off" enctype="multipart/form-data">
+                <!--------------------------------  Block Details Section Starts Here  ------------------------>
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border headingOrange">Invoice Details</legend>
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label>Invoice Number</label>
+                                <input type="text" name="dscntInvinvoiceNumber" [(ngModel)]="dscntInvinvoiceNumber"
+                                    class="form-control" placeholder="Invoice Number " disabled />
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group"
+                                [ngClass]="{'has-error' : dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched}">
+                                <label>Discounted Amount<span class="red">*</span></label>
+                                <input type="text" required name="dscntInvdiscountedAmount" (keyup)="ValidateAmount($event)" (keypress)=_keyPress1($event)
+                                    #dscntInvdiscountedAmountControl='ngModel' [(ngModel)]="dscntInvdiscountedAmount"
+                                    class="form-control" (blur)="checkDiscountedAmount(dscntInvdiscountedAmount)"
+                                    placeholder="Discount Amount" />
+                                <!-- <p class="alerts"
+                                    *ngIf="dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched">
+                                    Discounted
+                                    Amount</p> -->
+                                <p class="alerts" *ngIf="isInValidZeroAmount && dscntInvdiscountedAmountControl.touched">Invalid Discounted Amount</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group"
+                                [ngClass]="{'has-error' : dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched}">
+                                <label>Discount Reason <span class="red">*</span></label>
+                                <input type="text" required name="dscntInvdescription" (blur)="ValidateDefaultDescription()"
+                                    #dscntInvdescriptionControl='ngModel' (click)='emptyDisplaytext()'
+                                    [(ngModel)]="dscntInvdescription" class="form-control" (keyup)="ValidateDescription($event)"
+                                    placeholder="Discount Reason" />
+                                <p class="alerts"
+                                    *ngIf="dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched">
+                                    Discount Reason</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-primary-purple nextBtn" [disabled]="isInValidZeroAmount || ValidateInvdescription"
+                                    (click)="discountInvoice(dscntInvinvoiceID,dscntInvdiscountedAmount,dscntInvdescription)"><i
+                                        class="fa fa-floppy-o"></i> Update & Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+
 </ng-template>
 
 <ng-template #invoicePop>
@@ -813,8 +1055,9 @@
                 <p><strong>Invoice No:</strong> {{invoiceNumber}}</p>
             </div>
             <div class="inv-details t-right">
-                <img (click)="printInvoice()" src="../../assets/images/icons/printer.png">
-                <h2 class="inv-title">{{associationDetails.asAsnName}}</h2>
+                <!-- <img (click)="printInvoice()" src="../../assets/images/icons/printer.png"> -->
+                <button style="margin: -7% 0% 0% 0%;" type="button" class="close" aria-label="Close" (click)="modalRef.hide()"><span aria-hidden="true">&times;</span></button>
+                <h2 class="inv-title">{{associationDetails['asAsnName']}}</h2>
                 <p>{{associationDetails.asAddress}}</p>
                 <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
             </div>
@@ -825,204 +1068,207 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th colspan="7" style="text-align: center">Invoice Details</th>
+                            <th colspan="4" style="text-align: center">Invoice Details</th>
 
                         </tr>
                         <tr>
-                            <th>Sl No</th>
+                            <th>Sll No</th>
                             <th>Description</th>
-                            <th>Taxable Value</th>
+                            <!-- <th>Taxable Value</th>
                             <th>CGST</th>
-                            <th>SGST</th>
-                            <th>IGST</th>
+                            <th>SGST</th> -->
+                            <th>GST</th>
                             <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+                        <!-- <ng-container>
+                            <tr *ngIf='discountedValue > 0' style="font-weight:bold">
+                                <td>{{1}}</td>
+                                <td><span>Discount</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{discountedValue}}.00</span> </td>
+                            </tr>
+                        </ng-container> -->
+                        <!-- <ng-container *ngFor='let item of invoiceDetails;let i=index'>
 
                             <tr *ngIf='previousDue > 0' style="font-weight:bold">
-                                <td >{{i+1}}</td>
-                                <td ><span >Previous
+                                <td>{{i+1}}</td>
+                                <td><span>Previous
                                         Due</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{previousDue}}.00</span></td>
-                            </tr>
-                            <tr *ngIf='discountedValue > 0' style="font-weight:bold">
-                                <td >{{i+1}}</td>
-                                <td ><span
-                                        >Discount</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{discountedValue}}.00</span> </td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{previousDue}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Water Meter' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >Water
+                                <td>{{i+1}}</td>
+                                <td><span>Water
                                         Meter</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'Discount Value' && item['idValue'] > 0">
+                                <td>{{i+1}}</td>
+                                <td><span>Discount Value</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Common Area Electric Bill' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >Common Area Electric Bill</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td>{{i+1}}</td>
+                                <td><span>Common Area Electric Bill</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Corpus' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span
-                                        >Corpus</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td>{{i+1}}</td>
+                                <td><span>Corpus</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Generator' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >Generator
+                                <td>{{i+1}}</td>
+                                <td><span>Generator
                                         Bill</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'HouseKeeping' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span
-                                        >Housekeeping</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td>{{i+1}}</td>
+                                <td><span>Housekeeping</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'One Time Membership fee' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >One Time
+                                <td>{{i+1}}</td>
+                                <td><span>One Time
                                         Membership Fee</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'One Time Occupancy Fees' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >One Time
+                                <td>{{i+1}}</td>
+                                <td><span>One Time
                                         Occupancy Fees</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Renting Fees' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >Renting
+                                <td>{{i+1}}</td>
+                                <td><span>Renting
                                         Fees</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Security Fees' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >Security
+                                <td>{{i+1}}</td>
+                                <td><span>Security
                                         Fees</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Fixed Maintenance' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >Fixed
+                                <td>{{i+1}}</td>
+                                <td><span>Fixed
                                         Maintenance</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
-                            <tr *ngIf="item['idDesc'] == 'One Time Onboarding fee' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >One Time
+                            <tr *ngIf="item['idDesc'] == 'xc' && item['idValue'] > 0">
+                                <td>{{i+1}}</td>
+                                <td><span>xc</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'One Time Onboarding fees' && item['idValue'] > 0">
+                                <td>{{i+1}}</td>
+                                <td><span>One Time
                                         OnBoarding Fees</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                            <tr *ngIf="item['idDesc'] == 'bill' && item['idValue'] > 0">
+                                <td>{{i+1}}</td>
+                                <td><span>All Sold Owner Occupied Units,</span><span>Tenant Occupied Units,</span><span>All UnSold Tenant Occupied Units</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                             <tr *ngIf="item['idDesc'] == 'Unsold Rental Fees' && item['idValue'] > 0">
-                                <td >{{i+1}}</td>
-                                <td ><span >Unsold
+                                <td>{{i+1}}</td>
+                                <td><span>Unsold
                                         Rental Fees</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >-</span></td>
-                                <td ><span >₹ {{item['idValue']}}.00</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                        </ng-container> -->
+                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td><span>{{item['idDesc']}}</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                         </ng-container>
                         <tr>
-                            <td colspan="6">Sub Total</td>
+                            <td colspan="3">Grand Total</td>
                             <td>{{InvoiceValue}}.00</td>
                         </tr>
 
                     </tbody>
                 </table>
             </div>
-            <p class="amt"><strong>Amount in words :</strong>{{InvoiceValue | words}} Rupees Only</p>
-            <div class="inv-details">
+            <p class="amt"><strong>Amount in words:</strong> Rupees {{InvoiceValue | words}} Only</p>
+            <div class="row">
+            <div class="inv-details col-sm-6">
+                
                 <p><strong>Due upon receipt</strong></p>
                 <h2 class="inv-title-purple">{{associationDetails.asAsnName}}</h2>
-                <p><strong>Mobile no:</strong>{{associationDetails.asMgrMobile}}</p>
-                <p>{{associationDetails.asAddress}}</p>
+                <!-- <p><strong>Mobile no:</strong>{{associationDetails.asMgrMobile}}</p> -->
+                <p><strong>Address: </strong>{{associationDetails.asAddress}}</p>
                 <p>{{associationDetails.asCountry}}-{{associationDetails.asPinCode}}</p>
             </div>
+            <div class="col-sm-6">
+                <p style="border: 1px solid gray !important; width: 100%; height: 40px;">Comments: They have paid after 6 days.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="border-top: 1px solid black; text-align: center; color: darkblue;">
+                <p>This is a digitally generated invoice; signature not required.</p>
+            </div>
+        </div>
             <!--Payment Options-->
+            
             <div class="payment-opt" *ngIf="payopt">
-                <div>
-                    <img src="../../assets/images/icons/icic.png">
+                
+                <div class="pay" id="pay">
+                    <img src="../../assets/images/icons/icic.png" (click)="payThroughICICIPG($event)">
                     <p>₹0+Service Fee & GST</p>
                 </div>
-                <div>
-                    <img src="../../assets/images/icons/instamojo.png">
+                <div class="pay">
+                    <img src="../../assets/images/icons/hdfc.png" (click)="hdfcPay($event)">
                     <p>₹0+Service Fee & GST</p>
                 </div>
-                <div>
-                    <img src="../../assets/images/icons/razorpay.png">
+                <div class="pay">
+                    <img src="../../assets/images/icons/axis.png">
                     <p>₹0+Service Fee & GST</p>
                 </div>
-                <div>
-                    <img src="../../assets/images/icons/icic.png">
+                <div class="pay">
+                    <img src="../../assets/images/icons/kotak.png">
                     <p>₹0+Service Fee & GST</p>
                 </div>
             </div>
             <!--Payment Options-->
             <div class="pay-bt">
-                <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>
-                    Pay
-                    Now</button>
-                <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate
-                    Receipt</button>
+                <!-- <div class="fb-share-button" data-href="http://localhost:4200/invoice" data-layout="button_count"><a target="_blank" href="https://www.facebook.com/messages" class="fb-xfbml-parse-ignore">
+                    <i style="font-family:FontAwesome !important;margin-top: 5px;margin-right: 24px;font-size: 24px;" class="fa fa-share-alt" aria-hidden="true"></i></a>
+                </div> -->
+                <!-- <button (click)="printInvoice()" class="btn-primary-purple"><i style="font-family:FontAwesome !important" class="fa-file-pdf-o" aria-hidden="true"></i>&nbsp;Save as PDF</button> -->
+                <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+                <!-- <button (click)="viewPayOpt()" class="btn-primary-purple"><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button> -->
+                <button *ngIf="globalservice.mrmroleId != 1 || localMrmRoleId == '2'" (click)="payThroughICICIPG($event)" style="padding-left: 0px;margin-left: 2px;" class="btn-primary-purple">
+                    <svg height="15" width="20" class="blinking">
+                    <circle cx="10" cy="10" r="5" fill="orange" />
+                    Sorry, your browser does not support inline SVG.  
+                  </svg><i class="fa fa-money" aria-hidden="true"></i>Pay Now</button>
+                <!-- <button (click)="generateReceipt(generateReceiptModal1)" class="btn-primary-purple"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate Receipt</button> -->
             </div>
 
         </div>
@@ -1031,285 +1277,572 @@
 
 <ng-template #generateReceiptModal1>
 
-        <div class="modal-header">
+    <div class="modal-header">
 
-                <h4 class="modal-title pull-left">Generate Receipt</h4>
+        <h4 class="modal-title pull-left">Generate Receipt</h4>
 
-                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
 
-                  <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
 
-                </button>
+        </button>
 
-              </div>
+    </div>
 
-              <div class="modal-body">
+    <div class="modal-body">
 
-                  <label class="control-label">Select Block</label>
-                  <div class="dropdown blk-drop">
-                        <button class="btn btn-primary dropdown-toggle sdm br" type="button"
-                        data-toggle="dropdown">{{CurrentBlockName}}
+        <label class="control-label">Select Block</label>
+        <div class="dropdown blk-drop">
+            <button class="btn btn-primary dropdown-toggle sdm br" type="button"
+                data-toggle="dropdown">{{CurrentBlockName}}
+                <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+            <ul class="dropdown-menu fullw">
+                <li *ngFor='let blck of allBlocksByAssnID'
+                    (click)="getCurrentBlockDetailsForGenRecpt(blck['blBlockID'],blck['blBlkName'])">
+                    <a>{{blck['blBlkName']}}</a></li>
+            </ul>
+        </div>
+
+        <div class="guest">
+
+            <div class="guest-input">
+
+                <div class="form-group">
+                    <label class="control-label">Select Unit</label>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                            data-toggle="dropdown">{{unUnitID}}
+                            <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                        <ul class="dropdown-menu fullw">
+                            <li (click)="rowDetails(item['pyid'],item['unUnitID'])" *ngFor='let item of unpaidUnits'>
+                                <a>{{item['unUnitID']}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+                    <label class="control-label">Invoice</label>
+                    <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice"
+                        #invoiceControl='ngModel' placeholder="Invoice Number*" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Amount Due</label>
+                    <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue"
+                        placeholder="Amount Due" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="guest-input">
+
+            <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+                <label class="control-label">Amount Paid</label>
+                <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid"
+                    #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" />
+                <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount
+                    Paid</p>
+                <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
+            </div>
+
+            <div class="form-group"
+                [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
+                <label class="control-label">Payment Description</label>
+                <input type="text" class="form-control" name="paymentDescription" [(ngModel)]="paymentDescription"
+                    #paymentDescriptionControl='ngModel' placeholder="Payment Description" disabled />
+                <p class="alerts" *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please
+                    Select Date of Payment</p>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Select Bank</label>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{BankName}}
                         <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
                     <ul class="dropdown-menu fullw">
-                        <li *ngFor='let blck of allBlocksByAssnID' (click)="getCurrentBlockDetailsForGenRecpt(blck['blBlockID'],blck['blBlkName'])">
-                            <a>{{blck['blBlkName']}}</a></li>
+                        <li *ngFor='let bank of bankList' (click)='getBankName(bank)'><a>{{bank}}</a></li>
                     </ul>
-                    </div>
-
-                <div class="guest">
-                
-                    <div class="guest-input">
-                
-                        <div class="form-group">
-                            <label class="control-label">Select Unit</label>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                                    data-toggle="dropdown">{{unUnitID}}
-                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
-                                <ul class="dropdown-menu fullw">
-                                    <li (click)="rowDetails(item['pyid'],item['unUnitID'])" *ngFor='let item of unpaidUnits'>
-                                        <a>{{item['unUnitID']}}</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                
-                        <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
-                            <label class="control-label">Invoice</label>
-                            <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice" #invoiceControl='ngModel'
-                                placeholder="Invoice Number*" disabled />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Amount Due</label>
-                            <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue" placeholder="Amount Due"
-                                disabled />
-                        </div>
-                    </div>
                 </div>
+            </div>
 
-                    <div class="guest-input">
+        </div>
 
-                            <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
-                                    <label class="control-label">Amount Paid</label>
-                                    <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid" #amountPaidControl='ngModel'
-                                    placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" />
-                                <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
-                                <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
-                            </div>
+        <div class="guest-input">
 
-                            <div class="form-group"
-                                [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
-                                <label class="control-label">Payment Description</label>
-                                <input type="text" class="form-control" name="paymentDescription" [(ngModel)]="paymentDescription"
-                                    #paymentDescriptionControl='ngModel' placeholder="Payment Description" disabled />
-                                <p class="alerts" *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please Select Date of Payment</p>
-                            </div>
+            <div class="col-sm-12 pull-right">
 
-                            <div class="form-group">
-                                <label class="control-label">Select Bank</label>
-                                <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle sdm br form-control"
-                                            type="button" data-toggle="dropdown">{{BankName}}
-                                            <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
-                                        <ul class="dropdown-menu fullw">
-                                            <li *ngFor='let bank of bankList' (click)='getBankName(bank)'><a>{{bank}}</a></li>
-                                        </ul>
-                                    </div>
-                            </div> 
+                <button class="btn btn-primary-purple nextBtn m-r">Reset</button>
 
-                      </div>
+                <button class="btn btn-primary-purple nextBtn m-r" (click)='createReceipt()' type="button">Generate</button>
 
-                    <div class="guest-input">
+            </div>
 
-                            <div class="col-sm-12 pull-right">
+        </div>
 
-                                    <button class="btn btn-primary-purple nextBtn">Reset</button>
 
-                                    <button class="btn btn-primary-purple nextBtn" (click)='createReceipt()' type="button">Generate</button>
 
-                                </div>                           
-
-                      </div>
-
-                    
-
-                </div>
+    </div>
 
 </ng-template>
 
 <ng-template id="generatereceiptmodalId" #generatereceiptmodal>
-        <div class="modal-content">
-          <div class="modal-header">
-              <ul class="ulclass" style="list-style-type: none">
+    <div class="modal-content">
+        <div class="modal-header">
+            <ul class="ulclass" style="list-style-type: none">
                 <li class="liclass" style="display: flex;list-style-type: none">
-                  <label style="position: absolute;font-size:18px;left:41%;color: #f79321 !important;">GENERATE RECEIPT</label>
-                  <button type="button" class="close" style="margin: -2rem -1rem -1rem 1050px !important;" aria-label="Close"
-                    (click)="modalRefForGenerateRecipt.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                    <label style="position: absolute;font-size:18px;left:41%;color: #f79321 !important;">GENERATE
+                        RECEIPT</label>
+                    <button type="button" class="close" style="margin: -2rem -1rem -1rem 1050px !important;"
+                        aria-label="Close" (click)="modalRefForGenerateRecipt.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </li>
-                </ul>
-          </div>
+            </ul>
         </div>
-      
-        <div class="modal-body">
-          <!---->
-          <div class="row">
-              <div class="col-sm-2">
-              </div>
-              <div class="col-sm-2" style="text-align:end;">
+    </div>
+
+    <div class="modal-body">
+        <!---->
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-2" style="text-align:end;">
                 <label style="font-size:24px;">Select Block :</label>
-                </div>
-              <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
                 <div class="form-group"
-                  [ngClass]="{'has-error' : blocksbyassociationControl.invalid && blocksbyassociationControl.touched}">
-                  <select class="ui dropdown search methodDropdown" name="blkBlockID" [(ngModel)]="blkBlockID"
-                    (change)="getcurrentblockdetails(blkBlockID)" required #blocksbyassociationControl='ngModel'>
-                    <option disabled="true" selected="true" value="">Block Name</option>
-                    <option *ngFor='let blck of allblocksbyassnid' [value]="blck['blBlockID']">
-                      {{blck['blBlkName']}}
-                    </option>
-                  </select>
-                  <p class="alerts" *ngIf="blocksbyassociationControl.invalid && blocksbyassociationControl.touched"> Please select
-                    BlockName</p>
+                    [ngClass]="{'has-error' : blocksbyassociationControl.invalid && blocksbyassociationControl.touched}">
+                    <select class="ui dropdown search methodDropdown" name="blkBlockID" [(ngModel)]="blkBlockID"
+                        (change)="getcurrentblockdetails(blkBlockID)" required #blocksbyassociationControl='ngModel'>
+                        <option disabled="true" selected="true" value="">Block Name</option>
+                        <option *ngFor='let blck of allblocksbyassnid' [value]="blck['blBlockID']">
+                            {{blck['blBlkName']}}
+                        </option>
+                    </select>
+                    <p class="alerts" *ngIf="blocksbyassociationControl.invalid && blocksbyassociationControl.touched">
+                        Please select
+                        BlockName</p>
                 </div>
-              </div>
-              <div class="col-sm-2">
+            </div>
+            <div class="col-sm-2">
                 <!-- <a (click)="gotoviewreceipt()">
                   <button type="button" class="btn btn-danger pull-right"><i class="fa fa-times"></i> Cancel</button>
                 </a> -->
-              </div>
             </div>
-            
-            <div class="card">
-              <form #genRe='ngForm' role="form">
+        </div>
+
+        <div class="card">
+            <form #genRe='ngForm' role="form">
                 <div class="row">
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="form-group" [ngClass]="{'has-error' : unUnitIDControl.invalid && unUnitIDControl.touched}">
-                      <label>Select Unit <span class="red">*</span></label>
-                      <select class="custom-select" required name="pyid" #unUnitIDControl='ngModel' [(ngModel)]="pyid"
-                        (change)="rowDetails(pyid)">
-                        <option disabled="true" value="">Select Unit </option>
-                        <option *ngFor='let item of unpaidUnits' [value]="item['pyid']">
-                          {{item['unUnitID']}}
-                        </option>
-                      </select>
-                      <p class="alerts" *ngIf="unUnitIDControl.invalid && unUnitIDControl.touched"> Please Select Unit</p>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
-                      <label>Invoice <span class="red">*</span></label>
-                      <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice" #invoiceControl='ngModel'
-                        placeholder="Invoice Number*" disabled />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label>Amount Due<span class="red">*</span></label>
-                      <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue" placeholder="Amount Due"
-                        disabled />
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
-                      <label>Amount Paid <span class="red">*</span></label>
-                      <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid"
-                        #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$" />
-                      <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
-                      <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
-                    </div>
-                  </div>
-                </div>
-            
-                <div class="row">
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="form-group"
-                      [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
-                      <label>Payment Description <span class="red">*</span></label>
-                      <input type="text" class="form-control" name="paymentDescription" [(ngModel)]="paymentDescription"
-                        #paymentDescriptionControl='ngModel' placeholder="Payment Description" disabled />
-                      <p class="alerts" *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please Select Date of
-                        Payment</p>
-                    </div>
-                  </div>
-          
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="form-group" [ngClass]="{'has-error' : bankControl.invalid && bankControl.touched}">
-                      <label for="validationBABName">Select Bank <span class="red">*</span></label>
-                      <select name="bankname" [(ngModel)]="bankname" #bankControl='ngModel' class="custom-select form-control">
-                        <option value=''>Bank</option>
-                        <option *ngFor='let bank of bankList' [value]="bank">
-                          {{bank}}
-                        </option>
-                      </select>
-                      <div *ngIf="bankControl.invalid && bankControl.touched">
-                          <p class="alerts" *ngIf="bankControl.errors.required">Please Select Bank</p>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : unUnitIDControl.invalid && unUnitIDControl.touched}">
+                            <label>Select Unit <span class="red">*</span></label>
+                            <select class="custom-select" required name="pyid" #unUnitIDControl='ngModel'
+                                [(ngModel)]="pyid" (change)="rowDetails(pyid,'')">
+                                <option disabled="true" value="">Select Unit </option>
+                                <option *ngFor='let item of unpaidUnits' [value]="item['pyid']">
+                                    {{item['unUnitID']}}
+                                </option>
+                            </select>
+                            <p class="alerts" *ngIf="unUnitIDControl.invalid && unUnitIDControl.touched"> Please Select
+                                Unit</p>
                         </div>
                     </div>
-                  </div>
-          
-                  <div *ngIf='false'>
-                    <div class="form-group"
-                      [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
-                      <label>Payment Method <span class="red">*</span></label>
-                      <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod" #paymentmethodControl='ngModel'
-                        required (change)="showMethod(paymentmethod)">
-                        <option disabled="true" selected="true" value="">Select Method </option>
-                        <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
-                          {{paymentby['name']}}
-                        </option>
-                      </select>
-                      <p class="alerts" *ngIf="paymentmethodControl.invalid && paymentmethodControl.touched"> Please Select Method
-                      </p>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+                            <label>Invoice <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="invoice" [(ngModel)]="invoice"
+                                #invoiceControl='ngModel' placeholder="Invoice Number*" disabled />
+                        </div>
                     </div>
-                  </div>
                 </div>
-            
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label>Amount Due<span class="red">*</span></label>
+                            <input type="text" class="form-control" name="amountDue" [(ngModel)]="amountDue"
+                                placeholder="Amount Due" disabled />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+                            <label>Amount Paid <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="amountPaid" [(ngModel)]="amountPaid"
+                                #amountPaidControl='ngModel' placeholder="Amount Paid"
+                                pattern="^[0-9]+(\.[0-9]{1,2})?$" />
+                            <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please
+                                Enter Amount Paid</p>
+                            <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : paymentDescriptionControl.invalid && paymentDescriptionControl.touched}">
+                            <label>Payment Description <span class="red">*</span></label>
+                            <input type="text" class="form-control" name="paymentDescription"
+                                [(ngModel)]="paymentDescription" #paymentDescriptionControl='ngModel'
+                                placeholder="Payment Description" disabled />
+                            <p class="alerts"
+                                *ngIf="paymentDescriptionControl.invalid && paymentDescriptionControl.touched"> Please
+                                Select Date of
+                                Payment</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group" [ngClass]="{'has-error' : bankControl.invalid && bankControl.touched}">
+                            <label for="validationBABName">Select Bank <span class="red">*</span></label>
+                            <select name="bankname" [(ngModel)]="bankname" #bankControl='ngModel'
+                                class="custom-select form-control">
+                                <option value=''>Bank</option>
+                                <option *ngFor='let bank of bankList' [value]="bank">
+                                    {{bank}}
+                                </option>
+                            </select>
+                            <div *ngIf="bankControl.invalid && bankControl.touched">
+                                <p class="alerts" *ngIf="bankControl.errors.required">Please Select Bank</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf='false'>
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : paymentmethodControl.invalid && paymentmethodControl.touched}">
+                            <label>Payment Method <span class="red">*</span></label>
+                            <select class="custom-select" name="paymentmethod" [(ngModel)]="paymentmethod"
+                                #paymentmethodControl='ngModel' required (change)="showMethod(paymentmethod,'')">
+                                <option disabled="true" selected="true" value="">Select Method </option>
+                                <option *ngFor='let paymentby of methodArray' [value]="paymentby['id']">
+                                    {{paymentby['name']}}
+                                </option>
+                            </select>
+                            <p class="alerts" *ngIf="paymentmethodControl.invalid && paymentmethodControl.touched">
+                                Please Select Method
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'Cash' ">
-                        <div class="form-group" [ngClass]="{'has-error' : voucherNoControl.invalid && voucherNoControl.touched}">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : voucherNoControl.invalid && voucherNoControl.touched}">
                             <label>Voucher No <span class="red">*</span></label>
-                            <input type="text" class="form-control" name="voucherNo" [(ngModel)]="voucherNo" #voucherNoControl='ngModel' placeholder="Voucher No " required/>
-                            <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter Voucher No</p>
+                            <input type="text" class="form-control" name="voucherNo" [(ngModel)]="voucherNo"
+                                #voucherNoControl='ngModel' placeholder="Voucher No " required />
+                            <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter
+                                Voucher No</p>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12"  *ngIf="checkField == 'Demand Draft' ">
+                    <div class="col-sm-6 col-xs-12" *ngIf="checkField == 'DemandDraft' ">
                         <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
                             <label>Demand Draft No <span class="red">*</span></label>
-                            <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo" #ddNoControl='ngModel' placeholder="Demand Draft No " required/>
-                            <p class="alerts" *ngIf="ddNoControl.invalid && ddNoControl.touched"> Please Enter Demand Draft No</p>
+                            <input type="text" class="form-control" name="ddNo" [(ngModel)]="ddNo"
+                                #ddNoControl='ngModel' placeholder="Demand Draft No " required />
+                            <p class="alerts" *ngIf="ddNoControl.invalid && ddNoControl.touched"> Please Enter Demand
+                                Draft No</p>
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="row" *ngIf="checkField == 'Cheque'">
                     <div class="col-sm-6 col-xs-12">
-                        <div class="form-group" [ngClass]="{'has-error' : chequeNoControl.invalid && chequeNoControl.touched}">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : chequeNoControl.invalid && chequeNoControl.touched}">
                             <label>Cheque No <span class="red"></span></label>
-                            <input type="text" class="form-control" name="chequeNo" [(ngModel)]="chequeNo" #chequeNoControl='ngModel' placeholder="Cheque No " pattern="^\d+$" />
+                            <input type="text" class="form-control" name="chequeNo" [(ngModel)]="chequeNo"
+                                #chequeNoControl='ngModel' placeholder="Cheque No " pattern="^\d+$" />
                             <p class="alerts" *ngIf="chequeNoControl.errors?.pattern"> Please Enter Valid Cheque No</p>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xs-12">
-                        <div class="form-group" [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
+                        <div class="form-group"
+                            [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
                             <label>Cheque Date <span class="red"></span></label>
-            
+
                             <input type="text" class="form-control" name="chequeDate" #chequeDateControl='ngModel'
-                          placeholder="Chequedate" required [(ngModel)]="chequeDate"
-                          bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }"/>
+                                placeholder="Chequedate" required [(ngModel)]="chequeDate" bsDatepicker
+                                [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
                         </div>
                     </div>
                 </div>
-            
-                <div class="form-group pull-right">                
-                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt()" style="margin-right: 3px"> Create <img *ngIf="true" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button> 
-                    <button type="button" (click)="resetForm()" class="btn btn-primary btn-lg">Reset </button>                           
+
+                <div class="form-group pull-right">
+                    <button type="submit" class="btn btn-primary btn-lg" (click)="generateReceipt(generateReceiptModal1)"
+                        style="margin-right: 3px"> Create <img *ngIf="true"
+                            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button>
+                    <button type="button" (click)="resetForm()" class="btn btn-primary btn-lg">Reset </button>
                 </div>
-            
-              </form>
-            </div>
-          <!---->
+
+            </form>
         </div>
-      </ng-template>
+        <!---->
+    </div>
+</ng-template>
+
+<div class="modal-body">
+    <form #iciciform ngNoForm action="https://test.ipg-online.com/connect/gateway/processing" method="POST"
+        name="iciciPayForm">
+        <input type="hidden" name="chargetotal" [ngModel]="iciciPayForm.chargetotal" />
+        <input type="hidden" name="txntype" [ngModel]="iciciPayForm.txntype">
+        <input type="hidden" name="timezone" [ngModel]="iciciPayForm.timezone" />
+        <input type="hidden" name="txndatetime" [ngModel]="iciciPayForm.txndatetime" />
+        <input type="hidden" name="hash_algorithm" [ngModel]="iciciPayForm.hash_algorithm" />
+        <input type="hidden" name="hash" [ngModel]="iciciPayForm.hash" />
+        <input type="hidden" name="storename" [ngModel]="iciciPayForm.storename" />
+        <input type="hidden" name="mode" [ngModel]="iciciPayForm.mode" />
+        <!-- <input type="hidden" name="paymentMethod" [ngModel]="iciciPayForm.paymentMethod" /> -->
+        <input type="hidden" name="currency" [ngModel]="iciciPayForm.currency" />
+        <input type="hidden" name="responseSuccessURL" [ngModel]="iciciPayForm.responseSuccessURL" />
+        <input type="hidden" name="responseFailURL" [ngModel]="iciciPayForm.responseFailURL" />
+        <input type="hidden" name="language" [ngModel]="iciciPayForm.language" />
+        <!-- <input type="submit" value="Submit"> -->
+    </form>
+
+    <form #kotakform ngNoForm action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"
+        method="POST" name="kotakPayForm" id="nonseamless">
+        <input type="hidden" id="encRequest" name="encRequest" [ngModel]="kotakPayForm.encRequest">
+        <input type="hidden" name="access_code" id="access_code" [ngModel]="kotakPayForm.accessCode">
+    </form>
+</div>
+
+<ng-template #Receipts>
+    <div class="modal-header">
+        <h4 class="modal-title orange">RECEIPT</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+          <div class="card">
+            <form #genRe='ngForm' role="form">
+              <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                  <div class="form-group" [ngClass]="{'has-error' : invoiceControl.invalid && invoiceControl.touched}">
+                    <label>Invoice Number</label>
+                    <input type="text" class="form-control" name="invoicenumber" [(ngModel)]="invoicenumber" #invoiceControl='ngModel'
+                      placeholder="Invoice Number" disabled />
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <label>Amount Due</label>
+                      <input type="text" class="form-control" name="totalAmountDue" [(ngModel)]="totalAmountDue" placeholder="Amount Due"
+                        disabled />
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                  <div class="form-group" [ngClass]="{'has-error' : amountPaidControl.invalid && amountPaidControl.touched}">
+                    <label>Amount Paid <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="totalamountPaid" (keyup)="getAmountPaid($event)" (keypress)=_keyPress($event) [(ngModel)]="totalamountPaid"
+                     (blur)="validateZeroAmount()" #amountPaidControl='ngModel' placeholder="Amount Paid" pattern="^[0-9]+(\.[0-9]{1,2})?$"/>
+                    <p class="alerts" *ngIf="amountPaidControl.invalid && amountPaidControl.touched"> Please Enter Amount Paid</p>
+                    <p class="alerts" *ngIf="amountPaidControl.errors?.pattern"> Please Enter Valid Amount Paid</p>
+                    <p class="alerts" *ngIf="ValidateAmountPaid"> Please Enter Valid Amount to be Paid</p>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label">Select Payment Method</label>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                data-toggle="dropdown">{{paymentMethodType}}
+                                <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                            <ul class="dropdown-menu fullw">
+                                <li *ngFor='let item of methodArray' (click)="showMethod(item['id'],item['displayName'])">
+                                    <a>{{item['displayName']}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          
+              <div class="row" *ngIf="checkField != 'Cash'">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label">Select Bank<span class="red">*</span></label>
+                        <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                 type="button" data-toggle="dropdown">{{expensedataBABName}}
+                                    <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu fullw fdrop">
+                                    <li *ngFor='let bank of bankList' (click)='getexpensedataBABName(bank)'><a>{{bank}}</a></li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="checkField == 'Cash'">
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : voucherNoControl.invalid && voucherNoControl.touched}">
+                          <label>Voucher No <span class="red">*</span></label>
+                          <input type="text" class="form-control" name="receiptVoucherNo" [(ngModel)]="receiptVoucherNo" #voucherNoControl='ngModel' placeholder="Voucher No " required/>
+                          <p class="alerts" *ngIf="voucherNoControl.invalid && voucherNoControl.touched"> Please Enter Voucher No</p>
+                      </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : paymentDateControl.invalid && paymentDateControl.touched}">
+                          <label>Payment Date<span class="red">*</span></label>
+                          <input type="text" class="form-control" name="paymentDate" #paymentDateControl='ngModel'
+                            placeholder="Payment Date" required [bsConfig]="bsConfig" [(ngModel)]="paymentDate" #PaymentDate='bsDatepicker'
+                            bsDatepicker [minDate]="minPaymentDateDate" [maxDate]="maxPaymentDateDate"/>
+                            <p class="alerts" *ngIf="paymentDateControl.invalid && paymentDateControl.touched"> Please Select Payment Date</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="row" *ngIf="checkField == 'DemandDraft'">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : ddNoControl.invalid && ddNoControl.touched}">
+                        <label>Demand Draft No <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="receiptddNo" [(ngModel)]="receiptddNo" #ddNoControl='ngModel' placeholder="Demand Draft No " required/>
+                        <p class="alerts" *ngIf="ddNoControl.invalid && ddNoControl.touched"> Please Enter Demand Draft No</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group" [ngClass]="{'has-error' : demandDraftDateControl.invalid && demandDraftDateControl.touched}">
+                        <label>Demand Draft Date <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="receiptEXDDDate" #demandDraftDateControl='ngModel'
+                            placeholder="Demand Draft Date" required [bsConfig]="bsConfig" [(ngModel)]="receiptEXDDDate" #expdddate='bsDatepicker'
+                            bsDatepicker [minDate]="minDemandDraftDate" />
+                    
+                        <p class="alerts" *ngIf="demandDraftDateControl.invalid && demandDraftDateControl.touched"> Please Select
+                            DemandDraft Date</p>
+                    </div>
+                </div>
+              </div>
+          
+              <div class="row" *ngIf="checkField == 'Cheque'">
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : chequeNoControl.invalid && chequeNoControl.touched}">
+                          <label>Cheque No <span class="red"></span></label>
+                          <input type="text" class="form-control" name="receiptChequeNo" [(ngModel)]="receiptChequeNo" #chequeNoControl='ngModel' placeholder="Cheque No " pattern="^\d+$" />
+                          <p class="alerts" *ngIf="chequeNoControl.errors?.pattern"> Please Enter Valid Cheque No</p>
+                      </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                      <div class="form-group" [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
+                          <label>Cheque Date <span class="red"></span></label>
+          
+                          <input type="text" class="form-control" name="receiptChequeDate" #chequeDateControl='ngModel'
+                        placeholder="Chequedate" required [(ngModel)]="receiptChequeDate"
+                        bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }"/>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12"><textarea placeholder="Enter Comments..." rows="4" cols="74" name="comment"></textarea></div>
+                
+              </div>
+              <div class="row">                
+                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <button style="float: right;" type="button" (click)="resetForm()" class="btn btn-primary-purple m-r">Reset </button>                           
+              </div>
+          
+            </form>
+          </div>
+    </div>
+</ng-template>
+
+<ng-template #ViewReceiptTemplate>
+
+    <div id="printReceipt">
+        <div class="modal-header">
+            <h4 class="modal-title orange">RECEIPT</h4>
+            <button type="button" style="margin-right: 11px;margin-top: -19px;" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="receipt-head">
+                <p class="purple">{{globalservice.getCurrentAssociationName()}}</p>
+                <p style="text-align: center">Address:No. 254/185/26, 2nd Main, “Baswer Sannidhi” Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd Bengaluru 560100 India</p>
+            </div>
+            <!-- <p class="summary">Receipt Summary</p> -->
+            <div class="receipt-head" style="align-items: flex-start;">
+                <div>
+                    <p class="nm"><strong>Unit:</strong> {{UnitNameForViewReceipt}}</p>
+                    <p class="nm"><strong>Invoice Number:</strong> {{InvoiceNumForViewReceipt}}</p>
+                    <p class="nm"><strong>Payment Date:</strong> {{paymentDateForViewReceipt|date:'dd/MM/yyyy'}}</p>
+                    <p><strong>Reciept Id:</strong> {{InvoiceNumForViewReceipt}}</p>
+                </div>
+            </div>
+            <p>Received Rupees <b>{{AmountDueForViewReceipt | words}}</b> from Name of Unit <b>{{UnitName}}</b></p>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Account Applied #BILL NO</th>
+                        <th style="text-align: center;">Amout Recieved</th>
+                    </tr>
+                    <tr>
+                        <!-- <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td> -->
+                        <td>Amount Paid {{paymentDateForViewReceipt|date:'dd/MM/yyyy'}}</td>
+                        <td>₹ {{AmountDueForViewReceipt}}.00</td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+            <div class="receipt-head" style="align-items: flex-start;">
+                    <div>
+                        <p><strong>Payment Instrument:</strong> {{paymentTypeInViewReceipt}}</p>
+                        <p><strong>Instrument Bank:</strong> {{isPaidForViewReceipt}}</p>
+                        <!-- <p><strong>Reference Number:</strong> {{pyRefNo}}</p> -->
+                    </div>
+            </div>
+            <p class="succtrans">Transaction Successful</p>
+            <p style="text-align: center;">Electronically generated;does not require a signature.</p>
+            <p style="text-align: right;">Generated From : <strong>OyeSociety</strong></p>
+            <div class="print-receipt">
+                <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print Receipt</button>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-header">
+        <h4 class="modal-title orange">RECEIPT</h4>
+      
+    </div>
+    <div class="modal-body">
+        <div class="receipt-head">
+            <p class="purple">Godrej Association</p>
+            <p>A-104</p>
+        </div>
+        <p class="summary">Receipt Summary</p>
+        <div class="receipt-head">
+            <div>
+                <p><strong>Invoice Number:</strong> A1047367647383</p>
+                <p><strong>Payment Date:</strong> November 21,2019</p>
+            </div>
+            <p>Reciept Id-10498776</p>
+        </div>
+        <table class="table">
+
+            <tbody>
+                <tr>
+                    <td>Amout Due</td>
+                    <td>₹ 500.00</td>
+                </tr>
+                <tr>
+                    <td>Amount Paid</td>
+                    <td>₹ 300.00</td>
+                </tr>
+                <tr>
+                    <td>Current Outstanding</td>
+                    <td>(-)₹ 200.00</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <div class="print-receipt">
+            <button class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print
+                Receipt</button>
+        </div>
+    </div> -->
+</ng-template>

@@ -39,7 +39,7 @@ export class ViewExpensesService {
   }
 
   getAssociationList(currentAssociationID) {
-    console.log('getAssociationList', currentAssociationID);
+    //console.log('getAssociationList', currentAssociationID);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.getassociationlist();
     this.url = `${ipAddress}oyeliving/api/v1/association/getAssociationList/${currentAssociationID}`;
@@ -70,7 +70,7 @@ export class ViewExpensesService {
   }*/
 
   GetExpenseListByAssocID(currentAssociationID): Observable<Viewexpense[]>{
-    console.log('GetExpenseListByAssocID')
+    //console.log('GetExpenseListByAssocID')
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.GetExpenseListByAssocID();
     this.url = `${ipAddress}oyeliving/api/v1/Expense/GetExpenseListByAssocID/${currentAssociationID}`;
@@ -125,16 +125,16 @@ export class ViewExpensesService {
   }
 
   GetBlockListByBlockID(data: object): Observable<Viewexpense[]> {
-    console.log('expenseByAssoc', data['data'].expenseByAssoc);
-    console.log('GetBlockListByBlockID')
+    //console.log('expenseByAssoc', data['data'].expenseByAssoc);
+    //console.log('GetBlockListByBlockID')
     this.block = data['data'].expenseByAssoc[0].blBlockID;
     let headers = this.getHttpheaders();
     this.url = `${this.ipAddress}oyeliving/api/v1/Block/GetBlockListByBlockID/${this.block}`;
     return this.http.get(this.url, { headers: headers })
       .pipe(map(obj => {
-        console.log('length', data['data'].expenseByAssoc.length);
+        //console.log('length', data['data'].expenseByAssoc.length);
         this.totalItems = data['data'].expenseByAssoc.length;
-        console.log('expenseByAssoc', data['data'].expenseByAssoc);
+        //console.log('expenseByAssoc', data['data'].expenseByAssoc);
         return data['data'].expenseByAssoc.map(item => {
           return new Viewexpense
             (item.exid,
@@ -201,7 +201,7 @@ export class ViewExpensesService {
   }
 
   generateInvoice_post(data: object) {
-    console.log('data', data);
+    //console.log('data', data);
     let headers = this.getHttpheaders();
     this.invoiceLists = data['data'].invoices;
     let test = '';
@@ -214,7 +214,7 @@ export class ViewExpensesService {
     }
     let ipAddress=this.utilsService.generateInvoice();
     let url = `${ipAddress}oyeliving/api/v1/invoice/generate`
-    console.log('generateinvoice', test);
+    //console.log('generateinvoice', test);
     return this.http.post(url, JSON.stringify(test), { headers: headers });
   }
 
@@ -224,11 +224,11 @@ export class ViewExpensesService {
     this.url = `${this.ipAddress}oyeliving/api/v1/Unit/GetUnitListByBlockID/${this.block}`;
     this.http.get(this.url, { headers: headers })
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
       });
   }
   deleteExpense(viewexpense) {
-    console.log('viewexpense', viewexpense);
+    //console.log('viewexpense', viewexpense);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.deleteExpense();
     this.url = `${ipAddress}oyeliving/api/v1/Expense/ExpenseUpdate`;
@@ -276,14 +276,14 @@ export class ViewExpensesService {
       });
   }
   updateExpense(editexpensedata: EditExpenseData) {
-    console.log(JSON.stringify(editexpensedata));
+    //console.log(JSON.stringify(editexpensedata));
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.updateExpense();
     this.url = `${ipAddress}oyeliving/api/v1/Expense/ExpenseUpdate`;
     return this.http.post(this.url, JSON.stringify(editexpensedata), { headers: headers });
   }
   getExpenseListByDatesAndID(expenseList) {
-  console.log(expenseList);
+  //console.log(expenseList);
     let scopeIP=this.utilsService.getExpenseListByDatesAndID();
     let headers = new HttpHeaders().set('Authorization', 'my-auth-token')
     .set('Content-Type', 'application/json')

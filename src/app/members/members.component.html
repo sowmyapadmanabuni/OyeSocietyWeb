@@ -1,0 +1,184 @@
+<div class="container-fluid np">
+    <div class="col-sm-12 mt-80">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+
+        <!--Profile section-->
+
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <div class="enroll">
+                    <span class="purple">Member list for {{globalService.getCurrentAssociationName()}}</span>
+                    <button style="float: right;margin-bottom: 5px;" class="btn-primary-purple" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotificationAll"><i class="fa fa-bell-o" aria-hidden="true"></i> Send Notification</button>
+                </div>
+                <div>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search name">
+                </div>
+                <div class="dropdown" style="width: 200px;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowRecords=='ShowRecords'?ShowRecords:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                            <a>{{rows['Display']}}</a></li>
+                    </ul>
+                </div>
+                <div class="dash-row">
+                    <table class="table table-bordered"
+                    [mfData]="allMemberByAccount| search:['unUniName', 'unOcStat', 'owner']:searchTxt"
+                    #mf="mfDataTable" [mfRowsOnPage]="setnoofrows" (click)="onPageChange($event)">
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No.
+                            </th>
+                            <th>
+                                <mfDefaultSorter (click)="removeColumnSort('BlockName')" by="blBlkName">Block Name&nbsp;<i [hidden]="columnName=='BlockName'" class="fa fa-sort"></i></mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name&nbsp;<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter (click)="removeColumnSort('MobileNumber')" by="uoMobile">Mobile Number&nbsp;<i [hidden]="columnName=='MobileNumber'" class="fa fa-sort"></i></mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter (click)="removeColumnSort('OccupancyStatus')" by="unOcStat">Occupancy Status&nbsp;<i [hidden]="columnName=='OccupancyStatus'" class="fa fa-sort"></i></mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter (click)="removeColumnSort('Vehicles')" by="vehcleCount">Vehicles&nbsp;<i [hidden]="columnName=='Vehicles'" class="fa fa-sort"></i></mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter (click)="removeColumnSort('Role')" by="uoRoleID">Role&nbsp;<i [hidden]="columnName=='Role'" class="fa fa-sort"></i></mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter>Change Role</mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter>Action</mfDefaultSorter>
+                            </th>
+                            <th><input type="checkbox" [(ngModel)]='toggleSetNotification' (change)="SetAllNotification(toggleSetNotification)"/>
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data;let i=index">
+                            <ng-container *ngIf="item == -1">
+                                <td colspan="5" align="center">No Data Found</td>
+                            </ng-container>
+                            <ng-container *ngIf="item!=-1">
+                                <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
+                                <td>{{item['blBlkName']}}</td>
+                                <td>{{item['unUniName']}}</td>
+                                <td>{{item['uofName']}}</td>
+                                <td>{{item['uoMobile']}}</td>
+                                <td>{{item['unOcStat']}}</td>
+                                <td class="txt-middle">{{item['vehcleCount']}}</td>
+                                <td>{{item['uoRoleID']}}</td>
+                                <td class="txt-middle">
+                                    <div *ngIf="item['uoRoleID']!=''" class="dropdown search-dropd" style="margin-top:0px">
+                                        <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
+                                                data-toggle="dropdown">{{(SelectedUnitID==item['unUnitID']?ChangeRole:'SelectRole')}}
+                                                <span class="caret"></span></button>
+                                        <ul class="dropdown-menu fullw fdrop" style="height: 65px !important;min-width: 133px !important;">
+                                                <li (click)="AdminCreate(item['uoMobile'],item['unUnitID'],rl['RoleId'],rl['Role'])" *ngFor="let rl of item['Role']"><a >{{rl['Role']}}</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td class="txt-middle"><i class="fa fa-bell-o" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotification"></i></td>
+                                <td class="txt-middle"><input type="checkbox" [value]="item.SetIndividualNotification" (change)="setIndividualNotification(item.SetIndividualNotification)" [(ngModel)]='item.SetIndividualNotification'/>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="11">
+                                <mfBootstrapPaginator></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                </div>
+            </div>
+            <!--Dashboard icons end-->
+            <!--Add Blocks form Starts-->
+            <div class="col-sm-12" *ngIf="enableAddBlocksView">
+
+                <app-add-blocks></app-add-blocks>
+            </div>
+            <!--Add Blocks form Ends-->
+        </div>
+
+    </div>
+    <!--rightBar start-->
+    <!-- <app-right-bar></app-right-bar> -->
+    <!--rightBar end-->
+</div>  
+  
+<!-- Popup For Single Notification -->
+<div class="modal fade" id="SendMsgAsNotification" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-top:20px;">
+                <h4 class="modal-title" id="myModalLabel">Send Notification with text</h4>
+                <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea placeholder="Enter Message...." [(ngModel)]="NotificationMessage" rows="4" cols="74" name="NotificationMessage"></textarea>
+                        <button (click)='sendNotification()' class="btn btn-primary-purple">SendNotification</button>
+                    </div>
+                    
+                  </div>
+                 </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup For Bulk Notification -->
+<div class="modal fade" id="SendMsgAsNotificationAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-top:20px;">
+                <h4 class="modal-title" id="myModalLabel">Send Notification to all with text</h4>
+                <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea placeholder="Enter Message...." [(ngModel)]="NotificationMessage" rows="4" cols="74" name="NotificationMessage"></textarea>
+                        <button (click)='SendNotificationToAll()' class="btn btn-primary-purple">SendNotification</button>
+                    </div>
+                    
+                  </div>
+                 </div>
+        </div>
+    </div>
+</div>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+

@@ -84,6 +84,10 @@
     .stepwizard-step {display: flex;text-align: center;border-right: 1px solid #cfcaca;padding: 3px 0px !important;justify-content: space-evenly;align-items: center;font-weight: 600;color: #5a51aa;}
     /* .btn-circle { width: 30px;height: 30px;text-align: center;font-size: 12px;line-height: 1.428571429;border-radius: 15px;} */
     .btn-circle::before{content: "\f05d"; font-family: FontAwesome;font-size: 22px;}
+    .btn-success:hover, .btn-success{color: #fff;background-color: #5a51aa;border-color:#5a51aa;}
+.btn-circle::before{content: "\f05d"; font-family: FontAwesome;font-size: 22px;}
+.btn-circle-o::before{content: "\f10c"; font-family: FontAwesome;font-size: 22px;}
+
     .date::before{content: "\f05d"; font-family: FontAwesome;font-size: 22px;}
     .panel {float: left;width: 100%;margin-bottom: 20px;background-color: #fff;border: 1px solid transparent;border-radius: 0px;box-shadow: 0px 0px 4px 3px #e5dfdf;padding: 43px 3px;border: none;}
     label{font-size:12px !important;font-weight: 500 !important}

@@ -1,12 +1,12 @@
-<div class="container-fluid bg np">
-    <div class="col-sm-9">
+<div class="container-fluid np">
+    <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Staffs</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
+                    <span class="black">Staffs</span>
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li><a (click)="goToGuests()">My Guests</a></li>
@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="m-t-30">
-                            <img src="../../assets/images/icons/user.png"> Lakshmi (Maid) <span style="float: right;"><i
+                            <img src="../../assets/images/icons/user.png"> Maid  <span style="float: right;"><i
                                     class="fa fa-share-alt" aria-hidden="true"></i>
                             </span>
                         </div>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="dash-row table-responsive">
-                            <table class="table table-striped" [mfData]="WorkerNameList | search:['wkfName', 'wkDesgn', 'wkMobile']:searchTxt"
+                            <table class="table table-bordered" [mfData]="WorkerNameList | search:['wkfName', 'wkDesgn', 'wkMobile']:searchTxt"
                             #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
@@ -99,7 +99,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="6">
                                         <mfBootstrapPaginator></mfBootstrapPaginator>
                                     </td>
                                 </tr>
@@ -229,7 +229,7 @@
         </div>
     </div>
     <!--rightBar start-->
-    <app-right-bar></app-right-bar>
+    <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
 

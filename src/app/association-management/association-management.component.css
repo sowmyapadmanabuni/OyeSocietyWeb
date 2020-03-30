@@ -1,8 +1,10 @@
 .bg{padding: 50px 0px !important;}
 .black{color: #333333;}
-.enroll{display: flex;justify-content: flex-end;align-items: center;margin-bottom: 30px;}
+.enroll{display: flex;justify-content: flex-end;align-items: center;}
 /* .bg-grey{background: #f1eded26;} */
+.lab{ width: 250px;}
 a{cursor: pointer;}
+.mr{margin-right: 20px;}
 .f-des{padding-left: 10px;font-weight: 500;}
 .m-top{margin-top: 20px;font-weight: 500;}
 .search-dropd{border: 1px solid #63616136;padding: 4px;border-radius: 6px;box-shadow: 0px 6px 9px 1px #ecebeb;width: 200px;margin: 0px 10px;}
@@ -27,8 +29,8 @@ a{cursor: pointer;}
 .dash-row{display: flex;justify-content: space-around;align-items: center;}
 .dash-row>div{background: white;box-shadow: 0px 2px 10px 2px #a2a2a2;padding: 0px 10px;border-radius: 14px;display: flex;justify-content: space-around;margin: 20px 7px;width: 200px;height: 100px;align-items: center;}
 .fulw{width:100%}
+.view-head{font-weight: 400 !important;color: #000;}
 .view-ass{background: #5a51aa;color: #FFF;padding: 13px;margin: 0px;}
-
 @media only screen and (min-width: 320px) and (max-width: 600px)  {
 .search-dropd{margin-bottom: 20px}
 .form-group,.form-group1 {width: 100% !important;}
@@ -38,13 +40,12 @@ a{cursor: pointer;}
 .search-dropd{margin: 4px 0px;border: 1px solid #63616136;padding: 4px;border-radius: 6px;box-shadow: 0px 6px 9px 1px #ecebeb;}
 } 
 .btn-success:hover, .btn-success{color: #fff;background-color: #5a51aa;border-color:#5a51aa;}
-
-
+.btn-circle::before{content: "\f05d"; font-family: FontAwesome;font-size: 22px;}
+.btn-circle-o::before{content: "\f10c"; font-family: FontAwesome;font-size: 22px;}
 @media only screen and (min-width: 230px) and (max-width: 992px)  {
 .profile{flex-direction: row;justify-content: space-evenly;}
 .b-l{border:none !important}
 .bg{ background-size: cover;}
-
 }
 @media only screen and (min-width: 240px) and (max-width: 640px)  {
 .dash-row {flex-direction: column;}
@@ -60,7 +61,6 @@ a{cursor: pointer;}
 }
 @media only screen and (min-width: 340px) and (max-width: 992px)  {
 .search-results{margin-top:0px}
-
 }
 @media only screen and (min-width: 340px) and (max-width: 1150px)  {
 .result-row{flex-direction: column}
@@ -70,6 +70,16 @@ a{cursor: pointer;}
 .stepwizard-step{padding: 6px 12px !important;justify-content: start !important;}
 .btn-circle{margin:0px 10px !important}
 }
+.gst-hide{
+    display: none;
+}
+div .stepwizard-step li{
+    list-style-type: none;
+}
 
-
+.container-outer { overflow: scroll; width: 500px; height: 210px; }
+.container-inner { width: 10000px; }
+.ng-star-inserted1{
+    display: flex;
+}
 

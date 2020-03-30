@@ -17,6 +17,7 @@ export class NewAmenityComponent implements OnInit {
   AmenityId: number;
   AmenityT: string;
   AmenityN: string;
+  amenityType:any;
 
 
   constructor() {
@@ -24,6 +25,7 @@ export class NewAmenityComponent implements OnInit {
     this.addAmenities=new EventEmitter<any>();
     this.newamenity.AMType = '';
     this.newamenity.NoofAmenities = '';
+    this.amenityType='SelectAmenity';
   }
 
   ngOnInit() {
@@ -32,13 +34,18 @@ export class NewAmenityComponent implements OnInit {
   ngOnChanges() {
 
   }
-
+  getAmenity(amenity) {
+    this.amenityType = amenity;
+    this.newamenity.AMType = amenity;
+    console.log(this.newamenity.AMType);
+  }
   addAmenity() {
     //this.AmenityId += 1;
     //alert('new-amenity - addamenity');
     this.addAmenities.emit(this.newamenity);
     this.newamenity.AMType = '';
     this.newamenity.NoofAmenities = '';
+    this.amenityType='SelectAmenity';
   }
 
   deleteAmenity(AMType) {

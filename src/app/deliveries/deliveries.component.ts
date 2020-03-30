@@ -15,6 +15,9 @@ export class DeliveriesComponent implements OnInit {
   deliveryListLength: boolean;
   EndDate: any;
   StartDate: any;
+  searchTxt:any;
+  todayDate:any;
+  bsConfig:any;
 
   constructor(private globalService: GlobalServiceService, private deliveryService: ViewDeliveryService,
     private modalService: BsModalService,
@@ -23,6 +26,12 @@ export class DeliveriesComponent implements OnInit {
     this.deliveryListLength = false;
     this.EndDate = '';
     this.StartDate = ''
+    this.bsConfig = Object.assign({}, {
+      // containerClass: 'theme-orange',
+      dateInputFormat: 'DD-MM-YYYY',
+      showWeekNumbers: false,
+      isAnimated: true
+      });
   }
 
   ngOnInit() {
@@ -39,24 +48,24 @@ export class DeliveriesComponent implements OnInit {
     this.router.navigate(['deliveries']);
   }
   getVisitorList(e:any) {
-    console.log(e);
+    //console.log(e);
     this.EndDate=e;
     let date = {
       "StartDate": this.StartDate,
       "EndDate": this.EndDate
     }
-    console.log(date);
+    //console.log(date);
     this.deliveryService.getVisitorList(date)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.deliveryList = data['data']['visitorlog'];
-        console.log(this.deliveryList);
+        //console.log(this.deliveryList);
         if (this.deliveryList.length > 0) {
           this.deliveryListLength = true;
         }
       },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
   }

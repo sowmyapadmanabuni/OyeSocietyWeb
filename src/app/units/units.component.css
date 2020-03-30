@@ -1,10 +1,12 @@
-.bg{
-    padding: 50px 0px !important;
-    }
+.bg{padding: 50px 0px !important;}
+.upload_excel{display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+    align-items: center;}
     .enroll{    display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 30px;}
+        margin-bottom: 0px;}
     /* .bg-grey{background: #f1eded26;} */
     a{cursor: pointer;}
     .f-des{padding-left: 10px;font-weight: 500;}
@@ -50,13 +52,8 @@
     align-items: center;}
     .dash-row{display: flex;justify-content: space-around;align-items: center;}
     .dash-row>div{background: white;box-shadow: 0px 2px 10px 2px #a2a2a2;padding: 0px 10px;border-radius: 14px;display: flex;justify-content: space-around;margin: 20px 7px;width: 200px;height: 100px;align-items: center;}
-    
-    .nav-pills>li.active>a{background: orange !important;border-radius: 30px;color: #fff !important;font-size: 15px;font-weight: 600;}  
-    .nav-pills{display: flex;justify-content: flex-end;margin-bottom: 20px !important;width: 144px;border: 2px solid #f4a540;border-radius: 33px;color: red;}
-    .nav>li>a:hover{background:none !important;}
-    .nav>li>a{color:#f4a540 !important;font-weight: 600;}
+   
 .model-content{padding: 20px 50px !important;}
-
     @media only screen and (min-width: 320px) and (max-width: 600px)  {
     
     .search-dropd{margin-bottom: 20px}
@@ -76,7 +73,6 @@
     border-radius: 6px;
     box-shadow: 0px 6px 9px 1px #ecebeb;}
     } 
-
     .title{font-size: 16px;margin: 0px 52px 18px 52px;color: #5a51aa;}
     .stepwizard-step p {margin-top: 0px;color:#666;}
     .stepwizard-row {display: table-row;}
@@ -101,8 +97,6 @@
     .enrollassociationshow{display: block}
     .stepwizard-step:last-child{border-right:none}
     .step-active{border-bottom: 3px solid #5a51aa;}
-
-
 
     @media only screen and (min-width: 230px) and (max-width: 992px)  {
     .profile{flex-direction: row;justify-content: space-evenly;}
@@ -129,8 +123,3 @@
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
     }
-    
-    
-    
-    
-    

@@ -1,4 +1,4 @@
-<div class="container-fluid bg np">
+<div class="container-fluid bg np" style="margin-top: 20px;">
     <div class="col-sm-9">
       <!--Profile section-->
       <app-left-bar></app-left-bar>
@@ -6,48 +6,46 @@
       <div class="col-xs-12 col-sm-12 col-md-11 b-l">
         <span class="black">General Ledger</span>
         <div class="cus-panel">
-          <div>
+          <div style="display: flex;"> 
             <!--top header-->
             <div><img src="../../assets/images/icons/printer.png"></div>
-            <div>
-               <p>From</p>
-               <p>To</p>
-            </div> 
+            <div style="display: flex;">
+                <div>
+                    <div class="del-date cal"><input type="text" name="StartDate" #StartDateControl='ngModel' [(ngModel)]="StartDate" placeholder="From Date" class="date" bsDatepicker></div>
+                  </div> 
+                  <div> 
+                    <div class="del-date cal"><input type="text" (change)='getVisitorList()' name="ToDate" #ToDateControl='ngModel'  [(ngModel)]="ToDate" placeholder="To Date" class="date" bsDatepicker></div>
+                </div>
+            </div>
             <!--top header-->
           </div>
           <div>
-            <div class="cus-details">
-              <p></p>
-              <p><b>Date:</b> November 30, 2019</p>
-              <p class="bill">Bill To</p>
-              <p><b>Name:</b></p>
-              <p><b>Company Name:</b></p>
-              <p><b>Street Address:</b></p>
-              <p><b>City:</b></p>
-              <p><b>Phone Number</b></p>
-            </div>
-            <div class="cus-details">
-              <p><b>Statement:</b> November 30, 2019</p>
-              <p><b>Customer Id:</b> YUI18293</p>
-              <p class="bill">Account Summary</p>
-              <p><b>Previous Balance</b></p>
-              <p><b>Credits</b></p>
-              <p><b>New Charges</b></p>
-              <p><b>Total Balance Due</b></p>
-              <p><b>Payment Due Date</b></p>
-            </div>
+              <table class="table table-bordered" style="box-shadow: 0px 1px 3px 0px #d4d1d1ee;">
+                  <thead>
+                    <tr>
+                      <th style="color: #fff !important;">General Ledger Sheet</th>
+                      <th style="color: #fff !important;">Sheet No 21</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Account: Electricity Expense</td>
+                      <td>Account NO</td>                    
+                    </tr>                
+                  </tbody>
+                </table>
           </div>
   
           <div>
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="margin: 0px;">
               <thead>
                 <tr>
                   <th style="color: #fff !important;">Date</th>
-                  <th style="color: #fff !important;">Invoice</th>
-                  <th style="color: #fff !important;">Description</th>
-                  <th style="color: #fff !important;"> Charges</th>
-                  <th style="color: #fff !important;">Credits</th>
-                  <th style="color: #fff !important;">Total</th>
+                  <th style="color: #fff !important;">Details</th>
+                  <th style="color: #fff !important;">Ref</th>
+                  <th style="color: #fff !important;">Debit</th>
+                  <th style="color: #fff !important;">Credit</th>
+                  <th style="color: #fff !important;">Balance</th>
                 </tr>
               </thead>
               <tbody>
@@ -75,26 +73,10 @@
                   <td>10</td>
                   <td>12345</td>
                 </tr>
-                <tr style="text-align: right;">
-                  <td colspan="6">
-                    <p style="color: #000;font-size: 17px;">Account total Balance: 2,000</p>
-                  </td>
-                </tr>
+                
               </tbody>
             </table>
-          </div>
-          <p class="txt-center">It is a long established fact that a reader will be distracted by the readable content of
-            a page when looking at its layout. The point of using Lorem Ipsum</p>
-          <p class="txt-center">Make All the cheque payable to my company name</p>
-          <h5 class="txt-center">Thank You For Your Business</h5>
-          <hr>
-          <p style="text-align: center;">Neo Town, Electronic city Phase 1, Bengaluru-560010</p>
-          <div>
-            <p><b>Telephone:</b> 7876878576</p>
-            <p><b>Fax:</b> 343233454352</p>
-            <p><b>Email:</b> info@OyeSpace.com</p>
-            <p><b>Website:</b> www.OyeSpace.com</p>
-          </div>
+          </div>     
         </div>
       </div>
     </div>

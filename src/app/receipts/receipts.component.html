@@ -1,83 +1,239 @@
-<div class="container-fluid bg np">
-    <div class="col-sm-9">
+<!--/*/*/*/* RECIPTS FOR ADMIN START /*/*/*/*-->
+<div *ngIf="globalservice.mrmroleId == 1 && localMrmRoleId != '2'" class="container-fluid np">
+    <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-            <span class="black">Receipts For Manyata Association</span>
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                <div class="switch">
-                    <ul class="nav nav-pills">
-                        <li><a (click)="goToExpense()">Expenses</a></li>
-                        <li><a (click)="goToInvoice()">Invoice</a></li>
-                        <li class="active"><a (click)="goToReceipts()">Receipts</a></li>
+                <div class="enr-bt">
+                    <div style="display: flex;align-items: center;">
+                    <span class="black">Receipts For {{globalservice.currentAssociationName}} Of Unit </span>
+                <div class="dropdown"
+                    style="width: 200px;margin-right: 11px !important;margin-top: -8px !important;margin-left: 7px !important;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" data-toggle="dropdown"
+                        style="width: 200px;margin-right: 20px;">{{(currentBlockName == ''?'Blocks':currentBlockName)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw ">
+                        <li (click)="getCurrentBlockName(item['blBlkName'])" *ngFor='let item of allBlocksLists'>
+                            <a>{{item['blBlkName']}}</a></li>
                     </ul>
                 </div>
-                <div class="enroll">
-                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-file-pdf-o"
-                            aria-hidden="true"></i> Invoiced</button>
-                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-file-text"
-                            aria-hidden="true"></i> Generate invoice</button>
-                    <button class="btn-primary-purple" (click)="openModal(template)"><i class="fa fa-plus"
-                            aria-hidden="true"></i> Add Expense</button>
+                    <div [ngClass]="{'dropdown open':currentBlockName != ''}" style="width: 200px;margin-left: 10px; margin-top: -7px;">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                            data-toggle="dropdown">{{(UnitNameForDisplay == ''?'Select Unit':UnitNameForDisplay)}}
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul *ngIf="toggleUL" class="dropdown-menu fullw" style="height: 200px;">
+                            <li *ngFor='let item of associationTotalMembers'
+                                (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
+                                <a>{{item['unUniName']}}</a></li>
+                        </ul>
+                    </div> 
+                        
+                </div>
+                    <div class="switch">
+                        <ul class="nav nav-pills">
+                            <li><a (click)="goToExpense()">Expenses</a></li>
+                            <li><a (click)="goToInvoice()">Invoice</a></li>
+                            <li class="active"><a (click)="goToReceipts()">Receipts</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
+                <div *ngIf='generatereceiptservice.enableReceiptListView'>
+                    <!-- <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+                        placeholder="search name"> -->
+                        <div class="enroll" style="background: #f8f8f8;padding:10px;">
+                            <div class="sea"><input type="text" [(ngModel)]="searchTxt" id="mySearch" name="searchTxt" placeholder="Search Name">
+                            </div>
+                            <div class="del-date cal"><input type="text" name="ReceiptStartDate" #InvoiceStartDateControl='ngModel' [(ngModel)]="ReceiptStartDate" #StartDate placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig" (keyup)='validateDate($event,StartDate,EndDate)' (blur)="GetReceiptList()"></div>
+                            <div class="del-date cal"><input type="text" (bsValueChange)="getReceiptListByDateRange($event)" name="ReceiptEndDate" #InvoiceEndDateControl='ngModel'  [(ngModel)]="ReceiptEndDate" #EndDate placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig" (keyup)='validateDate($event,StartDate,EndDate)' (blur)="GetReceiptList()"></div>
+                        </div>
+                        <div class="dropdown" style="width: 200px;">
+                            <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+                                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                            <ul class="dropdown-menu fullw">
+                                <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                                    <a>{{rows['Display']}}</a></li>
+                            </ul>
+                        </div>
+                </div>
+                <div  class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
+
+                    <table class="table table-bordered"
+                        [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pydCreated','pyAmtPaid']:searchTxt"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUnitID">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNo')" by="inNumber">Invoice No&nbsp;<i [hidden]="columnName=='InvoiceNo'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pydCreated">Payment Date&nbsp;<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <!-- <th>
+                                    Action
+                                </th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{item['unUniName']}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])" class="amount">{{item['pydCreated'] | date : "d-M-y"}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])" class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}.00</td>
+                                    <!-- <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
+                                            (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
+                                            class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
+
+                                    <!-- <td> <i style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'])"
+                                            class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
+                                </ng-container>
+                            </tr>
+                            <tr *ngIf="viewPayments.length == 0">
+                                <ng-container>
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div *ngIf='generatereceiptservice.enableGenerateReceiptView' class="dash-row">
+                    <app-generate-receipt></app-generate-receipt>
+                </div>
+                <div class="t-right"><a (click)="convert()">Generate PDF</a></div>
+            </div>
+            <!--Dashboard icons end-->
+
+        </div>
+
+    </div>
+    <!--rightBar start-->
+    <!-- <app-right-bar></app-right-bar> -->
+    <!--rightBar end-->
+</div>
+<!--/*/*/*/* RECIPTS FOR ADMIN END /*/*/*/*-->
+
+
+<!--/*/*/*/* RECIPTS FOR RESIDENT START /*/*/*/*-->
+<div *ngIf="globalservice.mrmroleId != 1 || localMrmRoleId == '2'" class="container-fluid np">
+    <div class="col-sm-12 mt-80">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                 <div class="enr-bt">
+                        <span class="black">Receipts For {{globalservice.currentAssociationName}}</span>
+
+                        <div class="switch">
+                            <ul class="nav nav-pills" style="width: 214px;">
+                                <li><a (click)="goToResidentInvoice()">Invoice</a></li>
+                                <li class="active"><a (click)="goToReceipts()">Receipts</a></li>
+                            </ul>
+                        </div>
+                 </div>
+
+                
+                <div *ngIf='generatereceiptservice.enableReceiptListView'>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+                        placeholder="search name">
+                </div>
+                <div *ngIf='generatereceiptservice.enableReceiptListView' class="dropdown" style="width: 200px;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                            <a>{{rows['Display']}}</a></li>
+                    </ul>
+                </div>
+                <div  class="dash-row" *ngIf='generatereceiptservice.enableReceiptListView'>
+
+                    <table class="table table-bordered"
+                        [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUnitID">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('InvoiceNo')" by="inNumber">Invoice No&nbsp;<i [hidden]="columnName=='InvoiceNo'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pyDate">Payment Date&nbsp;<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <!-- <th>
+                                    Action
+                                </th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="6" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])">{{item['unUniName']}}</td>
+                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])">{{item['inNumber']}}</td>
+                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="txt-middle">{{item['pyDate'] | date : "d-M-y"}}</td>
+                                    <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}.00</td>
+                                    <!-- <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
+                                            (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
+                                            class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
+                                    <!-- <td> <i style="cursor: pointer"
+                                            (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
+                                            class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
 
                 </div>
-                <div>
-                        <label>Search</label>
-                        <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="search name"> 
-                    </div>
-                <div class="dash-row">
-
-                        <table class="table table-striped" [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            S.No.
-                                        </th>
-                                        <th>
-                                            <mfDefaultSorter by="unUnitID">Unit Identifier</mfDefaultSorter>
-                                        </th>
-                                        <th>
-                                            <mfDefaultSorter by="inNumber">Invoice No</mfDefaultSorter>
-                                        </th>
-                                        <th>
-                                            <mfDefaultSorter by="pyDate">Date of Payment</mfDefaultSorter>
-                                        </th>
-                                        <th>
-                                            <mfDefaultSorter by="pyAmtPaid">Amount</mfDefaultSorter>
-                                        </th>
-                                        <th>
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of mf.data;let i=index">
-                                        <ng-container *ngIf="item == -1">
-                                            <td colspan="6" align="center">No Data Found</td>
-                                        </ng-container>
-                                        <ng-container *ngIf="item!=-1">
-                                            <td>{{(i+1)}}</td>
-                                            <td>{{item['unUnitID']}}</td>
-                                            <td>{{item['inNumber']}}</td>
-                                            <td>{{item['pyDate'] | date : "d-M-y"}}</td>
-                                            <td><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}</td>
-                                            <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
-                                            (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
-                                            class="fa fa-eye"></i> </td>
-                                        </ng-container>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="6">
-                                            <mfBootstrapPaginator></mfBootstrapPaginator>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-
+                <div *ngIf='generatereceiptservice.enableGenerateReceiptView' class="dash-row">
+                    <app-generate-receipt></app-generate-receipt>
                 </div>
             </div>
             <!--Dashboard icons end-->
@@ -86,9 +242,10 @@
 
     </div>
     <!--rightBar start-->
-    <app-right-bar></app-right-bar>
+    <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
+<!--/*/*/*/* RECIPTS FOR RESIDENT END /*/*/*/*-->
 
 <ng-template #template>
     <div class="modal-header">
@@ -101,49 +258,152 @@
         This is a modal.
     </div>
 </ng-template>
+
 <div class="modal fade" id="ViewReceiptTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="padding-top:20px; background-color: #e1e1e1;">
-                    <h4 class="modal-title" style="margin-left: 300px;" id="myModalLabel"><u>View Receipt</u></h4>
-                    <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-    
-                    <fieldset class="scheduler-border">
-                        <div class="row" style="text-align:center;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-top:20px; background-color: #e1e1e1;">
+                <h4 class="modal-title" style="margin-left: 300px;" id="myModalLabel"><u>View Receipt</u></h4>
+                <button type="button" class="close" data-dismiss="modal" style="left:100%" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+
+                <fieldset class="scheduler-border">
+                    <div class="row" style="text-align:center;">
+                        <br>
+                        <div class="col-sm-3">
+                            <p></p>
+                            <h4>UnitIdentifier: </h4><span>{{unitIdentifier}}</span>
+                            <p></p>
                             <br>
-                            <div class="col-sm-3">
-                                <p></p>
-                                <h4>UnitIdentifier: </h4><span>{{unitIdentifier}}</span>
-                                <p></p>
-                                <br>
-                            </div>
-                            <div class="col-sm-3">
-                                <p></p>
-                                <h4>InvoiceNumber: </h4><span>{{invoiceNumber}}</span>
-                                <p></p>
-                                <br>
-                            </div>
-    
-                            <div class="col-sm-3">
-                                <p></p>
-                                <h4>PaymentDate: </h4><span>{{pymtDate | date : "d-M-y"}}</span>
-                                <p></p>
-                                <br>
-                            </div>
-                            <div class="col-sm-3">
-                                <p></p>
-                                <h4>AmountPaid: </h4><span>{{amountPaid}}</span>
-                                <p></p>
-                                <br>
-                            </div>
-    
                         </div>
-                    </fieldset>
-    
-                </div>
+                        <div class="col-sm-3">
+                            <p></p>
+                            <h4>InvoiceNumber: </h4><span>{{invoiceNumber}}</span>
+                            <p></p>
+                            <br>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <p></p>
+                            <h4>PaymentDate: </h4><span>{{pymtDate | date : "d-M-y"}}</span>
+                            <p></p>
+                            <br>
+                        </div>
+                        <div class="col-sm-3">
+                            <p></p>
+                            <h4>AmountPaid: </h4><span>{{amountPaid}}.00</span>
+                            <p></p>
+                            <br>
+                        </div>
+
+                    </div>
+                </fieldset>
+
             </div>
         </div>
     </div>
+</div>
+<!---->
+<!-- <ng-template #Receipts>
+    <div id="printReceipt">
+        <div class="modal-header">
+            <h4 class="modal-title orange">RECEIPT</h4>
+            <button type="button" style="margin-right: 11px;margin-top: -19px;" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="receipt-head">
+                <p class="purple">{{globalservice.getCurrentAssociationName()}}</p>
+                <p>{{UnitName}}</p>
+            </div>
+            <p class="summary">Receipt Summary</p>
+            <div class="receipt-head">
+                <div>
+                    <p><strong>Invoice Number:</strong> {{InvoiceNum}}</p>
+                    <p><strong>Payment Date:</strong> {{paymentDate|date:'dd/MM/yyyy'}}</p>
+                </div>
+                <p>Reciept Id: 10498776</p>
+            </div>
+            <table class="table">
+    
+                <tbody>
+                    <tr>
+                        <td>Amout Due</td>
+                        <td>₹ {{AmountDue}}.00</td>
+                    </tr>
+                    <tr>
+                        <td>Amount Paid</td>
+                        <td>₹ {{AmountPaid}}.00</td>
+                    </tr>
+                    <tr>
+                        <td>Current Outstanding</td>
+                        <td>(-)₹ {{Balance}}.00</td>
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div class="print-receipt">
+                <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print
+                    Receipt</button>
+            </div>
+        </div>
+    </div>
+    
+</ng-template> -->
+<ng-template #Receipts>
+    <div id="printReceipt">
+        <div class="modal-header">
+            <h4 class="modal-title orange">RECEIPT</h4>
+            <button type="button" style="margin-right: 11px;margin-top: -19px;" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="receipt-head">
+                <p class="purple">{{globalservice.getCurrentAssociationName()}}</p>
+                <p style="text-align: center">Address:No. 254/185/26, 2nd Main, “Baswer Sannidhi” Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd Bengaluru 560100 India</p>
+            </div>
+            <!-- <p class="summary">Receipt Summary</p> -->
+            <div class="receipt-head" style="align-items: flex-start;">
+                <div>
+                    <p class="nm"><strong>Unit:</strong> {{UnitName}}</p>
+                    <p class="nm"><strong>Invoice Number:</strong> {{InvoiceNum}}</p>
+                    <p class="nm"><strong>Payment Date:</strong> {{paymentDate|date:'dd/MM/yyyy'}}</p>
+                    <p><strong>Reciept Id:</strong> {{InvoiceNum}}</p>
+                </div>
+            </div>
+            <p>Received Rupees <b>{{AmountDue | words}}</b> from Name of Unit <b>{{UnitName}}</b></p>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Account Applied #BILL NO</th>
+                        <th style="text-align: center;">Amout Recieved</th>
+                    </tr>
+                    <tr>
+                        <!-- <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td> -->
+                        <td>Amount Paid {{paymentDate|date:'dd/MM/yyyy'}}</td>
+                        <td>₹ {{AmountDue}}.00</td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+            <div class="receipt-head" style="align-items: flex-start;">
+                    <div>
+                        <p><strong>Payment Instrument:</strong> Online Payment</p>
+                        <p><strong>Instrument Bank:</strong> Payment Gateway</p>
+                        <p><strong>Reference Number:</strong> {{pyRefNo}}</p>
+                    </div>
+            </div>
+            <p class="succtrans">Transaction Successful</p>
+            <p style="text-align: center;">Electronically generated;does not require a signature.</p>
+            <p style="text-align: right;">Generated From : <strong>OyeSociety</strong></p>
+            <div class="print-receipt">
+                <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print Receipt</button>
+            </div>
+        </div>
+    </div>
+    
+</ng-template>

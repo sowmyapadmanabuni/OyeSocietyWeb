@@ -1,0 +1,4 @@
+.fa-plus-square,.fa-trash{border: none; color: #f7b844;font-size:18px;}
+.fa-question-circle:before {
+    font-size: 20px !important;
+}

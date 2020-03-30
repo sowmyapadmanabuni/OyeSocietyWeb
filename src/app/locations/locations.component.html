@@ -1,0 +1,102 @@
+<!--How its works Title  Area-->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>Locations</h2>
+        </div>
+    </div>
+</div>
+<!--How its works Title  Area-->
+<div class="build-bg" style="padding-top: 30px">
+    <div class="container">
+            <div class="col-md-12">
+                    <!-- Tab links -->
+                    <div class="tab">
+                            <button [ngClass]="{'active': selectedCity=='bengaluru'}" class="tablinks active"
+                                    (mouseover)="openCity('bengaluru')">BENGALURU</button>
+                            <button [ngClass]="{'active': selectedCity=='delhi'}" class="tablinks"
+                                    (mouseover)="openCity('delhi')">NEW DELHI</button>
+                            <button [ngClass]="{'active': selectedCity=='isle'}" class="tablinks"
+                                    (mouseover)="openCity('isle')">ISLE OF MAN</button>
+                            <button [ngClass]="{'active': selectedCity=='london'}" class="tablinks"
+                                    (mouseover)="openCity('london')">LONDON</button>
+                            <button [ngClass]="{'active': selectedCity=='Mumbai'}" class="tablinks"
+                                    (mouseover)="openCity('mumbai')">MUMBAI</button>
+                    </div>
+                    <!-- Tab content -->
+                    <!-- Tab1 start-->
+                    <div class="tabcontent" *ngIf="'bengaluru'==selectedCity">
+                            <div class="row">
+                                    <div class="col-sm-8 bor-line">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7779.892134325668!2d77.647932!3d12.84676!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa21aa0e23833a988!2sOyeSpace!5e0!3m2!1sen!2sin!4v1570706052235!5m2!1sen!2sin"
+                                                    width="100%" height="350" frameborder="0" style="border:0;"
+                                                    allowfullscreen=""></iframe>
+                                    </div>
+                                    <div class="col-sm-4 contdetails">
+                                            <p>happy@scuarex.com <br>No. 254/185/26, 2nd Main, “Baswer Sannidhi” Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd Bengaluru 560100 India</p>
+                                    </div>
+                            </div>
+                    </div>
+                    <!-- Tab1 End-->
+
+                    <!-- Tab2 start-->
+                    <div class="tabcontent" *ngIf="'delhi'==selectedCity">
+                            <div class="row">
+                                    <div class="col-sm-8 bor-line">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7007.908199652913!2d77.071798!3d28.571141!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x8669dd7058ed7847!2sMarketing%20Agency!5e0!3m2!1sen!2seg!4v1570708879351!5m2!1sen!2seg"
+                                                    width="100%" height="350" frameborder="0" style="border:0;"
+                                                    allowfullscreen=""></iframe> </div>
+                                    <div class="col-sm-4 contdetails">
+                                            <p>happy@scuarex.com <br>Xanthippe House C-1033a, 3rd Floor, Block C,
+                                                    Sector 7
+                                                    Dwarka, New Delhi, Delhi 110077</p>
+                                    </div>
+                            </div>
+                    </div>
+                    <!-- Tab2 end-->
+                    <!-- Tab3 start-->
+                    <div class="tabcontent" *ngIf="'isle'==selectedCity">
+                            <div class="row">
+                                    <div class="col-sm-8 bor-line">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4673.200955053052!2d-4.486849!3d54.151726!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48638515b195e797%3A0xb787841b3385ef4b!2s56%20Allan%20St%2C%20Douglas%2C%20Isle%20of%20Man%20IM1%203DQ%2C%20Isle%20of%20Man!5e0!3m2!1sen!2seg!4v1570709225346!5m2!1sen!2seg"
+                                                    width="100%" height="350" frameborder="0" style="border:0;"
+                                                    allowfullscreen=""></iframe> </div>
+                                    <div class="col-sm-4 contdetails">
+                                            <p>happy@scuarex.com <br>56, Allan Street, Douglas, Isle of Man IM13DN
+                                            </p>
+                                    </div>
+                            </div>
+                    </div>
+                    <!-- Tab3 end-->
+                    <!-- Tab4 start-->
+                    <div class="tabcontent" *ngIf="'london'==selectedCity">
+                            <div class="row">
+                                    <div class="col-sm-8 bor-line">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4958.921988322784!2d0.08566!3d51.578114!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a6a27f13a265%3A0xfb78e838a92d3876!2s58%20Birkbeck%20Rd%2C%20Ilford%20IG2%207LP%2C%20UK!5e0!3m2!1sen!2seg!4v1570708955668!5m2!1sen!2seg"
+                                                    width="100%" height="350" frameborder="0" style="border:0;"
+                                                    allowfullscreen=""></iframe> </div>
+                                    <div class="col-sm-4 contdetails">
+                                            <p>happy@scuarex.com <br>58, Birbeck Road, Newbury Park, Ilford IG27LP
+                                            </p>
+                                    </div>
+                            </div>
+                    </div>
+                    <!-- Tab4 end-->
+                      <!-- Tab5 start-->
+                      <div class="tabcontent" *ngIf="'mumbai'==selectedCity">
+                        <div class="row">
+                                <div class="col-sm-8 bor-line">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4958.921988322784!2d0.08566!3d51.578114!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a6a27f13a265%3A0xfb78e838a92d3876!2s58%20Birkbeck%20Rd%2C%20Ilford%20IG2%207LP%2C%20UK!5e0!3m2!1sen!2seg!4v1570708955668!5m2!1sen!2seg"
+                                                width="100%" height="350" frameborder="0" style="border:0;"
+                                                allowfullscreen=""></iframe> </div>
+                                <div class="col-sm-4 contdetails">
+                                        <p>happy@scuarex.com <br>Plot no. 33, HMG House, Next to Goldfinch Hotel,<br> MIDC Central Road, Chakala Industrial Area- MIDC,<br> Andheri- East, Mumbai- 400093
+                                        </p>
+                                </div>
+                        </div>
+                </div>
+                <!-- Tab5 end-->
+                    <br><br>
+            </div>
+    </div>
+</div>

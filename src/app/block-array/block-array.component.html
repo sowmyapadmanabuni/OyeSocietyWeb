@@ -1,0 +1,139 @@
+<div class="form-group">
+    <label id=label1>Block Name <span class="red">*</span></label>
+    <input type="text" name="blockname" id="input1" autocomplete='blockname' [(ngModel)]="blockname"
+        #blocknameControl="ngModel" class="form-control" placeholder="Block Name" pattern="[a-zA-Z0-9 _]*" required />
+    <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid name is required</p>
+</div>
+<div class="form-group">
+    <label>Block Type</label>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+            data-toggle="dropdown">{{blocktype}}
+            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+        <ul class="dropdown-menu fullw">
+            <li (click)="getBlockType('Residential')"><a>Residential</a></li>
+            <li (click)="getBlockType('Commercial')"><a>Commercial</a></li>
+            <li (click)="getBlockType('Residential and Commercial')"><a>Residential and Commercial</a></li>
+        </ul>
+    </div>
+</div>
+<div class="form-group">
+    <label id=label3>No of Units <span class="red">*</span></label>
+    <input type="text" name="noofunits" id="input3" autocomplete='noofunits' [(ngModel)]="noofunits"
+        #noofunitsControl="ngModel" class="form-control" placeholder="No Of Units" pattern="[0-9]*" required />
+    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of units are required</p>
+</div>
+<div class="form-group">
+    <label id=label4>Manager Name <span class="red">*</span></label>
+    <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="mngName"
+        #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z]*" required />
+    <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>
+</div>
+<div class="form-group">
+    <label id=label5>Manager Mobile Number <span class="red">*</span></label>
+    <input type="text" name="BlockManagermobile" id="input5" autocomplete='BlockManagermobile'
+        [(ngModel)]="BlockManagermobile" #managernumberControl="ngModel" class="form-control"
+        placeholder="Manager Mobile Number" minlength="10" maxlength="10" pattern="[0-9]*" required
+        (keypress)=_keyPress($event) />
+    <p class="alerts" *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager mobile number is
+        required</p>
+</div>
+<div class="form-group">
+    <label id=label6>Manager Email Id <span class="red">*</span></label>
+    <input type="text" name="manageremail" id="input6" autocomplete='manageremail' [(ngModel)]="manageremail"
+        #manageremailControl="ngModel" class="form-control" placeholder="Manager Email Id"
+        pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+        required />
+    <p class="alerts" *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager email-id is required
+    </p>
+</div>
+<div class="form-group">
+    <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="rate" #rateControl="ngModel" (change)="checkRate(rate)"
+        value="flatRatevalue" (click)="checking(rate)" required> Flat Rate Value</h5>
+        <div *ngIf="addRate == 'flatRatevalue'">
+            <label>Flat Rate Value <span class="red">*</span></label>
+            <input class="form-control" type="text" name="flatRatevalue" [(ngModel)]="flatRatevalue"
+              placeholder="Value" #flatRatevalueControl='ngModel' pattern="^[+-]?((\.\d+)|(\d+(\.\d+)?))$" required>
+              <p class="classred" *ngIf="flatRatevalueControl.invalid && flatRatevalueControl.touched">Invalid flat rate
+              </p>
+            <small>Amount to be charged</small>
+        </div>
+</div>
+
+<div class="form-group">
+    <h5><input type="checkbox" class="form-check-input" id="rate" name="rate" [(ngModel)]="rate1"  #rateControl="ngModel"
+        (change)="checkRate1(rate1)" value="dimension"  (click)="checking1(rate1)" required > Dimension Based</h5>
+    <div *ngIf="addRate1 == 'dimension'">
+        <label>Maintenance Value<span class="red">*</span></label>
+        <input class="form-control" type="text" name="maintenanceValue" #maintenanceValueControl='ngModel'
+            [(ngModel)]="maintenanceValue" placeholder="Maintenance Value " required pattern="^[0-9]+(\.[0-9]{1,2})?$">
+        <p class="classred" *ngIf="maintenanceValueControl.invalid && maintenanceValueControl.touched">Invalid Maintenance
+            Value
+        </p>
+        <small>Rate (SQFT / SQMTR) </small>
+    </div>
+</div>
+<div class="form-group">
+    <label>Unit of Measurement <span class="red">*</span></label>
+    <input class="form-control" type="text" disabled="true" required name="measurements" autocomplete="measurements"
+      [(ngModel)]="meter" #measurementsControl='ngModel' placeholder="Measurement Type" [value]="meter">
+  </div>
+<div class="form-group">
+    <label>Invoice Creation Frequency <span class="red">*</span></label>
+    <input class="form-control" list="frquency" name="frequency" [(ngModel)]="frequency" placeholder="Search or Select Frequency" #frequencyControl='ngModel' required multiple>
+    <datalist id="frquency">
+      <option value="">Select Frequency</option>
+      <option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">
+        {{frequency['displayName']}}
+      </option>
+    </datalist>
+    <p class="alerts" *ngIf="frequencyControl.invalid && frequencyControl.touched">Invalid Invoice Frequency
+      </p>
+  </div>
+<div class="form-group">
+    <label>Invoice Generation Date <span class="red">*</span></label>
+    <!-- <ejs-datepicker placeholder='Invoice Generation Date' [min]='todayDate' format='dd-MM-yyyy' ></ejs-datepicker> -->
+    <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
+      placeholder="Invoice Generation Date" [bsConfig]="bsConfig" [(ngModel)]="billGenerationDate"
+      bsDatepicker required (bsValueChange)="onValueChange($event)" [minDate]="todayDate" placement="top"/>
+</div>
+<div class="form-group">
+    <label>Due Date <span class="red">*</span></label>
+    <input type="text" class="form-control" [class.enableBorderColor]="enableduedatevalidation" [class.classForInvalid]="enableduedatevalidation" name="dueDate" #DueDateControl='ngModel' placeholder="Due Date"
+      [bsConfig]="bsConfig" [(ngModel)]="dueDate" bsDatepicker required [minDate]="minDate"
+      (bsValueChange)="onDueDateValueChange($event)" placement="top"/>
+    <ng-container *ngIf='enableduedatevalidation'>
+      <p class="invalidFeedback">Due date should be greater than or equal to
+          invoice date
+      </p>
+    </ng-container>
+  </div>
+<div class="form-group">
+    <label class="control-label">Late Payment Charge Type</label>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle sdm br form-control"
+            type="button" data-toggle="dropdown">{{latePymtChargeType}}
+            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+        <ul class="dropdown-menu fullw">
+            <li *ngFor='let lpct of latePymtChrgTypes' (click)="getLatePymtChargeType(lpct['name'])"><a>{{lpct['name']}}</a></li>
+        </ul>
+    </div>
+</div>
+<div class="form-group">
+    <label>Late Payment Charge <span class="red">*</span></label>
+    <input class="form-control" type="text" #latePymtChargeControl='ngModel' name="latePymtCharge"
+        autocomplete="latePymtCharge" [(ngModel)]="latePymtCharge" placeholder="Late Payment charge"
+        pattern="[0-9]+(\.[0-9][0-9]?)?" required>
+    <p class="alerts" *ngIf="latePymtChargeControl.invalid && latePymtChargeControl.touched">Invalid Late Payment Charge
+    </p>
+</div>
+<div class="form-group">
+    <label>Starts From<span class="red">*</span></label>
+    <input class="form-control" type="text" name="startsFrom" #StartsFromDateControl='ngModel'
+    [class.classForInvalid]="enablestartfromdatevalidation" placeholder="Starts From Date" [bsConfig]="bsConfig" [(ngModel)]="startsFrom" bsDatepicker required
+      [minDate]='startsFromMaxDate' (bsValueChange)="onStartsFromDateValueChange($event)" placement="bottom"/>
+    <ng-container *ngIf='enablestartfromdatevalidation'>
+        <p class="invalidFeedback">Starts from date should be greater than or equal to due date</p>
+    </ng-container>
+  </div>
+

@@ -14,7 +14,7 @@ export class ViewReceiptService {
   }
 
   getpaymentlist(currentAssociationID){
-    console.log('currentAssociationID-'+currentAssociationID);
+    //console.log('currentAssociationID-'+currentAssociationID);
     //url: scopeIP+'/oyeliving/api/v1/payment/getpaymentlist/' + $scope.curAssociationID,
     //http://apidev.oyespace.com/oyeliving/api/v1/GetPaymentsListByAssocID/%7BAssociationID%7D
     //http://apidev.oyespace.com/oyeliving/api/v1/GetPaymentsListByAssocID/4217

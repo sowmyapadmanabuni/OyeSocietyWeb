@@ -1,0 +1,176 @@
+<div class="container-fluid np">
+    <div class="col-sm-12">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                <span class="black">Association Visitors</span>
+
+                <!-- <div class="switch1">
+                    <ul class="nav nav-pills">
+                        <li class="active"><a (click)="goToGuests()">My Guests</a></li>
+                        <li><a (click)="goToDelivery()">Deliveries</a></li>
+                        <li><a (click)="goToStaffs()">Staff</a></li>
+                    </ul>
+                </div> -->
+                <!--  -->
+                <div class="dash-row">
+                    <span>Start Date :</span><input type="text" autocomplete="off" class="form-control datactrlsze"
+                        name="startrangedate" #startrangedateControl='ngModel' placeholder="Start Date" required
+                        [(ngModel)]="startrangedate" [bsConfig]="bsConfig" bsDatepicker placement="down" />
+                    <span>End Date :</span><input type="text" autocomplete="off" class="form-control datactrlsze"
+                        name="endrangedate" #endrangedateControl='ngModel' placeholder="End Date" required
+                        [(ngModel)]="endrangedate" [bsConfig]="bsConfig" bsDatepicker placement="down" />
+                </div>
+                <div class="dash-row">
+                    <span class="visitorTypespan">VisitorType :</span>
+                    <select
+                        class="ui dropdown search methodDropdown visitorselect form-control" name="visitorType"
+                        style="width: 100%;margin-top: 11px;margin-left: -3px;" (change)='loadVisitorType(visitorType)'
+                        [(ngModel)]='visitorType' autocomplete="off" placeholder="Select Visitor Type">
+                        <option disabled='true' value="">Select Visitor Type</option>
+                        <option value="All Visitor">All Visitors</option>
+                        <option value="Delivery">Deliveries</option>
+                        <option value="STAFF">Staff Full Manual Entries</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Staff Biometric Entry">Staff Biometric Entries</option>
+                        <option value="Visitor">Visitors</option>
+                        <option value="Vehicle">Vehicles</option>
+                        <option value="Guest">Guests</option>
+                        <option value="Staff Missed call Entry">Staff Missed call Entries</option>
+                    </select>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6"><button (click)='getUsageReport()' style="margin-top: 8px;float: right;"
+                            class="btn-primary-purple">Get</button></div>
+                </div>
+                <div *ngIf='filteredusagereportlength' class="col-sm-12">
+                    <div class="col-sm-9">
+                        <span>
+                            <label class="clsFontSze"> All Visitors Count - <span>{{AllVisitor}}</span></label><span
+                                class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">Deliveries Count -
+                                <span>{{Delivery}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">Staff Full Manual Entries Count -
+                                <span>{{StaffFullManualEntry}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze">Staff Biometric Entries Count -
+                                <span>{{StaffBiometricEntry}}</span></label><span class="clsfontSze">|</span>
+                        </span>
+                        <span>
+                            <label class="clsFontSze" style="margin-left: 10px;">Visitors Count -
+                                <span>{{00}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">Vehicles Count -
+                                <span>{{00}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze">Guests Count - <span>{{Guest}}</span></label><span
+                                class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">Staff Missed Call Entries Count -
+                                <span>{{StaffMissedcallEntry}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">Staff Count -
+                                <span>{{Staff}}</span></label>
+                        </span>
+                        <span>
+                            <label class="clsFontSze">6:AM - 8:AM Entry Count -
+                                <span>{{Six_to_Eight_Morn}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">8:AM - 10:AM Entry Count -
+                                <span>{{Eight_to_Ten_Morn}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze">10:AM - 12:AM Entry Count -
+                                <span>{{Ten_to_Twelve_Morn}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">12:AM - 2:PM Entry Count -
+                                <span>{{Twelve_to_Two}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze">2:PM - 4:PM Entry Count -
+                                <span>{{Two_to_Four}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">4:PM - 6:PM Entry Count -
+                                <span>{{Four_to_Six}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze">6:PM - 8:PM Entry Count -
+                                <span>{{Six_to_Eight}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze" style="margin-left: 10px;">8:PM - 10:PM Entry Count -
+                                <span>{{Eight_to_Ten_Eve}}</span></label><span class="clsfontSze">|</span>
+                            <label class="clsFontSze">10:PM - 12:PM Entry Count -
+                                <span>{{Ten_to_Twelve_Eve}}</span></label>
+                        </span>
+                    </div>
+                    <div class="col-sm-3">
+                        <ul style="list-style-type: none;float: right;">
+                            <li><button style="margin-left: 55px;" (click)="exportAsXLSX()"><i
+                                        class="fa fa-file-excel-o" style="font-size:48px;color:blue"></i></button></li>
+                            <li><span style="font-size: 12px;">Export Usage Report to Excel</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+                        placeholder="search name">
+                </div>
+                <div class="dash-row table-responsive">
+                    <table class="table table-bordered"
+                        [mfData]="visitorloglist | search:['vlVisType', 'vlfName', 'vlMobile','unUniName','vldCreated','vldUpdated','vlengName']:searchTxt"
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>
+                                    <mfDefaultSorter by="vlVisType">VisitorType</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="vlEntryImg">Image</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="vlfName">Name</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="vlMobile">MobileNumber</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="unUniName">UnitName</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="vldCreated">EntryTime</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="vldUpdated">ExitTime</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="vlengName">Gate</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mf.data;let i=index">
+                                <ng-container *ngIf="item == -1">
+                                    <td colspan="7" align="center">No Data Found</td>
+                                </ng-container>
+                                <ng-container *ngIf="item!=-1">
+                                    <td>{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td>{{item['vlVisType']}}</td>
+                                    <td><img src="http://mediaupload.oyespace.com/Images/{{item['vlEntryImg']}}"
+                                            width="50px" height="50px" /></td>
+                                    <td>{{item['vlfName']}}</td>
+                                    <td>{{item['vlMobile']}}</td>
+                                    <td>{{item['unUniName']}}</td>
+                  <td>{{item['vldCreated'] | date:'dd-MM-yyyy'}}<br/><span style="font-size: 12px">{{item['vlEntryT']|date:'mediumTime'}}</span></td>
+                  <td>{{item['vldUpdated'] | date:'dd-MM-yyyy'}}<br/><span style="font-size: 12px">{{item['vlExitT']|date:'mediumTime'}}</span></td>
+                  <td>{{item['vlengName']}}</td>
+                </ng-container>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="7">
+                  <mfBootstrapPaginator></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <!--rightBar start-->
+    <!-- <app-right-bar></app-right-bar> -->
+    <!--rightBar end-->
+</div>
+
+<!------------------>

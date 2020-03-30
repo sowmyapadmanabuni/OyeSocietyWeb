@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routing } from './routing';
 import { RequestformComponent } from './requestform/requestform.component';
 import { ModalModule } from 'ngx-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HiringComponent } from './hiring/hiring.component';
 import { MapsComponent } from './maps/maps.component';
 import { AgmCoreModule } from '@agm/core';
@@ -42,7 +42,8 @@ import { DataTablesModule } from 'angular-datatables';
 import { DataTableModule } from "angular-6-datatable";
 import { SearchPipe } from './search.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {ReceiptsComponent} from './receipts/receipts.component'
+import {ReceiptsComponent} from './receipts/receipts.component';
+import {Ng2TelInputModule} from 'ng2-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { WordsPipe } from './pipes/words.pipe';
@@ -60,7 +61,35 @@ import { PatrollingComponent } from './patrolling/patrolling.component';
 import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
 import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
-export const firebaseConfig = environment.firebaseConfig;
+import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { JournelsComponent } from './journels/journels.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { PaymentStatusComponent } from './payment-status/payment-status.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ResidentInvoiceComponent } from './resident-invoice/resident-invoice.component';
+import { GenerateReceiptComponent } from './generate-receipt/generate-receipt.component';
+import { AssociationVisitorComponent } from './association-visitor/association-visitor.component';
+import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
+import { MembersComponent } from './members/members.component';
+import { ChartsModule } from 'ng2-charts';
+import { ExcelBlockUploadComponent } from './excel-block-upload/excel-block-upload.component';
+import { ExcelUnitUploadComponent } from './excel-unit-upload/excel-unit-upload.component';
+import { ExcelExpenseUploadComponent } from './excel-expense-upload/excel-expense-upload.component';
+import { BlockArrayComponent } from './block-array/block-array.component';
+import { CreateUnitWithAssociationComponent } from './create-unit-with-association/create-unit-with-association.component';
+import { JoinAndEnrollComponent } from './join-and-enroll/join-and-enroll.component';
+import { EditAssociationComponent } from './edit-association/edit-association.component';
+import { ExcelReceiptUploadComponent } from './excel-receipt-upload/excel-receipt-upload.component';
+import { PartnersComponent } from './partners/partners.component';
+import { LocationsComponent } from './locations/locations.component';
+import {AboutusComponent} from './aboutus/aboutus.component'
+import {AccountingComponent} from './accounting/accounting.component'
+import {SafetyComponent} from './safety/safety.component'
+
+ 
+import { from } from 'rxjs';
+//export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
   declarations: [
@@ -73,6 +102,9 @@ export const firebaseConfig = environment.firebaseConfig;
     JwPaginationComponent,
     MapsComponent,
     ClientsComponent,
+    AboutusComponent,
+    LocationsComponent,
+    PartnersComponent,
     TestimonialsComponent,
     LocationComponent,
     AboutComponent,
@@ -104,10 +136,32 @@ export const firebaseConfig = environment.firebaseConfig;
     PatrollingComponent,
     CustomerStatementComponent,
     SupplierStatementComponent,
-    GeneralLedgerComponent
-  ],
+    GeneralLedgerComponent,
+    ProfitlossComponent,
+    BalancesheetComponent,
+    JournelsComponent,
+    PaymentStatusComponent,
+    ProfileComponent,
+    ResidentInvoiceComponent,
+    GenerateReceiptComponent,
+    AssociationVisitorComponent,
+    MembersComponent,
+    ExcelBlockUploadComponent,
+    ExcelUnitUploadComponent,
+    ExcelExpenseUploadComponent,
+    BlockArrayComponent,
+    CreateUnitWithAssociationComponent,
+    JoinAndEnrollComponent,
+    EditAssociationComponent,
+    ExcelReceiptUploadComponent,
+    AccountingComponent,
+    SafetyComponent
+    ],
   imports: [
+    ReactiveFormsModule,
+    Ng2TelInputModule,
     BrowserModule,
+    ChartsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -117,7 +171,7 @@ export const firebaseConfig = environment.firebaseConfig;
     AgmDirectionModule,
     NgxPaginationModule,
     DataTablesModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    //AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey,
@@ -128,7 +182,9 @@ export const firebaseConfig = environment.firebaseConfig;
     DataTableModule,
     ToastrModule.forRoot(),
     ProgressbarModule.forRoot(),
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    TooltipModule.forRoot(),
+    JwSocialButtonsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

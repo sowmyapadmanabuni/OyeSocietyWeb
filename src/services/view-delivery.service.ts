@@ -24,7 +24,7 @@ export class ViewDeliveryService {
       // "ToDate": (date['Todate']=='')? formatDate(new Date(),'yyyy-MM-dd','en') : date['Todate']
       
     }
-    console.log('req data',DeliveryData);
+    //console.log('req data',DeliveryData);
    return this.http.post(url, JSON.stringify(DeliveryData), { headers: headers })
   }
   getHttpheaders(): HttpHeaders {

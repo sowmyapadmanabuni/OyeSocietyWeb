@@ -4,6 +4,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {RegisterService} from '../../services/register.service';
 import swal from 'sweetalert2';
 import {LoginAndregisterService} from '../../services/login-andregister.service';
+import {GlobalServiceService} from '../global-service.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,8 @@ export class RegisterComponent implements OnInit {
   constructor(private modalService: BsModalService,
     private requestService: RegisterService,
     private loginandregisterservice:LoginAndregisterService,
-    private router:Router ) {
+    private router:Router,
+    public globalservice:GlobalServiceService) {
       this.terms=false;
      }
 
@@ -41,22 +43,22 @@ export class RegisterComponent implements OnInit {
 
   telInputObject(telinputobj) {
     this.code = '+' + telinputobj['b'].getAttribute('data-dial-code');
-    console.log(this.code);
+    //console.log(this.code);
   }
   hasError(errorobj) {
-    console.log(errorobj);
+    //console.log(errorobj);
   }
   getNumber(numberobj) {
-    console.log(numberobj);
+    //console.log(numberobj);
   }
   onCountryChange(countryobj) {
     this.code = countryobj['dialCode']
-    console.log(countryobj);
+    //console.log(countryobj);
   }
 
   validateCheckBox(event){
-    console.log('event',event);
-    console.log('event.target.validity.valueMissing',event.target.validity.valueMissing);
+    //console.log('event',event);
+    //console.log('event.target.validity.valueMissing',event.target.validity.valueMissing);
     event.target.setCustomValidity(event.target.validity.valueMissing ? "" : "");
   }
 
@@ -75,7 +77,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     var elemntterms1 = <HTMLInputElement>document.getElementById("terms1");
-    console.log('register-event',elemntterms1.validity.valueMissing);
+    //console.log('register-event',elemntterms1.validity.valueMissing);
     elemntterms1.setCustomValidity(elemntterms1.validity.valueMissing ? "Please indicate that you accept the Terms and Conditions" : "");
 
     if (!elemntterms1.validity.valueMissing) {
@@ -83,7 +85,7 @@ export class RegisterComponent implements OnInit {
         'ACFName': this.firstName,
         'ACLName': this.lastName,
         'ACEmail': this.email,
-        'ACMobile': this.mobilenumber
+        'ACMobile': this.globalservice.saveMobileNumberforRegister//this.mobilenumber
       }
       console.log('requestData', JSON.stringify(requestData));
 
@@ -105,7 +107,8 @@ export class RegisterComponent implements OnInit {
               this.lastName = '';
               this.email = '';
               this.mobilenumber = '';
-              this.router.navigate(['home']);
+              //this.router.navigate(['home']);
+              this.globalservice.toggleregister=false;
             }
           });
         },

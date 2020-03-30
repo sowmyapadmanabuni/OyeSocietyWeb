@@ -77,13 +77,15 @@ export class AddExpenseComponent implements OnInit {
   pmid:any;
   paymentMethodType:any;
   @Output() invokeExpLst:EventEmitter<string>;
+  voucherno:any;
+  invalidAmount: boolean;
 
   constructor(private addexpenseservice: AddExpenseService,
     private router: Router,
     private viewexpensesservice: ViewExpensesService,
-    private globalservice:GlobalServiceService) {
-
-    this.currentAssociationID=this.globalservice.getCurrentAssociationId();
+    private globalservice: GlobalServiceService) {
+    this.invalidAmount = false;
+    this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.currentAssociationName=this.globalservice.getCurrentAssociationName();
     this.expensedata = new ExpenseData();
     this.expensedataXlsx=new ExpenseData();
@@ -140,6 +142,7 @@ export class AddExpenseComponent implements OnInit {
     this.otherThanSingleUnit=true;
     this.pmid=0;
     this.invokeExpLst=new EventEmitter<string>();
+    this.voucherno='';
 
     this.defaultThumbnail='../../assets/images/default_thumbnail.png';
 
@@ -249,13 +252,13 @@ export class AddExpenseComponent implements OnInit {
       .subscribe(item => {
         this.allBlocksLists = item;
         this.availableNoOfBlocks = item.length;
-        console.log('allBlocksLists', this.allBlocksLists);
+        //console.log('allBlocksLists', this.allBlocksLists);
 
       });
 
     this.addexpenseservice.GetPurchaseOrderListByAssocID(this.currentAssociationID)
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.purchaseOrders = data;
       });
 
@@ -264,14 +267,14 @@ export class AddExpenseComponent implements OnInit {
   }
   // poDetails(POID) {
   //   let purchaseOrders = this.purchaseOrders.find(po => po['poid'] == POID);
-  //   console.log(purchaseOrders);
+  //   //console.log(purchaseOrders);
   //   this.expensedata.POEAmnt = purchaseOrders['poEstAmt'];
   //   this.expensedata.VNName = purchaseOrders['poPrfVen'];
   //   this.expensedata.BPIden = purchaseOrders['bpIden'];
   //   this.expensedata.EXRABudg = 0;
   // }
   prerequisitesAddUnit(blBlockID) {
-    console.log('prerequisitesAddUnit', blBlockID);
+    //console.log('prerequisitesAddUnit', blBlockID);
     this.blockID = blBlockID;
     let blockbyassoc = this.allBlocksLists.find(item => item['blBlockID'] == blBlockID);
     this.maxUnitsPerBlock = blockbyassoc['blNofUnit'];
@@ -281,10 +284,10 @@ export class AddExpenseComponent implements OnInit {
         this.allUnitListsByBlock = data['data'];
         this.existingNoOfUnits = data['data']['unitsByBlockID'].length;
         this.avialableUnitSpace = this.maxUnitsPerBlock - this.existingNoOfUnits;
-        console.log('avialableUnitSpace', this.avialableUnitSpace);
+        //console.log('avialableUnitSpace', this.avialableUnitSpace);
       },
         (response) => {
-          console.log(response.message);
+          //console.log(response.message);
         });
   }
   getexpensedataBABName(bank) {
@@ -333,16 +336,16 @@ export class AddExpenseComponent implements OnInit {
     this.isnotValidformat = false;
     this.disableButton = false;
     this.selectedFile = <File>event.target.files[0];
-    console.log('file type', this.selectedFile['type']);
+    //console.log('file type', this.selectedFile['type']);
 
     if (this.selectedFile['type'] == "application/zip") {
-      console.log('inside file type');
+      //console.log('inside file type');
       this.isnotValidformat = true;
       this.disableButton = true;
     }
 
     if (this.selectedFile['size'] > 2000000) {
-      console.log('inside file size');
+      //console.log('inside file size');
       this.isLargefile = true;
       this.disableButton = true;
     }
@@ -370,9 +373,9 @@ export class AddExpenseComponent implements OnInit {
     imgthumbnailelement.src = this.defaultThumbnail;
     const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
     dataTransfer.items.add('', '');
-    console.log('dataTransfer', dataTransfer);
+    //console.log('dataTransfer', dataTransfer);
     const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
-    console.log('inputElement', inputElement.files);
+    //console.log('inputElement', inputElement.files);
     inputElement.files = dataTransfer.files;
     this.disableButton=false;
     this.isnotValidformat = false;
@@ -394,7 +397,7 @@ export class AddExpenseComponent implements OnInit {
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
       }, {});
-      console.log(jsonData);
+      //console.log(jsonData);
       this.addExpFromXlsx(jsonData);
     }
     reader.readAsBinaryString(file);
@@ -406,11 +409,11 @@ export class AddExpenseComponent implements OnInit {
     this.addexpenseservice.onUpLoad(fd)
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
-          console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
+          //console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
           this.dynamic = Math.round(event.loaded / event.total * 100);
         }
         else if (event.type === HttpEventType.Response) {
-          console.log(event);
+          //console.log(event);
           this.dynamic = 0;
         }
       });
@@ -450,7 +453,7 @@ export class AddExpenseComponent implements OnInit {
     this.expensedataXlsx.ASAssnID=this.currentAssociationID; //:string;
     this.expensedataXlsx.EXDDNo=jsonData['Sheet1'][0]['Demand Draft No'];//:number;
     this.expensedataXlsx.EXDDDate=formatDate(jsonData['Sheet1'][0]['Demand Draft Date'], 'yyyy/MM/dd', 'en');//:string;
-    console.log('expensedataXlsx',this.expensedataXlsx);
+    ////console.log('expensedataXlsx',this.expensedataXlsx);
     this.addexpenseservice.createExpense(this.expensedataXlsx)
       .subscribe(
         () => {
@@ -459,7 +462,7 @@ export class AddExpenseComponent implements OnInit {
             title: "Expense Added Successfully",
             text: "",
             type: "success",
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonColor: "#f69321",
             confirmButtonText: "Add New Expense",
             cancelButtonText: "View Expense"
@@ -501,13 +504,15 @@ export class AddExpenseComponent implements OnInit {
     this.addexpenseservice.createExpense(this.expensedata)
       .subscribe(
         (data) => {
+          // this.addexpenseservice.enableAddExpnseView = false;
+          // this.addexpenseservice.enableExpenseListView=true;
           console.log(data);
           this.viewexpensesservice.currentBlockId = this.expensedata.BLBlockID;
           swal.fire({
             title: "Expense Added Successfully",
             text: "",
             type: "success",
-            showCancelButton: true,
+            // showCancelButton: true,
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK"
             }).then(
@@ -526,14 +531,14 @@ export class AddExpenseComponent implements OnInit {
           )
         },
         (err) => {
-          console.log(err);
+          ////console.log(err);
           swal.fire('Error', 'Something went wrong!', 'error')
         }
       );
   }
 
   showMethod(PMID: string,displayName) {
-    console.log(displayName);
+    ////console.log(displayName);
     switch (displayName) {
       case 'Cash':
         this.expensedata.PMID = 1;
@@ -549,7 +554,7 @@ export class AddExpenseComponent implements OnInit {
         break;
   }
 
-  console.log(this.expensedata.PMID);
+  //console.log(this.expensedata.PMID);
   this.paymentMethodType=displayName;
   let paymentobj = this.methodArray.filter(item => item['id'] == PMID)
   this.checkField = paymentobj[0]['name'];
@@ -571,5 +576,45 @@ export class AddExpenseComponent implements OnInit {
     this.expensedata.UnUniIden = '';
     this.expensedata.PMID = '';
   }
-
+  resetStep1(){
+    this.expensedata.EXHead = 'Select Expense Head';
+    this.expensedata.EXDesc =  "";
+    this.expensedata.EXRecurr = 'Select Expense Type';
+    this.expensedata.EXApplTO = 'Select Applicable To Unit';
+    this.expensedata.EXType = 'Select Expense Type';
+    this.expensedata.EXPAmnt = '';
+    this.expensedata.EXDisType = 'Select Distribution Type';
+    this.expensedata.UnUniIden = 'Select Unit';
+    this.expensedata.EXDisType = 'Select Distribution Type';
+  }
+  resetStep2(){
+    this.expensedata.BABName = 'Select Bank';
+    this.paymentMethodType='Select Payment Method';
+    this.expensedata.EXPName='';
+    this.expensedata.EXDate = "2018-02-02";
+    this.expensedata.INNumber="";
+    this.expensedata.EXPBName = 'Payee Bank';
+    this.EXChqDate = null;
+    this.EXDDDate = null;
+    this.EXDate = null;
+    this.expensedata.EXChqNo='';
+    this.expensedata.EXDDNo='';
+    this.voucherno='';
+  }
+  ValidateAmount(){
+    console.log(this.expensedata.EXPAmnt);
+    if(Number(this.expensedata.EXPAmnt)==0){
+      this.invalidAmount=true;
+    }
+    else{
+      this.invalidAmount=false;
+    }
+  }
+  _keyPress(event) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
 }

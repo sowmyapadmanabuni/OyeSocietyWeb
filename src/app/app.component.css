@@ -1,4 +1,20 @@
-
+.sha{box-shadow: 1px 3px 1px -2px #8e8f905e;width: 200px !important;}
+.sha1{box-shadow: 1px 3px 1px -2px #8e8f905e;width: 130px !important;}
+.badgeAlert{display: inline-block;
+    min-width: 10px;
+    padding: 3px 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #d9534f;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -10px;}
 /* Add a black background color to the top navigation */
 .topnav {
   background-color:#fafafa;
@@ -21,7 +37,6 @@
   font-size: 13px;
   
 }
-
 /* Change the color of links on hover */
 .topnav a:hover {
   color: #f3ae41 !important;
@@ -30,16 +45,23 @@
 /* Dropdown container - needed to position the dropdown content */
 .dropdown {
   float: left;
-  overflow: hidden;
+  margin-top: 8px;
+  /* overflow: hidden; */
 }
-
+#dro-switch{display: flex;
+  align-items: center;}
+  .switch:hover{cursor: pointer;}
+  .switch{color: #475cc6;
+    font-size: 11px;
+    margin-top: 10px;
+    font-weight: 600;padding-left: 4px;}
 /* Style the dropdown button to fit inside the topnav */
 .dropdown .dropbtn {
   font-size: 13px;
   border: none;
   outline: none;
   color: #2b2a2a;
-  padding: 14px 16px;
+  padding: 7px 16px;
   background-color: inherit;
   font-family: inherit;
   margin: 0;
@@ -53,7 +75,6 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-
 /* Style the links inside the dropdown */
 .dropdown-content a {
   float: none;
@@ -67,6 +88,9 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.powered{display: flex;justify-content: flex-start;align-items: center;}
+.smalltext{font-size: 12px;color: red;text-align: right;line-height: 12px;
+}
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 83
 0px) {
@@ -78,7 +102,6 @@
     display: block;
   }
 }
-
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 830px) {
   .topnav.responsive {position: relative;}
@@ -105,7 +128,7 @@
   content:url('../assets/images/hiring32x32.png');
   position: absolute;
     top: 0px;
-    left: -27px;
+    left: -18px;
 }
 .hire:before {
   animation: blink-animation 1s steps(2, start) infinite;
@@ -122,28 +145,23 @@
   }
 }
 
-
-
 /* Add an active class to highlight the current page */
 .topnav a.active {
   background-color: rgba(255, 255, 255, 0.021);
   color: white;
 }
-
 /* Hide the link that should open and close the topnav on small screens */
 .topnav .icon {
   display: none;
 }
-
 @media only screen and (min-width: 830px) and (max-width: 2000px)  {
   .topnav {display: flex;
     flex-direction: row;
     justify-content: space-between;
   align-items: center}
   .active{display: none !important}
-
   .dropdown-content {
-    top: 44px;
+    top: 52px;
     padding: 10px 0px;
   }
  
@@ -154,7 +172,6 @@
       border-bottom: 1px solid #f3ae4121 !important;
      }
     }
-
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 830px) {
   .topnav a:not(:first-child) {display: none;}
@@ -168,7 +185,6 @@
   }
   .dropbtn{display:none}
 }
-
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 830px) {
   .topnav.responsive {position: relative;}
@@ -187,4 +203,88 @@
   .topnav.responsive a.icon{ border:none;font-size: 32px}
 }
 
+/*user profile menu*/
+.top-nav-details {
+  margin:0;
+  list-style-type:none;
+  position: absolute;
+  text-align:right;
+  padding:0 20px;
+  right:0;
+  top:0;
+}
+.sub-menu {
+  display:none;
+  position:fixed;
+  background-color:#2c343f;
+  right:48px;
+  border-bottom-left-radius:5px;
+  border-bottom-right-radius:5px;
+  min-width:150px;
+  z-index:9;
+  
+}
+.top-nav-details li a {
+  display:block;
+  color:#FFF;
+  padding:10px;
+}
+.top-nav-details li:hover .sub-menu {
+  display:block;
+}
+.sub-menu li {
+  display:block;
+  text-align:center;
+}
+.sub-menu li a {
+  font-size:14px;
+  font-weight:normal;
+  border-bottom:1px solid rgba(0, 0, 0, 0.3);
+  color:rgba(255,255,255,0.5) ;
+  text-align: left;
+}
+.sub-menu li a:hover {
+  background-color:rgba(0,0,0,0.15);
+  text-decoration:none;
+  color:#FFF;
+}
+.sub-menu li a i{margin-right: 15px;}
+.logout-nav {
+  padding: 12px;
+}
+/* Notification bar css */
+#panel, #flip {
+  padding: 5px;
+  text-align: center;
+  /* background-color: #e5eecc; */
+  /* border: solid 1px #c3c3c3; */
+}
+ 
+.smalltext{
+  font-size: 12px;
+  color: red;
+}
+#panel {
+  padding: 0px;
+  display: none;
+  min-width: 160px;
+  max-width: 275px;
+  width: 275px;
+  z-index: 9995;
+  position: absolute;
+  z-index: 20000;
+  right: 10px;
+  top: 46px;
+  background: #fff;
+  border-color: #f7b844;
+  border: 1px solid #efdbb8;
+}
+.main-not:hover{background:#f8e4bf;cursor: pointer;}
+.not-cont{overflow-y: scroll;height: 200px;}
+.main-not{padding: 10px 20px;text-align: left;    border-bottom: 1px solid #f5f5f5;}
+.not-name{margin: 0px;
+  font-weight: 500;}
+  .not-desc{font-size: 11px}
+.not-head-bg{background:#f7b844;padding: 10px;color: #fff;font-weight: 500;margin: 0px}
+/* Notification bar css */
 

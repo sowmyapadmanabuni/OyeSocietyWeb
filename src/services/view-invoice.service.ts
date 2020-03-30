@@ -24,7 +24,7 @@ export class ViewInvoiceService {
 
   /*----------------------Block List By association ID -----------------*/
   GetBlockListByAssocID(currentAssociationID) {
-    console.log('currentAssociationID',currentAssociationID);
+    //console.log('currentAssociationID',currentAssociationID);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.GetBlockListByAssocID();
     this.url = `${ipAddress}oyeliving/api/v1/Block/GetBlockListByAssocID/${currentAssociationID}`
@@ -62,6 +62,7 @@ export class ViewInvoiceService {
 
   getCurrentBlockDetails(blockId,currentAssociationID) {
     console.log('getCurrentBlockDetails', blockId);
+    console.log('getCurrentAssnID', currentAssociationID);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.getCurrentBlockDetails();
     this.url = `${ipAddress}oyeliving/api/v1/invoice/view/${currentAssociationID}/${blockId}`;
@@ -76,10 +77,24 @@ export class ViewInvoiceService {
 
     return this.http.get(this.url, { headers: headers });
   }
-
+  invoicelistByUnitID(UnitID){
+    console.log(UnitID);
+    let headers = this.getHttpheaders();
+    let ipAddress=this.utilsService.getIPaddress();
+    this.url = `${ipAddress}oyeliving/api/v1/Invoice/invoicelistByUnitID/${UnitID}`;
+    return this.http.get(this.url, { headers: headers });
+  }
+  generateInvoiceReceipt(genReceipt){
+    //console.log('InvoiceReceipt'+JSON.stringify(genReceipt));
+    //http://apidev.oyespace.com/oyeliving/api/v1/payment/add
+      let headers = this.getHttpheaders();
+      let ipAddress=this.utilsService.getIPaddress();
+      this.url = `${ipAddress}oyeliving/api/v1/payment/add`;
+      return this.http.post(this.url, JSON.stringify(genReceipt), { headers: headers });
+  }
   invoiceDetails(InvoiceId,UnitID){
-    console.log('InvoiceId-',InvoiceId);
-    console.log('UnitID-',UnitID);
+    //console.log('InvoiceId-',InvoiceId);
+    //console.log('UnitID-',UnitID);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.invoiceDetails();
     this.url = `${ipAddress}oyeliving/api/v1/invoice/details/${InvoiceId}/${UnitID}`;
@@ -101,7 +116,7 @@ export class ViewInvoiceService {
   }
 
   GetAmountBalance(unUnitID) {
-    console.log('GetAmountBalance', unUnitID);
+    //console.log('GetAmountBalance', unUnitID);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.GetAmountBalance();
     this.url = `${ipAddress}oyeliving/api/v1/Payment/GetAmountBalance/${unUnitID}`;
@@ -134,7 +149,7 @@ export class ViewInvoiceService {
   }
 
   UpdateInvoiceDiscountValueAndInsert(discountData) {
-    console.log(discountData);
+    //console.log(discountData);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.UpdateInvoiceDiscountValueAndInsert();
     this.url = `${ipAddress}oyeliving/api/v1/UpdateInvoiceDiscountValueAndInsert`;
@@ -145,7 +160,7 @@ export class ViewInvoiceService {
     let invoiceID = {
       "INID": inid
     };
-    console.log('json.stringify', JSON.stringify(invoiceID));
+    //console.log('json.stringify', JSON.stringify(invoiceID));
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.GetInvoiceOwnerListByInvoiceId();
     this.url = `${ipAddress}oyeliving/api/v1/GetInvoiceOwnerListByInvoiceId`

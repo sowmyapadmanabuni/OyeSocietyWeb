@@ -65,7 +65,7 @@ export class AddExpenseService {
   /*---------------prerequisitesAddUnit----------------*/
   prerequisitesAddUnit(blockID) {
     //$scope.blockID = $scope.allBlocksLists.blBlockID;
-    console.log('prerequisitesAddUnit',blockID);
+    //console.log('prerequisitesAddUnit',blockID);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.prerequisitesAddUnit();
     this.url = `${ipAddress}oyeliving/api/v1/Unit/GetUnitListByBlockID/${blockID}`;
@@ -111,7 +111,7 @@ export class AddExpenseService {
     this.url = `${this.ipAddress}oyeliving/api/v1/Budget/GetBudgetProjectionsByBlockID/${blBlockID}`
     this.http.get(this.url, { headers: headers })
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         //$scope.budgetProjectionsByBlock = response.data.data.budgetProjectionsByBlock;
       });
   }
@@ -123,7 +123,7 @@ export class AddExpenseService {
     this.url = `${ipAddress}oyeliving/api/v1/association/getAssociationList/${currentAssociationID}`
     this.http.get(this.url, { headers: headers })
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         //$scope.banks = response.data.data.association.bankDetails;
       });
   }
@@ -136,7 +136,7 @@ export class AddExpenseService {
     this.url = `${ipAddress}oyeliving/api/v1/Unit/GetUnitListByBlockID/${blockID}`
     return this.http.get(this.url, { headers: headers })
       .pipe(map(data => {
-        console.log(data['data'].unitsByBlockID);
+        //console.log(data['data'].unitsByBlockID);
         return data['data'].unitsByBlockID.map(item => {
           return new UnitsByBlockID(
             item.acAccntID,
@@ -177,8 +177,8 @@ export class AddExpenseService {
 
   }
 
-  createExpense(expensedata:ExpenseData){
-    console.log('expensedata',expensedata);
+  createExpense(expensedata){
+    //console.log('expensedata',expensedata);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.createExpense();
     this.url = `${ipAddress}oyeliving/api/v1/Expense/Create`

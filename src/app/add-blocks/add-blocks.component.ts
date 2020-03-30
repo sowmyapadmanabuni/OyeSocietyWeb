@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild, Output,EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { AddBlockService } from '../../services/add-block.service';
 import { GlobalServiceService } from '../global-service.service';
@@ -23,17 +23,17 @@ export class AddBlocksComponent implements OnInit {
 
   blockname: string;
   blocktype: string;
-  noofunits: number;
+  noofunits: any;
   mngName: string;
-  mobile: number;
-  manageremail: number;
+  mobile: any;
+  manageremail: any;
   flatRatevalue: number;
   maintenanceValue: number;
   measurements: number;
   billGenerationDate: Date;
   dueDate: string;
   latePymtChargeType: string;
-  latePymtCharge: number;
+  latePymtCharge: any;
   startsFrom: Date;
   frequency: string;
 
@@ -61,6 +61,9 @@ export class AddBlocksComponent implements OnInit {
   todayDate:Date;
   check:any;
 check1:any;
+rate:any;
+rate1:any;
+@Output() EnableBlockListView:EventEmitter<string>;
 
 
   constructor(private addblockservice: AddBlockService,
@@ -68,6 +71,7 @@ check1:any;
     private router:Router,
     private viewassn: ViewAssociationService,
     private viewUniService: ViewUnitService) {
+      this.EnableBlockListView=new EventEmitter<string>();
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.currentAssociationName = this.globalservice.getCurrentAssociationName();
     this.currentaccountID=this.globalservice.getacAccntID();
@@ -78,7 +82,7 @@ check1:any;
                                         isAnimated: true});
     this.frequency = '';
     this.latePymtChargeType = 'SELECT CHARGE TYPE';
-    this.blocktype = '';
+    this.blocktype = 'Select Block';
     this.enableduedatevalidation = false;
     this.duedatechanged = false;
     this.invoicedatechanged = false;
@@ -111,6 +115,12 @@ check1:any;
 
     this.maintenanceValue=0;
     this.flatRatevalue=0;
+    this.blockname='';
+    this.noofunits='';
+    this.mngName='';
+    this.mobile='';
+    this.manageremail='';
+    this.latePymtCharge='';
   }
 
   ngOnInit() {
@@ -121,15 +131,19 @@ check1:any;
   getLatePymtChargeType(name) {
     this.latePymtChargeType = name;
   }
+  getBlockType(param){
+    this.blocktype=param;
+    
+  }
   getMeasurement(){
     this.viewassn.getAssociationDetailsByAssociationid(this.currentAssociationID).subscribe((res)=>{
       var data:any =res;
-      console.log(data);
+      //console.log(data);
       this.association=data.data.association;
-      console.log(this.association);
+      //console.log(this.association);
       this.country= this.association['asCountry'];
       //this.viewassn.ascountry = this.country;
-      console.log('country',this.country);
+      //console.log('country',this.country);
       // if(this.asCountry =='India'){
       //   this.meter='sqft';
       //   alert(this.meter);
@@ -172,24 +186,24 @@ check1:any;
     }
   }
   telInputObject(telinputobj) {
-    console.log(telinputobj);
+    //console.log(telinputobj);
   }
   hasError(errorobj) {
-    console.log(errorobj);
+    //console.log(errorobj);
   }
   getNumber(numberobj) {
-    console.log(numberobj);
+    //console.log(numberobj);
   }
   onCountryChange(countryobj) {
-    console.log(countryobj['dialCode']);
+    //console.log(countryobj['dialCode']);
   }
   onValueChange(value: Date): void {
-    console.log(value);
+    //console.log(value);
     if (value != null) {
       this.invoicedatechanged = true;
       this.minDate = new Date(value);
       this.minDateinNumber = new Date(value).getTime();
-      console.log('minDateinNumber', this.minDateinNumber);
+      //console.log('minDateinNumber', this.minDateinNumber);
       if (this.duedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -215,6 +229,13 @@ check1:any;
         event.preventDefault();
     }
   }
+  _keyPress2(event) {
+    const pattern = /[a-zA-Z _]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 
   onDueDateValueChange(value: Date) {
     this.enableduedatevalidation = false;
@@ -222,7 +243,7 @@ check1:any;
       this.duedatechanged = true;
       this.startsFromMaxDate = new Date(value);
       this.dueDateinNumber = new Date(value).getTime();
-      console.log('dueDateinNumber', this.dueDateinNumber);
+      //console.log('dueDateinNumber', this.dueDateinNumber);
       if (this.invoicedatechanged) {
         if (this.dueDateinNumber < this.minDateinNumber) {
           this.enableduedatevalidation = true;
@@ -281,7 +302,7 @@ check1:any;
   }
 
   passvalue(frequency) {
-    console.log(frequency);
+    //console.log(frequency);
   }
 
   createBlock() {
@@ -397,7 +418,8 @@ check1:any;
 
                   this.viewUniService.createUnit(createUnitData).subscribe(data => {
                     console.log(data);
-                  },
+                    this.EnableBlockListView.emit('EnableBlockList');
+                    },
                     err => {
                       console.log(err);
                     })
@@ -416,10 +438,11 @@ check1:any;
           }
        
         },
-          () => {
+          (err) => {
+            console.log(err);
             swal.fire({
               title: "Error",
-              text: "Block Creation Unsuccessfull",
+              text: `${err['error']['error']['message']}`,
               type: "error",
               confirmButtonColor: "#f69321"
             });
@@ -432,5 +455,24 @@ check1:any;
     this.enableduedatevalidation = false;
     frm.classList.remove('was-validated');
   }
-
+  resetStep1(){
+    this.blockname='';
+    this.blocktype = '';
+    this.noofunits='';
+  }
+  resetStep2(){
+    this.mngName='';
+    this.mobile='';
+    this.manageremail='';
+  }
+  resetStep3() {
+    this.flatRatevalue = 0;
+    this.maintenanceValue = 0;
+    this.meter = '';
+    this.frequency = '';
+    this.billGenerationDate = null;
+    this.dueDate = '';
+    this.latePymtChargeType = 'SELECT CHARGE TYPE';
+    this.startsFrom = null;
+  }
 }

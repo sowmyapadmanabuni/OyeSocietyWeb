@@ -1,0 +1,35 @@
+.b-l{border-left: 2px solid rgb(242, 238, 238)}
+.cus-panel{width: 76%;margin: 0px auto;margin: 50px auto;padding: 20px;}
+.cus-panel>div{display: flex;justify-content: space-between;align-items: center;margin-bottom: 12px;}
+.cus-details>p{margin: 5px;}
+.bill{border-top: 2px solid #fad855;border-bottom: 2px solid #fad855;padding: 5px;font-weight: 600;}
+thead{background: #5a51aa;}
+.txt-center{text-align: center}
+table { margin-top:0px !important;}
+.del-date
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.date{
+    padding: 10px;
+    outline: 0;
+    border-width: 0 0 1px;
+    border-color: #b5b5b9;
+    background: #f8f8f8;
+    width: 200px;
+}
+.cal::after {
+    content: "\f073";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color: #f7b844;
+    font-size: 18px;
+    padding-right: 0.5em;
+    position: relative;
+    top: 3px;
+    right: 22px;
+}

@@ -1,23 +1,41 @@
-<div class="container-fluid bg np">
-    <div class="col-sm-9">
+<div class="container-fluid np">
+    <div class="col-sm-12 mt-80">
         <!--Profile section-->
         <app-left-bar></app-left-bar>
-
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                <ul class="nav nav-pills">
-                    <li><a (click)="goToBlocks()">Blocks</a></li>
-                    <li class="active"><a (click)="goToUnits()">Units</a></li>
-                </ul>
-                <div class="enroll">
-                    <span class="purple" style="font-size: 24px;font-weight: 500;">Units Management</span>
-                    <button class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
-                            aria-hidden="true"></i> Add
-                        Units</button>
-                </div>
-                <div class="col-3">
+                 <div class="enr-bt">                      
+                        <div style="display: flex">
+                                    <span style="width: 263px;" class="purple">Units Management for Block</span>                  
+                                        <div style="float:left;margin:0px" class="form-group">
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                                    data-toggle="dropdown">{{blBlkName}}
+                                                    <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                                <ul class="dropdown-menu fullw">
+                                                    <li *ngFor='let blck of allBlocksLists'
+                                                        (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>
+                                                            {{blck.blBlkName}}</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>                                  
+                        </div>   
+                        <div class="tab-opt">
+                                <ul class="nav nav-pills">
+                                    <li><a (click)="goToBlocks()">Blocks</a></li>
+                                    <li class="active"><a (click)="goToUnits()">Units</a></li>
+                                </ul>
+                        </div> 
+                 </div>
+                 <div class="enroll">
+                    <div style="display: flex;justify-content: flex-end;flex-direction: column;">
+                              
+                    </div>
+                   </div>
+               
+                <!-- <div class="col-3">
                     <div class="form-group">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -30,33 +48,51 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-                <div *ngIf="unitList">
-                    <label>Search</label>
+
+                </div> -->
+                <div *ngIf="viewUniService.unitList">
                     <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
-                        placeholder="search name">
+                        placeholder="Search by Unit Name, Unit Type, Name, Email">
                 </div>
-                <div class="dash-row" *ngIf="unitList">
-                    <table class="table table-striped"
+                <div class="dropdown" style="display: flex;justify-content: space-between;">
+                    <button style="width: 200px;" class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                            <a>{{rows['Display']}}</a></li>
+                    </ul>
+                    <div style="display: flex;flex-direction: column;">
+                    <button style="float: right;" class="btn-primary-purple" (click)="addUnitsShow()"><i class="fa fa-plus"
+                        aria-hidden="true"></i> Add Units</button>
+                        <div class="upload_excel">
+                            <a class="excel" tooltip="Have more num of Units?"  (click)="NavigateToBulkUpload()">Bulk Upload</a>
+                                <!-- <a tooltip="click to download demo excel format"  href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img class="excel" src="../../assets/images/download.png"></a>
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" #file> -->
+                         </div> 
+                    </div>
+                </div>
+                <div class="dash-row" *ngIf="viewUniService.unitList">
+                    <table class="table table-bordered"
                         [mfData]="allUnitBYBlockID | search:['unUniName','unUniType','unDimens']:searchTxt"
-                        #mf="mfDataTable" [mfRowsOnPage]="10">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
                                 <th>
-                                    <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unUniType">Unit Type</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('UnitType')" by="unUniType">Unit Type&nbsp;<i [hidden]="columnName=='UnitType'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="unDimens">Unit Dimension</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('UnitDimension')" by="unDimens">Unit Dimension&nbsp;<i [hidden]="columnName=='UnitDimension'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="uofName">Name</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name&nbsp;<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="uoEmail">Email</mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('Email')" by="uoEmail">Email&nbsp;<i [hidden]="columnName=='Email'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>Action</th>
                             </tr>
@@ -67,7 +103,7 @@
                                     <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{(i+1)}}</td>
+                                    <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
                                     <td>{{item.unUniName}}</td>
                                     <td>{{item.unUniType}}</td>
                                     <td>{{item.unDimens}} SqFt</td>
@@ -75,12 +111,14 @@
                                     </td>
                                     <td>{{(item.owner.length > 0 ? item.owner[0].uoEmail : ((item.tenant.length > 0) ? item.tenant[0].utEmail :''))}}
                                     </td>
-                                    <td>
-                                        <i data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
-                                            class="fa fa-eye"></i>&nbsp;|&nbsp;<i data-toggle="modal"
+                                    <td class="txt-middle">
+                                        <i style="cursor: pointer;" data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
+                                            class="fa fa-eye" tooltip="View Unit"></i>&nbsp;|&nbsp; <i style="cursor: pointer;" data-toggle="modal"
+                                            (click)="OpenModal(editUnits,item['unUnitID'],item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'],item['undCreated'])" class="fa fa-pencil" tooltip="Edit Unit"></i>
+                                        <!-- <i data-toggle="modal"
                                             data-target="#editBlockDetails"
                                             (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
-                                            class="fa fa-pencil"></i>
+                                            class="fa fa-pencil"></i> -->
                                     </td>
                                 </ng-container>
                             </tr>
@@ -97,34 +135,35 @@
             </div>
             <!--Dashboard icons end-->
             <!--Add Units form Starts-->
-            <div class="col-sm-12" *ngIf="addUnits">
+            <div class="col-sm-12" *ngIf="viewUniService.addUnits">
                 <app-add-unit></app-add-unit>
             </div>
             <!--Add Units form Ends-->
         </div>
     </div>
     <!--rightBar start-->
-    <app-right-bar></app-right-bar>
+    <!-- <app-right-bar></app-right-bar> -->
     <!--rightBar end-->
 </div>
 
 
-<!--DIV-->
 <div class="modal fade viewPopup" id="viewUnit1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+
             <div class="modal-header" style="background-color: whitesmoke;">
-                <h4 class="modal-title" id="myModalLabel" style="color:#f7b844; font-family: Quicksand;">View
-                    Unit</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+               
+               
+                <h4 class="modal-title" id="myModalLabel" style="color:#b33951; font-family: Quicksand;"><u>View Unit</u></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
+
             <div class="modal-body" style="font-family: Quicksand;">
-                <div class="row" style="padding:5px;">
-                    <div class="col-sm-12">
-                        <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5>
-                        <br>
-                        <h5 style="color:#f7b844">Unit Information</h5>
+                <div class="row" style="border:2px solid #b33951; padding:5px;">
+                    <div class="col-sm-12"> 
+                        <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5> 
+                        <br>                          
+                        <h5 style="color:#b33951">Unit Information</h5>
                         <br>
                     </div>
                     <div class="col-sm-4">
@@ -136,22 +175,131 @@
                     <div class="col-sm-4">
                         <p>Unit Dimension : <span>{{viewUnitRow.unitDimen}}</span></p>
                     </div>
+
                     <div class="col-sm-12">
-                        <hr>
+                         <hr>
                     </div>
+
                     <div class="col-sm-4">
                         <p>Unit Rate : <span>{{viewUnitRow.rate}}</span></p>
                     </div>
                     <div class="col-sm-4">
-                        <p>Calculation Type : <span>{{viewUnitRow.calculationType}}</span></p>
-                        <!---->
+                        <p>Calculation Type : <span>{{viewUnitRow.calculationType}}</span></p><!---->
                     </div>
                     <div class="col-sm-4">
                         <p>Occupancy Status : <span>{{viewUnitRow.occupencyStatus}}</span></p>
                     </div>
                 </div>
-            </div>
-            <!---------Modal Body close---------->
+            </div> <!---------Modal Body close----------> 
         </div>
     </div>
 </div>
+
+
+
+
+<ng-template #editUnits>
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h4 class="modal-title" style="padding-left:15px;">Edit Unit</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form name="editAssociation" autocomplete="off">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="from-group" style="padding-left:15px;">
+                                    <p>Unit Name : <strong>{{unUniName}}</strong></p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" style="padding-right:15px;">
+                                <p>Date : <strong> {{undCreated|date:'dd-MM-yyyy'}}
+                                    </strong></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                        <div class="col-sm-12">
+                            <h5 style="color:#e59400;">Unit Information</h5>
+                        </div>
+                        <br>
+                        <div class="row" style="padding-left:15px;padding-right:15px;">
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="occupencyInEditUnit" name="occupencyInEditUnit"
+                                            data-toggle="dropdown">{{SelectOccupancyOwnershipStatus=='Select Occupancy Ownership Status'?SelectOccupancyOwnershipStatus:UNOcStat}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li (click)="SelectOccupencyStatus('Sold Owner Occupied Unit')"><a>Sold Owner Occupied Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('Sold Tenant Occupied Unit')"><a>Sold Tenant Occupied Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('Sold Vacant Unit')"><a>Sold Vacant Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('UnSold Vacant Unit')"><a>UnSold Vacant Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('UnSold Tenant Occupied Unit')"><a>UnSold Tenant Occupied Unit</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">Unit Type<span class="red">*</span></label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="unitTypeForEdit" name="unitTypeForEdit"
+                                            data-toggle="dropdown">{{SelectUnitType=='Select Unit Type'?SelectUnitType:UNUniType}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li (click)="getUnitType('Flat')"><a>Flat</a></li>
+                                            <li (click)="getUnitType('Villa')"><a>Villa</a></li>
+                                            <li (click)="getUnitType('Vaccant Plot')"><a>Vaccant Plot</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                    [ngClass]="{'was-validated' : UNDimensControl.invalid && UNDimensControl.touched}">
+                                    <label id=label3>Unit Dimension<span class="red">*</span></label>
+                                    <input type="text" name="UNDimens" id="input3" autocomplete='UNDimens'
+                                        [(ngModel)]="UNDimens" #UNDimensControl="ngModel" class="form-control"
+                                        placeholder="No Of Units" pattern="[0-9]*" required />
+                                    <p class="alerts" *ngIf="UNDimensControl.invalid && UNDimensControl.touched">Unit Dimension required
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">Calculation Type<span class="red">*</span></label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="UNCalType" name='UNCalType'
+                                            data-toggle="dropdown">{{UNCalType}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li (click)="getCalculationTypesUpadte('Flat Rate Value')"> <a>Flat Rate Value</a></li>
+                                            <li (click)="getCalculationTypesUpadte('Dimension Based')"> <a>Dimension Based</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="from-group">
+                            <div class="form-group pull-right">
+                                <button type="submit" class="btn btn-primary-purple nextBtn"
+                                    (click)="UpdateUnit()">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -2,7 +2,7 @@ export class EditExpenseData {
     BLBlockID : number;
     ASAssnID  : number;
     EXID      : number;
-    EXDate:string;
+    EXDate:Date;
     EXHead    : string;
     EXDesc    : string;
     EXRecurr  : string;

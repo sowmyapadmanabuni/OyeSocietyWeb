@@ -1,0 +1,36 @@
+<div class="status-cont" style="margin-top:130px">
+    <h1 class="pay-title"><img src="../../assets/images/sucess-tick.gif" style="width: 50px;"> &nbsp;Payment Successful</h1>
+    <!-- <div *ngIf="transactionId&&status"> -->
+        <p>Hai Raghavendra your Payment has been Successful.Please find your payment details below:</p>
+            <table class="table table-bordered">
+                    
+                    <tbody>
+                      <tr>
+                        <th>Customer Name</th>
+                        <td>Raghavendra Kumar</td>
+                      </tr>
+                      <tr>
+                        <th>Order ID</th>
+                        <td>{{orderId}}</td>
+                      </tr>
+                      <tr>
+                        <th>Transaction ID</th>
+                        <td>{{transactionId}}</td>
+                      </tr>
+                      <tr>
+                        <th>Status</th>
+                        <td>{{status}}</td>
+                      </tr>
+                      <tr>
+                        <th>Amount Paid</th>
+                        <td>23,000</td>
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+    <!-- <div style="display: flex;flex-direction: column; line-height: 150%;">
+        <span>Order ID: {{orderId}}</span>
+        <span>Transaction ID: {{transactionId}}</span>
+        <span>Status: {{status}}</span>
+    </div> -->
+</div>

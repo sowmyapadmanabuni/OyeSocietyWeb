@@ -1,13 +1,13 @@
-<div class="container-fluid bg np">
-        <div class="col-sm-9">
+<div class="container-fluid np">
+        <div class="col-sm-12 mt-80">
             <!--Profile section-->
             <app-left-bar></app-left-bar>
             <!--Profile section-->
             <div class="col-xs-12 col-sm-12 col-md-11 b-l">
-                <span class="black">Deliveries</span>
                 <!--Dashboard icons start-->
                 <div class="col-md-12 m-t-30 dash">
-                    <div class="switch">
+                        <span class="black">Deliveries</span>
+                    <div class="switch" style="margin-bottom:15px">
                         <ul class="nav nav-pills">
                             <li><a (click)="goToGuests()">My Guests</a></li>
                             <li class="active"><a (click)="goToDelivery()">Deliveries</a></li>
@@ -19,11 +19,11 @@
                         </div>
                         <div class="del-date cal">From<input type="text" class="date ng-pristine ng-valid ng-touched" name="StartDate" #StartDateControl='ngModel'
                                   placeholder="Start Date"  [(ngModel)]="StartDate"
-                                  bsDatepicker required [minDate]="todayDate" placement="side"/>
+                                  bsDatepicker required [bsConfig]="bsConfig" [minDate]="todayDate" placement="side"/>
                         </div>
 
-                        <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="Due Date"
-                            [(ngModel)]="EndDate" bsDatepicker required 
+                        <div class="del-date cal">To<input type="text" (bsValueChange)='getVisitorList($event)' class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="End Date"
+                            [(ngModel)]="EndDate" [bsConfig]="bsConfig" bsDatepicker required 
                             placement="bottom"/>
                         </div>                   
                     </div>
@@ -57,7 +57,7 @@
                                 <tbody>
                                     <tr *ngFor="let item of mf.data;let i=index">
                                         <ng-container *ngIf="item == -1">
-                                            <td colspan="5" align="center">No Data Found</td>
+                                            <td colspan="7" align="center">No Data Found</td>
                                         </ng-container>
                                         <ng-container *ngIf="item!=-1">
                                             <td>{{(i+1)}}</td>
@@ -72,7 +72,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="5">
+                                        <td colspan="7">
                                             <mfBootstrapPaginator></mfBootstrapPaginator>
                                         </td>
                                     </tr>
@@ -80,7 +80,7 @@
                             </table> 
                     </div>
                     <div>
-                            <button class="btn btn-primary-purple nextBtn">Leave with Vender</button>
+                            <button class="btn btn-primary-purple nextBtn">Leave with Vendor</button>
                     </div>
                 </div>
                 <!--Dashboard icons end-->
@@ -88,6 +88,6 @@
             </div>
         </div>
         <!--rightBar start-->
-        <app-right-bar></app-right-bar>
+        <!-- <app-right-bar></app-right-bar> -->
         <!--rightBar end-->
     </div>

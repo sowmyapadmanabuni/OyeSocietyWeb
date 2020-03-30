@@ -15,7 +15,7 @@ export class RegisterService {
   url:string;
 
   register(requestData){
-    console.log('requestData',requestData);
+    //console.log('requestData',requestData);
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.register();
     this.url = `${ipAddress}oyeliving/api/v1/account/signup`

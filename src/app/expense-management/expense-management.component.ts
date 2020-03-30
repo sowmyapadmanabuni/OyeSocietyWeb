@@ -22,6 +22,11 @@ import * as _ from 'lodash';
 import { OrderPipe } from 'ngx-order-pipe';
 import {UtilsService} from '../utils/utils.service';
 import {ExpenseList} from '../models/expense-list';
+import * as XLSX from 'xlsx';
+import { Subscription } from 'rxjs';
+import { ViewUnitService } from '../../services/view-unit.service';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-expense-management',
@@ -72,6 +77,8 @@ export class ExpenseManagementComponent implements OnInit {
   POEAmnt: number;
   p: number;
   dynamic: number;
+  allUnitBYBlockID:any[];
+  UnitName:any;
 
   currentAssociationID: string;
 
@@ -79,7 +86,7 @@ export class ExpenseManagementComponent implements OnInit {
 
   viewexpensesByBlockId: Object[];
   currentassociationname:string;
-  bsConfig: { containerClass: string; dateInputFormat: string; showWeekNumbers: boolean; isAnimated: boolean; };
+  bsConfig: {dateInputFormat: string; showWeekNumbers: boolean; isAnimated: boolean;};
   disableButton: boolean;
   isnotValidformat: boolean;
   isLargefile: boolean;
@@ -101,25 +108,63 @@ export class ExpenseManagementComponent implements OnInit {
   Invoiced:any;
   enableAddExpnseView:boolean;
   enableExpenseListView:boolean;
+  IsInvoiced:any;
+  toggle:any;
+  searchTxt:any;
+  minDate:any;
+  ddno:any;
+  DemandDraftDate:any;
+  minDemandDraftDate:any;
+  currentAssociationIdForExpense: Subscription;
+  ExpenseStartDate:any;
+  ExpenseEndDate:any;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowRecords:any;
+  columnName: any;
+  unUnitID: any;
+  toggleTd: boolean;
+  testDate: Date;
+  invalidAmount: boolean;
+  toggleDistributionType:boolean;
+  toggleUnitList: boolean;
+  isDateFieldEmpty: boolean;
 
-  constructor(private viewexpenseservice: ViewExpensesService,
+  constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
-    private addexpenseservice: AddExpenseService,
+    public addexpenseservice: AddExpenseService,
     private router: Router,
+    public viewUniService: ViewUnitService,
     private toastr: ToastrService,
-    private globalservice: GlobalServiceService,
-    private viewinvoiceservice: ViewInvoiceService,
-    private dashboardservice:DashBoardService,
+    public globalservice: GlobalServiceService,
+    public viewinvoiceservice: ViewInvoiceService,
+    public dashboardservice:DashBoardService,
     private orderpipe: OrderPipe,
     private utilsService:UtilsService
   ) {
+    this.checkField="xyz";
+    this.toggleDistributionType=false;
+    this.toggleUnitList=true;
+    this.isDateFieldEmpty=false;
+    this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
+    this.globalservice.IsEnrollAssociationStarted==false;
+    this.rowsToDisplay=[{'Display':'5','Row':5},
+                          {'Display':'10','Row':10},
+                          {'Display':'15','Row':15},
+                          {'Display':'50','Row':50},
+                          {'Display':'100','Row':100},
+                          {'Display':'Show All Records','Row':'All'}];
+    this.setnoofrows=10;
+    this.ShowRecords='Show Records';
     this.currentassociationname=this.globalservice.getCurrentAssociationName();
     this.blockID = '';
+    this.UnitName='';
     this.todayDate = new Date();
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
-
+    this.allUnitBYBlockID=[];
     this.addexpenseservice.enableAddExpnseView = false;
     this.addexpenseservice.enableExpenseListView=true;
+    this.invalidAmount=false;
     //this.viewexpenseservice.GetExpenseListByAssocID();
     //this.mgrName= this.viewexpenseservice.GetBlockListByBlockID('1107');
     //this.viewexpenseservice.GetPurchaseOrderListByAssocID();
@@ -210,13 +255,32 @@ export class ExpenseManagementComponent implements OnInit {
                      { 'name': 'false', 'displayName': 'No', 'id': 2 }]
 
     this.bsConfig = Object.assign({}, {
-      containerClass: 'theme-orange',
+      //containerClass: 'theme-purple',
       dateInputFormat: 'DD-MM-YYYY',
       showWeekNumbers: false,
       isAnimated: true
     });
     this._viewexpensesByBlockId=[];
     this.expenseList=[];
+    this.toggle='All';
+    //
+    this.currentAssociationIdForExpense=this.globalservice.getCurrentAssociationIdForExpense()
+    .subscribe(msg=>{
+      console.log(msg);
+      this.globalservice.setCurrentAssociationId(msg['msg']);
+      this.initialiseEXpense();
+    },err=>{
+      console.log(err);
+    })
+  this.toggleTd=false;
+  
+  }
+  GetexpenseList(param) {
+    this.toggle = param;
+  }
+  setRows(RowNum) {
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.expenseList.length:RowNum);
   }
   goToExpense(){
     this.router.navigate(['expense']);
@@ -231,9 +295,13 @@ export class ExpenseManagementComponent implements OnInit {
     this.router.navigate(['vehicles']);
   }
   ngAfterViewInit() {
-
+    $(".se-pre-con").fadeOut("slow");
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
   }
   ngOnInit() {
+    
     // this.addexpenseservice.GetBlockListByAssocID()
     //   .subscribe(item => {
     //     console.log('item',item);
@@ -244,43 +312,46 @@ export class ExpenseManagementComponent implements OnInit {
 
     //   });
 
-    this.viewexpenseservice.getAssociationList(this.currentAssociationID)
+    this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         this.associationlist = data['data'].association;
         this.associationDetails = data['data'].association;
         this.assnName = data['data'].association.asAsnName;
       });
 
-    //this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.currentAssociationID);
-    this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.currentAssociationID);
+    //this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
+    this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
     //http://apidev.oyespace.com/oyeliving/api/v1/Expense/GetExpenseListByBlockID/{BlockID}
 
 
-    this.addexpenseservice.GetPurchaseOrderListByAssocID(this.currentAssociationID)
+    this.addexpenseservice.GetPurchaseOrderListByAssocID(this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.purchaseOrders = data;
       });
 
-    this.addexpenseservice.GetBlockListByAssocID(this.currentAssociationID)
+    this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
       .subscribe(item => {
         this.allBlocksLists = item;
-        console.log('allBlocksLists', this.allBlocksLists);
+        //console.log('allBlocksLists', this.allBlocksLists);
       });
     if (this.viewexpenseservice.currentBlockName != '' && this.viewexpenseservice.currentBlockId != '') {
       this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
     }
   }
   getExpLst(e) {
-    console.log(e);
+    //console.log(e);
     this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
   }
   GetExpenseListByBlockID(blockID,blBlkName) {
+    this.UnitName='';
+    this.allUnitBYBlockID=[]
     this.expenseList=[];
     this.viewexpensesByBlockId=[];
     this.blockID=blockID;
     console.log('GetExpenseListByBlockID',blockID);
     this.viewexpenseservice.currentBlockId=blockID;
+    this.editexpensedata.BLBlockID=blockID
     this.viewexpenseservice.currentBlockName=blBlkName;
     this.viewexpenseservice.GetExpenseListByBlockID(blockID)
     .subscribe(
@@ -289,22 +360,75 @@ export class ExpenseManagementComponent implements OnInit {
         this.viewexpensesByBlockId=data;
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
-          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], ''));
+          //console.log(item['inNumber']);
+          this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
+          this.GetexpenseListByInvoiceID('id','All');
         })
         console.log(this.expenseList);
+        this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
         this._viewexpensesByBlockId=this.expenseList;
-        this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
-        console.log('viewexpensesByBlockId',this.expenseList);
+        //this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
+        //console.log('viewexpensesByBlockId',this.expenseList);
         //
         this.sortedCollection = this.orderpipe.transform(this.expenseList, 'exHead');
-        console.log(this.sortedCollection);
+        //console.log(this.sortedCollection);
+      },
+      err=>{
+        console.log(err);
+        swal.fire({
+          text: `No Data Found`,
+          confirmButtonColor: "#f69321"
+        });
       }
 
     ) 
     //this.viewexpenseservice.GetExpenseListByBlockID(blockID);
-    console.log(this.viewexpensesByBlockId);
+    //console.log(this.viewexpensesByBlockId);
+    this.getAllUnitDetailsByBlockID();
   }
+  getExpenseListByDateRange(ExpenseEndDate) {
+    console.log(this._viewexpensesByBlockId);
+    this.expenseList = this._viewexpensesByBlockId;
+    //console.log(formatDate(new Date(this.ExpenseStartDate),'dd/MM/yyyy','en'));
+    console.log(new Date(new Date(this.ExpenseStartDate).getFullYear(),new Date(this.ExpenseStartDate).getMonth()+1,new Date(this.ExpenseStartDate).getDate()).getTime());
+    //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
+    //console.log(formatDate(new Date(ExpenseEndDate),'dd/MM/yyyy','en'));
+    console.log(new Date(new Date(ExpenseEndDate).getFullYear(),new Date(ExpenseEndDate).getMonth()+1,new Date(ExpenseEndDate).getDate()).getTime());
+    console.log(ExpenseEndDate);
+    this.expenseList = this.expenseList.filter(item=>{
+      console.log(new Date(item['exdUpdated']),new Date(new Date(item['exdUpdated']).getFullYear(),new Date(item['exdUpdated']).getMonth()+1,new Date(item['exdUpdated']).getDate()).getTime());
+      console.log(new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')).getTime())
+      console.log(new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime())
+      console.log(new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime())
+      console.log(new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')).getTime() <= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime() && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime() >= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime())
+      //return new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')).getTime() <= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime() && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime() >= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime();
+      return new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')) <= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')) && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')) >= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en'));
+    })
+    console.log(this.expenseList);
+  }
+  convert() {
 
+    let doc = new jsPDF();
+    let head = ["Expense Head","Applicable","Unit","Invoice Generated","Date","Amount"];
+    let body = [];
+
+    /* The following array of object as response from the API req  */
+
+  /*  var itemNew = [
+      { id: 'Case Number', name: '101111111' },
+      { id: 'Patient Name', name: 'UAT DR' },
+      { id: 'Hospital Name', name: 'Dr Abcd' }
+    ] */
+
+
+    this.expenseList.forEach(element => {
+      let temp = [element['exHead'], element['exApplTO'], element['unUniIden'],(element['exIsInvD'].toString()=="true"?"Yes":"No") , formatDate(element['exDate'],'dd/MM/yyyy','en') , 'Rs.'+element['expAmnt']];
+      body.push(temp);
+    });
+    console.log(body);
+    doc.autoTable({ head: [head], body: body });
+    doc.save('Expense.pdf');
+    }
   setOrder(value: string) {
     if (this.order === value) {
       this.reverse = !this.reverse;
@@ -313,7 +437,7 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   poDetails() {
-    console.log('poDetails');
+    //console.log('poDetails');
     this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
     this.VNName = this.purchaseOrders[0]['poPrfVen'];
     this.BPIden = this.purchaseOrders[0]['bpIden'];
@@ -328,13 +452,42 @@ export class ExpenseManagementComponent implements OnInit {
       "ASAssnID": this.viewexpenseservice.currentAssociationID
     }
     this.viewexpenseservice.deleteExpense(viewexpense)
-      .subscribe(data => console.log(data));
+      .subscribe(data => {
+        //console.log(data)
+      });
+  }
+  onPageChange(event) {
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
+        let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+        this.p= Number(element.children[0]['text']);
+      //console.log(this.p);
+    } 
+    if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
+      this.p= 1;
+    }
+    //console.log(this.p);
+    let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+    }
   }
   generateInvoice() {
-    console.log(this.blockID);
-    console.log(this.expid);
-    console.log(this.exidList.length);
-    console.log(this.togglegenerateinv);
+    //console.log(this.blockID);
+    //console.log(this.expid);
+    //console.log(this.exidList.length);
+    //console.log(this.togglegenerateinv);
     if(this.blockID == '' || (this.togglegenerateinv == false && this.toggleBulkInvGenerate == false)){
           swal.fire({
             title: "Please Select One or More Checkbox for GenerateInvoice",
@@ -347,9 +500,9 @@ export class ExpenseManagementComponent implements OnInit {
     else{
           this.viewexpenseservice.generateInvoice(this.currentAssociationID,this.exidList,this.expenseList)
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         swal.fire({
-          title: "Invoice Generated Successfully",
+          title: `${(this.exidList.length == 1?`${this.exidList.length}-Invoice Generated and Posted Successfully`:`${(this.exidList.length == 0?`${this.expenseList.length}-Invoices Generated and Posted Successfully`:`${this.exidList.length}-Invoices Generated and Posted Successfully`)}`)}`,
           text: "",
           type: "success",
           confirmButtonColor: "#f69321",
@@ -368,7 +521,7 @@ export class ExpenseManagementComponent implements OnInit {
       },
         (err) => {
           this.exidList=[];
-          console.log(err);
+          //console.log(err['error']);
           swal.fire({
             title: "Error",
             text: `${err['error']['exceptionMessage']}`,
@@ -401,39 +554,71 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   editExpense(repexpense1, idx) {
-    console.log('repexpense1-', repexpense1);
-    console.log('idx-', idx);
+    //console.log('repexpense1-', repexpense1);
+    //console.log('idx-', idx);
   }
-  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exDate, blBlockID) {
-    console.log('purchaseOrders',this.purchaseOrders);
-    // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
-    // this.VNName = this.purchaseOrders[0]['poPrfVen'];
-    // this.BPIden = this.purchaseOrders[0]['bpIden'];
-    this.EXRABudg = 0;
+  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD) {
+    console.log(exIsInvD);
+    if (exIsInvD== false) {
+      //console.log('purchaseOrders',this.purchaseOrders);
+      //console.log('InvoiceNumber',inNumber);
+      // this.POEAmnt = this.purchaseOrders[0]['poEstAmt'];
+      // this.VNName = this.purchaseOrders[0]['poPrfVen'];
+      // this.BPIden = this.purchaseOrders[0]['bpIden'];
+      //this.ValidateAmount()
+      console.log(poid);
+      console.log(exDesc);
+      console.log(exRecurr);
+      console.log(exType);
+      console.log(pmid);
+      console.log(new Date(exdUpdated));
+      console.log(new Date(exdUpdated).getDate());
+      console.log(new Date(exdUpdated).getMonth());
+      console.log(new Date(exdUpdated).getFullYear());
+      console.log(new Date(exdUpdated).getHours());
+      console.log(new Date(exdUpdated).getMinutes());
+      console.log(new Date(exdUpdated).getSeconds());
+      console.log(new Date(exdUpdated).getTimezoneOffset());
+      console.log(new Date(new Date(exdUpdated).getFullYear(), new Date(exdUpdated).getMonth(), new Date(exdUpdated).getDate(), 12, 0, 0));
+      this.EXRABudg = 0;
+      let formattedDate = new Date(new Date(exdUpdated).getFullYear(), new Date(exdUpdated).getMonth(), new Date(exdUpdated).getDate(), 12, 0, 0);
+      console.log(formattedDate);
+      console.log(formatDate(formattedDate, 'dd/MM/yyyy', 'en'));
+      this.editexpensedata.EXID = exid;
+      this.editexpensedata.EXDesc = exDesc;
+      this.editexpensedata.EXPAmnt = expAmnt;
+      this.editexpensedata.EXApplTO = exApplTO;
+      this.editexpensedata.EXHead = exHead;
+      this.editexpensedata.EXType = exType;
+      this.editexpensedata.PMID = pmid;
+      this.editexpensedata.inNumber = exid.toString();
+      this.editexpensedata.POID = poid;
+      this.editexpensedata.EXPyCopy = '';
+      this.editexpensedata.EXRecurr = exRecurr;
+      this.editexpensedata.EXDate = formattedDate;
+      this.editexpensedata.BLBlockID = blBlockID;
+      this.editexpensedata.unUniIden = unUniIden;
+      console.log(this.editexpensedata);
+      this.checkField="xyz";
+      this.editexpensedata.PMID = '';
 
-    this.editexpensedata.EXID = exid;
-    this.editexpensedata.EXDesc = exDesc;
-    this.editexpensedata.EXPAmnt = expAmnt;
-    this.editexpensedata.EXApplTO = exApplTO;
-    this.editexpensedata.EXHead = exHead;
-    this.editexpensedata.EXType = exType;
-    this.editexpensedata.PMID = pmid;
-    this.editexpensedata.inNumber = inNumber;
-    this.editexpensedata.POID = poid;
-    this.editexpensedata.EXPyCopy = exPyCopy;
-    this.editexpensedata.EXRecurr = exRecurr;
-    this.editexpensedata.EXDate = formatDate(exDate, 'dd/MM/yyyy', 'en');
-    this.editexpensedata.BLBlockID = blBlockID;
+      if(this.editexpensedata.EXApplTO == 'Single Unit'){
+        this.toggleUnitList=false;
+      }
+      else{
+        this.toggleUnitList=true;
+      }
 
-    this.modalRef = this.modalService.show(editexpensetemplate,
-      Object.assign({}, { class: 'gray modal-lg' }));
+      this.modalRef = this.modalService.show(editexpensetemplate,
+        Object.assign({}, { class: 'gray modal-lg' }));
 
-    const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
-    dataTransfer.items.add(new File([exPyCopy], exPyCopy));
-    console.log('dataTransfer', dataTransfer);
-    const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
-    console.log('inputElement', inputElement.files);
-    inputElement.files = dataTransfer.files;
+      const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
+      dataTransfer.items.add(new File([exPyCopy], exPyCopy));
+      //console.log('dataTransfer', dataTransfer);
+      const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
+      //console.log('inputElement', inputElement.files);
+      inputElement.files = dataTransfer.files;
+    }
   }
 
   prerequisitesAddUnit(blockName: string) {
@@ -443,8 +628,14 @@ export class ExpenseManagementComponent implements OnInit {
     let blockid = this.editexpensedata.BLBlockID;
     console.log(applicableto);
     this.applies = applicableto;
-    if (this.applies == 'All' || this.applies == 'SoldOwnerOccupied' || this.applies == 'SoldTenantOccupied') {
+    if (this.applies == 'All Units' || this.applies == 'SoldOwnerOccupied' || this.applies == 'SoldTenantOccupied') {
       this.distributionTypes = [{ "name": "Dimension Based" }, { "name": "Per Unit" }, { "name": "Actuals" }];
+    }
+    if(this.applies == 'Single Unit'){
+      this.toggleUnitList=false;
+    }
+    else{
+      this.toggleUnitList=true;
     }
     //  $scope.ascUnit = '';
     this.addexpenseservice.GetUnitListByBlockID(blockid)
@@ -453,7 +644,70 @@ export class ExpenseManagementComponent implements OnInit {
         this.ascUnit = data;
       })
   }
-
+  upLoad() {
+    document.getElementById("file_upload_id").click();
+  }
+  // below code is for the Excel file upload
+  onFileChange(ev) {
+    let workBook = null;
+    let jsonData = null;
+    const reader = new FileReader();
+    const file = ev.target.files[0];
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary' });
+      jsonData = workBook.SheetNames.reduce((initial, name) => {
+        const sheet = workBook.Sheets[name];
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        return initial;
+      }, {});
+      //const dataString = JSON.stringify(jsonData);
+      console.log(jsonData['Sheet1']);
+      this.createExpense(jsonData['Sheet1']);
+    }
+    reader.readAsBinaryString(file);
+  }
+  createExpense(jsonData){
+    Array.from(jsonData).forEach(item=>{
+      let expensedata={
+       // "POEAmnt": "",
+        "EXChqNo": (item['ChequeNo']==undefined?'':item['ChequeNo']),
+       // "BPID": "",
+        "INNumber": item['Invoice-ReceiptNo'],
+        "EXPyCopy": "",
+        "ASAssnID":this.globalservice.getCurrentAssociationId(),
+        "BLBlockID": this.blockID,
+        "EXHead": item['ExpenseHead'],
+        "EXDesc": item['ExpenseDescription'],
+        "EXDCreated": item['ExpenditureDate'],
+        "EXPAmnt": item['AmountPaid'],
+        "EXRecurr": item['ExpenseRecurranceType'],
+        "EXApplTO": item['ApplicableToUnit'],
+        "EXType": item['ExpenseType'],
+        "EXDisType": item['DistributionType'],
+        "UnUniIden": "",
+        "PMID": 1,
+        "BABName": item['Bank'],
+        "EXPBName": item['PayeeBankName'],
+        "EXChqDate": (item['ChequeDate']==undefined?'':item['ChequeDate']),
+        "VNName": "Bills",
+        "EXDDNo": (item['DemandDraftNo']==undefined?'':item['DemandDraftNo']),
+        "EXDDDate": (item['DemandDraftDate']==undefined?'':item['DemandDraftDate']),
+        "EXVoucherNo": (item['VoucherNo']==undefined?'':item['VoucherNo']),
+        "EXAddedBy":"",
+        "EXPName":item['PayeeName']
+      }
+      this.addexpenseservice.createExpense(expensedata)
+        .subscribe(
+          (data) => {
+            console.log(data);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    })
+  }
   onFileSelected(event) {
     this.selectedFile = <File>event.target.files[0];
     let splitarr = this.selectedFile['name'].split('.')
@@ -478,25 +732,28 @@ export class ExpenseManagementComponent implements OnInit {
     $(document).ready(function () {
   
       var navListItems = $('div.setup-panel div a'),
+        addExpBtn = $('#AddExpense'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn'),
-        anchorDivs = $('div.stepwizard-row div');;
-  
-      allWells.hide();
-  
+        anchorDivs = $('div.stepwizard-row div'),
+        Divs = $('div.stepwizard div div');
+      //console.log(anchorDivs);
+
       navListItems.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
           $item = $(this),
           $divTgt = $(this).parent();
           anchorDivs.removeClass('step-active');
-        if (!$item.hasClass('disabled')) {
-          navListItems.removeClass('btn-success').addClass('btn-default');
           $item.addClass('btn-success');
           $divTgt.addClass('step-active');
           allWells.hide();
           $target.show();
           $target.find('input:eq(0)').focus();
+
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-success').addClass('btn-default');
+          navListItems.removeClass('active').addClass('disabled');
         }
       });
   
@@ -504,8 +761,10 @@ export class ExpenseManagementComponent implements OnInit {
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          curInputs = curStep.find("input[type='text']"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
+          console.log(curAnchorBtn);
   
         $(".form-group").removeClass("has-error");
         for (var i = 0; i < curInputs.length; i++) {
@@ -515,8 +774,18 @@ export class ExpenseManagementComponent implements OnInit {
           }
         }
   
-        if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        if (isValid) {
+          nextStepWizard.removeAttr('disabled').trigger('click');
+          curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+        }
       });
+      addExpBtn.click(function () {
+        console.log(this);
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]')
+        curAnchorBtn.removeClass('btn-circle-o').addClass('btn-circle');
+      })
   
       $('div.setup-panel div a.btn-success').trigger('click');
     });
@@ -527,11 +796,11 @@ export class ExpenseManagementComponent implements OnInit {
     this.addexpenseservice.onUpLoad(fd)
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
-          console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
+          //console.log('Upload Progress: ' + Math.round(event.loaded / event.total * 100) + '%');
           this.dynamic = Math.round(event.loaded / event.total * 100);
         }
         else if (event.type === HttpEventType.Response) {
-          console.log(event);
+          //console.log(event);
           this.dynamic = 0;
         }
       });
@@ -541,9 +810,9 @@ export class ExpenseManagementComponent implements OnInit {
     imgthumbnailelement.src = this.defaultThumbnail;
     const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer();
     dataTransfer.items.add('', '');
-    console.log('dataTransfer', dataTransfer);
+    //console.log('dataTransfer', dataTransfer);
     const inputElement: HTMLInputElement = document.getElementById('uploadFileinput') as HTMLInputElement;
-    console.log('inputElement', inputElement.files);
+    //console.log('inputElement', inputElement.files);
     inputElement.files = dataTransfer.files;
     this.disableButton=false;
     this.isnotValidformat = false;
@@ -590,29 +859,24 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   updateExpense() {
-    let exdate;
+   /* let exdate;
  
     let editexpenseobj
 
 
     if(typeof this.editexpensedata.EXDate == 'string'){
-      //alert('editexpensedata.EXDate is string');
       editexpenseobj=this.editexpensedata.EXDate.split('/');
-      //exdate = new Date(editexpenseobj[2]+'-'+editexpenseobj[1]+'-'+editexpenseobj[0]+'T00:00:00Z');
       exdate = new Date(editexpenseobj[2]+'-'+editexpenseobj[1]+'-'+editexpenseobj[0]+'T00:00:00Z');
-      //let newexdate = new Date(editexpenseobj[2]+'-'+editexpenseobj[1]+'-'+editexpenseobj[0]+'T00:00:00Z').toUTCString();
-      //alert('toString'+exdate);
     }
     else if(typeof this.editexpensedata.EXDate == 'object'){
-      //alert('this.editexpensedata.EXDate is object');
       exdate = this.editexpensedata.EXDate;
-      //alert(exdate);
     }
 
-    this.editexpensedata.EXDate = formatDate(exdate, 'yyyy/MM/dd', 'en'); //'2019-07-24T12:00:00';//
+    this.editexpensedata.EXDate = formatDate(exdate, 'yyyy/MM/dd', 'en');*/
     console.log('editexpensedata', this.editexpensedata);
     this.viewexpenseservice.updateExpense(this.editexpensedata)
       .subscribe(data => {
+        console.log(data);
         swal.fire({
           title: "Expense update Successfully",
           text: "",
@@ -630,61 +894,121 @@ export class ExpenseManagementComponent implements OnInit {
               //.....code
             }
           })
+      },
+      err=>{
+        console.log(err);
       })
   }
 
   getCurrentBlockDetails(blBlockID) {
-    console.log('blBlockID-' + blBlockID);
+    //console.log('blBlockID-' + blBlockID);
     this.viewinvoiceservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
-        console.log('invoiceLists?', this.invoiceLists);
+        //console.log('invoiceLists?', this.invoiceLists);
       })
   }
-  GetexpenseListByInvoiceID(expid) {
-    console.log('expid',typeof expid);
-    this.viewinvoiceservice.expid=expid;
-    //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
-    this.expenseList = this._viewexpensesByBlockId;
-    console.log('expid',expid);
-    console.log('expid',typeof expid);
-    if (expid == 'true') {
-      this.Invoiced='Yes';
-      this.toggleGenerateInvButton = true;
+  GetexpenseListByInvoiceID(IsInvoiced,param) {
+    if(this.viewexpenseservice.currentBlockName == ''){
+      swal.fire({
+        title: "Please Select Block",
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }else{
+      console.log(IsInvoiced);
+      this.toggle=param;
+      let expid='';
+      if(IsInvoiced == true){
+        console.log('IsInvoiced == true');
+        expid='true'
+      }
+      else if(IsInvoiced == false){
+        console.log('IsInvoiced == false');
+        expid='false'
+      }
+      //console.log('expid',typeof expid);
+      this.viewinvoiceservice.expid=expid;
+      //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
+      this.expenseList = this._viewexpensesByBlockId;
+      console.log(this.expenseList);
+      //console.log('expid',expid);
+      //console.log('expid',typeof expid);
+      if (expid == 'true') {
+        console.log('expid == true');
+        this.Invoiced='Yes';
+        this.toggleGenerateInvButton = true;
+      }
+      else{
+        this.Invoiced='No';
+        this.toggleGenerateInvButton = false;
+      }
+      //this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId);
+      if(expid == 'true' || expid == 'false'){
+        //console.log(this.viewexpensesByBlockId);
+        this.expenseList = this.expenseList.filter(item=>{
+          console.log('exIsInvD',typeof item['exIsInvD']);
+          console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
+          if(this.UnitName==''){
+            return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
+          }
+          else{
+            return ((item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase()) && (item['unUniIden'] == this.UnitName));
+          }
+        })
+        console.log(this.expenseList);
+      }
+      if(param == 'All'){
+        console.log('test1');
+        this.expenseList = this._viewexpensesByBlockId;
+        console.log(this.expenseList);
+        if(this.UnitName!=''){
+          console.log('test2');
+          this.expenseList = this.expenseList.filter(item=>{
+              return item['unUniIden'] == this.UnitName;
+          })
+          console.log(this.expenseList);
+        }
+        else{
+          console.log('test3');
+          this.expenseList = this._viewexpensesByBlockId;
+        }
+      }
+    //
+      if (param == 'toggleYes') {
+        this.toggleTd = false;
+      }
+      else if (param == 'toggleNo') {
+        this.toggleTd = true;
+      }
+      else if (param == 'All') {
+        this.toggleTd = false;
+      }
+    //
     }
-    else{
-      this.Invoiced='No';
-      this.toggleGenerateInvButton = false;
-    }
-    //this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId);
-    console.log(this.viewexpensesByBlockId);
-    this.expenseList = this.expenseList.filter(item=>{
-      console.log('exIsInvD',typeof item['exIsInvD']);
-      console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
-      return item['exIsInvD'].toString().toLowerCase() == expid.toLowerCase();
-    })
-    console.log(this.expenseList);
   }
   getExpenseListByDatesAndID() {
-    console.log(this.ExpSDate, this.ExpEDate);
+    //console.log(this.ExpSDate, this.ExpEDate);
     let expenseList = {
       "ASAssnID": this.currentAssociationID.toString(),
       "BLBlockID": this.viewexpenseservice.currentBlockId,
       "startdate":formatDate(this.ExpSDate,'yyyy-dd-MM','en') ,
       "enddate": formatDate(this.ExpEDate,'yyyy-dd-MM','en')
     }
-    console.log(expenseList);
+    //console.log(expenseList);
     this.viewexpenseservice.getExpenseListByDatesAndID(expenseList)
     .subscribe(data=>{
       this.expenseList=[];
       console.log(data['data']['expense']);
       this._viewexpensesByBlockId=data['data']['expense'];
       data['data']['expense'].forEach(item => {
-        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], ''));
+        this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
       })
       console.log(this.expenseList);
       this._viewexpensesByBlockId=this.expenseList;
-      console.log(this._viewexpensesByBlockId);
+      //console.log(this._viewexpensesByBlockId);
     },
     err=>{
       console.log(err);
@@ -693,14 +1017,15 @@ export class ExpenseManagementComponent implements OnInit {
   toggleGenerateInv() {
     this.toggleBulkInvGenerate = !this.toggleBulkInvGenerate;
     this.viewexpenseservice.toggleBulkInvGenerate=this.toggleBulkInvGenerate;
-    console.log( this.toggleBulkInvGenerate );
+    //console.log( this.toggleBulkInvGenerate );
     this.expenseList.forEach(item=>{
-     console.log(typeof item['exIsInvD']); 
+     //console.log(typeof item['exIsInvD']); 
      item['checkedForGenerateInvoice']=this.toggleBulkInvGenerate;
-     console.log(item['checkedForGenerateInvoice']); 
+     //console.log(item['checkedForGenerateInvoice']); 
     })
   }
   getSelectedInv(exid,e){
+    console.log(exid);
     console.log(e);
     this.togglegenerateinv=false;
     if (e) {
@@ -712,6 +1037,106 @@ export class ExpenseManagementComponent implements OnInit {
         console.log(exid);
         console.log(this.exidList);
       }
+    }
+  }
+  initialiseEXpense(){
+    this.UnitName='';
+    this.allUnitBYBlockID=[]
+    this.expenseList=[];
+    this.viewexpenseservice.currentBlockName = '';
+    this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        this.associationlist = data['data'].association;
+        this.associationDetails = data['data'].association;
+        this.assnName = data['data'].association.asAsnName;
+      });
+
+    //this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
+    this.viewexpenses = this.viewexpenseservice.GetExpenseListByAssocID(this.globalservice.getCurrentAssociationId());
+    //http://apidev.oyespace.com/oyeliving/api/v1/Expense/GetExpenseListByBlockID/{BlockID}
+
+
+    this.addexpenseservice.GetPurchaseOrderListByAssocID(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        //console.log(data);
+        this.purchaseOrders = data;
+      });
+
+    this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
+      .subscribe(item => {
+        this.allBlocksLists = item;
+        //console.log('allBlocksLists', this.allBlocksLists);
+      });
+    if (this.viewexpenseservice.currentBlockName != '' && this.viewexpenseservice.currentBlockId != '') {
+      this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
+    }
+  }
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelexpense']);
+  }
+  getAllUnitDetailsByBlockID() {
+    /*-------------------Get Unit List By Block ID ------------------*/
+    this.viewUniService.GetUnitListByBlockID(this.blockID)
+      .subscribe(data => {
+        console.log('allUnitBYBlockID',data);
+        this.allUnitBYBlockID = data['data'].unitsByBlockID;
+      },
+      err=>{
+        console.log(err);
+      });
+  }
+  getCurrentUnitDetails(unUnitID,unUniName){
+    this.UnitName=unUniName;
+    this.unUnitID=unUnitID;
+    console.log(unUniName);
+    this.expenseList=this._viewexpensesByBlockId;
+    this.expenseList = this.expenseList.filter(item => {
+      return item['unUniIden'] == unUniName;
+    })
+    console.log(this.expenseList);
+    console.log(this.toggle);
+    if(this.toggle=='toggleNo'){
+      this.expenseList=this._viewexpensesByBlockId;
+      this.expenseList = this.expenseList.filter(item=>{
+        console.log('exIsInvD',typeof item['exIsInvD']);
+        console.log('exIsInvD-string',typeof item['exIsInvD'].toString());
+          return ((item['exIsInvD'].toString().toLowerCase() == false) && (item['unUniIden'] == this.UnitName));
+      })
+      console.log(this.expenseList);
+    }
+  }
+  ValidateAmount(){
+    console.log(this.editexpensedata.EXPAmnt);
+    if(Number(this.editexpensedata.EXPAmnt)==0){
+      this.invalidAmount=true;
+    }
+    else{
+      this.invalidAmount=false;
+    }
+  }
+  ValidateExpenseAmount(){
+    console.log(this.editexpensedata.EXPAmnt);
+    if(Number(this.editexpensedata.EXPAmnt)==0){
+      this.invalidAmount=true;
+    }
+    else{
+      this.invalidAmount=false;
+    }
+  }
+  validateDate(event, StartDate, EndDate) {
+    this.isDateFieldEmpty=false;
+    console.log(StartDate.value, EndDate.value);
+    if (event.keyCode == 8) {
+      if ((StartDate.value == '' || StartDate.value == null) && (EndDate.value == '' || EndDate.value == null)) {
+        console.log('test');
+        this.isDateFieldEmpty=true;
+        this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId,this.viewexpenseservice.currentBlockName);
+      }
+    }
+  }
+  GetExpenseList(){
+    if(this.isDateFieldEmpty==true){
+      this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId,this.viewexpenseservice.currentBlockName);
     }
   }
 }

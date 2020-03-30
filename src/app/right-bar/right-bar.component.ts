@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import {GlobalServiceService} from '../global-service.service'
+declare var $ :any;
+
 
 @Component({
   selector: 'app-right-bar',
@@ -8,10 +11,24 @@ import { Router } from '@angular/router';
 })
 export class RightBarComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, public globalService: GlobalServiceService) {
+   }
 
   ngOnInit() {
   }
+  // ngAfterViewInit(){
+
+  //   $(document).ready(function(){
+  //     var options = { direction: 'right' };
+
+  //     $("#loginPanel1").click(function(){
+  //       $("#userNav").toggle(options,1000);
+  //     });
+  //   });
+
+  // }
+
+
   goToAssociation(){
     this.router.navigate(['association']);
   }

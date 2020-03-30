@@ -6,12 +6,19 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 import { GlobalServiceService } from '../global-service.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { OrderPipe } from 'ngx-order-pipe';
 import { GenerateReceiptService } from '../../services/generate-receipt.service';
 import { PaymentService } from '../../services/payment.service';
 import { HttpHeaders } from '@angular/common/http';
+import { formatDate } from '@angular/common';
+import {ViewReceiptService} from '../../services/view-receipt.service';
 declare var $: any;
+import { Subscription } from 'rxjs';
+import { ViewUnitService } from '../../services/view-unit.service';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -43,6 +50,7 @@ export class InvoicesComponent implements OnInit {
   invValFinal: any;
   mainAmt: number;
   currentAssociationID: string;
+  UnitName:any;
   storeId: string;
   sharedSecret: string;
   charge: string;
@@ -92,12 +100,18 @@ export class InvoicesComponent implements OnInit {
   kotakPayForm: any = {};
 
   invoiceDetails: object[];
+  paymentmethod:any;
+  blkBlockID:any;
+  bankname:any;
+  minPaymentDateDate:Date;
+  maxPaymentDateDate:Date;
+  paymentDate:any;
 
   currentassociationname: string;
-  @ViewChild('template',{static:true}) private template: TemplateRef<any>;
-  @ViewChild('generateinvoicemodal',{static:true}) private generateinvoicemodal: TemplateRef<any>;
-  @ViewChild('iciciform', {read:ElementRef,static:true}) iciciform: ElementRef;
-  @ViewChild('kotakform',  {read:ElementRef,static:true}) kotakform: ElementRef;
+  @ViewChild('template', { static: true }) private template: TemplateRef<any>;
+  @ViewChild('generateinvoicemodal', { static: true }) private generateinvoicemodal: TemplateRef<any>;
+  @ViewChild('iciciform', { read: ElementRef, static: true }) iciciform: ElementRef;
+  @ViewChild('kotakform', { read: ElementRef, static: true }) kotakform: ElementRef;
 
   _unOcStat: string;
   _ineSent: boolean;
@@ -107,109 +121,248 @@ export class InvoicesComponent implements OnInit {
   sortedCollection: any[];
   unpaidUnits: any[];
   payopt: boolean;
-  CurrentBlockName:any;
+  CurrentBlockName: any;
   invoice: any;
   amountDue: any;
   amountPaid: number;
   MEMemID: string;
   PYRefNo: string;
   PMID: string;
-  unUnitID:any;
-  BankName:any;
+  unUnitID: any;
+  BankName: any;
   bankList: string[];
   voucherNo: string;
   PymtRefNo: string;
   ddNo: string;
+  allUnitBYBlockID:any[];
   chequeNo: string;
+  PaidUnpaidinvoiceLists:any[];
+  residentInvoiceList:any[];
+  toggle:any;
+  invoicenumber:any;
+  totalAmountDue:any;
+  totalamountPaid:any;
+  paymentMethodType:any;
+  methodArray: object[];
+  expensedataPMID:any;
+  checkField: string;
+  expensedataBABName:any;
+  receiptUnitID:any;
+  ravValFinal:any;
+  chequeDate:any;
+  pyid:any;
+  paymentDescription:any;
+  receiptVoucherNo:any;
+  receiptddNo:any;
+  bsConfig:any;
+  minDemandDraftDate:any;
+  receiptEXDDDate:any;
+  receiptChequeNo:any;
+  receiptChequeDate:any;
+  searchTxt:any;
+  viewPayments: object[];
+  CurrentAssociationIdForInvoice:Subscription;
+  localMrmRoleId: string;
+  InvoiceStartDate:any;
+  InvoiceEndDate:any;
+  setnoofrows:any;
+  rowsToDisplay:any[];
+  ShowRecords: string;
+  columnName: any;
+  toggleDrpdown: boolean;
+  toggleUL: boolean;
+  ValidateAmountPaid: boolean;
+  ValidateReceiptModal:boolean;
+  _discountedValue:number;
+  UnitNameForViewReceipt: any;
+  InvoiceNumForViewReceipt: any;
+  paymentTypeInViewReceipt: any;
+  AmountDueForViewReceipt: any;
+  paymentDateForViewReceipt: any;
+  isPaidForViewReceipt: any;
+  isInValidZeroAmount: boolean;
+  ValidateInvdescription:boolean;
+  isDateFieldEmpty: boolean;
 
-
-  constructor(private viewinvoiceservice: ViewInvoiceService,
+  constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
     private toastr: ToastrService,
-    private globalservice: GlobalServiceService,
+    public globalservice: GlobalServiceService,
     private router: Router,
     private orderpipe: OrderPipe,
+    public viewUniService: ViewUnitService,
     private generatereceiptservice: GenerateReceiptService,
-    private paymentService: PaymentService) {
-      this.currentPage = 1;
-      this.pageSize = 10;
-      this.previousDue = 0.00;
-      this.amountInWords = 0;
-      this.hasnumber = false;
-      this.showGateWay = false;
-      this.currentAssociationID = this.globalservice.getCurrentAssociationId();
-      this.currentassociationname = this.globalservice.getCurrentAssociationName();
-      this.blBlockID = '';
-      this.validationResult = true;
-      this.p = 1;
-      this.isChecked = false;
-      this._unOcStat = '';
-      this._ineSent = false;
-      this.CurrentBlockName='Blocks';
-      this.unUnitID='Units';
-      this.BankName='Bank';
-      this.viewinvoiceservice.invoiceBlock = '';
+    private paymentService: PaymentService,
+    private viewreceiptservice:ViewReceiptService,
+    private route: ActivatedRoute) {
+      this.isDateFieldEmpty=false;
+      this.ValidateInvdescription=true;
+      this.isInValidZeroAmount=true;
+      this._discountedValue=0;
+      this.ValidateAmountPaid=false;
+      this.ValidateReceiptModal=true;
+      this.toggleUL=false;
+      this.allUnitBYBlockID=[];
+      this.globalservice.IsEnrollAssociationStarted==false;
+      this.rowsToDisplay=[{'Display':'5','Row':5},
+                          {'Display':'10','Row':10},
+                          {'Display':'15','Row':15},
+                          {'Display':'50','Row':50},
+                          {'Display':'100','Row':100},
+                          {'Display':'Show All Records','Row':'All'}];
+      this.setnoofrows=10;
+      this.ShowRecords='Show Records';
+      this.receiptVoucherNo='';
+      this.receiptChequeNo='';
+      this.receiptChequeDate='';
+      this.receiptddNo='';
+      this.receiptEXDDDate='';
+    // this.localMrmRoleId = this.route.snapshot.queryParamMap.get('mrmroleId');
+    this.route.params.subscribe(data => {
+      console.log(data);
+      this.localMrmRoleId=data['mrmroleId'];
+    });
+    this.UnitName="";
+    this.globalservice.getCurrentUnitName(),
+    this.globalservice.getCurrentUnitId(),
+    console.log(this.globalservice.getCurrentUnitName());
+    console.log(this.globalservice.getCurrentUnitId());
 
-      this.bankList = [
-        'Allahabad Bank',
-        'Andhra Bank',
-        'Bank of Baroda',
-        'Bank of India',
-        'Bank of Maharashtra',
-        'Canara Bank',
-        'Central Bank of India',
-        'Corporation Bank',
-        'Indian Bank',
-        'Indian Overseas Bank',
-        'Oriental Bank of Commerce',
-        'Punjab and Sind Bank',
-        'Punjab National Bank',
-        'State Bank of India',
-        'Syndicate Bank',
-        'UCO Bank',
-        'Union Bank of India',
-        'United Bank of India',
-        'Catholic Syrian Bank',
-        'City Union Bank',
-        'DCB Bank',
-        'Dhanlaxmi Bank',
-        'Federal Bank',
-        'HDFC Bank',
-        'ICICI Bank',
-        'IDFC First Bank',
-        'IndusInd Bank',
-        'Jammu & Kashmir Bank',
-        'Karnataka Bank',
-        'Karur Vysya Bank',
-        'Kotak Mahindra Bank',
-        'Lakshmi Vilas Bank',
-        'Nainital Bank',
-        'RBL Bank',
-        'South Indian Bank',
-        'Tamilnad Mercantile Bank Limited',
-        'Yes Bank',
-        'IDBI Bank'
-      ]
-     }
+    this.currentPage = 1;
+    this.pageSize = 10;
+    this.previousDue = 0.00;
+    this.amountInWords = 0;
+    this.hasnumber = false;
+    this.showGateWay = false;
+    this.currentAssociationID = this.globalservice.getCurrentAssociationId();
+    this.currentassociationname = this.globalservice.getCurrentAssociationName();
+    this.blBlockID = '';
+    this.validationResult = true;
+    this.p = 1;
+    this.isChecked = false;
+    this._unOcStat = '';
+    this._ineSent = false;
+    this.CurrentBlockName = 'Blocks';
+    this.unUnitID = 'Units';
+    this.BankName = 'Bank';
+    this.viewinvoiceservice.invoiceBlock = '';
+    this.PaidUnpaidinvoiceLists=[];
+    this.residentInvoiceList=[];
+    this.toggle='All';
+    this.paymentMethodType='Select Payment Method';
+    this.expensedataBABName='Bank';
+    this.viewPayments = [];
+    this.minPaymentDateDate = new Date();
+    this.maxPaymentDateDate = new Date();
+    this.minPaymentDateDate.setFullYear(2000);
+    this.maxPaymentDateDate.setFullYear(2040);
+    this.bankList = [
+      'Allahabad Bank',
+      'Andhra Bank',
+      'Bank of Baroda',
+      'Bank of India',
+      'Bank of Maharashtra',
+      'Canara Bank',
+      'Central Bank of India',
+      'Corporation Bank',
+      'Indian Bank',
+      'Indian Overseas Bank',
+      'Oriental Bank of Commerce',
+      'Punjab and Sind Bank',
+      'Punjab National Bank',
+      'State Bank of India',
+      'Syndicate Bank',
+      'UCO Bank',
+      'Union Bank of India',
+      'United Bank of India',
+      'Catholic Syrian Bank',
+      'City Union Bank',
+      'DCB Bank',
+      'Dhanlaxmi Bank',
+      'Federal Bank',
+      'HDFC Bank',
+      'ICICI Bank',
+      'IDFC First Bank',
+      'IndusInd Bank',
+      'Jammu & Kashmir Bank',
+      'Karnataka Bank',
+      'Karur Vysya Bank',
+      'Kotak Mahindra Bank',
+      'Lakshmi Vilas Bank',
+      'Nainital Bank',
+      'RBL Bank',
+      'South Indian Bank',
+      'Tamilnad Mercantile Bank Limited',
+      'Yes Bank',
+      'IDBI Bank'
+    ]
 
-  goToExpense(){
+    this.methodArray = [{ 'name': 'Cash', 'displayName': 'Cash', 'id': 1 },
+    { 'name': 'Cheque', 'displayName': 'Cheque', 'id': 2 },
+    { 'name': 'DemandDraft', 'displayName': 'DemandDraft', 'id': 3 },
+    { 'name': 'OnlinePay', 'displayName': 'OnlinePay', 'id': 4 }]
+    //
+    this.CurrentAssociationIdForInvoice=this.globalservice.getCurrentAssociationIdForInvoice()
+    .subscribe(msg=>{
+      console.log(msg);
+      this.globalservice.setCurrentAssociationId(msg['msg']);
+      this.initialiseInvoice()
+    })
+    this.bsConfig = Object.assign({}, {
+      dateInputFormat: 'DD-MM-YYYY',
+      showWeekNumbers: false,
+      isAnimated: true
+      });
+  }
+  setRows(RowNum) {
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.PaidUnpaidinvoiceLists.length:RowNum);
+  }
+  setResidentRows(RowNum) {
+    this.ShowRecords='abc';
+    this.setnoofrows = (RowNum=='All'?this.residentInvoiceList.length:RowNum);
+  }
+  removeColumnSort(columnName) {
+    this.columnName = columnName;
+  }
+  goToExpense() {
     this.router.navigate(['expense']);
   }
-  goToInvoice(){
+  NavigateToBulkUpload(){
+    this.router.navigate(['excelreceipt'])
+  }
+  goToInvoice() {
     this.router.navigate(['invoice']);
   }
-  goToReceipts(){
+  goToReceipts() {
     this.router.navigate(['receipts']);
   }
-  goToVehicles(){
+  goToResidentReceipts() {
+    this.router.navigate(['receipts',2]);
+  }
+  goToVehicles() {
     this.router.navigate(['vehicles']);
   }
   ngAfterViewInit() {
-
+    $('#pay').click(function () {
+      $(this).toggleClass('.pay');
+      $(this).toggleClass('.pay1');
+    });
+    //
+    // if (this.viewinvoiceservice.invoiceBlock == '') {
+    //   alert('test');
+    //   this.toggleDrpdown = true;
+    // }
+    $(".se-pre-con").fadeOut("slow");
   }
   ngOnInit() {
+    this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
+      .subscribe(data => {
+        console.log(data['data']['payments']);
+        this.viewPayments = data['data']['payments']
+      });
+    //
     this.payopt = false;
-
     console.log('this.currentAssociationID', this.currentAssociationID);
     this.viewinvoiceservice.GetBlockListByAssocID(this.currentAssociationID)
       .subscribe(data => {
@@ -217,25 +370,107 @@ export class InvoicesComponent implements OnInit {
         this.asdPyDate = this.allBlocksByAssnID[0]['asdPyDate'];
         this.blMgrMobile = this.allBlocksByAssnID[0]['blMgrMobile'];
         console.log('allBlocksByAssnID', this.allBlocksByAssnID);
-        if(this.viewinvoiceservice.invoiceBlock != ''){
-          this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
+        if (this.viewinvoiceservice.invoiceBlock != '') {
+          this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
         }
       })
-  }
+    //
+    if(this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2'){
+          this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+      .subscribe(data => {
+        console.log(data);
+        this.residentInvoiceList=data['data']['invoices'];
+        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+      },
+        err => {
+          console.log(err);
+          swal.fire({
+            title: "An error has occurred",
+            text: `${err['error']['error']['message']}`,
+            type: "error",
+            confirmButtonColor: "#f69321"
+          });
+        })
+    }
 
-  getCurrentBlockDetails(blBlockID,blBlkName) {
-    this.viewinvoiceservice.invoiceBlock=blBlkName;
-    this.viewinvoiceservice.invoiceBlockId=blBlockID;
+  }
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
+  getAmountPaid(event) {
+    console.log(event.target.value);
+    if(Number(event.target.value)>this.totalAmountDue){
+      console.log('inside');
+      this.ValidateAmountPaid=true;
+      this.ValidateReceiptModal=true;
+    }
+    else{
+      this.ValidateAmountPaid=false;
+      if(Number(event.target.value)<=this.totalAmountDue){
+        this.ValidateReceiptModal=false;
+      }
+    }
+  }
+  validateZeroAmount(){
+    if(this.totalamountPaid==0){
+      this.ValidateAmountPaid=true;
+    }else{
+      this.ValidateAmountPaid=false;
+    }
+  }
+  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>, unUnitID, inid, inNumber, inTotVal, inPaid, inDisType,indCreated){
+    this.UnitNameForViewReceipt=unUnitID;
+    this.InvoiceNumForViewReceipt=inNumber;
+    this.paymentDateForViewReceipt=indCreated;
+    this.InvoiceNumForViewReceipt=inid;
+    this.AmountDueForViewReceipt=inTotVal;
+    this.paymentTypeInViewReceipt=inDisType;
+    this.isPaidForViewReceipt=inPaid;
+
+    this.modalRef = this.modalService.show(ViewReceiptTemplate,Object.assign({}, { class: 'gray modal-md' }));
+  }
+  getexpensedataBABName(bank) {
+    this.expensedataBABName = bank;
+  }
+  iciciPay(e){
+
+  }
+  chkUnitLength(){
+    //alert('test1');
+    if(this.viewinvoiceservice.invoiceBlock == ''){
+      alert('testt');
+      this.toggleDrpdown=false;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  getCurrentBlockDetails(blBlockID, blBlkName) {
+    this.p=1;
+    this.toggleDrpdown=false;
+    this.PaidUnpaidinvoiceLists=[];
+    this.UnitName='';
+    this.viewinvoiceservice.invoiceBlock = blBlkName;
+    this.viewinvoiceservice.invoiceBlockId = blBlockID;
     this.invoiceLists = [];
     this.blockid = blBlockID;
     console.log('blBlockID-' + blBlockID);
-    this.viewinvoiceservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
+    this.viewinvoiceservice.getCurrentBlockDetails(blBlockID,this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
+        this.invoiceLists = _.sortBy(this.invoiceLists, e => e['inGenDate']).reverse();
+        this.PaidUnpaidinvoiceLists=this.invoiceLists;
         console.log('invoiceLists?', this.invoiceLists);
+        this.generatereceiptservice.ReceiptListArrayForComapreWithExcel=this.invoiceLists;
         //
         this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
         console.log(this.sortedCollection);
+        this.toggleUL=true;
       },
         err => {
           console.log(err);
@@ -248,6 +483,31 @@ export class InvoicesComponent implements OnInit {
         })
     this.isChecked = false;
     this.checkAll = false;
+    this.getAllUnitDetailsByBlockID();
+    this.chkUnitLength();
+  }
+  convert(){
+
+    let doc = new jsPDF();
+    let head = ["Invoice Number", "Invoice Date","Amount"];
+    let body = [];
+
+    /* The following array of object as response from the API req  */
+
+  /*  var itemNew = [
+      { id: 'Case Number', name: '101111111' },
+      { id: 'Patient Name', name: 'UAT DR' },
+      { id: 'Hospital Name', name: 'Dr Abcd' }
+    ] */
+
+
+    this.invoiceLists.forEach(element => {
+      let temp = [element['inNumber'], formatDate(element['inGenDate'], 'dd/MM/yyyy', 'en') , 'Rs.'+element['inTotVal']];
+      body.push(temp);
+    });
+    console.log(body);
+    doc.autoTable({ head: [head], body: body });
+    doc.save('Invoice.pdf');
   }
 
   setOrder(value: string) {
@@ -277,7 +537,7 @@ export class InvoicesComponent implements OnInit {
       "INNumber": this.invoice,
       "UNUnitID": this.unitID,
       "PYTax": "12.6",
-      "ASAssnID":  this.currentAssociationID,
+      "ASAssnID": this.currentAssociationID,
       "PMID": 1,//this.PMID,
       "PYDesc": "PaymentMade"
     }
@@ -294,16 +554,16 @@ export class InvoicesComponent implements OnInit {
         })
 
       },
-      (err)=>{
-        console.log(err);
-        swal.fire({
-          title: `${err['error']['error']['message']}`,
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+        (err) => {
+          console.log(err);
+          swal.fire({
+            title: `${err['error']['error']['message']}`,
+            text: "",
+            type: "error",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          })
         })
-      })
 
   }
 
@@ -329,13 +589,11 @@ export class InvoicesComponent implements OnInit {
     this.rentingfees = 0;
     this.OneTimeOnBoardingFees = 0;
 
-
     this.invoiceID = inid;
     this.invoiceDate = inGenDate;
     this.invoiceNumber = inNumber;
     this.discountedValue = inDsCVal;
     this.unitID = unUnitID;
-
 
     this.viewinvoiceservice.GetUnitListByUnitID(this.unitID)
       .subscribe(data => {
@@ -354,7 +612,7 @@ export class InvoicesComponent implements OnInit {
       .subscribe(data => {
         console.log('InvoiceDetails+', data);
         //this.allLineItem = data['data'].invoiceDetails;
-        //console.log(data['data'].invoiceDetails);
+        console.log(data['data'].invoiceDetails);
       },
         data => {
           console.log('InvoiceDetails', data);
@@ -372,8 +630,6 @@ export class InvoicesComponent implements OnInit {
 
     this.viewinvoiceservice.invoiceDetails(inid, unUnitID)
       .subscribe(data => {
-        this.modalRef = this.modalService.show(invoicePop,
-          Object.assign({}, { class: 'gray modal-lg' }));
         this.InvoiceValue = 0;
         console.log('invoiceDetails--', data['data']['invoiceDetails']);
         this.invoiceDetails = data['data']['invoiceDetails'];
@@ -389,6 +645,9 @@ export class InvoicesComponent implements OnInit {
           }
           else if (item['idDesc'] == "Generator") {
             this.generatorfee = item['idValue'];
+            this.InvoiceValue += item['idValue'];
+          }
+          else if (item['idDesc'] == "xc") {
             this.InvoiceValue += item['idValue'];
           }
           else if (item['idDesc'] == "Security Fees") {
@@ -415,7 +674,7 @@ export class InvoicesComponent implements OnInit {
             this.onetimemembershipfee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "One Time Onboarding fee") {
+          else if (item['idDesc'] == "One Time OnBoarding Fees") {
             this.OneTimeOnBoardingFees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
@@ -435,17 +694,26 @@ export class InvoicesComponent implements OnInit {
             //this.rentingfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
+          else if (item['idDesc'] == "Discount Value") {
+            //this._discountedValue += item['idValue'];
+            this.InvoiceValue += item['idValue'];
+            console.log(this._discountedValue);
+          }
         })
+        console.log(this._discountedValue);
+       //let finalValueWithDiscount = this.InvoiceValue - this._discountedValue;
+        //console.log(finalValueWithDiscount);
+        this.modalRef = this.modalService.show(invoicePop,Object.assign({}, { class: 'gray modal-lg' }));
       },
-      err=>{
-        console.log(err);
-        swal.fire({
-          title: "Error",
-          text: `${err['error']['error']['message']}`,
-          type: "error",
-          confirmButtonColor: "#f69321"
-        });
-      })
+        err => {
+          console.log(err);
+          swal.fire({
+            title: "Error",
+            text: `${err['error']['error']['message']}`,
+            type: "error",
+            confirmButtonColor: "#f69321"
+          });
+        })
 
     this.viewinvoiceservice.getassociationlist(this.asdPyDate, this.blMgrMobile, this.currentAssociationID)
       .subscribe(data => {
@@ -557,39 +825,157 @@ export class InvoicesComponent implements OnInit {
       });
 
   }
-  iciciPay(e) {
+  payThroughICICIPG(e) {
+    let paymentDetails = {
+      "chargetotal": this.InvoiceValue + '.00',
+      "customerID": 9539 //set customer Id
+    }
+
     e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' }
-    /* let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' }
-    console.log(InvoiceValue);
-    
-    this.paymentService.postToICICIPaymentGateway(InvoiceValue)
-    .subscribe(res => {
-      console.log(res);
-      this.iciciPayForm = res;
-      setTimeout(_ => this.iciciform.nativeElement.submit(), 100)
-    }, error => {
-      console.log("Error=>", error)
-    }) */
-
-    this.paymentService.CreatePayment(this.invoiceID, InvoiceValue)
+    this.paymentService.postToICICIPG(paymentDetails)
       .subscribe((res: any) => {
-        console.log(res);
-        this.iciciPayForm = res.data.paymentGateway;
-        this.iciciPayForm.chargeTotal = InvoiceValue.chargetotal;
-
-        console.log(this.iciciPayForm);
-        // setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
+        console.log(JSON.stringify(res));
+        let response = res.data.paymentICICI;
+        this.iciciPayForm = {
+          txntype: response.txntype, //'sale'
+          timezone: response.timezone, //'Asia/Calcutta',
+          txndatetime: response.txndatetime, //this.utilService.getDateTime(),//,
+          hash_algorithm: response.hash_algorithm,
+          hash: response.response_hash,
+          storename: response.storename, //'3300002052',
+          mode: response.mode, // "payonly" ,
+          currency: response.currency,
+          responseSuccessURL: response.pgStatURL,
+          responseFailURL: response.pgStatURL,
+          language: response.language, //"en_US",
+          chargetotal: response.chargetotal,
+          oid: response.oid
+        }
+        console.log(JSON.stringify(this.iciciPayForm));
+        setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
       },
         err => {
           console.log(err);
-        }) 
+        })
+  }
+  payThroughICICIPGtest(e,inid,unUnitID){
+    e.preventDefault();
+    console.log(inid,unUnitID);
+    this.viewinvoiceservice.invoiceDetails(inid, unUnitID)
+    .subscribe(data => {
+      this.InvoiceValue = 0;
+      console.log('invoiceDetails--', data['data']['invoiceDetails']);
+      this.invoiceDetails = data['data']['invoiceDetails'];
+      data['data']['invoiceDetails'].forEach(item => {
+
+        if (item['idDesc'] == "Common Area Electric Bill") {
+          this.commonareafee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "xc") {
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Fixed Maintenance") {
+          this.fixedmaintenancefee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Generator") {
+          this.generatorfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Security Fees") {
+          this.securityfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Unsold Rental Fees") {
+          this.unsoldrentalfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Corpus") {
+          this.corpusfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "HouseKeeping") {
+          this.housekeepingfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Water Meter") {
+          this.watermeterfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "One Time Membership fee") {
+          this.onetimemembershipfee = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "One Time OnBoarding Fees") {
+          this.OneTimeOnBoardingFees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "One Time Occupancy Fees") {
+          this.onetimeoccupancyfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Renting Fees") {
+          this.rentingfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "bill") {
+          //this.rentingfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+        else if (item['idDesc'] == "Cleaning") {
+          //this.rentingfees = item['idValue'];
+          this.InvoiceValue += item['idValue'];
+        }
+      })
+      let paymentDetails = {
+        "chargetotal": this.InvoiceValue + '.00',
+        "customerID": 9539 //set customer Id
+      }
+  
+      this.paymentService.postToICICIPG(paymentDetails)
+        .subscribe((res: any) => {
+          console.log(JSON.stringify(res));
+          let response = res.data.paymentICICI;
+          this.iciciPayForm = {
+            txntype: response.txntype, //'sale'
+            timezone: response.timezone, //'Asia/Calcutta',
+            txndatetime: response.txndatetime, //this.utilService.getDateTime(),//,
+            hash_algorithm: response.hash_algorithm,
+            hash: response.response_hash,
+            storename: response.storename, //'3300002052',
+            mode: response.mode, // "payonly" ,
+            currency: response.currency,
+            responseSuccessURL: response.pgStatURL,
+            responseFailURL: response.pgStatURL,
+            language: response.language, //"en_US",
+            chargetotal: response.chargetotal,
+            oid: response.oid
+          }
+          console.log(JSON.stringify(this.iciciPayForm));
+          setTimeout(_ => this.iciciform.nativeElement.submit(), 1000)
+        },
+          err => {
+            console.log(err);
+          })
+    },
+      err => {
+        console.log(err);
+        swal.fire({
+          title: "Error",
+          text: `${err['error']['error']['message']}`,
+          type: "error",
+          confirmButtonColor: "#f69321"
+        });
+      }) 
   }
   kotakPay(e) {
+    let paymentDetails = {
+      "chargetotal": this.InvoiceValue + '.00',
+      "customerID": "" //set customer Id
+    }
     e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' };
-    console.log(InvoiceValue);
-    this.paymentService.postToKotakPaymenGateway( InvoiceValue ).subscribe(res => {
+    this.paymentService.postToKotakPaymenGateway(paymentDetails).subscribe(res => {
       if (res) {
         this.kotakPayForm = res;
         console.log("this.kotakPayForm ", this.kotakPayForm);
@@ -597,36 +983,42 @@ export class InvoicesComponent implements OnInit {
       }
     }, error => {
       console.log(error);
-     }
+    }
     )
   }
   axisPay(e) {
+    let paymentDetails = {
+      "chargetotal": this.InvoiceValue + '.00',
+      "customerID": "" //set customer Id
+    }
     e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' };
+    let InvoiceValue = { chargetotal: this.InvoiceValue + '.00' };
     console.log(InvoiceValue);
-    this.paymentService.postToAxisPaymentGateway(InvoiceValue).subscribe((res: any) => {
-      //console.log(res, typeof (res))
+    this.paymentService.postToAxisPaymentGateway(paymentDetails).subscribe((res: any) => {
+      console.log(res, typeof (res))
       if (res && res.payment_links) {
         window.location.href = res.payment_links.web;
       }
     }, error => {
       console.log(error);
-     }
+    }
     )
   }
   hdfcPay(e) {
+    let paymentDetails = {
+      "amount": this.InvoiceValue + '.00',
+      "customerID": "" //set customer Id
+    }
     e.preventDefault();
-    let InvoiceValue = { chargetotal: this.InvoiceValue+'.00' };
-    console.log(InvoiceValue);
-    this.paymentService.postToHDFCPaymentGateway(InvoiceValue).subscribe(res => {
-      if (res) {
-        this.kotakPayForm = res;
+    this.paymentService.postToHDFCPaymentGateway(paymentDetails).subscribe((res: any) => {
+      if (res && res.success) {
+        this.kotakPayForm = res.data;
         console.log("this.kotakPayForm ", this.kotakPayForm);
         setTimeout(_ => this.kotakform.nativeElement.submit(), 100)
       }
     }, error => {
       console.log(error);
-     }
+    }
     )
   }
   addZeroes(num) {
@@ -639,6 +1031,8 @@ export class InvoicesComponent implements OnInit {
     // return value.toString(10)
   }
   discount(discount: TemplateRef<any>, inid, inNumber, inTotVal) {
+    this.isInValidZeroAmount=true;
+    this.ValidateInvdescription=true;
     this.modalRef = this.modalService.show(discount,
       Object.assign({}, { class: 'gray modal-lg' }));
 
@@ -646,7 +1040,8 @@ export class InvoicesComponent implements OnInit {
     this.dscntInvinvoiceID = inid;
     this.dscntInvinvoiceNumber = inNumber;
     this.dscntInvdescription = "Type Reason Here";
-    this.dscntInvdiscountedAmount = inTotVal;
+    // this.dscntInvdiscountedAmount = inTotVal;
+    this.dscntInvdiscountedAmount = 0;
     this.totalAmountForValidation = inTotVal;
   }
   emptyDisplaytext() {
@@ -662,15 +1057,31 @@ export class InvoicesComponent implements OnInit {
     } else {
       this.validationResult = false;
     }
+    if(dscntInvdiscountedAmount == 0){
+      this.isInValidZeroAmount=true;
+    }
+    else{
+      this.isInValidZeroAmount=false;
+    }
+  }
+  ValidateAmount(event){
+    if(event.target.value > 0){
+      this.isInValidZeroAmount=false;
+    }
+    else{
+      this.isInValidZeroAmount=true;
+    }
   }
   discountInvoice(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription) {
     console.log(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription);
 
     var discountData = {
       "INID": dscntInvinvoiceNumber,
-      "IDDesc": dscntInvdiscountedAmount,
-      "INDsCVal": dscntInvdescription
+      // "IDDesc": dscntInvdescription,
+      "INDisType"  : "Credit",
+      "INDsCVal": dscntInvdiscountedAmount
     }
+    console.log(discountData);
 
     this.viewinvoiceservice.UpdateInvoiceDiscountValueAndInsert(discountData)
       .subscribe(data => {
@@ -682,7 +1093,14 @@ export class InvoicesComponent implements OnInit {
           type: "success",
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
-        })
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
+            } else if (result.dismiss === swal.DismissReason.cancel) {
+            }
+          }
+        )
       },
         err => {
           this.modalRef.hide();
@@ -697,7 +1115,7 @@ export class InvoicesComponent implements OnInit {
   }
   openModal1(generateReceipt: TemplateRef<any>) {
     this.modalRef.hide();
-    this.modalRef = this.modalService.show(generateReceipt,Object.assign({}, { class: 'gray modal-lg' }));
+    this.modalRef = this.modalService.show(generateReceipt, Object.assign({}, { class: 'gray modal-lg' }));
   }
   sendInvoiceInMail(inid, unUnitID, ineSent, blBlockID) {
     console.log('inid', inid);
@@ -732,10 +1150,10 @@ export class InvoicesComponent implements OnInit {
               }).then(
                 (result) => {
                   if (result.value) {
-                    this.getCurrentBlockDetails(blBlockID,this.viewinvoiceservice.invoiceBlock);
+                    this.getCurrentBlockDetails(blBlockID, this.viewinvoiceservice.invoiceBlock);
                   }
                 })
-              //  console.log(res);
+               console.log(res);
             },
               (res) => {
                 console.log(res);
@@ -772,7 +1190,80 @@ export class InvoicesComponent implements OnInit {
       }
     })
   }
+  generateInvoiceReceipt(){
+    let genReceipt = {
+      "PYAmtPaid": this.totalamountPaid,
+      "INNumber": this.invoicenumber,
+      "UNUnitID": this.receiptUnitID,
+      "ASAssnID": this.currentAssociationID,
+      "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en'),
+    
+      "MEMemID"  : "1",
+      "PYRefNo"  : "sfg54658",
+      "PYBkDet"  : this.expensedataBABName,
+      "PYTax"    : "12.6",
+      "PMID"     : 1,
+      "PYAmtDue" : this.totalAmountDue,
+      "PYDesc"   : "PaymentMade",
+      "PYVoucherNo" : this.receiptVoucherNo,
+      "PYChqNo" : this.receiptChequeNo,
+      "PYChqDate" :formatDate((this.receiptChequeDate==''?new Date():this.receiptChequeDate),'yyyy/MM/dd', 'en'),
+      "PYDDNo"   :this.receiptddNo,
+      "PYDDDate":formatDate((this.receiptEXDDDate==''?new Date():this.receiptEXDDDate),'yyyy/MM/dd', 'en')
+     
+  }
+ 
+    console.log(genReceipt);
+    this.viewinvoiceservice.generateInvoiceReceipt(genReceipt)
+    .subscribe(data=>{
+      console.log(data);
+      this.modalRef.hide();
+      swal.fire({
+        title: "Receipt Generated Successfully",
+        text: "",
+        type: "success",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+            
+          } else if (result.dismiss === swal.DismissReason.cancel) {
 
+          }
+        })
+
+    },
+    err=>{
+      console.log(err);
+      swal.fire({
+        title: "",
+        text: `${err['error']['exceptionMessage']}`,
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    })
+
+  }
+  getInvoiceListByDateRange(InvoiceEndDate){
+    console.log(InvoiceEndDate);
+    if (InvoiceEndDate != null) {
+      console.log(this.invoiceLists);
+      this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      console.log(new Date(this.InvoiceStartDate).getTime());
+      //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
+      console.log(new Date(InvoiceEndDate).getTime());
+      this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+        if (new Date(this.InvoiceStartDate).getTime() <= new Date(item['inGenDate']).getTime() && new Date(InvoiceEndDate).getTime() >= new Date(item['inGenDate']).getTime()) {
+          console.log(new Date(item['inGenDate']).getTime());
+        }
+        // return (new Date(this.InvoiceStartDate).getTime() <= new Date(item['inGenDate']).getTime() && new Date(InvoiceEndDate).getTime() >= new Date(item['inGenDate']).getTime());
+        return new Date(formatDate(this.InvoiceStartDate,'MM/dd/yyyy','en')) <= new Date(formatDate(item['inGenDate'],'MM/dd/yyyy','en')) && new Date(formatDate(InvoiceEndDate,'MM/dd/yyyy','en')) >= new Date(formatDate(item['inGenDate'],'MM/dd/yyyy','en'));
+      })
+      console.log(this.PaidUnpaidinvoiceLists);
+    }
+  }
   toggleAllCheck(event) {
     //alert('toggleAllCheck');
     if (event.target.checked) {
@@ -834,23 +1325,23 @@ export class InvoicesComponent implements OnInit {
         this.unpaidUnits = data['data']['paymentsUnpaid'];
       })
   }
-  getCurrentBlockDetailsForGenRecpt(blBlockID,blBlkName) {
-    this.CurrentBlockName=blBlkName;
+  getCurrentBlockDetailsForGenRecpt(blBlockID, blBlkName) {
+    this.CurrentBlockName = blBlkName;
     this.generatereceiptservice.getCurrentBlockDetails(blBlockID, this.currentAssociationID)
       .subscribe(data => {
         this.unpaidUnits = data['data']['paymentsUnpaid'];
         console.log('unpaidUnits', this.unpaidUnits);
       },
-      err=>{
-        console.log(err);
-        swal.fire({
-          title:`${err['error']['error']['message']}`,
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+        err => {
+          console.log(err);
+          swal.fire({
+            title: `${err['error']['error']['message']}`,
+            text: "",
+            type: "error",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          })
         })
-      })
   }
   openModal(invoicePop: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
@@ -858,9 +1349,85 @@ export class InvoicesComponent implements OnInit {
       Object.assign({}, { class: 'gray modal-lg' })
     );
   }
-  rowDetails(pyid,unUnitID) {
+  GetPaidInvoiceList(IsPaid,param) {
+    if (this.viewinvoiceservice.invoiceBlock == '') {
+      if (this.globalservice.mrmroleId == 1 && this.localMrmRoleId != '2') {
+        swal.fire({
+          title: `Please Select Block`,
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        })
+      }
+
+    }
+    else{
+      this.p=1;
+      this.toggle=param;
+      console.log(IsPaid);
+      let paid = '';
+      if (IsPaid) {
+        paid = 'Yes';
+      }
+      else {
+        paid = 'No';
+      }
+      if(paid == 'Yes' || paid == 'No'){
+        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+          return item['inPaid'] == paid;
+        })
+      console.log(this.PaidUnpaidinvoiceLists);
+      }
+      if(param == 'All'){
+        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      }
+    }
+
+  }
+  GetPaidInvoiceListResident(IsPaid,param) {
+      this.toggle=param;
+      console.log(IsPaid);
+      let paid = '';
+      if (IsPaid) {
+        paid = 'Yes';
+      }
+      else {
+        paid = 'No';
+      }
+      if(paid == 'Yes' || paid == 'No'){
+        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+        this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+          return item['inPaid'] == paid;
+        })
+      console.log(this.PaidUnpaidinvoiceLists);
+      }
+      if(param == 'All'){
+        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+      }
+  }
+  OpenReceiptModal(Receipts: TemplateRef<any>,inNumber,inTotVal,inAmtPaid,unUnitID){
+    this.invoicenumber=inNumber;
+    this.totalAmountDue=inTotVal;
+    this.totalamountPaid=inAmtPaid;
+    this.receiptUnitID=unUnitID;
+    //
+    //this.totalamountPaid='';
+    this.paymentMethodType='Select Payment Method';
+    this.expensedataBABName='Bank';
+    this.receiptVoucherNo='';
+    this.paymentDate='';
+    this.receiptddNo='';
+    this.receiptEXDDDate='';
+    this.receiptChequeNo='';
+    this.receiptChequeDate='';
+
+    this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
+  }
+  rowDetails(pyid, unUnitID) {
     console.log('pyid-' + pyid);
-    this.unUnitID=unUnitID;
+    this.unUnitID = unUnitID;
     let invobj = this.unpaidUnits.find(item => item['pyid'] == pyid);
     console.log('inNumber-' + invobj['inNumber']);
     console.log('pyAmtDue-' + invobj['pyAmtDue']);
@@ -881,8 +1448,172 @@ export class InvoicesComponent implements OnInit {
   printInvoice() {
     window.print();
   }
-  getBankName(bank){
-    this.BankName=bank;
+  getBankName(bank) {
+    this.BankName = bank;
   }
+  onPageChange(event) {
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
+    if(event['srcElement']['text'] == '1'){
+      this.p=1;
+    }
+    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
+        let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+        this.p= Number(element.children[0]['text']);
+      //console.log(this.p);
+    } 
+    if(event['srcElement']['text'] == '«'){
+      //console.log(this.p);
+      this.p= 1;
+    }
+    //console.log(this.p);
+    let element=document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    this.p=Number(element.children[0]['text']);
+  }
+  
+  resetForm(){
+    this.totalamountPaid='';
+    this.paymentMethodType='Select Payment Method';
+    this.expensedataBABName='Bank';
+    this.receiptVoucherNo='';
+    this.paymentDate='';
+    this.receiptddNo='';
+    this.receiptEXDDDate='';
+    this.receiptChequeNo='';
+    this.receiptChequeDate='';
+  }
+  showMethod(PMID: string,displayName) {
+    console.log(displayName);
+    switch (displayName) {
+      case 'Cash':
+        this.expensedataPMID = 1;
+        break;
+      case 'Cheque':
+        this.expensedataPMID = 2;
+        break;
+      case 'Demand Draft':
+        this.expensedataPMID = 3;
+        break;
+      case 'OnlinePay':
+        this.expensedataPMID = 4;
+        break;
+    }
 
+    console.log(this.expensedataPMID);
+    this.paymentMethodType = displayName;
+    let paymentobj = this.methodArray.filter(item => item['id'] == PMID)
+    this.checkField = paymentobj[0]['name'];
+  }
+  clearArea(txtArea) {
+    console.log(txtArea);
+  }
+  initialiseInvoice(){
+    this.viewinvoiceservice.invoiceBlock='';
+    this.allBlocksByAssnID=[];
+    this.invoiceLists = [];
+    this.PaidUnpaidinvoiceLists=[];
+    this.viewreceiptservice.getpaymentlist(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        console.log(data['data']['payments']);
+        this.viewPayments = data['data']['payments']
+      });
+    //
+    this.payopt = false;
+    console.log('this.currentAssociationID', this.globalservice.getCurrentAssociationId());
+    this.viewinvoiceservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        this.allBlocksByAssnID = data;
+        this.asdPyDate = this.allBlocksByAssnID[0]['asdPyDate'];
+        this.blMgrMobile = this.allBlocksByAssnID[0]['blMgrMobile'];
+        console.log('allBlocksByAssnID', this.allBlocksByAssnID);
+        if (this.viewinvoiceservice.invoiceBlock != '') {
+          this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
+        }
+      })
+    //
+    if(this.globalservice.mrmroleId != 1){
+          this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+      .subscribe(data => {
+        console.log(data);
+        this.residentInvoiceList=data['data']['invoices'];
+      },
+        err => {
+          console.log(err);
+         /* swal.fire({
+            title: "An error has occurred",
+            text: `${err['error']['message']}`,
+            type: "error",
+            confirmButtonColor: "#f69321"
+          }); */
+        })
+    }
+  }
+  getAllUnitDetailsByBlockID() {
+    /*-------------------Get Unit List By Block ID ------------------*/
+    this.viewUniService.GetUnitListByBlockID(this.blockid)
+      .subscribe(data => {
+        console.log('allUnitBYBlockID',data);
+        this.allUnitBYBlockID = data['data'].unitsByBlockID;
+      },
+      err=>{
+        console.log(err);
+      });
+  }
+  getCurrentUnitDetails(unUnitID,unUniName){
+    this.p=1;
+      this.UnitName=unUniName;
+      this.PaidUnpaidinvoiceLists=this.invoiceLists;
+      this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
+        return item['unUnitID'] == unUnitID;
+      })
+      console.log(this.PaidUnpaidinvoiceLists)
+  }
+  _keyPress1(event) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
+  ValidateDefaultDescription(){
+    if(this.dscntInvdescription == "Type Reason Here"){
+      this.ValidateInvdescription=true;
+    }
+    else if(this.dscntInvdescription == ""){
+      this.ValidateInvdescription=true;
+    }
+    else{
+      this.ValidateInvdescription=false;
+    }
+  }
+  ValidateDescription(event){
+    if(this.dscntInvdescription != "Type Reason Here" && this.dscntInvdescription != ""){
+      this.ValidateInvdescription=false;
+    }
+    else{
+      this.ValidateInvdescription=true;
+    }
+  }
+  validateDate(event, StartDate, EndDate) {
+    this.isDateFieldEmpty=false;
+    console.log(StartDate.value, EndDate.value);
+    if (event.keyCode == 8) {
+      if ((StartDate.value == '' || StartDate.value == null) && (EndDate.value == '' || EndDate.value == null)) {
+        console.log('test');
+        this.isDateFieldEmpty=true;
+        this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
+      }
+    }
+  }
+  GetInvoiceList(){
+    if(this.isDateFieldEmpty==true){
+      this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
+    }
+  }
 }

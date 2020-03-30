@@ -16,11 +16,11 @@ import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
 import { UnitsComponent } from './units/units.component';
 import { ReceiptsComponent } from './receipts/receipts.component';
-import {VehiclesComponent} from './vehicles/vehicles.component';
-import {AddUnitComponent} from '../app/add-unit/add-unit.component';
-import {LoginComponent} from '../app/login/login.component';
-import {FamilyMembersComponent} from '../app/family-members/family-members.component'
-import {RegisterComponent} from '../app/register/register.component'
+import { VehiclesComponent} from './vehicles/vehicles.component';
+import { AddUnitComponent} from '../app/add-unit/add-unit.component';
+import { LoginComponent} from '../app/login/login.component';
+import { FamilyMembersComponent} from '../app/family-members/family-members.component'
+import { RegisterComponent} from '../app/register/register.component'
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { StaffComponent } from './staff/staff.component';
 import { ReportsComponent } from './reports/reports.component';
@@ -29,10 +29,25 @@ import { PatrollingComponent } from './patrolling/patrolling.component';
 import { SupplierStatementComponent } from './supplier-statement/supplier-statement.component';
 import { CustomerStatementComponent } from './customer-statement/customer-statement.component';
 import { GeneralLedgerComponent } from './general-ledger/general-ledger.component';
+import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { JournelsComponent } from './journels/journels.component';
 import { SubscriptionManagementComponent } from './subscription-management/subscription-management.component';
 import { AuthGuard } from './guards/auth.guard';
-import { from } from 'rxjs';
-
+import { ProfileComponent } from './profile/profile.component';
+import {PaymentStatusComponent} from './payment-status/payment-status.component';
+import {ResidentInvoiceComponent} from './resident-invoice/resident-invoice.component';
+import {AssociationVisitorComponent} from './association-visitor/association-visitor.component';
+import {MembersComponent} from './members/members.component';
+import {AppComponent} from './app.component';
+import {ExcelBlockUploadComponent} from './excel-block-upload/excel-block-upload.component';
+import {ExcelUnitUploadComponent} from './excel-unit-upload/excel-unit-upload.component';
+import {ExcelExpenseUploadComponent} from './excel-expense-upload/excel-expense-upload.component';
+import {JoinAndEnrollComponent} from './join-and-enroll/join-and-enroll.component';
+import {EditAssociationComponent} from './edit-association/edit-association.component';
+import {AccountingComponent} from './accounting/accounting.component'
+import {SafetyComponent} from './safety/safety.component'
+import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component'
 
 
 const routes: Routes = [
@@ -42,16 +57,24 @@ const routes: Routes = [
     { path: 'maps', component:MapsComponent, canActivate: [AuthGuard]},
     { path: 'clients', component:ClientsComponent, canActivate: [AuthGuard]},
     { path: 'location', component:LocationComponent, canActivate: [AuthGuard]},
+    { path: 'members', component:MembersComponent, canActivate: [AuthGuard]},
+    { path: 'accounting', component:AccountingComponent, canActivate: [AuthGuard]},
+    { path: 'safety', component:SafetyComponent, canActivate: [AuthGuard]},
+    { path: 'excelblock', component:ExcelBlockUploadComponent, canActivate: [AuthGuard]},
+    { path: 'excelunit', component:ExcelUnitUploadComponent, canActivate: [AuthGuard]},
+    { path: 'excelexpense', component:ExcelExpenseUploadComponent, canActivate: [AuthGuard]},
     { path: 'about', component:AboutComponent, canActivate: [AuthGuard]},
     { path: 'testimonials', component:TestimonialsComponent, canActivate: [AuthGuard]},
     { path: 'blogs', component:BlogsComponent, canActivate: [AuthGuard]},
     { path: 'jobs', component:JobsComponent, canActivate: [AuthGuard]},
     { path: 'googlemaps', component:GooglemapComponent, canActivate: [AuthGuard]},
-    { path: 'association', component:AssociationManagementComponent, canActivate: [AuthGuard]},
+    { path: 'association', component:AssociationManagementComponent, canActivate: [AuthGuard],canDeactivate:[AuthGuard]},
     { path: 'expense', component:ExpenseManagementComponent, canActivate: [AuthGuard]},
     { path: 'blocks', component:BlocksComponent, canActivate: [AuthGuard]},
     { path: 'invoice', component:InvoicesComponent, canActivate: [AuthGuard]},
+    { path: 'invoice/:mrmroleId', component:InvoicesComponent, canActivate: [AuthGuard]},
     { path: 'receipts', component:ReceiptsComponent, canActivate: [AuthGuard]},
+    { path: 'receipts/:mrmroleId', component:ReceiptsComponent, canActivate: [AuthGuard]},
     { path: 'units', component:UnitsComponent, canActivate: [AuthGuard]},
     { path: 'vehicles', component:VehiclesComponent, canActivate: [AuthGuard]},
     { path: 'addunit', component:AddUnitComponent, canActivate: [AuthGuard]},
@@ -59,6 +82,7 @@ const routes: Routes = [
     { path: 'register', component:RegisterComponent, canActivate: [AuthGuard]},
     { path: 'family', component:FamilyMembersComponent, canActivate: [AuthGuard]},
     { path: 'visitors', component:VisitorsComponent, canActivate: [AuthGuard]},
+    { path: 'AssocitionVisitors', component:AssociationVisitorComponent, canActivate: [AuthGuard]},
     { path: 'staffs', component:StaffComponent, canActivate: [AuthGuard]},
     { path: 'deliveries', component:DeliveriesComponent, canActivate: [AuthGuard]},
     { path: 'reports', component:ReportsComponent, canActivate: [AuthGuard]},
@@ -66,9 +90,19 @@ const routes: Routes = [
     { path: 'subscription', component:SubscriptionManagementComponent, canActivate: [AuthGuard]},
     { path: 'customer', component:CustomerStatementComponent, canActivate: [AuthGuard]},
     { path: 'supplier', component:SupplierStatementComponent, canActivate: [AuthGuard]},
-    { path: 'supplier', component:SupplierStatementComponent, canActivate: [AuthGuard]},
     { path: 'patrol', component:PatrollingComponent, canActivate: [AuthGuard]},
-    { path: 'generalLedger', component:GeneralLedgerComponent, canActivate: [AuthGuard]}
+    { path: 'generalLedger', component:GeneralLedgerComponent, canActivate: [AuthGuard]},
+    { path: 'profitloss', component:ProfitlossComponent, canActivate: [AuthGuard]},
+    { path: 'balancesheet', component:BalancesheetComponent, canActivate: [AuthGuard]},
+    { path: 'journel', component:JournelsComponent, canActivate: [AuthGuard]},
+    { path: 'profile', component:ProfileComponent, canActivate: [AuthGuard]},
+    { path: 'payment-status', component:PaymentStatusComponent, canActivate: [AuthGuard]},
+    { path: 'resident-invoice', component:ResidentInvoiceComponent, canActivate: [AuthGuard]},
+    { path: 'root', component:AppComponent, canActivate: [AuthGuard]},
+    { path: 'excelreceipt', component:ExcelReceiptUploadComponent, canActivate: [AuthGuard]},
+    { path: 'joinenroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
+    { path: 'joinenroll/:join_enroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
+    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],
