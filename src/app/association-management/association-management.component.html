@@ -601,7 +601,7 @@
                                   </div>
                           </div>
                     <!-- OWNER INFORMATION -->
-                    <div *ngIf="itm['_ownerDetails'] == 'Sold Owner Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">            
+                    <div *ngIf="itm['_ownerDetails'] == 'Sold Owner Occupied Unit' || itm['_tenantDetails'] == 'Sold Tenant Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">            
                           <div class="form-group mr">
                               <label class="control-label lab">Owner First Name<span class="red">*</span></label>
                               <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
@@ -633,7 +633,7 @@
                             </div>
                     </div>
                     <!-- TANENT INFORMATION -->
-                    <div *ngIf="itm['_tenantDetails'] == 'UnSold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Owner Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">                          
+                    <div *ngIf="itm['_tenantDetails'] == 'UnSold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Tenant Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">                          
                             <div class="form-group mr">
                                 <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
                                 <input type="text" name="tenantFirtname" id="tenantFirtname" (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"

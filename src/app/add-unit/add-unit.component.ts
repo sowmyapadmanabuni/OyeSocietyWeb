@@ -151,7 +151,25 @@ export class AddUnitComponent implements OnInit {
     ////console.log(calculationTypename);
     this.calculationtype = calculationTypename;
   }
-
+  ResetCreateUnitFormOne(){
+    this.unitno='';
+    this.occupency='Select Occupancy';
+    this.unitType='Select Unit Type';
+    this.calculationtype='Select Calcula...';
+    this.unitdimension = '';
+    this.unitrate = '';
+  }
+  ResetCreateUnitFormTwo(){
+    this.ownerFirtname = '';
+    this.ownerLastname = '';
+    this.ownerMobnumber='';
+    this.ownerEmail='';
+    this.tenantFirtname='';
+    this.tenantLastname='';
+    this.tenantMobnumber='';
+    this.tenantEmail='';
+  }
+ 
   tenantOwnerdiv(occupency) {
     this.occupency=occupency;
     this.occupencys.forEach(item => {
@@ -182,6 +200,15 @@ export class AddUnitComponent implements OnInit {
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
+  _keyPress4(event: any) {
+    const pattern = /[\d*\.?\d?]/;
+    //var RegExp = new RegExp(/^\d*\.?\d*$/); 
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+    //if (!RegExp.test(event.target.value)) {
         event.preventDefault();
     }
   }
