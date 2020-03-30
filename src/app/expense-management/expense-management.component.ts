@@ -129,6 +129,8 @@ export class ExpenseManagementComponent implements OnInit {
   toggleDistributionType:boolean;
   toggleUnitList: boolean;
   isDateFieldEmpty: boolean;
+  PaginatedValue:number;
+  ShowAllRecords: string;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -142,6 +144,8 @@ export class ExpenseManagementComponent implements OnInit {
     private orderpipe: OrderPipe,
     private utilsService:UtilsService
   ) {
+    this.PaginatedValue=10;
+    this.ShowAllRecords = 'No';
     this.checkField="xyz";
     this.toggleDistributionType=false;
     this.toggleUnitList=true;
@@ -279,8 +283,21 @@ export class ExpenseManagementComponent implements OnInit {
     this.toggle = param;
   }
   setRows(RowNum) {
+    this.ShowAllRecords = 'No';
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.expenseList.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   goToExpense(){
     this.router.navigate(['expense']);
@@ -457,30 +474,42 @@ export class ExpenseManagementComponent implements OnInit {
       });
   }
   onPageChange(event) {
-    //console.log(event);
-    //console.log(this.p);
-    //console.log(event['srcElement']['text']);
+    console.log(event);
+    console.log(this.p);
+    console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
     if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
-        //console.log('test');
-        //console.log(Number(event['srcElement']['text']) == NaN);
-        //console.log(Number(event['srcElement']['text']));
+        console.log('test');
+        console.log(Number(event['srcElement']['text']) == NaN);
+        console.log(Number(event['srcElement']['text']));
         let element=document.querySelector('.page-item.active');
-    //console.log(element.children[0]['text']);
+        console.log(element.children[0]['text']);
         this.p= Number(element.children[0]['text']);
-      //console.log(this.p);
+        console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
-      //console.log(this.p);
+      console.log(this.p);
       this.p= 1;
     }
-    //console.log(this.p);
+    console.log(this.p);
     let element=document.querySelector('.page-item.active');
-    //console.log(element.children[0]['text']);
+    console.log(element.children[0]['text']);
     if(element != null){
       this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
     }
   }
   generateInvoice() {

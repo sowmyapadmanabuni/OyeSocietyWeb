@@ -55,6 +55,7 @@ export class ReceiptsComponent implements OnInit {
   toggleUL:boolean;
   bsConfig:any;
   isDateFieldEmpty: boolean;
+  associationAddress: any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -83,6 +84,7 @@ export class ReceiptsComponent implements OnInit {
       });
       
       this.currentAssociationID=this.globalservice.getCurrentAssociationId();
+      this.GetAssnAddress(this.currentAssociationID);
       this.unitIdentifier='';
       this.invoiceNumber='';
       this.pymtDate='';
@@ -188,7 +190,7 @@ export class ReceiptsComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.viewPayments.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
   }
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
     console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
@@ -315,4 +317,14 @@ export class ReceiptsComponent implements OnInit {
       });
     }
   }
+  GetAssnAddress(currentAssociationID){
+    this.viewreceiptservice.getAssociationAddress(currentAssociationID)
+    .subscribe(data=>{
+    this.associationAddress=data['data']['association']['asAddress'];
+    console.log(this.associationAddress);
+    },
+    err=>{
+    console.log(err);
+    })
+    }
 }

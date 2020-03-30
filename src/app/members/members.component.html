@@ -28,7 +28,7 @@
                 <div class="dash-row">
                     <table class="table table-bordered"
                     [mfData]="allMemberByAccount| search:['unUniName', 'unOcStat', 'owner']:searchTxt"
-                    #mf="mfDataTable" [mfRowsOnPage]="setnoofrows" (click)="onPageChange($event)">
+                    #mf="mfDataTable" [mfRowsOnPage]="setnoofrows=='All Records'?allMemberByAccount.length:setnoofrows" (click)="onPageChange($event)">
                     <thead>
                         <tr>
                             <th>

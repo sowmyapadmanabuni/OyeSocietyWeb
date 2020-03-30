@@ -536,7 +536,7 @@ export class AssociationManagementComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords = 'abc';
-    this.setnoofrows = (RowNum == 'All' ? this.associations.length : RowNum);
+    this.setnoofrows = (RowNum == 'All' ?'All Records': RowNum);
   }
   getUnitType(unitTpname, _id) {
     console.log(unitTpname);

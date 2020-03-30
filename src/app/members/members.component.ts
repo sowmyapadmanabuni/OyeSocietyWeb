@@ -238,7 +238,7 @@ export class MembersComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.allMemberByAccount.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;

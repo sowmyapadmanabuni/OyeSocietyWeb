@@ -89,7 +89,7 @@
                 <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
                         [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?PaidUnpaidinvoiceLists.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>
@@ -274,7 +274,7 @@
                 <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
                         [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?residentInvoiceList.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>S.No.</th>

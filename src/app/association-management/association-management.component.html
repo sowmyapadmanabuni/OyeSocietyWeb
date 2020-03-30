@@ -38,7 +38,7 @@
         <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row table-responsive">
           <table class="table table-bordered table-fixed"
             [mfData]="associations | search:['asAsnName', 'asPrpName', 'asAddress','asNofBlks','asNofUnit']:searchTxt"
-            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?associations.length:setnoofrows">
             <thead>
               <tr>
                 <th>S.No.</th>

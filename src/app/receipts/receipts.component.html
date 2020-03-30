@@ -67,7 +67,7 @@
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pydCreated','pyAmtPaid']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?viewPayments.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>
@@ -179,7 +179,7 @@
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?viewPayments.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>
@@ -364,7 +364,7 @@
         <div class="modal-body">
             <div class="receipt-head">
                 <p class="purple">{{globalservice.getCurrentAssociationName()}}</p>
-                <p style="text-align: center">Address:No. 254/185/26, 2nd Main, “Baswer Sannidhi” Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd Bengaluru 560100 India</p>
+                <p style="text-align: center">{{associationAddress}}</p>
             </div>
             <!-- <p class="summary">Receipt Summary</p> -->
             <div class="receipt-head" style="align-items: flex-start;">

@@ -116,7 +116,7 @@ export class CustomerStatementComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.allpaymentdetails.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
   }
   onPageChange(event) {
     //console.log(event);

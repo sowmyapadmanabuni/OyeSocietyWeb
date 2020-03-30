@@ -32,5 +32,13 @@ export class ViewReceiptService {
       .set('Content-Type', 'application/json');
     return headers;
   }
+  getAssociationAddress(currentAssociationID){
+    console.log(currentAssociationID);
+     
+     let headers = this.getHttpheaders();
+     let ipAddress=this.utilsService.getpaymentlist();
+     this.url = `${ipAddress}oyeliving/api/v1/association/getAssociationList/${currentAssociationID}`
+     return this.http.get(this.url, { headers: headers });
+     }
   
 }

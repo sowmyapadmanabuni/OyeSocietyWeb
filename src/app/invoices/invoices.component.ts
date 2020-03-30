@@ -316,11 +316,11 @@ export class InvoicesComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.PaidUnpaidinvoiceLists.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
   }
   setResidentRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.residentInvoiceList.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;
