@@ -363,7 +363,7 @@ export class LoginComponent implements OnInit {
   }
   telInputObject(telinputobj) {
     this.code = '+' + telinputobj['b'].getAttribute('data-dial-code');
-    //console.log(this.code);
+    console.log(this.code);
   }
   hasError(errorobj) {
     //console.log(errorobj);

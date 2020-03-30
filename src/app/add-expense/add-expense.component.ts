@@ -484,6 +484,8 @@ export class AddExpenseComponent implements OnInit {
       );
   }
   addExp() {
+    this.expensedata.BABName = 'SBI';
+    this.expensedata.EXPBName = 'SBI';
     if(this.expensedata.UnUniIden == 'Select Unit'){
       this.expensedata.UnUniIden='';
     }

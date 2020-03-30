@@ -266,9 +266,9 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'SELECT THE STATE' || crtAssn.propertyType == 'SELECT PROPERTY TYPE'" class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
+                <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'SELECT THE STATE' || crtAssn.propertyType == 'SELECT PROPERTY TYPE'" class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueOne" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
-                  (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
+                  (click)='resetStep1()' id="ResetOne" style="margin-right: 13px;">Reset</button>
               </div>
             </div>
             </form>
@@ -309,9 +309,9 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueTwo" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
-                  (click)='resetStep2()'>Reset</button>
+                 id="ResetTwo" (click)='resetStep2()'>Reset</button>
               </div>
             </div>
           </form>
@@ -341,8 +341,8 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
-                <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep3()'>Reset</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueThree" type="button">Save & continue</button>
+                <button class="btn btn-primary-purple pull-right" type="button" id="ResetThree" (click)='resetStep3()'>Reset</button>
               </div>
             </div>
             </form>
@@ -355,8 +355,8 @@
                 <app-new-amenity [newamenities]='newamenities' (addAmenities)='addAmenity($event)'
                   (deleteamenity)='deleteamenity($event)'></app-new-amenity>
               </div>
-              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Save & continue</button>
-              <button class="btn btn-primary-purple pull-right" type="button">Reset</button>
+              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" id="SaveContinueFour" (click)="onSubmit()">Save & continue</button>
+              <button class="btn btn-primary-purple pull-right" id="ResetFour" type="button">Reset</button>
             </div>
             </form>
             <div class="panel panel-primary setup-content" id="step-5" style="overflow-x: scroll;">
@@ -514,8 +514,8 @@
                
                 <!-- <app-block-array></app-block-array> -->
                 <div class="col-sm-12 pull-right" style="position: absolute;bottom: -23px;">
-                    <button class="btn btn-primary-purple  pull-right" type="button" (click)='createBlock()'>Save & continue</button>
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='resetStep5()'>Reset</button>
+                    <button class="btn btn-primary-purple  pull-right" type="button" id="SaveContinueFive" (click)='createBlock()'>Save & continue</button>
+                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" id="ResetFive" (click)='resetStep5()'>Reset</button>
               </div>
                 </div>           
               </div>
@@ -670,7 +670,7 @@
                   </div>           
               </form>
               <div class="col-sm-12 pull-right">
-                <button type="button" class="btn btn-primary-purple pull-right">Reset</button>
+                <button type="button" id="ResetSix" class="btn btn-primary-purple pull-right">Reset</button>
                 <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
             </div>
             </div>
@@ -910,8 +910,8 @@
         </form>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="assnName == 'Associations' || blBlkName == 'Blocks' || IsUnitNotSelected || UNOcSDate == '' || OwnerType == ''" (click)='requestForJoin()'>Join</button>
-          <input class="btn btn-primary-purple pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="button" value="Reset">
+          <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="assnName == 'Associations' || blBlkName == 'Blocks' || IsUnitNotSelected || UNOcSDate == '' || OwnerType == ''" id="JoinRequest" (click)='requestForJoin()'>Join</button>
+          <input class="btn btn-primary-purple pull-right" id="ResetJoinID" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="button" value="Reset">
         </div>
       </div>
       <!--Join Association form Ends-->
