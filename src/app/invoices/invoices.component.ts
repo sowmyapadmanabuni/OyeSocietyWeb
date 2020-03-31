@@ -183,6 +183,7 @@ export class InvoicesComponent implements OnInit {
   isInValidZeroAmount: boolean;
   ValidateInvdescription:boolean;
   isDateFieldEmpty: boolean;
+  PaginatedValue: number;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -195,6 +196,7 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.PaginatedValue=10;
       this.isDateFieldEmpty=false;
       this.ValidateInvdescription=true;
       this.isInValidZeroAmount=true;
@@ -317,6 +319,18 @@ export class InvoicesComponent implements OnInit {
   setRows(RowNum) {
     this.ShowRecords='abc';
     this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   setResidentRows(RowNum) {
     this.ShowRecords='abc';
@@ -1363,6 +1377,20 @@ export class InvoicesComponent implements OnInit {
 
     }
     else{
+      this.PaginatedValue=0;
+      $(document).ready(()=> {
+        let element=document.querySelector('.page-item.active');
+        // console.log(element);
+        // console.log(element);
+        if(element != null){
+        (element.children[0] as HTMLElement).click();
+        //console.log(element.children[0]['text']);
+        }
+        else if (element == null) {
+          this.PaginatedValue=0;
+        }
+      });
+
       this.p=1;
       this.toggle=param;
       console.log(IsPaid);
@@ -1474,8 +1502,21 @@ export class InvoicesComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.PaidUnpaidinvoiceLists.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   
   resetForm(){
     this.totalamountPaid='';

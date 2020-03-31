@@ -44,11 +44,13 @@ export class CustomerStatementComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords:any;
   columnName: any;
+  PaginatedValue: number;
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
     public viewInvoiceService: ViewInvoiceService,
     public globalservice: GlobalServiceService,private modalService: BsModalService) {
+      this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
                           {'Display':'15','Row':15},
@@ -117,6 +119,18 @@ export class CustomerStatementComponent implements OnInit {
   setRows(RowNum) {
     this.ShowRecords='abc';
     this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   onPageChange(event) {
     //console.log(event);
@@ -141,8 +155,21 @@ export class CustomerStatementComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.allpaymentdetails.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   viewCustDetail() {
     this.custpanel = true;
     this.custtable = false;

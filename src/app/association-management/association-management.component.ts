@@ -278,6 +278,7 @@ export class AssociationManagementComponent implements OnInit {
   columnName: any;
   stateList: string[];
   IsUnitNotSelected:boolean;
+  PaginatedValue: number;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -293,6 +294,7 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
+    this.PaginatedValue=10;
     this.IsUnitNotSelected=true;
     this.OwnerType = '';
     this.globalService.IsEnrollAssociationStarted == false;
@@ -537,6 +539,18 @@ export class AssociationManagementComponent implements OnInit {
   setRows(RowNum) {
     this.ShowRecords = 'abc';
     this.setnoofrows = (RowNum == 'All' ?'All Records': RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   getUnitType(unitTpname, _id) {
     console.log(unitTpname);
@@ -977,7 +991,21 @@ export class AssociationManagementComponent implements OnInit {
     //console.log(this.p);
     let element = document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p = Number(element.children[0]['text']);
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.associations.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }
   }
   pageChanged(event: any): void {
     this.page = event.page;

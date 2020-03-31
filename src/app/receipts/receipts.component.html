@@ -96,7 +96,7 @@
                                     <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
                                     <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{item['unUniName']}}</td>
                                     <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{item['inNumber']}}</td>
                                     <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])" class="amount">{{item['pydCreated'] | date : "d-M-y"}}</td>
@@ -375,7 +375,7 @@
                     <p><strong>Reciept Id:</strong> {{InvoiceNum}}</p>
                 </div>
             </div>
-            <p>Received Rupees <b>{{AmountDue | words}}</b> from Name of Unit <b>{{UnitName}}</b></p>
+            <p>Received Rupees <b>{{AmountDue | words}}</b>from Unit Name <b>{{UnitName}}</b></p>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
@@ -392,8 +392,8 @@
             </table>
             <div class="receipt-head" style="align-items: flex-start;">
                     <div>
-                        <p><strong>Payment Instrument:</strong> Online Payment</p>
-                        <p><strong>Instrument Bank:</strong> Payment Gateway</p>
+                        <p><strong>Payment Instrument:</strong> Cash Payment</p>
+                        <p><strong>Instrument Bank:</strong> Cash</p>
                         <p><strong>Reference Number:</strong> {{pyRefNo}}</p>
                     </div>
             </div>

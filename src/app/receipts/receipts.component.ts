@@ -56,6 +56,7 @@ export class ReceiptsComponent implements OnInit {
   bsConfig:any;
   isDateFieldEmpty: boolean;
   associationAddress: any;
+  PaginatedValue: number;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -66,6 +67,7 @@ export class ReceiptsComponent implements OnInit {
     public generatereceiptservice: GenerateReceiptService,
     private route: ActivatedRoute) 
     { 
+      this.PaginatedValue=10;
       this.isDateFieldEmpty=false;
       this.toggleUL=false;
       this.globalservice.IsEnrollAssociationStarted==true;
@@ -191,6 +193,18 @@ export class ReceiptsComponent implements OnInit {
   setRows(RowNum) {
     this.ShowRecords='abc';
     this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
     console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
@@ -222,8 +236,21 @@ export class ReceiptsComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.viewPayments.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   getMembers() {
     this.associationTotalMembers = [];
     this.UnitNameForDisplay='';

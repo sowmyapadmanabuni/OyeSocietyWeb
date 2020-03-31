@@ -95,6 +95,7 @@ export class BlocksComponent implements OnInit {
   ShowRecords:any;
   columnName: any;
   formatDate: string;
+  PaginatedValue: number;
 
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
@@ -102,6 +103,7 @@ export class BlocksComponent implements OnInit {
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
+      this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
                           {'Display':'15','Row':15},
@@ -156,8 +158,20 @@ export class BlocksComponent implements OnInit {
     this.config.currentPage = event;
   }
   setRows(RowNum) {
-    this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.allBlocksLists.length:RowNum);
+    this.ShowRecords = 'abc';
+    this.setnoofrows = (RowNum == 'All' ?'All Records': RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;
@@ -235,6 +249,18 @@ export class BlocksComponent implements OnInit {
     //console.log(element.children[0]['text']);
     if(element != null){
       this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.allBlocksLists.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
     }
   }
   toggleStepWizard() {

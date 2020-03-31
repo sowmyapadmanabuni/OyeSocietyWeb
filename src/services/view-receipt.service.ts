@@ -18,7 +18,6 @@ export class ViewReceiptService {
     //url: scopeIP+'/oyeliving/api/v1/payment/getpaymentlist/' + $scope.curAssociationID,
     //http://apidev.oyespace.com/oyeliving/api/v1/GetPaymentsListByAssocID/%7BAssociationID%7D
     //http://apidev.oyespace.com/oyeliving/api/v1/GetPaymentsListByAssocID/4217
-
     let headers = this.getHttpheaders();
     let ipAddress=this.utilsService.getpaymentlist();
     this.url = `${ipAddress}oyeliving/api/v1/GetPaymentsListByAssocID/${currentAssociationID}`

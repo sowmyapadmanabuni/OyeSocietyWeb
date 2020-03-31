@@ -947,6 +947,19 @@ export class ExpenseManagementComponent implements OnInit {
         confirmButtonText: "OK"
       })
     }else{
+      this.PaginatedValue=0;
+      $(document).ready(()=> {
+        let element=document.querySelector('.page-item.active');
+        // console.log(element);
+        // console.log(element);
+        if(element != null){
+        (element.children[0] as HTMLElement).click();
+        //console.log(element.children[0]['text']);
+        }
+        else if (element == null) {
+          this.PaginatedValue=0;
+        }
+      });
       console.log(IsInvoiced);
       this.toggle=param;
       let expid='';

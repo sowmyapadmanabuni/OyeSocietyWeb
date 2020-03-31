@@ -5,8 +5,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {UtilsService} from '../app/utils/utils.service';
 import {DashBoardService} from '../services/dash-board.service';
 import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { UnitlistForAssociation } from './models/unitlist-for-association';
+import { ConnectionService } from 'ng-connection-service';
+import swal from 'sweetalert2';
 declare var $:any;
 
 @Component({
@@ -30,12 +32,12 @@ export class AppComponent {
   getAssociationListSubscription: Subscription;
   unitlistForAssociation:any[];
   hideTitle:boolean;
+
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
-    private http: HttpClient,private utilsService:UtilsService){
-      this.globalService.IsEnrollAssociationStarted=false;
-    //  
-
+    private http: HttpClient,private utilsService:UtilsService,
+    private connectionService: ConnectionService){
+    this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
     console.log(this.isAuthenticated());
     this.accountID=this.globalService.getacAccntID();
@@ -318,9 +320,21 @@ export class AppComponent {
     this.globalService.NotMoreThanOneUnit=true;
   }
   logOut() {
+    console.log(navigator.onLine);
+    if(navigator.onLine){
     this.globalService.clear();
     this.router.navigate(['root']);
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
+    }
+    else{
+      swal.fire({
+        title: "",
+        text: "Please Check Internet",
+        showCancelButton: false,
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK",
+      })
+    } 
   }
 }
 

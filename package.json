@@ -41,6 +41,7 @@
     "jw-angular-pagination": "^1.1.0",
     "jw-angular-social-buttons": "^1.0.0",
     "lodash": "^4.17.15",
+    "ng-connection-service": "^1.0.4",
     "ng2-charts": "^1.6.0",
     "ng2-tel-input": "^2.0.1",
     "ngx-bootstrap": "^5.2.0",

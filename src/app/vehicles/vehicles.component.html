@@ -19,7 +19,8 @@
                                         </div>
                                 </div>
                                 <div class="row" *ngIf="VehicleDataNew.length!=0">
-                                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false" data-pause="hover">
+                                                
                                                 <!-- Indicators -->
                                                 <ol class="carousel-indicators" *ngIf="VehicleDataNew.length>4">
                                                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -32,7 +33,7 @@
                                                                 <div class="vehicles-main">
                                                                         <div class="vehicles" *ngFor="let item of VehicleCarousel">
                                                                                 <p><strong>{{item['veType']}}</strong></p>
-                                                                                <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
+                                                                                <img src="{{(item['veType']=='TwoWheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
                                                                                         <!-- *ngIf="item['veType']!=''" -->
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
@@ -51,7 +52,7 @@
                                                                 <div class="vehicles-main">
                                                                         <div class="vehicles" *ngFor="let item of VehicleCarousel1">
                                                                                 <p><strong>{{item['veType']}}</strong></p>
-                                                                                <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
+                                                                                <img src="{{(item['veType']=='TwoWheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
                                                                                         <!-- *ngIf="item['veType']!=''" -->
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
