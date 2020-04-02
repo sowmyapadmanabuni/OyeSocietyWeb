@@ -47,6 +47,7 @@ export class AssociationManagementComponent implements OnInit {
   selectedFile: File;
   @ViewChild('viewassociationForm', { static: true }) viewassociationForm: any;
   accountID: number;
+  DisableDateOfOccupancyValidationMessage:boolean;
   currentAssociationID: string;
   associations: any = [];
   crtAssn: any = {};
@@ -304,6 +305,7 @@ export class AssociationManagementComponent implements OnInit {
       return false;
     });
     //
+    this.DisableDateOfOccupancyValidationMessage=true;
     this.crtAssn.state = 'Select the State';
     this.crtAssn.name = '';
     this.crtAssn.city='';
@@ -2314,6 +2316,7 @@ export class AssociationManagementComponent implements OnInit {
     this.blBlkName = 'Blocks';
     this.OwnerType = '';
     this.UNOcSDate = '';
+    this.DisableDateOfOccupancyValidationMessage=false;
     this.allUnitBlockID = [];
     let activespan = document.querySelectorAll('span.active');
     console.log(activespan.length);

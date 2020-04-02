@@ -329,7 +329,7 @@ export class AppComponent {
     else{
       swal.fire({
         title: "",
-        text: "Please Check Internet",
+        text: "Please Check Internet Connection and try Again",
         showCancelButton: false,
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK",
