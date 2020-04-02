@@ -142,12 +142,13 @@ export class EditAssociationComponent implements OnInit {
     }
   }
   resetfields(){
+    alert("hai");
     this.viewAssnService.EditAssociationData['ASAsnName']="";
-    this.countries=[];
-    // this.viewAssnService.EditAssociationData['ASAsnName']="";
-    // this.viewAssnService.EditAssociationData['ASAsnName']="";
-    // this.viewAssnService.EditAssociationData['ASAsnName']="";
-    // this.viewAssnService.EditAssociationData['ASAsnName']="";
+    this.viewAssnService.EditAssociationData['ASCountry']="";
+    this.viewAssnService.EditAssociationData['ASState']="";
+    this.viewAssnService.EditAssociationData['ASCity']="";
+    this.viewAssnService.EditAssociationData['ASPinCode']="";
+    this.viewAssnService.EditAssociationData['ASPrpType']="";
     // this.viewAssnService.EditAssociationData['ASAsnName']="";
   }
 
