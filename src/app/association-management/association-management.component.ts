@@ -306,8 +306,8 @@ export class AssociationManagementComponent implements OnInit {
     //
     this.crtAssn.state = 'Select the State';
     this.crtAssn.name = '';
-    this.crtAssn.name = '';
-    this.stateList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttarakhand", "Uttar Pradesh", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry"]
+    this.crtAssn.city='';
+        this.stateList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttarakhand", "Uttar Pradesh", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry"]
 
     this.columnName = 'col';
     this.rowsToDisplay = [{ 'Display': '5', 'Row': 5 },
@@ -497,16 +497,16 @@ export class AssociationManagementComponent implements OnInit {
 
     if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
       console.log(localStorage.getItem('AssociationName'));
-      this.crtAssn.name = ((localStorage.getItem('AssociationName') == 'null') ? '' : localStorage.getItem('AssociationName'))
+      this.crtAssn.name = ((localStorage.getItem('AssociationName') == null) ? '' : localStorage.getItem('AssociationName'))
       this.crtAssn.country = localStorage.getItem('AssociationCountry')
-      this.crtAssn.state = (localStorage.getItem('AssociationState') == '' || 'null' ? 'SELECT THE STATE' : localStorage.getItem('AssociationState'))
-      this.crtAssn.city = (localStorage.getItem('AssociationCity') == '' || 'null' ? '' : localStorage.getItem('AssociationCity'))
-      this.crtAssn.postalCode = (localStorage.getItem('AssociationPostalCode') == '' || 'null' ? '' : localStorage.getItem('AssociationPostalCode'))
+      this.crtAssn.state = (localStorage.getItem('AssociationState') == '' || null ? 'SELECT THE STATE' : localStorage.getItem('AssociationState'))
+      this.crtAssn.city = (localStorage.getItem('AssociationCity') == '' || null ? '' : localStorage.getItem('AssociationCity'))
+      this.crtAssn.postalCode = (localStorage.getItem('AssociationPostalCode') == '' || null ? '' : localStorage.getItem('AssociationPostalCode'))
       this.crtAssn.propertyType = localStorage.getItem('AssociationPropertyType')
       this.crtAssn.propertyName = localStorage.getItem('AssociationPropertyName')
       this.crtAssn.locality = localStorage.getItem('AssociationLocality')
       this.crtAssn.email = localStorage.getItem('AssociationEmail')
-      this.crtAssn.GSTNumber = (localStorage.getItem('AssociationGST') == 'null' ? '' : localStorage.getItem('AssociationGST'))
+      this.crtAssn.GSTNumber = (localStorage.getItem('AssociationGST') == null ? '' : localStorage.getItem('AssociationGST'))
       this.crtAssn.PANNumber = localStorage.getItem('AssociationPAN')
       this.crtAssn.totalNoBlocks = localStorage.getItem('AssociationBlockNumber')
       this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber')
@@ -514,9 +514,11 @@ export class AssociationManagementComponent implements OnInit {
       this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockArray')))
       this.BlockHrefDetail = (JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
       if (this.BlockHrefDetail.length == 0) {
+        console.log('BlockHrefDetail.length == 0')
         localStorage.setItem('CreateUnitFromSavedData', 'false');
       }
       else {
+        console.log('BlockHrefDetail.length != 0')
         localStorage.setItem('CreateUnitFromSavedData', 'true');
       }
       console.log(this.blockArray);
@@ -526,6 +528,10 @@ export class AssociationManagementComponent implements OnInit {
       console.log(this.crtAssn.country);
       console.log(this.crtAssn.propertyType);
       console.log(this.crtAssn.state);
+      console.log(localStorage.getItem('AssociationCity'));
+      console.log(this.crtAssn.city);
+      console.log(((localStorage.getItem('AssociationCity') == '' || null) ? '' : localStorage.getItem('AssociationCity'))
+      );
     }
   }
 

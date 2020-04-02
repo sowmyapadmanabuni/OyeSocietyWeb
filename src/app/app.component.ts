@@ -320,12 +320,12 @@ export class AppComponent {
     this.globalService.NotMoreThanOneUnit=true;
   }
   logOut() {
-    console.log(navigator.onLine);
-    if(navigator.onLine){
+    //console.log(navigator.onLine);
+   // if(navigator.onLine){
     this.globalService.clear();
     this.router.navigate(['root']);
     window.scrollTo(0, 0);
-    }
+   /* }
     else{
       swal.fire({
         title: "",
@@ -334,7 +334,7 @@ export class AppComponent {
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK",
       })
-    } 
+    } */
   }
 }
 

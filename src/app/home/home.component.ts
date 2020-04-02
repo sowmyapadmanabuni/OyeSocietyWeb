@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import {UtilsService} from '../utils/utils.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AddVehicleService } from '../../services/add-vehicle.service';
 declare var $ :any;
 
 @Component({
@@ -85,6 +86,8 @@ export class HomeComponent implements OnInit {
   availableNoOfUnits: any;
   join_enroll:any;
   familyMemberCount: any;
+  vehicleTotalArray: any[];
+  vehiclesFilteredCount: any;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -94,7 +97,10 @@ export class HomeComponent implements OnInit {
     private viewassosiationservice: ViewAssociationService,
     private modalService: BsModalService,
     private utilsService:UtilsService,
-    private http:HttpClient,private route: ActivatedRoute) {
+    private http:HttpClient,private route: ActivatedRoute,
+    private addvehicleservice: AddVehicleService) {
+      this.vehicleTotalArray=[];
+      this.vehiclesFilteredCount=0;
       this.availableNoOfUnits=0;
       this.availableNoOfBlocks=0;
     this.accountID = this.globalService.getacAccntID();
@@ -161,6 +167,7 @@ export class HomeComponent implements OnInit {
     this.localMrmRoleId = this.globalService.mrmroleId;
     this.GetVehicleListByAssocID();
     this.getAssociation();
+    this.getVehicle(this.globalService.getCurrentUnitId());
   }
   gotToResidentInvoice() {
     this.router.navigate(['resident-invoice']);
@@ -349,7 +356,7 @@ export class HomeComponent implements OnInit {
       console.log(err);
     });
   }
-  getVehicle(unUnitID) {
+ /* getVehicle(unUnitID) {
     this.dashBrdService.getVehicle(unUnitID).subscribe(res => {
       console.log('vehicle',res);
       var data: any = res;
@@ -364,6 +371,19 @@ export class HomeComponent implements OnInit {
         console.log(err);
         this.totalVehicles = '0';
       });
+  } */
+  getVehicle(unUnitID) {
+    this.addvehicleservice.getVehicleDetails(unUnitID, this.globalService.getCurrentAssociationId(), this.globalService.getacAccntID())
+      .subscribe(data => {
+        this.vehicleTotalArray = data['data']['vehicleListByUnitID'];
+        console.log(this.vehicleTotalArray);
+        let totalVehiclesArr = data.data.vehicleListByUnitID.filter(item => {
+          return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
+        })
+        this.vehiclesFilteredCount = totalVehiclesArr.length;
+        console.log(this.vehiclesFilteredCount);
+      }
+      )
   }
   getStaff() {
     this.dashBrdService.getStaff(this.associationID).subscribe(res => {

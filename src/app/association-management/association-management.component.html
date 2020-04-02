@@ -551,7 +551,8 @@
                       <div class="panel-body" *ngFor="let itm of item['UnitArray']">
                           <div class="form-group mr">
                               <label class="control-label lab">Unit No/Flat No<span class="red">*</span></label>
-                              <input maxlength="100" name="unitno" id="unitno" type="text" (keyup)="ValidateUnitNoFlatNo(itm['_id'],itm['_unitno'])" required [(ngModel)]="itm['_unitno']" #unitnoControl="ngModel" class="form-control" (blur)="getUnitNoFlatNo(itm['_id'],itm['_unitno'])" placeholder="Unit No/Flat No" required />
+                              <input type="text" name="unitno" [(ngModel)]="itm['_unitno']" #UnitNoFlatNoControl="ngModel" class="form-control" 
+                               placeholder="UnitNoFlatNo" (keyup)="ValidateUnitNoFlatNo(itm['_id'],itm['_unitno'])" (blur)="getUnitNoFlatNo(itm['_id'],itm['_unitno'])" required/>
                               <p class="alerts" *ngIf="itm['_UnitNoFlatNoValid']=='NotValid'"> Valid unit no is required</p>
                           </div>
                           <div class="form-group mr">
