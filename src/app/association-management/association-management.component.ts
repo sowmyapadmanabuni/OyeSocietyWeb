@@ -535,6 +535,7 @@ export class AssociationManagementComponent implements OnInit {
       console.log(this.crtAssn.state);
       console.log(localStorage.getItem('AssociationCity'));
       console.log(this.crtAssn.city);
+      console.log(this.newamenities);
       console.log(((localStorage.getItem('AssociationCity') == '' || null) ? '' : localStorage.getItem('AssociationCity')));
       console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
     }
@@ -1718,7 +1719,7 @@ export class AssociationManagementComponent implements OnInit {
     this.router.navigate(['joinassociation', asAssnID]);
   }
   addAmenity(event) {
-    //console.log('amenity',event);
+    console.log('amenity',event);
     //console.log('AMType'+ event['AMType']);
     //console.log('NoofAmenities'+ event['NoofAmenities']);
     if (event['AMType'] !== "" && event['NoofAmenities'] !== "") {

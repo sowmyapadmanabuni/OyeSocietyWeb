@@ -174,7 +174,7 @@ import { from } from 'rxjs';
     DataTablesModule,
     //AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
-    UserIdleModule.forRoot({idle:600, timeout:60, ping:30}),
+    UserIdleModule.forRoot({idle:1200, timeout:60, ping:30}),
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey,
       libraries: ['geometry']
