@@ -85,7 +85,8 @@ import { PartnersComponent } from './partners/partners.component';
 import { LocationsComponent } from './locations/locations.component';
 import {AboutusComponent} from './aboutus/aboutus.component'
 import {AccountingComponent} from './accounting/accounting.component'
-import {SafetyComponent} from './safety/safety.component'
+import {SafetyComponent} from './safety/safety.component';
+import { UserIdleModule } from 'angular-user-idle';
 
  
 import { from } from 'rxjs';
@@ -173,6 +174,7 @@ import { from } from 'rxjs';
     DataTablesModule,
     //AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
+    UserIdleModule.forRoot({idle:600, timeout:60, ping:30}),
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey,
       libraries: ['geometry']

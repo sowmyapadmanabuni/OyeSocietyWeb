@@ -511,8 +511,11 @@ export class AssociationManagementComponent implements OnInit {
       this.crtAssn.GSTNumber = (localStorage.getItem('AssociationGST') == null ? '' : localStorage.getItem('AssociationGST'))
       this.crtAssn.PANNumber = localStorage.getItem('AssociationPAN')
       this.crtAssn.totalNoBlocks = localStorage.getItem('AssociationBlockNumber')
-      this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber')
-      this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities')) == null ? [] : JSON.parse(localStorage.getItem('AssociationAmenities')))
+      this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber');
+      //console.log(localStorage.getItem('AssociationAmenities'));
+      //console.log(typeof localStorage.getItem('AssociationAmenities'));
+      //console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
+      this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities')) == '' || null ? [] : JSON.parse(localStorage.getItem('AssociationAmenities')))
       this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockArray')))
       this.BlockHrefDetail = (JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
       if (this.BlockHrefDetail.length == 0) {
@@ -532,8 +535,8 @@ export class AssociationManagementComponent implements OnInit {
       console.log(this.crtAssn.state);
       console.log(localStorage.getItem('AssociationCity'));
       console.log(this.crtAssn.city);
-      console.log(((localStorage.getItem('AssociationCity') == '' || null) ? '' : localStorage.getItem('AssociationCity'))
-      );
+      console.log(((localStorage.getItem('AssociationCity') == '' || null) ? '' : localStorage.getItem('AssociationCity')));
+      console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
     }
   }
 

@@ -9,6 +9,7 @@ import { Subscription, Observable } from 'rxjs';
 import { UnitlistForAssociation } from './models/unitlist-for-association';
 import { ConnectionService } from 'ng-connection-service';
 import swal from 'sweetalert2';
+import { UserIdleService } from 'angular-user-idle';
 declare var $:any;
 
 @Component({
@@ -36,7 +37,8 @@ export class AppComponent {
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
     private http: HttpClient,private utilsService:UtilsService,
-    private connectionService: ConnectionService){
+    private connectionService: ConnectionService,
+    private userIdle: UserIdleService){
     this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
     console.log(this.isAuthenticated());
@@ -139,7 +141,27 @@ export class AppComponent {
       this.getNotification();
       //this.getAssociation();
       this.HideOrShowNotification=false;
-    }    
+    }
+    //Start watching for user inactivity.
+    this.userIdle.startWatching();
+    
+    // Start watching when user idle is starting.
+    this.userIdle.onTimerStart().subscribe(count => 
+     {
+       //console.log(count)
+      let eventList= ['click', 'mouseover','keydown','DOMMouseScroll','mousewheel',
+        'mousedown','touchstart','touchmove','scroll','keyup'];
+        for(let event of eventList) {
+        document.body.addEventListener(event, () =>this.userIdle.resetTimer());
+        }
+      });
+    
+    // Start watch when time is up.
+    this.userIdle.onTimeout().subscribe(() => {
+      //console.log('Time is up!');
+      document.getElementById('LogOutID').click();
+      alert("Your session has expired Kindly Login Again");
+    });    
   }
   ngAfterViewInit(){
     $(document).ready(function(){
@@ -320,12 +342,12 @@ export class AppComponent {
     this.globalService.NotMoreThanOneUnit=true;
   }
   logOut() {
-    //console.log(navigator.onLine);
-   // if(navigator.onLine){
+    console.log(navigator.onLine);
+   if(navigator.onLine){
     this.globalService.clear();
     this.router.navigate(['root']);
     window.scrollTo(0, 0);
-   /* }
+    }
     else{
       swal.fire({
         title: "",
@@ -334,7 +356,7 @@ export class AppComponent {
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK",
       })
-    } */
+    } 
   }
 }
 
