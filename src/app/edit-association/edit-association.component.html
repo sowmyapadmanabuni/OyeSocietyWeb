@@ -161,7 +161,7 @@
                     <label class="control-label">Country</label>
                     <div class="dropdown">
                       <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                        data-toggle="dropdown">{{(viewAssnService.EditAssociationData['ASCountry']==''?'Country':viewAssnService.EditAssociationData['ASCountry'])}}
+                        data-toggle="dropdown">{{(viewAssnService.EditAssociationData['ASCountry']==''?'Select Country':viewAssnService.EditAssociationData['ASCountry'])}}
                         <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                       <ul class="dropdown-menu fullw fdrop">
                         <li *ngFor='let country of countries' (click)="getCountry(country['name'])">
@@ -248,8 +248,7 @@
                 </div>
                 <div class="col-sm-12">
                   <button [disabled]="stepOneFrm.invalid" class="btn btn-primary-purple nextBtn pull-right" type="button">Next</button>
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="reset"
-                    (click)='resetStep1()'>Reset</button>
+                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)="resetfields()">Reset</button>
                 </div>
               </div>
             </form>

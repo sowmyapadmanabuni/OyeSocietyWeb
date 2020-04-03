@@ -141,6 +141,20 @@ export class EditAssociationComponent implements OnInit {
       event.preventDefault();
     }
   }
+  resetfields(){
+    //alert("hai");
+    this.viewAssnService.EditAssociationData['ASAsnName']="";
+    this.viewAssnService.EditAssociationData['ASCountry']="";
+    this.viewAssnService.EditAssociationData['ASState']="";
+    this.viewAssnService.EditAssociationData['ASCity']="";
+    this.viewAssnService.EditAssociationData['ASPinCode']="";
+    this.viewAssnService.EditAssociationData['ASPrpType']="";
+    this.viewAssnService.EditAssociationData['ASPrpName']="";
+    this.viewAssnService.EditAssociationData['ASAddress']="";
+    this.viewAssnService.EditAssociationData['asAsnEmail']="";
+    this.viewAssnService.EditAssociationData['asWebURL']="";
+  }
+
   UpdateAssociation(){
     console.log(this.viewAssnService.EditAssociationData);
     this.viewAssnService.UpdateAssociation(this.viewAssnService.EditAssociationData).subscribe(res => {
