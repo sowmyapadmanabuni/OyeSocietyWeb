@@ -309,7 +309,7 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueTwo" type="button">Save & continue</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueTwo" [disabled]="!toggleGSTAvailableTxt" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
                  id="ResetTwo" (click)='resetStep2()'>Reset</button>
               </div>
@@ -522,7 +522,7 @@
               
           </div>
   
-          <div class="panel panel-primary setup-content" id="step-6"     style="overflow-x: scroll;">
+          <div class="panel panel-primary setup-content" id="step-6" style="overflow-x: scroll;">
             <div class="row" style="margin: 13px;">
               <div class="stepwizard">
                 <div class="stepwizard-row-stepseven setup-panel-stepseven">

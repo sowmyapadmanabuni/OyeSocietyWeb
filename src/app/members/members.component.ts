@@ -81,8 +81,8 @@ export class MembersComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         console.log(data['data']['unit']);
-        this.allMemberByAccount = [];
-        Array.from(data['data']['unit']).forEach(item=> {
+        this.allMemberByAccount = data['data']['unit'];
+       /* Array.from(data['data']['unit']).forEach(item=> {
               let headers = this.getHttpheaders();
               return this.http.get(IPAddress + 'oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/'+item['asAssnID']+'/'+item['unUnitID']+'/'+item['acAccntID'], { headers: headers })
               // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
@@ -106,7 +106,7 @@ export class MembersComponent implements OnInit {
                 }, err => {
                   console.log(err);
                 })
-        })
+        }) */
         console.log(this.allMemberByAccount);
       },
         err => {
@@ -119,6 +119,19 @@ export class MembersComponent implements OnInit {
             confirmButtonColor: "#f69321"
           })
         })
+        this.PaginatedValue=0;
+        $(document).ready(()=> {
+          let element=document.querySelector('.page-item.active');
+          // console.log(element);
+          // console.log(element);
+          if(element != null){
+          (element.children[0] as HTMLElement).click();
+          //console.log(element.children[0]['text']);
+          }
+          else if (element == null) {
+            this.PaginatedValue=0;
+          }
+        });
   }
 
 

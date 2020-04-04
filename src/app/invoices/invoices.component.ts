@@ -1493,7 +1493,7 @@ export class InvoicesComponent implements OnInit {
         let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
         this.p= Number(element.children[0]['text']);
-      //console.log(this.p);
+      console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
       //console.log(this.p);

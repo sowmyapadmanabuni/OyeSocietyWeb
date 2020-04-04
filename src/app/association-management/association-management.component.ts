@@ -515,7 +515,7 @@ export class AssociationManagementComponent implements OnInit {
       //console.log(localStorage.getItem('AssociationAmenities'));
       //console.log(typeof localStorage.getItem('AssociationAmenities'));
       //console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
-      this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities')) == '' || null ? [] : JSON.parse(localStorage.getItem('AssociationAmenities')))
+      this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities')) == '' || null || 'null' ? [] : JSON.parse(localStorage.getItem('AssociationAmenities')))
       this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockArray')))
       this.BlockHrefDetail = (JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
       if (this.BlockHrefDetail.length == 0) {
@@ -1063,6 +1063,9 @@ export class AssociationManagementComponent implements OnInit {
         localStorage.setItem('AssociationPAN', this.crtAssn.PANNumber);
       }
     }
+    if((<HTMLInputElement>document.getElementById('GSTNumberID')).value != ''){
+      this.toggleGSTAvailableTxt=true;
+      }
   }
   enblJoinAsnVew() {
     this.viewAssnService.enrlAsnEnbled = false;
@@ -2238,6 +2241,10 @@ export class AssociationManagementComponent implements OnInit {
       this.globalService.SetCreateUnitWithAssociation(this.BlockHrefDetail, this.unitArrayList)
       this.enableCreateUnitWithAssociation = true;
       this.toggleStepTest('');
+      $(document).ready(function () {
+        console.log($('div.setup-panel div:last').children('a'));
+        $('div.setup-panel div:last').children('a').trigger('click');
+      })
     }, (2000 * (this.blockArray.length + 1)));
   }
   // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
@@ -2747,12 +2754,17 @@ export class AssociationManagementComponent implements OnInit {
         $(".form-group").removeClass("has-error");
         for (var i = 0; i < curInputs.length; i++) {
           if (!curInputs[i].validity.valid) {
+            console.log(curStepBtn);
             isValid = false;
             console.log($(curInputs[i]))
             $(curInputs[i]).closest(".form-group").addClass("has-error");
             console.log($(curInputs[i]));
             console.log($(curInputs[i]).closest(".alerts"));
           }
+        }
+        if(curStepBtn == 'step-4'){
+          console.log('step-4');
+          isValid = true;
         }
         if (isValid) {
           nextStepWizard.removeAttr('disabled').trigger('click');

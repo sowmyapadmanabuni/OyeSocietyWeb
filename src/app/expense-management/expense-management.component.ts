@@ -361,6 +361,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
   }
   GetExpenseListByBlockID(blockID,blBlkName) {
+    this.p=1;
     this.UnitName='';
     this.allUnitBYBlockID=[]
     this.expenseList=[];
@@ -379,7 +380,7 @@ export class ExpenseManagementComponent implements OnInit {
         this.viewexpensesByBlockId.forEach(item => {
           //console.log(item['inNumber']);
           this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
-          this.GetexpenseListByInvoiceID('id','All');
+          this.GetexpenseListByInvoiceID('id','All','abc');
         })
         console.log(this.expenseList);
         this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
@@ -474,28 +475,28 @@ export class ExpenseManagementComponent implements OnInit {
       });
   }
   onPageChange(event) {
-    console.log(event);
-    console.log(this.p);
-    console.log(event['srcElement']['text']);
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
     if(event['srcElement']['text'] == '1'){
       this.p=1;
     }
     if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
-        console.log('test');
-        console.log(Number(event['srcElement']['text']) == NaN);
-        console.log(Number(event['srcElement']['text']));
+        //console.log('test');
+        //console.log(Number(event['srcElement']['text']) == NaN);
+        //console.log(Number(event['srcElement']['text']));
         let element=document.querySelector('.page-item.active');
-        console.log(element.children[0]['text']);
+    //console.log(element.children[0]['text']);
         this.p= Number(element.children[0]['text']);
-        console.log(this.p);
+      console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
-      console.log(this.p);
+      //console.log(this.p);
       this.p= 1;
     }
-    console.log(this.p);
+    //console.log(this.p);
     let element=document.querySelector('.page-item.active');
-    console.log(element.children[0]['text']);
+    //console.log(element.children[0]['text']);
     if(element != null){
       this.p=Number(element.children[0]['text']);
       console.log(this.p);
@@ -510,8 +511,7 @@ export class ExpenseManagementComponent implements OnInit {
         this.PaginatedValue=(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
         console.log(this.PaginatedValue);
       }
-    }
-  }
+    }  }
   generateInvoice() {
     //console.log(this.blockID);
     //console.log(this.expid);
@@ -937,7 +937,7 @@ export class ExpenseManagementComponent implements OnInit {
         //console.log('invoiceLists?', this.invoiceLists);
       })
   }
-  GetexpenseListByInvoiceID(IsInvoiced,param) {
+  GetexpenseListByInvoiceID(IsInvoiced,param,param1) {
     if(this.viewexpenseservice.currentBlockName == ''){
       swal.fire({
         title: "Please Select Block",
@@ -947,7 +947,12 @@ export class ExpenseManagementComponent implements OnInit {
         confirmButtonText: "OK"
       })
     }else{
-      this.PaginatedValue=0;
+      if(param1 == 'abc'){
+        this.PaginatedValue=10;
+      }
+      else{
+        this.PaginatedValue=10;
+      }
       $(document).ready(()=> {
         let element=document.querySelector('.page-item.active');
         // console.log(element);
@@ -960,6 +965,7 @@ export class ExpenseManagementComponent implements OnInit {
           this.PaginatedValue=0;
         }
       });
+      this.p=1;
       console.log(IsInvoiced);
       this.toggle=param;
       let expid='';

@@ -73,12 +73,12 @@
           <div style="display: flex;flex-direction:column">
             <div class="switch" *ngIf='addexpenseservice.enableExpenseListView'>
                 <ul class="nav1 nav-pills1">
-                  <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All')">All</a>
+                  <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All','')">All</a>
                   </li>
                   <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a
-                      (click)="GetexpenseListByInvoiceID(true,'toggleYes')">Invoiced</a></li>
+                      (click)="GetexpenseListByInvoiceID(true,'toggleYes','')">Invoiced</a></li>
                   <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a
-                      (click)="GetexpenseListByInvoiceID(false,'toggleNo')">UnInvoiced</a></li>
+                      (click)="GetexpenseListByInvoiceID(false,'toggleNo','')">UnInvoiced</a></li>
                 </ul>
               </div>
             <button [disabled]="expenseList.length == 0" *ngIf="toggle == 'toggleNo'" class="btn-primary-purple" (click)="generateInvoice()"><i

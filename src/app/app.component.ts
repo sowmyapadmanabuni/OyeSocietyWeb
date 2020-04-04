@@ -159,6 +159,7 @@ export class AppComponent {
     // Start watch when time is up.
     this.userIdle.onTimeout().subscribe(() => {
       //console.log('Time is up!');
+      console.log(document.getElementById('LogOutID'));
       document.getElementById('LogOutID').click();
       alert("Your session has expired Kindly Login Again");
     });    

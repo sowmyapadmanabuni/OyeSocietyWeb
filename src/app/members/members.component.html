@@ -49,9 +49,9 @@
                             <th>
                                 <mfDefaultSorter (click)="removeColumnSort('OccupancyStatus')" by="unOcStat">Occupancy Status&nbsp;<i [hidden]="columnName=='OccupancyStatus'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
-                            <th>
+                            <!-- <th>
                                 <mfDefaultSorter (click)="removeColumnSort('Vehicles')" by="vehcleCount">Vehicles&nbsp;<i [hidden]="columnName=='Vehicles'" class="fa fa-sort"></i></mfDefaultSorter>
-                            </th>
+                            </th> -->
                             <th>
                                 <mfDefaultSorter (click)="removeColumnSort('Role')" by="uoRoleID">Role&nbsp;<i [hidden]="columnName=='Role'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
@@ -73,13 +73,13 @@
                             </ng-container>
                             <ng-container *ngIf="item!=-1">
                                 <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
-                                <td>{{item['blBlkName']}}</td>
+                                <td>{{item['block'] == null || item['block'] == undefined ? '' : item['block']['blBlkName']}}</td>
                                 <td>{{item['unUniName']}}</td>
-                                <td>{{item['uofName']}}</td>
-                                <td>{{item['uoMobile']}}</td>
+                                <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : item['tenant'][0]['utfName'] : item['owner'][0]['uofName']}}</td>
+                                <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91", 3)) ? item['tenant'][0]['utMobile'].slice(3) : item['tenant'][0]['utMobile'] : (item['owner'][0]['uoMobile'].includes("+91", 3)) ? item['owner'][0]['uoMobile'].slice(3) : item['owner'][0]['uoMobile']}}</td>
                                 <td>{{item['unOcStat']}}</td>
-                                <td class="txt-middle">{{item['vehcleCount']}}</td>
-                                <td>{{item['uoRoleID']}}</td>
+                                <!-- <td class="txt-middle">{{item['vehcleCount']}}</td> -->
+                                <td>{{item['owner'].length == 0 ? '' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td>
                                 <td class="txt-middle">
                                     <div *ngIf="item['uoRoleID']!=''" class="dropdown search-dropd" style="margin-top:0px">
                                         <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
