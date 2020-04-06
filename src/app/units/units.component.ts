@@ -190,6 +190,7 @@ export class UnitsComponent implements OnInit {
     this.unUniName = unUniName,
       this.unitTypeForEdit = unUniType,
       this.occupencyInEditUnit = unOcStat,
+      console.log(this.occupencyInEditUnit);
       this.UNDimens = unDimens,
       this.UNCalType = unCalType,
       // this.FLFloorID = 1,
