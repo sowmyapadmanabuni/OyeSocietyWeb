@@ -214,7 +214,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="from-group" style="padding-left:15px;">
-                                    <p>Unit Name : <strong>{{unUniName}}</strong></p>
+                                    <p>Unit Name : <strong>{{unUniName}} {{unOcStat}}</strong></p>
                                 </div>
                             </div>
 
@@ -236,7 +236,7 @@
                                     <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="occupencyInEditUnit" name="occupencyInEditUnit"
-                                            data-toggle="dropdown">{{SelectOccupancyOwnershipStatus=='Select Occupancy Ownership Status'?SelectOccupancyOwnershipStatus:UNOcStat}}
+                                            data-toggle="dropdown">{{SelectOccupancyOwnershipStatus=='Select Occupancy Ownership Status'?SelectOccupancyOwnershipStatus:unOcStat}}
                                             <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                         <ul class="dropdown-menu fullw">
                                             <li (click)="SelectOccupencyStatus('Sold Owner Occupied Unit')"><a>Sold Owner Occupied Unit</a></li>
