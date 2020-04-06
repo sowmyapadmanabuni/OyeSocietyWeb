@@ -645,11 +645,12 @@ export class InvoicesComponent implements OnInit {
     this.viewinvoiceservice.invoiceDetails(inid, unUnitID)
       .subscribe(data => {
         this.InvoiceValue = 0;
+        this._discountedValue=0;
         console.log('invoiceDetails--', data['data']['invoiceDetails']);
         this.invoiceDetails = data['data']['invoiceDetails'];
         data['data']['invoiceDetails'].forEach(item => {
 
-          if (item['idDesc'] == "Common Area Electric Bill") {
+          /* if (item['idDesc'] == "Common Area Electric Bill") {
             this.commonareafee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
@@ -708,13 +709,23 @@ export class InvoicesComponent implements OnInit {
             //this.rentingfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "Discount Value") {
-            //this._discountedValue += item['idValue'];
-            this.InvoiceValue += item['idValue'];
+          else if (item['idDesc'] == "Discount Value") { 
+            this._discountedValue += Number(item['idValue']);
+            //this.InvoiceValue -= item['idValue'];
             console.log(this._discountedValue);
+          } */
+           if (item['idDesc'] == "Discount Value") { 
+            this._discountedValue += Number(item['idValue']);
+            //this.InvoiceValue -= item['idValue'];
+            console.log(this._discountedValue);
+          }
+          else{
+            this.InvoiceValue += item['idValue'];
           }
         })
         console.log(this._discountedValue);
+        console.log(this.InvoiceValue - this._discountedValue);
+        this.InvoiceValue = (this.InvoiceValue - this._discountedValue);
        //let finalValueWithDiscount = this.InvoiceValue - this._discountedValue;
         //console.log(finalValueWithDiscount);
         this.modalRef = this.modalService.show(invoicePop,Object.assign({}, { class: 'gray modal-lg' }));
