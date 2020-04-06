@@ -1694,7 +1694,7 @@
                           <label>Payment Date<span class="red">*</span></label>
                           <input type="text" class="form-control" name="paymentDate" #paymentDateControl='ngModel'
                             placeholder="Payment Date" required [bsConfig]="bsConfig" [(ngModel)]="paymentDate" #PaymentDate='bsDatepicker'
-                            bsDatepicker [minDate]="minPaymentDateDate" [maxDate]="maxPaymentDateDate"/>
+                            bsDatepicker [minDate]="minPaymentDateDate" [maxDate]="maxPaymentDateDate" autocomplete="off"/>
                             <p class="alerts" *ngIf="paymentDateControl.invalid && paymentDateControl.touched"> Please Select Payment Date</p>
                       </div>
                   </div>
