@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType, HttpHeaders, HttpClient } from '@angular/common/http';
 import { GlobalServiceService } from '../global-service.service';
 import { ViewInvoiceService } from '../../services/view-invoice.service';
 import {DashBoardService} from '../../services/dash-board.service';
@@ -142,7 +142,8 @@ export class ExpenseManagementComponent implements OnInit {
     public viewinvoiceservice: ViewInvoiceService,
     public dashboardservice:DashBoardService,
     private orderpipe: OrderPipe,
-    private utilsService:UtilsService
+    private utilsService:UtilsService,
+    private http: HttpClient
   ) {
     this.PaginatedValue=10;
     this.ShowAllRecords = 'No';
@@ -371,25 +372,20 @@ export class ExpenseManagementComponent implements OnInit {
     this.viewexpenseservice.currentBlockId=blockID;
     this.editexpensedata.BLBlockID=blockID
     this.viewexpenseservice.currentBlockName=blBlkName;
-    this.viewexpenseservice.GetExpenseListByBlockID(blockID)
+    /* this.viewexpenseservice.GetExpenseListByBlockID(blockID)
     .subscribe(
       data=>{
         console.log('GetExpenseListByBlockID',data);
         this.viewexpensesByBlockId=data;
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
-          //console.log(item['inNumber']);
           this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
           this.GetexpenseListByInvoiceID('id','All','abc');
         })
         console.log(this.expenseList);
         this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
         this._viewexpensesByBlockId=this.expenseList;
-        //this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
-        //console.log('viewexpensesByBlockId',this.expenseList);
-        //
         this.sortedCollection = this.orderpipe.transform(this.expenseList, 'exHead');
-        //console.log(this.sortedCollection);
       },
       err=>{
         console.log(err);
@@ -398,10 +394,30 @@ export class ExpenseManagementComponent implements OnInit {
           confirmButtonColor: "#f69321"
         });
       }
+    ) */
 
-    ) 
-    //this.viewexpenseservice.GetExpenseListByBlockID(blockID);
-    //console.log(this.viewexpensesByBlockId);
+      //http://apidev.oyespace.com/oyeliving/api/v1/Expense/GetExpenseListByBlockID/{BlockID}
+       let headers = new HttpHeaders()
+       .set('Authorization', 'my-auth-token')
+       .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+       .set('Content-Type', 'application/json');
+       let ipAddress=this.utilsService.GetExpenseListByBlockID();
+       let url = `${ipAddress}oyeliving/api/v1/Expense/GetExpenseListByBlockID/${blockID}`;
+       this.http.get(url, { headers: headers })
+       .subscribe(data=>{
+         console.log(data['data']['expenseByBlock']);
+         this.viewexpensesByBlockId=data['data']['expenseByBlock'];
+        this._viewexpensesByBlockId=this.viewexpensesByBlockId;
+        // this.viewexpensesByBlockId.forEach(item => {
+        //   this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
+        // })
+        this.expenseList=data['data']['expenseByBlock'];
+        this.GetexpenseListByInvoiceID('id','All','abc');
+        console.log(this.expenseList);
+        this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
+        this._viewexpensesByBlockId=this.expenseList;
+       })
+
     this.getAllUnitDetailsByBlockID();
   }
   getExpenseListByDateRange(ExpenseEndDate) {
