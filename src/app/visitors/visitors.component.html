@@ -148,19 +148,19 @@
                     </div>
                     <div class="guest-input1">           
                         <div class="form-group" style="width:100%">
-                            <label class="control-label">Purpose of invitation<sup>*</sup></label>
+                            <label class="control-label">Purpose of invitation</label>
                             <input class="form-control" name="INPOfInv" [(ngModel)]="INPOfInv" #INPOfInvControl="ngModel" rows="10" id="comment">
                         </div>
                     </div>
                     <p>Invitation Validity</p>
                     <div class="guest-input">
                         <div class="form-group">
-                            <label class="control-label purple">From</label>
-                            <input type="text" name="INSDate" #INSDateControl='ngModel' [(ngModel)]="INSDate" bsDatepicker required [minDate]="todayDate" [bsConfig]="bsConfig" placeholder="From Date" class="form-control" bsDatepicker>
+                            <label class="control-label purple">From <sup>*</sup></label>
+                            <input type="text" name="INSDate" #INSDateControl='ngModel' [(ngModel)]="INSDate" bsDatepicker required [minDate]="todayDate" [bsConfig]="bsConfig" placeholder="From Date" class="form-control" bsDatepicker required>
                         </div>
                         <div class="form-group">
-                            <label class="control-label purple">Till</label>
-                            <input type="text" name="INEDate" #INEDateControl='ngModel' [minDate]="todayDate"  [(ngModel)]="INEDate" placeholder="Till Date" [bsConfig]="bsConfig" class="form-control" bsDatepicker>
+                            <label class="control-label purple">Till <sup>*</sup></label>
+                            <input type="text" name="INEDate" #INEDateControl='ngModel' [minDate]="todayDate"  [(ngModel)]="INEDate" placeholder="Till Date" [bsConfig]="bsConfig" class="form-control" bsDatepicker required>
                         </div>
                         <!--<div class="form-group">
                              <timepicker [(ngModel)]="mytime"></timepicker>
@@ -185,7 +185,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Guest count<sup>*</sup></label>
-                            <input name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event)/>
+                            <input name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event) required/>
                     </div>
                     <div class="col-sm-12 pull-right">
                         <button type="reset" class="btn btn-primary-reset">Reset</button>
