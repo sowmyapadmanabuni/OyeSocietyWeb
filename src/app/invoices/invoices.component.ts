@@ -1436,6 +1436,7 @@ export class InvoicesComponent implements OnInit {
       }
   }
   OpenReceiptModal(Receipts: TemplateRef<any>,inNumber,inTotVal,inAmtPaid,unUnitID){
+    this.checkField='';
     this.invoicenumber=inNumber;
     this.totalAmountDue=inTotVal;
     this.totalamountPaid=inAmtPaid;
@@ -1519,6 +1520,7 @@ export class InvoicesComponent implements OnInit {
     }  }
   
   resetForm(){
+    this.checkField='';
     this.totalamountPaid='';
     this.paymentMethodType='Select Payment Method';
     this.expensedataBABName='Bank';

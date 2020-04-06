@@ -118,7 +118,7 @@
                       Details</span>
               </div>
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a href="#step-6" type="button" class="btn btn-circle-o"></a><span>Units
+                  <a href="#step-6" (click)="chkBlkUntDetail($event)" type="button" id="UnitDetailID" class="btn btn-circle-o"></a><span>Units
                       Details</span>
               </div>
               <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
@@ -602,7 +602,7 @@
                                   </div>
                           </div>
                     <!-- OWNER INFORMATION -->
-                    <div *ngIf="itm['_ownerDetails'] == 'Sold Owner Occupied Unit' || itm['_tenantDetails'] == 'Sold Tenant Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">            
+                    <div *ngIf="itm['_SOOU'] == 'SOOU'" style="display: flex">            
                           <div class="form-group mr">
                               <label class="control-label lab">Owner First Name<span class="red">*</span></label>
                               <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
@@ -634,38 +634,79 @@
                             </div>
                     </div>
                     <!-- TANENT INFORMATION -->
-                    <div *ngIf="itm['_tenantDetails'] == 'UnSold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Tenant Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">                          
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
-                                <input type="text" name="tenantFirtname" id="tenantFirtname" (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"
-                                  #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
-                                  pattern="[a-zA-Z _]*" required/>
-                                  <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
-                              </div>
-                            
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant Last Name<span class="red">*</span></label>
-                                <input type="text" name="tenantLastname" id="tenantLastname" (blur)="getTenantLastName(itm['_id'],itm['_tenantLastname'])" [(ngModel)]="itm['_tenantLastname']"
-                                  #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
-                                  pattern="[a-zA-Z _]*" required/>
-                                  <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
-                              </div>
-               
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant Mobile Number<span class="red">*</span></label>
-                                <input type="text" name="tenantMobnumber" id="tenantMobnumber" (blur)="getTenantMobileNumber(itm['_id'],itm['_tenantMobnumber'])" [(ngModel)]="itm['_tenantMobnumber']"
-                                  #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number"
-                                  minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
-                                  <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
-                              </div>
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant Email Id<span class="red">*</span></label>
-                                <input type="text" name="tenantEmail" id="tenantEmail" (blur)="getTenantEmailId(itm['_id'],itm['_tenantEmail'])" [(ngModel)]="itm['_tenantEmail']"
-                                  #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
-                                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
-                                  <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
-                              </div>
-                      </div> 
+                    <div *ngIf="itm['_STOU'] == 'STOU'" style="display: flex">
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner First Name<span class="red">*</span></label>
+                        <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
+                          #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
+                          (blur)="getOwnerFirstName(itm['_id'],itm['_ownerFirtname'])" pattern="[a-zA-Z _]*" required />
+                        <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is
+                          required</p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner Last Name<span class="red">*</span></label>
+                        <input type="text" name="ownerLastname" id="ownerLastname"
+                          (blur)="getOwnerLastName(itm['_id'],itm['_ownerLastname'])" [(ngModel)]="itm['_ownerLastname']"
+                          #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname" pattern="[a-zA-Z _]*"
+                          required />
+                        <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is
+                          required</p>
+                      </div>
+                    
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner Mobile Number<span class="red">*</span></label>
+                        <input type="text" name="ownerMobnumber" id="ownerMobnumber"
+                          (blur)="getOwnerMobileNumber(itm['_id'],itm['_ownerMobnumber'])" [(ngModel)]="itm['_ownerMobnumber']"
+                          #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number" minlength=10 maxlength=10
+                          pattern="[0-9]*" required (keypress)=_keyPress($event) />
+                        <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+"
+                          *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required
+                        </p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner Email Id<span class="red">*</span></label>
+                        <input type="text" name="ownerEmail" id="ownerEmail" (blur)="getOwnerEmailId(itm['_id'],itm['_ownerEmail'])"
+                          [(ngModel)]="itm['_ownerEmail']" #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required />
+                        <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
+                        <input type="text" name="tenantFirtname" id="tenantFirtname"
+                          (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"
+                          #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname" pattern="[a-zA-Z _]*"
+                          required />
+                        <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is
+                          required</p>
+                      </div>
+                    
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant Last Name<span class="red">*</span></label>
+                        <input type="text" name="tenantLastname" id="tenantLastname"
+                          (blur)="getTenantLastName(itm['_id'],itm['_tenantLastname'])" [(ngModel)]="itm['_tenantLastname']"
+                          #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname" pattern="[a-zA-Z _]*"
+                          required />
+                        <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required
+                        </p>
+                      </div>
+                    
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant Mobile Number<span class="red">*</span></label>
+                        <input type="text" name="tenantMobnumber" id="tenantMobnumber"
+                          (blur)="getTenantMobileNumber(itm['_id'],itm['_tenantMobnumber'])" [(ngModel)]="itm['_tenantMobnumber']"
+                          #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number" minlength=10
+                          maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event) />
+                        <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is
+                          required</p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant Email Id<span class="red">*</span></label>
+                        <input type="text" name="tenantEmail" id="tenantEmail" (blur)="getTenantEmailId(itm['_id'],itm['_tenantEmail'])"
+                          [(ngModel)]="itm['_tenantEmail']" #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required />
+                        <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
+                      </div>
+                    </div>
                       </div>
                       
                   </div>           

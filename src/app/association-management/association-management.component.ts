@@ -575,7 +575,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getUnitDimension(_id, _unitdimension) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -593,7 +593,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getUnitRate(_id, _unitrate) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -611,7 +611,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   ValidateUnitRate(id,unitrate){
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -644,7 +644,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   processFile() {
     /* const formData = new FormData();
@@ -697,7 +697,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   ValidateUnitNoFlatNo(id,_unitno){
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -715,6 +715,8 @@ export class AssociationManagementComponent implements OnInit {
         }
       }
     }
+    console.log(this.BlockHrefDetail);
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   tenantOwnerdiv(occupency, _id) {
     this.occupency = occupency;
@@ -725,6 +727,17 @@ export class AssociationManagementComponent implements OnInit {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
           this.BlockHrefDetail[i]['UnitArray'][j]['_occupency'] = occupency;
           this.BlockHrefDetail[i]['UnitArray'][j]['_uniqueId'] = _id;
+
+          if (occupency == 'Sold Owner Occupied Unit') {
+            console.log('Sold Owner Occupied Unit');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_SOOU'] = 'SOOU';
+            this.BlockHrefDetail[i]['UnitArray'][j]['_STOU'] = '';
+          }
+          if (occupency == 'Sold Tenant Occupied Unit') {
+            console.log('Sold Tenant Occupied Unit');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_STOU'] = 'STOU';
+            this.BlockHrefDetail[i]['UnitArray'][j]['_SOOU'] = '';
+          }
 
           this.occupencys.forEach(item => {
             if (occupency == 'UnSold Vacant Unit') {
@@ -762,7 +775,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerFirstName(_id, _ownerFirtname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -773,7 +786,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerLastName(_id, _ownerLastname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -784,7 +797,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerMobileNumber(_id, _ownerMobnumber) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -795,7 +808,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerEmailId(_id, _ownerEmail) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -806,7 +819,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantFirstName(_id, _tenantFirtname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -817,7 +830,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantLastName(_id, _tenantLastname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -828,7 +841,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantMobileNumber(_id, _tenantMobnumber) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -839,7 +852,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantEmailId(_id, _tenantEmail) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -850,7 +863,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   countryName(countryName) {
     this.ASCountry = countryName;
@@ -971,7 +984,7 @@ export class AssociationManagementComponent implements OnInit {
             localStorage.setItem('AssociationUnitNumber', '')
             localStorage.setItem('AssociationAmenities', '')
             localStorage.setItem('AssociationBlockArray', '')
-            localStorage.setItem('AssociationBlockHrefDetail', '');
+            //localStorage.setItem('AssociationBlockHrefDetail', '');
 
           } else if (result.dismiss === Swal.DismissReason.cancel) {
 
@@ -1029,8 +1042,8 @@ export class AssociationManagementComponent implements OnInit {
     this.BAActType = accounttypeName;
   }
   enblEnrlAsnVew() {
-    // console.log('test');
-    // alert('test');
+    //console.log('april4');
+    //alert('test');
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled = true;
     this.viewAssnService.vewAsnEnbled = false;
@@ -2123,7 +2136,7 @@ export class AssociationManagementComponent implements OnInit {
                 let unitArraylength = (Number(item['noofunits']));
                 // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
                 for (let i = 0; i < unitArraylength; i++) {
-                  this.unitArray.push(new UnitArray(item['blkNme'] + i.toString(), item['blkNme'], data['data'].blockID, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','',''));
+                  this.unitArray.push(new UnitArray(item['blkNme'] + i.toString(), item['blkNme'], data['data'].blockID, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','','',''));
                 }
                 console.log(this.unitArray);
                 if (data['data'].blockID) {
@@ -2246,6 +2259,14 @@ export class AssociationManagementComponent implements OnInit {
         $('div.setup-panel div:last').children('a').trigger('click');
       })
     }, (2000 * (this.blockArray.length + 1)));
+  }
+  chkBlkUntDetail(e) {
+    e.preventDefault();
+    console.log(this.BlockHrefDetail);
+    //console.log(JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
+    // setTimeout(() => {
+    //   this.BlockHrefDetail = JSON.parse(localStorage.getItem('AssociationBlockHrefDetail'));
+    // }, 2000)
   }
   // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
   OpenSendRequest(OpenSendRequest: TemplateRef<any>) {
