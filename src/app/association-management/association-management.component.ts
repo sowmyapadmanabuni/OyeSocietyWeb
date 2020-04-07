@@ -1939,6 +1939,8 @@ export class AssociationManagementComponent implements OnInit {
     this.crtAssn.locality = '';
     this.crtAssn.email = '';
     this.crtAssn.url = '';
+    
+    
   }
   resetStep2() {
     this.crtAssn.PANNumber = '';
