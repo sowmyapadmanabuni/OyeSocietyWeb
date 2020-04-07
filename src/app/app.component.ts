@@ -145,7 +145,7 @@ export class AppComponent {
           this.status = "ONLINE";
           this.router.navigate(['home']);
           } else {
-          this.status = "OFFLINE"
+          this.status = "INTERNET CONNECTION ERROR"
           this.router.navigate(['error']);
           }
           alert(this.status);

@@ -1932,7 +1932,7 @@ export class AssociationManagementComponent implements OnInit {
     this.crtAssn.logo = '';
     this.crtAssn.country = 'SELECT COUNTRY';
     this.crtAssn.propertyType = 'SELECT PROPERTY TYPE';
-    this.crtAssn.state = '';
+    this.crtAssn.state = 'SELECT STATE';
     this.crtAssn.city = '';
     this.crtAssn.postalCode = '';
     this.crtAssn.propertyName = '';
