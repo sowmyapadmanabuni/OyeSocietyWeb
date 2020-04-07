@@ -143,7 +143,7 @@ export class AppComponent {
           this.isConnected = isConnected;
           if(this.isConnected){
           this.status = "ONLINE";
-          this.router.navigate(['root']);
+          this.router.navigate(['home']);
           } else {
           this.status = "OFFLINE"
           this.router.navigate(['error']);
