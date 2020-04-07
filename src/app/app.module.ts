@@ -90,6 +90,7 @@ import { UserIdleModule } from 'angular-user-idle';
 
  
 import { from } from 'rxjs';
+import { ErrorComponent } from './error/error.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -156,7 +157,8 @@ import { from } from 'rxjs';
     EditAssociationComponent,
     ExcelReceiptUploadComponent,
     AccountingComponent,
-    SafetyComponent
+    SafetyComponent,
+    ErrorComponent
     ],
   imports: [
     ReactiveFormsModule,

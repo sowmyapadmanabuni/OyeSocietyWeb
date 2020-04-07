@@ -33,6 +33,9 @@ export class AppComponent {
   getAssociationListSubscription: Subscription;
   unitlistForAssociation:any[];
   hideTitle:boolean;
+  title = 'internet-connection-check';
+  status = 'ONLINE'; //initializing as online by default
+  isConnected = true;
 
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
@@ -41,7 +44,7 @@ export class AppComponent {
     private userIdle: UserIdleService){
     this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
-    console.log(this.isAuthenticated());
+   // console.log(this.isAuthenticated());
     this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
     this.hideTitle=true;
@@ -135,6 +138,24 @@ export class AppComponent {
         console.log(this.uniqueAssociations);
       }
         //
+
+        this.connectionService.monitor().subscribe(isConnected => {
+          this.isConnected = isConnected;
+          if(this.isConnected){
+          this.status = "ONLINE";
+          this.router.navigate(['home']);
+          } else {
+          this.status = "OFFLINE"
+          this.router.navigate(['error']);
+          }
+          alert(this.status);
+          });
+          
+
+
+
+
+
   }
   ngOnInit() {
     if(this.globalService.getacAccntID()){
