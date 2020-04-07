@@ -47,6 +47,7 @@ import {JoinAndEnrollComponent} from './join-and-enroll/join-and-enroll.componen
 import {EditAssociationComponent} from './edit-association/edit-association.component';
 import {AccountingComponent} from './accounting/accounting.component'
 import {SafetyComponent} from './safety/safety.component'
+import {ErrorComponent} from './error/error.component'
 import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component'
 
 
@@ -84,6 +85,7 @@ const routes: Routes = [
     { path: 'visitors', component:VisitorsComponent, canActivate: [AuthGuard]},
     { path: 'AssocitionVisitors', component:AssociationVisitorComponent, canActivate: [AuthGuard]},
     { path: 'staffs', component:StaffComponent, canActivate: [AuthGuard]},
+    { path: 'error', component:ErrorComponent, canActivate: [AuthGuard]},
     { path: 'deliveries', component:DeliveriesComponent, canActivate: [AuthGuard]},
     { path: 'reports', component:ReportsComponent, canActivate: [AuthGuard]},
     { path: 'patroling', component:PatrollingComponent, canActivate: [AuthGuard]},
