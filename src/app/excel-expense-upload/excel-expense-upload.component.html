@@ -37,7 +37,7 @@
                                       </ul>
                                     </div>
                                   </div>
-                                <a> <img style="width: 50px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                                <a> <img style="width: 50px;" class="excel" (click)="upLoad(ExcelUploadExpenseTemplate)" src="../../assets/images/upload.png"
                                         tooltip="Have more num of Blocks?"></a>
                                 <a href="../../assets/Excel/Demo_Expense_Template.xlsx" download><img style="width: 50px;" class="excel"
                                         src="../../assets/images/upload.png"
@@ -169,7 +169,7 @@
                         </tfoot>
                     </table>
                     <div>
-                        <button style="float: right;" class="btn-primary-purple" (click)="createExpenseFromBlock()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Expense</button>
+                        <button style="float: right;" class="btn-primary-purple" (click)="createExpenseFromBlockTable()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Expense</button>
                     </div>
                 </div>
 
@@ -177,3 +177,24 @@
         </div>
     </div>
 </div>
+<!---->
+<!---->
+<ng-template #ExcelUploadExpenseTemplate>
+
+        <div class="modal-header">
+            <h4 class="modal-title orange">Upload Excel-Expense Error List</h4>
+            <button type="button" style="margin-right: 11px;margin-top: -19px;" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li *ngFor="let item of excelUploadExpenseErrorMessage">
+                    <span style="font-weight: bold;">Error at S.No:</span>{{item['RowNo']}}<br>
+                    <span style="font-weight: bold;">Column Name:</span>{{item['ColumnName']}}<br>
+                    <span style="font-weight: bold;">Error Message:</span>{{item['ErrorMessage']}}<br>
+                    <hr/>
+                </li>
+            </ul>
+        </div>
+</ng-template>
