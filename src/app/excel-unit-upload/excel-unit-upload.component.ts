@@ -56,6 +56,7 @@ export class ExcelUnitUploadComponent implements OnInit {
   }
   getAllUnitDetailsByBlockID(blBlockID, blBlkName) {
     this.currentSelectedBlockID = blBlockID;
+    this.blBlkName=blBlkName;
     console.log('Current selected BlockID', this.currentSelectedBlockID)
   }
   onFileChange(ev) {
