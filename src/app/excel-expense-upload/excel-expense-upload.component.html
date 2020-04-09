@@ -60,7 +60,15 @@
                                    <li>Note:- Bulk Upload your Expense file in <i class="fa fa-file-excel-o"
                                      aria-hidden="true"></i> excel format, the demo excel format can be downloaded from above</li>
                                  </ul> 
-
+                                 <h4 [hidden]="toggleExpenseErrorHeading">List of Error Exist in Expense-Excel :</h4>
+                                 <ul>
+                                    <li *ngFor="let item of excelUploadExpenseErrorMessage">
+                                        <span style="font-weight: bold;">Error at S.No:</span>{{item['RowNo']}}<br>
+                                        <span style="font-weight: bold;">Column Name:</span>{{item['ColumnName']}}<br>
+                                        <span style="font-weight: bold;">Error Message:</span>{{item['ErrorMessage']}}<br>
+                                        <hr/>
+                                    </li>
+                                </ul>
                         </div>
                     </div>
                 </form>

@@ -280,6 +280,7 @@ export class AssociationManagementComponent implements OnInit {
   stateList: string[];
   IsUnitNotSelected:boolean;
   PaginatedValue: number;
+  disableCreateUnitBtnAfterClick: boolean;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -295,6 +296,7 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
+      this.disableCreateUnitBtnAfterClick=false;
     this.PaginatedValue=10;
     this.IsUnitNotSelected=true;
     this.OwnerType = '';
@@ -870,6 +872,7 @@ export class AssociationManagementComponent implements OnInit {
     this.ASCountry = countryName;
   }
   createUnit() {
+    this.disableCreateUnitBtnAfterClick=true;
     console.log(this.BlockHrefDetail);
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
@@ -2264,6 +2267,7 @@ export class AssociationManagementComponent implements OnInit {
   }
   chkBlkUntDetail(e) {
     e.preventDefault();
+    this.disableCreateUnitBtnAfterClick=true;
     console.log(this.BlockHrefDetail);
     //console.log(JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
     // setTimeout(() => {

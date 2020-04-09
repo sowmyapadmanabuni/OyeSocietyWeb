@@ -712,8 +712,8 @@
                   </div>           
               </form>
               <div class="col-sm-12 pull-right">
+                <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid || disableCreateUnitBtnAfterClick" (click)="createUnit()">Create</button>
                 <button type="button" id="ResetSix" class="btn btn-primary-purple pull-right">Reset</button>
-                <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
             </div>
             </div>
           </div>

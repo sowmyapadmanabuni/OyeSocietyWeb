@@ -263,7 +263,7 @@
 
                 <div class="form-group">
                 <label><b>Mobile Number</b></label>
-                <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' minlength=10 maxlength=13 
+                <input type="text" placeholder="MobileNumber" autocomplete="off" [(ngModel)]='EditMobileNumber' minlength=10 maxlength=13 
                     name="EditMobileNumber" class="form-control" #MobileNumberControl="ngModel"
                     style="margin-bottom: 10px;" (keypress)=_keyPress($event) required>
                     <p class="alerts" *ngIf="MobileNumberControl.errors?.pattern"> Enter valid mobile number</p>
