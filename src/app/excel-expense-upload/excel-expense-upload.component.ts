@@ -27,6 +27,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
   excelUploadExpenseErrorMessage:ExcelUploadExpenseErrorMessage[];
   ExcelUploadExpenseTemplate:TemplateRef<any>;
   modalRef: BsModalRef;
+  toggleExpenseErrorHeading:boolean;
 
   constructor(public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
@@ -36,6 +37,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
     private addexpenseservice: AddExpenseService,
     private modalService: BsModalService,
     ) {
+      this.toggleExpenseErrorHeading=true;
       this.excelUploadExpenseErrorMessage=[];
       this.ExpenseListValid=true;
       this.excelExpenseList=[];
@@ -80,6 +82,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
   createExpenseFromBlock(jsonDataSheet1){
     $(".se-pre-con").show();
     this.ExpenseListValid=true;
+    this.excelUploadExpenseErrorMessage=[];
     Array.from(jsonDataSheet1).forEach((item,index)=>{
       ((index) => {
         setTimeout(() => {
@@ -234,10 +237,12 @@ export class ExcelExpenseUploadComponent implements OnInit {
         this.excelExpenseList=jsonDataSheet1;
         this.ShowExcelUploadDiscription=false;
         this.ShowExcelDataList=true;
+        this.toggleExpenseErrorHeading=true;
       }
       else{
         $(".se-pre-con").fadeOut("slow");
-        this.modalRef = this.modalService.show(this.ExcelUploadExpenseTemplate,Object.assign({}, { class: 'gray modal-md' }));
+        this.toggleExpenseErrorHeading=false;
+        //this.modalRef = this.modalService.show(this.ExcelUploadExpenseTemplate,Object.assign({}, { class: 'gray modal-md' }));
       }
     },10000*Array.from(jsonDataSheet1).length) 
   }

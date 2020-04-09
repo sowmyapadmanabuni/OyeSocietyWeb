@@ -82,7 +82,7 @@ export class FamilyMembersComponent implements OnInit {
         .append('Access-Control-Allow-Origin', "*");
     this.http.get(scopeIP + `oyesafe/api/v1/GetFamilyMemberListByAssocAndUnitID/${this.unitID}/${this.asAssnID}/${this.AccountID}`, { headers: headers })
         .subscribe(data => {
-          //console.log(data);
+          console.log(data);
           this.familymemberarray = data['data']['familyMembers'];
           if (this.familymemberarray.length > 0) {
             this.loadchangedforassociation = true;
@@ -100,7 +100,7 @@ export class FamilyMembersComponent implements OnInit {
 
 // EDIT FAMILY MEMBER MODEL POPUP
 OpenEditFamilyMemberModal(EditFamilyMemberModal: TemplateRef<any>,fmName,fmRltn,fmMobile,asAssnID,unUnitID,fmid){
-  //console.log(fmName,fmRltn,fmMobile,asAssnID,unUnitID,fmid);
+  console.log(fmName,fmRltn,fmMobile,asAssnID,unUnitID,fmid);
   this.EditFirstName=fmName;
   this.EditMobileNumber=fmMobile;
   this.EditRelation=fmRltn;
@@ -113,9 +113,15 @@ OpenEditFamilyMemberModal(EditFamilyMemberModal: TemplateRef<any>,fmName,fmRltn,
 
 // UPDATE FAMILY MEMBER API CALL
 updatefamilymember() {
+  console.log(this.EditMobileNumber.split('+91'));
+  let mobileNumberWithRemovedCountryCode=this.EditMobileNumber.split('+91');
+ let filteredMobNumber = mobileNumberWithRemovedCountryCode.filter(item => {
+    return item != '';
+  });
+  console.log(filteredMobNumber[0]);
   let updateFmailyMember = {
     "FMName": this.EditFirstName,
-    "FMMobile": this.EditMobileNumber,
+    "FMMobile": filteredMobNumber[0],
     "MEMemID": "1",
     "UNUnitID": this.unitID,
     "ASAssnID": this.asAssnID,
@@ -132,7 +138,7 @@ updatefamilymember() {
     .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
 
   let scopeIP = this.utilsService.updatefamilymember();
-  //console.log(updateFmailyMember);
+  console.log(updateFmailyMember);
   this.http.post(scopeIP + `oyesafe/api/v1/FamilyMemberDetails/update`, JSON.stringify(updateFmailyMember), { headers: headers })
   .subscribe(data=>{
     console.log(data);
@@ -163,8 +169,8 @@ updatefamilymember() {
 
   },
   err=>{
-    //console.log(err);
-  })
+    console.log(err);
+  }) 
 
 }
 // UPDATE FAMILY MEMBER API CALL END
