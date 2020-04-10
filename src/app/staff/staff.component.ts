@@ -39,7 +39,7 @@ export class StaffComponent implements OnInit {
   StaffList() {
     this.viewStaffService.GetStaffList()
       .subscribe(data => {
-        //console.log(data);
+        console.log(data);
         if(data['data']['errorResponse']['message']){
           swal.fire({
             title: "",
@@ -50,10 +50,10 @@ export class StaffComponent implements OnInit {
         }
         this.WorkerNameList = data['data']['worker'];
         this.WorkerNameList = _.sortBy(this.WorkerNameList, e => e['wkfName']);
-        //console.log(this.WorkerNameList);
+        console.log(this.WorkerNameList);
       },
         err => {
-          //console.log(err);
+          console.log(err);
         })
   }
 
