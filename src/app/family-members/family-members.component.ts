@@ -53,6 +53,7 @@ export class FamilyMembersComponent implements OnInit {
   ngOnInit() {
     this.memberList=true;
     this.addMember=false;
+    this.Relation="Select Relation"
     this.getFamilyMember();
   }
   ngAfterViewInit() {
@@ -226,7 +227,7 @@ addfamilymember() {
         }).then(
           (result) => {
             if (result.value) {
-              this.Relation='';
+              this.Relation="Select Relation";
               this.FirstName='';
               this.MobileNumber='';
               // this.ToggleGurdian='';           

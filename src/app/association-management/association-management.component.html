@@ -173,7 +173,7 @@
                       data-toggle="dropdown">{{crtAssn.country}}
                       <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                     <ul class="dropdown-menu fullw fdrop">
-                      <li *ngFor='let country of countries | orderBy:order' (click)="openPANfield(country['name'])">
+                      <li *ngFor='let country of countries | orderBy:order' (click)="openPANfield(country['name'])" autocomplete="off">
                         <a>{{country['name']}}</a></li>
                     </ul>
                   </div>
@@ -267,7 +267,7 @@
               </div>
               <div class="col-sm-12">
                 <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'SELECT THE STATE' || crtAssn.propertyType == 'SELECT PROPERTY TYPE'" class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueOne" type="button">Save & continue</button>
-                <button class="btn btn-primary-purple pull-right" type="button"
+                <button class="btn btn-primary-purple pull-right" type="reset"
                   (click)='resetStep1()' id="ResetOne" style="margin-right: 13px;">Reset</button>
               </div>
             </div>
