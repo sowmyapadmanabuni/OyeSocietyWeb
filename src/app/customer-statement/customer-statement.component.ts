@@ -82,13 +82,15 @@ export class CustomerStatementComponent implements OnInit {
   getPaidUnpaidDetail(reportID) {
     console.log('reportID', reportID);
     this.PaymentStatus=reportID;
-    this.displaypaymentdetails = this.allpaymentdetails.filter(item => {
+    this.allpaymentdetails=this.displaypaymentdetails;
+    this.allpaymentdetails = this.allpaymentdetails.filter(item => {
       return item['pyStat'] == reportID;
     })
   }
   getpaymentdetails() {
     this.viewreportservice.getpaymentdetails(this.currentAssociationID).subscribe((data) => {
       this.allpaymentdetails = data['data']['payments'];
+      this.displaypaymentdetails = data['data']['payments'];
       
       console.log('allpaymentdetails', this.allpaymentdetails);
     })
@@ -235,10 +237,11 @@ export class CustomerStatementComponent implements OnInit {
   }
   getCurrentUnitDetails(unUnitID,unUniName){
     this.UnitNameForDisplay=unUniName;
-    this.displaypaymentdetails=this.allpaymentdetails;
-    this.displaypaymentdetails = this.displaypaymentdetails.filter(item => {
+    console.log(this.displaypaymentdetails);
+    this.allpaymentdetails=this.displaypaymentdetails;
+    this.allpaymentdetails = this.allpaymentdetails.filter(item => {
       return item['unUnitID'] == unUnitID;
     })
-    console.log(this.displaypaymentdetails)
+    console.log(this.allpaymentdetails)
   }
 }

@@ -10,6 +10,7 @@ import { UnitlistForAssociation } from './models/unitlist-for-association';
 import { ConnectionService } from 'ng-connection-service';
 import swal from 'sweetalert2';
 import { UserIdleService } from 'angular-user-idle';
+import {NotificationListArray} from '../app/models/notification-list-array';
 declare var $:any;
 
 @Component({
@@ -36,6 +37,7 @@ export class AppComponent {
   title = 'internet-connection-check';
   status = 'ONLINE'; //initializing as online by default
   isConnected = true;
+  notificationListArray:NotificationListArray[];
 
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
@@ -44,6 +46,7 @@ export class AppComponent {
     private userIdle: UserIdleService){
     this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
+    this.notificationListArray=[];
    // console.log(this.isAuthenticated());
     this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
@@ -241,18 +244,33 @@ export class AppComponent {
     }
   }
   getNotification(){
+    this.notificationListArray=[];
     // http://apiuat.oyespace.com/oyesafe/api/v1/Notification/GetNotificationListByAccntID/11511/1
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
-    let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${1}`
-    this.http.get(url, { headers: headers })
-   .subscribe(data=>{
-     console.log(data['data']['notificationListByAcctID']);
-     this.notificationList=data['data']['notificationListByAcctID'];
-   },
-   err=>{
-     //console.log(err);
-   })
+    for(let pageIndex=1;pageIndex<17;pageIndex++){
+          let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
+          this.http.get(url, { headers: headers })
+         .subscribe(data=>{
+           //console.log('pageIndex-',pageIndex);
+           //console.log('pageIndex-',1);
+           //console.log(data);
+           //console.log(data['data']['notificationListByAcctID'].length);
+           Array.from(data['data']['notificationListByAcctID']).forEach((item,index)=>{
+            ((index) => {
+              setTimeout(() => {
+                //console.log('item-',item);
+                this.notificationListArray.push(new NotificationListArray(item['ntid'],item['ntType'],item['asAsnName'],item['ntDesc'],item['sbMemID']));
+                //console.log(this.notificationListArray);
+              }, 3000 * index)
+            })(index)
+           })
+         },
+         err=>{
+           //console.log(err);
+         })
+    }
+    //console.log(this.notificationListArray);
   }
   getAssociation(){
     this.uniqueAssociations=[];
@@ -362,6 +380,7 @@ export class AppComponent {
     this.globalService.setUnit(params);
     this.globalService.HideUnitDropDwn=false;
     this.globalService.NotMoreThanOneUnit=true;
+    this.globalService.CallgetVisitorList('');
   }
   logOut() {
     console.log(navigator.onLine);

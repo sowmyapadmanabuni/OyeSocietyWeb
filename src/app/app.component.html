@@ -69,13 +69,13 @@
      <div class="col-sm-1">
         <a id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
         </a>
-        <span class="badgeAlert">{{notificationList.length}}</span>
+        <span class="badgeAlert">{{notificationListArray.length}}</span>
         <i tooltip="Logout" id="LogOutID" (click)='logOut()' style="cursor:pointer; margin-left: 20px;" class="fa fa-power-off" aria-hidden="true"></i>
 
         <div id="panel">         
-          <p class="not-head-bg">{{notificationList.length}} Notifications</p>
+          <p class="not-head-bg">{{notificationListArray.length}} Notifications</p>
           <div class="not-cont">
-            <ng-container *ngFor='let item of notificationList'>
+            <ng-container *ngFor='let item of notificationListArray'>
               <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
                 <p class="not-name">{{item['asAsnName']}}</p>
                 <span class="not-desc">{{item['ntDesc']}}</span>

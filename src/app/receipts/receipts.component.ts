@@ -98,7 +98,7 @@ export class ReceiptsComponent implements OnInit {
       this.currentAssociationIdForReceipts=this.globalservice.getCurrentAssociationIdForReceipts()
       .subscribe(msg=>{
         console.log(msg);
-        this.globalservice.setCurrentAssociationId(msg['msg']);
+        //this.globalservice.setCurrentAssociationId(msg['msg']);
         this.initialiseReceipts();
       })
       this.bsConfig = Object.assign({}, {
@@ -132,14 +132,28 @@ export class ReceiptsComponent implements OnInit {
   }
   initialiseReceipts(){
     this.viewPayments=[];
+    this.allBlocksLists=[];
+    this.currentBlockName='';
     this.viewreceiptservice.getpaymentlist(this.globalservice.getCurrentAssociationId())
     .subscribe(data=>{
       console.log(data['data']['payments']);
       this.viewPayments=data['data']['payments']
     },
     err=>{
+      this.viewPayments=[];
       console.log(err);
     });
+    //
+    this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
+    .subscribe(item => {
+      this.allBlocksLists = item;
+      console.log('allBlocksLists', this.allBlocksLists);
+    },
+    err=>{
+      this.allBlocksLists=[];
+      console.log(err);
+    });
+    //
   this.getMembers();
   }
   goToExpense(){

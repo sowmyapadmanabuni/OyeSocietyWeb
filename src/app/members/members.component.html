@@ -86,7 +86,7 @@
                                                 data-toggle="dropdown">{{(SelectedUnitID==item['unUnitID']?ChangeRole:'SelectRole')}}
                                                 <span class="caret"></span></button>
                                         <ul class="dropdown-menu fullw fdrop" style="height: 65px !important;min-width: 133px !important;">
-                                                <li (click)="AdminCreate(item['uoMobile'],item['unUnitID'],rl['RoleId'],rl['Role'])" *ngFor="let rl of item['Role']"><a >{{rl['Role']}}</a></li>
+                                                <li (click)="AdminCreate(item['uoMobile'],item['unUnitID'],rl['RoleId'],rl['Role'])" *ngFor="let rl of role"><a >{{rl['Role']}}</a></li>
                                         </ul>
                                     </div>
                                 </td>

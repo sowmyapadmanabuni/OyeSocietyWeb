@@ -7,6 +7,8 @@ import { AddVisitorService } from '../../services/add-visitor.service'
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+
 
 declare var $: any;
 
@@ -44,6 +46,7 @@ INSDate: any;
 INEDate: any;
 todayDate: Date;
 bsConfig:any;
+currentAssociationIdForUnit:Subscription;
 // ADD VISITOR DATA/*/*/*/*/*/*
 
   constructor(private globalService: GlobalServiceService, private guestService: GuestService,
@@ -71,6 +74,11 @@ bsConfig:any;
         showWeekNumbers: false,
         isAnimated: true
         });
+      this.globalService.SetgetVisitorList()
+      .subscribe(data=>{
+        console.log('invoking getVisitorList');
+        this.getVisitorList('');
+      })
      }
 
   ngOnInit() {

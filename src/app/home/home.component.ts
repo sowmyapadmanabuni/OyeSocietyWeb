@@ -194,7 +194,6 @@ export class HomeComponent implements OnInit {
       }
       console.log(this.uniqueAssociations);
       this.loadAssociation((this.globalService.getCurrentAssociationName()==null?this.uniqueAssociations[0]['asAsnName']:this.globalService.getCurrentAssociationName()),this.uniqueAssociations,'id');
-      $(".se-pre-con").fadeOut("slow");
     },
       res => {
         console.log(this.associations);
@@ -419,6 +418,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadAssociation(associationName,associationList, param: any) {
+    //$(".se-pre-con").show();
     console.log(associationName);
     console.log(associationList);
     console.log(param);
@@ -497,6 +497,7 @@ export class HomeComponent implements OnInit {
         if(this.unitlistForAssociation.length != 0) 
         {
           this.loadUnit(this.unitlistForAssociation[0]['unUniName'], this.unitlistForAssociation[0]['unUnitID']);
+          this.globalService.CallgetVisitorList('');
         }
         //console.log(this.unitlistForAssociation[0]['unUnitID']);
         //console.log(this.unitlistForAssociation[0]['unUniName']);
@@ -528,6 +529,8 @@ export class HomeComponent implements OnInit {
       this.globalService.sendMessage(associationList);
       this.globalService.SetAssociationList(associationList);
     }
+    this.globalService.InvokeGetFamilyMember('');
+    $(".se-pre-con").fadeOut("slow");
   }
   GetVehicleListByAssocID() {
     this.dashBrdService.GetVehicleListByAssocID(this.associationID)
@@ -658,6 +661,7 @@ export class HomeComponent implements OnInit {
     this.GetVisitorLogByDatesAssocAndUnitID(unUnitID);
     this.GetWorkersListByUnitID(unUnitID);
     this.GetFamilyMemberVehicleCountByAssocAcntUnitID(this.globalService.getacAccntID(),this.globalService.getCurrentAssociationId(),unUnitID);
+    this.globalService.setResidentLevelInvoice('');
   }
   AdminsUnitShow() {
     this.localMrmRoleId = 2;

@@ -162,6 +162,7 @@ export class InvoicesComponent implements OnInit {
   searchTxt:any;
   viewPayments: object[];
   CurrentAssociationIdForInvoice:Subscription;
+  GetResidentLevelInvoiceSubject:Subscription;
   localMrmRoleId: string;
   InvoiceStartDate:any;
   InvoiceEndDate:any;
@@ -315,6 +316,10 @@ export class InvoicesComponent implements OnInit {
       showWeekNumbers: false,
       isAnimated: true
       });
+    this.GetResidentLevelInvoiceSubject = this.globalservice.getResidentLevelInvoice()
+      .subscribe(data => {
+        this.DisplayResidentLevelInvoice();
+      })
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
@@ -407,6 +412,27 @@ export class InvoicesComponent implements OnInit {
         })
     }
 
+  }
+  DisplayResidentLevelInvoice(){
+    this.residentInvoiceList=[];
+    this.PaidUnpaidinvoiceLists = [];
+    this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+    .subscribe(data => {
+      console.log(data);
+      this.residentInvoiceList=data['data']['invoices'];
+      this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+    },
+      err => {
+        this.residentInvoiceList=[];
+      this.PaidUnpaidinvoiceLists = [];
+        console.log(err);
+        swal.fire({
+          title: "An error has occurred",
+          text: `${err['error']['error']['message']}`,
+          type: "error",
+          confirmButtonColor: "#f69321"
+        });
+      })
   }
   _keyPress(event: any) {
     const pattern = /[0-9]/;

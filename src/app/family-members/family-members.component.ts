@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { UnitListForRoleChange } from '../unit-list-for-role-change';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -37,6 +37,7 @@ export class FamilyMembersComponent implements OnInit {
   searchTxt:any;
   joinassociation:any;
   RelationsArray:any[];
+  getFamilyMemberSubscription:Subscription;
 
   constructor(private http: HttpClient, private router: Router,
     private modalService: BsModalService,private utilsService:UtilsService,
@@ -48,6 +49,10 @@ export class FamilyMembersComponent implements OnInit {
     this.ToggleGurdian = 'xyz';
     this.RelationsArray=['Parent', 'Childern', 'Siblings', 'Relatives', 'Spouse', 'Cousin'];
     this.Relation='Select Relation';
+    this.getFamilyMemberSubscription = this.globalService.SetgetFamilyMember()
+    .subscribe(data=>{
+      this.getFamilyMember();
+    })
    }
 
   ngOnInit() {

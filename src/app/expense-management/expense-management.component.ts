@@ -1104,8 +1104,10 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   initialiseEXpense(){
+    $(".se-pre-con").show();
     this.UnitName='';
-    this.allUnitBYBlockID=[]
+    this.allUnitBYBlockID=[];
+    this.allBlocksLists=[];
     this.expenseList=[];
     this.viewexpenseservice.currentBlockName = '';
     this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
@@ -1128,8 +1130,14 @@ export class ExpenseManagementComponent implements OnInit {
 
     this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
       .subscribe(item => {
+        console.log(item);
         this.allBlocksLists = item;
-        //console.log('allBlocksLists', this.allBlocksLists);
+        $(".se-pre-con").fadeOut("slow");
+        console.log('allBlocksLists', this.allBlocksLists);
+      },
+      err=>{
+        this.allBlocksLists=[];
+        console.log(err);
       });
     if (this.viewexpenseservice.currentBlockName != '' && this.viewexpenseservice.currentBlockId != '') {
       this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);

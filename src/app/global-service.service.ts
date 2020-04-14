@@ -36,6 +36,9 @@ export class GlobalServiceService {
    private currentAssociationIdForLeftBarComponent = new Subject<any>();
    private setCreateUnitWithAssociation = new Subject<any>();
    private setCurrentUnitIDSubject = new Subject<any>();
+   private CallgetVisitorListSubject = new Subject<any>();
+   private CallGetFamilyMemberSubject = new Subject<any>();
+   private SetResidentLevelInvoiceSubject = new Subject<any>();
    
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
@@ -165,6 +168,26 @@ public setCurrentUnitName(unitName)
 {
   this.currentUnitName=unitName;
   localStorage.setItem("currentUnitName", unitName);
+}
+public CallgetVisitorList(param)
+{
+  this.CallgetVisitorListSubject.next('Id');
+}
+public SetgetVisitorList(): Observable<any>
+{
+  return this.CallgetVisitorListSubject.asObservable();
+}
+public InvokeGetFamilyMember(param){
+  this.CallGetFamilyMemberSubject.next('Id');
+}
+public SetgetFamilyMember(): Observable<any>{
+  return this.CallGetFamilyMemberSubject.asObservable();
+}
+public setResidentLevelInvoice(param){
+  this.SetResidentLevelInvoiceSubject.next('Id');
+}
+public getResidentLevelInvoice(): Observable<any>{
+ return this.SetResidentLevelInvoiceSubject.asObservable();
 }
 public getCurrentUnitName(){
 

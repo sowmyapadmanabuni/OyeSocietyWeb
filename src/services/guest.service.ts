@@ -18,9 +18,9 @@ export class GuestService {
     let ipAddress = this.utilsService.getIPaddress();
     let url = `${ipAddress}oye247/api/v1/GetInvitationListByAssocIDAndIsQRCodeGenerated`
     var visitorData = {
-      "ASAssnID": this.globalService.currentAssociationId,
+      "ASAssnID": this.globalService.getCurrentAssociationId(),
       "INInvVis": VisitorType,
-      "UNUnitID": this.globalService.currentUnitId,
+      "UNUnitID": this.globalService.getCurrentUnitId(),
       "ACAccntID": this.globalService.getacAccntID(),
       "StartDate":(date['StartDate']=='')? "2019-08-11" : date['StartDate'],
       "ToDate": (date['Todate']=='')? formatDate(new Date(),'yyyy-MM-dd','en') : date['Todate']
