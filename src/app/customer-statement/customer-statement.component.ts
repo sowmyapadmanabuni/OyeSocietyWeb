@@ -45,11 +45,13 @@ export class CustomerStatementComponent implements OnInit {
   ShowRecords:any;
   columnName: any;
   PaginatedValue: number;
+  allpaymentdetailsTemp:any[];
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
     public viewInvoiceService: ViewInvoiceService,
     public globalservice: GlobalServiceService,private modalService: BsModalService) {
+      this.allpaymentdetailsTemp=[];
       this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
@@ -82,7 +84,8 @@ export class CustomerStatementComponent implements OnInit {
   getPaidUnpaidDetail(reportID) {
     console.log('reportID', reportID);
     this.PaymentStatus=reportID;
-    this.allpaymentdetails=this.displaypaymentdetails;
+    this.allpaymentdetails = this.allpaymentdetailsTemp;
+    //this.allpaymentdetails=this.displaypaymentdetails;
     this.allpaymentdetails = this.allpaymentdetails.filter(item => {
       return item['pyStat'] == reportID;
     })
@@ -236,12 +239,14 @@ export class CustomerStatementComponent implements OnInit {
           })
   }
   getCurrentUnitDetails(unUnitID,unUniName){
+    this.allpaymentdetailsTemp =[];
     this.UnitNameForDisplay=unUniName;
     console.log(this.displaypaymentdetails);
     this.allpaymentdetails=this.displaypaymentdetails;
     this.allpaymentdetails = this.allpaymentdetails.filter(item => {
       return item['unUnitID'] == unUnitID;
     })
+    this.allpaymentdetailsTemp = this.allpaymentdetails;
     console.log(this.allpaymentdetails)
   }
 }

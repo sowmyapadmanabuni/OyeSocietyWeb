@@ -131,6 +131,8 @@ export class ExpenseManagementComponent implements OnInit {
   isDateFieldEmpty: boolean;
   PaginatedValue:number;
   ShowAllRecords: string;
+  togglegenerateinvAll:boolean;
+  checkedForGenerateInvoiceCount:number;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -145,6 +147,8 @@ export class ExpenseManagementComponent implements OnInit {
     private utilsService:UtilsService,
     private http: HttpClient
   ) {
+    this.togglegenerateinvAll=false;
+    this.checkedForGenerateInvoiceCount=0;
     this.PaginatedValue=10;
     this.ShowAllRecords = 'No';
     this.checkField="xyz";
@@ -557,6 +561,7 @@ export class ExpenseManagementComponent implements OnInit {
             if (result.value) {
               this.exidList=[];
               //this.router.navigate(['home/viewinvoice']);
+              this.togglegenerateinvAll=false;
               this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
               //this.GetexpenseListByInvoiceID(this.viewinvoiceservice.expid);
             }
@@ -1079,14 +1084,15 @@ export class ExpenseManagementComponent implements OnInit {
     })
   }
   toggleGenerateInv() {
-    this.toggleBulkInvGenerate = !this.toggleBulkInvGenerate;
-    this.viewexpenseservice.toggleBulkInvGenerate=this.toggleBulkInvGenerate;
-    //console.log( this.toggleBulkInvGenerate );
-    this.expenseList.forEach(item=>{
-     //console.log(typeof item['exIsInvD']); 
-     item['checkedForGenerateInvoice']=this.toggleBulkInvGenerate;
-     //console.log(item['checkedForGenerateInvoice']); 
-    })
+    this.toggleBulkInvGenerate = (this.togglegenerateinvAll==true?false:true);
+    this.viewexpenseservice.toggleBulkInvGenerate=(this.togglegenerateinvAll==true?false:true);
+    console.log( this.toggleBulkInvGenerate );
+    console.log(this.togglegenerateinvAll);
+      this.expenseList.forEach(item=>{
+        //console.log(typeof item['exIsInvD']); 
+        item['checkedForGenerateInvoice']= (this.togglegenerateinvAll==true?false:true);
+        //console.log(item['checkedForGenerateInvoice']); 
+       })
   }
   getSelectedInv(exid,e){
     console.log(exid);
@@ -1101,6 +1107,26 @@ export class ExpenseManagementComponent implements OnInit {
         console.log(exid);
         console.log(this.exidList);
       }
+    }
+    //
+    if (!e) {
+      //this.checkedForGenerateInvoiceCount -=1;
+      const found = this.exidList.some(el => el['EXID'] === exid);
+      if (found) {
+        let _exid = { 'EXID': exid }
+        this.exidList = this.exidList.filter(item=>{
+          return item['EXID'] != exid
+        })
+        console.log(exid);
+        console.log(this.exidList);
+      }
+    }
+    //
+     if(this.exidList.length == 1){
+      this.togglegenerateinvAll = false;
+    }
+    else if(this.exidList.length > 1){
+      this.togglegenerateinvAll = true;
     }
   }
   initialiseEXpense(){
