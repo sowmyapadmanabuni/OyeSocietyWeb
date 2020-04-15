@@ -111,7 +111,6 @@
     .profile{flex-direction: row;justify-content: space-evenly;}
     .b-l{border:none !important}
     .bg{ background-size: cover;}
-    
     }
     @media only screen and (min-width: 240px) and (max-width: 640px)  {
     .dash-row {flex-direction: column;}
@@ -131,7 +130,12 @@
     @media only screen and (min-width: 340px) and (max-width: 1150px)  {
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
+
     }
+    @media only screen and (min-width: 340px) and (max-width: 1550px)  {
+        .stepwizard-step{width: 50% !important}
+        .stepwizard{width: 60% !important}
+        }
     
     
     

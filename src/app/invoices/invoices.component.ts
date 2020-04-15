@@ -1567,6 +1567,7 @@ export class InvoicesComponent implements OnInit {
     this.receiptEXDDDate='';
     this.receiptChequeNo='';
     this.receiptChequeDate='';
+    
   }
   showMethod(PMID: string,displayName) {
     console.log(displayName);
