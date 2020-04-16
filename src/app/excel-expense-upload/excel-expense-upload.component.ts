@@ -60,8 +60,14 @@ export class ExcelExpenseUploadComponent implements OnInit {
     $(".se-pre-con").fadeOut("slow");
   }
   upLoad(ExcelUploadExpenseTemplate:TemplateRef<any>) {
-    this.ExcelUploadExpenseTemplate=ExcelUploadExpenseTemplate;
-    document.getElementById("file_upload_id").click();
+    if(this.currentBlockName==""){
+      alert("Please Select Any Block");
+    }
+    else{
+      this.ExcelUploadExpenseTemplate=ExcelUploadExpenseTemplate;
+      document.getElementById("file_upload_id").click();
+    }
+   
   }
   onFileChange(ev) {
     let workBook = null;

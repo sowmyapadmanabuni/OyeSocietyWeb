@@ -44,7 +44,13 @@ export class ExcelUnitUploadComponent implements OnInit {
     $(".se-pre-con").fadeOut("slow");
   }
   upLoad() {
-    document.getElementById("file_upload_id").click();
+    if(this.blBlkName=="Select Block Name"){
+      alert("Please select the block");
+    }
+    else{
+      document.getElementById("file_upload_id").click();
+    }
+   
   }
   getBlocks() {
     this.viewUniService.getBlocks(this.currentAssociationID).subscribe(res => {
