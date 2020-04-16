@@ -76,7 +76,7 @@
                 <!--  -->
                 <!--  -->
                 <div class="table-responsive" *ngIf='ShowExcelDataList'>
-                    <table class="table table-bordered table-responsive"
+                    <table id="ExcelExpenseTable" class="table table-bordered table-responsive"
                         [mfData]="excelExpenseList"
                         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
                         <thead>
@@ -147,24 +147,24 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{item['S.No']}}</td>
-                                    <td>{{item['Expense Head']}}</td>
-                                    <td>{{item['Expense Description']}}</td>
-                                    <td>{{item['Expense Recurance Type']}}</td>
-                                    <td>{{item['Applicable To Unit']}}</td>
-                                    <td>{{item['Expense Type']}}</td>
-                                    <td>{{item['Amount Paid']}}</td>
-                                    <td>{{item['Distribution Type']}}</td>
-                                    <td>{{item['Bank']}}</td>
-                                    <td>{{item['Payment Method']}}</td>
-                                    <td>{{item['Payee Name']}}</td>
-                                    <td>{{item['Expenditure Date']}}</td>
-                                    <td>{{item['Invoice-Receipt No']}}</td>
-                                    <td>{{item['Payee Bank']}}</td>
-                                    <td>{{item['Voucher No']}}</td>
-                                    <td>{{item['Cheque No']}}</td>
-                                    <td>{{item['Cheque Date']}}</td>
-                                    <td>{{item['Demand Draft No']}}</td>
-                                    <td>{{item['Demand Draft Date']}}</td>
+                                    <td [ngClass]="{'classRed':(item['Expense Head']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Head']==undefined?true:false)}">{{(item['Expense Head']==undefined?'Please Enter Expense Head':item['Expense Head'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Expense Description']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Description']==undefined?true:false)}">{{(item['Expense Description']==undefined?'Please Enter Expense Description':item['Expense Description'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Expense Recurance Type']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Recurance Type']==undefined?true:false)}">{{(item['Expense Recurance Type']==undefined?'Invalid Expense Recurance Type':item['Expense Recurance Type'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Applicable To Unit']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Applicable To Unit']==undefined?true:false)}">{{(item['Applicable To Unit']==undefined?'Invalid Applicable To Unit':item['Applicable To Unit'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Expense Type']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Type']==undefined?true:false)}">{{(item['Expense Type']==undefined?'Invalid Expense Type':item['Expense Type'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Amount Paid']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Amount Paid']==undefined?true:false)}">{{(item['Amount Paid']==undefined?'Invalid Amount Paid':item['Amount Paid'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Distribution Type']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Distribution Type']==undefined?true:false)}">{{(item['Distribution Type']==undefined?'Invalid Distribution Type':item['Distribution Type'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Bank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Bank']==undefined?true:false)}">{{(item['Bank']==undefined?'Invalid Bank':item['Bank'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Payment Method']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']==undefined?true:false)}">{{(item['Payment Method']==undefined?'Invalid Payment Method':item['Payment Method'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Payee Name']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payee Name']==undefined?true:false)}">{{(item['Payee Name']==undefined?'Please Enter Payee Name':item['Payee Name'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Expenditure Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expenditure Date']==undefined?true:false)}">{{(item['Expenditure Date']==undefined?'Invalid Expenditure Date':item['Expenditure Date'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Invoice-Receipt No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Invoice-Receipt No']==undefined?true:false)}">{{(item['Invoice-Receipt No']==undefined?'Please Enter Invoice-Receipt Number':item['Invoice-Receipt No'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Payee Bank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payee Bank']==undefined?true:false)}">{{(item['Payee Bank']==undefined?'Invalid Payee Bank':item['Payee Bank'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Cash' && item['Voucher No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Cash' && item['Voucher No']==undefined?true:false)}">{{(item['Payment Method']=='Cash' && item['Voucher No']==undefined?'Please Enter Voucher Number':item['Voucher No'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Cheque No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Cheque No']==undefined?true:false)}">{{(item['Cheque No']==undefined?'Invalid Cheque No':item['Cheque No'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Cheque Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Cheque Date']==undefined?true:false)}">{{(item['Cheque Date']==undefined?'Invalid Cheque Date':item['Cheque Date'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Demand Draft No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Demand Draft No']==undefined?true:false)}">{{(item['Demand Draft No']==undefined?'Invalid Demand Draft No':item['Demand Draft No'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Demand Draft Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Demand Draft Date']==undefined?true:false)}">{{(item['Demand Draft Date']==undefined?'Invalid Demand Draft Date':item['Demand Draft Date'])}}</span></td>
                                 </ng-container>
                             </tr>
                         </tbody>
@@ -177,7 +177,7 @@
                         </tfoot>
                     </table>
                     <div>
-                        <button style="float: right;" class="btn-primary-purple" (click)="createExpenseFromBlockTable()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Expense</button>
+                        <button style="float: right;" class="btn-primary-purple" [disabled]="IsNotValidExcelExpenseList" (click)="createExpenseFromBlockTable()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Expense</button>
                     </div>
                 </div>
 

@@ -28,6 +28,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
   ExcelUploadExpenseTemplate:TemplateRef<any>;
   modalRef: BsModalRef;
   toggleExpenseErrorHeading:boolean;
+  IsNotValidExcelExpenseList:boolean;
 
   constructor(public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
@@ -37,6 +38,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
     private addexpenseservice: AddExpenseService,
     private modalService: BsModalService,
     ) {
+      this.IsNotValidExcelExpenseList=false;
       this.toggleExpenseErrorHeading=true;
       this.excelUploadExpenseErrorMessage=[];
       this.ExpenseListValid=true;
@@ -80,10 +82,11 @@ export class ExcelExpenseUploadComponent implements OnInit {
     reader.readAsBinaryString(file);
   }
   createExpenseFromBlock(jsonDataSheet1){
-    $(".se-pre-con").show();
-    this.ExpenseListValid=true;
+    this.IsNotValidExcelExpenseList=false;
+    //$(".se-pre-con").show();
+    /* this.ExpenseListValid=true;
     this.excelUploadExpenseErrorMessage=[];
-    Array.from(jsonDataSheet1).forEach((item,index)=>{
+     Array.from(jsonDataSheet1).forEach((item,index)=>{
       ((index) => {
         setTimeout(() => {
           console.log(index);
@@ -242,9 +245,18 @@ export class ExcelExpenseUploadComponent implements OnInit {
       else{
         $(".se-pre-con").fadeOut("slow");
         this.toggleExpenseErrorHeading=false;
-        //this.modalRef = this.modalService.show(this.ExcelUploadExpenseTemplate,Object.assign({}, { class: 'gray modal-md' }));
       }
-    },10000*Array.from(jsonDataSheet1).length) 
+    },10000*Array.from(jsonDataSheet1).length) */
+    this.ShowExcelUploadDiscription=false;
+    this.ShowExcelDataList=true;
+    this.excelExpenseList=jsonDataSheet1; 
+    //
+    for(let item of this.excelExpenseList){
+      if(item['Expense Head']==undefined || item['Expense Description']==undefined || item['Expense Recurance Type']==undefined || item['Applicable To Unit']==undefined || item['Expense Type']==undefined || item['Amount Paid']==undefined || item['Distribution Type']==undefined || item['Bank']==undefined || item['Payment Method']==undefined || item['Payee Name']==undefined || item['Expenditure Date']==undefined || item['Invoice-Receipt No']==undefined || item['Payee Bank']==undefined || item['Voucher No']==undefined || item['Cheque No']==undefined || item['Cheque Date']==undefined || item['Demand Draft No']==undefined || item['Demand Draft Date']==undefined){
+        this.IsNotValidExcelExpenseList=true;
+        break;
+      }
+    }
   }
   createExpenseFromBlockTable() {
     this.excelExpenseList.forEach(item => {

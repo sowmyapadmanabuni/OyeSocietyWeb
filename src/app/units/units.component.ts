@@ -152,11 +152,11 @@ export class UnitsComponent implements OnInit {
     ];
   
     this.occupencys = [
-      { "name": "Sold Owner Occupied" },
-      { "name": "Sold Tenant Occupied" },
-      { "name": "Sold Vaccant" },
-      { "name": "Unsold Vaccant" },
-      { "name": "Unsold Tenant Occupied" }
+      { "name": "Sold Owner Occupied Unit" },
+      { "name": "Sold Tenant Occupied Unit" },
+      { "name": "Sold Vacant Unit" },
+      { "name": "UnSold Vacant Unit" },
+      { "name": "UnSold Tenant Occupied Unit" }
     ];
 
     this.tenantFirtname='';
@@ -309,11 +309,11 @@ export class UnitsComponent implements OnInit {
 
   tenantOwnerdiv(occupency) {
     this.occupencys.forEach(item => {
-      if (occupency == 'Unsold Vaccant') {
+      if (occupency == 'UnSold Vacant Unit') {
         this.tenantDetails = true;
         this.ownerDetails = false;
       }
-      else if (occupency == 'Unsold Tenant Occupied') {
+      else if (occupency == 'UnSold Tenant Occupied Unit') {
         this.tenantDetails = true;
         this.ownerDetails = false;
       }

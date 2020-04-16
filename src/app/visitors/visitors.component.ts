@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
+import { formatDate } from '@angular/common';
 
 
 declare var $: any;
@@ -103,6 +105,10 @@ currentAssociationIdForUnit:Subscription;
       console.log(this.invitationList);
       if(this.invitationList.length>0){
         this.invitationListLength=true;
+        // this.invitationList = this.invitationList.filter(item=>{
+        //   return item['infName'] != '';
+        // })
+        this.invitationList = _.sortBy(this.invitationList, e => e['insDate']);
       }
     },
     err=>{
