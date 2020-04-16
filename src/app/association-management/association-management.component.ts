@@ -1916,7 +1916,7 @@ export class AssociationManagementComponent implements OnInit {
     { "name": "United Arab Emirates" }, { "name": "United Kingdom" }, { "name": "United States of America" },
     { "name": "Qatar" }, { "name": "Qatar" }
   ];
-
+  order1: string = 'name';
   propertyTypes: any = [
     { "name": "residential", "displayName": "Residential Property" },
     { "name": "Commercial Property", "displayName": "Commercial Property" },
