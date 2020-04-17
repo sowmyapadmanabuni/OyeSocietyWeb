@@ -214,6 +214,7 @@ export class UnitsComponent implements OnInit {
         this.allBlocksLists = data['data'].blocksByAssoc;
         //console.log('allBlocksLists',this.allBlocksLists);
       });
+      this.SnackBar();
   }
   GetIsUnitCreated(event) {
     console.log(event);
@@ -659,6 +660,14 @@ export class UnitsComponent implements OnInit {
   NavigateToBulkUpload(){
     this.router.navigate(['excelunit']);
   }
+  // for the tost message
+ SnackBar(){
+  console.log("Hello from functionNr1 before setTimeout in code");
+  let x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+  // for tost message
   onPageChange(event) {
     //console.log(event);
     //console.log(this.p);
