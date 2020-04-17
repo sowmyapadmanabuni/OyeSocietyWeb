@@ -30,6 +30,7 @@ export class ViewAssociationService {
   joinAsnEbld:boolean;
   join_enroll:any;
   EditAssociationData:any;
+  headerss: HttpHeaders;
 
   onUpLoad(fd: FormData) {
     //let headers = this.getHttpheaders();
@@ -48,6 +49,11 @@ export class ViewAssociationService {
     this.headers = new HttpHeaders().append('Content-Type', 'application/json')
     .append('X-Champ-APIKey', this.scriptIP)
     .append('Access-Control-Allow-Origin', '*');
+    //
+    this.headerss = new HttpHeaders()
+ .append('Content-Type', 'application/json')
+ .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+ .append('Access-Control-Allow-Origin', '*');
    }
 
 
@@ -135,6 +141,18 @@ sendRequestmethod(senddata:Sendrequest)
   joinAssociation(senddataForJoinOwner){
     let scopeIP=this.utilsService.joinAssociation();
     return this.http.post(scopeIP + 'oyeliving/api/v1/association/join', senddataForJoinOwner, {headers:this.headers});
+  }
+  getRequestorDetails(unitID){
+    let scopeIP=this.utilsService.joinAssociation();
+    return this.http.get('http://apidev.oyespace.com/oyeliving/api/v1/Unit/GetUnitListByUnitID/'+unitID, {headers:this.headers});
+  }
+  SendTheAdminNotification(sendAdminNotification){
+    let scopeIP=this.utilsService.joinAssociation();
+    return this.http.post('https://us-central1-oyespace-dc544.cloudfunctions.net/sendAdminNotification', sendAdminNotification, {headers:this.headers});
+  }
+  createInAppNotification(inAppNotification){
+    let scopeIP=this.utilsService.joinAssociation();
+    return this.http.post(scopeIP + 'oyesafe/api/v1/Notification/Notificationcreate', inAppNotification, {headers:this.headerss});
   }
 
 }
