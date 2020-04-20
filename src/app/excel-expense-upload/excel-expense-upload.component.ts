@@ -6,6 +6,7 @@ import { ViewUnitService } from 'src/services/view-unit.service';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { AddExpenseService } from 'src/services/add-expense.service';
+import { DashBoardService } from 'src/services/dash-board.service';
 import Swal from 'sweetalert2';
 import {ExcelUploadExpenseErrorMessage} from '../../app/models/excel-upload-expense-error-message';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
@@ -37,7 +38,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
     public router:Router,
     private addexpenseservice: AddExpenseService,
     private modalService: BsModalService,
-    ) {
+    private dashboardservice:DashBoardService ) {
       this.IsNotValidExcelExpenseList=false;
       this.toggleExpenseErrorHeading=true;
       this.excelUploadExpenseErrorMessage=[];
@@ -76,7 +77,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
     const file = ev.target.files[0];
     reader.onload = (event) => {
       const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
+      workBook = XLSX.read(data, { type: 'binary',cellDates:true,dateNF: 'dd/mm/yyyy' });
       jsonData = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         initial[name] = XLSX.utils.sheet_to_json(sheet);
@@ -258,7 +259,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
     this.excelExpenseList=jsonDataSheet1; 
     //
     for(let item of this.excelExpenseList){
-      if(item['Expense Head']==undefined || item['Expense Description']==undefined || item['Expense Recurance Type']==undefined || item['Applicable To Unit']==undefined || item['Expense Type']==undefined || item['Amount Paid']==undefined || item['Distribution Type']==undefined || item['Bank']==undefined || item['Payment Method']==undefined || item['Payee Name']==undefined || item['Expenditure Date']==undefined || item['Invoice-Receipt No']==undefined || item['Payee Bank']==undefined || item['Voucher No']==undefined || item['Cheque No']==undefined || item['Cheque Date']==undefined || item['Demand Draft No']==undefined || item['Demand Draft Date']==undefined){
+      if(item['Expense Head']==undefined || item['Expense Description']==undefined || item['Expense Recurance Type']==undefined || item['Applicable To Unit']==undefined || item['Expense Type']==undefined || item['Amount Paid']==undefined || item['Distribution Type']==undefined || item['Bank']==undefined || item['Payment Method']==undefined || item['Payee Name']==undefined || item['Expenditure Date']==undefined || item['Invoice-Receipt No']==undefined || item['Payee Bank']==undefined || item['Voucher No']==undefined || item['Cheque No']==undefined || item['Cheque Date']==undefined || item['Demand Draft No']==undefined || item['Demand Draft Date']==undefined || (item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined)){
         this.IsNotValidExcelExpenseList=true;
         break;
       }
@@ -266,6 +267,13 @@ export class ExcelExpenseUploadComponent implements OnInit {
   }
   createExpenseFromBlockTable() {
     this.excelExpenseList.forEach(item => {
+      // console.log(formatDate(new Date(new Date(item['Expenditure Date']).getFullYear(), new Date(item['Expenditure Date']).getMonth(), new Date(item['Expenditure Date']).getDate()),'yyyy-MM-dd','en'));
+      console.log(formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'));
+      // console.log(formatDate(new Date(new Date(item['Cheque Date']).getFullYear(), new Date(item['Cheque Date']).getMonth(), new Date(item['Cheque Date']).getDate()),'yyyy-MM-dd','en'));
+      console.log(formatDate(item['Cheque Date'],'yyyy-MM-dd','en'));
+      // console.log(formatDate(new Date(new Date(item['Demand Draft Date']).getFullYear(), new Date(item['Demand Draft Date']).getMonth(), new Date(item['Demand Draft Date']).getDate()),'yyyy-MM-dd','en'));
+      console.log(formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'));
+      //
       let expensedata = {
         // "POEAmnt": "",
         "EXChqNo": item['Cheque No'],
@@ -276,24 +284,25 @@ export class ExcelExpenseUploadComponent implements OnInit {
         "BLBlockID": this.blBlockID,
         "EXHead": item['Expense Head'],
         "EXDesc": item['Expense Description'],
-        "EXDCreated": item['Expenditure Date'],
+        "EXDCreated":'2020-04-17',// formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'),
         "EXPAmnt": item['Amount Paid'],
         "EXRecurr": item['Expense Recurance Type'],
         "EXApplTO": item['Applicable To Unit'],
         "EXType": item['Expense Type'],
         "EXDisType": item['Distribution Type'],
-        "UnUniIden": "",
+        "UnUniIden": (item['UnitName']==undefined?'':item['UnitName']),
         "PMID": 1,
         "BABName": item['Bank'],
         "EXPBName": item['Payee Bank'],
-        "EXChqDate": item['Cheque Date'],
+        "EXChqDate":'2020-04-17',//formatDate(item['Cheque Date'],'yyyy-MM-dd','en'),
         "VNName": "Bills",
         "EXDDNo": item['Demand Draft No'],
-        "EXDDDate": item['Demand Draft Date'],
+        "EXDDDate":'2020-04-17',//formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'),
         "EXVoucherNo": item['Voucher No'],
-        "EXAddedBy": "",
+        "EXAddedBy": this.dashboardservice.acfName,
         "EXPName": item['Payee Name']
       }
+      console.log(expensedata);
       this.addexpenseservice.createExpense(expensedata)
         .subscribe(
           (data) => {

@@ -138,6 +138,9 @@
                                 <th>
                                     <mfDefaultSorter by="Demand Draft Date">Demand Draft Date</mfDefaultSorter>
                                 </th>
+                                <th>
+                                    <mfDefaultSorter by="UnitName">Unit Name</mfDefaultSorter>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,6 +168,7 @@
                                     <td [ngClass]="{'classRed':(item['Cheque Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Cheque Date']==undefined?true:false)}">{{(item['Cheque Date']==undefined?'Invalid Cheque Date':item['Cheque Date'])}}</span></td>
                                     <td [ngClass]="{'classRed':(item['Demand Draft No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Demand Draft No']==undefined?true:false)}">{{(item['Demand Draft No']==undefined?'Invalid Demand Draft No':item['Demand Draft No'])}}</span></td>
                                     <td [ngClass]="{'classRed':(item['Demand Draft Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Demand Draft Date']==undefined?true:false)}">{{(item['Demand Draft Date']==undefined?'Invalid Demand Draft Date':item['Demand Draft Date'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined?true:false)}">{{(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined?'Please Enter UnitName':item['UnitName'])}}</span></td>
                                 </ng-container>
                             </tr>
                         </tbody>
