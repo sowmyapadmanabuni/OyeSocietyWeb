@@ -67,7 +67,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of mf.data;let i=index">
+            <tr *ngFor="let item of mf.data|orderBy:insDate;let i=index">
                 <ng-container *ngIf="item == -1">
                     <td colspan="8" align="center">No Data Found</td>
                 </ng-container>
@@ -160,7 +160,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label purple">Till <sup>*</sup></label>
-                            <input type="text" name="INEDate" #INEDateControl='ngModel' [minDate]="todayDate"  [(ngModel)]="INEDate" placeholder="Till Date" [bsConfig]="bsConfig" class="form-control" bsDatepicker required>
+                            <input type="text" name="INEDate" #INEDateControl='ngModel' [minDate]="INSDate"  [(ngModel)]="INEDate" placeholder="Till Date" [bsConfig]="bsConfig" class="form-control" bsDatepicker required>
                         </div>
                         <!--<div class="form-group">
                              <timepicker [(ngModel)]="mytime"></timepicker>
