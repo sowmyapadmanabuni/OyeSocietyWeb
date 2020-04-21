@@ -67,8 +67,8 @@
 			<i class="fa fa-caret-down"></i>
 		  </button>
 		  <div class="dropdown-content">
-			<a href="#">Apartment Safety Management</a>
-			<a href="#">Apartment Accounting Management</a>
+			<a (click)="GoToSafety()">Apartment Safety Management</a>
+			<a (click)="GoToAccounting()">Apartment Accounting Management</a>
 			<!-- <a href="https://oyewallet.com/" target="_blank">OyeWallet</a>
 			<a href="https://www.oyehomes.in/" target="_blank">OyeHomes</a>
 			<a href="http://oyeooh.com/" target="_blank">OyeOOH</a>
@@ -82,6 +82,7 @@
 	  <a (click)="showClientContent()" routerLinkActive="active-link">Clients</a>
 	  <a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
 	  <a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
+	  <a routerLinkActive="active-link" class="blinking">Request a demo</a>
 	  <a id="login" style="cursor: pointer" target="_blank"><img tooltip="Login/SignUp" [adaptivePosition]="false" placement="top" src="../../assets/images/getin.png"></a>
 	  <!-- <a routerLink="faq">FAQ's</a> -->
 	  <!-- <a href="http://devapp.oyespace.com/" target="_blank">Login</a> -->
