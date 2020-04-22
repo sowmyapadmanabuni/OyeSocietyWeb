@@ -179,6 +179,7 @@ export class UnitsComponent implements OnInit {
       })
     this.SelectOccupancyOwnershipStatus='Select Occupancy Ownership Status';
     this.SelectUnitType='Select Unit Type';
+    localStorage.setItem('Component','UnitsManagent');
   }
      pageChanged(event) {
       this.config.currentPage = event;

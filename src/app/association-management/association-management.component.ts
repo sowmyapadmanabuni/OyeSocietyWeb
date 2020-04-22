@@ -1050,6 +1050,7 @@ export class AssociationManagementComponent implements OnInit {
   enblEnrlAsnVew() {
     //console.log('april4');
     //alert('test');
+    localStorage.setItem('Component','AssociationManagent');
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled = true;
     this.viewAssnService.vewAsnEnbled = false;
@@ -1087,6 +1088,7 @@ export class AssociationManagementComponent implements OnInit {
       }
   }
   enblJoinAsnVew() {
+    localStorage.setItem('Component','JoinAssociationManagent');
     this.viewAssnService.enrlAsnEnbled = false;
     this.viewAssnService.vewAsnEnbled = false;
     this.viewAssnService.joinAsnEbld = true;

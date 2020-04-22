@@ -152,6 +152,7 @@ export class HomeComponent implements OnInit {
   });
   //
   this.associations=[];
+  localStorage.setItem('Component','Home');
   }
 
   ngOnInit() {
@@ -217,6 +218,12 @@ export class HomeComponent implements OnInit {
 
       // }
       this.amt = res['data']['payments'].filter(item => {
+        //console.log(item);
+        if (item['pyStat'] == "Due") {
+          return item['pyAmtDue'];
+        }
+      })
+      this.associationAmountDue = this.associationAmountDue.filter(item => {
         //console.log(item);
         if (item['pyStat'] == "Due") {
           return item['pyAmtDue'];

@@ -53,6 +53,7 @@ export class FamilyMembersComponent implements OnInit {
     .subscribe(data=>{
       this.getFamilyMember();
     })
+    localStorage.setItem('Component','FamilyMembers');
    }
 
   ngOnInit() {

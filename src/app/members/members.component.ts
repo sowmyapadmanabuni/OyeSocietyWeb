@@ -63,6 +63,7 @@ export class MembersComponent implements OnInit {
     })
     console.log(this.associationID);
     this.role = [{ 'Role': 'Admin', 'RoleId': 1 }, { 'Role': 'Owner', 'RoleId': 2 }];
+    localStorage.setItem('Component','Members');
   }
 
   ngOnInit() {

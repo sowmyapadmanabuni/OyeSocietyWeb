@@ -83,6 +83,7 @@ export class VehiclesComponent implements OnInit {
               //console.log(err);
             })
       })
+      localStorage.setItem('Component','Vehicles');
   }
 
   ngOnInit() {

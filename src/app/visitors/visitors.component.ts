@@ -81,6 +81,7 @@ currentAssociationIdForUnit:Subscription;
         console.log('invoking getVisitorList');
         this.getVisitorList('');
       })
+      localStorage.setItem('Component','Visitors');
      }
 
   ngOnInit() {

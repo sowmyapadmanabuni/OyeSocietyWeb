@@ -1200,7 +1200,15 @@
                             </tr>
                         </ng-container> -->
                         <ng-container *ngFor='let item of invoiceDetails;let i=index'>
-                            <tr>
+                            <tr *ngIf="item['idDesc'] != 'Discount Value'">
+                                <td>{{i+1}}</td>
+                                <td><span>{{item['idDesc']}}</span></td>
+                                <td><span>-</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+                            <tr *ngIf="item['idDesc'] == 'Discount Value'">
                                 <td>{{i+1}}</td>
                                 <td><span>{{item['idDesc']}}</span></td>
                                 <td><span>-</span></td>
@@ -1743,7 +1751,7 @@
                 
               </div>
               <div class="row">                
-                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid || disableGenerateReceipt" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
                   <button style="float: right;" type="reset" (click)="resetForm()" class="btn btn-primary-purple m-r">Reset </button>                           
               </div>
           

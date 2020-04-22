@@ -185,6 +185,7 @@ export class InvoicesComponent implements OnInit {
   ValidateInvdescription:boolean;
   isDateFieldEmpty: boolean;
   PaginatedValue: number;
+  disableGenerateReceipt:boolean;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -197,6 +198,7 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+
       this.PaginatedValue=10;
       this.isDateFieldEmpty=false;
       this.ValidateInvdescription=true;
@@ -253,6 +255,7 @@ export class InvoicesComponent implements OnInit {
     this.residentInvoiceList=[];
     this.toggle='All';
     this.paymentMethodType='Select Payment Method';
+    this.disableGenerateReceipt=true;
     this.expensedataBABName='Bank';
     this.viewPayments = [];
     this.minPaymentDateDate = new Date();
@@ -403,12 +406,12 @@ export class InvoicesComponent implements OnInit {
       },
         err => {
           console.log(err);
-          swal.fire({
+         /* swal.fire({
             title: "An error has occurred",
             text: `${err['error']['error']['message']}`,
             type: "error",
             confirmButtonColor: "#f69321"
-          });
+          }); */
         })
     }
 
@@ -1242,6 +1245,7 @@ export class InvoicesComponent implements OnInit {
     })
   }
   generateInvoiceReceipt(){
+    this.disableGenerateReceipt=true;
     let genReceipt = {
       "PYAmtPaid": this.totalamountPaid,
       "INNumber": this.invoicenumber,
@@ -1557,6 +1561,7 @@ export class InvoicesComponent implements OnInit {
     }  }
   
   resetForm(){
+    this.disableGenerateReceipt=true;
     this.checkField='';
     this.totalamountPaid='';
     this.paymentMethodType='Select Payment Method';
@@ -1571,6 +1576,7 @@ export class InvoicesComponent implements OnInit {
   }
   showMethod(PMID: string,displayName) {
     console.log(displayName);
+    this.disableGenerateReceipt=false;
     switch (displayName) {
       case 'Cash':
         this.expensedataPMID = 1;

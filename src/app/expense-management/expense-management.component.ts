@@ -282,7 +282,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(err);
     })
   this.toggleTd=false;
-  
+  localStorage.setItem('Component','ExpenseManagent');
   }
   GetexpenseList(param) {
     this.toggle = param;
@@ -607,7 +607,7 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log('repexpense1-', repexpense1);
     //console.log('idx-', idx);
   }
-  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD) {
+  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD,exDisType) {
     console.log(exIsInvD);
     if (exIsInvD== false) {
       //console.log('purchaseOrders',this.purchaseOrders);
@@ -621,6 +621,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(exRecurr);
       console.log(exType);
       console.log(pmid);
+      console.log(unUniIden);
       console.log(new Date(exdUpdated));
       console.log(new Date(exdUpdated).getDate());
       console.log(new Date(exdUpdated).getMonth());
@@ -648,11 +649,13 @@ export class ExpenseManagementComponent implements OnInit {
       this.editexpensedata.EXDate = formattedDate;
       this.editexpensedata.BLBlockID = blBlockID;
       this.editexpensedata.unUniIden = unUniIden;
+      this.editexpensedata.EXDisType = exDisType;
       console.log(this.editexpensedata);
       this.checkField="xyz";
-      this.editexpensedata.PMID = '';
+      //this.editexpensedata.PMID = '';
 
       if(this.editexpensedata.EXApplTO == 'Single Unit'){
+        this.applicableTo('Single Unit');
         this.toggleUnitList=false;
       }
       else{
@@ -674,7 +677,7 @@ export class ExpenseManagementComponent implements OnInit {
   prerequisitesAddUnit(blockName: string) {
     this.addexpenseservice.prerequisitesAddUnit(this.blockID);
   }
-  applicableTo(applicableto: string) {
+  applicableTo(applicableto) {
     let blockid = this.editexpensedata.BLBlockID;
     console.log(applicableto);
     this.applies = applicableto;

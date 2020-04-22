@@ -209,14 +209,19 @@ export class AppComponent {
     //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
     console.log(this.globalService.IsEnrollAssociationStarted);
     this.globalService.IsEnrollAssociationStarted=true;
-    if(this.globalService.IsEnrollAssociationStarted==true){
-      let status = confirm('Changes you have made not saved');
-      console.log(status)
-      if(status){
-        this.globalService.toggledashboard = true;
-        this.router.navigate(['home']);
+    //if(this.globalService.IsEnrollAssociationStarted==true){
+      if(localStorage.getItem('Component')=='AssociationManagent'){
+        let status = confirm('Changes you have made not saved');
+        console.log(status)
+        if(status){
+          this.globalService.toggledashboard = true;
+          this.router.navigate(['home']);
+        }
+        else{
+          localStorage.setItem('Component','AssociationManagent');
+        }
       }
-    }
+    //}
     else{
       this.globalService.toggledashboard = true;
       this.router.navigate(['home']);

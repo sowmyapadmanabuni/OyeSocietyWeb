@@ -151,6 +151,7 @@ export class BlocksComponent implements OnInit {
     this.enablestartfromdatevalidation = false;
     this.enableAddBlocksView = false;
     this.enableBlockListView = true;
+    localStorage.setItem('Component','BlocksManagent');
   }
 
 

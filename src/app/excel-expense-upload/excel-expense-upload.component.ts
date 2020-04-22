@@ -259,7 +259,23 @@ export class ExcelExpenseUploadComponent implements OnInit {
     this.excelExpenseList=jsonDataSheet1; 
     //
     for(let item of this.excelExpenseList){
-      if(item['Expense Head']==undefined || item['Expense Description']==undefined || item['Expense Recurance Type']==undefined || item['Applicable To Unit']==undefined || item['Expense Type']==undefined || item['Amount Paid']==undefined || item['Distribution Type']==undefined || item['Bank']==undefined || item['Payment Method']==undefined || item['Payee Name']==undefined || item['Expenditure Date']==undefined || item['Invoice-Receipt No']==undefined || item['Payee Bank']==undefined || item['Voucher No']==undefined || item['Cheque No']==undefined || item['Cheque Date']==undefined || item['Demand Draft No']==undefined || item['Demand Draft Date']==undefined || (item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined)){
+      if(item['Payment Method']=='Cash' && item['Voucher No']==undefined){
+        this.IsNotValidExcelExpenseList=true;
+        break;
+      }
+      if(item['Payment Method']=='Cheque' && item['Bank']==undefined && item['Payee Name']==undefined && item['Payee Bank']==undefined && item['Cheque No']==undefined || item['Cheque Date']==undefined){
+        this.IsNotValidExcelExpenseList=true;
+        break;
+      }
+      if(item['Payment Method']=='Demand Draft' && item['Bank']==undefined && item['Payee Name']==undefined && item['Payee Bank']==undefined && item['Demand Draft No']==undefined || item['Demand Draft Date']==undefined){
+        this.IsNotValidExcelExpenseList=true;
+        break;
+      }
+      if(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined){
+        this.IsNotValidExcelExpenseList=true;
+        break;
+      }
+      if(item['Expense Head']==undefined || item['Expense Description']==undefined || item['Expense Recurance Type']==undefined || item['Applicable To Unit']==undefined || item['Expense Type']==undefined || item['Amount Paid']==undefined || item['Distribution Type']==undefined || item['Payment Method']==undefined || item['Expenditure Date']==undefined || item['Invoice-Receipt No']==undefined){
         this.IsNotValidExcelExpenseList=true;
         break;
       }
@@ -275,16 +291,17 @@ export class ExcelExpenseUploadComponent implements OnInit {
       console.log(formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'));
       //
       let expensedata = {
-        // "POEAmnt": "",
+        "POEAmnt": 23.65,
         "EXChqNo": item['Cheque No'],
-        // "BPID": "",
+        "BPID": 1,
         "INNumber": item['Invoice-Receipt No'],
         "EXPyCopy": "",
         "ASAssnID": this.globalService.getCurrentAssociationId(),
         "BLBlockID": this.blBlockID,
         "EXHead": item['Expense Head'],
         "EXDesc": item['Expense Description'],
-        "EXDCreated":'2020-04-17',// formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'),
+        //"EXDCreated":'2020-04-20',// formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'),
+        "EXDate":formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'),
         "EXPAmnt": item['Amount Paid'],
         "EXRecurr": item['Expense Recurance Type'],
         "EXApplTO": item['Applicable To Unit'],
@@ -294,13 +311,15 @@ export class ExcelExpenseUploadComponent implements OnInit {
         "PMID": 1,
         "BABName": item['Bank'],
         "EXPBName": item['Payee Bank'],
-        "EXChqDate":'2020-04-17',//formatDate(item['Cheque Date'],'yyyy-MM-dd','en'),
+        "EXChqDate":formatDate(item['Cheque Date'],'yyyy-MM-dd','en'),
         "VNName": "Bills",
         "EXDDNo": item['Demand Draft No'],
-        "EXDDDate":'2020-04-17',//formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'),
+        "EXDDDate":formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'),
         "EXVoucherNo": item['Voucher No'],
         "EXAddedBy": this.dashboardservice.acfName,
-        "EXPName": item['Payee Name']
+        "EXPName": item['Payee Name'],
+        "POID": 1,
+        "EXRABudg": 12.32
       }
       console.log(expensedata);
       this.addexpenseservice.createExpense(expensedata)

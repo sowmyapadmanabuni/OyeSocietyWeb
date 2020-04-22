@@ -53,7 +53,7 @@
 
             <ul class="dropdown-menu fullw">
 
-              <li (click)="getPaidUnpaidDetail(blck.displayName)" *ngFor='let blck of frequencys'>
+              <li (click)="getPaidUnpaidDetail(blck.name)" *ngFor='let blck of frequencys'>
                 <a>{{blck.displayName}}</a></li>
 
             </ul>
@@ -257,7 +257,7 @@
 
           <!-- <p><b>Statement:</b> November 30, 2019</p> -->
 
-          <p><b>Customer Id:</b>{{acAccntID}}</p>
+          <p><b>Customer Id:</b>{{customerID}}</p>
 
           <p class="bill">Account Summary</p>
 
@@ -450,7 +450,7 @@
 
           <!-- <p><b>Statement:</b> November 30, 2019</p> -->
 
-          <p><b>Customer Id:</b>{{acAccntID}}</p>
+          <p><b>Customer Id:</b>{{customerID}}</p>
 
           <p class="bill">Account Summary</p>
 
