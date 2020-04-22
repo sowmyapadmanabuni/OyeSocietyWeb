@@ -81,6 +81,9 @@ export class LoginComponent implements OnInit {
   openModal5(termsconditions: TemplateRef<any>) {
     this.modalRef = this.modalService.show(termsconditions, { class: 'modal-lg' });
   }
+  openModal6(reqdemo: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(reqdemo, { class: 'modal-lg' });
+  }
   ngAfterViewInit(){
     // $("#login").on('click',function(event) {
     //   $("#login-form").slideDown();

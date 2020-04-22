@@ -82,7 +82,7 @@
 	  <a (click)="showClientContent()" routerLinkActive="active-link">Clients</a>
 	  <a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
 	  <a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
-	  <a routerLinkActive="active-link" class="blinking">Request a demo</a>
+	  <a (click)="openModal6(reqdemo)" class="blinking">Request a demo</a>
 	  <a id="login" style="cursor: pointer" target="_blank"><img tooltip="Login/SignUp" [adaptivePosition]="false" placement="top" src="../../assets/images/getin.png"></a>
 	  <!-- <a routerLink="faq">FAQ's</a> -->
 	  <!-- <a href="http://devapp.oyespace.com/" target="_blank">Login</a> -->
@@ -510,5 +510,27 @@
 		</div>
 	</ng-template>
 	<!--Terms and Conditions pop up box-->
+
+	<!--Request a Demo pop up box-->
+<ng-template #reqdemo>
+
+	<div class="modal-header" style="background: #82808026;display: flex;justify-content: space-between;">
+		<h4 class="modal-title" style="width: 100%;">Request a demo</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid" style="width:100%">
+
+			<div class="col-sm-12 np">
+				form here
+			</div>
+			<!--Refund Policy details part-->
+		</div>
+	</div>
+</ng-template>
+<!--Terms and Conditions pop up box-->
+
 
 
