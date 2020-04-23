@@ -527,7 +527,7 @@
 					<form action="form.php" method="POST" #ContactForm="ngForm">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="col-lg-12 col-md-12">
+									<div class="col-lg-6 col-md-6">
 										<div class="form-group">
 											<label id=label1>Full Name<span class="red">*</span></label>
 											<input type="text" class="form-control" placeholder="Full Name" name="firstname"
@@ -538,7 +538,7 @@
 										</div>
 									</div>
 			
-									<div class="col-lg-12 col-md-12">
+									<div class="col-lg-6 col-md-6">
 										<div class="form-group">
 											<label id=label1>Email Id <span class="red">*</span></label>
 											<input type="email" class="form-control" placeholder="Your Email Address" name="mailid"
@@ -552,7 +552,7 @@
 								</div>
 			
 								<div class="col-sm-12">
-									<div class="col-lg-12 col-md-12">
+									<div class="col-lg-6 col-md-6">
 										<div class="form-group">
 											<label id=label1>Phone Number <span class="red">*</span></label>
 											<input type="text" class="form-control" name="mobileNumber"
@@ -563,53 +563,48 @@
 												required</p>
 										</div>
 									</div>
-			
-								</div>
-			
-								<div class="col-sm-12">
-									<div class="col-lg-12 col-md-12">
-										<div class="form-group">
-											<label id=label1>Your Subject</label>
-											<input name="Subject" class="form-control" cols="30" [(ngModel)]="Subject" rows="10"
-												placeholder="Your Subject" required="required"
-												data-error="Write your message">
-											<div class="help-block with-errors"></div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12">
-										<div class="col-lg-12 col-md-12">
+									<div class="col-lg-6 col-md-6">
 											<div class="form-group">
-												<label id=label1>City</label>
-												<input name="City" class="form-control" cols="30" [(ngModel)]="City" rows="10"
-													placeholder="Your City" required="required"
+												<label id=label1>Your Subject <span class="red">*</span></label>
+												<input name="Subject" class="form-control" cols="30" [(ngModel)]="Subject" rows="10"
+													placeholder="Your Subject" required="required"
 													data-error="Write your message">
 												<div class="help-block with-errors"></div>
 											</div>
 										</div>
-									</div>
-									<div class="col-sm-12">
-											<div class="col-lg-12 col-md-12">
+			
+								</div>
+			
+								<div class="col-sm-12">
+										<div class="col-lg-4 col-md-4">
 												<div class="form-group">
-													<label id=label1>Country</label>
-													<input name="Country" class="form-control" cols="30" [(ngModel)]="Country" rows="10"
-														placeholder="Your Country" required="required"
+													<label id=label1>City</label>
+													<input name="City" class="form-control" cols="30" [(ngModel)]="City" rows="10"
+														placeholder="Your City" required="required"
 														data-error="Write your message">
 													<div class="help-block with-errors"></div>
 												</div>
 											</div>
-										</div>
-										<div class="col-sm-12">
-												<div class="col-lg-12 col-md-12">
+											<div class="col-lg-4 col-md-4">
 													<div class="form-group">
-														<label id=label1>Locality</label>
-														<input name="Locality" class="form-control" cols="30" [(ngModel)]="Locality" rows="10"
-															placeholder="Your Locality" required="required"
+														<label id=label1>Country</label>
+														<input name="Country" class="form-control" cols="30" [(ngModel)]="Country" rows="10"
+															placeholder="Your Country" required="required"
 															data-error="Write your message">
 														<div class="help-block with-errors"></div>
 													</div>
 												</div>
-											</div>
+												<div class="col-lg-4 col-md-4">
+														<div class="form-group">
+															<label id=label1>Locality</label>
+															<input name="Locality" class="form-control" cols="30" [(ngModel)]="Locality" rows="10"
+																placeholder="Your Locality" required="required"
+																data-error="Write your message">
+															<div class="help-block with-errors"></div>
+														</div>
+													</div>
+								</div>
+							
 											<div class="col-sm-12">
 													<div class="col-lg-12 col-md-12">
 														<div class="form-group">
