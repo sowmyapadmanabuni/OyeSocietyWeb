@@ -61,6 +61,7 @@
 	<!-- <a routerLink="home">Home</a> -->
 	<!-- <a routerLink="contact" class="btn btn-secondary" id="talk">Request Demo</a> -->
 	  <!-- <a routerLink="services" routerLinkActive="active-link">Products</a> -->
+	  <a (click)="openModal6(reqdemo)" class="blinking">Request a demo</a>
 	  <a (click)="showAboutUsContent()" routerLinkActive="active-link">About Us</a>
 	  <div class="dropdown">
 		  <button class="dropbtn">Solutions
@@ -82,7 +83,7 @@
 	  <a (click)="showClientContent()" routerLinkActive="active-link">Clients</a>
 	  <a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
 	  <a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
-	  <a (click)="openModal6(reqdemo)" class="blinking">Request a demo</a>
+	  
 	  <a id="login" style="cursor: pointer" target="_blank"><img tooltip="Login/SignUp" [adaptivePosition]="false" placement="top" src="../../assets/images/getin.png"></a>
 	  <!-- <a routerLink="faq">FAQ's</a> -->
 	  <!-- <a href="http://devapp.oyespace.com/" target="_blank">Login</a> -->
@@ -159,7 +160,7 @@
 											<div style="position:relative; top:10vh; width:100%; max-width:1000px; 
 										margin:0 auto;">
 												<iframe style="width:100%; max-width:1000px; height:50vw; 
-										max-height:564px;" src="https://www.youtube.com/embed/geclCuZ2VbU?&amp;autoplay=1"
+										max-height:564px;" src="https://www.youtube.com/embed/7rYcD7agpP8?&amp;autoplay=1"
 													frameborder="0" allowfullscreen>
 													<!-- https://www.youtube.com/embed/geclCuZ2VbU -->
 												</iframe>
@@ -315,16 +316,15 @@
 	<div class="modal-body">
 		<div class="container-fluid" style="width:100%">  
 			<div class="col-sm-12 np">
-				<p><strong>SECTION 1 - </strong>WHAT DO WE DO WITH YOUR INFORMATION? When you purchase something from
-					our store, as part
-					of the buying and selling process, we collect the personal information you give us such as your
+				<p><strong>SECTION 1 - WHAT DO WE DO WITH YOUR INFORMATION?</strong> When you purchase something from
+					our store, as part of the buying and selling process, we collect the personal information you give us such as your
 					name, address and email address.  
 					When you browse our store, we also automatically receive your computer’s internet protocol (IP)
 					address in order to provide us with information that helps us learn about your browser and operating
 					system.  
 					Email marketing (if applicable): With your permission, we may send you emails about our store, new
 					products and other updates.</p>    
-				<p><strong>SECTION 2 - </strong>CONSENT How do you get my consent?   
+				<p><strong>SECTION 2 - CONSENT</strong> How do you get my consent?   
 					When you provide us with personal information to complete a transaction, verify your credit card,
 					place an order, arrange for a delivery or return a purchase, we imply that you consent to our
 					collecting it and using it for that specific reason only.
@@ -336,17 +336,15 @@
 
 					If after you opt-in, you change your mind, you may withdraw your consent for us to contact you, for
 					the continued collection, use or disclosure of your information, at anytime, by contacting us at
-					[JABM Property Managers Pvt Ltd, Contact Email: happy@scuarex.com or mailing us at: 26, ACHI
-					Building, 2nd Main, NILA Investment Layout, Doddathoguru, Electronics City, Bengaluru 560100</p>
+					ScuareX Technologies Private Ltd, Contact Email: happy@scuarex.com or mailing us at: #27(old #194)
+					27th cross, Jayanagar 6th block Bengaluru - 560 070</p>
 
-				<p><strong>SECTION 3 -</strong> DISCLOSURE We may disclose your personal information if we are required
+				<p><strong>SECTION 3 - DISCLOSURE</strong> We may disclose your personal information if we are required
 					by law to do so
 					or if you violate our Terms of Service.</p>
 
-				<p><strong>SECTION 4 -</strong> PAYMENT We use Razorpay, Instamojo and ICICI Bank Payment Gateway for
-					processing
-					payments. We/Razorpay, Instamojo and ICICI Bank Payment Gateway do not store your card data on their
-					servers. The data is encrypted through the Payment Card Industry Data Security Standard (PCI-DSS)
+				<p><strong>SECTION 4 - PAYMENT</strong> We use HDFC and ICICI Bank Payment Gateways for
+					processing payments. The data is encrypted through the Payment Card Industry Data Security Standard (PCI-DSS)
 					when processing payment. Your purchase transaction data is only used as long as is necessary to
 					complete your purchase transaction. After that is complete, your purchase transaction information is
 					not saved.</p>
@@ -357,10 +355,10 @@
 					PCI-DSS requirements help ensure the secure handling of credit card information by our store and its
 					service providers.
 
-					For more insight, you may also want to read terms and conditions of razorpay on https://razorpay.com
+					
 				</p>
 
-				<p><strong>SECTION 5 -</strong> THIRD-PARTY SERVICES In general, the third-party providers used by us
+				<p><strong>SECTION 5 - THIRD-PARTY SERVICES</strong> In general, the third-party providers used by us
 					will only collect,
 					use and disclose your information to the extent necessary to allow them to perform the services they
 					provide to us.
@@ -385,21 +383,21 @@
 					When you click on links on our store, they may direct you away from our site. We are not responsible
 					for the privacy practices of other sites and encourage you to read their privacy statements.</p>
 
-				<p><strong>SECTION 6 -</strong> SECURITY To protect your personal information, we take reasonable
+				<p><strong>SECTION 6 - SECURITY</strong> To protect your personal information, we take reasonable
 					precautions and follow industry best practices to make sure it is not inappropriately lost, misused, accessed, disclosed,
 					altered or destroyed.</p>
 
-				<p><strong>SECTION 7 -</strong> COOKIES We use cookies to maintain session of your user. It is not used
+				<p><strong>SECTION 7 - COOKIES </strong>We use cookies to maintain session of your user. It is not used
 					to personally
 					identify you on other websites.</p>
 
-				<p><strong>SECTION 8 -</strong> AGE OF CONSENT By using this site, you represent that you are at least
+				<p><strong>SECTION 8 - AGE OF CONSENT </strong>By using this site, you represent that you are at least
 					the age of
 					majority in your state or province of residence, or that you are the age of majority in your state
 					or province of residence and you have given us your consent to allow any of your minor dependents to
 					use this site.</p>
 
-				<p><strong>SECTION 9 -</strong> CHANGES TO THIS PRIVACY POLICY We reserve the right to modify this
+				<p><strong>SECTION 9 - CHANGES TO THIS PRIVACY POLICY</strong> We reserve the right to modify this
 					privacy policy at any
 					time, so please review it frequently. Changes and clarifications will take effect immediately upon
 					their posting on the website. If we make material changes to this policy, we will notify you here
@@ -412,8 +410,8 @@
 				<p><strong>QUESTIONS AND CONTACT INFORMATION </strong>If you would like to: access, correct, amend or
 					delete any
 					personal information we have about you, register a complaint, or simply want more information
-					contact our Privacy Compliance Officer at happy@scuarex.com or by mail at 26, ACHI Building, 2nd
-					Main, NILA Investment Layout, Doddathoguru, Electronics City, Bengaluru 560100 </p>
+					contact our Privacy Compliance Officer at happy@scuarex.com or by mail at #27(old #194)
+					27th cross, Jayanagar 6th block Bengaluru - 560 070 </p>
 
 			</div>
 			<!--PrivacyPolicy details part-->

@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit {
     this.hideGetInButton=false;
     this.firstname="";
     this.mobilenumber='';
+    this.mobileNumber='';
     this.mailid="";
     this.Subject="";
     this.City="",
