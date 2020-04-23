@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit, EventEmitter, Output,TemplateRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { ContactformService } from '../../contactform.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {GlobalServiceService} from '../global-service.service';
 import {DashBoardService} from '../../services/dash-board.service';
@@ -37,12 +38,21 @@ export class LoginComponent implements OnInit {
   modalRef: any;
   hideGetInButton:boolean;
 
-  constructor(private modalService:BsModalService,
+  firstname:any;
+  mailid:any;
+  mobileNumber:any;
+  Subject:any;
+  City:any;
+  Country:any;
+  Locality:any;
+  Message:any;
+
+@ViewChild('ContactForm',{static:true}) ContactForm: any;
+  constructor(private modalService:BsModalService,private contactformService : ContactformService,
     private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
     private dashboardservice:DashBoardService,private utilsService:UtilsService) {
       this.otp='';
-      this.mobilenumber='';
     this.toggleLoginContent=true;
     this.toggleShowClientContent=false;
     this.toggleShowPartnersContent=false;
@@ -52,6 +62,15 @@ export class LoginComponent implements OnInit {
     this.toggleShowAccountingContent=false;
     this.isOTPSent=false;
     this.hideGetInButton=false;
+    this.firstname="";
+    this.mobilenumber='';
+    this.mailid="";
+    this.Subject="";
+    this.City="",
+    this.Country="",
+    this.Locality="",
+    this.Message="";
+
       //alert('inside login component');
     // redirect to home if already logged in
     if (this.globalserviceservice.acAccntID) {
@@ -67,7 +86,7 @@ export class LoginComponent implements OnInit {
       //this.router.navigate([this.returnUrl]);
     }
   }
-
+  
   ngOnInit() {
      // get return url from route parameters or default to '/'
      //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
@@ -494,5 +513,39 @@ export class LoginComponent implements OnInit {
     popup.classList.toggle("show");
 }
 
+submitContactForm(){
+  let contactform=  {
+    "Name"     : this.firstname,
+    "Email"  : this.mailid,
+      "MobileNumber"  : this.mobileNumber,
+      "Subject": "+91"+ this.mobileNumber,
+      "PageName"    : "Scuarex request demo",
+      "City"    : this.City,
+      "Country"    : this.Country,
+      "Locality"    : this.Locality,
+      "Message"    : this.Message,
+      }
+this.contactformService.submitContactForm(contactform)
+.subscribe(data=>{
+  console.log(data);
+  Swal.fire({
+    title: "Request Demo Details Submitted Successfully",
+    text: "",
+    type: "success",
+    confirmButtonColor: "#f69321"
+  }).then(
+    (result) => {
+      if (result.value) {
+        this.ContactForm.reset();
+      }
+    })
+},
+err=>{
+  console.log(err);
+}
+
+)
+
+  }
 }
 

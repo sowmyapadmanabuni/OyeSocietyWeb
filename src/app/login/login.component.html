@@ -524,8 +524,112 @@
 		<div class="container-fluid" style="width:100%">
 
 			<div class="col-sm-12 np">
-				form here
-			</div>
+					<form action="form.php" method="POST" #ContactForm="ngForm">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="col-lg-12 col-md-12">
+										<div class="form-group">
+											<label id=label1>Full Name<span class="red">*</span></label>
+											<input type="text" class="form-control" placeholder="Full Name" name="firstname"
+												[(ngModel)]="firstname" autocomplete='name' #nameControl="ngModel"
+												pattern="[a-zA-Z0-9 _]*" required>
+											<p class="alerts" *ngIf="nameControl.invalid && nameControl.touched">Valid name is
+												required</p>
+										</div>
+									</div>
+			
+									<div class="col-lg-12 col-md-12">
+										<div class="form-group">
+											<label id=label1>Email Id <span class="red">*</span></label>
+											<input type="email" class="form-control" placeholder="Your Email Address" name="mailid"
+												[(ngModel)]="mailid" autocomplete='email' #emailControl="ngModel"
+												pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+												required>
+											<p class="alerts" *ngIf="emailControl.invalid && emailControl.touched">Valid Email Id
+												required</p>
+										</div>
+									</div>
+								</div>
+			
+								<div class="col-sm-12">
+									<div class="col-lg-12 col-md-12">
+										<div class="form-group">
+											<label id=label1>Phone Number <span class="red">*</span></label>
+											<input type="text" class="form-control" name="mobileNumber"
+												placeholder="Your Mobile Number" autocomplete='mobileNumber'
+												[(ngModel)]="mobileNumber" #numberControl="ngModel" minlength="10" maxlength="10"
+												pattern="[0-9]*" required (keypress)=_keyPress($event)>
+											<p class="alerts" *ngIf="numberControl.invalid && numberControl.touched">Valid mobile no
+												required</p>
+										</div>
+									</div>
+			
+								</div>
+			
+								<div class="col-sm-12">
+									<div class="col-lg-12 col-md-12">
+										<div class="form-group">
+											<label id=label1>Your Subject</label>
+											<input name="Subject" class="form-control" cols="30" [(ngModel)]="Subject" rows="10"
+												placeholder="Your Subject" required="required"
+												data-error="Write your message">
+											<div class="help-block with-errors"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-12">
+										<div class="col-lg-12 col-md-12">
+											<div class="form-group">
+												<label id=label1>City</label>
+												<input name="City" class="form-control" cols="30" [(ngModel)]="City" rows="10"
+													placeholder="Your City" required="required"
+													data-error="Write your message">
+												<div class="help-block with-errors"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12">
+											<div class="col-lg-12 col-md-12">
+												<div class="form-group">
+													<label id=label1>Country</label>
+													<input name="Country" class="form-control" cols="30" [(ngModel)]="Country" rows="10"
+														placeholder="Your Country" required="required"
+														data-error="Write your message">
+													<div class="help-block with-errors"></div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-12">
+												<div class="col-lg-12 col-md-12">
+													<div class="form-group">
+														<label id=label1>Locality</label>
+														<input name="Locality" class="form-control" cols="30" [(ngModel)]="Locality" rows="10"
+															placeholder="Your Locality" required="required"
+															data-error="Write your message">
+														<div class="help-block with-errors"></div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-12">
+													<div class="col-lg-12 col-md-12">
+														<div class="form-group">
+															<label id=label1>Your Message</label>
+															<textarea name="Message" class="form-control" cols="30" [(ngModel)]="Message" rows="10"
+																placeholder="Your Message" required="required"
+																data-error="Write your message"></textarea>
+															<div class="help-block with-errors"></div>
+														</div>
+													</div>
+												</div>
+								<div class="col-sm-12">
+									<div class="col-lg-12 col-md-12" style="width: 100%;">
+										<button type="submit" name="submit" [disabled]="ContactForm.invalid" class="btn btn-primary"
+											(click)="submitContactForm()">Submit</button>
+									</div>
+								</div>
+							</div>
+						</form>
+ 			</div>
 			<!--Refund Policy details part-->
 		</div>
 	</div>
