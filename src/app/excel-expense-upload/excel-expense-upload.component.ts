@@ -292,7 +292,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
       //
       let expensedata = {
         "POEAmnt": 23.65,
-        "EXChqNo": item['Cheque No'],
+        "EXChqNo": (item['Cheque No']==undefined?'':item['Cheque No']),
         "BPID": 1,
         "INNumber": item['Invoice-Receipt No'],
         "EXPyCopy": "",
@@ -309,15 +309,15 @@ export class ExcelExpenseUploadComponent implements OnInit {
         "EXDisType": item['Distribution Type'],
         "UnUniIden": (item['UnitName']==undefined?'':item['UnitName']),
         "PMID": 1,
-        "BABName": item['Bank'],
-        "EXPBName": item['Payee Bank'],
-        "EXChqDate":formatDate(item['Cheque Date'],'yyyy-MM-dd','en'),
+        "BABName": (item['Bank']==undefined?'':item['Bank']),
+        "EXPBName": (item['Payee Bank']==undefined?'':item['Payee Bank']),
+        "EXChqDate":(item['Cheque Date']==undefined?'':formatDate(item['Cheque Date'],'yyyy-MM-dd','en')),
         "VNName": "Bills",
-        "EXDDNo": item['Demand Draft No'],
-        "EXDDDate":formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'),
-        "EXVoucherNo": item['Voucher No'],
+        "EXDDNo": (item['Demand Draft No']==undefined?'':item['Demand Draft No']),
+        "EXDDDate":(item['Demand Draft Date']==undefined?'':formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en')),
+        "EXVoucherNo": (item['Voucher No']==undefined?'':item['Voucher No']),
         "EXAddedBy": this.dashboardservice.acfName,
-        "EXPName": item['Payee Name'],
+        "EXPName": (item['Payee Name']==undefined?'':item['Payee Name']),
         "POID": 1,
         "EXRABudg": 12.32
       }
