@@ -110,7 +110,7 @@
                                 <th style="width: 400px;">
                                     Action
                                 </th>
-                                <th *ngIf="toggle == 'toggleNo'">
+                                <th *ngIf="toggle == 'toggleNo'" style="text-align: center"> 
                                     <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;
                                     <i *ngIf="isChecked" style="cursor:pointer" (click)="sendEmailToAll()"
                                         class="fa fa-paper-plane"></i>
@@ -160,7 +160,7 @@
                                             <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
                                         </span>
                                     </td>
-                                    <td *ngIf="toggle == 'toggleNo'">
+                                    <td *ngIf="toggle == 'toggleNo'" style="text-align: center">
                                         <input class="chkBox" type="checkbox" [value]="item.inid" [checked]='checkAll'
                                             (change)='toggleIsChecked($event)'>
                                     </td>
