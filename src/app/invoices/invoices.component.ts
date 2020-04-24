@@ -465,7 +465,7 @@ export class InvoicesComponent implements OnInit {
       this.ValidateAmountPaid=false;
     }
   }
-  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>, unUnitID, inid, inNumber, inTotVal, inPaid, inDisType,indCreated){
+  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>,unUnitID, inid, inNumber, inTotVal, inPaid, inDisType,indCreated){
     this.UnitNameForViewReceipt=unUnitID;
     this.InvoiceNumForViewReceipt=inNumber;
     this.paymentDateForViewReceipt=indCreated;
@@ -532,7 +532,7 @@ export class InvoicesComponent implements OnInit {
   convert(){
 
     let doc = new jsPDF();
-    let head = ["Invoice Number", "Invoice Date","Amount"];
+    let head = ["Invoice Number", "Unit Name", "Invoice Date","Amount"];
     let body = [];
 
     /* The following array of object as response from the API req  */
@@ -545,7 +545,7 @@ export class InvoicesComponent implements OnInit {
 
 
     this.invoiceLists.forEach(element => {
-      let temp = [element['inNumber'], formatDate(element['inGenDate'], 'dd/MM/yyyy', 'en') , 'Rs.'+element['inTotVal']];
+      let temp = [element['inNumber'],element['unit']['unUniName'], formatDate(element['inGenDate'], 'dd/MM/yyyy', 'en') , 'Rs.'+element['inTotVal']];
       body.push(temp);
     });
     console.log(body);

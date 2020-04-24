@@ -362,7 +362,7 @@
                     <p><strong>Reciept Id:</strong> {{InvoiceNum}}</p>
                 </div>
             </div>
-            <p>Received Rupees <b>{{AmountDue | words}}</b>from Unit Name <b>{{UnitName}}</b></p>
+           
             <table class="table table-bordered">
                 <tbody>
                     <tr>
@@ -377,6 +377,7 @@
                    
                 </tbody>
             </table>
+            <p><strong>Amount in words</strong>:<b> {{AmountDue | words}}rupees only </b>from Unit Name <b>{{UnitName}}</b></p>
             <div class="receipt-head" style="align-items: flex-start;">
                     <div>
                         <p><strong>Payment Instrument:</strong> Cash Payment</p>
