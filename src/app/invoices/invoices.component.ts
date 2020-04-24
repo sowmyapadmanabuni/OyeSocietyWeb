@@ -1282,7 +1282,7 @@ export class InvoicesComponent implements OnInit {
       }).then(
         (result) => {
           if (result.value) {
-            
+            this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
           } else if (result.dismiss === swal.DismissReason.cancel) {
 
           }
@@ -1290,6 +1290,8 @@ export class InvoicesComponent implements OnInit {
 
     },
     err=>{
+      this.modalRef.hide();
+      this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
       console.log(err);
       swal.fire({
         title: "",
@@ -1437,12 +1439,12 @@ export class InvoicesComponent implements OnInit {
       console.log(IsPaid);
       let paid = '';
       if (IsPaid) {
-        paid = 'Yes';
+        paid = 'UnPaid';
       }
       else {
         paid = 'No';
       }
-      if(paid == 'Yes' || paid == 'No'){
+      if(paid == 'UnPaid' || paid == 'No'){
         this.PaidUnpaidinvoiceLists = this.invoiceLists;
         this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
           return item['inPaid'] == paid;

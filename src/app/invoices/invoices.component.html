@@ -151,7 +151,7 @@
                                                 Sorry, your browser does not support inline SVG.  
                                               </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
                                         </span> -->
-                                        <span *ngIf="item['inPaid'] == 'Yes'">
+                                        <span *ngIf="item['inPaid'] == 'UnPaid'">
                                             <button tooltip="View Invoice" class="smallBtn"
                                             (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
                                                <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
