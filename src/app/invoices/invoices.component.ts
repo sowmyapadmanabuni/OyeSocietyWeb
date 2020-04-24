@@ -429,12 +429,12 @@ export class InvoicesComponent implements OnInit {
         this.residentInvoiceList=[];
       this.PaidUnpaidinvoiceLists = [];
         console.log(err);
-        swal.fire({
+        /* swal.fire({
           title: "An error has occurred",
           text: `${err['error']['error']['message']}`,
           type: "error",
           confirmButtonColor: "#f69321"
-        });
+        }); */
       })
   }
   _keyPress(event: any) {
