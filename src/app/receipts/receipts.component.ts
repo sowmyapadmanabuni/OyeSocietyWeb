@@ -57,6 +57,8 @@ export class ReceiptsComponent implements OnInit {
   isDateFieldEmpty: boolean;
   associationAddress: any;
   PaginatedValue: number;
+  PaymentInstrument: string;
+  pyBkDet: any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -67,6 +69,7 @@ export class ReceiptsComponent implements OnInit {
     public generatereceiptservice: GenerateReceiptService,
     private route: ActivatedRoute) 
     { 
+      this.pyBkDet='';
       this.PaginatedValue=10;
       this.isDateFieldEmpty=false;
       this.toggleUL=false;
@@ -107,6 +110,7 @@ export class ReceiptsComponent implements OnInit {
         showWeekNumbers: false,
         isAnimated: true
         });
+      this.PaymentInstrument='';
     }
 
   ngOnInit() {
@@ -193,7 +197,7 @@ export class ReceiptsComponent implements OnInit {
     this.generatereceiptservice.enableReceiptListView=false;
     this.generatereceiptservice.enableGenerateReceiptView=true;
   }
-  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pydCreated,pyAmtPaid,unUniName,pyAmtDue,pyBal,pyRefNo,pyVoucherNo){
+  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pydCreated,pyAmtPaid,unUniName,pyAmtDue,pyBal,pyRefNo,pyVoucherNo,pmid,pyBkDet){
     this.UnitName=unUniName;
     this.InvoiceNum=inNumber;
     this.paymentDate=pydCreated;
@@ -202,6 +206,19 @@ export class ReceiptsComponent implements OnInit {
     this.Balance=pyBal;
     this.pyRefNo=pyRefNo;
     this.pyVoucherNo=pyVoucherNo;
+    this.pyBkDet=pyBkDet;
+    console.log(pmid);
+    switch (pmid) {
+      case '1':
+        this.PaymentInstrument = "Cash";
+        break;
+      case '2':
+        this.PaymentInstrument = "Cheque";
+        break;
+      case '3':
+        this.PaymentInstrument = "Demand Draft";
+        break;
+    }
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
   setRows(RowNum) {
