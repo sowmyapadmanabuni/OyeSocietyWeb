@@ -186,6 +186,9 @@ export class InvoicesComponent implements OnInit {
   isDateFieldEmpty: boolean;
   PaginatedValue: number;
   disableGenerateReceipt:boolean;
+  unUniName: any;
+  associationAddress:any;
+  moreDiscountedAmount: boolean;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -198,8 +201,10 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
-
-      this.PaginatedValue=10;
+      this.moreDiscountedAmount=false;
+    this.associationAddress='';
+    this.unUniName = '';
+    this.PaginatedValue = 10;
       this.isDateFieldEmpty=false;
       this.ValidateInvdescription=true;
       this.isInValidZeroAmount=true;
@@ -397,24 +402,25 @@ export class InvoicesComponent implements OnInit {
         }
       })
     //
-    if(this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2'){
-          this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
-      .subscribe(data => {
-        console.log(data);
-        this.residentInvoiceList=data['data']['invoices'];
-        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
-      },
-        err => {
-          console.log(err);
-         /* swal.fire({
-            title: "An error has occurred",
-            text: `${err['error']['error']['message']}`,
-            type: "error",
-            confirmButtonColor: "#f69321"
-          }); */
-        })
+    if (this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2') {
+      this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+        .subscribe(data => {
+          console.log(data);
+          this.residentInvoiceList = data['data']['invoices'];
+          this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+        },
+          err => {
+            console.log(err);
+            /* swal.fire({
+               title: "An error has occurred",
+               text: `${err['error']['error']['message']}`,
+               type: "error",
+               confirmButtonColor: "#f69321"
+             }); */
+          })
     }
-
+    //
+    this.GetAssnAddress();
   }
   DisplayResidentLevelInvoice(){
     this.residentInvoiceList=[];
@@ -469,7 +475,7 @@ export class InvoicesComponent implements OnInit {
     this.UnitNameForViewReceipt=unUnitID;
     this.InvoiceNumForViewReceipt=inNumber;
     this.paymentDateForViewReceipt=indCreated;
-    this.InvoiceNumForViewReceipt=inid;
+    //this.InvoiceNumForViewReceipt=inid;
     this.AmountDueForViewReceipt=inTotVal;
     this.paymentTypeInViewReceipt=inDisType;
     this.isPaidForViewReceipt=inPaid;
@@ -610,7 +616,7 @@ export class InvoicesComponent implements OnInit {
 
   }
 
-  viewInvoice1(event, invoicePop: TemplateRef<any>, inid, inGenDate, inNumber, inDsCVal, unUnitID) {
+  viewInvoice1(event, invoicePop: TemplateRef<any>, inid, inGenDate, inNumber, inDsCVal, unUnitID,unUniName) {
     event.preventDefault();
     //alert('inside viewinvoice');
     console.log('inGenDate', inGenDate);
@@ -618,6 +624,7 @@ export class InvoicesComponent implements OnInit {
     console.log('inid', inid);
     console.log('inDsCVal', inDsCVal);
     console.log('unUnitID', unUnitID);
+    console.log('unUniName', unUniName);
 
     this.securityfee = 0;
     this.housekeepingfee = 0;
@@ -637,6 +644,7 @@ export class InvoicesComponent implements OnInit {
     this.invoiceNumber = inNumber;
     this.discountedValue = inDsCVal;
     this.unitID = unUnitID;
+    this.unUniName=unUniName;
 
     this.viewinvoiceservice.GetUnitListByUnitID(this.unitID)
       .subscribe(data => {
@@ -1102,14 +1110,16 @@ export class InvoicesComponent implements OnInit {
     this.dscntInvdescription = "";
   }
   checkDiscountedAmount(dscntInvdiscountedAmount) {
+    console.log(dscntInvdiscountedAmount);
     var totalAmount = this.totalAmountForValidation;
     var discountedAmount = dscntInvdiscountedAmount;
-    if (totalAmount < discountedAmount) {
-      this.toastr.error('', 'Discounted Amount Cannot more than Total Amount', {
-        timeOut: 3000
-      });
+    console.log('totalAmount',totalAmount);
+    if (totalAmount < Number(discountedAmount)) {
+      console.log('Discounted Amount Cannot more than Total Amount');
+      this.moreDiscountedAmount=true;
     } else {
       this.validationResult = false;
+      this.moreDiscountedAmount=false;
     }
     if(dscntInvdiscountedAmount == 0){
       this.isInValidZeroAmount=true;
@@ -1704,5 +1714,15 @@ export class InvoicesComponent implements OnInit {
     if(this.isDateFieldEmpty==true){
       this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
     }
+  }
+  GetAssnAddress() {
+    this.viewreceiptservice.getAssociationAddress(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        this.associationAddress = data['data']['association']['asAddress'];
+        console.log(this.associationAddress);
+      },
+        err => {
+          console.log(err);
+        })
   }
 }

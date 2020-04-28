@@ -68,6 +68,15 @@ export class AboutusComponent implements OnInit {
     }).then(
       (result) => {
         if (result.value) {
+          this.modalRef.hide();
+          this.firstname='';
+          this.mailid='';
+          this.mobileNumber='';
+          this.City='';
+          this.Country='';
+          this.Locality='';
+          this.Message='';
+          this.Subject='';
           this.ContactForm.reset();
         }
       })

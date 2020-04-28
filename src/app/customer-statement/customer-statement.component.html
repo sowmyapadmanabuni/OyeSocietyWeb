@@ -114,6 +114,11 @@
               <mfDefaultSorter (click)="removeColumnSort('PaymentDescription')" by="pyDesc">Payment Description&nbsp;<i [hidden]="columnName=='PaymentDescription'" class="fa fa-sort"></i></mfDefaultSorter>
 
             </th>
+            <th>
+
+              <mfDefaultSorter (click)="removeColumnSort('PaymentStatus')" by="pyStat">Payment&nbsp;<i [hidden]="columnName=='PaymentStatus'" class="fa fa-sort"></i></mfDefaultSorter>
+
+            </th>
 
             <th>
 
@@ -160,6 +165,8 @@
               <td>{{item.unUniName}}</td>
 
               <td>{{item.pyDesc}}</td>
+
+              <td>{{item['pyStat']}}</td>
 
               <td>{{item.pydCreated|date:"yyyy/MM/dd"}}</td>
 
