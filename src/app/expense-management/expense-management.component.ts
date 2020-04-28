@@ -404,11 +404,13 @@ export class ExpenseManagementComponent implements OnInit {
     this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
   }
   GetExpenseListByBlockID(blockID,blBlkName) {
+    this.filterExpenseHead='Select Expense Head';
     this.p=1;
     this.UnitName='';
     this.allUnitBYBlockID=[]
     this.expenseList=[];
     this.viewexpensesByBlockId=[];
+    this.expenseListTemp=[];
     this.blockID=blockID;
     console.log('GetExpenseListByBlockID',blockID);
     this.viewexpenseservice.currentBlockId=blockID;
@@ -1079,7 +1081,12 @@ export class ExpenseManagementComponent implements OnInit {
           this.expenseList = this._viewexpensesByBlockId;
         }
         else{
-          this.expenseList = this.FilteredExpenseList;
+          if(param1 == 'abc'){
+            this.expenseList = this._viewexpensesByBlockId;
+          }
+          else{
+            this.expenseList = this.FilteredExpenseList;
+          }
         }        
         console.log(this.expenseList);
         if(this.UnitName!=''){
@@ -1093,6 +1100,14 @@ export class ExpenseManagementComponent implements OnInit {
           console.log('test3');
           if(this.filterExpenseHead=='Select Expense Head' || ''){
             this.expenseList = this._viewexpensesByBlockId;
+          }
+          else{
+            if(param1 == 'abc'){
+              this.expenseList = this._viewexpensesByBlockId;
+            }
+            else{
+              this.expenseList = this.FilteredExpenseList;
+            }          
           }
           //this.expenseList = this._viewexpensesByBlockId;
         }
