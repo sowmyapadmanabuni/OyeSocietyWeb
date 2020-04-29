@@ -87,6 +87,8 @@ import {AboutusComponent} from './aboutus/aboutus.component'
 import {AccountingComponent} from './accounting/accounting.component'
 import {SafetyComponent} from './safety/safety.component';
 import { UserIdleModule } from 'angular-user-idle';
+import { AudioRecordingService } from './audio-recording.service';
+import {BroadcastComponent } from './broadcast/broadcast.component';
 
  
 import { from } from 'rxjs';
@@ -158,7 +160,8 @@ import { ErrorComponent } from './error/error.component';
     ExcelReceiptUploadComponent,
     AccountingComponent,
     SafetyComponent,
-    ErrorComponent
+    ErrorComponent,
+    BroadcastComponent
     ],
   imports: [
     ReactiveFormsModule,
@@ -190,7 +193,7 @@ import { ErrorComponent } from './error/error.component';
     TooltipModule.forRoot(),
     JwSocialButtonsModule
   ],
-  providers: [],
+  providers: [AudioRecordingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,15 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
-//import * as RecordRTC from 'recordrtc';
+import * as RecordRTC from 'recordrtc';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
-import { isNullOrUndefined } from 'util';
 
 interface RecordedAudioOutput {
   blob: Blob;
   title: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AudioRecordingService {
 
 
@@ -36,7 +37,6 @@ export class AudioRecordingService {
 
 
   startRecording() {
-    alert("record");
 
     if (this.recorder) {
       // It means recording is already started or it is already recording something
@@ -46,7 +46,8 @@ export class AudioRecordingService {
     this._recordingTime.next('00:00');
     navigator.mediaDevices.getUserMedia({ audio: true }).then(s => {
       this.stream = s;
-      //this.record();
+      this.record();
+      //console.log(this.record());
     }).catch(error => {
       this._recordingFailed.next();
     });
@@ -57,7 +58,7 @@ export class AudioRecordingService {
     this.stopMedia();
   }
 
-  /* private record() {
+  private record() {
 
     this.recorder = new RecordRTC.StereoAudioRecorder(this.stream, {
       type: 'audio',
@@ -75,7 +76,7 @@ export class AudioRecordingService {
       },
       1000
     );
-  } */
+  }
 
   private toString(value) {
     let val = value;
@@ -96,6 +97,8 @@ export class AudioRecordingService {
           const mp3Name = encodeURIComponent('audio_' + new Date().getTime() + '.mp3');
           this.stopMedia();
           this._recorded.next({ blob: blob, title: mp3Name });
+         console.log(blob);
+
         }
       }, () => {
         this.stopMedia();
@@ -110,6 +113,8 @@ export class AudioRecordingService {
       clearInterval(this.interval);
       this.startTime = null;
       if (this.stream) {
+        console.log(this.stream);
+
         this.stream.getAudioTracks().forEach(track => track.stop());
         this.stream = null;
       }
