@@ -8,7 +8,7 @@ export class ContactformService {
   ipAddress: string;
 
   constructor(private http: HttpClient) { 
-    this.ipAddress = 'http://apidev.oyespace.com/oyeliving/api/v1/ContactUs/Create';
+    this.ipAddress = 'https://apidev.oyespace.com/oyeliving/api/v1/ContactUs/Create';
 
   }
 
@@ -23,7 +23,7 @@ export class ContactformService {
 submitContactForm(contactform){
   console.log(contactform);
   let headers = this.getHttpheaders();
-   return this.http.post('http://apidev.oyespace.com/oyeliving/api/v1/ContactUs/Create',(contactform), { headers: headers });
+   return this.http.post('https://apidev.oyespace.com/oyeliving/api/v1/ContactUs/Create',(contactform), { headers: headers });
 }
 
 }
