@@ -62,6 +62,15 @@ export class SafetyComponent implements OnInit {
     }).then(
       (result) => {
         if (result.value) {
+          this.firstname='';
+          this.mailid='';
+          this.mobileNumber='';
+          this.City='';
+          this.Country='';
+          this.Locality='';
+          this.Message='';
+          this.Subject='';
+          this.modalRef.hide();
           this.ContactForm.reset();
         }
       })

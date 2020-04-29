@@ -33,6 +33,15 @@
                     </li>
                 </ul>
             </div>
+            <span class="black">Filter by Expense  </span> 
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                  type="button" data-toggle="dropdown">{{filterExpenseHead}}
+                  <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+              <ul class="dropdown-menu fullw">
+                  <li *ngFor='let item of expenseHead' (click)="getfilterdExpenseHead(item['displayName'])"><a>{{item['displayName']}}</a></li>
+              </ul>
+          </div>
           </div>
           <div class="switch">
             <ul class="nav nav-pills">
@@ -73,7 +82,7 @@
           <div style="display: flex;flex-direction:column">
             <div class="switch" *ngIf='addexpenseservice.enableExpenseListView'>
                 <ul class="nav1 nav-pills1">
-                  <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All','')">All</a>
+                  <li [ngClass]="{'active' : toggle == 'All' || toggle == 'AllExp'}"><a (click)="GetexpenseListByInvoiceID('id','All','')">All</a>
                   </li>
                   <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a
                       (click)="GetexpenseListByInvoiceID(true,'toggleYes','')">Invoiced</a></li>

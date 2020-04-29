@@ -260,22 +260,27 @@ export class ExcelExpenseUploadComponent implements OnInit {
     //
     for(let item of this.excelExpenseList){
       if(item['Payment Method']=='Cash' && item['Voucher No']==undefined){
+        console.log('1')
         this.IsNotValidExcelExpenseList=true;
         break;
       }
-      if(item['Payment Method']=='Cheque' && item['Bank']==undefined && item['Payee Name']==undefined && item['Payee Bank']==undefined && item['Cheque No']==undefined || item['Cheque Date']==undefined){
+      if(item['Payment Method']=='Cheque' && item['Bank']==undefined && item['Payee Name']==undefined && item['Payee Bank']==undefined && item['Cheque No']==undefined && item['Cheque Date']==undefined){
+        console.log('2')
         this.IsNotValidExcelExpenseList=true;
         break;
       }
-      if(item['Payment Method']=='Demand Draft' && item['Bank']==undefined && item['Payee Name']==undefined && item['Payee Bank']==undefined && item['Demand Draft No']==undefined || item['Demand Draft Date']==undefined){
+      if(item['Payment Method']=='Demand Draft' && item['Bank']==undefined && item['Payee Name']==undefined && item['Payee Bank']==undefined && item['Demand Draft No']==undefined && item['Demand Draft Date']==undefined){
+        console.log('3')
         this.IsNotValidExcelExpenseList=true;
         break;
       }
       if(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined){
+        console.log('4')
         this.IsNotValidExcelExpenseList=true;
         break;
       }
       if(item['Expense Head']==undefined || item['Expense Description']==undefined || item['Expense Recurance Type']==undefined || item['Applicable To Unit']==undefined || item['Expense Type']==undefined || item['Amount Paid']==undefined || item['Distribution Type']==undefined || item['Payment Method']==undefined || item['Expenditure Date']==undefined || item['Invoice-Receipt No']==undefined){
+        console.log('5')
         this.IsNotValidExcelExpenseList=true;
         break;
       }
@@ -284,15 +289,15 @@ export class ExcelExpenseUploadComponent implements OnInit {
   createExpenseFromBlockTable() {
     this.excelExpenseList.forEach(item => {
       // console.log(formatDate(new Date(new Date(item['Expenditure Date']).getFullYear(), new Date(item['Expenditure Date']).getMonth(), new Date(item['Expenditure Date']).getDate()),'yyyy-MM-dd','en'));
-      console.log(formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'));
+      //console.log(formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'));
       // console.log(formatDate(new Date(new Date(item['Cheque Date']).getFullYear(), new Date(item['Cheque Date']).getMonth(), new Date(item['Cheque Date']).getDate()),'yyyy-MM-dd','en'));
-      console.log(formatDate(item['Cheque Date'],'yyyy-MM-dd','en'));
+      //console.log(formatDate(item['Cheque Date'],'yyyy-MM-dd','en'));
       // console.log(formatDate(new Date(new Date(item['Demand Draft Date']).getFullYear(), new Date(item['Demand Draft Date']).getMonth(), new Date(item['Demand Draft Date']).getDate()),'yyyy-MM-dd','en'));
-      console.log(formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'));
+      //console.log(formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'));
       //
       let expensedata = {
         "POEAmnt": 23.65,
-        "EXChqNo": (item['Cheque No']==undefined?'':item['Cheque No']),
+        "EXChqNo": (item['Cheque No']!=undefined?item['Cheque No']:''),
         "BPID": 1,
         "INNumber": item['Invoice-Receipt No'],
         "EXPyCopy": "",
@@ -307,17 +312,17 @@ export class ExcelExpenseUploadComponent implements OnInit {
         "EXApplTO": item['Applicable To Unit'],
         "EXType": item['Expense Type'],
         "EXDisType": item['Distribution Type'],
-        "UnUniIden": (item['UnitName']==undefined?'':item['UnitName']),
+        "UnUniIden": (item['UnitName']!=undefined?(item['Applicable To Unit']=='Single Unit'?item['UnitName']:''):''),
         "PMID": 1,
-        "BABName": (item['Bank']==undefined?'':item['Bank']),
-        "EXPBName": (item['Payee Bank']==undefined?'':item['Payee Bank']),
-        "EXChqDate":(item['Cheque Date']==undefined?'':formatDate(item['Cheque Date'],'yyyy-MM-dd','en')),
+        "BABName": (item['Bank']!=undefined?item['Bank']:''),
+        "EXPBName": (item['Payee Bank']!=undefined?item['Payee Bank']:''),
+        "EXChqDate":(item['Cheque Date']!=undefined?formatDate(item['Cheque Date'],'yyyy-MM-dd','en'):''),
         "VNName": "Bills",
-        "EXDDNo": (item['Demand Draft No']==undefined?'':item['Demand Draft No']),
-        "EXDDDate":(item['Demand Draft Date']==undefined?'':formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en')),
-        "EXVoucherNo": (item['Voucher No']==undefined?'':item['Voucher No']),
+        "EXDDNo": (item['Demand Draft No']!=undefined?item['Demand Draft No']:''),
+        "EXDDDate":(item['Demand Draft Date']!=undefined?formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'):''),
+        "EXVoucherNo": (item['Voucher No']!=undefined?item['Voucher No']:''),
         "EXAddedBy": this.dashboardservice.acfName,
-        "EXPName": (item['Payee Name']==undefined?'':item['Payee Name']),
+        "EXPName": (item['Payee Name']!=undefined?item['Payee Name']:''),
         "POID": 1,
         "EXRABudg": 12.32
       }
