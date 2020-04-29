@@ -189,6 +189,8 @@ export class InvoicesComponent implements OnInit {
   unUniName: any;
   associationAddress:any;
   moreDiscountedAmount: boolean;
+  OwnerNameToShowOnInvoice: any;
+  CreditOrDebit:any;
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -201,6 +203,8 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+      this.CreditOrDebit='Credit';
+      this.OwnerNameToShowOnInvoice='';
       this.moreDiscountedAmount=false;
     this.associationAddress='';
     this.unUniName = '';
@@ -650,6 +654,15 @@ export class InvoicesComponent implements OnInit {
       .subscribe(data => {
         console.log('GetUnitListByUnitID', data);
         this.singleUnitDetails = data['data'].unit;
+        if(data['data']['unit']['owner'].length>0){
+          this.OwnerNameToShowOnInvoice = data['data']['unit'].owner[0].uofName;
+          }
+          else if(data['data']['unit']['tenant'].length>0){
+          this.OwnerNameToShowOnInvoice = data['data']['unit'].owner[0].utfName;
+          }
+          else{
+          this.OwnerNameToShowOnInvoice = "Owner name is not updated";
+          }
 
         if (data['data'].unit.owner.length > 0) {
           this.OwnerFirstName = data['data']['unit'].owner[0].uofName;
@@ -1138,11 +1151,11 @@ export class InvoicesComponent implements OnInit {
   }
   discountInvoice(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription) {
     console.log(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription);
-
+    console.log(this.CreditOrDebit);
     var discountData = {
       "INID": dscntInvinvoiceNumber,
       // "IDDesc": dscntInvdescription,
-      "INDisType"  : "Credit",
+      "INDisType"  : this.CreditOrDebit,
       "INDsCVal": dscntInvdiscountedAmount
     }
     console.log(discountData);
@@ -1175,7 +1188,7 @@ export class InvoicesComponent implements OnInit {
             type: "error",
             confirmButtonColor: "#f69321"
           });
-        })
+        }) 
   }
   openModal1(generateReceipt: TemplateRef<any>) {
     this.modalRef.hide();

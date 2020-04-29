@@ -1026,6 +1026,16 @@
                                     Discount Reason</p>
                             </div>
                         </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <label>Credit </label>
+                            <div class="form-group">
+                                <input type="radio" name="Credit" value="Credit" #CreditControl='ngModel' [(ngModel)]="CreditOrDebit" class="form-control"/>
+                            </div>
+                            <label>Debit </label>
+                            <div class="form-group">
+                                <input type="radio" name="Debit" value="Debit" #DebitControl='ngModel' [(ngModel)]="CreditOrDebit" class="form-control"/>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="row">
@@ -1049,10 +1059,10 @@
     <div id="Invoice">
         <div class="modal-header1">
             <div class="inv-details">
-                <img style="width: 200px;" src="../../assets/images/icons/invoice.png"><span>{{unUniName}}</span>
-                <p><strong>Invoice Date:</strong> {{invoiceDate | date: "MMMM d, y"}}</p>
+                <img style="width: 200px;" src="../../assets/images/icons/invoice.png"><span>For unit <span style="font-size: x-large; color: red;"><b>{{unUniName}}</b></span></span>                <p><strong>Invoice Date:</strong> {{invoiceDate | date: "MMMM d, y"}}</p>
                 <p><strong>Due Date:</strong> {{asdPyDate | date: "MMMM d, y"}}</p>
                 <p><strong>Invoice No:</strong> {{invoiceNumber}}</p>
+                <p><strong>Unit owner name:</strong> <span style="color: red;">{{OwnerNameToShowOnInvoice}}</span></p>
             </div>
             <div class="inv-details t-right">
                 <!-- <img (click)="printInvoice()" src="../../assets/images/icons/printer.png"> -->
