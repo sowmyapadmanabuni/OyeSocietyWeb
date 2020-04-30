@@ -287,8 +287,23 @@ export class ExcelExpenseUploadComponent implements OnInit {
     }
   }
   createExpenseFromBlockTable() {
+    let expenditureDateOneDateAdded;
+    let ChequeDateDateOneDateAdded;
+    let DemandDraftDateOneDateAdded;
     this.excelExpenseList.forEach(item => {
-      //let expenditureDate = new Date(item['Expenditure Date']);
+      let expenditureDate = new Date(item['Expenditure Date']);
+      expenditureDateOneDateAdded = new Date(expenditureDate.setDate(expenditureDate.getDate() + 1));
+      console.log(expenditureDateOneDateAdded);
+      if (item['Cheque Date'] != undefined) {
+        let ChequeDate = new Date(item['Cheque Date']);
+        ChequeDateDateOneDateAdded = new Date(ChequeDate.setDate(ChequeDate.getDate() + 1));
+        console.log(ChequeDateDateOneDateAdded);
+      }
+      if (item['Demand Draft Date'] != undefined) {
+        let DemandDraftDate = new Date(item['Demand Draft Date']);
+        DemandDraftDateOneDateAdded = new Date(DemandDraftDate.setDate(DemandDraftDate.getDate() + 1));
+        console.log(DemandDraftDateOneDateAdded);
+      }
       // console.log(formatDate(new Date(new Date(item['Expenditure Date']).getFullYear(), new Date(item['Expenditure Date']).getMonth(), new Date(item['Expenditure Date']).getDate()),'yyyy-MM-dd','en'));
       //console.log(formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'));
       // console.log(formatDate(new Date(new Date(item['Cheque Date']).getFullYear(), new Date(item['Cheque Date']).getMonth(), new Date(item['Cheque Date']).getDate()),'yyyy-MM-dd','en'));
@@ -307,7 +322,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
         "EXHead": item['Expense Head'],
         "EXDesc": item['Expense Description'],
         //"EXDCreated":'2020-04-20',// formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'),
-        "EXDate":formatDate(item['Expenditure Date'],'yyyy-MM-dd','en'),
+        "EXDate":formatDate(expenditureDateOneDateAdded,'yyyy-MM-dd','en'),
         "EXPAmnt": item['Amount Paid'],
         "EXRecurr": item['Expense Recurance Type'],
         "EXApplTO": item['Applicable To Unit'],
@@ -317,10 +332,10 @@ export class ExcelExpenseUploadComponent implements OnInit {
         "PMID": 1,
         "BABName": (item['Bank']!=undefined?item['Bank']:''),
         "EXPBName": (item['Payee Bank']!=undefined?item['Payee Bank']:''),
-        "EXChqDate":(item['Cheque Date']!=undefined?formatDate(item['Cheque Date'],'yyyy-MM-dd','en'):''),
+        "EXChqDate":(item['Cheque Date']!=undefined?formatDate(ChequeDateDateOneDateAdded,'yyyy-MM-dd','en'):''),
         "VNName": "Bills",
         "EXDDNo": (item['Demand Draft No']!=undefined?item['Demand Draft No']:''),
-        "EXDDDate":(item['Demand Draft Date']!=undefined?formatDate(item['Demand Draft Date'],'yyyy-MM-dd','en'):''),
+        "EXDDDate":(item['Demand Draft Date']!=undefined?formatDate(DemandDraftDateOneDateAdded,'yyyy-MM-dd','en'):''),
         "EXVoucherNo": (item['Voucher No']!=undefined?item['Voucher No']:''),
         "EXAddedBy": this.dashboardservice.acfName,
         "EXPName": (item['Payee Name']!=undefined?item['Payee Name']:''),
@@ -336,9 +351,9 @@ export class ExcelExpenseUploadComponent implements OnInit {
           (err) => {
             console.log(err);
           }
-        );
+        ); 
     })
-    Swal.fire({
+     Swal.fire({
       title: `${this.excelExpenseList.length} - Expenses Created`,
       type: "success",
       confirmButtonColor: "#f69321",
@@ -350,7 +365,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
       }
-    )
+    ) 
   }
   GetExpenseListByBlockID(blBlockID,blBlkName) {
     console.log(blBlockID,blBlkName);

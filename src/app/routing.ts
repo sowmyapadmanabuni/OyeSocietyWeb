@@ -48,7 +48,9 @@ import {EditAssociationComponent} from './edit-association/edit-association.comp
 import {AccountingComponent} from './accounting/accounting.component'
 import {SafetyComponent} from './safety/safety.component'
 import {ErrorComponent} from './error/error.component'
-import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component'
+import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component';
+import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-conditions.component';
+import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
 
 
 const routes: Routes = [
@@ -104,7 +106,9 @@ const routes: Routes = [
     { path: 'excelreceipt', component:ExcelReceiptUploadComponent, canActivate: [AuthGuard]},
     { path: 'joinenroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
     { path: 'joinenroll/:join_enroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
-    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]}
+    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]},
+    { path: 'termsandcondition', component:TermsAndConditionsComponent},
+    { path: 'privacypolicy', component:PrivacyPolicyComponent}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

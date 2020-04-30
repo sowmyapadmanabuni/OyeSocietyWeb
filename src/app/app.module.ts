@@ -91,6 +91,8 @@ import { UserIdleModule } from 'angular-user-idle';
  
 import { from } from 'rxjs';
 import { ErrorComponent } from './error/error.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -158,7 +160,9 @@ import { ErrorComponent } from './error/error.component';
     ExcelReceiptUploadComponent,
     AccountingComponent,
     SafetyComponent,
-    ErrorComponent
+    ErrorComponent,
+    TermsAndConditionsComponent,
+    PrivacyPolicyComponent
     ],
   imports: [
     ReactiveFormsModule,

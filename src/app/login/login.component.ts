@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
     private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
     private dashboardservice:DashBoardService,private utilsService:UtilsService) {
+
       this.otp='';
     this.toggleLoginContent=true;
     this.toggleShowClientContent=false;
@@ -89,7 +90,7 @@ export class LoginComponent implements OnInit {
   }
   
   ngOnInit() {
-     // get return url from route parameters or default to '/'
+      // get return url from route parameters or default to '/'
      //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
   openModal3(privacy: TemplateRef<any>) {
