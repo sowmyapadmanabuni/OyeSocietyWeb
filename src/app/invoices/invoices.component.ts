@@ -1280,7 +1280,7 @@ export class InvoicesComponent implements OnInit {
       "PYRefNo"  : "sfg54658",
       "PYBkDet"  : this.expensedataBABName,
       "PYTax"    : "12.6",
-      "PMID"     : 1,
+      "PMID"     : "Online",//1,
       "PYAmtDue" : this.totalAmountDue,
       "PYDesc"   : "PaymentMade",
       "PYVoucherNo" : this.receiptVoucherNo,
