@@ -87,6 +87,8 @@ import {AboutusComponent} from './aboutus/aboutus.component'
 import {AccountingComponent} from './accounting/accounting.component'
 import {SafetyComponent} from './safety/safety.component';
 import { UserIdleModule } from 'angular-user-idle';
+import { AudioRecordingService } from './audio-recording.service';
+import {BroadcastComponent } from './broadcast/broadcast.component';
 
  
 import { from } from 'rxjs';
@@ -162,7 +164,8 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
     SafetyComponent,
     ErrorComponent,
     TermsAndConditionsComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    BroadcastComponent
     ],
   imports: [
     ReactiveFormsModule,
@@ -194,7 +197,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
     TooltipModule.forRoot(),
     JwSocialButtonsModule
   ],
-  providers: [],
+  providers: [AudioRecordingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
