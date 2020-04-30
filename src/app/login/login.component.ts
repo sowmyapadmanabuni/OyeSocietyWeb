@@ -7,6 +7,7 @@ import {GlobalServiceService} from '../global-service.service';
 import {DashBoardService} from '../../services/dash-board.service';
 import {UtilsService} from '../utils/utils.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -113,11 +114,11 @@ export class LoginComponent implements OnInit {
     //   $("#login-form").slideUp();
     // });
 
-    // $("body").click(function (event) {
-    //   // event.stopPropagation();
-    //   $("#login-form").slideUp();
-    //   event.stopPropagation();
-    // });
+    $("body").click(function (event) {
+      // event.stopPropagation();
+      $("#login-form").slideUp();
+      event.stopPropagation();
+    });
     $("#login").click(function(e){
       $("#login-form").slideDown();
       e.stopPropagation();
