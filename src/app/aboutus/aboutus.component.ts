@@ -41,6 +41,10 @@ export class AboutusComponent implements OnInit {
   ngOnInit() {
     this.selectedCity="bengaluru";
   }
+
+  ngAfterViewInit(){
+    
+  }
   
   openCity(cityName) {
     this.selectedCity = cityName;

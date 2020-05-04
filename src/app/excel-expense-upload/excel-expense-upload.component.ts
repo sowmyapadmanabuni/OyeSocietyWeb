@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import {ExcelUploadExpenseErrorMessage} from '../../app/models/excel-upload-expense-error-message';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { formatDate } from '@angular/common';
+import {ExcelExpenseList} from '../models/excel-expense-list';
 
 @Component({
   selector: 'app-excel-expense-upload',
@@ -19,6 +20,7 @@ import { formatDate } from '@angular/common';
 })
 export class ExcelExpenseUploadComponent implements OnInit {
   excelExpenseList:any[];
+  ExcelExpenseList:ExcelExpenseList[];
   ShowExcelUploadDiscription:boolean;
   ShowExcelDataList:boolean;
   allBlocksLists:any[];
@@ -44,6 +46,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
       this.excelUploadExpenseErrorMessage=[];
       this.ExpenseListValid=true;
       this.excelExpenseList=[];
+      this.ExcelExpenseList=[];
       this.ShowExcelUploadDiscription=true;
       this.ShowExcelDataList=false;
     this.allBlocksLists=[];
@@ -257,6 +260,46 @@ export class ExcelExpenseUploadComponent implements OnInit {
     this.ShowExcelUploadDiscription=false;
     this.ShowExcelDataList=true;
     this.excelExpenseList=jsonDataSheet1; 
+
+    let expDateOneDateAdded;
+    let chkDateOneDateAdded;
+    let ddDateOneDateAdded;
+    this.excelExpenseList.forEach(item=>{
+      let expenditureDate = new Date(item['Expenditure Date']);
+      expDateOneDateAdded = new Date(expenditureDate.setDate(expenditureDate.getDate() + 1));
+      console.log(expDateOneDateAdded);
+      if (item['Cheque Date'] != undefined) {
+        let ChequeDate = new Date(item['Cheque Date']);
+        chkDateOneDateAdded = new Date(ChequeDate.setDate(ChequeDate.getDate() + 1));
+        console.log(chkDateOneDateAdded);
+      }
+      if (item['Demand Draft Date'] != undefined) {
+        let DemandDraftDate = new Date(item['Demand Draft Date']);
+        ddDateOneDateAdded = new Date(DemandDraftDate.setDate(DemandDraftDate.getDate() + 1));
+        console.log(ddDateOneDateAdded);
+      }
+      this.ExcelExpenseList.push(new ExcelExpenseList(item['Amount Paid'],
+      item['Applicable To Unit'],
+      item['Bank'],
+      (item['Cheque Date']!=undefined?formatDate(chkDateOneDateAdded,'dd/MM/yyyy','en'):undefined),
+      item['Cheque No'],
+      (item['Demand Draft Date']!=undefined?formatDate(ddDateOneDateAdded,'dd/MM/yyyy','en'):undefined),
+      item['Demand Draft No'],
+      item['Distribution Type'],
+      (item['Expenditure Date']!=undefined?formatDate(expDateOneDateAdded,'dd/MM/yyyy','en'):undefined),
+      item['Expense Description'],
+      item['Expense Head'],
+      item['Expense Recurance Type'],
+      item['Expense Type'],
+      item['Invoice-Receipt No'],
+      item['Payee Bank'],
+      item['Payee Name'],
+      item['Payment Method'],
+      item['UnitName'],
+      item['Voucher No']
+      ))
+    })
+    console.log(this.ExcelExpenseList);
     //
     for(let item of this.excelExpenseList){
       if(item['Payment Method']=='Cash' && item['Voucher No']==undefined){

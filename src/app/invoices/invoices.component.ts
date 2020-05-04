@@ -1268,6 +1268,26 @@ export class InvoicesComponent implements OnInit {
     })
   }
   generateInvoiceReceipt(){
+    let paymentDesc;
+    let paymentRefNo;
+    switch(this.expensedataPMID){
+      case 1:
+        paymentDesc= 'Cash Payment';
+        paymentRefNo=this.receiptVoucherNo;
+        break;
+      case 2:
+        paymentDesc= 'Cheque Payment';
+        paymentRefNo=this.receiptChequeNo;
+        break;
+      case 3:
+        paymentDesc= 'Demand Draft Payment';
+        paymentRefNo=this.receiptddNo;
+        break;
+      case 4:
+        paymentDesc= 'Online Payment';
+        paymentRefNo='Online';
+        break;
+    }
     this.disableGenerateReceipt=true;
     let genReceipt = {
       "PYAmtPaid": this.totalamountPaid,
@@ -1277,12 +1297,12 @@ export class InvoicesComponent implements OnInit {
       "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en'),
     
       "MEMemID"  : "1",
-      "PYRefNo"  : "sfg54658",
+      "PYRefNo"  : paymentRefNo,
       "PYBkDet"  : this.expensedataBABName,
       "PYTax"    : "12.6",
-      "PMID"     : "Online",//1,
+      "PMID"     : this.expensedataPMID,//1,
       "PYAmtDue" : this.totalAmountDue,
-      "PYDesc"   : "PaymentMade",
+      "PYDesc"   :paymentDesc,
       "PYVoucherNo" : this.receiptVoucherNo,
       "PYChqNo" : this.receiptChequeNo,
       "PYChqDate" :formatDate((this.receiptChequeDate==''?new Date():this.receiptChequeDate),'yyyy/MM/dd', 'en'),

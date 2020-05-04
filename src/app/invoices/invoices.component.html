@@ -155,9 +155,8 @@
                                             <button tooltip="View Invoice" class="smallBtn"
                                             (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">
                                                <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
-                                            </button> |
-                                            <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
-                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
+                                            </button> <!--|-->
+                                            <!-- <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a> -->
                                         </span>
                                     </td>
                                     <td *ngIf="toggle == 'toggleNo'" style="text-align: center">
