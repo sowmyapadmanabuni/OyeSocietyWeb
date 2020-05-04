@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioRecordingService } from '../audio-recording.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GlobalServiceService } from '../global-service.service';
+
 
 @Component({
   selector: 'app-broadcast',
@@ -51,7 +54,9 @@ export class BroadcastComponent implements OnInit {
   recordedTime;
   blobUrl;
 
-  constructor(private audioRecordingService: AudioRecordingService, private sanitizer: DomSanitizer) {
+  constructor(private audioRecordingService: AudioRecordingService, 
+    private sanitizer: DomSanitizer,
+    private http: HttpClient,public globalService: GlobalServiceService) {
 
     this.audioRecordingService.recordingFailed().subscribe(() => {
       this.isRecording = false;
@@ -96,6 +101,27 @@ export class BroadcastComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  sendBroadcast(){
+    console.log(this.blobUrl);
+    const headers = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
+    let MessageBody={
+      "ANImages"  : this.blobUrl,
+      "ANCmnts"   : "Hello",
+      "ACAccntID" : this.globalService.getacAccntID(),
+      "ASAssnID"  : this.globalService.getCurrentAssociationId()
+    }
+    console.log(MessageBody);
+  this.http.post('http://apidev.oyespace.com/oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
+    .subscribe(data => {
+      console.log(data);
+    },
+    err=>{
+      console.log(err);
+    })
   }
 
 }

@@ -45,9 +45,11 @@ import {ExcelUnitUploadComponent} from './excel-unit-upload/excel-unit-upload.co
 import {ExcelExpenseUploadComponent} from './excel-expense-upload/excel-expense-upload.component';
 import {JoinAndEnrollComponent} from './join-and-enroll/join-and-enroll.component';
 import {EditAssociationComponent} from './edit-association/edit-association.component';
-import {AccountingComponent} from './accounting/accounting.component';
-import {SafetyComponent} from './safety/safety.component';
-import {ErrorComponent} from './error/error.component';
+import {AccountingComponent} from './accounting/accounting.component'
+import {SafetyComponent} from './safety/safety.component'
+import {ErrorComponent} from './error/error.component'
+import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-conditions.component';
+import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
 import {BroadcastComponent } from './broadcast/broadcast.component';
 import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component';
 
@@ -105,6 +107,9 @@ const routes: Routes = [
     { path: 'excelreceipt', component:ExcelReceiptUploadComponent, canActivate: [AuthGuard]},
     { path: 'joinenroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
     { path: 'joinenroll/:join_enroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
+    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]},
+    { path: 'termsandcondition', component:TermsAndConditionsComponent},
+    { path: 'privacypolicy', component:PrivacyPolicyComponent},
     { path: 'broadcast', component:BroadcastComponent},
     { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]}
 ]

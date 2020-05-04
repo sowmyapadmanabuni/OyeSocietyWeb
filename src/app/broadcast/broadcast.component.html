@@ -7,5 +7,6 @@
     <audio *ngIf="!isRecording && blobUrl"  controls>
       <source [src]="blobUrl" type="audio/webm">
     </audio>
+    <button (click)="sendBroadcast()">Send Broadcast</button>
     </div>
   </div>

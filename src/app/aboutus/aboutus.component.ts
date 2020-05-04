@@ -41,36 +41,11 @@ export class AboutusComponent implements OnInit {
   ngOnInit() {
     this.selectedCity="bengaluru";
   }
+
   ngAfterViewInit(){
-    // $("#login").on('click',function(event) {
-    //   $("#login-form").slideDown();
-    //   event.stopPropagation();
-    // });
-    // $("#login").on('focusout',function() {
-    //   $("#login-form").slideUp();
-    // });
-
-    // $("body").click(function (event) {
-    //   // event.stopPropagation();
-    //   $("#login-form").slideUp();
-    //   event.stopPropagation();
-    // });
-    $("#login").click(function(e){
-      $("#login-form").slideDown();
-      e.stopPropagation();
-    });
-    $("#topDiv").click(function(){
-      $("#login-form").slideUp();
-    });
-    // $("#main").click(function(){
-    //   $("#login-form").slideUp();
-    // });
-    // $("#login-form").on('blur', function () {
-    //   $("#login-form").slideUp();
-    // });
-
-    $(".se-pre-con").fadeOut("slow");
-  } 
+    
+  }
+  
   openCity(cityName) {
     this.selectedCity = cityName;
   }

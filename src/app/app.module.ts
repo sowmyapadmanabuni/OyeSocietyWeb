@@ -93,6 +93,8 @@ import {BroadcastComponent } from './broadcast/broadcast.component';
  
 import { from } from 'rxjs';
 import { ErrorComponent } from './error/error.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -161,6 +163,8 @@ import { ErrorComponent } from './error/error.component';
     AccountingComponent,
     SafetyComponent,
     ErrorComponent,
+    TermsAndConditionsComponent,
+    PrivacyPolicyComponent,
     BroadcastComponent
     ],
   imports: [

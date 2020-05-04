@@ -77,7 +77,7 @@
                 <!--  -->
                 <div class="table-responsive" *ngIf='ShowExcelDataList'>
                     <table id="ExcelExpenseTable" class="table table-bordered table-responsive"
-                        [mfData]="excelExpenseList"
+                        [mfData]="ExcelExpenseList"
                         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
@@ -85,58 +85,58 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Head">Expense Head</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseHead">Expense Head</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Description">Expense Description</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseDescription">Expense Description</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Recurance Type">Expense Recurance Type</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseRecuranceType">Expense Recurance Type</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Applicable To Unit">Applicable To Unit</mfDefaultSorter>
+                                    <mfDefaultSorter by="ApplicableToUnit">Applicable To Unit</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Type">Expense Type</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseType">Expense Type</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Amount Paid">Amount Paid</mfDefaultSorter>
+                                    <mfDefaultSorter by="AmountPaid">Amount Paid</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Distribution Type">Distribution Type</mfDefaultSorter>
+                                    <mfDefaultSorter by="DistributionType">Distribution Type</mfDefaultSorter>
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="Bank">Bank</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Payment Method">Payment Method</mfDefaultSorter>
+                                    <mfDefaultSorter by="PaymentMethod">Payment Method</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Payee Name">Payee Name</mfDefaultSorter>
+                                    <mfDefaultSorter by="PayeeName">Payee Name</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expenditure Date">Expenditure Date</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenditureDate">Expenditure Date</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Invoice-Receipt No">Invoice-Receipt No</mfDefaultSorter>
+                                    <mfDefaultSorter by="InvoiceReceiptNo">Invoice-Receipt No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Payee Bank">Payee Bank</mfDefaultSorter>
+                                    <mfDefaultSorter by="PayeeBank">Payee Bank</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Voucher No">Voucher No</mfDefaultSorter>
+                                    <mfDefaultSorter by="VoucherNo">Voucher No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Cheque No">Cheque No</mfDefaultSorter>
+                                    <mfDefaultSorter by="ChequeNo">Cheque No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Cheque Date">Cheque Date</mfDefaultSorter>
+                                    <mfDefaultSorter by="ChequeDate">Cheque Date</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Demand Draft No">Demand Draft No</mfDefaultSorter>
+                                    <mfDefaultSorter by="DemandDraftNo">Demand Draft No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Demand Draft Date">Demand Draft Date</mfDefaultSorter>
+                                    <mfDefaultSorter by="DemandDraftDate">Demand Draft Date</mfDefaultSorter>
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="UnitName">Unit Name</mfDefaultSorter>
@@ -150,25 +150,25 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{item['S.No']}}</td>
-                                    <td [ngClass]="{'classRed':(item['Expense Head']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Head']==undefined?true:false)}">{{(item['Expense Head']==undefined?'Please Enter Expense Head':item['Expense Head'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Expense Description']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Description']==undefined?true:false)}">{{(item['Expense Description']==undefined?'Please Enter Expense Description':item['Expense Description'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Expense Recurance Type']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Recurance Type']==undefined?true:false)}">{{(item['Expense Recurance Type']==undefined?'Invalid Expense Recurance Type':item['Expense Recurance Type'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Applicable To Unit']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Applicable To Unit']==undefined?true:false)}">{{(item['Applicable To Unit']==undefined?'Invalid Applicable To Unit':item['Applicable To Unit'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Expense Type']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expense Type']==undefined?true:false)}">{{(item['Expense Type']==undefined?'Invalid Expense Type':item['Expense Type'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Amount Paid']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Amount Paid']==undefined?true:false)}">{{(item['Amount Paid']==undefined?'Invalid Amount Paid':item['Amount Paid'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Distribution Type']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Distribution Type']==undefined?true:false)}">{{(item['Distribution Type']==undefined?'Invalid Distribution Type':item['Distribution Type'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Cheque' && item['Bank']==undefined || item['Payment Method']=='Demand Draft' && item['Bank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Cheque' && item['Bank']==undefined || item['Payment Method']=='Demand Draft' && item['Bank']==undefined?true:false)}">{{(item['Payment Method']=='Cheque' && item['Bank']==undefined || item['Payment Method']=='Demand Draft' && item['Bank']==undefined?'Please Select Bank':item['Bank'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']==undefined?true:false)}">{{(item['Payment Method']==undefined?'Invalid Payment Method':item['Payment Method'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Cheque' && item['Payee Name']==undefined || item['Payment Method']=='Demand Draft' && item['Payee Name']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Cheque' && item['Payee Name']==undefined || item['Payment Method']=='Demand Draft' && item['Payee Name']==undefined?true:false)}">{{(item['Payment Method']=='Cheque' && item['Payee Name']==undefined || item['Payment Method']=='Demand Draft' && item['Payee Name']==undefined?'Please Enter Payee Name':item['Payee Name'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Expenditure Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Expenditure Date']==undefined?true:false)}">{{(item['Expenditure Date']==undefined?'Invalid Expenditure Date':item['Expenditure Date'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Invoice-Receipt No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Invoice-Receipt No']==undefined?true:false)}">{{(item['Invoice-Receipt No']==undefined?'Please Enter Invoice-Receipt Number':item['Invoice-Receipt No'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Cheque' && item['Payee Bank']==undefined || item['Payment Method']=='Demand Draft' && item['Payee Bank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Cheque' && item['Payee Bank']==undefined || item['Payment Method']=='Demand Draft' && item['Payee Bank']==undefined?true:false)}">{{(item['Payment Method']=='Cheque' && item['Payee Bank']==undefined || item['Payment Method']=='Demand Draft' && item['Payee Bank']==undefined?'Invalid Payee Bank Name':item['Payee Bank'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Cash' && item['Voucher No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Cash' && item['Voucher No']==undefined?true:false)}">{{(item['Payment Method']=='Cash' && item['Voucher No']==undefined?'Please Enter Voucher Number':item['Voucher No'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Cheque' && item['Cheque No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Cheque' && item['Cheque No']==undefined?true:false)}">{{(item['Payment Method']=='Cheque' && item['Cheque No']==undefined?'Invalid Cheque No':item['Cheque No'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Cheque' && item['Cheque Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Cheque' && item['Cheque Date']==undefined?true:false)}">{{(item['Payment Method']=='Cheque' && item['Cheque Date']==undefined?'Invalid Cheque Date':item['Cheque Date'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Demand Draft' && item['Demand Draft No']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Demand Draft' && item['Demand Draft No']==undefined?true:false)}">{{(item['Payment Method']=='Demand Draft' && item['Demand Draft No']==undefined?'Invalid Demand Draft No':item['Demand Draft No'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Payment Method']=='Demand Draft' && item['Demand Draft Date']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Payment Method']=='Demand Draft' && item['Demand Draft Date']==undefined?true:false)}">{{(item['Payment Method']=='Demand Draft' && item['Demand Draft Date']==undefined?'Invalid Demand Draft Date':item['Demand Draft Date'])}}</span></td>
-                                    <td [ngClass]="{'classRed':(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined?true:false)}">{{(item['Applicable To Unit']=='Single Unit' && item['UnitName']==undefined?'Please Enter UnitName':item['UnitName'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseHead']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseHead']==undefined?true:false)}">{{(item['ExpenseHead']==undefined?'Please Enter Expense Head':item['ExpenseHead'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseDescription']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseDescription']==undefined?true:false)}">{{(item['ExpenseDescription']==undefined?'Please Enter Expense Description':item['ExpenseDescription'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseRecuranceType']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseRecuranceType']==undefined?true:false)}">{{(item['ExpenseRecuranceType']==undefined?'Invalid Expense Recurance Type':item['ExpenseRecuranceType'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ApplicableToUnit']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ApplicableToUnit']==undefined?true:false)}">{{(item['ApplicableToUnit']==undefined?'Invalid Applicable To Unit':item['ApplicableToUnit'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseType']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseType']==undefined?true:false)}">{{(item['ExpenseType']==undefined?'Invalid Expense Type':item['ExpenseType'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['AmountPaid']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['AmountPaid']==undefined?true:false)}">{{(item['AmountPaid']==undefined?'Invalid Amount Paid':item['AmountPaid'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['DistributionType']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['DistributionType']==undefined?true:false)}">{{(item['DistributionType']==undefined?'Invalid Distribution Type':item['DistributionType'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['Bank']==undefined || item['PaymentMethod']=='Demand Draft' && item['Bank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['Bank']==undefined || item['PaymentMethod']=='Demand Draft' && item['Bank']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['Bank']==undefined || item['PaymentMethod']=='Demand Draft' && item['Bank']==undefined?'Please Select Bank':item['Bank'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']==undefined?true:false)}">{{(item['PaymentMethod']==undefined?'Invalid Payment Method':item['PaymentMethod'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['PayeeName']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeName']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['PayeeName']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeName']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['PayeeName']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeName']==undefined?'Please Enter Payee Name':item['PayeeName'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenditureDate']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenditureDate']==undefined?true:false)}">{{(item['ExpenditureDate']==undefined?'Invalid Expenditure Date':item['ExpenditureDate'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['InvoiceReceiptNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['InvoiceReceiptNo']==undefined?true:false)}">{{(item['InvoiceReceiptNo']==undefined?'Please Enter Invoice-Receipt Number':item['InvoiceReceiptNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['PayeeBank']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeBank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['PayeeBank']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeBank']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['PayeeBank']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeBank']==undefined?'Invalid Payee Bank Name':item['PayeeBank'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cash' && item['VoucherNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cash' && item['VoucherNo']==undefined?true:false)}">{{(item['PaymentMethod']=='Cash' && item['VoucherNo']==undefined?'Please Enter Voucher Number':item['VoucherNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['ChequeNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['ChequeNo']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['ChequeNo']==undefined?'Invalid Cheque No':item['ChequeNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['ChequeDate']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['ChequeDate']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['ChequeDate']==undefined?'Invalid Cheque Date':item['ChequeDate'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftNo']==undefined?true:false)}">{{(item['PaymentMethod']=='Demand Draft' && item['DemandDraftNo']==undefined?'Invalid Demand Draft No':item['DemandDraftNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftDate']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftDate']==undefined?true:false)}">{{(item['PaymentMethod']=='Demand Draft' && item['DemandDraftDate']==undefined?'Invalid Demand Draft Date':item['DemandDraftDate'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ApplicableToUnit']=='Single Unit' && item['UnitName']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ApplicableToUnit']=='Single Unit' && item['UnitName']==undefined?true:false)}">{{(item['ApplicableToUnit']=='Single Unit' && item['UnitName']==undefined?'Please Enter UnitName':item['UnitName'])}}</span></td>
                                 </ng-container>
                             </tr>
                         </tbody>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {GlobalServiceService} from './global-service.service';
-import {Router} from '@angular/router';
+import {Router,ActivatedRoute} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {UtilsService} from '../app/utils/utils.service';
 import {DashBoardService} from '../services/dash-board.service';
@@ -11,6 +11,7 @@ import { ConnectionService } from 'ng-connection-service';
 import swal from 'sweetalert2';
 import { UserIdleService } from 'angular-user-idle';
 import {NotificationListArray} from '../app/models/notification-list-array';
+
 declare var $:any;
 
 @Component({
@@ -43,7 +44,8 @@ export class AppComponent {
     public dashBoardService: DashBoardService,
     private http: HttpClient,private utilsService:UtilsService,
     private connectionService: ConnectionService,
-    private userIdle: UserIdleService){
+    private userIdle: UserIdleService,
+    private route: ActivatedRoute){
     this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
     this.notificationListArray=[];
