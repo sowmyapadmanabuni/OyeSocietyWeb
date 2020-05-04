@@ -106,19 +106,19 @@ export class LoginComponent implements OnInit {
     this.modalRef = this.modalService.show(reqdemo, { class: 'modal-lg' });
   }
   ngAfterViewInit(){
-    // $("#login").on('click',function(event) {
-    //   $("#login-form").slideDown();
-    //   event.stopPropagation();
-    // });
-    // $("#login").on('focusout',function() {
-    //   $("#login-form").slideUp();
-    // });
-
-    $("body").click(function (event) {
-      // event.stopPropagation();
-      $("#login-form").slideUp();
+    $("#login").on('click',function(event) {
+      $("#login-form").slideDown();
       event.stopPropagation();
     });
+    $("#login").on('focusout',function() {
+      $("#login-form").slideUp();
+    });
+
+    // $("body").click(function (event) {
+    //   event.stopPropagation();
+    //   $("#login-form").slideUp();
+    //   event.stopPropagation();
+    // });
     $("#login").click(function(e){
       $("#login-form").slideDown();
       e.stopPropagation();
@@ -126,6 +126,9 @@ export class LoginComponent implements OnInit {
     $("#topDiv").click(function(){
       $("#login-form").slideUp();
     });
+    // $("#main").click(function(){
+    //   $("#login-form").slideUp();
+    // });
     // $("#login-form").on('blur', function () {
     //   $("#login-form").slideUp();
     // });
@@ -514,6 +517,16 @@ export class LoginComponent implements OnInit {
     var popup = document.getElementById("lowery");
     popup.classList.toggle("show");
 }
+
+ myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+
 
 submitContactForm(){
   let contactform=  {

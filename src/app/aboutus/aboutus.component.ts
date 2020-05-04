@@ -62,6 +62,9 @@ export class AboutusComponent implements OnInit {
     $("#topDiv").click(function(){
       $("#login-form").slideUp();
     });
+    // $("#main").click(function(){
+    //   $("#login-form").slideUp();
+    // });
     // $("#login-form").on('blur', function () {
     //   $("#login-form").slideUp();
     // });

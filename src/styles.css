@@ -385,6 +385,7 @@ appearance: none !important;
 }
 @media only screen and (min-width: 320px) and (max-width:640px)  {
 .spec-details>div{border-right: none !important}
+.page-title-area{padding: 60px 0px !important}
 .app-details{width:100% !important}
 .view-img{width: 100% !important;height: 300px !important;}
 .spec-details{justify-content: space-around;align-items: inherit;flex-direction: column;flex-wrap: nowrap;}
