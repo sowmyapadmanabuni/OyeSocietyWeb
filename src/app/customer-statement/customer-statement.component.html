@@ -174,7 +174,7 @@
 
               <td class="amount">{{'₹ '+item.pyAmtPaid+'.00'}}</td>
 
-              <td><i (click)="OpenCustomerModel(customertemplate,item['pyDate'],item['acAccntID'],item['pyBal'],item['pyAmtDue'],item['inNumber'],item['pyDesc'],item['pyAmtPaid'],item['pyStat'],item['unUnitID'])" class="fa fa-eye"></i>
+              <td><i (click)="OpenCustomerModel(customertemplate,item['pyDate'],item['acAccntID'],item['pyBal'],item['pyAmtDue'],item['inNumber'],item['pyDesc'],item['pyAmtPaid'],item['pyStat'],item['unUnitID'],item['unUniName'])" class="fa fa-eye"></i>
               </td>
 
             </ng-container>
@@ -217,14 +217,17 @@
 <ng-template #customertemplate>
 
   <div class="modal-content">
-
+    <button type="button" class="close" style="padding-right: 10px;" aria-label="Close"
+      (click)="customertemplate.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
     <div class="cus-panel">
 
       <div>
 
         <!--top header-->
 
-        <div><img src="../../assets/sOyeSociety.png"></div>
+        <!-- <div><img src="../../assets/sOyeSociety.png"></div> -->
 
         <div>
 
@@ -246,7 +249,7 @@
 
           <p><b>Date:</b> {{pyDate|date:'dd/MM/yyyy'}}</p>
 
-          <p class="bill">Bill To</p>
+          <p class="bill">Bill To: {{unUniName}}</p>
 
           <p><b>Name:</b> {{ResidentName}}</p>
 
@@ -276,7 +279,7 @@
 
           <p><b>Total Balance Due:</b>{{pyAmtDue}}</p>
 
-          <p><b>Payment Due Date</b></p>
+          <!-- <p><b>Payment Due Date</b></p> -->
 
         </div>
 
@@ -374,13 +377,13 @@
 
       </div>
 
-      <p class="txt-center">It is a long established fact that a reader will be distracted by the readable content
+      <!-- <p class="txt-center">It is a long established fact that a reader will be distracted by the readable content
 
         of
 
         a page when looking at its layout. The point of using Lorem Ipsum</p>
 
-      <p class="txt-center">Make All the cheque payable to my company name</p>
+      <p class="txt-center">Make All the cheque payable to my company name</p> -->
 
       <h5 class="txt-center">Thank You For Your Business</h5>
 
@@ -390,13 +393,13 @@
 
       <div>
 
-        <p><b>Telephone:</b> 7876878576</p>
+        <p><b>Contact:</b>+91 9066390663</p>
 
-        <p><b>Fax:</b> 343233454352</p>
+        <!-- <p><b>Fax:</b> 343233454352</p> -->
 
-        <p><b>Email:</b> info@OyeSpace.com</p>
+        <p><b>Email:</b> happy@scuarex.com</p>
 
-        <p><b>Website:</b> www.OyeSpace.com</p>
+        <p><b>Website:</b> www.scuarex.com</p>
 
       </div>
 

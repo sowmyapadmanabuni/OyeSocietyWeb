@@ -47,11 +47,13 @@ export class CustomerStatementComponent implements OnInit {
   PaginatedValue: number;
   allpaymentdetailsTemp:any[];
   customerID: any;
+  unUniName: any;
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
     public viewInvoiceService: ViewInvoiceService,
     public globalservice: GlobalServiceService,private modalService: BsModalService) {
+      this.unUniName='';
       this.allpaymentdetailsTemp=[];
       this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
@@ -194,7 +196,7 @@ export class CustomerStatementComponent implements OnInit {
   removeColumnSort(columnName) {
     this.columnName = columnName;
   }
-  OpenCustomerModel(customertemplate: TemplateRef<any>,pyDate,acAccntID,pyBal,pyAmtDue,inNumber,pyDesc,pyAmtPaid,pyStat,unUnitID){
+  OpenCustomerModel(customertemplate: TemplateRef<any>,pyDate,acAccntID,pyBal,pyAmtDue,inNumber,pyDesc,pyAmtPaid,pyStat,unUnitID,unUniName){
     console.log(pyDate);
     console.log(acAccntID);
     console.log(pyBal);
@@ -204,6 +206,7 @@ export class CustomerStatementComponent implements OnInit {
     console.log(pyAmtPaid);
     console.log(unUnitID);
     console.log(pyStat);
+    console.log(unUniName);
     this.pyDate=pyDate;
     this.acAccntID=acAccntID;
     this.pyBal=pyBal;
@@ -211,6 +214,7 @@ export class CustomerStatementComponent implements OnInit {
     this.inNumber=inNumber;
     this.pyDesc=pyDesc;
     this.pyAmtPaid=pyAmtPaid;
+    this.unUniName=unUniName;
     // Fetch unit owner details start here
     //http://apiuat.oyespace.com/oyeliving/api/v1/Unit/GetUnitListByUnitID/40853
     this.viewInvoiceService.GetUnitListByUnitID(unUnitID)
