@@ -24,6 +24,7 @@ export class GlobalServiceService {
    private subject3 = new Subject<any>();
    private CurrentAssociationIdForExpense = new Subject<any>();
    private CurrentAssociationIdForMember = new Subject<any>();
+   private CurrentAssociationIdForStaffList = new Subject<any>();
    private CurrentAssociationIdForInvoice = new Subject<any>();
    private selectedAssociation = new Subject<any>();
    private CurrentAssociationIdForUnit = new Subject<any>();
@@ -55,6 +56,7 @@ export class GlobalServiceService {
    IsEnrollAssociationStarted:any;
    BackClicked:any;
    IsUnitCreated:boolean;
+   StaffListCalledOnce:boolean;
 
   constructor() {
     this.IsUnitCreated=false;
@@ -260,6 +262,15 @@ public setMrmRoleID(MrmRoleID){
   getCurrentAssociationIdForMemberComponent(): Observable<any>{
     console.log("setCurrentAssociationIdForMemberComponent")
    return this.CurrentAssociationIdForMember.asObservable();
+  }
+  setCurrentAssociationIdForStaffList(message:any){
+   //localStorage.setItem('StaffListCalledOnce','false');
+    console.log("setCurrentAssociationIdForStaffList", message)
+    this.CurrentAssociationIdForStaffList.next({ msg: message });
+  }
+  getCurrentAssociationIdForStaffList(): Observable<any>{
+    console.log("setCurrentAssociationIdForStaffList")
+   return this.CurrentAssociationIdForStaffList.asObservable();
   }
   setCurrentAssociationIdForInvoice(message: any) {
     console.log("setCurrentAssociationIdForInvoice", message)
