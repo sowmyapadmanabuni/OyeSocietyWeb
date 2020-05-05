@@ -1760,7 +1760,8 @@
                 
               </div>
               <div class="row">                
-                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid || disableGenerateReceipt" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <button style="float: right;" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <!-- <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid || disableGenerateReceipt" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button>  -->
                   <button style="float: right;" (click)="resetForm()" class="btn btn-primary-purple m-r">Reset </button>                           
               </div>
           
