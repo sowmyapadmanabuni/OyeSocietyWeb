@@ -138,7 +138,7 @@ currentAssociationIdForUnit:Subscription;
       "INVchlNo": this.INVchlNo,
       "INVisCnt": this.INVisCnt,
       "INPhoto": "SD",
-      "INSDate": this.INSDate,
+      "INSDate": formatDate(this.INSDate,'MM/dd/yyyy hh:mm:ss','en'),
       "INEDate": this.INEDate,
       "INPOfInv": this.INPOfInv,
       "INMultiEy": this.MultipleVisitors,

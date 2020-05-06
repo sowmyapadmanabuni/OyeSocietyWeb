@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { GlobalServiceService } from '../global-service.service'
 import { ViewStaffService } from '../../services/view-staff.service'
-import { from } from 'rxjs';
+import { Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert2';
@@ -22,6 +22,7 @@ export class StaffComponent implements OnInit {
   searchTxt:any;
   addGuest:any;
   baseUrl:any;
+  currentAssociationIdForStaffList:Subscription
 
   constructor(private router: Router, private globalServiceService: GlobalServiceService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.EndDate = '';
@@ -30,6 +31,14 @@ export class StaffComponent implements OnInit {
     this.reportlists = [];
     this.WorkerID = '';
     this.baseUrl='data:image/png;base64,';
+    this.currentAssociationIdForStaffList = this.globalServiceService.getCurrentAssociationIdForStaffList()
+    .subscribe(data=>{
+      console.log(data);
+      //console.log(localStorage.getItem('StaffListCalledOnce'))
+      //if(localStorage.getItem('StaffListCalledOnce')=='false'){
+        this.StaffList();
+      //}
+    })
   }
 
   ngOnInit() {
@@ -39,6 +48,7 @@ export class StaffComponent implements OnInit {
     
   }
   StaffList() {
+    //localStorage.setItem('StaffListCalledOnce','true')      
     this.viewStaffService.GetStaffList()
       .subscribe(data => {
         console.log(data);
