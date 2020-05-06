@@ -13,24 +13,24 @@ import { GlobalServiceService } from '../global-service.service';
       background-color: #e58739; /* Orange */
       border: none;
       color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin-bottom: 10px;
+      padding: 7px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 10px;
     }
 
     .stop-button {
       background-color: rgba(118, 146, 254, 0.69); /* Green */
       border: none;
       color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin-bottom: 10px;
+      padding: 7px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 10px;
 
     }
 
@@ -38,13 +38,12 @@ import { GlobalServiceService } from '../global-service.service';
       background-color: #af7541; /* Green */
       border: none;
       color: white;
-      padding: 15px 32px;
+      padding: 7px 10px;
       text-align: center;
       text-decoration: none;
       display: inline-block;
-      font-size: 16px;
+      font-size: 12px;
       margin-bottom: 10px;
-
     }
   `]
 })
