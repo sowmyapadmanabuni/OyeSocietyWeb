@@ -157,6 +157,7 @@
                         <div class="form-group">
                             <label class="control-label purple">From <sup>*</sup></label>
                             <input type="text" name="INSDate" #INSDateControl='ngModel' [(ngModel)]="INSDate" bsDatepicker required [minDate]="todayDate" [bsConfig]="bsConfig" placeholder="From Date" class="form-control" bsDatepicker required>
+                            <timepicker name="mytime" [(ngModel)]="mytime"></timepicker>
                         </div>
                         <div class="form-group">
                             <label class="control-label purple">Till <sup>*</sup></label>
