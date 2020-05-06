@@ -1173,6 +1173,7 @@ export class InvoicesComponent implements OnInit {
         }).then(
           (result) => {
             if (result.value) {
+              this.CreditOrDebit='Credit';
               this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
             } else if (result.dismiss === swal.DismissReason.cancel) {
             }
