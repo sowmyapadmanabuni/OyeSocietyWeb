@@ -99,7 +99,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
@@ -119,13 +119,13 @@
                             </tr>
                             <tr *ngIf="viewPayments.length == 0">
                                 <ng-container>
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="6">
+                                <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -213,7 +213,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
@@ -232,7 +232,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="6">
+                                <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>

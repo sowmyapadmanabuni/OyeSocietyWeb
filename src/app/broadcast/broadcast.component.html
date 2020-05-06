@@ -10,18 +10,19 @@
   <div class="col-sm-9 b-left">
     <form #JoinAsnFrm="ngForm">
     <!--row1-->
-    <div class="content">
-        <input type="file" class="form-control-file border bg-grey" style="background: #f3f1f1 !important;padding: 30px !important;border-radius: 13px !important;">
+    <div class="content" style="background: #f3f1f1 !important;padding: 30px !important;border-radius: 13px !important;">
+        <input type="file" class="form-control-file border bg-grey" >
 
     </div>
     <!--row1-->
     <!--row2-->
     <div class="content">
       <button class="start-button" *ngIf="!isRecording && !blobUrl" (click)="startRecording()">Start Recording</button>
-      <button (click)="sendBroadcast()" *ngIf="blobUrl">Send Broadcast</button>
     <button class="stop-button" *ngIf="isRecording && !blobUrl" (click)="stopRecording()">Stop Recording</button>
     <button class="cancel-button" *ngIf="!isRecording && blobUrl" (click)="clearRecordedData()">Clear Recording</button>
-    <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>
+    <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>&nbsp;
+    <button class="start-button" (click)="sendBroadcast()" *ngIf="blobUrl">Send Broadcast</button>
+
     <div>
     <audio *ngIf="!isRecording && blobUrl"  controls>
       <source [src]="blobUrl" type="audio/webm">
@@ -43,19 +44,29 @@
     </div>
     <!--row3-->
     <div class="content">
-      <div class="col-sm-6 np">
+      <div class="col-sm-12 np">
         <div class="form-group">
           <textarea class="form-control" rows="10" cols="5" id="comment"></textarea>
         </div>
       </div>
-      <div class="col-sm-6">
-       
+      <div class="col-sm-12">
+          <div class="dropdown" style="margin: 0px 0px;">
+              <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                data-toggle="dropdown">Select Recipients
+                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+              <ul class="dropdown-menu fullw fdrop">
+                <li><a>All Admins</a></li>
+                <li><a>All Owners</a></li>
+                <li><a>All Tenants</a></li>
+
+              </ul>
+            </div>
       </div>
     </div>
   </form>
   </div>
   <div class="col-sm-12">
-    <button class="btn btn-primary-purple nextBtn pull-right" type="button" >Join</button>
+    <button class="btn btn-primary-purple nextBtn pull-right" type="button" >Send</button>
     <input class="btn btn-primary-purple pull-right"  style="margin-right: 12px;" type="button" value="Reset">
   </div>
 </div>
