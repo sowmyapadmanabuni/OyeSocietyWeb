@@ -191,11 +191,7 @@ export class AppComponent {
     });    
   }
   ngAfterViewInit(){
-    $(document).ready(function(){
-      $("#flip").click(function(){
-        $("#panel").slideToggle("slow");
-      });
-    });
+  
     
   }
   myFunction() {

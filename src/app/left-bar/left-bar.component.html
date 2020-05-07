@@ -5,7 +5,7 @@
     <!-- <a ><div routerLink="/profile" tooltip="Profile" style="margin-top: 20px;color: #333333;"><i class="fa fa-user-o" aria-hidden="true"></i></div></a> -->
     <!-- <div tooltip="Settings"><i class="fa fa-cog" aria-hidden="true"></i></div> -->
     <!-- <div tooltip="Logout"><i (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i></div> -->
-    <div><a tooltip="Broadcast" routerLink="/broadcast"><img src="../../assets/images/icons/speaker.png"></a></div>
+    <div *ngIf="globalService.mrmroleId == 1"><a tooltip="Broadcast" routerLink="/broadcast"><img src="../../assets/images/icons/speaker.png"></a></div>
     <div style="display: flex; width: 100%;">
         <!-- <canvas style="align-self: flex-end; display: block; width: 150px; height: 75px;" baseChart
               [data]="pieChartData"
