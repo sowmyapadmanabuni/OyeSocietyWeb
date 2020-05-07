@@ -282,6 +282,8 @@ export class MembersComponent implements OnInit {
         console.log(data);
       })
   }
+
+  
   setRows(RowNum) {
     this.ShowRecords='abc';
     this.setnoofrows = (RowNum=='All'?'All Records':RowNum);

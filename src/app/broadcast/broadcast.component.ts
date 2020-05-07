@@ -48,7 +48,8 @@ import { GlobalServiceService } from '../global-service.service';
   `]
 })
 export class BroadcastComponent implements OnInit {
-
+  AnnouncementMessage:any;
+  AnnouncementImage:any;
   isRecording = false;
   recordedTime;
   blobUrl;
@@ -101,20 +102,24 @@ export class BroadcastComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  
   sendBroadcast(){
     console.log(this.blobUrl);
     const headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
-    let MessageBody={
-      "ANImages"  : this.blobUrl,
-      "ANCmnts"   : "Hello",
-      "ACAccntID" : this.globalService.getacAccntID(),
-      "ASAssnID"  : this.globalService.getCurrentAssociationId()
-    }
+    let MessageBody=
+    {    "ANImages"  : this.AnnouncementImage,
+    "ANCmnts"   : this.AnnouncementMessage,
+    // "ACAccntID" : this.globalService.getacAccntID(),
+    // "ASAssnID"  : this.globalService.getCurrentAssociationId(),
+    "ACAccntID" : 2,
+    "ASAssnID"  : 2,
+    "ANVoice"   : this.blobUrl,
+    "ANRecipient" : "All Owners"
+}
     console.log(MessageBody);
-  this.http.post('http://apidev.oyespace.com/oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
+  this.http.post('https://devapi.scuarex.com/oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
     .subscribe(data => {
       console.log(data);
     },
@@ -122,5 +127,8 @@ export class BroadcastComponent implements OnInit {
       console.log(err);
     })
   }
+
+
+
 
 }
