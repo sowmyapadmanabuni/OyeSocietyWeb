@@ -138,7 +138,7 @@ currentAssociationIdForUnit:Subscription;
       "INVchlNo": this.INVchlNo,
       "INVisCnt": this.INVisCnt,
       "INPhoto": "SD",
-      "INSDate": formatDate(this.INSDate,'MM/dd/yyyy hh:mm:ss','en'),
+      "INSDate": formatDate(this.INSDate,'MM/dd/yyyy','en')+' '+formatDate(this.mytime,'hh:mm:ss','en'),
       "INEDate": this.INEDate,
       "INPOfInv": this.INPOfInv,
       "INMultiEy": this.MultipleVisitors,
@@ -147,7 +147,7 @@ currentAssociationIdForUnit:Subscription;
       "ACAccntID": this.globalService.getacAccntID()
     };
     console.log(visitorData);
-    this.addvisitorservice.addVisitor(visitorData)
+     this.addvisitorservice.addVisitor(visitorData)
     .subscribe(data=>{
       console.log(data);
       this.getVisitorList('');
@@ -180,7 +180,7 @@ currentAssociationIdForUnit:Subscription;
     },
     err=>{
       console.log(err);
-    })
+    }) 
   }
   // ADD VISITOR END HERE
 
