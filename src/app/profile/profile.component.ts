@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit {
   profile: boolean;
   editprofile: boolean;
   ACImgName:any;
+  acImgName:any;
 
 
   constructor(private editprofileservice:EditprofileService,
@@ -46,7 +47,7 @@ export class ProfileComponent implements OnInit {
     private router:Router,
     private modalService: BsModalService
     ) {       
-      
+    this.acImgName='';
     this.accountID=this.globalservice.getacAccntID();
     this.ACImgName='';
     }
@@ -74,6 +75,7 @@ export class ProfileComponent implements OnInit {
      this.acEmail1= this.allAccount[0]['acEmail1'];
      this.acMobile1= this.allAccount[0]['acMobile1'];
     this.currentaccountid=this.allAccount[0]['acAccntID'];
+    this.acImgName='data:image/jpeg;base64,' + this.allAccount[0]['acImgName'];
       });
   }
 
@@ -81,7 +83,6 @@ export class ProfileComponent implements OnInit {
   updateEditProfile() {
 console.log(this.currentaccountid);
     this.updateProfileData = {
-      
         "ACFName"	: this.ACFName,
         "ACLName"	: this.ACLName,
         "ACEmail"	: this.ACEmail,
@@ -100,10 +101,9 @@ console.log(this.currentaccountid);
         "ACEmail3"	: "",
         "ACEmail4"  : "",
         "ACAccntID"	: this.currentaccountid,
-        "ACImgName":this.ACImgName
-      
+        "ACImgName": this.ACImgName
     }
-  
+  console.log(this.updateProfileData);
 
     this.editprofileservice.updateEditProfile(this.updateProfileData).subscribe(res => {
       console.log(JSON.stringify(res));
@@ -167,7 +167,9 @@ console.log(this.currentaccountid);
     reader.onloadend =  ()=> {
       console.log(reader.result as string);
       //console.log(this);
-      //this.ACImgName=reader.result as string;
+      this.ACImgName=reader.result as string;
+      this.ACImgName=this.ACImgName.substring(this.ACImgName.indexOf('64') + 3);
+      console.log(this.ACImgName);
       imgthumbnailelement.src  = reader.result as string;
     }
     if (selectedFile) {
@@ -175,5 +177,6 @@ console.log(this.currentaccountid);
     } else {
       imgthumbnailelement.src = "";
     }
+    console.log(reader);
   }
 }

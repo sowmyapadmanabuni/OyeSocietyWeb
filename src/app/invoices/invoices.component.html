@@ -1208,19 +1208,19 @@
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                         </ng-container> -->
-                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
-                            <tr *ngIf="item['idDesc'] != 'Discount Value'">
+                        <ng-container *ngFor='let item of InvoiceDescriptionListOne;let i=index'>
+                            <tr>
                                 <td>{{i+1}}</td>
                                 <td><span>{{item['idDesc']}}</span></td>
-                                <td><span>-</span></td>
+                                <td><span>{{item['gst']}}</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                         </ng-container>
-                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
-                            <tr *ngIf="item['idDesc'] == 'Discount Value'">
-                                <td>{{i+1}}</td>
+                        <ng-container *ngFor='let item of InvoiceDescriptionListTwo;let i=index'>
+                            <tr>
+                                <td>{{InvoiceDescriptionListOne.length + (i+1)}}</td>
                                 <td><span>{{item['idDesc']}}</span></td>
-                                <td><span>-</span></td>
+                                <td><span>{{item['gst']}}</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                         </ng-container>

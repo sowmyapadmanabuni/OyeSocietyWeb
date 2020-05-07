@@ -14,7 +14,7 @@
                     <button style="float: right;margin-bottom: 5px;" class="btn-primary-purple" aria-hidden="true" data-toggle="modal" data-target="#SendMsgAsNotificationAll"><i class="fa fa-bell-o" aria-hidden="true"></i> Send Notification</button>
                 </div>
                 <div>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search name">
+                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by UnitName">
                 </div>
                 <div class="dropdown" style="width: 200px;">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -27,7 +27,7 @@
                 </div>
                 <div class="dash-row">
                     <table class="table table-bordered"
-                    [mfData]="allMemberByAccount| search:['unUniName', 'unOcStat', 'owner']:searchTxt"
+                    [mfData]="allMemberByAccount| search:['unUniName']:searchTxt"
                     #mf="mfDataTable" [mfRowsOnPage]="setnoofrows=='All Records'?allMemberByAccount.length:setnoofrows" (click)="onPageChange($event)">
                     <thead>
                         <tr>

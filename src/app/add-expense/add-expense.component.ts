@@ -123,6 +123,9 @@ export class AddExpenseComponent implements OnInit {
     this.expensedata.EXDisType = 'Select Distribution Type';
     this.expensedata.UnUniIden = 'Select Unit';
     this.paymentMethodType='Select Payment Method';
+    if (this.paymentMethodType = 'Select Payment Method') {
+      this.checkField = "Cash";
+    }
     this.expensedata.PMID = '';
     this.expensedata.BABName = 'Select Bank';
     this.expensedata.EXPBName = 'Payee Bank';

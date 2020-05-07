@@ -172,6 +172,7 @@ export class MembersComponent implements OnInit {
            }).then(
              (result) => {
                if (result.value) {
+                this.SelectedUnitID='SelectRole';
                  this.GetMemberList(this.associationID);
                }
              });

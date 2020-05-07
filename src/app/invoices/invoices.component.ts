@@ -19,6 +19,8 @@ import { ViewUnitService } from '../../services/view-unit.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as _ from 'lodash';
+import {InvoiceDescriptionListOne} from '../models/invoice-description-list-one';
+import {InvoiceDescriptionListTwo} from '../models/invoice-description-list-two';
 
 
 @Component({
@@ -191,6 +193,8 @@ export class InvoicesComponent implements OnInit {
   moreDiscountedAmount: boolean;
   OwnerNameToShowOnInvoice: any;
   CreditOrDebit:any;
+  InvoiceDescriptionListOne:InvoiceDescriptionListOne[];
+  InvoiceDescriptionListTwo:InvoiceDescriptionListTwo[];
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -203,6 +207,8 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+    this.InvoiceDescriptionListOne=[];
+    this.InvoiceDescriptionListTwo=[];
       this.CreditOrDebit='Credit';
       this.OwnerNameToShowOnInvoice='';
       this.moreDiscountedAmount=false;
@@ -649,6 +655,8 @@ export class InvoicesComponent implements OnInit {
     this.discountedValue = inDsCVal;
     this.unitID = unUnitID;
     this.unUniName=unUniName;
+    this.InvoiceDescriptionListOne=[];
+    this.InvoiceDescriptionListTwo=[];
 
     this.viewinvoiceservice.GetUnitListByUnitID(this.unitID)
       .subscribe(data => {
@@ -697,6 +705,14 @@ export class InvoicesComponent implements OnInit {
         this.InvoiceValue = 0;
         this._discountedValue=0;
         console.log('invoiceDetails--', data['data']['invoiceDetails']);
+        data['data']['invoiceDetails'].forEach(item => {
+          if (item['idDesc'] != 'Discount Value') {
+            this.InvoiceDescriptionListOne.push(new InvoiceDescriptionListOne(item['idDesc'], '-', item['idValue']))
+          }
+          if (item['idDesc'] == 'Discount Value') {
+            this.InvoiceDescriptionListTwo.push(new InvoiceDescriptionListTwo(item['idDesc'], '-', item['idValue']))
+          }
+        })
         this.invoiceDetails = data['data']['invoiceDetails'];
         data['data']['invoiceDetails'].forEach(item => {
 
@@ -1483,7 +1499,7 @@ export class InvoicesComponent implements OnInit {
       console.log(IsPaid);
       let paid = '';
       if (IsPaid) {
-        paid = 'UnPaid';
+        paid = 'UnPaid'; //Yes
       }
       else {
         paid = 'No';

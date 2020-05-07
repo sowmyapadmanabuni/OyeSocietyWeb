@@ -73,14 +73,18 @@
                                     </div> -->
                             <h3 class="title">Family Details</h3>
                             <div class="panel-body">
-                                <!-- <div class="form-group">
-                                    <label class="control-label">Relationship<span class="red">*</span></label>
-                                    <input pattern="[a-zA-Z _]*" maxlength="20" type="text" [(ngModel)]='Relation' name="Relation" #relationshipControl="ngModel" class="form-control" placeholder="Relationship" required/>
-
-                                    <p class="alerts"
-                                        *ngIf="relationshipControl.invalid && relationshipControl.touched"> Enter the
-                                        Relation</p>
-                                </div> -->
+                                <div class="form-group">
+                                    <div class="circle">
+                                        <!-- User Profile Image -->
+                                        <img id="imgthumbnail" class="profile-pic">
+                                    </div>
+                                    <!-- Image Section -->
+                                    <div class="p-image">
+                                        <i (click)="OpenFileUpload()" class="fa fa-camera upload-button"></i>
+                                        <input class="file-upload" id="uploadFileinput" type="file" accept="image/*"
+                                            (change)='onFileSelected($event)' />
+                                    </div>
+                                </div>
 
 
                                 <div class="form-group">

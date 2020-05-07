@@ -38,6 +38,7 @@ export class FamilyMembersComponent implements OnInit {
   joinassociation:any;
   RelationsArray:any[];
   getFamilyMemberSubscription:Subscription;
+  FMImgName:any;
 
   constructor(private http: HttpClient, private router: Router,
     private modalService: BsModalService,private utilsService:UtilsService,
@@ -132,7 +133,7 @@ updatefamilymember() {
     "UNUnitID": this.unitID,
     "ASAssnID": this.asAssnID,
     "FMISDCode": "+91",
-    "FMImgName": "1.jpg",
+    "FMImgName": this.FMImgName,
     "FMRltn": this.EditRelation,
     "FMLName": "M",
     "FMMinor": this.ToggleGurdian == "xyz"? false : true,
@@ -197,13 +198,13 @@ addfamilymember() {
     "UNUnitID": this.unitID,
     "FMRltn": this.Relation,
     "ASAssnID": this.asAssnID,
-    "FMImgName": "l.jpeg",
+    "FMImgName": this.FMImgName,
     "FMMinor": this.ToggleGurdian == "xyz"? false : true,
     "FMLName": "P",
     "FMGurName": "somu",
     "PAccntID": this.AccountID
   }
-  //console.log(familymember);
+  console.log(familymember);
   let headers = new HttpHeaders().append('Content-Type', 'application/json')
     .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
     .append('Access-Control-Allow-Origin', "*");
@@ -292,10 +293,43 @@ deleteFamilyMember(fmid) {
       err => {
         //console.log(err);
       })
-}
-// DELETE FAMILY MEMBER END
+  }
+  // DELETE FAMILY MEMBER END
 
-setRelationType(relation){
-  this.Relation=relation;
-}
+  setRelationType(relation) {
+    this.Relation = relation;
+  }
+  OpenFileUpload() {
+    let _uploadFileinput = <HTMLInputElement>document.getElementById("uploadFileinput");
+    _uploadFileinput.click();
+  }
+  onFileSelected(event) {
+
+    let selectedFile = <File>event.target.files[0];
+    console.log(selectedFile);
+    console.log(<File>event.target.files);
+    const fd = new FormData();
+    fd.append('image', selectedFile);
+    this.FMImgName=fd;
+    console.log(this.FMImgName);
+
+    let imgthumbnailelement = <HTMLInputElement>document.getElementById("imgthumbnail");
+    console.log(imgthumbnailelement);
+    let reader  = new FileReader();
+
+    reader.onloadend =  ()=> {
+      console.log(reader.result as string);
+      //console.log(this);
+      this.FMImgName=reader.result as string;
+      this.FMImgName=this.FMImgName.substring(this.FMImgName.indexOf('64') + 3);
+      console.log(this.FMImgName);
+      imgthumbnailelement.src  = reader.result as string;
+    }
+    if (selectedFile) {
+      reader.readAsDataURL(selectedFile);
+    } else {
+      imgthumbnailelement.src = "";
+    }
+    console.log(reader);
+  }
 }

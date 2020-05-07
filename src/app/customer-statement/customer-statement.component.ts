@@ -215,6 +215,7 @@ export class CustomerStatementComponent implements OnInit {
     this.pyDesc=pyDesc;
     this.pyAmtPaid=pyAmtPaid;
     this.unUniName=unUniName;
+    this.customerID=0;
     // Fetch unit owner details start here
     //http://apiuat.oyespace.com/oyeliving/api/v1/Unit/GetUnitListByUnitID/40853
     this.viewInvoiceService.GetUnitListByUnitID(unUnitID)
@@ -225,13 +226,23 @@ export class CustomerStatementComponent implements OnInit {
         this.ResidentName=data['data']['unit']['owner'][0]['uofName'];
         this.ResidentLastName=data['data']['unit']['owner'][0]['uolName'];
         this.ResidentMobileNum=data['data']['unit']['owner'][0]['uoMobile']
-        this.customerID=data['data']['unit']['owner'][0]['uoid']
+        if(data['data']['unit']['owner'][0]['uoid']){
+          this.customerID=data['data']['unit']['owner'][0]['uoid']
+        }
+        else{
+          this.customerID=0;
+        }
       }
       else if(data['data']['unit']['tenant'].length!=0){
         this.ResidentName=data['data']['unit']['tenant'][0]['utfName'];
         this.ResidentLastName=data['data']['unit']['tenant'][0]['utlName'];
-        this.ResidentMobileNum=data['data']['unit']['tenant'][0]['utMobile']
-        this.customerID=data['data']['unit']['tenant'][0]['uoid']
+        this.ResidentMobileNum=data['data']['unit']['tenant'][0]['utMobile'];
+        if(data['data']['unit']['tenant'][0]['uoid']){
+          this.customerID=data['data']['unit']['tenant'][0]['uoid']
+        }
+        else{
+          this.customerID=0;
+        }
       }
       else{
         this.ResidentName='';
