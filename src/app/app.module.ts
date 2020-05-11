@@ -95,6 +95,8 @@ import { ErrorComponent } from './error/error.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { AdminDeleveryScreenComponent } from './admin-delevery-screen/admin-delevery-screen.component';
+import { AdminStaffScreenComponent } from './admin-staff-screen/admin-staff-screen.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -165,7 +167,9 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     ErrorComponent,
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
-    BroadcastComponent
+    BroadcastComponent,
+    AdminDeleveryScreenComponent,
+    AdminStaffScreenComponent
     ],
   imports: [
     ReactiveFormsModule,

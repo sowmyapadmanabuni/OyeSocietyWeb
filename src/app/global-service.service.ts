@@ -40,6 +40,7 @@ export class GlobalServiceService {
    private CallgetVisitorListSubject = new Subject<any>();
    private CallGetFamilyMemberSubject = new Subject<any>();
    private SetResidentLevelInvoiceSubject = new Subject<any>();
+   private CurrentAssociationIdForVisitorLogByDates = new Subject<any>();
    
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
@@ -271,6 +272,14 @@ public setMrmRoleID(MrmRoleID){
   getCurrentAssociationIdForStaffList(): Observable<any>{
     console.log("setCurrentAssociationIdForStaffList")
    return this.CurrentAssociationIdForStaffList.asObservable();
+  }
+  setCurrentAssociationIdForVisitorLogByDates(message:any){
+    console.log("CurrentAssociationIdForVisitorLogByDates", message)
+    this.CurrentAssociationIdForVisitorLogByDates.next({ msg: message });
+  }
+  getCurrentAssociationIdForVisitorLogByDates(): Observable<any>{
+    console.log("CurrentAssociationIdForVisitorLogByDates")
+   return this.CurrentAssociationIdForVisitorLogByDates.asObservable();
   }
   setCurrentAssociationIdForInvoice(message: any) {
     console.log("setCurrentAssociationIdForInvoice", message)

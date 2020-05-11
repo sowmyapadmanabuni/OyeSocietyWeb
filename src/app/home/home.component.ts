@@ -471,6 +471,7 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationIdForLeftBarComponent(association.asAssnID);
         this.globalService.setCurrentAssociationIdForMemberComponent(association.asAssnID);
         this.globalService.setCurrentAssociationIdForStaffList(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForVisitorLogByDates(association.asAssnID);
         if(param == ''){
           this.globalService.setCurrentAssociationName(asnName);
           console.log(this.globalService.getCurrentAssociationName());

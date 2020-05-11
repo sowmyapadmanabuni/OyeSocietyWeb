@@ -52,6 +52,8 @@ import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-cond
 import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
 import {BroadcastComponent } from './broadcast/broadcast.component';
 import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component';
+import {AdminDeleveryScreenComponent} from './admin-delevery-screen/admin-delevery-screen.component';
+import {AdminStaffScreenComponent} from './admin-staff-screen/admin-staff-screen.component';
 
 
 const routes: Routes = [
@@ -111,7 +113,9 @@ const routes: Routes = [
     { path: 'termsandcondition', component:TermsAndConditionsComponent},
     { path: 'privacypolicy', component:PrivacyPolicyComponent},
     { path: 'broadcast', component:BroadcastComponent},
-    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]}
+    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]},
+    { path: 'admindeleveryscreen', component:AdminDeleveryScreenComponent, canActivate: [AuthGuard]},
+    { path: 'adminstaffscreen', component:AdminStaffScreenComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

@@ -12,7 +12,7 @@
             </div>
                 <div class="dash-row" *ngIf='memberList'>
                     <table class="table table-bordered"
-                        [mfData]="familymemberarray | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt"
+                        [mfData]="FamilyMemberList | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt"
                         #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
                             <tr style="background: #ededed;">
@@ -25,6 +25,9 @@
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="fmMobile">Mobile Number</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="fmImgName">Photo</mfDefaultSorter>
                                 </th>
                                 <th>
                                     Action
@@ -41,6 +44,7 @@
                                     <td>{{item['fmName']}}</td>
                                     <td>{{item['fmRltn']}}</td>
                                     <td>{{item['fmMobile']}}</td>
+                                    <td><img src="{{item['fmImgName']}}" width="50px" height="50px"/> </td>
                                     <td class="txt-middle">
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                                             (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['unUnitID'],item['fmid'])"
@@ -53,7 +57,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="5">
+                                <td colspan="6">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>

@@ -42,6 +42,7 @@ export class AssociationManagementComponent implements OnInit {
   viewAssociation_Table: boolean;
   private newAttribute: any = {};
   uploadForm: FormGroup;
+  uploadPanForm: FormGroup;
 
   //crtAssn:CreateAssn;
   selectedFile: File;
@@ -282,6 +283,7 @@ export class AssociationManagementComponent implements OnInit {
   PaginatedValue: number;
   disableCreateUnitBtnAfterClick: boolean;
   UnitName: any;
+  uploadPANCard:any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -297,6 +299,7 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
+      this.uploadPANCard='';
       this.UnitName='';
       this.disableCreateUnitBtnAfterClick=false;
     this.PaginatedValue=10;
@@ -690,6 +693,22 @@ export class AssociationManagementComponent implements OnInit {
     //     (res) => console.log(res),
     //     (err) => console.log(err)
     //   );
+  }
+  processPanFile(){
+    console.log(this.uploadPanForm.get('panProfile').value);
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadPanForm.get('panProfile').value);
+    reader.onload = () => {
+      console.log(reader.result);
+      this.uploadPANCard = reader.result;
+      this.uploadPANCard = this.uploadPANCard.substring(this.uploadPANCard.indexOf('64') + 3);
+      //console.log(this.ASAsnLogo.indexOf('64')+1);
+      //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+      console.log(this.uploadPANCard);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
   }
   getCalculationTypes(calculationTypename, _id) {
     console.log(calculationTypename);
@@ -1344,6 +1363,9 @@ export class AssociationManagementComponent implements OnInit {
     this.uploadForm = this.formBuilder.group({
       profile: ['']
     });
+    this.uploadPanForm = this.formBuilder.group({
+      panProfile: ['']
+    });
 
     this.check = "true";
     this.check1 = "true";
@@ -1388,6 +1410,13 @@ export class AssociationManagementComponent implements OnInit {
       const file = event.target.files[0];
       console.log(file);
       this.uploadForm.get('profile').setValue(file);
+    }
+  }
+  onPanFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      this.uploadPanForm.get('panProfile').setValue(file);
     }
   }
 
@@ -1641,11 +1670,16 @@ export class AssociationManagementComponent implements OnInit {
     this.UnitIDforJoinAssn = unUnitID;
     //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
+    let allSpan = document.querySelectorAll('div.block-row span');
+    allSpan.forEach(item => {
+      if(item.classList.contains('active')){
+        item.classList.remove('active');
+      }
+    })
     spanCtrl.classList.toggle("active");
     //this.activeEnabled = true;
     //$(document).ready(function () {
       let selectedSpan = document.querySelectorAll('div.block-row span.active');
-      let allSpan = document.querySelectorAll('div.block-row span');
       console.log(selectedSpan.length);
       console.log(allSpan);
       if(selectedSpan.length > 0){
@@ -1992,7 +2026,7 @@ export class AssociationManagementComponent implements OnInit {
         "ASOLOStat": "False",
         "ASOTPStat": "False",
         "ASOPStat": "False",
-        "ASPANDoc": "uploadPANCard",
+        "ASPANDoc": this.uploadPANCard,
         //"aspanDoc": this.crtAssn.uploadPANCard,
         //"ASRegrNum": this.crtAssn.assnRegisterNo,
         // "BankName": this.crtAssn.BankName,

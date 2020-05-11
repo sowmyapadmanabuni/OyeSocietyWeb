@@ -8,7 +8,9 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {UtilsService} from '../utils/utils.service';
 import {GlobalServiceService} from '../global-service.service';
 import swal from 'sweetalert2';
+import { FamilyMemberList } from '../models/family-member-list';
 declare var $: any;
+
 
 
 @Component({
@@ -39,10 +41,12 @@ export class FamilyMembersComponent implements OnInit {
   RelationsArray:any[];
   getFamilyMemberSubscription:Subscription;
   FMImgName:any;
+  FamilyMemberList:FamilyMemberList[];
 
   constructor(private http: HttpClient, private router: Router,
     private modalService: BsModalService,private utilsService:UtilsService,
     private globalService:GlobalServiceService) {
+    this.FamilyMemberList=[];
     this.unitID='';
     this.AccountID='';
     this.asAssnID='';
@@ -76,6 +80,7 @@ export class FamilyMembersComponent implements OnInit {
   }
 
   getFamilyMember(){
+    this.FamilyMemberList=[];
     this.familymemberarray = [];
     this.asAssnID = this.globalService.getCurrentAssociationId();
     this.AccountID = this.globalService.getacAccntID();
@@ -92,6 +97,9 @@ export class FamilyMembersComponent implements OnInit {
           console.log(data);
           this.familymemberarray = data['data']['familyMembers'];
           if (this.familymemberarray.length > 0) {
+            this.familymemberarray.forEach(item=>{
+              this.FamilyMemberList.push(new FamilyMemberList(item['fmName'],item['fmRltn'],item['fmMobile'],'data:image/jpeg;base64,'+item['fmImgName'],item['asAssnID'],item['unUnitID'],item['fmid']))
+            })
             this.loadchangedforassociation = true;
           }
           else {

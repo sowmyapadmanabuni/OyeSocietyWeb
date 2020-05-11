@@ -300,10 +300,14 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label">Upload Scanned Pan Card</label>
-                  <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
+                  <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
                     [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
                     (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
-                    pattern="(.*?)\.(png|jpeg|jpg)$" />
+                    pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
+                    <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
+                      <input type="file" name="panProfile" (change)="onPanFileSelect($event)" />
+                      <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>
+                  </form>
                   <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
                     Resolution of 128*128</span>
                 </div>
