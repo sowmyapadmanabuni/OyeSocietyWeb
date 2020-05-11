@@ -25,6 +25,7 @@ public searchTxt: any;
 guestList:boolean;
 addGuest:boolean;
 mytime: Date = new Date();
+totime: Date = new Date();
 modalRef: BsModalRef;
 invitationList: any[];
 invitationListLength: boolean;
@@ -139,7 +140,7 @@ currentAssociationIdForUnit:Subscription;
       "INVisCnt": this.INVisCnt,
       "INPhoto": "SD",
       "INSDate": formatDate(this.INSDate,'MM/dd/yyyy','en')+' '+formatDate(this.mytime,'hh:mm:ss','en'),
-      "INEDate": this.INEDate,
+      "INEDate": formatDate(this.INEDate,'MM/dd/yyyy','en')+' '+formatDate(this.totime,'hh:mm:ss','en'),
       "INPOfInv": this.INPOfInv,
       "INMultiEy": this.MultipleVisitors,
       "ASAssnID": this.globalService.getCurrentAssociationId(),
