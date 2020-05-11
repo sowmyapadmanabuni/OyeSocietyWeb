@@ -59,6 +59,9 @@
                     <mfDefaultSorter by="inVisCnt">Guest Expected</mfDefaultSorter>
                 </th>
                 <th>
+                    <mfDefaultSorter by="inVisCnt">Visited</mfDefaultSorter>
+                </th>
+                <th>
                     <mfDefaultSorter by="inMobile">Mobile Number</mfDefaultSorter>
                 </th>
                 <th>
@@ -69,7 +72,7 @@
         <tbody>
             <tr *ngFor="let item of mf.data|orderBy:insDate;let i=index">
                 <ng-container *ngIf="item == -1">
-                    <td colspan="8" align="center">No Data Found</td>
+                    <td colspan="9" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
                     <td class="txt-middle">{{(i+1)}}</td>
@@ -78,6 +81,9 @@
                     <td class="txt-middle">{{item['insDate']|date:'dd/MM/yyyy'}}</td>
                     <td class="txt-middle">{{item['ineDate']|date:'dd/MM/yyyy'}}</td>
                     <td class="txt-middle">{{item['inVisCnt']}}</td>
+
+                    <td class="txt-middle">{{item['inIsUsed']==true?'Visited':'Not Visited'}}</td>
+
                     <td>{{item['inMobile']}}</td>
                     <td class="txt-middle"> 
                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
@@ -99,7 +105,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8">
+                <td colspan="9">
                     <mfBootstrapPaginator></mfBootstrapPaginator>
                 </td>
             </tr>
@@ -162,6 +168,7 @@
                         <div class="form-group">
                             <label class="control-label purple">Till <sup>*</sup></label>
                             <input type="text" name="INEDate" #INEDateControl='ngModel' [minDate]="INSDate"  [(ngModel)]="INEDate" placeholder="Till Date" [bsConfig]="bsConfig" class="form-control" bsDatepicker required>
+                            <timepicker name="totime" [(ngModel)]="totime"></timepicker>
                         </div>
                         <!--<div class="form-group">
                              <timepicker [(ngModel)]="mytime"></timepicker>

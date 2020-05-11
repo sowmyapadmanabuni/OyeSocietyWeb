@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit {
   }
   ngAfterViewInit(){
     $("#login").on('click',function(event) {
-      $("#login-form").slideDown();
+      $("#login-form").toggle();
       event.stopPropagation();
     });
     $("#login").on('focusout',function() {
