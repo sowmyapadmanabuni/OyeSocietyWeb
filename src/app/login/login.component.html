@@ -58,18 +58,31 @@
 	<div> <a (click)="GoToHome()"><img class="img-responsive logo" src="../../assets/Scuarex_web_logo.png" style="margin-top: 0px;"></a></div>
 	<div class="alig">
 	<a class="first"></a>
-	<!-- <a routerLink="home">Home</a> -->
 	<!-- <a routerLink="contact" class="btn btn-secondary" id="talk">Request Demo</a> -->
 	  <!-- <a routerLink="services" routerLinkActive="active-link">Products</a> -->
+	  <a href="tel:+9190663 90663" tooltip="+91 90663 90663"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></a>
 	  <a (click)="openModal6(reqdemo)" class="blinking">Request a demo</a>
-	  <a (click)="showAboutUsContent()" routerLinkActive="active-link">About Us</a>
+	  <a routerLink="home">Home</a>
 	  <div class="dropdown">
+		<button class="dropbtn">Company
+		  <i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+			<a (click)="showAboutUsContent()" routerLinkActive="active-link">About Us</a>
+			<a (click)="showClientContent()" routerLinkActive="active-link">Clients</a>
+			<a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
+			<a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
+		</div>
+	  </div>
+	 
+	  <div class="dropdown" style="padding-left: 15px;">
 		  <button class="dropbtn">Solutions
 			<i class="fa fa-caret-down"></i>
 		  </button>
 		  <div class="dropdown-content">
 			<a (click)="GoToSafety()">Apartment Safety Management</a>
-			<a (click)="GoToAccounting()">Apartment Accounting Management</a>
+			<a>ERP-coming soon</a>
+			<!-- <a (click)="GoToAccounting()">Apartment Accounting Management</a> -->
 			<!-- <a href="https://oyewallet.com/" target="_blank">OyeWallet</a>
 			<a href="https://www.oyehomes.in/" target="_blank">OyeHomes</a>
 			<a href="http://oyeooh.com/" target="_blank">OyeOOH</a>
@@ -78,14 +91,13 @@
 			<a href="ticket">Ticket Management</a>        -->
 		  </div>
 		</div>
-			
+		<a routerLink="#" class="blinking1">Subscribe</a> 
+		<a routerLink="faq">FAQ's</a> 
 
-	  <a (click)="showClientContent()" routerLinkActive="active-link">Clients</a>
-	  <a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
-	  <a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
+	 
 	  
-	  <a id="login" style="cursor: pointer" target="_blank"><img tooltip="Login/SignUp" [adaptivePosition]="false" placement="top" src="../../assets/images/getin.png"></a>
-	  <!-- <a routerLink="faq">FAQ's</a> -->
+	  <a id="login" style="cursor: pointer" target="_blank"><img tooltip="Logon" [adaptivePosition]="false" placement="top" src="../../assets/images/getin.png"></a>
+	  
 	  <!-- <a href="http://devapp.oyespace.com/" target="_blank">Login</a> -->
 	  <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
 	</div>
@@ -141,11 +153,11 @@
 					<!--Slider Part Start-->
 					<div class="container slider">
 						<div class="col-sm-6 slide-text pt">
-							<span class="oye-bt">Safety Bhi</span><span class="slide-head"> Accounting Bhi</span>
+						<marquee><span class="oye-bt">Safety Bhi</span><span class="slide-head"> Accounting Bhi</span>
 		
 							<p class="desc">Experience a new world of safety and conveniences while handling mundane and
 								exhausting jobs of managing your society. Open your gates to the revolution in society safety
-								and management.</p>
+								and management.</p></marquee>	
 							<div class="col-sm-12 np">
 								<a href="https://apps.apple.com/in/app/oyespace/id1445274978" target="_blank"><img
 										src="../../assets/images/app_store.png" style="width: 25%;"></a>
@@ -201,11 +213,11 @@
 							<img class="img-responsive" src="../../assets/images/Safety.png">
 						</div>
 						<div class="col-sm-6 slide-text">
-							<span class="oye-bt">Safety.</span>
-							<p class="desc">“Your safety is priceless”, with this in focus is what we built ScuareX.   ScuareX has features that ensures safety of You, Your Family and Assets; by keeping your Security Guards alert and connected using simple yet advanced technologies.</p>
+							<marquee><span class="oye-bt">Safety.</span>
+							<p class="desc">“Your safety is priceless”, with this in focus is what we built ScuareX.  <br> ScuareX has features that ensures safety of You, Your Family and Assets; by keeping your Security Guards alert and connected using simple yet advanced technologies.</p>
 							<div class="col-sm-12 np">
 								<a (click)="GoToSafety()"><button class="btn btn-grey">Know more</button></a>
-							</div>
+							</div></marquee>
 						</div>
 		
 					</div>
@@ -220,8 +232,9 @@
 					<div class="container slider">
 		
 						<div class="col-sm-6 slide-text">
-							<span class="oye-bt">Accounting.</span>
-							<p class="desc">The nerve centre of community living is pooling in money by every home in the community to ‘maintain common facilities’.  ScuareX leverages the power of Data-science, Artificial Intelligence and Advanced Automation Algorithms easing this complex task.</p>
+							<span class="oye-bt">ERP.</span>
+							<!-- <p class="desc">The nerve centre of community living is pooling in money by every home in the community to ‘maintain common facilities’.  ScuareX leverages the power of Data-science, Artificial Intelligence and Advanced Automation Algorithms easing this complex task.</p> -->
+							<p class="desc">Coming soon.</p>
 							<div class="col-sm-12 np">
 								<a (click)="GoToAccounting()"><button class="btn btn-grey">Know more</button></a>
 							</div>
