@@ -97,6 +97,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AdminDeleveryScreenComponent } from './admin-delevery-screen/admin-delevery-screen.component';
 import { AdminStaffScreenComponent } from './admin-staff-screen/admin-staff-screen.component';
+import { CareersComponent } from './careers/careers.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
@@ -169,7 +170,8 @@ import { AdminStaffScreenComponent } from './admin-staff-screen/admin-staff-scre
     PrivacyPolicyComponent,
     BroadcastComponent,
     AdminDeleveryScreenComponent,
-    AdminStaffScreenComponent
+    AdminStaffScreenComponent,
+    CareersComponent
     ],
   imports: [
     ReactiveFormsModule,

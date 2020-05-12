@@ -54,6 +54,7 @@ import {BroadcastComponent } from './broadcast/broadcast.component';
 import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component';
 import {AdminDeleveryScreenComponent} from './admin-delevery-screen/admin-delevery-screen.component';
 import {AdminStaffScreenComponent} from './admin-staff-screen/admin-staff-screen.component';
+import { CareersComponent } from './careers/careers.component';
 
 
 const routes: Routes = [
@@ -73,6 +74,7 @@ const routes: Routes = [
     { path: 'testimonials', component:TestimonialsComponent, canActivate: [AuthGuard]},
     { path: 'blogs', component:BlogsComponent, canActivate: [AuthGuard]},
     { path: 'jobs', component:JobsComponent, canActivate: [AuthGuard]},
+    { path: 'careers', component:CareersComponent, canActivate: [AuthGuard]},
     { path: 'googlemaps', component:GooglemapComponent, canActivate: [AuthGuard]},
     { path: 'association', component:AssociationManagementComponent, canActivate: [AuthGuard],canDeactivate:[AuthGuard]},
     { path: 'expense', component:ExpenseManagementComponent, canActivate: [AuthGuard]},
