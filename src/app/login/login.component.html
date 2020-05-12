@@ -55,105 +55,133 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- Toolbar -->
 <div class="topnav" id="myTopnav">
-	<div> <a (click)="GoToHome()"><img class="img-responsive logo" src="../../assets/Scuarex_web_logo.png" style="margin-top: 0px;"></a></div>
+	<div> <a (click)="GoToHome()"><img class="img-responsive logo" src="../../assets/Scuarex_web_logo.png"
+				style="margin-top: 0px;"></a></div>
 	<div class="alig">
-	<a class="first"></a>
-	<!-- <a routerLink="home">Home</a> -->
-	<!-- <a routerLink="contact" class="btn btn-secondary" id="talk">Request Demo</a> -->
-	  <!-- <a routerLink="services" routerLinkActive="active-link">Products</a> -->
-	  <a (click)="openModal6(reqdemo)" class="blinking">Request a demo</a>
-	  <a (click)="showAboutUsContent()" routerLinkActive="active-link">About Us</a>
-	  <div class="dropdown">
-		  <button class="dropbtn">Solutions
-			<i class="fa fa-caret-down"></i>
-		  </button>
-		  <div class="dropdown-content">
-			<a (click)="GoToSafety()">Apartment Safety Management</a>
-			<a (click)="GoToAccounting()">Apartment Accounting Management</a>
-			<!-- <a href="https://oyewallet.com/" target="_blank">OyeWallet</a>
-			<a href="https://www.oyehomes.in/" target="_blank">OyeHomes</a>
-			<a href="http://oyeooh.com/" target="_blank">OyeOOH</a>
-			<a href="http://oyesmile.com/" target="_blank">OyeSmile</a>
-			<a href="accounting"> Accounting </a>
-			<a href="ticket">Ticket Management</a>        -->
-		  </div>
+		<a class="first"></a>
+		<!-- <a routerLink="contact" class="btn btn-secondary" id="talk">Request Demo</a> -->
+		<!-- <a routerLink="services" routerLinkActive="active-link">Products</a> -->
+		<a href="tel:+9190663 90663" tooltip="+91 90663 90663"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></a>
+		<a (click)="openModal6(reqdemo)" class="blinking">Request a demo</a>
+		<a routerLink="home">Home</a>
+		<div class="dropdown">
+			<button class="dropbtn">Company
+				<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a (click)="showAboutUsContent()" routerLinkActive="active-link">About Us</a>
+				<a (click)="showClientContent()" routerLinkActive="active-link">Clients</a>
+				<a (click)="showCareersContent()" routerLinkActive="active-link">Careers</a>
+				<a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
+				<a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
+			</div>
 		</div>
-			
 
-	  <a (click)="showClientContent()" routerLinkActive="active-link">Clients</a>
-	  <a (click)="showPartnersContent()" routerLinkActive="active-link">Partners</a>
-	  <a (click)="showLocationContent()" routerLinkActive="active-link">Locations</a>
-	  
-	  <a id="login" style="cursor: pointer" target="_blank"><img tooltip="Login/SignUp" [adaptivePosition]="false" placement="top" src="../../assets/images/getin.png"></a>
-	  <!-- <a routerLink="faq">FAQ's</a> -->
-	  <!-- <a href="http://devapp.oyespace.com/" target="_blank">Login</a> -->
-	  <a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
+		<div class="dropdown" style="padding-left: 15px;">
+			<button class="dropbtn">Solutions
+				<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a (click)="GoToSafety()">Apartment Safety Management</a>
+				<a style="color:red !important">ERP-coming soon</a>
+				<!-- <a (click)="GoToAccounting()">Apartment Accounting Management</a> -->
+				<!-- <a href="https://oyewallet.com/" target="_blank">OyeWallet</a>
+					<a href="https://www.oyehomes.in/" target="_blank">OyeHomes</a>
+					<a href="http://oyeooh.com/" target="_blank">OyeOOH</a>
+					<a href="http://oyesmile.com/" target="_blank">OyeSmile</a>
+					<a href="accounting"> Accounting </a>
+					<a href="ticket">Ticket Management</a>-->
+			</div>
+		</div>
+		<a routerLink="#" class="blinking1">Subscribe</a>
+		<a routerLink="faq">FAQ's</a>
+
+
+
+		<a id="login" style="cursor: pointer" target="_blank"><img tooltip="Logon" [adaptivePosition]="false"
+				placement="top" src="../../assets/images/getin.png"></a>
+
+		<!-- <a href="http://devapp.oyespace.com/" target="_blank">Login</a> -->
+		<a href="javascript:void(0);" class="icon" (click)="myFunction()">&#9776;</a>
 	</div>
-  </div>
-  <!--Login Form start-->
-  <div class="col-lg-4 col-md-4 login-box" id="login-form">
-	
-	<div class="col-lg-12 login-form" >
-	  <div class="col-lg-12 login-form" >
-		<form>
-		  <div class="form-group first-row">
-			<div class="input-wrapper">
-			  <!-- <input placeholder="Mobile Number" type="text" name="mobilenumber" [(ngModel)]='mobilenumber' pattern="^[6-9]{1}[0-9]{9}$" required /> -->
-			  <input id="mobnum" id="mobnum" type="text" name="mobilenumber" placeholder="Mobile Number" autocomplete="off" #mobilenumbers='ngModel' (keypress)=_keyPress($event)  ng2TelInput [ng2TelInputOptions]="{initialCountry: 'in'}" (hasError)="hasError($event)"
-			  (ng2TelOutput)="getNumber($event)" (intlTelInputObject)="telInputObject($event)" (countryChange)="onCountryChange($event)"
-				id="mobnum" pattern="^[6-9]{1}[0-9]{9}$" required
-				[(ngModel)]='mobilenumber' minlength="10" maxlength="10" ç style="border-bottom: 1px solid #F08A33;" />
+</div>
+<!--Login Form start-->
+<div class="col-lg-4 col-md-4 login-box" id="login-form">
+
+	<div class="col-lg-12 login-form">
+		<div class="col-lg-12 login-form">
+			<form>
+				<div class="form-group first-row">
+					<div class="input-wrapper">
+						<!-- <input placeholder="Mobile Number" type="text" name="mobilenumber" [(ngModel)]='mobilenumber' pattern="^[6-9]{1}[0-9]{9}$" required /> -->
+						<input id="mobnum" id="mobnum" type="text" name="mobilenumber" placeholder="Mobile Number"
+							autocomplete="off" #mobilenumbers='ngModel' (keypress)=_keyPress($event) ng2TelInput
+							[ng2TelInputOptions]="{initialCountry: 'in'}" (hasError)="hasError($event)"
+							(ng2TelOutput)="getNumber($event)" (intlTelInputObject)="telInputObject($event)"
+							(countryChange)="onCountryChange($event)" id="mobnum" pattern="^[6-9]{1}[0-9]{9}$" required
+							[(ngModel)]='mobilenumber' minlength="10" maxlength="10" ç
+							style="border-bottom: 1px solid #F08A33;" />
 
 
-			
 
 
 
-			</div>
-			<div>
-			  <button id="myButton1" class="btn btn-primary" (click)="sendOTP()" [disabled]='mobilenumber=="" || mobilenumber.length !=10 || hideGetInButton' style="border-radius: 20px;color: #fff !important;">Get OTP</button>
-			</div>
-			<div id="some_div" style="position: absolute; margin: 14% 0% 0% 48%;"></div>
-		  </div>
-		  <div class="form-group">
-			<div class="input-wrapper1">
-				<input type="password" id="OTPInput" placeholder="Enter OTP" (keypress)=_keyPress1($event) [(ngModel)]="otp" maxlength="6" name="otp" />
-				<i (click)="showHidePassword()" style="cursor: pointer;position: relative;right: -249px;top: -33px; color: black;" class="fa" [ngClass]="{'fa-eye-slash':hideShowEye,'fa-eye':!hideShowEye}" aria-hidden="true"></i>
-			</div>              
-			<!-- <p class="otp" (click)="otpCall($event)" >OTP by Call</p> -->
-		  </div>
-		  <div class="col-lg-12 loginbttm">
-			<!-- <div id="snackbar">OTP Sent</div> -->
-			<div class="col-lg-6 login-btm login-button">
-			  <button (keydown)="VerifyOTPonce()" (click)="VerifyOTPonce()" type="submit" class="btn btn-primary1" [disabled]='otp=="" || otp.length !=6'>Get In</button>
-			</div>
-		  </div>
-		  <div id="snackbar1" [ngStyle]="{'display':isOTPSent?'block':'none'}" class="col-lg-12 succ">OTP sent successfully</div>
-		</form>
-	  </div>
+
+					</div>
+					<div>
+						<button id="myButton1" class="btn btn-primary" (click)="sendOTP()"
+							[disabled]='mobilenumber=="" || mobilenumber.length !=10 || hideGetInButton'
+							style="border-radius: 20px;color: #fff !important;">Get OTP</button>
+					</div>
+					<div id="some_div" style="position: absolute; margin: 14% 0% 0% 48%;"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-wrapper1">
+						<input type="password" id="OTPInput" placeholder="Enter OTP" (keypress)=_keyPress1($event)
+							[(ngModel)]="otp" maxlength="6" name="otp" />
+						<i (click)="showHidePassword()"
+							style="cursor: pointer;position: relative;right: -249px;top: -33px; color: black;"
+							class="fa" [ngClass]="{'fa-eye-slash':hideShowEye,'fa-eye':!hideShowEye}"
+							aria-hidden="true"></i>
+					</div>
+					<!-- <p class="otp" (click)="otpCall($event)" >OTP by Call</p> -->
+				</div>
+				<div class="col-lg-12 loginbttm">
+					<!-- <div id="snackbar">OTP Sent</div> -->
+					<div class="col-lg-6 login-btm login-button">
+						<button (keydown)="VerifyOTPonce()" (click)="VerifyOTPonce()" type="submit"
+							class="btn btn-primary1" [disabled]='otp=="" || otp.length !=6'>Get In</button>
+					</div>
+				</div>
+				<div id="snackbar1" [ngStyle]="{'display':isOTPSent?'block':'none'}" class="col-lg-12 succ">OTP sent
+					successfully</div>
+			</form>
+		</div>
 	</div>
 	<div class="col-lg-4 col-md-4"></div>
-  </div>
-  <div id="topDiv" *ngIf="toggleLoginContent" class="row">
+</div>
+<div id="topDiv" *ngIf="toggleLoginContent" class="row">
+	<!--Slider Part Start-->
+	<section>
+		<div class="row bg">
 			<!--Slider Part Start-->
-			<section>
-				<div class="row bg">
-					<!--Slider Part Start-->
-					<div class="container slider">
-						<div class="col-sm-6 slide-text pt">
-							<span class="oye-bt">Safety Bhi</span><span class="slide-head"> Accounting Bhi</span>
-		
-							<p class="desc">Experience a new world of safety and conveniences while handling mundane and
-								exhausting jobs of managing your society. Open your gates to the revolution in society safety
-								and management.</p>
-							<div class="col-sm-12 np">
-								<a href="https://apps.apple.com/in/app/oyespace/id1445274978" target="_blank"><img
-										src="../../assets/images/app_store.png" style="width: 25%;"></a>
-								<a href="https://play.google.com/store/apps/details?id=com.oyespace.oyesafe"
-									target="_blank"><img src="../../assets/images/play_store.png" style="width: 25%;"> </a>
-							</div>
-							<div class="col-sm-12 np" style="margin-top:30px">
-								<!-- <div class="popup" (click)="myFunctionlowery()">
+			<div class="container slider">
+				<div class="col-sm-6 slide-text pt">
+					<marquee><span class="oye-bt">Safety Bhi</span><span class="slide-head"> Accounting Bhi</span>
+
+						<p class="desc">Experience a new world of safety and conveniences while handling mundane and
+							exhausting jobs of managing your society. Open your gates to the revolution in society
+							safety
+							and management.</p>
+					</marquee>
+					<div class="col-sm-12 np">
+						<a href="https://apps.apple.com/in/app/oyespace/id1445274978" target="_blank"><img
+								src="../../assets/images/app_store.png" style="width: 25%;"></a>
+						<a href="https://play.google.com/store/apps/details?id=com.oyespace.oyesafe"
+							target="_blank"><img src="../../assets/images/play_store.png" style="width: 25%;"> </a>
+					</div>
+					<div class="col-sm-12 np" style="margin-top:30px">
+						<!-- <div class="popup" (click)="myFunctionlowery()">
 									<img src="../../assets/images/play.png" alt="" />
 									<div class="coverlay">
 										<span class="popuptext" id="lowery">
@@ -167,78 +195,82 @@
 										</span>
 									</div>
 								</div> -->
-								<div class="popup" (click)="myFunctionlowery()">
-									<img src="../../assets/images/play.png" style="width:100%" alt=""/>
-									<div class="coverlay">
-									 <span class="popuptext" id="lowery">
-									  <div style="position:relative; top:10vh; width:100%; max-width:1000px; 
+						<div class="popup" (click)="myFunctionlowery()">
+							<img src="../../assets/images/play.png" style="width:100%" alt="" />
+							<div class="coverlay">
+								<span class="popuptext" id="lowery">
+									<div style="position:relative; top:10vh; width:100%; max-width:1000px; 
 										margin:0 auto;">
-									   <iframe style="width:100%; max-width:1000px; height:50vw; 
+										<iframe style="width:100%; max-width:1000px; height:50vw; 
 										max-height:564px;" src="https://www.youtube.com/embed/7rYcD7agpP8?
 										enablejsapi=1" frameborder="0" allowfullscreen>
-									   </iframe>
-									  </div>
-									 </span>
+										</iframe>
 									</div>
-								   </div>
-								   
-								<!-- <iframe _ngcontent-idn-c1="" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="my_class_name" frameborder="0" height="252" src="https://www.youtube.com/embed/2Qj6sXKbz-o?&amp;autoplay=0" width="448"></iframe> -->
+								</span>
 							</div>
 						</div>
-						<div class="col-sm-6">
-						</div>
+
+						<!-- <iframe _ngcontent-idn-c1="" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="my_class_name" frameborder="0" height="252" src="https://www.youtube.com/embed/2Qj6sXKbz-o?&amp;autoplay=0" width="448"></iframe> -->
 					</div>
 				</div>
-			</section>
-			<!--Slider Part End-->
-		
+				<div class="col-sm-6">
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--Slider Part End-->
+
+	<!--Slider Part Start-->
+	<section>
+		<div class="col-sm-12 bg1">
 			<!--Slider Part Start-->
-			<section>
-				<div class="col-sm-12 bg1">
-					<!--Slider Part Start-->
-					<div class="container slider">
-						<div class="col-sm-6">
-							<img class="img-responsive" src="../../assets/images/Safety.png">
+			<div class="container slider">
+				<div class="col-sm-6">
+					<img class="img-responsive" src="../../assets/images/Safety.png">
+				</div>
+				<div class="col-sm-6 slide-text">
+					<marquee><span class="oye-bt">Safety.</span>
+						<p class="desc">“Your safety is priceless”, with this in focus is what we built ScuareX. <br>
+							ScuareX has features that ensures safety of You, Your Family and Assets; by keeping your
+							Security Guards alert and connected using simple yet advanced technologies.</p>
+						<div class="col-sm-12 np">
+							<a (click)="GoToSafety()"><button class="btn btn-grey">Know more</button></a>
 						</div>
-						<div class="col-sm-6 slide-text">
-							<span class="oye-bt">Safety.</span>
-							<p class="desc">“Your safety is priceless”, with this in focus is what we built ScuareX.   ScuareX has features that ensures safety of You, Your Family and Assets; by keeping your Security Guards alert and connected using simple yet advanced technologies.</p>
-							<div class="col-sm-12 np">
-								<a (click)="GoToSafety()"><button class="btn btn-grey">Know more</button></a>
-							</div>
-						</div>
-		
+					</marquee>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<!--Slider Part End-->
+
+	<!--Slider Part Start-->
+	<section>
+		<div class="col-sm-12 bg2">
+			<!--Slider Part Start-->
+			<div class="container slider">
+
+				<div class="col-sm-6 slide-text">
+					<span class="oye-bt">ERP.</span>
+					<!-- <p class="desc">The nerve centre of community living is pooling in money by every home in the community to ‘maintain common facilities’.  ScuareX leverages the power of Data-science, Artificial Intelligence and Advanced Automation Algorithms easing this complex task.</p> -->
+					<p class="desc">Coming soon.</p>
+					<div class="col-sm-12 np">
+						<a (click)="GoToAccounting()"><button class="btn btn-grey">Know more</button></a>
 					</div>
 				</div>
-			</section>
-			<!--Slider Part End-->
-		
-			<!--Slider Part Start-->
-			<section>
-				<div class="col-sm-12 bg2">
-					<!--Slider Part Start-->
-					<div class="container slider">
-		
-						<div class="col-sm-6 slide-text">
-							<span class="oye-bt">Accounting.</span>
-							<p class="desc">The nerve centre of community living is pooling in money by every home in the community to ‘maintain common facilities’.  ScuareX leverages the power of Data-science, Artificial Intelligence and Advanced Automation Algorithms easing this complex task.</p>
-							<div class="col-sm-12 np">
-								<a (click)="GoToAccounting()"><button class="btn btn-grey">Know more</button></a>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<img class="img-responsive" src="../../assets/images/Accounting.png">
-						</div>
-		
-					</div>
+				<div class="col-sm-6">
+					<img class="img-responsive" src="../../assets/images/Accounting.png">
 				</div>
-			</section>
-			<!--Slider Part End-->
-			<!--Slider Part Start-->
-			<!-- <section>
+
+			</div>
+		</div>
+	</section>
+	<!--Slider Part End-->
+	<!--Slider Part Start-->
+	<!-- <section>
 				<div class="col-sm-12">
 					Slider Part Start-->
-					<!-- <div class="container slider">
+	<!-- <div class="container slider">
 						<div class="col-sm-6">
 							<img class="img-responsive" src="../../assets/images/Property_Management.png">
 						</div>
@@ -254,15 +286,20 @@
 					</div>
 				</div>
 			</section> -->
-			<!--Slider Part End-->
-		
-  </div>
+	<!--Slider Part End-->
+
+</div>
 <!--Login Componet Ends-->
 <!--Clients Component Starts-->
 <div *ngIf="toggleShowClientContent">
 	<app-clients></app-clients>
 </div>
 <!--Clients Component Ends-->
+<!--Careers Component Starts-->
+<div *ngIf="toggleShowCareersContent">
+	<app-careers></app-careers>
+</div>
+<!--Careers Component Ends-->
 <!-- Partners component starts -->
 <div *ngIf="toggleShowPartnersContent">
 	<app-partners></app-partners>
@@ -292,35 +329,43 @@
 <!--footer links part-->
 <div class="row foot-bg">
 	<div class="container foot-row" style="padding: 40px 0px;">
-			<div><img class="logo" src="../../assets/Scuarex_web_logo.png"></div>
-			<div>
-				<p><img src="../../assets/images/icons/phone.png"> +91 90663 90663</p>
-			</div>
-			<div>                   
-				 <p><img src="../../assets/images/icons/email.png"> happy@scuarex.com</p>
-			</div>
-			<div style="display: flex;justify-content: space-between;align-items: center;"><img src="../../assets/images/icons/location.png">  #27(old #194)
-				27th cross, Jayanagar 6th block<br>
-				Bengaluru - 560 070</div>
-			<div>
-				<h3 class="foot-head">Social links</h3>
-				<p><a href="https://www.facebook.com/ScuareX-106955937592605" target="_blank"><i style="color: #e4e6eb !important;" class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></a>
-					<a href="https://www.instagram.com/scuarex/" target="_blank"><i style="color: #e4e6eb !important;" class="fa fa-instagram fa-2x" aria-hidden="true"></i></a>
-					<a href="https://twitter.com/scuare_x" target="_blank"><i style="color: #e4e6eb !important;" class="fa fa-twitter-square fa-2x" aria-hidden="true"></i></a>
-					<a href="https://www.linkedin.com/company/s-cuarex/?viewAsMember=true" target="_blank"><i style="color: #e4e6eb !important;" class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i></a>
+		<div><img class="logo" src="../../assets/Scuarex_web_logo.png"></div>
+		<div>
+			<p><img src="../../assets/images/icons/phone.png"> +91 90663 90663</p>
+		</div>
+		<div>
+			<p><img src="../../assets/images/icons/email.png"> happy@scuarex.com</p>
+		</div>
+		<div style="display: flex;justify-content: space-between;align-items: center;"><img
+				src="../../assets/images/icons/location.png"> #27(old #194)
+			27th cross, Jayanagar 6th block<br>
+			Bengaluru - 560 070</div>
+		<div>
+			<h3 class="foot-head">Social links</h3>
+			<p><a href="https://www.facebook.com/ScuareX-106955937592605" target="_blank"><i
+						style="color: #e4e6eb !important;" class="fa fa-facebook-square fa-2x"
+						aria-hidden="true"></i></a>
+				<a href="https://www.instagram.com/scuarex/" target="_blank"><i style="color: #e4e6eb !important;"
+						class="fa fa-instagram fa-2x" aria-hidden="true"></i></a>
+				<a href="https://twitter.com/scuare_x" target="_blank"><i style="color: #e4e6eb !important;"
+						class="fa fa-twitter-square fa-2x" aria-hidden="true"></i></a>
+				<a href="https://www.linkedin.com/company/s-cuarex/?viewAsMember=true" target="_blank"><i
+						style="color: #e4e6eb !important;" class="fa fa-linkedin-square fa-2x"
+						aria-hidden="true"></i></a>
 
-				</p>
-			</div>
+			</p>
 		</div>
-		<hr style="border:1px solid #347d88">
-		<div style="text-align: center;padding-bottom: 15px;"> 
-				<a (click)="openModal4(refund)" style="color: #fff !important;font-size: 13px;">Refund Policy</a>&nbsp;&nbsp;
-				<a (click)="openModal5(termsconditions)" style="color: #fff !important;font-size: 13px;">Terms & Conditions</a>&nbsp;&nbsp;
-				<a (click)="openModal3(privacy)" style="color: #fff !important;font-size: 13px;">Privacy Policy</a>
-		</div>
-<div class="container foot-row">
-	<p>Copyrights © ScuareX Technologies Private Ltd. 2020 All rights reserved</p>
-</div>
+	</div>
+	<hr style="border:1px solid #347d88">
+	<div style="text-align: center;padding-bottom: 15px;">
+		<a (click)="openModal4(refund)" style="color: #fff !important;font-size: 13px;">Refund Policy</a>&nbsp;&nbsp;
+		<a (click)="openModal5(termsconditions)" style="color: #fff !important;font-size: 13px;">Terms &
+			Conditions</a>&nbsp;&nbsp;
+		<a (click)="openModal3(privacy)" style="color: #fff !important;font-size: 13px;">Privacy Policy</a>
+	</div>
+	<div class="container foot-row">
+		<p>Copyrights © ScuareX Technologies Private Ltd. 2020 All rights reserved</p>
+	</div>
 </div>
 <!--Privacy Policy pop up box-->
 <ng-template #privacy>
@@ -331,17 +376,18 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		<div class="container-fluid" style="width:100%">  
+		<div class="container-fluid" style="width:100%">
 			<div class="col-sm-12 np">
 				<p><strong>SECTION 1 - WHAT DO WE DO WITH YOUR INFORMATION?</strong> When you purchase something from
-					our store, as part of the buying and selling process, we collect the personal information you give us such as your
-					name, address and email address.  
+					our store, as part of the buying and selling process, we collect the personal information you give
+					us such as your
+					name, address and email address.
 					When you browse our store, we also automatically receive your computer’s internet protocol (IP)
 					address in order to provide us with information that helps us learn about your browser and operating
-					system.  
+					system.
 					Email marketing (if applicable): With your permission, we may send you emails about our store, new
-					products and other updates.</p>    
-				<p><strong>SECTION 2 - CONSENT</strong> How do you get my consent?   
+					products and other updates.</p>
+				<p><strong>SECTION 2 - CONSENT</strong> How do you get my consent?
 					When you provide us with personal information to complete a transaction, verify your credit card,
 					place an order, arrange for a delivery or return a purchase, we imply that you consent to our
 					collecting it and using it for that specific reason only.
@@ -361,7 +407,8 @@
 					or if you violate our Terms of Service.</p>
 
 				<p><strong>SECTION 4 - PAYMENT</strong> We use HDFC and ICICI Bank Payment Gateways for
-					processing payments. The data is encrypted through the Payment Card Industry Data Security Standard (PCI-DSS)
+					processing payments. The data is encrypted through the Payment Card Industry Data Security Standard
+					(PCI-DSS)
 					when processing payment. Your purchase transaction data is only used as long as is necessary to
 					complete your purchase transaction. After that is complete, your purchase transaction information is
 					not saved.</p>
@@ -372,7 +419,7 @@
 					PCI-DSS requirements help ensure the secure handling of credit card information by our store and its
 					service providers.
 
-					
+
 				</p>
 
 				<p><strong>SECTION 5 - THIRD-PARTY SERVICES</strong> In general, the third-party providers used by us
@@ -401,7 +448,8 @@
 					for the privacy practices of other sites and encourage you to read their privacy statements.</p>
 
 				<p><strong>SECTION 6 - SECURITY</strong> To protect your personal information, we take reasonable
-					precautions and follow industry best practices to make sure it is not inappropriately lost, misused, accessed, disclosed,
+					precautions and follow industry best practices to make sure it is not inappropriately lost, misused,
+					accessed, disclosed,
 					altered or destroyed.</p>
 
 				<p><strong>SECTION 7 - COOKIES </strong>We use cookies to maintain session of your user. It is not used
@@ -495,38 +543,76 @@
 <!--Terms and Conditions pop up box-->
 <ng-template #termsconditions>
 
-		<div class="modal-header" style="background: #82808026;display: flex;justify-content: space-between;">
-			<h4 class="modal-title" style="width: 100%;">Terms & Conditions</h4>
-			<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="modal-body">
-			<div class="container-fluid" style="width:100%">
-	
-				<div class="col-sm-12 np">
-					<ol>
-						<li>Introduction These Website Standard Terms and Conditions written on this webpage shall manage your use of this website. These Terms will be applied fully and affect to your use of this Website. By using this Website, you agreed to accept all terms and conditions written in here. You must not use this Website if you disagree with any of these Website Standard Terms and Conditions. Minors or people below 18 years old are not allowed to use this Website.</li>   
-						<li>Intellectual Property Rights Other than the content you own, under these Terms, and/or its licensors own all the intellectual property rights and materials contained in this Website. You are granted limited license only for purposes of viewing the material contained on this Website.</li>   
-						<li>Restrictions You are specifically restricted from all of the following<br>publishing any Website material in any other media; selling, sublicensing and/or otherwise commercializing any Website material; publicly performing and/or showing any Website material; using this Website in any way that is or may be damaging to this Website; using this Website in any way that impacts user access to this Website; using this Website contrary to applicable laws and regulations, or in any way may cause harm to the Website, or to any person or business entity; engaging in any data mining, data harvesting, data extracting or any other similar activity in relation to this Website; using this Website to engage in any advertising or marketing. Certain areas of this Website are restricted from being access by you and may further restrict access by you to any areas of this Website, at any time, in absolute discretion. Any user ID and password you may have for this Website are confidential and you must maintain confidentiality as well.</li>   
-						<li>Your Content In these Website Standard Terms and Conditions, “Your Content” shall mean any audio, video text, assets/images or other material you choose to display on this Website. By displaying Your Content, you grant a non-exclusive, worldwide irrevocable, sub licensable license to use, reproduce, adapt, publish, translate and distribute it in any and all media.<br>Your Content must be your own and must not be invading any third-party’s rights. reserves the right to remove any of Your Content from this Website at any time without notice.</li>    
-						<li>No warranties This Website is provided “as is,” with all faults, and express no representations or warranties, of any kind related to this Website or the materials contained on this Website. Also, nothing contained on this Website shall be interpreted as advising you.</li>   
-						<li>Limitation of liability In no event shall , nor any of its officers, directors and employees, shall be held liable for anything arising out of or in any way connected with your use of this Website whether such liability is under contract. , including its officers, directors and employees shall not be held liable for any indirect, consequential or special liability arising out of or in any way related to your use of this Website.</li>
-						<li>Indemnification You hereby indemnify to the fullest extent from and against any and/or all liabilities, costs, demands, causes of action, damages and expenses arising in any way related to your breach of any of the provisions of these Terms.</li>
-						<li>Severability If any provision of these Terms is found to be invalid under any applicable law, such provisions shall be deleted without affecting the remaining provisions herein.</li>   
-						<li>Variation of Terms is permitted to revise these Terms at any time as it sees fit, and by using this Website you are expected to review these Terms on a regular basis.</li>
-						<li>Assignment The is allowed to assign, transfer, and subcontract its rights and/or obligations under these Terms without any notification. However, you are not allowed to assign, transfer, or subcontract any of your rights and/or obligations under these Terms.</li>
-						<li>Entire Agreement These Terms constitute the entire agreement between and you in relation to your use of this Website, and supersede all prior agreements and understandings.</li>
-						<li>Governing Law & Jurisdiction These Terms will be governed by and interpreted in accordance with the laws of the State of , and you submit to the non-exclusive jurisdiction of the state and federal courts located in for the resolution of any disputes.</li>
-					</ol>
-				</div>
-				<!--Refund Policy details part-->
-			</div>
-		</div>
-	</ng-template>
-	<!--Terms and Conditions pop up box-->
+	<div class="modal-header" style="background: #82808026;display: flex;justify-content: space-between;">
+		<h4 class="modal-title" style="width: 100%;">Terms & Conditions</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid" style="width:100%">
 
-	<!--Request a Demo pop up box-->
+			<div class="col-sm-12 np">
+				<ol>
+					<li>Introduction These Website Standard Terms and Conditions written on this webpage shall manage
+						your use of this website. These Terms will be applied fully and affect to your use of this
+						Website. By using this Website, you agreed to accept all terms and conditions written in here.
+						You must not use this Website if you disagree with any of these Website Standard Terms and
+						Conditions. Minors or people below 18 years old are not allowed to use this Website.</li>
+					<li>Intellectual Property Rights Other than the content you own, under these Terms, and/or its
+						licensors own all the intellectual property rights and materials contained in this Website. You
+						are granted limited license only for purposes of viewing the material contained on this Website.
+					</li>
+					<li>Restrictions You are specifically restricted from all of the following<br>publishing any Website
+						material in any other media; selling, sublicensing and/or otherwise commercializing any Website
+						material; publicly performing and/or showing any Website material; using this Website in any way
+						that is or may be damaging to this Website; using this Website in any way that impacts user
+						access to this Website; using this Website contrary to applicable laws and regulations, or in
+						any way may cause harm to the Website, or to any person or business entity; engaging in any data
+						mining, data harvesting, data extracting or any other similar activity in relation to this
+						Website; using this Website to engage in any advertising or marketing. Certain areas of this
+						Website are restricted from being access by you and may further restrict access by you to any
+						areas of this Website, at any time, in absolute discretion. Any user ID and password you may
+						have for this Website are confidential and you must maintain confidentiality as well.</li>
+					<li>Your Content In these Website Standard Terms and Conditions, “Your Content” shall mean any
+						audio, video text, assets/images or other material you choose to display on this Website. By
+						displaying Your Content, you grant a non-exclusive, worldwide irrevocable, sub licensable
+						license to use, reproduce, adapt, publish, translate and distribute it in any and all
+						media.<br>Your Content must be your own and must not be invading any third-party’s rights.
+						reserves the right to remove any of Your Content from this Website at any time without notice.
+					</li>
+					<li>No warranties This Website is provided “as is,” with all faults, and express no representations
+						or warranties, of any kind related to this Website or the materials contained on this Website.
+						Also, nothing contained on this Website shall be interpreted as advising you.</li>
+					<li>Limitation of liability In no event shall , nor any of its officers, directors and employees,
+						shall be held liable for anything arising out of or in any way connected with your use of this
+						Website whether such liability is under contract. , including its officers, directors and
+						employees shall not be held liable for any indirect, consequential or special liability arising
+						out of or in any way related to your use of this Website.</li>
+					<li>Indemnification You hereby indemnify to the fullest extent from and against any and/or all
+						liabilities, costs, demands, causes of action, damages and expenses arising in any way related
+						to your breach of any of the provisions of these Terms.</li>
+					<li>Severability If any provision of these Terms is found to be invalid under any applicable law,
+						such provisions shall be deleted without affecting the remaining provisions herein.</li>
+					<li>Variation of Terms is permitted to revise these Terms at any time as it sees fit, and by using
+						this Website you are expected to review these Terms on a regular basis.</li>
+					<li>Assignment The is allowed to assign, transfer, and subcontract its rights and/or obligations
+						under these Terms without any notification. However, you are not allowed to assign, transfer, or
+						subcontract any of your rights and/or obligations under these Terms.</li>
+					<li>Entire Agreement These Terms constitute the entire agreement between and you in relation to your
+						use of this Website, and supersede all prior agreements and understandings.</li>
+					<li>Governing Law & Jurisdiction These Terms will be governed by and interpreted in accordance with
+						the laws of the State of , and you submit to the non-exclusive jurisdiction of the state and
+						federal courts located in for the resolution of any disputes.</li>
+				</ol>
+			</div>
+			<!--Refund Policy details part-->
+		</div>
+	</div>
+</ng-template>
+<!--Terms and Conditions pop up box-->
+
+<!--Request a Demo pop up box-->
 <ng-template #reqdemo>
 
 	<div class="modal-header" style="background: #82808026;display: flex;justify-content: space-between;">
@@ -539,112 +625,106 @@
 		<div class="container-fluid" style="width:100%">
 
 			<div class="col-sm-12 np">
-					<form action="form.php" method="POST" #ContactForm="ngForm">
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="col-lg-6 col-md-6">
-										<div class="form-group">
-											<label id=label1>Full Name<span class="red">*</span></label>
-											<input type="text" class="form-control" placeholder="Full Name" name="firstname"
-												[(ngModel)]="firstname" autocomplete='name' #nameControl="ngModel"
-												pattern="[a-zA-Z0-9 _]*" required>
-											<p class="alerts" *ngIf="nameControl.invalid && nameControl.touched">Valid name is
-												required</p>
-										</div>
-									</div>
-			
-									<div class="col-lg-6 col-md-6">
-										<div class="form-group">
-											<label id=label1>Email Id <span class="red">*</span></label>
-											<input type="email" class="form-control" placeholder="Your Email Address" name="mailid"
-												[(ngModel)]="mailid" autocomplete='email' #emailControl="ngModel"
-												pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-												required>
-											<p class="alerts" *ngIf="emailControl.invalid && emailControl.touched">Valid Email Id
-												required</p>
-										</div>
-									</div>
-								</div>
-			
-								<div class="col-sm-12">
-									<div class="col-lg-6 col-md-6">
-										<div class="form-group">
-											<label id=label1>Phone Number <span class="red">*</span></label>
-											<input type="text" class="form-control" name="mobileNumber"
-												placeholder="Your Mobile Number" autocomplete='mobileNumber'
-												[(ngModel)]="mobileNumber" #numberControl="ngModel" minlength="10" maxlength="10"
-												pattern="[0-9]*" required (keypress)=_keyPress($event)>
-											<p class="alerts" *ngIf="numberControl.invalid && numberControl.touched">Valid mobile no
-												required</p>
-										</div>
-									</div>
-									<div class="col-lg-6 col-md-6">
-											<div class="form-group">
-												<label id=label1>Your Subject <span class="red">*</span></label>
-												<input name="Subject" class="form-control" cols="30" [(ngModel)]="Subject" rows="10"
-													placeholder="Your Subject" required="required"
-													data-error="Write your message">
-												<div class="help-block with-errors"></div>
-											</div>
-										</div>
-			
-								</div>
-			
-								<div class="col-sm-12">
-										<div class="col-lg-4 col-md-4">
-												<div class="form-group">
-													<label id=label1>City</label>
-													<input name="City" class="form-control" cols="30" [(ngModel)]="City" rows="10"
-														placeholder="Your City"
-														data-error="Write your message">
-													<div class="help-block with-errors"></div>
-												</div>
-											</div>
-											<div class="col-lg-4 col-md-4">
-													<div class="form-group">
-														<label id=label1>Country</label>
-														<input name="Country" class="form-control" cols="30" [(ngModel)]="Country" rows="10"
-															placeholder="Your Country"
-															data-error="Write your message">
-														<div class="help-block with-errors"></div>
-													</div>
-												</div>
-												<div class="col-lg-4 col-md-4">
-														<div class="form-group">
-															<label id=label1>Locality</label>
-															<input name="Locality" class="form-control" cols="30" [(ngModel)]="Locality" rows="10"
-																placeholder="Your Locality"
-																data-error="Write your message">
-															<div class="help-block with-errors"></div>
-														</div>
-													</div>
-								</div>
-							
-											<div class="col-sm-12">
-													<div class="col-lg-12 col-md-12">
-														<div class="form-group">
-															<label id=label1>Your Message</label>
-															<textarea name="Message" class="form-control" cols="30" [(ngModel)]="Message" rows="10"
-																placeholder="Your Message"
-																data-error="Write your message"></textarea>
-															<div class="help-block with-errors"></div>
-														</div>
-													</div>
-												</div>
-								<div class="col-sm-12">
-									<div class="col-lg-12 col-md-12" style="width: 100%;">
-										<button type="submit" name="submit" [disabled]="ContactForm.invalid" class="btn btn-primary"
-											(click)="submitContactForm()">Submit</button>
-									</div>
+				<form action="form.php" method="POST" #ContactForm="ngForm">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="col-lg-6 col-md-6">
+								<div class="form-group">
+									<label id=label1>Full Name<span class="red">*</span></label>
+									<input type="text" class="form-control" placeholder="Full Name" name="firstname"
+										[(ngModel)]="firstname" autocomplete='name' #nameControl="ngModel"
+										pattern="[a-zA-Z0-9 _]*" required>
+									<p class="alerts" *ngIf="nameControl.invalid && nameControl.touched">Valid name is
+										required</p>
 								</div>
 							</div>
-						</form>
- 			</div>
+
+							<div class="col-lg-6 col-md-6">
+								<div class="form-group">
+									<label id=label1>Email Id <span class="red">*</span></label>
+									<input type="email" class="form-control" placeholder="Your Email Address"
+										name="mailid" [(ngModel)]="mailid" autocomplete='email' #emailControl="ngModel"
+										pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+										required>
+									<p class="alerts" *ngIf="emailControl.invalid && emailControl.touched">Valid Email
+										Id
+										required</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12">
+							<div class="col-lg-6 col-md-6">
+								<div class="form-group">
+									<label id=label1>Phone Number <span class="red">*</span></label>
+									<input type="text" class="form-control" name="mobileNumber"
+										placeholder="Your Mobile Number" autocomplete='mobileNumber'
+										[(ngModel)]="mobileNumber" #numberControl="ngModel" minlength="10"
+										maxlength="10" pattern="[0-9]*" required (keypress)=_keyPress($event)>
+									<p class="alerts" *ngIf="numberControl.invalid && numberControl.touched">Valid
+										mobile no
+										required</p>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6">
+								<div class="form-group">
+									<label id=label1>Your Subject <span class="red">*</span></label>
+									<input name="Subject" class="form-control" cols="30" [(ngModel)]="Subject" rows="10"
+										placeholder="Your Subject" required="required" data-error="Write your message">
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-sm-12">
+							<div class="col-lg-4 col-md-4">
+								<div class="form-group">
+									<label id=label1>City</label>
+									<input name="City" class="form-control" cols="30" [(ngModel)]="City" rows="10"
+										placeholder="Your City" data-error="Write your message">
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4">
+								<div class="form-group">
+									<label id=label1>Country</label>
+									<input name="Country" class="form-control" cols="30" [(ngModel)]="Country" rows="10"
+										placeholder="Your Country" data-error="Write your message">
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4">
+								<div class="form-group">
+									<label id=label1>Locality</label>
+									<input name="Locality" class="form-control" cols="30" [(ngModel)]="Locality"
+										rows="10" placeholder="Your Locality" data-error="Write your message">
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12">
+							<div class="col-lg-12 col-md-12">
+								<div class="form-group">
+									<label id=label1>Your Message</label>
+									<textarea name="Message" class="form-control" cols="30" [(ngModel)]="Message"
+										rows="10" placeholder="Your Message" data-error="Write your message"></textarea>
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-lg-12 col-md-12" style="width: 100%;">
+								<button type="submit" name="submit" [disabled]="ContactForm.invalid"
+									class="btn btn-primary" (click)="submitContactForm()">Submit</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
 			<!--Refund Policy details part-->
 		</div>
 	</div>
 </ng-template>
 <!--Terms and Conditions pop up box-->
-
-
-

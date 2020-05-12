@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   inpt: any;
   public countrydata: object;
   toggleShowClientContent:boolean;
+  toggleShowCareersContent:boolean;
   toggleShowPartnersContent:boolean;
   toggleLoginContent:boolean;
   toggleShowLocationsContent:boolean;
@@ -57,6 +58,8 @@ export class LoginComponent implements OnInit {
       this.otp='';
     this.toggleLoginContent=true;
     this.toggleShowClientContent=false;
+    this.toggleShowCareersContent=false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
@@ -445,14 +448,26 @@ export class LoginComponent implements OnInit {
   showClientContent() {
     this.toggleShowClientContent = true;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
     this.toggleShowSafetyContent=false;
     this.toggleShowAccountingContent=false;
   }
-
+  showCareersContent() {
+    this.toggleShowClientContent = false;
+    this.toggleShowCareersContent = true;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
+  }
   showPartnersContent(){
+    this.toggleShowCareersContent = false;
+
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
     this.toggleShowPartnersContent=true;
@@ -464,6 +479,8 @@ export class LoginComponent implements OnInit {
 
   showLocationContent(){
     this.toggleShowClientContent = false;
+    this.toggleShowCareersContent = false;
+
     this.toggleLoginContent=false;
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=true;
@@ -476,6 +493,8 @@ export class LoginComponent implements OnInit {
   showAboutUsContent(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=true;
@@ -485,6 +504,8 @@ export class LoginComponent implements OnInit {
   GoToHome(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=true;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
@@ -495,6 +516,8 @@ export class LoginComponent implements OnInit {
   GoToSafety(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
@@ -507,6 +530,8 @@ export class LoginComponent implements OnInit {
   GoToAccounting(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
