@@ -284,6 +284,8 @@ export class AssociationManagementComponent implements OnInit {
   disableCreateUnitBtnAfterClick: boolean;
   UnitName: any;
   uploadPANCard:any;
+  alreadyJoined: boolean;
+  mememberIDforJoin: any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -299,6 +301,7 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
+      this.alreadyJoined=false;
       this.uploadPANCard='';
       this.UnitName='';
       this.disableCreateUnitBtnAfterClick=false;
@@ -2413,106 +2416,90 @@ export class AssociationManagementComponent implements OnInit {
         .subscribe(
           (data) => {
             let RequestorDetail = {
-              ACMobile: this.account[0]['acMobile'],
+              ACMobile: '+91'+this.account[0]['acMobile'],
               ASAssnID: Number(this.assnID),
               UNUnitID: Number(this.UnitIDforJoinAssn),
               MRMRoleID: parseInt('6')
             }
             console.log('RequestorDetails',RequestorDetail);
-            this.viewAssnService.getRequestorDetails(this.UnitIDforJoinAssn)
+            this.viewAssnService.getRequestorDetails(RequestorDetail)
             .subscribe(
               (data) =>{
                 console.log(data);
-                this.UnitName= data['data']['unit']['unUniName'];
-                console.log(this.UnitName);
+                this.mememberIDforJoin= data['data']['member']['meMemID'];
+                console.log(this.mememberIDforJoin);
                 let MessageBody = {
-                  "userID": this.UnitIDforJoinAssn.toString(),
+                  // "userID": this.UnitIDforJoinAssn.toString(),
+                  "userID": this.accountID.toString(),
                   "sbUnitID": this.UnitIDforJoinAssn.toString(),
                   "unitName": this.UnitName,
-                  "sbSubID": this.UnitIDforJoinAssn.toString(),
-                  "sbRoleId": "sbRoleId",
-                  "sbMemID": "",
-                  "sbName": "sbName",
+                  "sbSubID": this.accountID.toString() + this.UnitIDforJoinAssn.toString()+'usernotif',
+                  "sbRoleId": '3',
+                  "sbMemID": this.mememberIDforJoin,
+                  "sbName": this.account[0]['acfName'],
                   "associationID": this.assnID.toString(),//"15144",
-                  "associationName": "Name",
-                  "ntType": "Join request",
-                  "ntTitle": "Join Notification",
+                  "associationName": this.assnName,
+                  "ntType": "Join",
+                  "ntTitle": "Request to join "+this.assnName+" Association",
                   // "ntDesc": "Vinay Wants to join A-001",
-                  "ntDesc": this.account[0]['acfName']+" Wants to join "+this.UnitName,
-                  "roleName": "roleName",
-                  "soldDate": "soldDate",
+                  "ntDesc": this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
+                  "roleName": "Admin",
+                  "soldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
                   "occupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
                    }
                 console.log(MessageBody);
                 const headers = new HttpHeaders()
                   .set('Content-Type', 'application/json')
                   .set('Access-Control-Allow-Origin', '*');
-                this.http.post('https://us-central1-oyespace-dc544.cloudfunctions.net/sendAdminNotification', JSON.stringify(MessageBody), { headers: headers })
+                this.http.post('https://us-central1-jabm-fd8d9.cloudfunctions.net/sendAdminNotification', JSON.stringify(MessageBody), { headers: headers })
                   .subscribe(data => {
                     console.log(data);
-
-                    let inAppNotification ={
-                      "ACAccntID"  : this.globalService.getacAccntID(),//16123
-                      "ASAssnID"   : this.assnID,//15200
-                      "NTType"     : "Join",
-                      "NTDesc"     : OwnerType == 6? "Joining as Owner" : "Joining as Tenant",//"Joining as Owner",
-                      "SBUnitID" : Number(this.UnitIDforJoinAssn),//41602
-                      "SBMemID"  : 3,
-                      "SBSubID"  : Number(this.UnitIDforJoinAssn),//41602
-                      "SBRoleID" : 2,
-                      "ASAsnName" : this.globalService.currentAssociationName,
-                      "MRRolName" : OwnerType == 6? "Owner" : "Tenant",
-                      "NTDUpdated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
-                      "NTDCreated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
-                      "ACNotifyID" : ""
-                    }
-                    this.viewAssnService.createInAppNotification(inAppNotification)
-                    .subscribe(data=>{
-                      console.log(data);
-                    },
-                    err=>{
-                      console.log(err);
-                    })
+                     return this.http.get('http://apiuat.oyespace.com/oyeliving/api/v1/Member/GetMemberListByAssocID/'+this.assnID, {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
+                     .subscribe(data=>{
+                       
+                       let memberList =data['data']['memberListByAssociation'];
+                       console.log('memberData',memberList);
+                   memberList.map(data => {
+                       if (
+                           data.mrmRoleID === 1 &&
+                           data.meIsActive &&
+                           data.acAccntID !== this.accountID
+                       ) {
+                           console.log('adminssss', data);
+                           let inAppNotification ={
+                            "ACAccntID"  : data['acAccntID'],//16123
+                            "ASAssnID"   : data['asAssnID'],//15200
+                            "NTType"     : "Join",
+                            "NTDesc"     : OwnerType == 6? "Joining as Owner" : "Joining as Tenant",//"Joining as Owner",
+                            "SBUnitID" : Number(this.UnitIDforJoinAssn),//41602
+                            "SBMemID"  : 3,
+                            "SBSubID"  : Number(this.UnitIDforJoinAssn),//41602
+                            "SBRoleID" : 7,
+                            "ASAsnName" : this.globalService.currentAssociationName,
+                            "MRRolName" : OwnerType == 6? "Owner" : "Tenant",
+                            "NTDUpdated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
+                            "NTDCreated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
+                            "ACNotifyID" : ""
+                          }
+                           this.viewAssnService.createInAppNotification(inAppNotification)
+                           .subscribe(data=>{
+                             console.log(data);
+                           })
+                       }
+                   });
+                     },
+                     err=>{
+                       console.log(err);
+                     })
                   })
               },
               (err)=>{
+                console.log(err);
               }
             )
-            
-            // return this.http.post(this.scopeIP + 'oyesafe/api/v1/VisitorLog/GetVisitorLogByDates', JSON.stringify(usagereportrequestbody), { headers: headers })
-            // return this.http.post(scopeIP + 'oyeliving/api/v1/Member/GetRequestorDetails', RequestorDetail,  {headers:this.headers});
-
-            let MessageBody = {
-              "userID": this.UnitIDforJoinAssn.toString(),//"41392",
-              "sbUnitID": this.UnitIDforJoinAssn.toString(),//"41392",
-              "unitName": this.UnitName.toString(),//"Name",
-              "sbSubID": this.UnitIDforJoinAssn.toString(),//"41392",
-              "sbRoleId": "sbRoleId",
-              "sbMemID": "",
-              "sbName": "sbName",
-              "associationID": this.assnID.toString(),//"15144",
-              "associationName": "Name",
-              "ntType": "ntType",
-              "ntTitle": "Join request Notification",//"ntTitle",
-              "ntDesc": this.account[0]['acfName']+" Wants to join "+this.UnitName,//"ntDesc",
-              "roleName": "roleName",
-              "soldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),//"soldDate",
-              "occupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),//"occupancyDate"
-               }
-            console.log(MessageBody);
-            const headers = new HttpHeaders()
-              .set('Content-Type', 'application/json')
-              .set('Access-Control-Allow-Origin', '*');
-            this.http.post('https://us-central1-oyespace-dc544.cloudfunctions.net/sendAdminNotification', JSON.stringify(MessageBody), { headers: headers })
-              .subscribe(data => {
-                console.log(data);
-              })
-
-
-
             console.log(data);
             Swal.fire({
-              title: 'Joined Successfully',
+              title: 'Request sent',
               type: 'success',
               confirmButtonColor: "#f69321"
             }).then(
@@ -2540,9 +2527,30 @@ export class AssociationManagementComponent implements OnInit {
         //console.log(err);
       });
   }
+  
   requestForJoin() {
+    this.alreadyJoined=false;
+    console.log(this.globalService.unitslistForAssociation);
+    // Number(this.UnitIDforJoinAssn)
+    for(let item of this.globalService.unitslistForAssociation)
+    {
+      if(item['unUnitID']==this.UnitIDforJoinAssn){
+        this.alreadyJoined=true;
+        break;
+      }
+    };
+    if(this.alreadyJoined){
+      Swal.fire({
+        title: 'Already joined',
+        type: 'error',
+        confirmButtonColor: "#f69321"
+      })
+    }
+    else{
+      this.OnSendButton(this.OwnerType);
+    }
     //console.log(this.OwnerType);
-    this.OnSendButton(this.OwnerType);
+    
   }
   resetJoinAssociation() {
     this.assnName = 'Associations';

@@ -53,6 +53,8 @@ export class BroadcastComponent implements OnInit {
   isRecording = false;
   recordedTime;
   blobUrl;
+  BroadCastImg:any;
+  BroadCastImgList:any[];
 
   constructor(private audioRecordingService: AudioRecordingService, 
     private sanitizer: DomSanitizer,
@@ -69,6 +71,8 @@ export class BroadcastComponent implements OnInit {
     this.audioRecordingService.getRecordedBlob().subscribe((data) => {
       this.blobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.blob));
     });
+
+    this.BroadCastImgList=[];
   }
 
   startRecording() {
@@ -103,29 +107,52 @@ export class BroadcastComponent implements OnInit {
   ngOnInit() {
   }
   
-  sendBroadcast(){
+  sendBroadcast() {
     console.log(this.blobUrl);
     const headers = new HttpHeaders()
-    .set('Content-Type', 'application/json')
-    .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
-    let MessageBody=
-    {    "ANImages"  : this.AnnouncementImage,
-    "ANCmnts"   : this.AnnouncementMessage,
-    // "ACAccntID" : this.globalService.getacAccntID(),
-    // "ASAssnID"  : this.globalService.getCurrentAssociationId(),
-    "ACAccntID" : 2,
-    "ASAssnID"  : 2,
-    "ANVoice"   : this.blobUrl,
-    "ANRecipient" : "All Owners"
-}
+      .set('Content-Type', 'application/json')
+      .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
+    let MessageBody =
+    {
+      "ANImages": this.BroadCastImgList,
+      "ANCmnts": this.AnnouncementMessage,
+      // "ACAccntID" : this.globalService.getacAccntID(),
+      // "ASAssnID"  : this.globalService.getCurrentAssociationId(),
+      "ACAccntID": 2,
+      "ASAssnID": 2,
+      "ANVoice": `${this.blobUrl}`,
+      "ANRecipient": "All Owners"
+    }
     console.log(MessageBody);
-  this.http.post('https://devapi.scuarex.com/oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
-    .subscribe(data => {
-      console.log(data);
-    },
-    err=>{
-      console.log(err);
-    })
+    this.http.post('https://devapi.scuarex.com/oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
+      .subscribe(data => {
+        console.log(data);
+      },
+        err => {
+          console.log(err);
+        })
+  }
+
+  onFileSelectForBroadcast(event) {
+    if (event.target.files.length > 0) {
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.BroadCastImg='';
+        console.log(event.target.files[i]);
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[i]);
+        reader.onload = () => {
+          console.log(reader.result);
+          this.BroadCastImg = reader.result;
+          this.BroadCastImg = this.BroadCastImg.substring(this.BroadCastImg.indexOf('64') + 3);
+          console.log(this.BroadCastImg);
+          this.BroadCastImgList.push(this.BroadCastImg);
+          console.log(this.BroadCastImgList);
+        };
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        };
+      }
+    }
   }
 
 

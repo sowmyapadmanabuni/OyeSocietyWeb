@@ -13,7 +13,7 @@
     <form #JoinAsnFrm="ngForm">
     <!--row1-->
     <div class="content" style="background: #f3f1f1 !important;padding: 30px !important;border-radius: 13px !important;">
-        <input type="file" class="form-control-file border bg-grey" [(ngModel)]="AnnouncementImage" name="AnnouncementImage">
+        <input type="file" multiple="multiple" class="form-control-file border bg-grey" (change)="onFileSelectForBroadcast($event)" [(ngModel)]="AnnouncementImage" name="AnnouncementImage">
 
     </div>
     <!--row1-->

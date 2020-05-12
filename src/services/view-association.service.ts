@@ -142,9 +142,9 @@ sendRequestmethod(senddata:Sendrequest)
     let scopeIP=this.utilsService.joinAssociation();
     return this.http.post(scopeIP + 'oyeliving/api/v1/association/join', senddataForJoinOwner, {headers:this.headers});
   }
-  getRequestorDetails(unitID){
-    let scopeIP=this.utilsService.joinAssociation();
-    return this.http.get('http://apidev.oyespace.com/oyeliving/api/v1/Unit/GetUnitListByUnitID/'+unitID, {headers:this.headers});
+  getRequestorDetails(unitID) {
+    let scopeIP = this.utilsService.joinAssociation();
+    return this.http.post(scopeIP + 'oyeliving/api/v1/Member/GetRequestorDetails', unitID, { headers: this.headers });
   }
   SendTheAdminNotification(sendAdminNotification){
     let scopeIP=this.utilsService.joinAssociation();

@@ -461,6 +461,7 @@ export class HomeComponent implements OnInit {
           //}
         }
         console.log(this.unitlistForAssociation);
+        this.globalService.unitslistForAssociation = this.unitlistForAssociation;
         this.globalService.setCurrentAssociationId(association.asAssnID);
         this.globalService.setCurrentAssociationIdForExpense(association.asAssnID);
         this.globalService.setCurrentAssociationIdForInvoice(association.asAssnID);

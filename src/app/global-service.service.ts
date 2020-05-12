@@ -58,6 +58,7 @@ export class GlobalServiceService {
    BackClicked:any;
    IsUnitCreated:boolean;
    StaffListCalledOnce:boolean;
+   unitslistForAssociation:any[];
 
   constructor() {
     this.IsUnitCreated=false;

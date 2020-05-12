@@ -257,7 +257,7 @@ export class AppComponent {
          .subscribe(data=>{
            //console.log('pageIndex-',pageIndex);
            //console.log('pageIndex-',1);
-           //console.log(data);
+           console.log(data);
            //console.log(data['data']['notificationListByAcctID'].length);
            Array.from(data['data']['notificationListByAcctID']).forEach((item,index)=>{
             ((index) => {
