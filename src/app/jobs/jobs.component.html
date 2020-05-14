@@ -1,6 +1,6 @@
 <div class="container-fluid p-40">
     <!--Search Filter start-->
-    <div class="col-sm-3">
+    <!-- <div class="col-sm-3">
         <h3 class="job-head">Search For Job</h3>
         <div class="form-group fgm-r">
             <label>Enter Job Title</label>
@@ -50,35 +50,36 @@
             </select>
         </div>
         <button class="cont-bt" (click)="Searchjobs()">Search</button>
-    </div>
+    </div> -->
     <!--Search Filter end-->
 
     <!--Search Result Tables -->
-    <div class="col-sm-9 b-left">
+    <div class="col-sm-12 b-left">
         <h3 class="job-head">Current Job Openings</h3>
-        <p>Thanks for checking out our job openings, Apply below if you see something that interests you. Dont't see the
-            position you want <span (click)="openModelnewJob(applyjob)" class="orange">Apply here</span></p>
+        <!-- <p>Thanks for checking out our job openings, Apply below if you see something that interests you. Dont't see the
+            position you want <span (click)="openModelnewJob(applyjob)" class="orange">Apply here</span></p> -->
         <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Job Title</th>
                     <th>Experience</th>
                     <th>Department</th>
-                    <th>Location</th>
-                    <th>Employee Type</th>
+                    <!-- <th>Location</th>
+                    <th>Employee Type</th> -->
                     <th>Job Posted On</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let jobs of jobDetailslist | orderBy: order :false">
+                <tr *ngFor="let jobs of jobDetailslist | orderBy: order :true">
                     <td (click)="openModal(applyjob,jobs.jobId)">{{jobs.jobTitle}}</td>
                     <td>{{jobs.jobExp}} years</td>
                     <td>{{jobs.department}}</td>
-                    <td>{{jobs.location}}</td>
-                    <td>{{jobs.employeeType}}</td>
+                    <!-- <td>{{jobs.location}}</td>
+                    <td>{{jobs.employeeType}}</td> -->
                     <td>{{jobs.postDate}}</td>
-                    <td (click)="openModal(applyjob,jobs.jobId)" class="apply" >Apply Now</td>
+                    <td class="apply"><a (click)="openModeljobdetails(jobdesc)"> View</a> | <a
+                            (click)="openModal(applyjob,jobs.jobId)">Apply Now</a></td>
                 </tr>
 
             </tbody>
@@ -90,43 +91,172 @@
 <!--Contact us pop up box-->
 <ng-template #applyjob>
 
-        <div class="modal-header" style="background: #82808026">
-                <h4 class="modal-title">Job Application</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                        <span aria-hidden="true">&times;</span>
-                </button>
-        </div>
-        <div class="modal-body">
-                <div class="container-fluid">
-
-                        <div class="col-sm-12 np">
-                                <div class="form-group request-form-field">
-                                        <label>Name</label>
-                                        <input type="text" class="form-control" name="userName" [(ngModel)]="userName" #uNameControl='ngModel' required>
-                                        <p class="alerts" *ngIf="uNameControl.invalid && uNameControl.touched">Job Title is Required</p>
-                                </div>
-                                <div class="form-group request-form-field">
-                                        <label>Phone</label>
-                                        <input type="text" class="form-control" name="userPhone" [(ngModel)]="userPhone" #uPhoneControl='ngModel' required>
-                                        <p class="alerts" *ngIf="uPhoneControl.invalid && uPhoneControl.touched">Job Title is Required</p>
-                                </div>
-                                <div class="form-group request-form-field">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" name="userEmail" [(ngModel)]="userEmail" #uEmailControl='ngModel' required>
-                                        <p class="alerts" *ngIf="uEmailControl.invalid && uEmailControl.touched">Job Title is Required</p>
-                                </div>
-                                <div class="form-group request-form-field">
-                                        <label>Position</label>
-                                        <input *ngIf="filteredPopJoblegth" type="text" name="" class="form-control" [(ngModel)]="formJobTitle" disabled>
-                                        <input *ngIf="!filteredPopJoblegth" type="text" name="" class="form-control" [(ngModel)]="formJobTitle">
-                                </div>
-                                
+    <div class="modal-header" style="background: #82808026">
+        <h4 class="modal-title">Job Application</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+             <div class="col-sm-12 np">
+              <div class="col-sm-12">
+                    <div class="col-sm-6 request-form-field">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" name="userName" [(ngModel)]="userName"
+                                #uNameControl='ngModel' required>
+                            <p class="alerts" *ngIf="uNameControl.invalid && uNameControl.touched">Job Title is Required</p>
                         </div>
-                        <!--contact details part-->
-                        <div><button class="cont-bt" (click)="ApplyJob()">Send</button></div>
+                        <div class="col-sm-6 request-form-field">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" name="userlastName" [(ngModel)]="userlastName"
+                                #ulNameControl='ngModel' required>
+                            <p class="alerts" *ngIf="ulNameControl.invalid && ulNameControl.touched">Job Title is Required</p>
+                        </div>
 
+              </div>
+                
+
+
+
+                <div class="form-group request-form-field">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="userEmail" [(ngModel)]="userEmail"
+                        #uEmailControl='ngModel' required>
+                    <p class="alerts" *ngIf="uEmailControl.invalid && uEmailControl.touched">Job Title is Required</p>
                 </div>
+                <div class="form-group request-form-field">
+                    <label>Phone Number</label>
+                    <input type="text" class="form-control" name="userPhone" [(ngModel)]="userPhone"
+                        #uPhoneControl='ngModel' required>
+                    <p class="alerts" *ngIf="uPhoneControl.invalid && uPhoneControl.touched">Job Title is Required</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>Current Location</label>
+                    <input type="text" class="form-control" name="userLocation" [(ngModel)]="userLocation"
+                        #uLocationControl='ngModel' required>
+                    <p class="alerts" *ngIf="uLocationControl.invalid && uLocationControl.touched">Current location is
+                        Required</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>Total Years of Experience</label>
+                    <select class="form-control" name="userExp" [(ngModel)]="userExp" #uExpControl='ngModel' required>
+                        <option>0-1</option>
+                        <option>2-3</option>
+                        <option>3-4</option>
+                        <option>4-5</option>
+                    </select>
+                    <p class="alerts" *ngIf="uExpControl.invalid && uExpControl.touched">Select your experience</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>Currently Working for</label>
+                    <input type="text" class="form-control" name="userworkFor" [(ngModel)]="userworkFor"
+                        #uWorkForControl='ngModel' required>
+                    <p class="alerts" *ngIf="uWorkForControl.invalid && uWorkForControl.touched">Currently Working for is Required</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>Current Designation</label>
+                    <input type="text" class="form-control" name="userDesig" [(ngModel)]="userDesig"
+                        #uDesignantionControl='ngModel' required>
+                    <p class="alerts" *ngIf="uDesignantionControl.invalid && uDesignantionControl.touched">Current designation is
+                        Required</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>Ready to relocate</label>
+                    <select class="form-control" name="userRelocate" [(ngModel)]="userRelocate" #uRelocateControl='ngModel' required>
+                        <option>Yes</option>
+                        <option>No</option>
+
+                    </select>
+                    <p class="alerts" *ngIf="uRelocateControl.invalid && uRelocateControl.touched">delect your experience</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>How can we help you with?</label>
+                    <input type="text" class="form-control" name="userComments" [(ngModel)]="userComments"
+                        #uCommentsControl='ngModel' required>
+                    <p class="alerts" *ngIf="uCommentsControl.invalid && uCommentsControl.touched">Current location is
+                        Required</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>Upload your CV</label>
+                    <input type="file" id="myFile" name="filename" [(ngModel)]="filename" #uFileControl='ngModel'
+                        required>
+                    <p class="alerts" *ngIf="uFileControl.invalid && uFileControl.touched">Please upload your cv</p>
+                </div>
+                <div class="form-group request-form-field">
+                    <label>Position</label>
+                    <input *ngIf="filteredPopJoblegth" type="text" name="" class="form-control"
+                        [(ngModel)]="formJobTitle" disabled>
+                    <input *ngIf="!filteredPopJoblegth" type="text" name="" class="form-control"
+                        [(ngModel)]="formJobTitle">
+                </div>
+            </div>
+            <!--contact details part-->
+            <div><button class="cont-bt" (click)="ApplyJob()">Submit</button></div>
+
         </div>
+    </div>
 
 </ng-template>
 <!--Contact us pop up box-->
+
+
+<!--Java Spring Boot Developer pop up box-->
+<ng-template #jobdesc>
+
+    <div class="modal-header" style="background: #82808026">
+        <h4 class="modal-title">Java Spring Boot Developer</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <p>OyeSpace is a technology-forward solution for gated communities, now simplifying the daily lives of
+                residents, managing committees and security personnel. With over 30 years of combined experience amongst
+                our team of Property Management Experts, Patented Technologies we bring our services and solutions to
+                your fingertips and to the customer's world-wide i.e., Real-Estate Management, Banking, ERP
+                Customization and Implementation, Machine Learning, Robotics and Advanced Computing. Our personalized
+                Property Management suite offers individuals who own properties far from their home town and get Peace
+                of Mind' with Pleasant Ownership' experience.
+                We are looking for a Java Spring Boot Developer who will add value to a gamut of Software Development
+                lifecycle stages; will create detailed design artifacts like program specifications, test plans; and
+                independently develop and review code and contribute to the go- live plan. You will have the opportunity
+                to collaborate with some of the best talent in the industry to create innovative high quality and
+                defect-free solutions to meet our clients’ business needs; will be part of a learning culture, where
+                teamwork and collaboration are encouraged, excellence is rewarded, and diversity is respected and
+                valued.</p>
+            <h4>Job Responsibilities</h4>
+            <ul>
+                <li>Deliver reliable/robust software through continuous integration, automated testing, and in-depth
+                    code reviews within framework of Agile/SCRUM</li>
+                <li> Develop and deploy highly concurrent, highly scalable, secure, distributed transaction based
+                    systems supporting multiple tenants and millions of members</li>
+                <li> Support code development of a very high performance, memory intensive environment</li>
+                <li> Design and implement distributed architectures that provide real scalability and high availability
+                </li>
+                <li> Perform system and performance analysis to maximize system throughput</li>
+                <li> Digdeepintoverytechnicallycomplexissuesandprovidea clear path to resolution</li>
+                <li>Collaborate with peers on technical design, work estimation and implementation of new features
+                    including interfaces/contracts with storage system, data transformation and handoff to front end
+                    technology</li>
+            </ul>
+
+            <h4>Requirements:</h4>
+            <ul>
+
+                <li>Bachelor’s degree in Computer science or Engineering</li>
+                <li>Experience in the Spring Framework, Spring Boot, Java 8, Spring Core</li>
+                <li>Proven working experience in Java development</li>
+                <li>Should possess application development experience in core Java, Spring Framework, Spring Boot
+                    following industry recognized software development life cycle.</li>
+                <li>At least 2-3 years of experience working on Java Spring Boot development projects</li>
+                <li>Ability to work in team in diverse/ multiple stakeholder environment</li>
+                <li> Excellent Analytical, Logical reasoning and Communication skills</li>
+            </ul>
+
+        </div>
+    </div>
+
+</ng-template>
+<!--Java Spring Boot Developer up box-->

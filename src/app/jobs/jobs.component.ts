@@ -113,6 +113,10 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
     // // console.log(this.jobType);
 
   }
+  openModeljobdetails(jobdesc: TemplateRef<any>) {
+    // this.filteredPopJoblegth=false;
+     this.modalRef = this.modalService.show(jobdesc, { class: 'modal-lg' });
+   }
   ngAfterViewInit() {
     $(document).ready(function () {
       $('#example').DataTable();
