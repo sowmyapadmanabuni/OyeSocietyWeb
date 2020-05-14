@@ -32,10 +32,11 @@ export class AdminStaffScreenComponent implements OnInit {
   PaginatedValue: number;
   setnoofrows: any;
   rowsToDisplay: any[];
+  CurrentAssociationIdForStaffVisitorLogByDates:Subscription;
 
   constructor(private router: Router, private globalServiceService: GlobalServiceService
     , private modalService: BsModalService, private viewStaffService: ViewStaffService,
-    private UsageReportService:UsageReportService) {
+    private UsageReportService:UsageReportService,private globalService: GlobalServiceService) {
       this.ShowRecords = 'Show Records';
       this.setnoofrows = 10;
     this.EndDate = '';
@@ -69,7 +70,7 @@ export class AdminStaffScreenComponent implements OnInit {
     let usagereportrequestbody = {
       "StartDate": (this.StartDate == '')?'2019-04-01':this.StartDate,
       "EndDate": (this.EndDate == '')?formatDate(new Date(), 'yyyy-MM-dd', 'en'):this.EndDate,
-      "ASAssnID": 377 // this.globalService.getCurrentAssociationId()
+      "ASAssnID": this.globalService.getCurrentAssociationId() //377
     }
     console.log(usagereportrequestbody);
     this.UsageReportService.GetVisitorLogByDates(usagereportrequestbody)
@@ -85,6 +86,27 @@ export class AdminStaffScreenComponent implements OnInit {
           console.log(err);
         })
     //
+    this.CurrentAssociationIdForStaffVisitorLogByDates = this.globalService.getCurrentAssociationIdForVisitorLogByDates()
+      .subscribe(res => {
+        console.log(res);
+        let usagereportrequestbody = {
+          "StartDate": (this.StartDate == '') ? '2019-04-01' : this.StartDate,
+          "EndDate": (this.EndDate == '') ? formatDate(new Date(), 'yyyy-MM-dd', 'en') : this.EndDate,
+          "ASAssnID": this.globalService.getCurrentAssociationId() //377
+        }
+        console.log(usagereportrequestbody);
+        this.UsageReportService.GetVisitorLogByDates(usagereportrequestbody)
+          .subscribe(data => {
+            console.log(data);
+            this.deliveryVisitorLog= data['data']['visitorlog'];
+            this.deliveryVisitorLog = this.deliveryVisitorLog.filter(item=>{
+              return item['vlVisType'] == "Delivery";
+            })
+          },
+            err => {
+              console.log(err);
+            })
+      })
   }
   goToInvoice(){
     

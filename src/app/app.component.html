@@ -67,13 +67,32 @@
    </div>
    <!-- <div class="col-sm-1" tooltip="Logout"><i (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i></div> -->
      <div class="col-sm-1">
-        <a id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
+      <a (click)="toggleNotificationPanel1($event)" id="flip1"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
+      </a>
+      <span class="badgeAlert">{{ResidentNotificationListArray.length}}</span>
+        <a (click)="toggleNotificationPanel($event)" id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
         </a>
         <span class="badgeAlert">{{notificationListArray.length}}</span>
         <i tooltip="Logout" id="LogOutID" (click)='logOut()' style="cursor:pointer; margin-left: 20px;" class="fa fa-power-off" aria-hidden="true"></i>
-
+        <div id="panel1">         
+          <p class="not-head-bg">{{ResidentNotificationListArray.length}} Resident Notifications</p>
+          <div class="not-cont">
+            <ng-container *ngFor='let item of ResidentNotificationListArray'>
+              <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
+                <p class="not-name">{{item['asAsnName']}}</p>
+                <span class="not-desc">{{item['ntDesc']}}</span>
+                <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
+                  <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
+                </div>
+                <div *ngIf="toggleName == item['ntid'] && ntType=='gate_app'" style="display: flex;justify-content: space-between;">
+                  <button (click)="EntryAprove('EntryApproved',item['sbMemID'])" class="btn-primary-purple">Allow</button><button (click)="EntryRjected('ExitApproved',item['sbMemID'])" class="btn-primary-purple">Deny</button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
         <div id="panel">         
-          <p class="not-head-bg">{{notificationListArray.length}} Notifications</p>
+          <p class="not-head-bg">{{notificationListArray.length}} Admin Notifications</p>
           <div class="not-cont">
             <ng-container *ngFor='let item of notificationListArray'>
               <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">

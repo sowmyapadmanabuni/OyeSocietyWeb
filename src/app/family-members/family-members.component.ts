@@ -9,6 +9,7 @@ import {UtilsService} from '../utils/utils.service';
 import {GlobalServiceService} from '../global-service.service';
 import swal from 'sweetalert2';
 import { FamilyMemberList } from '../models/family-member-list';
+import { FormGroup, FormBuilder } from '@angular/forms';
 declare var $: any;
 
 
@@ -42,10 +43,14 @@ export class FamilyMembersComponent implements OnInit {
   getFamilyMemberSubscription:Subscription;
   FMImgName:any;
   FamilyMemberList:FamilyMemberList[];
+  FamilyImgUploadForm:FormGroup;
+  thumbnailFamilyLogo: string | ArrayBuffer;
+  FamilyMemImgForPopUp: any;
 
   constructor(private http: HttpClient, private router: Router,
     private modalService: BsModalService,private utilsService:UtilsService,
-    private globalService:GlobalServiceService) {
+    private globalService:GlobalServiceService,
+    private formBuilder: FormBuilder) {
     this.FamilyMemberList=[];
     this.unitID='';
     this.AccountID='';
@@ -66,6 +71,9 @@ export class FamilyMembersComponent implements OnInit {
     this.addMember=false;
     this.Relation="Select Relation"
     this.getFamilyMember();
+    this.FamilyImgUploadForm = this.formBuilder.group({
+      profile: ['']
+    });
   }
   ngAfterViewInit() {
     $(".se-pre-con").fadeOut("slow");
@@ -339,5 +347,33 @@ deleteFamilyMember(fmid) {
       imgthumbnailelement.src = "";
     }
     console.log(reader);
+  }
+  processFile() {
+    console.log(this.FamilyImgUploadForm.get('profile').value);
+    var reader = new FileReader();
+    reader.readAsDataURL(this.FamilyImgUploadForm.get('profile').value);
+    reader.onload = () => {
+      console.log(reader.result);
+      this.FMImgName = reader.result;
+      this.thumbnailFamilyLogo = reader.result;
+      this.FMImgName = this.FMImgName.substring(this.FMImgName.indexOf('64') + 3);
+      //console.log(this.ASAsnLogo.indexOf('64')+1);
+      //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+      console.log(this.FMImgName);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      this.FamilyImgUploadForm.get('profile').setValue(file);
+    }
+  }
+  showFamilyMemImgInPopUp(FamilyMemberImagetemplate,fmImgName){
+    this.FamilyMemImgForPopUp=fmImgName;
+    this.modalRef = this.modalService.show(FamilyMemberImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
 }

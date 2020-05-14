@@ -11,6 +11,7 @@ import { ConnectionService } from 'ng-connection-service';
 import swal from 'sweetalert2';
 import { UserIdleService } from 'angular-user-idle';
 import {NotificationListArray} from '../app/models/notification-list-array';
+import {ResidentNotificationListArray} from '../app/models/resident-notification-list-array';
 
 declare var $:any;
 
@@ -39,6 +40,7 @@ export class AppComponent {
   status = 'ONLINE'; //initializing as online by default
   isConnected = true;
   notificationListArray:NotificationListArray[];
+  ResidentNotificationListArray:ResidentNotificationListArray[];
 
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
@@ -49,6 +51,7 @@ export class AppComponent {
     this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
     this.notificationListArray=[];
+    this.ResidentNotificationListArray=[];
    // console.log(this.isAuthenticated());
     this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
@@ -202,6 +205,14 @@ export class AppComponent {
       x.className = "topnav";
     }
   }
+  toggleNotificationPanel(e) {
+    e.preventDefault();
+    document.getElementById('panel').style.display = 'block';
+  }
+  toggleNotificationPanel1(e) {
+    e.preventDefault();
+    document.getElementById('panel1').style.display = 'block';
+  }
   toggleDashboard() {
     //console.log('inside toggleDashboard');
     //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
@@ -248,6 +259,7 @@ export class AppComponent {
   }
   getNotification(){
     this.notificationListArray=[];
+    this.ResidentNotificationListArray=[];
     // http://apiuat.oyespace.com/oyesafe/api/v1/Notification/GetNotificationListByAccntID/11511/1
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
@@ -263,7 +275,12 @@ export class AppComponent {
             ((index) => {
               setTimeout(() => {
                 //console.log('item-',item);
-                this.notificationListArray.push(new NotificationListArray(item['ntid'],item['ntType'],item['asAsnName'],item['ntDesc'],item['sbMemID']));
+                if(item['ntType'] == "Join"){
+                  this.notificationListArray.push(new NotificationListArray(item['ntid'],item['ntType'],item['asAsnName'],item['ntDesc'],item['sbMemID']));
+                }
+                else{
+                  this.ResidentNotificationListArray.push(new ResidentNotificationListArray(item['ntid'],item['ntType'],item['asAsnName'],item['ntDesc'],item['sbMemID']));
+                }
                 //console.log(this.notificationListArray);
               }, 3000 * index)
             })(index)

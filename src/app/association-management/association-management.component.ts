@@ -274,6 +274,7 @@ export class AssociationManagementComponent implements OnInit {
   selectedFile2: ImageSnippet;
   @ViewChild('avatar', { static: true }) avatar: any;
   ASAsnLogo: any;
+  thumbnailASAsnLogo:any;
   setnoofrows: any;
   rowsToDisplay: any[];
   ShowRecords: any;
@@ -284,8 +285,11 @@ export class AssociationManagementComponent implements OnInit {
   disableCreateUnitBtnAfterClick: boolean;
   UnitName: any;
   uploadPANCard:any;
+  uploadPANCardThumbnail:any;
   alreadyJoined: boolean;
   mememberIDforJoin: any;
+  ImgForPopUp:any;
+  UploadedImage: any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -683,6 +687,7 @@ export class AssociationManagementComponent implements OnInit {
     reader.onload = () => {
       console.log(reader.result);
       this.ASAsnLogo = reader.result;
+      this.thumbnailASAsnLogo = reader.result;
       this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
       //console.log(this.ASAsnLogo.indexOf('64')+1);
       //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
@@ -704,6 +709,7 @@ export class AssociationManagementComponent implements OnInit {
     reader.onload = () => {
       console.log(reader.result);
       this.uploadPANCard = reader.result;
+      this.uploadPANCardThumbnail = reader.result;
       this.uploadPANCard = this.uploadPANCard.substring(this.uploadPANCard.indexOf('64') + 3);
       //console.log(this.ASAsnLogo.indexOf('64')+1);
       //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
@@ -2467,20 +2473,26 @@ export class AssociationManagementComponent implements OnInit {
                        ) {
                            console.log('adminssss', data);
                            let inAppNotification ={
-                            "ACAccntID"  : data['acAccntID'],//16123
-                            "ASAssnID"   : data['asAssnID'],//15200
-                            "NTType"     : "Join",
-                            "NTDesc"     : OwnerType == 6? "Joining as Owner" : "Joining as Tenant",//"Joining as Owner",
-                            "SBUnitID" : Number(this.UnitIDforJoinAssn),//41602
-                            "SBMemID"  : 3,
-                            "SBSubID"  : Number(this.UnitIDforJoinAssn),//41602
-                            "SBRoleID" : 7,
-                            "ASAsnName" : this.globalService.currentAssociationName,
-                            "MRRolName" : OwnerType == 6? "Owner" : "Tenant",
+                            "ACAccntID"  : data['acAccntID'],
+                            "ACNotifyID" : this.globalService.getacAccntID(),
+                            "ASAsnName" : this.assnName,
+                            "ASAssnID"   : data['asAssnID'],
+                            "MRRolName" : "Block2",
                             "NTDUpdated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
                             "NTDCreated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
-                            "ACNotifyID" : ""
+                            "NTDesc" : this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
+                            "NTMobile" : '+91'+this.account[0]['acMobile'],
+                            "NTType" : "Join",
+                            "NTUsrImg" : "/9j/4AAQSkZJRgABAQAASABIAAD/4QBYRXhpZgAATU0AKgAAAA",
+                            "SBMemID" : data['meMemID'],
+                            "SBRoleID" : 2,
+                            "SBSubID" :  this.globalService.getacAccntID().toString()+Number(this.UnitIDforJoinAssn).toString()+'usernoti',
+                            "SBUnitID" : Number(this.UnitIDforJoinAssn),
+                            "UNOcSDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
+                            "UNSldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
+                            //"MRRolName" : OwnerType == 6? "Owner" : "Tenant",
                           }
+                          console.log(inAppNotification);
                            this.viewAssnService.createInAppNotification(inAppNotification)
                            .subscribe(data=>{
                              console.log(data);
@@ -2618,6 +2630,11 @@ export class AssociationManagementComponent implements OnInit {
 
     this.modalRef = this.modalService.show(joinowner,
       Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,displayText){
+    this.ImgForPopUp=thumbnailASAsnLogo;
+    this.UploadedImage=displayText;
+    this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
 
 

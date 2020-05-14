@@ -253,7 +253,7 @@
   padding: 12px;
 }
 /* Notification bar css */
-#panel, #flip {
+#panel,#panel1, #flip {
   padding: 5px;
   text-align: center;
   /* background-color: #e5eecc; */
@@ -274,6 +274,21 @@
   position: absolute;
   z-index: 20000;
   right: 10px;
+  top: 46px;
+  background: #fff;
+  border-color: #f7b844;
+  border: 1px solid #efdbb8;
+}
+#panel1 {
+  padding: 0px;
+  display: none;
+  min-width: 160px;
+  max-width: 275px;
+  width: 275px;
+  z-index: 9995;
+  position: absolute;
+  z-index: 20000;
+  right: 300px;
   top: 46px;
   background: #fff;
   border-color: #f7b844;
