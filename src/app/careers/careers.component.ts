@@ -1,6 +1,8 @@
 import { Component,OnInit, TemplateRef } from '@angular/core';
 import { JobopeningsService } from '../../services/jobopenings.service';
 import { JobList } from '../job-list';
+import {Router,ActivatedRoute} from '@angular/router';
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 declare var $: any;
 
@@ -15,6 +17,7 @@ export class CareersComponent implements OnInit {
   jobTitle: string;
   jobDepartment: string;
   jobLocation: string;
+  toggleShowJobsContent:boolean;
   jobExperience: string;
   jobType: string;
   modalRef: BsModalRef;
@@ -24,7 +27,7 @@ export class CareersComponent implements OnInit {
   userName:any;
   userEmail:any;
   userPhone:any;
-  constructor(private jobListservice: JobopeningsService,private modalService: BsModalService) { 
+  constructor(private jobListservice: JobopeningsService,public router:Router,private modalService: BsModalService,private route: ActivatedRoute) { 
     this.jobDetailslist = [];
     this.jobTitle = '';
     this.jobDepartment = '';
@@ -37,6 +40,8 @@ export class CareersComponent implements OnInit {
     this.userEmail='';
     this.userPhone='';
     this.filteredPopJoblegth=false;
+    this.toggleShowJobsContent=false;
+
   }
 
   openModal(applyjob: TemplateRef<any>,jobId) {
@@ -58,10 +63,7 @@ export class CareersComponent implements OnInit {
     this.filteredPopJoblegth=false;
     this.modalRef = this.modalService.show(applyjob, { class: 'modal-md' });
   }
-  openModeljobDesc(jobdesc: TemplateRef<any>) {
-   this.filteredPopJoblegth=false;
-    this.modalRef = this.modalService.show(jobdesc, { class: 'modal-md' });
-  }
+  
   ngOnInit() {
     this.jobDetailslist = this.jobListservice.getJobLists();
     console.log(this.jobDetailslist);
@@ -74,6 +76,7 @@ export class CareersComponent implements OnInit {
          console.log(this.userPhone);
          console.log(this.formJobTitle);
     }
+  
   Searchjobs() {
     let jobTitleArray = this.jobDetailslist.filter(item => {
       return item['jobTitle'].toLowerCase().includes(this.jobTitle.toLowerCase()) || item['department'].toLowerCase().includes(this.jobDepartment.toLowerCase()) || item['location'].toLowerCase().includes(this.jobLocation.toLowerCase()) || item['jobExp'].toString()==this.jobExperience || item['employeeType'].toLowerCase().includes(this.jobType.toLowerCase());
@@ -112,6 +115,12 @@ export class CareersComponent implements OnInit {
     // console.log(this.jobExperience);
     // // console.log(this.jobType);
 
+  }
+  myFunction(e){
+    e.preventDefault();
+    this.toggleShowJobsContent = true;
+
+    // alert("hai");
   }
   ngAfterViewInit() {
     $(document).ready(function () {
