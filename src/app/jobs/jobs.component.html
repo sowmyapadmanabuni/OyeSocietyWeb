@@ -100,24 +100,19 @@
     <div class="modal-body">
         <div class="container-fluid">
              <div class="col-sm-12 np">
-              <div class="col-sm-12">
-                    <div class="col-sm-6 request-form-field">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" name="userName" [(ngModel)]="userName"
-                                #uNameControl='ngModel' required>
-                            <p class="alerts" *ngIf="uNameControl.invalid && uNameControl.touched">Job Title is Required</p>
-                        </div>
-                        <div class="col-sm-6 request-form-field">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" name="userlastName" [(ngModel)]="userlastName"
-                                #ulNameControl='ngModel' required>
-                            <p class="alerts" *ngIf="ulNameControl.invalid && ulNameControl.touched">Job Title is Required</p>
-                        </div>
-
-              </div>
-                
-
-
+             
+                <div class="col-sm-6 form-group request-form-field">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" name="userName" [(ngModel)]="userName"
+                        #uNameControl='ngModel' required>
+                    <p class="alerts" *ngIf="uNameControl.invalid && uNameControl.touched">Job Title is Required</p>
+                </div>
+                <div class="col-sm-6 form-group request-form-field">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" name="userlastName" [(ngModel)]="userlastName"
+                        #ulNameControl='ngModel' required>
+                    <p class="alerts" *ngIf="ulNameControl.invalid && ulNameControl.touched">Job Title is Required</p>
+                </div>
 
                 <div class="form-group request-form-field">
                     <label>Email</label>
