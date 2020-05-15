@@ -157,7 +157,7 @@
                     <!-- <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)"> -->
                     <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
                         <input type="file" name="profile" (change)="onFileSelect($event)" />
-                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>
+                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
                     </form>
                 </div>
                 <div class="form-group">
@@ -306,7 +306,7 @@
                     pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
                     <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
                       <input type="file" name="panProfile" (change)="onPanFileSelect($event)" />
-                      <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>
+                      <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')" src="{{uploadPANCardThumbnail}}" width="50px" height="50px"/>
                   </form>
                   <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
                     Resolution of 128*128</span>
@@ -1340,6 +1340,22 @@
           </form>
         </div>
       </div>
+    </div>
+  </div>
+</ng-template>
+<!---->
+<ng-template #UploadedImagetemplate>
+  <div class="modal-content">
+
+    <div class="modal-header">
+      
+      <h4 class="modal-title">{{UploadedImage}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <img src="{{ImgForPopUp}}"/>
     </div>
   </div>
 </ng-template>

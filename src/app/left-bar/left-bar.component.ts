@@ -4,6 +4,7 @@ import {GlobalServiceService} from '../global-service.service';
 import {Router, NavigationEnd} from '@angular/router';
 import {ViewBlockService} from '../../services/view-block.service';
 import { Subscription } from 'rxjs';
+import { EditprofileService } from 'src/services/editprofile.service';
 
 
 @Component({
@@ -21,11 +22,14 @@ export class LeftBarComponent implements OnInit {
   max:any;
   CurrentAssociationIdForLeftBarComponent:Subscription;
   displayValue:any;
+  allAccount: any;
+  profileImg: string;
 
   constructor(public globalService: GlobalServiceService,
     private dashboardservice: DashBoardService,
     public viewBlkService: ViewBlockService,
-    private router: Router) {
+    private router: Router,
+    private editprofileservice:EditprofileService) {
     this.acAccntID = this.globalService.getacAccntID();
     this.value = 66;
     this.max=100;
@@ -41,6 +45,7 @@ export class LeftBarComponent implements OnInit {
     this.getAccountFirstName();
     this.availableNoOfBlocks=[];
     this.getBlockDetails();
+    this.getProfileDetails();
   }
 
   getAccountFirstName(){
@@ -86,5 +91,14 @@ export class LeftBarComponent implements OnInit {
       err => {
         console.log(err);
       });
+  }
+  getProfileDetails() {
+    this.editprofileservice.getProfileDetails(this.globalService.getacAccntID()).subscribe(res => {
+      console.log(JSON.stringify(res));
+      var data: any = res;
+      this.allAccount = data.data.account;
+      console.log('account', this.allAccount);
+      this.profileImg = 'data:image/jpeg;base64,' + this.allAccount[0]['acImgName'];
+    });
   }
 }

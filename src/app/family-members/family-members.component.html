@@ -44,7 +44,7 @@
                                     <td>{{item['fmName']}}</td>
                                     <td>{{item['fmRltn']}}</td>
                                     <td>{{item['fmMobile']}}</td>
-                                    <td><img src="{{item['fmImgName']}}" width="50px" height="50px"/> </td>
+                                    <td><img (mouseover)="showFamilyMemImgInPopUp(FamilyMemberImagetemplate,item['fmImgName'])" src="{{item['fmImgName']}}" width="50px" height="50px"/> </td>
                                     <td class="txt-middle">
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                                             (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['unUnitID'],item['fmid'])"
@@ -284,6 +284,14 @@
                     class="form-control" #RelationControl="ngModel" style="margin-bottom: 10px;" required>
                     <p class="alerts" *ngIf="RelationControl.touched && RelationControl.invalid"> Enter relation</p>
                 </div>
+                <div class="form-group">
+                    <label class="control-label">Upload</label>
+                    <form [formGroup]="FamilyImgUploadForm" (ngSubmit)="processFile()">
+                        <input type="file" name="profile" (change)="onFileSelect($event)" />
+                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img
+                            src="{{thumbnailFamilyLogo}}" width="50px" height="50px" />
+                    </form>
+                </div>
 
 
                 <div style="margin-top: 20px;">
@@ -295,3 +303,20 @@
     </div>
 </ng-template>
 <!-- EDIT FAMILY MEMBER -->
+
+<!---->
+<ng-template #FamilyMemberImagetemplate>
+    <div class="modal-content">
+  
+      <div class="modal-header">
+        
+        <h4 class="modal-title">Family Member Image</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img width="850px" height="750px" src="{{FamilyMemImgForPopUp}}"/>
+      </div>
+    </div>
+  </ng-template>

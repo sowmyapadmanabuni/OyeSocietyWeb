@@ -34,6 +34,6 @@ export class UsageReportService {
   // console.log(usagereportrequestbody);
   // console.log(formatDate(new Date(), 'yyyy-MM-dd:hh:mm:ss', 'en'));
   // console.log(formatDate(this.endrangedate, 'yyyy-MM-dd', 'en'));
-  return this.http.post('https://api.oyespace.com/' + 'oyesafe/api/v1/VisitorLog/GetVisitorLogByDates', JSON.stringify(usagereportrequestbody), { headers: headers })
+  return this.http.post(ipAddress + 'oyesafe/api/v1/VisitorLog/GetVisitorLogByDates', JSON.stringify(usagereportrequestbody), { headers: headers })
   }
 }

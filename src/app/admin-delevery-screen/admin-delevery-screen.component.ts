@@ -78,7 +78,7 @@ export class AdminDeleveryScreenComponent implements OnInit {
     let usagereportrequestbody = {
       "StartDate": (this.StartDate == '')?'2019-04-01':this.StartDate,
       "EndDate": (this.EndDate == '')?formatDate(new Date(), 'yyyy-MM-dd', 'en'):this.EndDate,
-      "ASAssnID": 377 // this.globalService.getCurrentAssociationId()
+      "ASAssnID": this.globalService.getCurrentAssociationId() //377
     }
     console.log(usagereportrequestbody);
     this.UsageReportService.GetVisitorLogByDates(usagereportrequestbody)
@@ -100,12 +100,16 @@ export class AdminDeleveryScreenComponent implements OnInit {
         let usagereportrequestbody = {
           "StartDate": (this.StartDate == '') ? '2019-04-01' : this.StartDate,
           "EndDate": (this.EndDate == '') ? formatDate(new Date(), 'yyyy-MM-dd', 'en') : this.EndDate,
-          "ASAssnID": 377 // this.globalService.getCurrentAssociationId()
+          "ASAssnID": this.globalService.getCurrentAssociationId() //377
         }
         console.log(usagereportrequestbody);
         this.UsageReportService.GetVisitorLogByDates(usagereportrequestbody)
           .subscribe(data => {
             console.log(data);
+            this.deliveryVisitorLog= data['data']['visitorlog'];
+            this.deliveryVisitorLog = this.deliveryVisitorLog.filter(item=>{
+              return item['vlVisType'] == "Delivery";
+            })
           },
             err => {
               console.log(err);
