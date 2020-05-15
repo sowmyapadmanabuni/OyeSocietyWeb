@@ -65,7 +65,8 @@ export class CareersComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.jobDetailslist = this.jobListservice.getJobLists();
+    // this.jobDetailslist = this.jobListservice.getJobLists();
+    this.jobListservice.getJobLists();
     console.log(this.jobDetailslist);
 
   }

@@ -4,6 +4,7 @@ import { JobList } from '../job-list';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 //import * as $ from 'jquery';
@@ -84,7 +85,16 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
     this.modalRef = this.modalService.show(applyjob, { class: 'modal-md' });
   }
   ngOnInit() {
-    this.jobDetailslist = this.jobListservice.getJobLists();
+    // this.jobDetailslist = this.jobListservice.getJobLists();
+   this.jobListservice.getJobLists()
+
+   .subscribe(data=>{
+
+    console.log(data)
+    this.jobDetailslist=data['data']['jobDetails'];
+    console.log(this.jobDetailslist);
+  },
+  err=>{console.log(err)});
     console.log(this.jobDetailslist);
 
   }
@@ -196,8 +206,13 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
     // // console.log(this.jobType);
 
   }
-  openModeljobdetails(jobdesc: TemplateRef<any>) {
+  openModeljobdetails(jobdesc: TemplateRef<any>,jobs) {
     // this.filteredPopJoblegth=false;
+    console.log(jobs);
+    this.filteredPopJob=this.jobDetailslist.filter(data=>{
+      return data['jtid']==jobs;
+ })
+ console.log(this.filteredPopJob);
      this.modalRef = this.modalService.show(jobdesc, { class: 'modal-lg' });
    }
   ngAfterViewInit() {

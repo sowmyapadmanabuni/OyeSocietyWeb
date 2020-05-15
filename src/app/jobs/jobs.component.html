@@ -62,23 +62,24 @@
             <thead>
                 <tr>
                     <th>Job Title</th>
-                    <th>Experience</th>
+                    <!-- <th>Experience</th> -->
                     <th>Department</th>
                     <!-- <th>Location</th>
                     <th>Employee Type</th> -->
-                    <th>Job Posted On</th>
+                    <!-- <th>Job Posted On</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let jobs of jobDetailslist | orderBy: order :true">
-                    <td (click)="openModal(applyjob,jobs.jobId)">{{jobs.jobTitle}}</td>
-                    <td>{{jobs.jobExp}} years</td>
-                    <td>{{jobs.department}}</td>
+                    <td (click)="openModal(applyjob,jobs.jobId)">{{jobs['jtTitle']}}</td>
+                    <!-- <td>{{jobs.jobExp}} years</td> -->
+                    <td>{{jobs['jtDepartment']}}</td>
                     <!-- <td>{{jobs.location}}</td>
                     <td>{{jobs.employeeType}}</td> -->
-                    <td>{{jobs.postDate}}</td>
-                    <td class="apply"><a (click)="openModeljobdetails(jobdesc)"> View</a> | <a
+                    <!-- <td>{{jobs.postDate}}</td> -->
+                    <td class="apply">
+                        <a (click)="openModeljobdetails(jobdesc,jobs['jtid'])"> View</a> | <a
                             (click)="openModal(applyjob,jobs.jobId)">Apply Now</a></td>
                 </tr>
 
@@ -99,8 +100,8 @@
     </div>
     <div class="modal-body">
         <div class="container-fluid">
-             <div class="col-sm-12 np">
-             
+            <div class="col-sm-12 np">
+
                 <div class="col-sm-6 form-group request-form-field">
                     <label>First Name</label>
                     <input type="text" class="form-control" name="userName" [(ngModel)]="userName"
@@ -147,23 +148,27 @@
                     <label>Currently Working for</label>
                     <input type="text" class="form-control" name="userworkFor" [(ngModel)]="userworkFor"
                         #uWorkForControl='ngModel' required>
-                    <p class="alerts" *ngIf="uWorkForControl.invalid && uWorkForControl.touched">Currently Working for is Required</p>
+                    <p class="alerts" *ngIf="uWorkForControl.invalid && uWorkForControl.touched">Currently Working for
+                        is Required</p>
                 </div>
                 <div class="form-group request-form-field">
                     <label>Current Designation</label>
                     <input type="text" class="form-control" name="userDesig" [(ngModel)]="userDesig"
                         #uDesignantionControl='ngModel' required>
-                    <p class="alerts" *ngIf="uDesignantionControl.invalid && uDesignantionControl.touched">Current designation is
+                    <p class="alerts" *ngIf="uDesignantionControl.invalid && uDesignantionControl.touched">Current
+                        designation is
                         Required</p>
                 </div>
                 <div class="form-group request-form-field">
                     <label>Ready to relocate</label>
-                    <select class="form-control" name="userRelocate" [(ngModel)]="userRelocate" #uRelocateControl='ngModel' required>
+                    <select class="form-control" name="userRelocate" [(ngModel)]="userRelocate"
+                        #uRelocateControl='ngModel' required>
                         <option>Yes</option>
                         <option>No</option>
 
                     </select>
-                    <p class="alerts" *ngIf="uRelocateControl.invalid && uRelocateControl.touched">delect your experience</p>
+                    <p class="alerts" *ngIf="uRelocateControl.invalid && uRelocateControl.touched">delect your
+                        experience</p>
                 </div>
                 <div class="form-group request-form-field">
                     <label>How can we help you with?</label>
@@ -200,7 +205,7 @@
 <ng-template #jobdesc>
 
     <div class="modal-header" style="background: #82808026">
-        <h4 class="modal-title">Java Spring Boot Developer</h4>
+        <h4 class="modal-title">{{filteredPopJob[0]['jtTitle']}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -222,32 +227,15 @@
                 teamwork and collaboration are encouraged, excellence is rewarded, and diversity is respected and
                 valued.</p>
             <h4>Job Responsibilities</h4>
-            <ul>
-                <li>Deliver reliable/robust software through continuous integration, automated testing, and in-depth
-                    code reviews within framework of Agile/SCRUM</li>
-                <li> Develop and deploy highly concurrent, highly scalable, secure, distributed transaction based
-                    systems supporting multiple tenants and millions of members</li>
-                <li> Support code development of a very high performance, memory intensive environment</li>
-                <li> Design and implement distributed architectures that provide real scalability and high availability
-                </li>
-                <li> Perform system and performance analysis to maximize system throughput</li>
-                <li> Digdeepintoverytechnicallycomplexissuesandprovidea clear path to resolution</li>
-                <li>Collaborate with peers on technical design, work estimation and implementation of new features
-                    including interfaces/contracts with storage system, data transformation and handoff to front end
-                    technology</li>
+            <ul *ngFor="let item of filteredPopJob[0]['jobResponsibilities']">
+                <li>{{item['jtResponsibility']}}</li>
             </ul>
 
             <h4>Requirements:</h4>
-            <ul>
+            <ul *ngFor="let item1 of filteredPopJob[0]['jobRequirements']">
 
-                <li>Bachelor’s degree in Computer science or Engineering</li>
-                <li>Experience in the Spring Framework, Spring Boot, Java 8, Spring Core</li>
-                <li>Proven working experience in Java development</li>
-                <li>Should possess application development experience in core Java, Spring Framework, Spring Boot
-                    following industry recognized software development life cycle.</li>
-                <li>At least 2-3 years of experience working on Java Spring Boot development projects</li>
-                <li>Ability to work in team in diverse/ multiple stakeholder environment</li>
-                <li> Excellent Analytical, Logical reasoning and Communication skills</li>
+                <li>{{item1['jtRequirements']}}</li>
+
             </ul>
 
         </div>
