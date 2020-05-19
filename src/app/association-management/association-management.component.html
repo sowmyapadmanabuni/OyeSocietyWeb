@@ -22,7 +22,7 @@
               </div>
          </div>
         <!-- Title and enroll button part -->
-
+        <!-- <app-enrollassociation [showMePartially]="showVar"></app-enrollassociation> -->
         <div *ngIf='viewAssnService.vewAsnEnbled'>
           <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by Association Name, Property Name, Locality">
         </div>
@@ -93,7 +93,7 @@
       </div>
       <!--Dashboard icons end-->
       <!--Enroll Association form Starts-->
-      <div *ngIf='viewAssnService.enrlAsnEnbled' class="col-sm-12">
+      <div *ngIf='viewAssnService.enrlAsnEnbled1' class="col-sm-12">
         <div style="overflow-x: scroll;">
             <div class="stepwizard" style="overflow-x: scroll;
             width: 2000px;">
@@ -875,6 +875,9 @@
               </div>
           </div> -->
         </div>
+      </div>
+      <div *ngIf='viewAssnService.enrlAsnEnbled' class="col-sm-12">
+        <app-enrollassociation [showMePartially]="showVar"></app-enrollassociation>
       </div>
       <!--Enroll Association form Starts-->
 

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routing } from './routing';
 import { RequestformComponent } from './requestform/requestform.component';
 import { ModalModule } from 'ngx-bootstrap';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {FormsModule,ReactiveFormsModule, FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HiringComponent } from './hiring/hiring.component';
 import { MapsComponent } from './maps/maps.component';
 import { AgmCoreModule } from '@agm/core';
@@ -26,6 +26,8 @@ import { JobsComponent } from './jobs/jobs.component';
 import { GooglemapComponent } from './googlemap/googlemap.component';
 import { AgmDirectionModule } from 'agm-direction';
 import { AssociationManagementComponent } from './association-management/association-management.component';
+import { EnrollassociationComponent } from './enrollassociation/enrollassociation.component';
+
 import { ExpenseManagementComponent } from './expense-management/expense-management.component';
 import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
@@ -100,6 +102,18 @@ import { AdminStaffScreenComponent } from './admin-staff-screen/admin-staff-scre
 import { CareersComponent } from './careers/careers.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
+import { HttpModule } from '@angular/http';
+
+import { MatSelectModule, 
+  MatFormFieldModule,
+  MatInputModule, 
+  MatButtonModule,
+  MatCardModule,
+  MatTabsModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTooltipModule } from '@angular/material';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 @NgModule({
   declarations: [
     AppComponent,
@@ -122,6 +136,7 @@ import { CareersComponent } from './careers/careers.component';
     JobsComponent,
     GooglemapComponent,
     AssociationManagementComponent,
+    EnrollassociationComponent,
     ExpenseManagementComponent,
     VehiclesComponent,
     FamilyMembersComponent,
@@ -179,7 +194,6 @@ import { CareersComponent } from './careers/careers.component';
     BrowserModule,
     ChartsModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutingModule,
     OrderModule,
     FormsModule,
@@ -187,6 +201,20 @@ import { CareersComponent } from './careers/careers.component';
     AgmDirectionModule,
     NgxPaginationModule,
     DataTablesModule,
+
+    HttpModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatTooltipModule,
+    MatSelectModule,
+    MatInputModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatMomentDateModule,
+    MatNativeDateModule,
+
     //AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
     UserIdleModule.forRoot({idle:1800, timeout:60, ping:30}), //600=10minute
@@ -205,6 +233,9 @@ import { CareersComponent } from './careers/careers.component';
     TimepickerModule.forRoot()
   ],
   providers: [AudioRecordingService],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

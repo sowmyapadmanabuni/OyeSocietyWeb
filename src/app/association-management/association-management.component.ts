@@ -1075,9 +1075,12 @@ export class AssociationManagementComponent implements OnInit {
   getAccountType(accounttypeName) {
     this.BAActType = accounttypeName;
   }
+  showVar: boolean = true;
   enblEnrlAsnVew() {
-    //console.log('april4');
-    //alert('test');
+
+    //  this.showVar = !this.showVar;
+    console.log('april4');
+    // alert('test');
     localStorage.setItem('Component','AssociationManagent');
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled = true;

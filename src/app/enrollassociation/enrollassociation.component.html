@@ -1,0 +1,607 @@
+<mat-tab-group class="mainpage" [(selectedIndex)]="demo1TabIndex">
+    <div class="blockdetailsdata">
+        <mat-tab #tab [disabled]='!tab.isActive'label="ASSOCIATION DETAILS">
+            <div class="page1">
+
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>ASSOCIATION NAME</mat-label>
+                        <input matInput placeholder="Association Name" matTooltip="This name should match as given in the Association Pan Card" class = "text" formControlName="asnname" [(ngModel)]="assname"
+                            value="">
+                        <mat-error [displayError]="isFieldValid('asnname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+
+                <!-- <mat-grid-tile>
+                <div class="container">
+                    <input type="file" style="display: none" #fileInput accept="image/*" (change)="onChangeFileInput()" />
+                    <mat-icon>Choose_file</mat-icon>
+
+                    <button mat-raised-button color="primary" class="file-select-button" (click)="onClickFileInputButton()">
+                      Upload
+                    </button>
+
+                    <p class="file-name" *ngIf="!file; else fileName">No file chosen</p>
+                    <ng-template #fileName>
+                      <p class="file-name">{{ file?.name }}</p>
+                    </ng-template>
+                  </div>
+            </mat-grid-tile> -->
+
+            <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
+                class="fa fa-question-circle" aria-hidden="true"></i>
+            <mat-label class="logo">Upload logo</mat-label>
+            <input type="file" id="img" accept="image/png,imge/jpeg" />
+            <a mat-raised-button color="primary" class="Upload">Upload</a>
+
+
+                <!-- <form class="association-form">
+                    <p>Upload Logo of Max 2MB of Formats allowed</p>
+                </form>
+ -->
+
+                <br>
+
+                <form [formGroup]="form"class="association-form">
+                    <mat-form-field>
+                        <mat-select [(value)]="countryname" formControlName="cntryname" placeholder="COUNTRY">
+                            <mat-option *ngFor="let country of countrieslist" class = "text"[value]="country">{{country}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [displayError]="isFieldValid('cntryname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field>
+                        <mat-select [(value)]="state" formControlName="statename" placeholder="STATE">
+                            <mat-option *ngFor="let state of states" [value]="state">{{state}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [displayError]="isFieldValid('statename')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>CITY</mat-label>
+                        <input matInput placeholder="CITY" formControlName="cityname" class = "text" [(ngModel)]="city" value="">
+                        <mat-error [displayError]="isFieldValid('cityname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <br>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>PIN/ZIP/POSTAL CODE</mat-label>
+                        <input matInput placeholder="PIN/ZIP" formControlName="zipcode" [(ngModel)]="postalcode"
+                            value="">
+                        <mat-error [displayError]="isFieldValid('zipcode')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field>
+                        <mat-select [(value)]="propertytype" formControlName="prprtytype" placeholder="PROPERTY TYPE">
+                            <mat-option *ngFor="let property of propertyType" [value]="property">{{property}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [displayError]="isFieldValid('prprtytype')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>PROPERTY NAME</mat-label>
+                        <input matInput placeholder="PROPERTY NAME" class = "text"formControlName="prtyname"
+                            [(ngModel)]="propertyname" value="">
+                        <mat-error [displayError]="isFieldValid('prtyname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <br>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>LOCALITY</mat-label>
+                        <input matInput placeholder="LOCALITY"class = "text" formControlName="locname" [(ngModel)]="locality"
+                            value="">
+                        <mat-error [displayError]="isFieldValid('locname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>ASSOCIATION EMAIL</mat-label>
+                        <input matInput placeholder="ASSOCIATION EMAIL" formControlName="assemail"
+                            [(ngModel)]="Associationemail" value="">
+                        <mat-error [displayError]="isFieldValid('assemail')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>ASSOCIATION WEBSITE URL</mat-label>
+                        <input matInput placeholder="URL" formControlName="urlset" [(ngModel)]="url" value="">
+                        <mat-error [displayError]="isFieldValid('urlset')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+
+                <div class="save">
+                    <a class="continue" mat-raised-button color="primary">RESET</a>
+                    <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitassociationdetails($event)">SAVE & CONTINUE</a>
+                </div>
+
+            </div>
+
+
+        </mat-tab>
+        <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
+
+             <!-- <form [formGroup]="panform" class="association-form">
+                <mat-form-field class="association-full-width">
+                    <mat-label>GST & PAN DETAILS</mat-label>
+                    <input matInput placeholder="GST NUMBER" [(ngModel)]="gstnumber" value=""
+                     >
+
+                 </mat-form-field>
+            </form> -->
+            <form [formGroup]="panform" class="association-form">
+                <mat-form-field class="association-full-width">
+                    <mat-label>GST NUMBER(OPTIONAL)</mat-label>
+                    <input matInput placeholder="GST NUMBER" formControlName="gstno" [(ngModel)]="gstnumber" value="">
+                    <mat-error [displayError]="isFieldValidPanDetails('gstno')">
+                        {{ titleAlert }}
+                    </mat-error>
+                </mat-form-field>
+            </form>
+
+            <form [formGroup]="panform" class="association-form">
+                <mat-form-field class="association-full-width">
+                    <mat-label>PAN NUMBER</mat-label>
+                    <input matInput  placeholder="PAN NUMBER" matTooltip= "The name on the Pan card given should be the same as the the Association name"class = "text" formControlName="panno" [(ngModel)]="pannumber" value="">
+                    <mat-error [displayError]="isFieldValidPanDetails('panno')">
+                        {{ titleAlert }}
+                    </mat-error>
+                </mat-form-field>
+            </form>
+
+
+            <mat-label class="logo" matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128">Upload Scanned PAN Card</mat-label>
+            <input type="file" id="img2" accept="image/png,imge/jpeg" />
+
+            <div class="save">
+                <a class="continue" mat-raised-button color="primary">RESET</a>
+                <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!panform.valid" (click)="submitpandetails($event)">SAVE & CONTINUE</a>
+            </div>
+        </mat-tab>
+        <!-- <mat-tab [disabled]='!tab.isActive' label="Amenities">
+            <form class="association-form3">
+                <mat-form-field>
+                    <mat-select placeholder="SelectAmenity" [(value)]="amenityname">
+                        <mat-option *ngFor="let amenity of amenityType" [value]="amenity">{{amenity}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <form class="association-form3">
+                <mat-form-field class="association-full-width">
+                    <mat-label>No of Amenity</mat-label>
+                    <input matInput placeholder="No of Amenities" [(ngModel)]="noofamenities" value=""
+                        [formControl]="blockdigits" required>
+                </mat-form-field>
+            </form>
+            <div class="save">
+                <a class="continue" mat-raised-button color="primary">RESET</a>
+                <a mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitamenity($event)">SAVE & CONTINUE</a>
+            </div>
+        </mat-tab> -->
+        <mat-tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
+            <form [formGroup]="blockform" class="association-form3">
+                <mat-form-field class="association-full-width">
+                    <mat-label>Total No of Blocks</mat-label>
+                    <input matInput placeholder="NO OF BLOCKS" formControlName="blockno" [(ngModel)]="noofblocks"
+                        value="">
+                    <mat-error [displayError]="isFieldValidblockandunitdetails('blockno')">
+                        {{ titleAlert }}
+                    </mat-error>
+                </mat-form-field>
+            </form>
+            <form [formGroup]="blockform" class="association-form3">
+                <mat-form-field class="association-full-width">
+                    <mat-label>Total No of Units</mat-label>
+                    <input matInput placeholder="NO OF UNITS" matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value="">
+                    <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
+                        {{ titleAlert }}
+                    </mat-error>
+                </mat-form-field>
+            </form>
+            <div class="save">
+                <a class="continue" mat-raised-button color="primary">RESET</a>
+                <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!blockform.valid"(click)="submitassociationcreation($event,'')">SAVE & CONTINUE</a>
+            </div>
+        </mat-tab>
+        <!-- <mat-tab [disabled]='!tab.isActive' label="Bulkupload/Manual entry Details">
+          
+                        <div class="upload_excel">
+                            <a> <img style="width: 60px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                                    tooltip="Have more num of Blocks?"></a>
+                            <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 60px;" class="excel"
+                                    src="../../assets/images/download.png"
+                                    tooltip="click to download demo excel format"></a>
+                            <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                style="display:none" #file>
+                        </div> 
+                       <div id="manualbulk">
+                        <button id="button1"mat-raised-button color="primary"(click)="submitforconform($event)">Manual Input</button>
+                        <button id="button2"mat-raised-button color="primary"(click)="submitforconform($event)">Bulk Upload</button>
+
+                       </div>
+         
+                      
+           
+        </mat-tab> -->
+        <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
+            <div id="manualbulk">
+                <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
+                <button id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
+            </div>
+                <div id="upload_excel" style="display:none">
+                    <a> <img style="width: 100px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                        matTooltip="UPLOAD"></a>
+                    <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 100px;" class="excel"
+                            src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
+                    <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
+                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        style="display:none" #file>
+                </div>
+            <!-- <div [formGroup]="blocksdetailsform"> -->
+                <div id="showmanual" style="display:none">
+                    <div *ngFor="let obj of blocksArray;let i= index">
+                        <!-- <app-blockdetails [i]="i" [obj]="obj" [detailsdata]="detailsdata" [blocksArray]="blocksArray" [blocksdetailsform]="blocksdetailsform.get(i.toString())"></app-blockdetails> -->
+                        <div class="blockdetailsdata">
+                            <form class="blockdetails-form">
+                                <div>
+                                    <mat-form-field class="blockdetails-form">
+                                            <mat-label>BLOCK NAME/NUMBER</mat-label>
+                                            <input matInput placeholder="BLOCK NAME/NUMBER" class = "text" id="label"(click)="blocksfields($event,i,'blockname')" [(ngModel)]="blocksArray[i].blockname" [ngModelOptions]="{standalone: true}" value="">
+                                            <!-- <mat-error *ngIf ="detailsdata[i]['blockname']['required']&&detailsdata[i]['blockname']['clicked']&&'!blocksArray[i].blockname'">
+                                                {{ titleAlert }}
+                                            </mat-error> -->
+                                    </mat-form-field>
+                                    <p class ="validation"*ngIf ="detailsdata[i]['blockname']['required']&&detailsdata[i]['blockname']['clicked']&&!blocksArray[i]['blockname']">{{ titleAlert }}</p>
+        
+                                </div>
+                                <div>
+                                    <mat-form-field class="blockdetails-form">
+                                        <mat-select [(value)]="blocksArray[i].blocktype" placeholder="BLOCK TYPE">
+                                            <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                              <div>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>NO OF UNITS</mat-label>
+                                    <input matInput placeholder="NO OF UNITS" (click)="blocksfields($event,i,'units')"[(ngModel)]="blocksArray[i].units"[ngModelOptions]="{standalone:
+                                        true}" value="">
+                                    <!-- <mat-error [displayError]="isFieldValidblocksdetails('unitsno')">
+                                        {{ titleAlert }}
+                                    </mat-error> -->
+                                </mat-form-field>
+                                <p class ="validation"*ngIf ="detailsdata[i]['units']['required']&&detailsdata[i]['units']['clicked']&&!blocksArray[i]['units']">{{ titleAlert }}</p>
+        
+                              </div>
+                             <div>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>MANAGER NAME</mat-label>
+                                    <input class = "text"  matInput placeholder="MANAGER NAME" (click)="blocksfields($event,i,'managername')"[(ngModel)]="blocksArray[i].managername" [ngModelOptions]="{standalone:
+                                        true}"value="">
+                                    <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngname')">
+                                        {{ titleAlert }}
+                                    </mat-error> -->
+                                </mat-form-field>
+                                <p class ="validation"*ngIf ="detailsdata[i]['managername']['required']&&detailsdata[i]['managername']['clicked']&&!blocksArray[i]['managername']">{{ titleAlert }}</p>
+        
+                             </div>
+                             <div>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>MANAGER MOBILE NUMBER</mat-label>
+                                    <input matInput placeholder="MANAGER MOBILE NUMBER" (click)="blocksfields($event,i,'managermobileno')"[ngModelOptions]="{standalone:true}"
+                                        [(ngModel)]="blocksArray[i].managermobileno" value="">
+                                    <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngmobileno')">
+                                        {{ titleAlert }}
+                                    </mat-error> -->
+                                </mat-form-field>
+                                <p class ="validation"*ngIf ="detailsdata[i]['managermobileno']['required']&&detailsdata[i]['managermobileno']['clicked']&&!blocksArray[i]['managermobileno']">{{ titleAlert }}</p>
+        
+                             </div>
+                            <div>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>MANAGER EMAIL ID</mat-label>
+                                    <input matInput placeholder="MANAGER EMAIL ID" (click)="blocksfields($event,i,'manageremailid')"[(ngModel)]="blocksArray[i].manageremailid"[ngModelOptions]="{standalone:true}"
+                                        value="">
+                                    <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngemaiid')">
+                                        {{ titleAlert }}
+                                    </mat-error> -->
+                                </mat-form-field>
+                                <p class ="validation"*ngIf ="detailsdata[i]['manageremailid']['required']&&detailsdata[i]['manageremailid']['clicked']&&!blocksArray[i]['manageremailid']">{{ titleAlert }}</p>
+        
+                            </div>
+                             
+                                <!-- <mat-form-field class="blockdetails-form">
+                                    <mat-label>UNIT OF MEASUREMENT</mat-label>
+                                    <input matInput placeholder="Measurement Type" value="Sqft"readonly>
+                                </mat-form-field>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-select [(value)]="blocksArray[i].invoicefrequency"
+                                        placeholder="INVOICE CREATION FREQUENCY">
+                                        <mat-option *ngFor="let country of invoicecreation" [value]="country">{{country}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>DATE OF FIRST INVOICE</mat-label>
+                                    <input matInput [matDatepicker]="picker" placeholder="DATE OF FIRST INVOICE"
+                                    
+                                        matTooltip="please give the date when you intend to start generating invoices using scuarex"
+                                        [(ngModel)]="blocksArray[i].invoicedate"[ngModelOptions]="{standalone: true}">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>DUE DATE</mat-label>
+                                    <input matInput [matDatepicker]="picker1" placeholder="DUE DATE"
+                                       
+                                        [(ngModel)]="blocksArray[i].duedate" [ngModelOptions]="{standalone: true}">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                    <mat-error [displayError]="isFieldValidblocksdetails('duedatecalender')">
+                                        {{ titleAlert }}
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-select [(value)]="blocksArray[i].paymentcharge" placeholder="LATE PAYMENT CHARGE TYPE">
+                                        <mat-option *ngFor="let country of paymentchargetype" [value]="country">{{country}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>LATE PAYMENT CHARGE APPLIED FROM</mat-label>
+                                    <input matInput placeholder="LATE PAYMENT CHARGE APPLIED FROM"
+                                        
+                                        matTooltip="This is based on the frequency of the invoice"
+                                        [(ngModel)]="blocksArray[i].latepaymentcharge"[ngModelOptions]="{standalone: true}" value="">
+                                        <mat-error [displayError]="isFieldValidblocksdetails('latepayment')">
+                                            {{ titleAlert }}
+                                        </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>CHARGE APPLIED FROM</mat-label>
+                                    <input matInput [matDatepicker]="picker2" placeholder="CHARGE APPLIED FROM"
+                                        
+                                        [(ngModel)]="blocksArray[i].startdate"[ngModelOptions]="{standalone: true}">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error [displayError]="isFieldValidblocksdetails('startdatefrom')">
+                                        {{ titleAlert }}
+                                    </mat-error>
+                                </mat-form-field>  -->
+                            </form>
+                        </div>
+                        
+                        </div>
+                    <!-- </div> -->
+                  
+                    <div class="save">
+                        <a class="continue" mat-raised-button color="primary">RESET</a>
+                        <a mat-raised-button color="primary"[disabled]="!blocksdetailsform.valid"(click)="createblocksdetails($event)">NEXT</a>
+                    </div>
+                </div>
+          
+        </mat-tab>
+        <!-- <mat-tab [disabled]='!tab.isActive' label="unit bulk/manual">
+          
+            <div class="upload_excel">
+                <a> <img style="width: 60px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
+                        tooltip="Have more num of Blocks?"></a>
+                <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 60px;" class="excel"
+                        src="../../assets/images/download.png"
+                        tooltip="click to download demo excel format"></a>
+                <input type="file" id="file_unitupload_id" (change)="onFileunitdetailschange($event)" multiple="false"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    style="display:none" #file>
+            </div>
+           <div>
+            <button id="button1"mat-raised-button color="primary"(click)="submitassociation($event)">Manual Input</button>
+            <button id="button2"mat-raised-button color="primary"(click)="submitforconform($event)">Bulk Upload</button> 
+
+           </div>
+
+
+
+        </mat-tab> -->
+        <mat-tab [disabled]='!tab.isActive' label="UNITS DETAILS">
+            <!-- <div id="unitmanualbulk">
+                <button id="button1" mat-raised-button color="primary" (click)="manualunitdetailsclick($event)">Manual Input</button>
+                 <button id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
+            </div> -->
+                <div id="unitupload_excel" style="display:none">
+
+                   
+                    <a> <img style="width: 100px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
+                        matTooltip="UPLOAD" ></a>
+                    <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 100px;" class="excel"
+                            src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
+                    <input #fileInput type="file" id="file_unitupload_id" 
+                           (click)="fileInput.value = null" 
+                           (change)="onFileunitdetailschange($event)" 
+                            accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"> 
+
+                    <!-- <input type="file" id="file_unitupload_id" (change)="onFileunitdetailschange($event)" multiple="true"
+                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"#file> -->
+                </div>
+            <div id="unitshowmanual">
+            <mat-tab-group class="mainpage">
+                <div class="blockdetailsdata" *ngFor="let name of finalblockname">
+                    <mat-tab  class = "text"[label]="name">
+                        <div class="blockdetailsdata" *ngFor="let obj of unitlistjson[name];let i= index">
+                         <form class="blockdetails-form">
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-label>UNIT NO/FLAT NO</mat-label>
+                                    <input class = "text" matInput placeholder="UNIT NO/FLAT NO" [(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
+                                        true}" value="">
+                                    <!-- <mat-error [displayError]="isFieldValidunitsdetails('flat')">
+                                        {{ titleAlert }}
+                                    </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-select [(value)]="obj.unittype" placeholder="UNIT TYPE">
+                                        <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            <!-- <form [formGroup]="unitsdetailsform" class="association-form">
+                                <mat-form-field class="association-full-width">
+                                    <mat-label>UNIT DIMENSION(Sqft)</mat-label>
+                                    <input matInput placeholder="Unit Dimension" formControlName="dimension"[(ngModel)]="obj.unitdimension"value="" >
+                                        <mat-error [displayError]="isFieldValidunitsdetails('dimension')">
+                                            {{ titleAlert }}
+                                        </mat-error>
+                                </mat-form-field>
+                            </form>
+                            <form class="association-form">
+                                <mat-form-field>
+                                    <mat-select [(value)]="obj.calculationtype" placeholder="CALCULATION TYPE">
+                                        <mat-option *ngFor="let country of caltype" [value]="country">{{country}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </form>
+                            <form [formGroup]="unitsdetailsform" class="association-form">
+                                <mat-form-field class="association-full-width">
+                                    <mat-label>UNIT RATE</mat-label>
+                                    <input matInput placeholder="UNIT RATE"formControlName="rate"[(ngModel)]="obj.unitrate" value="">
+                                       <mat-error [displayError]="isFieldValidunitsdetails('rate')">
+                                        {{ titleAlert }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </form> -->
+
+                                <mat-form-field class="blockdetails-form">
+                                    <mat-select [(value)]="obj.ownershipstatus"
+                                        placeholder="OCCUPANCY & OWNERSHIP STATUS">
+                                        <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                         
+                                <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>OWNER FIRST NAME</mat-label>
+                                    <input  class = "text" matInput placeholder="OWNER FIRSTNAME" [(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
+                                        true}" value="">
+                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownfirstname')">
+                                            {{ titleAlert }}
+                                        </mat-error> -->
+                                </mat-form-field>
+                        
+                                <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>OWNER LAST NAME</mat-label>
+                                    <input class = "text" matInput placeholder="OWNER LASTNAME" [(ngModel)]="obj.ownerlastname"
+                                    [ngModelOptions]="{standalone:true}" value="">
+                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownlastname')">
+                                            {{ titleAlert }}
+                                        </mat-error> -->
+                                </mat-form-field>
+                       
+                                <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>OWNER MOBILE NUMBER</mat-label>
+                                    <input matInput placeholder="OWNER MOBILE NUMBER"
+                                    [ngModelOptions]="{standalone:true}"
+                                        [(ngModel)]="obj.ownermobilenumber" value="">
+                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownmobileno')">
+                                            {{ titleAlert }}
+                                        </mat-error> -->
+                                </mat-form-field>
+                  
+                                <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>OWNER EMAIL ID</mat-label>
+                                    <input matInput placeholder="OWNER EMAIL-ID" [(ngModel)]="obj.owneremaiid"[ngModelOptions]="{standalone:true}"value="">
+                                    <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownemail')">
+                                        {{ titleAlert }}
+                                    </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>TENANT FIRST NAME</mat-label>
+                                    <input class = "text" matInput placeholder="TENANT FIRSTNAME" [(ngModel)]="obj.tenantfirstname"
+                                    [ngModelOptions]="{standalone:true}" value="">
+                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentfirstname')">
+                                            {{ titleAlert }}
+                                        </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>TENANT LAST NAME</mat-label>
+                                    <input class = "text" matInput placeholder="TENANT LASTNAME" [(ngModel)]="obj.tenantlastname"
+                                    [ngModelOptions]="{standalone:true}" value="">
+                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentlatsname')">
+                                            {{ titleAlert }}
+                                        </mat-error> -->
+                                </mat-form-field>
+                            
+                                <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>TENANT MOBILE NUMBER</mat-label>
+                                    <input matInput placeholder="TENANT MOBILE NUMBER"
+                                        [(ngModel)]="obj.tenantmobilenumber"[ngModelOptions]="{standalone:true}" value="">
+                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentmobileno')">
+                                            {{ titleAlert }}
+                                        </mat-error> -->
+                                </mat-form-field>
+                                <mat-form-field  class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
+                                    <mat-label>TENANT EMAIL ID</mat-label>
+                                    <input matInput placeholder="TENANT EMAIL-ID" [(ngModel)]="obj.tenantemaiid"
+                                    [ngModelOptions]="{standalone:true}" value="">
+                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentemail')">
+                                            {{ titleAlert }}
+                                        </mat-error> -->
+                                </mat-form-field>
+                            </form>
+                        </div>
+                        <div>
+                        <button id="unitbulkbutton" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
+
+                        </div>
+                        <div class="save">
+                            <a class="continue" mat-raised-button color="primary">RESET</a>
+                            <a mat-raised-button color="primary"[disabled]="!unitsdetailsform.valid"(click)="submitunitdetails($event)">NEXT</a>
+                        </div>
+                    </mat-tab>
+                
+                </div>
+            
+            </mat-tab-group>
+               </div> 
+        </mat-tab>
+        <mat-tab  [disabled]='!tab.isActive' label="SUBSCRIPTION">
+
+        </mat-tab>
+        <mat-tab  [disabled]='!tab.isActive' label="PAYMENT">
+
+        </mat-tab>
+    </div>
+</mat-tab-group>
