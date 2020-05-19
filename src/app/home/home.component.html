@@ -159,10 +159,11 @@
                                                                                         <div class="number">
                                                                                                 {{(totalMember=='0'?'0':totalMember)}}
                                                                                         </div>
-                                                                                        <div>Members</div>
+                                                                                        <!-- <div>Members</div> -->
+                                                                                        <div>Roles</div>
                                                                                 </div>
                                                                         </div>
-                                                        <div>
+                                                        <!-- <div>
                                                                 <div><img class="dash-icon"
                                                                                 src="../../assets/images/icons/staff.png">
                                                                 </div>
@@ -172,7 +173,7 @@
                                                                         </div>
                                                                         <div>Staff</div>
                                                                 </div>
-                                                        </div>
+                                                        </div> -->
                                                         <!-- <div class="tile-link" (click)="goToBlocks()">
                                                                 <div><img class="dash-icon"
                                                                                 src="../../assets/images/icons/blocks-units.png">
@@ -330,15 +331,17 @@
                                                                         <div>Visitors</div>
                                                                 </div>
                                                         </div> -->
-                                                        <div class="tile-link" (click)="goToStaffFromDashboard()">
-                                                                <div><img class="dash-icon"
-                                                                                src="../../assets/images/icons/staff.png">
+                                                        <!-- <div class="tile-link" (click)="goToStaffFromDashboard()"> -->
+                                                        <div class="tile-link" (click)="GoToJoinAssociation()">
+                                                                <div>
+                                                                        <!-- <img class="dash-icon" src="../../assets/images/icons/staff.png"> -->
+                                                                        <i class="fa fa-handshake-o" aria-hidden="true"></i>
                                                                 </div>
                                                                 <div>
-                                                                        <div class="number">
+                                                                        <!-- <div class="number">
                                                                                 {{(totalUnitStaffs=='0'?'0':totalUnitStaffs)}}
-                                                                        </div>
-                                                                        <div>Staff</div>
+                                                                        </div> -->
+                                                                        <div>Join Association</div>
                                                                 </div>
                                                         </div>
                                                         <div class="tile-link" (click)="goToFamily()">

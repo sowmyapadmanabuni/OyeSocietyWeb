@@ -127,4 +127,5 @@ export class CareersComponent implements OnInit {
       $('#example').DataTable();
     });
   }
+
 }

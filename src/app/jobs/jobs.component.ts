@@ -39,9 +39,11 @@ export class JobsComponent implements OnInit {
   filename:any;
   order:any;
   ipAddress:string;
+  PdfFileInBase64: string;
   
 constructor(private jobListservice: JobopeningsService,private modalService: BsModalService,private http: HttpClient) {
     this.jobDetailslist = [];
+    this.PdfFileInBase64='';
     this.jobTitle = '';
     this.jobDepartment = '';
     this.ipAddress = 'http://devapi.scuarex.com/oyeliving/api/v1/CreateJobApplication';
@@ -94,6 +96,27 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
       .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
       .set('Content-Type', 'application/json');
     return headers;
+  }
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      console.log(file.name);
+      this.filename = file.name;
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        console.log(reader.result);
+        this.PdfFileInBase64 = reader.result as string;
+        this.PdfFileInBase64 = this.PdfFileInBase64.substring(this.PdfFileInBase64.indexOf('64') + 3);
+        //console.log(this.ASAsnLogo.indexOf('64')+1);
+        //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+        console.log(this.PdfFileInBase64);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+    }
   }
   ApplyJob() {
          
