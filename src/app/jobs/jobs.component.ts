@@ -24,6 +24,26 @@ export class JobsComponent implements OnInit {
   jobExperience: string;
   jobType: string;
   modalRef: BsModalRef;
+<<<<<<< HEAD
+  filteredPopJob: any;
+  filteredPopJoblegth: boolean;
+  formJobTitle: any;
+  userName: any;
+  userEmail: any;
+  userPhone: any;
+  userlastName: any;
+  userLocation: any;
+  userExp: any;
+  userworkFor: any;
+  userDesig: any;
+  userRelocate: any;
+  userComments: any;
+  filename: any;
+  order: any;
+  ipAddress: string;
+
+  constructor(private jobListservice: JobopeningsService, private modalService: BsModalService, private http: HttpClient) {
+=======
   filteredPopJob:any;
   filteredPopJoblegth:boolean;
   formJobTitle:any;
@@ -40,9 +60,12 @@ export class JobsComponent implements OnInit {
   filename:any;
   order:any;
   ipAddress:string;
+  PdfFileInBase64: string;
   
 constructor(private jobListservice: JobopeningsService,private modalService: BsModalService,private http: HttpClient) {
+>>>>>>> af92a4d7479537b95758059957bc41ad81cba541
     this.jobDetailslist = [];
+    this.PdfFileInBase64='';
     this.jobTitle = '';
     this.jobDepartment = '';
     this.ipAddress = 'http://devapi.scuarex.com/oyeliving/api/v1/CreateJobApplication';
@@ -50,51 +73,51 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
     this.jobLocation = '';
     this.jobExperience = '';
     this.jobType = '';
-    this.filteredPopJob='';
-    this.formJobTitle='';
-    this.userName='';
-    this.userEmail='';
-    this.userPhone='';
-    this.userlastName='';
-  this.userLocation='';
-  this.userExp='';
-  this.userworkFor='';
-  this.userDesig='';
-  this.userRelocate='';
-  this.userComments='';
-  this.filename='';
-    this.filteredPopJoblegth=false;
+    this.filteredPopJob = '';
+    this.formJobTitle = '';
+    this.userName = '';
+    this.userEmail = '';
+    this.userPhone = '';
+    this.userlastName = '';
+    this.userLocation = '';
+    this.userExp = '';
+    this.userworkFor = '';
+    this.userDesig = '';
+    this.userRelocate = '';
+    this.userComments = '';
+    this.filename = '';
+    this.filteredPopJoblegth = false;
   }
-  openModal(applyjob: TemplateRef<any>,jobId) {
+  openModal(applyjob: TemplateRef<any>, jobId) {
 
     console.log(jobId);
-    this.filteredPopJob=this.jobDetailslist.filter(data=>{
-      return data['jobId']==jobId;
- })
-      if(this.filteredPopJob.length>0){
-        this.filteredPopJoblegth=true;
-      }
+    this.filteredPopJob = this.jobDetailslist.filter(data => {
+      return data['jobId'] == jobId;
+    })
+    if (this.filteredPopJob.length > 0) {
+      this.filteredPopJoblegth = true;
+    }
 
-   
-    this.formJobTitle=this.filteredPopJob[0].jobTitle;
+
+    this.formJobTitle = this.filteredPopJob[0].jobTitle;
     console.log(this.filteredPopJob);
     this.modalRef = this.modalService.show(applyjob, { class: 'modal-md' });
   }
   openModelnewJob(applyjob: TemplateRef<any>) {
-    this.filteredPopJoblegth=false;
+    this.filteredPopJoblegth = false;
     this.modalRef = this.modalService.show(applyjob, { class: 'modal-md' });
   }
   ngOnInit() {
     // this.jobDetailslist = this.jobListservice.getJobLists();
-   this.jobListservice.getJobLists()
+    this.jobListservice.getJobLists()
 
-   .subscribe(data=>{
+      .subscribe(data => {
 
-    console.log(data)
-    this.jobDetailslist=data['data']['jobDetails'];
-    console.log(this.jobDetailslist);
-  },
-  err=>{console.log(err)});
+        console.log(data)
+        this.jobDetailslist = data['data']['jobDetails'];
+        console.log(this.jobDetailslist);
+      },
+        err => { console.log(err) });
     console.log(this.jobDetailslist);
 
   }
@@ -105,71 +128,92 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
       .set('Content-Type', 'application/json');
     return headers;
   }
-  ApplyJob() {
-         
-         console.log(this.userName);
-         console.log(this.userEmail);
-         console.log(this.userPhone);
-         console.log(this.userlastName);
-         console.log(this.userLocation);
-         console.log(this.userExp);
-         console.log(this.userworkFor);
-         console.log(this.userDesig);
-         console.log(this.userRelocate);
-         console.log(this.userComments);
-         console.log(this.filename);
-         console.log(this.formJobTitle);
-         let creatFormRequestBody =
-
-         {
-         "FirstName"       : this.userName,
-         "LastName"        : this.userlastName,
-         "Email"           : this.userEmail,
-         "ContactNumber"   : this.userPhone,
-         "CurrLocation"    : this.userLocation,
-         "TotalExprYrs"    : this.userExp,
-         "CurrworkingFor"  : this.userworkFor,
-         "CurrDesignation" : this.userDesig, 
-         "WillingToRelocate" :this.userRelocate,
-         "HelpComments"      : this.userComments,
-         "ResumeName"        : this.filename
-         }
-         console.log(creatFormRequestBody);
-         let headers = this.getHttpheaders();
-         this.http.post('http://devapi.scuarex.com/oyeliving/api/v1/CreateJobApplication',(creatFormRequestBody), { headers: headers })
-         .subscribe(data=>{
-           this.modalRef.hide();
-           console.log(data)
-           Swal.fire({
-            title: "Job has been applied successfully",
-            text: "",
-            type: "success",
-            confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
-          }).then(
-            (result) => {
-              if (result.value) {
-                this.userName='';
-                this.userEmail='';
-                this.userPhone='';
-                this.userlastName='';
-                this.userLocation='';
-                this.userExp='';
-                this.userworkFor='';
-                this.userDesig='';
-                this.userRelocate='';
-                this.userComments='';
-                this.filename='';
-                this.formJobTitle='';
-              }
-            }
-          )
-         },
-         err=>{console.log(err)});
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      console.log(file.name);
+      this.filename = file.name;
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        console.log(reader.result);
+        this.PdfFileInBase64 = reader.result as string;
+        this.PdfFileInBase64 = this.PdfFileInBase64.substring(this.PdfFileInBase64.indexOf('64') + 3);
+        //console.log(this.ASAsnLogo.indexOf('64')+1);
+        //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+        console.log(this.PdfFileInBase64);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
     }
+  }
+  ApplyJob() {
+
+    console.log(this.userName);
+    console.log(this.userEmail);
+    console.log(this.userPhone);
+    console.log(this.userlastName);
+    console.log(this.userLocation);
+    console.log(this.userExp);
+    console.log(this.userworkFor);
+    console.log(this.userDesig);
+    console.log(this.userRelocate);
+    console.log(this.userComments);
+    console.log(this.filename);
+    console.log(this.formJobTitle);
+    let creatFormRequestBody =
+
+    {
+      "FirstName": this.userName,
+      "LastName": this.userlastName,
+      "Email": this.userEmail,
+      "ContactNumber": this.userPhone,
+      "CurrLocation": this.userLocation,
+      "TotalExprYrs": this.userExp,
+      "CurrworkingFor": this.userworkFor,
+      "CurrDesignation": this.userDesig,
+      "WillingToRelocate": this.userRelocate,
+      "HelpComments": this.userComments,
+      "ResumeName": this.filename
+    }
+    console.log(creatFormRequestBody);
+    let headers = this.getHttpheaders();
+    this.http.post('http://devapi.scuarex.com/oyeliving/api/v1/CreateJobApplication', (creatFormRequestBody), { headers: headers })
+      .subscribe(data => {
+        this.modalRef.hide();
+        console.log(data)
+        Swal.fire({
+          title: "Job has been applied successfully",
+          text: "",
+          type: "success",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.userName = '';
+              this.userEmail = '';
+              this.userPhone = '';
+              this.userlastName = '';
+              this.userLocation = '';
+              this.userExp = '';
+              this.userworkFor = '';
+              this.userDesig = '';
+              this.userRelocate = '';
+              this.userComments = '';
+              this.filename = '';
+              this.formJobTitle = '';
+            }
+          }
+        )
+      },
+        err => { console.log(err) });
+  }
   Searchjobs() {
     let jobTitleArray = this.jobDetailslist.filter(item => {
-      return item['jobTitle'].toLowerCase().includes(this.jobTitle.toLowerCase()) || item['department'].toLowerCase().includes(this.jobDepartment.toLowerCase()) || item['location'].toLowerCase().includes(this.jobLocation.toLowerCase()) || item['jobExp'].toString()==this.jobExperience || item['employeeType'].toLowerCase().includes(this.jobType.toLowerCase());
+      return item['jobTitle'].toLowerCase().includes(this.jobTitle.toLowerCase()) || item['department'].toLowerCase().includes(this.jobDepartment.toLowerCase()) || item['location'].toLowerCase().includes(this.jobLocation.toLowerCase()) || item['jobExp'].toString() == this.jobExperience || item['employeeType'].toLowerCase().includes(this.jobType.toLowerCase());
 
     });
     // let jobDeptArray = this.jobDetailslist.filter(item => {
@@ -192,7 +236,7 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
     //})
     //let filteredJobResults=[...jobTitleArray,...jobDeptArray,...jobLocArray,...jobExpArray,...jobTypeArray];
     console.log(jobTitleArray);
-    this.jobDetailslist=jobTitleArray;
+    this.jobDetailslist = jobTitleArray;
     //console.log(filteredJobResults);
     // console.log(jobDeptArray);
     // console.log(jobLocArray);
@@ -206,15 +250,15 @@ constructor(private jobListservice: JobopeningsService,private modalService: BsM
     // // console.log(this.jobType);
 
   }
-  openModeljobdetails(jobdesc: TemplateRef<any>,jobs) {
+  openModeljobdetails(jobdesc: TemplateRef<any>, jobs) {
     // this.filteredPopJoblegth=false;
     console.log(jobs);
-    this.filteredPopJob=this.jobDetailslist.filter(data=>{
-      return data['jtid']==jobs;
- })
- console.log(this.filteredPopJob);
-     this.modalRef = this.modalService.show(jobdesc, { class: 'modal-lg' });
-   }
+    this.filteredPopJob = this.jobDetailslist.filter(data => {
+      return data['jtid'] == jobs;
+    })
+    console.log(this.filteredPopJob);
+    this.modalRef = this.modalService.show(jobdesc, { class: 'modal-lg' });
+  }
   ngAfterViewInit() {
     $(document).ready(function () {
       $('#example').DataTable();

@@ -179,7 +179,7 @@
                 </div>
                 <div class="form-group request-form-field">
                     <label>Upload your CV</label>
-                    <input type="file" id="myFile" name="filename" [(ngModel)]="filename" #uFileControl='ngModel'
+                    <input type="file" (change)='onFileSelect($event)' accept=".pdf" id="myFile" name="filename" [(ngModel)]="filename" #uFileControl='ngModel'
                         required>
                     <p class="alerts" *ngIf="uFileControl.invalid && uFileControl.touched">Please upload your cv</p>
                 </div>

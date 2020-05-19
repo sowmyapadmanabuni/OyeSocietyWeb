@@ -100,6 +100,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AdminDeleveryScreenComponent } from './admin-delevery-screen/admin-delevery-screen.component';
 import { AdminStaffScreenComponent } from './admin-staff-screen/admin-staff-screen.component';
 import { CareersComponent } from './careers/careers.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 //export const firebaseConfig = environment.firebaseConfig;
 
 import { HttpModule } from '@angular/http';
@@ -186,7 +187,8 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
     BroadcastComponent,
     AdminDeleveryScreenComponent,
     AdminStaffScreenComponent,
-    CareersComponent
+    CareersComponent,
+    NotificationsComponent
     ],
   imports: [
     ReactiveFormsModule,

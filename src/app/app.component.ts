@@ -41,6 +41,9 @@ export class AppComponent {
   isConnected = true;
   notificationListArray:NotificationListArray[];
   ResidentNotificationListArray:ResidentNotificationListArray[];
+  notificationCount:number;
+  paginatedvalue:number;
+  maxvalue:number;
 
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
@@ -48,6 +51,9 @@ export class AppComponent {
     private connectionService: ConnectionService,
     private userIdle: UserIdleService,
     private route: ActivatedRoute){
+      this.paginatedvalue=1;
+      this.maxvalue=23;
+      this.notificationCount=0;
     this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
     this.notificationListArray=[];
@@ -167,7 +173,8 @@ export class AppComponent {
   }
   ngOnInit() {
     if(this.globalService.getacAccntID()){
-      this.getNotification();
+      this.GetNotificationListByAccntID();   
+      //this.getNotification();
       //this.getAssociation();
       this.HideOrShowNotification=false;
     }
@@ -191,7 +198,8 @@ export class AppComponent {
       console.log(document.getElementById('LogOutID'));
       document.getElementById('LogOutID').click();
       alert("Your session has expired Kindly Login Again");
-    });    
+    }); 
+    //
   }
   ngAfterViewInit(){
   
@@ -257,40 +265,56 @@ export class AppComponent {
       return false;
     }
   }
-  getNotification(){
-    this.notificationListArray=[];
-    this.ResidentNotificationListArray=[];
+  GetNotificationListByAccntID(){
+    console.log(this.paginatedvalue);
+    let headers = this.getHttpheaders();
+    let ipAddress = this.utilsService.getIPaddress();
+
+    let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${this.paginatedvalue}`
+      this.http.get(url, { headers: headers })
+        .subscribe(data => {
+          if (data['data']['notificationListByAcctID'].length == 0) {
+            console.log(data);
+            this.getNotification();
+          }
+          else {
+            this.paginatedvalue += 1;
+            this.GetNotificationListByAccntID();
+            console.log(data);
+          }
+        })
+  }
+  getNotification() {
+    this.paginatedvalue -= 1;
+    console.log(this.paginatedvalue);
+    this.notificationListArray = [];
+    this.ResidentNotificationListArray = [];
     // http://apiuat.oyespace.com/oyesafe/api/v1/Notification/GetNotificationListByAccntID/11511/1
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
-    for(let pageIndex=1;pageIndex<17;pageIndex++){
-          let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
-          this.http.get(url, { headers: headers })
-         .subscribe(data=>{
-           //console.log('pageIndex-',pageIndex);
-           //console.log('pageIndex-',1);
-           console.log(data);
-           //console.log(data['data']['notificationListByAcctID'].length);
-           Array.from(data['data']['notificationListByAcctID']).forEach((item,index)=>{
+
+     for (let pageIndex = 1; pageIndex < this.paginatedvalue; pageIndex++) {
+      let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
+      this.http.get(url, { headers: headers })
+        .subscribe(data => {
+          console.log(data);
+          Array.from(data['data']['notificationListByAcctID']).forEach((item, index) => {
             ((index) => {
               setTimeout(() => {
-                //console.log('item-',item);
-                if(item['ntType'] == "Join"){
-                  this.notificationListArray.push(new NotificationListArray(item['ntid'],item['ntType'],item['asAsnName'],item['ntDesc'],item['sbMemID']));
+                if (item['ntType'] == "Join") {
+                  this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
                 }
-                else{
-                  this.ResidentNotificationListArray.push(new ResidentNotificationListArray(item['ntid'],item['ntType'],item['asAsnName'],item['ntDesc'],item['sbMemID']));
+                else {
+                  this.ResidentNotificationListArray.push(new ResidentNotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
                 }
-                //console.log(this.notificationListArray);
               }, 3000 * index)
             })(index)
-           })
-         },
-         err=>{
-           //console.log(err);
-         })
-    }
-    //console.log(this.notificationListArray);
+          })
+        },
+          err => {
+            console.log(err);
+          })
+    } 
   }
   getAssociation(){
     this.uniqueAssociations=[];

@@ -290,6 +290,8 @@ export class AssociationManagementComponent implements OnInit {
   mememberIDforJoin: any;
   ImgForPopUp:any;
   UploadedImage: any;
+  displayOwnerType: string;
+  UniNameForJoinAssn: any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -305,6 +307,7 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
+      this.UniNameForJoinAssn='';
       this.alreadyJoined=false;
       this.uploadPANCard='';
       this.UnitName='';
@@ -1372,6 +1375,12 @@ export class AssociationManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.globalService.gotojoinassociation=='id'){
+      this.enblJoinAsnVew();
+    }
+    else{
+      this.globalService.gotojoinassociation='';
+    }
     this.uploadForm = this.formBuilder.group({
       profile: ['']
     });
@@ -1678,8 +1687,9 @@ export class AssociationManagementComponent implements OnInit {
     }
     //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
   }
-  enableActive(spanCtrl, unUnitID) {
+  enableActive(spanCtrl, unUnitID,unUniName) {
     this.UnitIDforJoinAssn = unUnitID;
+    this.UniNameForJoinAssn = unUniName;
     //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
     let allSpan = document.querySelectorAll('div.block-row span');
@@ -2398,6 +2408,7 @@ export class AssociationManagementComponent implements OnInit {
 
   } */
   OnSendButton(OwnerType) {
+
     this.dashboardservice.getAccountFirstName(this.accountID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
@@ -2406,6 +2417,7 @@ export class AssociationManagementComponent implements OnInit {
       console.log(this.account[0]['acfName']);
       console.log(this.account[0]['aclName']);
       console.log(this.account[0]['acMobile']);
+      OwnerType==6? this.displayOwnerType='Owner' : this.displayOwnerType='Tenant'
       //
       let senddataForJoinOwner = {
         "ASAssnID": Number(this.assnID),
@@ -2417,18 +2429,21 @@ export class AssociationManagementComponent implements OnInit {
         "ISDCode": "+91",
         "LastName": this.account[0]['aclName'],
         "Email": "",
-        "SoldDate": "2019-03-02",
+        "SoldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
         "OccupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
       }
       console.log(senddataForJoinOwner);
       this.viewAssnService.joinAssociation(senddataForJoinOwner)
         .subscribe(
           (data) => {
+            console.log("senddataForJoinOwner",data);
+
+
             let RequestorDetail = {
               ACMobile: '+91'+this.account[0]['acMobile'],
               ASAssnID: Number(this.assnID),
               UNUnitID: Number(this.UnitIDforJoinAssn),
-              MRMRoleID: parseInt('6')
+              MRMRoleID: OwnerType==6? '6': '7',
             }
             console.log('RequestorDetails',RequestorDetail);
             this.viewAssnService.getRequestorDetails(RequestorDetail)
@@ -2441,20 +2456,20 @@ export class AssociationManagementComponent implements OnInit {
                   // "userID": this.UnitIDforJoinAssn.toString(),
                   "userID": this.accountID.toString(),
                   "sbUnitID": this.UnitIDforJoinAssn.toString(),
-                  "unitName": this.UnitName,
+                  "unitName": this.UniNameForJoinAssn,
                   "sbSubID": this.accountID.toString() + this.UnitIDforJoinAssn.toString()+'usernotif',
-                  "sbRoleId": '3',
-                  "sbMemID": this.mememberIDforJoin,
+                  "sbRoleId": '3',//OwnerType==6? '2' : '3',//'3',//'2',
+                  "sbMemID": this.mememberIDforJoin.toString(),// 25353,//this.mememberIDforJoin,
                   "sbName": this.account[0]['acfName'],
                   "associationID": this.assnID.toString(),//"15144",
                   "associationName": this.assnName,
                   "ntType": "Join",
                   "ntTitle": "Request to join "+this.assnName+" Association",
-                  // "ntDesc": "Vinay Wants to join A-001",
-                  "ntDesc": this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
-                  "roleName": "Admin",
+                  "ntDesc": this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association"+" as"+this.displayOwnerType,
+                  "roleName": OwnerType==6? 'Owner' : 'Tenant',//"Tenant", //"Owner",
                   "soldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
                   "occupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
+
                    }
                 console.log(MessageBody);
                 const headers = new HttpHeaders()
@@ -2463,11 +2478,13 @@ export class AssociationManagementComponent implements OnInit {
                 this.http.post('https://us-central1-jabm-fd8d9.cloudfunctions.net/sendAdminNotification', JSON.stringify(MessageBody), { headers: headers })
                   .subscribe(data => {
                     console.log(data);
+
                      return this.http.get('http://apiuat.oyespace.com/oyeliving/api/v1/Member/GetMemberListByAssocID/'+this.assnID, {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
                      .subscribe(data=>{
                        
                        let memberList =data['data']['memberListByAssociation'];
                        console.log('memberData',memberList);
+
                    memberList.map(data => {
                        if (
                            data.mrmRoleID === 1 &&
@@ -2475,27 +2492,29 @@ export class AssociationManagementComponent implements OnInit {
                            data.acAccntID !== this.accountID
                        ) {
                            console.log('adminssss', data);
+
                            let inAppNotification ={
-                            "ACAccntID"  : data['acAccntID'],
-                            "ACNotifyID" : this.globalService.getacAccntID(),
-                            "ASAsnName" : this.assnName,
-                            "ASAssnID"   : data['asAssnID'],
-                            "MRRolName" : "Block2",
-                            "NTDUpdated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
-                            "NTDCreated" : formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
-                            "NTDesc" : this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
-                            "NTMobile" : '+91'+this.account[0]['acMobile'],
+                            "ACAccntID" : data['acAccntID'].toString(), //"16360",//data['acAccntID'],                      //Admins accountID
+                            "ACNotifyID" : this.accountID.toString(), //"16182",//this.accountID,                        //Notifier AvvountID
+                            "ASAsnName" : this.assnName,// "QUARANTINE ASSOCIATION",//this.assnName,  
+                            "ASAssnID" : data['asAssnID'].toString(),// "15212",//data['asAssnID'].toString(),
+                            "MRRolName" : this.UniNameForJoinAssn, // "A024",
+                            "NTDUpdated" : "2020-May-Thu, 12:35:34",
+                            "NTDCreated" : "2020-May-Thu, 12:35:34",
+                            "NTDesc" : this.account[0]['acfName']+" Wants to join "+this.UniNameForJoinAssn+" in "+this.assnName+" Association",// "Swamy wants to join QUARANTINE ASSOCIATION as a ower",//this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
+                            "NTMobile" : data['acMobile'], // "+919949385898",//'+91'+data['acMobile'],
                             "NTType" : "Join",
-                            "NTUsrImg" : "/9j/4AAQSkZJRgABAQAASABIAAD/4QBYRXhpZgAATU0AKgAAAA",
-                            "SBMemID" : data['meMemID'],
-                            "SBRoleID" : 2,
-                            "SBSubID" :  this.globalService.getacAccntID().toString()+Number(this.UnitIDforJoinAssn).toString()+'usernoti',
-                            "SBUnitID" : Number(this.UnitIDforJoinAssn),
+                            "NTUsrImg" : "image.jpeg",
+                            "SBMemID" : this.mememberIDforJoin.toString(),// "25353",//data['meMemID'].toString(),     User MemID
+                            "SBRoleID" : OwnerType==6? '2' : '3',//'3',//"2",
+                            "SBSubID" : this.accountID.toString()+Number(this.UnitIDforJoinAssn).toString()+'usernotif',// "1618241944usernotif",//this.accountID.toString()+Number(this.UnitIDforJoinAssn).toString()+'usernotif',
+                            "SBUnitID" : Number(this.UnitIDforJoinAssn).toString(),// "41944",//Number(this.UnitIDforJoinAssn).toString(),
                             "UNOcSDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
                             "UNSldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
-                            //"MRRolName" : OwnerType == 6? "Owner" : "Tenant",
                           }
-                          console.log(inAppNotification);
+
+                          console.log('InAppNotification',inAppNotification);
+
                            this.viewAssnService.createInAppNotification(inAppNotification)
                            .subscribe(data=>{
                              console.log(data);
@@ -2506,12 +2525,14 @@ export class AssociationManagementComponent implements OnInit {
                      err=>{
                        console.log(err);
                      })
+
                   })
               },
               (err)=>{
                 console.log(err);
               }
             )
+
             console.log(data);
             Swal.fire({
               title: 'Request sent',
@@ -2545,9 +2566,9 @@ export class AssociationManagementComponent implements OnInit {
   
   requestForJoin() {
     this.alreadyJoined=false;
-    console.log(this.globalService.unitslistForAssociation);
+    console.log(JSON.parse(localStorage.getItem("assnList")));
     // Number(this.UnitIDforJoinAssn)
-    for(let item of this.globalService.unitslistForAssociation)
+    for(let item of JSON.parse(localStorage.getItem("assnList")))
     {
       if(item['unUnitID']==this.UnitIDforJoinAssn){
         this.alreadyJoined=true;

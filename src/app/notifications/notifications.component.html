@@ -1,0 +1,323 @@
+<div class="container-fluid np">
+  <div class="col-sm-12 np mt-80">
+    <!--Profile section-->
+
+    <app-left-bar></app-left-bar>
+
+    <!--Profile section-->
+
+    <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
+
+
+
+
+      <!--Dashboard icons for ADMIN start-->
+      <div class="dash-main" *ngIf="role=='admin'">
+        <div class="dash-shape">
+          <div class="dash-tab">
+            <span class="l-top">&nbsp;</span>
+            <ul class="tabs group">
+              <li (click)="AdminsUnitShow('resident')"><a data-toggle="tab">MY UNIT</a>
+              </li>
+              <li style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
+                <a class="act-b" data-toggle="tab">ADMIN</a></li>
+
+            </ul>
+          </div>
+          <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;">
+            <div class="dash-row">
+              <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> <img
+                          src="../../assets/images/notification_icons/mail.png">
+                      </a>
+                      <span>Ajmeera Association</span>
+                      <span>25min ago</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span><a class="green">Unit</a> J308</span>
+                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
+                      <span class="not-img">
+                        <img src="../../assets/images/notification_icons/user.png">
+                        <p>Subash Shinde</p>
+
+                      </span>
+                    </div>
+
+                  </div>
+                  <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"> <img
+                          src="../../assets/images/notification_icons/mail.png">
+                      </a>
+                      <span>Ajmeera Association</span>
+                      <span>25min ago</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span><a class="green">Unit</a> J308</span>
+                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
+                      <span class="not-img">
+                        <img src="../../assets/images/notification_icons/user.png">
+                        <p>Subash Shinde</p>
+
+                      </span>
+                    </div>
+
+                  </div>
+                  <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"> <img
+                          src="../../assets/images/notification_icons/mail.png">
+                      </a>
+                      <span>Ajmeera Association</span>
+                      <span>25min ago</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span><a class="green">Unit</a> J308</span>
+                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
+                      <span class="not-img">
+                        <img src="../../assets/images/notification_icons/user.png">
+                        <p>Subash Shinde</p>
+
+                      </span>
+                    </div>
+
+                  </div>
+                  <div id="collapse3" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!---->
+      </div>
+      <!--Dashboard icons for ADMIN end-->
+
+
+      <!--Dashboard icons for MyUnit(RESIDENT) start-->
+      <div class="dash-main" *ngIf="role=='resident'">
+        <div class="dash-shape">
+          <div class="dash-tab">
+            <span class="r-top">&nbsp;</span>
+            <ul class="tabs group">
+              <li (click)="AdminsUnitShow('resident')" class="active left-tab"><a class="act-a" ata-toggle="tab">MY
+                  UNIT</a></li>
+              <li (click)="AdminsButtonShow('admin')"><a data-toggle="tab">ADMIN</a></li>
+            </ul>
+          </div>
+          <div class="col-md-12 dash dash-bg-1" style="border-radius: 0px 24px 26px 24px;">
+            <div class="dash-row">
+
+              <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> <img
+                          src="../../assets/images/notification_icons/mail.png">
+                      </a>
+                      <span>Ajmeera Association</span>
+                      <span>25min ago</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span><a class="green">Unit</a> J308</span>
+                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
+                      <span class="not-img">
+                        <img src="../../assets/images/notification_icons/user.png">
+                        <p>Subash Shinde</p>
+
+                      </span>
+                    </div>
+
+                  </div>
+                  <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"> <img
+                          src="../../assets/images/notification_icons/mail.png">
+                      </a>
+                      <span>Ajmeera Association</span>
+                      <span>25min ago</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span><a class="green">Unit</a> J308</span>
+                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
+                      <span class="not-img">
+                        <img src="../../assets/images/notification_icons/user.png">
+                        <p>Subash Shinde</p>
+
+                      </span>
+                    </div>
+
+                  </div>
+                  <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"> <img
+                          src="../../assets/images/notification_icons/mail.png">
+                      </a>
+                      <span>Ajmeera Association</span>
+                      <span>25min ago</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span><a class="green">Unit</a> J308</span>
+                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
+                      <span class="not-img">
+                        <img src="../../assets/images/notification_icons/user.png">
+                        <p>Subash Shinde</p>
+
+                      </span>
+                    </div>
+
+                  </div>
+                  <div id="collapse3" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <h4>Current Status</h4>
+                          <p>Occupancy: Sold Owner Occupied</p>
+                          <p>Occupied By: Owner</p>
+                          <p>Occupancy: Subhash Gsj</p>
+                          <p>Mobile: +91 9898787676</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+      <!--Dashboard icons for MyUnit(RESIDENT) end-->
+
+
+    </div>
+
+  </div>
+  <!--rightBar start-->
+  <!-- <app-right-bar></app-right-bar> -->
+  <!--rightBar end-->
+</div>

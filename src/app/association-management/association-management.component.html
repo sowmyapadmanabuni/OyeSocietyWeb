@@ -10,13 +10,19 @@
         <!-- Title and enroll button part -->
          <div class="enr-bt">
             <h3 class="purple">Association Management</h3>
-            <div class="enroll">
+            <div class="enroll" *ngIf="globalService.gotojoinassociation==''">
                 <div>
                     <button class="btn-primary-purple" (click)="goToBlocks()" style="margin-right: 16px;">
                         <i class="fa fa-building" aria-hidden="true"></i> Blocks & Units</button>
                   <button class="btn-primary-purple" (click)="enblEnrlAsnVew()" style="margin-right: 16px;"><i class="fa fa-plus" aria-hidden="true"></i>
                     Enroll Association</button>
                   <button class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Association</button>
+                </div>
+              </div>
+            <div class="enroll" *ngIf="globalService.gotojoinassociation=='id'">
+                <div>
+                  <button class="btn-primary-purple">
                     <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Association</button>
                 </div>
               </div>
@@ -926,7 +932,7 @@
           <div class="content">
             <label>Select Unit</label>
             <div class="block-row">
-              <span (click)="enableActive(spanCtrl,item['unUnitID'])" #spanCtrl
+              <span (click)="enableActive(spanCtrl,item['unUnitID'],item['unUniName'])" #spanCtrl
                 *ngFor='let item of allUnitBlockID'>{{item['unUniName']}}</span>
             </div>
           </div>

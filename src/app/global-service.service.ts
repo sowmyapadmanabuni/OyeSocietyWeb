@@ -59,8 +59,10 @@ export class GlobalServiceService {
    IsUnitCreated:boolean;
    StaffListCalledOnce:boolean;
    unitslistForAssociation:any[];
+   gotojoinassociation:any;
 
   constructor() {
+    this.gotojoinassociation='';
     this.IsUnitCreated=false;
     this.IsEnrollAssociationStarted=false;
     this.currentAssociationName = '';
