@@ -7,6 +7,7 @@ export class ResidentNotificationListArray {
         private unUniName,
         private vldCreated,
         private vlengName,
-        private vlEntryImg,
-        private collapse){}
+        private visitorEntryImg,
+        private collapse,
+        private NtType){}
 }

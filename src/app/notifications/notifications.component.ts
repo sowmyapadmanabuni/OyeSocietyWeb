@@ -4,6 +4,7 @@ import {NotificationListArray} from '../../app/models/notification-list-array';
 import {ResidentNotificationListArray} from '../../app/models/resident-notification-list-array';
 import { UtilsService } from '../utils/utils.service';
 import { GlobalServiceService } from '../global-service.service';
+import {DomSanitizer} from '@angular/platform-browser';
 declare var $: any;
 
 @Component({
@@ -16,14 +17,19 @@ export class NotificationsComponent implements OnInit {
   paginatedvalue: number;
   notificationListArray:NotificationListArray[];
   ResidentNotificationListArray:ResidentNotificationListArray[];
+  searchVisitorText: any;
+  ResidentNotificationListArrayTemp:any[];
 
   constructor(private utilsService:UtilsService,
     public globalService:GlobalServiceService,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private domSanitizer: DomSanitizer) {
+      this.searchVisitorText='';
     this.paginatedvalue=1; 
     this.role='admin';
     this.notificationListArray=[];
     this.ResidentNotificationListArray=[];
+    this.ResidentNotificationListArrayTemp=[];
   }
 
   ngOnInit() {
@@ -83,17 +89,24 @@ export class NotificationsComponent implements OnInit {
                   this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
                 }
                 else {
-                  console.log(item['visitorlog'].length==0?'':(item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1?'':item['visitorlog'][0]['vlEntryImg']));
-                  this.ResidentNotificationListArray.push(new ResidentNotificationListArray((item['visitorlog'].length==0?'':item['visitorlog'][0]['vlComName']),
-                  (item['visitorlog'].length==0?'':item['visitorlog'][0]['vlVisType']),
-                  item['asAsnName'], 
-                  (item['visitorlog'].length==0?'':item['visitorlog'][0]['vlApprdBy']),
-                  (item['visitorlog'].length==0?'':item['visitorlog'][0]['vlMobile']),
-                  (item['visitorlog'].length==0?'':item['visitorlog'][0]['unUniName']),
-                  (item['visitorlog'].length==0?'':item['visitorlog'][0]['vldCreated']),
-                  (item['visitorlog'].length==0?'':item['visitorlog'][0]['vlengName']),
-                  (item['visitorlog'].length==0?'':(item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1?'':'data:image/png;base64,'+item['visitorlog'][0]['vlEntryImg'])),
-                  'collapse'));
+                  console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
+                  console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']);
+                  console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]);
+                  console.log(item['ntType']);
+                  this.ResidentNotificationListArray.push(new ResidentNotificationListArray((item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlComName']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlVisType']),
+                    item['asAsnName'],
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlMobile']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['unUniName']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vldCreated']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlengName']),
+                    (item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']))),
+                    'collapse' + new Date().getTime(),
+                    item['ntType']));
+                    this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
+                  //
+                  console.log(this.ResidentNotificationListArray);
                 }
               }, 3000 * index)
             })(index)
@@ -110,5 +123,16 @@ export class NotificationsComponent implements OnInit {
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
       .set('Content-Type', 'application/json');
     return headers;
+  }
+  searchVisitorList(event) {
+    console.log(this.searchVisitorText);
+    console.log(this.ResidentNotificationListArrayTemp);
+    if(this.searchVisitorText == ''){
+      console.log('searchVisitorText',this.searchVisitorText);
+      this.ResidentNotificationListArray = this.ResidentNotificationListArrayTemp;
+    }
+    this.ResidentNotificationListArray = this.ResidentNotificationListArray.filter(item => {
+      return (item['unUniName'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1)
+    })
   }
 }

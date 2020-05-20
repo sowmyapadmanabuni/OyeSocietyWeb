@@ -115,6 +115,7 @@ import { MatSelectModule,
   MatNativeDateModule,
   MatTooltipModule } from '@angular/material';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { FilterVisitorPipe } from './pipes/filter-visitor.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -188,7 +189,8 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
     AdminDeleveryScreenComponent,
     AdminStaffScreenComponent,
     CareersComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    FilterVisitorPipe
     ],
   imports: [
     ReactiveFormsModule,

@@ -184,7 +184,9 @@
             <div class="dash-row">
 
               <div class="panel-group" id="accordion">
+                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" style="width: 828px;height: 37px;" placeholder="search unit">
                 <div class="panel panel-default" *ngFor="let item of ResidentNotificationListArray">
+                  <div *ngIf="item['NtType']!='Announcement'">
                   <div class="panel-heading">
                     <h4 class="panel-title alfl">
                       <a data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> <img
@@ -195,35 +197,47 @@
                     </h4>
                     <div class="alfl bg-grey">
                       <span><a class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>
-                      <span><img src="../../assets/images/notification_icons/call.png">{{item['vlMobile']}}</span>
+                      <span style="margin-right: -450px;"><img src="../../assets/images/notification_icons/call.png">{{item['vlMobile']}}</span>
+                      <span>Visiting <a class="green">{{item['unUniName']}}</a></span>
                       <span class="not-img">
-                        <!-- <img src="{{item['vlEntryImg']}}"> -->
+                        <img [src]="item['visitorEntryImg']" width="70px" height="70px"/>
                         <p>{{item['vlApprdBy']}}</p>
 
                       </span>
                     </div>
-
                   </div>
                   <div id="{{item['collapse']}}" class="panel-collapse collapse">
                     <div class="panel-body pb">
                       <div class="not-detail">
-                        <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Owner Name: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
-                        </div>
-                        <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Occupancy: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
+                        <div class="col-sm-12">
+                         <div><h4 style="color: red;">Entry On:</h4> <span>{{item['vldCreated'] | date:'short'}}</span> <h4 style="color: red;">From:</h4> <span>{{item['vlengName']}}</span></div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div *ngIf="item['NtType']=='Announcement'" class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> <img
+                          src="../../assets/images/icons/speaker.png">
+                      </a>
+                    </h4>
+                    <span>test</span>
+                  </div>
+                  <div id="{{item['collapse']}}" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-12">
+                          <div style="height: 100px;background-color: aliceblue;">
+                          </div>
+                          message
+                          <input style="width: 800px;height: 50px;border-color: red;" type="text" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 </div>
               </div>
 
