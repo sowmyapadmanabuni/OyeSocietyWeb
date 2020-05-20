@@ -60,105 +60,15 @@
                           <p>Mobile: +91 9898787676</p>
                         </div>
                         <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Occupancy: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
+                          <span class="green"><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</span> <span class="red"><i class="fa fa-times" aria-hidden="true"></i>Reject</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h4 class="panel-title alfl">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"> <img
-                          src="../../assets/images/notification_icons/mail.png">
-                      </a>
-                      <span>Ajmeera Association</span>
-                      <span>25min ago</span>
-                    </h4>
-                    <div class="alfl bg-grey">
-                      <span><a class="green">Unit</a> J308</span>
-                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
-                      <span class="not-img">
-                        <img src="../../assets/images/notification_icons/user.png">
-                        <p>Subash Shinde</p>
-
-                      </span>
-                    </div>
-
-                  </div>
-                  <div id="collapse2" class="panel-collapse collapse">
-                    <div class="panel-body pb">
-                      <div class="not-detail">
-                        <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Owner Name: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
-                        </div>
-                        <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Occupancy: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h4 class="panel-title alfl">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"> <img
-                          src="../../assets/images/notification_icons/mail.png">
-                      </a>
-                      <span>Ajmeera Association</span>
-                      <span>25min ago</span>
-                    </h4>
-                    <div class="alfl bg-grey">
-                      <span><a class="green">Unit</a> J308</span>
-                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
-                      <span class="not-img">
-                        <img src="../../assets/images/notification_icons/user.png">
-                        <p>Subash Shinde</p>
-
-                      </span>
-                    </div>
-
-                  </div>
-                  <div id="collapse3" class="panel-collapse collapse">
-                    <div class="panel-body pb">
-                      <div class="not-detail">
-                        <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Owner Name: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
-                        </div>
-                        <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Occupancy: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
 
         <!---->
@@ -211,6 +121,9 @@
                       <div class="not-detail">
                         <div class="col-sm-12">
                          <div><h4 style="color: red;">Entry On:</h4> <span>{{item['vldCreated'] | date:'short'}}</span> <h4 style="color: red;">From:</h4> <span>{{item['vlengName']}}</span></div>
+                         <div><span style="color: red;">Entry Approved by :</span>{{item['vlApprdBy']}}</div>
+                         <div><span style="color: red;">Exit Approved by :</span>{{item['vlExAprdBy']}}<span style="color: red;">From :</span>{{item['vlexgName']}}</div>
+                         <div><span style="color: red;">Status :</span>{{item['vlApprStat']}}</div>
                         </div>
                       </div>
                     </div>

@@ -87,6 +87,7 @@ export class NotificationsComponent implements OnInit {
               setTimeout(() => {
                 if (item['ntType'] == "Join") {
                   this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
+                  console.log(this.notificationListArray);
                 }
                 else {
                   console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
@@ -103,10 +104,13 @@ export class NotificationsComponent implements OnInit {
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlengName']),
                     (item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']))),
                     'collapse' + new Date().getTime(),
-                    item['ntType']));
+                    item['ntType'],
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlExAprdBy']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprStat']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlexgName'])));
                     this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
                   //
-                  console.log(this.ResidentNotificationListArray);
+                  //console.log(this.ResidentNotificationListArray);
                 }
               }, 3000 * index)
             })(index)
