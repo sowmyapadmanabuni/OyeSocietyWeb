@@ -1,7 +1,12 @@
 export class ResidentNotificationListArray {
-    constructor(private ntid,
-        private ntType,
+    constructor(private vlComName,
+        private vlVisType,
         private asAsnName,
-        private ntDesc,
-        private sbMemID){}
+        private vlApprdBy,
+        private vlMobile,
+        private unUniName,
+        private vldCreated,
+        private vlengName,
+        private vlEntryImg,
+        private collapse){}
 }
