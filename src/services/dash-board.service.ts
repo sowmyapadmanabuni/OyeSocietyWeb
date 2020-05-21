@@ -27,6 +27,7 @@ export class DashBoardService {
   enrollassociationforresident:boolean;
   joinassociationforresident:boolean;
   
+
   constructor(private http:HttpClient,private utilsService:UtilsService) {
     
     this.scopeIP="https://apidev.oyespace.com/";

@@ -6,8 +6,10 @@ import { Headers } from '@angular/http';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import { element } from 'protractor';
-// import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs';
 
+// import { Observable } from 'rxjs/Observable';
+import { ViewAssociationService } from '../../services/view-association.service';
 @Component({
   selector: 'app-enrollassociation',
   templateUrl: './enrollassociation.component.html',
@@ -32,7 +34,7 @@ export class EnrollassociationComponent implements OnInit {
   post: any = '';
   private formSubmitAttempt: boolean;
 
-  constructor(private http: HttpClient,private cdref: ChangeDetectorRef, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient,private cdref: ChangeDetectorRef,public viewAssnService: ViewAssociationService, private formBuilder: FormBuilder) { }
   countrieslist = [
     "INDIA",
     "AFGHANISTAN",
@@ -401,6 +403,7 @@ export class EnrollassociationComponent implements OnInit {
   array = []
   unitlistjson = {}
   unitdetailscreatejson;
+  unitsuccessarray =[]
   
   submitunitdetails(event) {
     let date = new Date();  
@@ -416,6 +419,7 @@ export class EnrollassociationComponent implements OnInit {
       
       this.unitlistjson[element].forEach(unit => {
        console.log(unit)
+   this.unitsuccessarray.push(unit);
 
         this.unitdetailscreatejson = {
           "ASAssnID": this.assid,
@@ -485,13 +489,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         this.http.post("http://apiuat.oyespace.com/oyeliving/api/v1/unit/create", this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
           console.log(res)
-          // Swal.fire({
-          //   title:"Unit Created",
-          //   confirmButtonColor: "#f69321",
-          //  //  type:"Success",
-          //   icon: 'success',
-          //    confirmButtonText: "OK"
-          //   })
+   
         }, error => {
           console.log(error);
         }
@@ -499,7 +497,34 @@ export class EnrollassociationComponent implements OnInit {
       });
 
     })
+    // setTimeout(() => {
+    var message;
+    if (this.unitsuccessarray.length == 1) {
+      message = 'Unit Created Successfully'
+    }
+    else if (this.unitsuccessarray.length > 1) {
+      message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+    }
+        Swal.fire({
+          title:message,
+          text: "",
+          type: "success",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        }).then(
+          (result) => {
+            if (result.value) {
 
+              this.viewAssnService.dashboardredirect.next(result)
+              // this.getAssociationDetails();
+              this.viewAssnService.enrlAsnEnbled = false;
+              this.viewAssnService.vewAsnEnbled = true;
+              this.viewAssnService.joinAsnEbld = false;
+  
+              //localStorage.setItem('AssociationBlockHrefDetail', '');
+  
+            } 
+          })
 
 
 
@@ -562,12 +587,11 @@ export class EnrollassociationComponent implements OnInit {
   }
 // i:number;
   blocksfields(event,i,fieldname){
-  
     this.detailsdata[i][fieldname]["clicked"]=true;
-   
-
   }
-
+  unitsfields(event,i,fieldname){
+    this.unitdetails[i][fieldname]["clicked"]=true;
+      }
   blockdetailsidvise(element){
       this.jsondata = {
         "ASAssnID": this.assid,
@@ -611,13 +635,32 @@ export class EnrollassociationComponent implements OnInit {
       console.log(error);
     }
     );
+
+    var message;
+    if(this.blockssuccessarray==1){
+      message = 'Block Created Successfully'
+
+    }
+   else if(this.blockssuccessarray>1){
+    message = this.blockssuccessarray+'-'+'Blocks Created Successfully'
+    }
+    Swal.fire({
+      title: message,
+      text: "",
+      type: "success",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    })
   }
   movetonexttab(event){
     this.demo1TabIndex = this.demo1TabIndex + 1;
 
   }
+  unitdetails ={}
+  blockssuccessarray;
   createblocksdetails(event) {
     console.log(this.blocksArray)
+    this.blockssuccessarray = this.blocksArray.length;
     // if (this.blocksdetailsform.valid) {
       this.blocksArray.forEach(element => {
 
@@ -631,6 +674,10 @@ export class EnrollassociationComponent implements OnInit {
     
        for (var i = 0; i < blockArraylength; i++) {
          var data = JSON.parse(JSON.stringify(this.unitsrowjson))
+         this.unitdetails[i] ={}
+         Object.keys(data).forEach(datails=>{
+           this.unitdetails[i][datails] ={required:true};
+         })
          if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
            this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
          }
@@ -727,8 +774,13 @@ document.getElementById('showmanual').style.display ='block';
   }
   excelunitsuploaddata(exceldata){
     this.finalblockname.forEach(blkname => {
-      for (var data of exceldata) {
-        if (blkname == data.blockname) {
+
+      exceldata.forEach((list,i) => {
+        this.unitdetails[i] ={}
+        Object.keys(list).forEach(datails=>{
+          this.unitdetails[i][datails] ={required:true};
+        })
+        if (blkname == list.blockname) {
           if (!this.unitlistjson[blkname]) {
             this.unitlistjson[blkname] = []
           }
@@ -741,9 +793,11 @@ document.getElementById('showmanual').style.display ='block';
               }
             })
           })
-          this.unitlistjson[blkname].push(data)
+          this.unitlistjson[blkname].push(list)
         }
-      }
+      });
+
+  
     })
   }
   file:File
@@ -815,8 +869,14 @@ submitforbulkupload(ev){
   document.getElementById('unitshowmanual').style.display ='none'
   document.getElementById('unitupload_excel').style.display ='block';
 }
-
-
+cancelbulkupload(ev){
+  document.getElementById('upload_excel').style.display ='none';
+  document.getElementById('manualbulk').style.display ='block'
+}
+cancelunitsbulkupload(ev){
+  document.getElementById('unitupload_excel').style.display ='none';
+  document.getElementById('unitshowmanual').style.display ='block'
+}
   detailsdata ={}
   
   submitforconformblockdetails(event){

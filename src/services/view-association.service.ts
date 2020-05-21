@@ -3,12 +3,16 @@ import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import {BsModalService,BsModalRef} from 'ngx-bootstrap/modal';
 import {UtilsService} from '../app/utils/utils.service';
 import {Sendrequest} from '../app/models/sendrequest';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ViewAssociationService { 
+export class ViewAssociationService {
+  next(result: import("sweetalert2").SweetAlertResult) {
+    throw new Error("Method not implemented.");
+  } 
   
   modalRef:BsModalRef;
   scopeIP:string;
@@ -31,6 +35,7 @@ export class ViewAssociationService {
   join_enroll:any;
   EditAssociationData:any;
   headerss: HttpHeaders;
+  public dashboardredirect = new Subject();
 
   onUpLoad(fd: FormData) {
     //let headers = this.getHttpheaders();
