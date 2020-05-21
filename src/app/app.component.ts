@@ -173,7 +173,7 @@ export class AppComponent {
   }
   ngOnInit() {
     if(this.globalService.getacAccntID()){
-      this.GetNotificationListByAccntID();   
+      //this.GetNotificationListByAccntID();   
       //this.getNotification();
       //this.getAssociation();
       this.HideOrShowNotification=false;
@@ -305,7 +305,7 @@ export class AppComponent {
                   this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
                 }
                 else {
-                  this.ResidentNotificationListArray.push(new ResidentNotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
+                  //this.ResidentNotificationListArray.push(new ResidentNotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
                 }
               }, 3000 * index)
             })(index)
