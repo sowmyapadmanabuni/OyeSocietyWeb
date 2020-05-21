@@ -557,6 +557,12 @@ export class AssociationManagementComponent implements OnInit {
       console.log(((localStorage.getItem('AssociationCity') == '' || null) ? '' : localStorage.getItem('AssociationCity')));
       console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
     }
+  
+  this.viewAssnService.dashboardredirect.subscribe(message=>{
+    this.getAssociationDetails();
+  })
+  
+  
   }
 
   openModal(template: TemplateRef<any>) {

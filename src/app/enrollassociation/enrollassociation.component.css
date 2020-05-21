@@ -111,12 +111,15 @@ input#file_unitupload_id {
     display: none;
 }
 #upload_excel {
-    margin-left: 541px;
-    margin-top: 184px;
+    margin-left: 481px;
+    margin-top: 100px;
 }
 #unitupload_excel{
-    margin-left: 541px;
-    margin-top: 184px;
+    margin-left: 481px;
+    margin-top: 100px;
+}
+#cancelbutton{
+    margin-left: 340px;
 }
 img.excel{
     margin: 44px;
