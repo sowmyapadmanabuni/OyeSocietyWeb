@@ -86,14 +86,25 @@ export class NotificationsComponent implements OnInit {
             ((index) => {
               setTimeout(() => {
                 if (item['ntType'] == "Join") {
-                  this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
+                  console.log(item);
+                  this.notificationListArray.push(new NotificationListArray(item['unit']['unUniName'], 
+                  item['asAsnName'], 
+                  item['unit']['ntMobile'], 
+                  (item['unit']['owner'].length == 0?item['unit']['tenant']['utfName']:item['unit']['owner']['uofName']),
+                  (item['visitorlog'].length == 0 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])),
+                  item['unit']['unOcStat'],
+                  (item['unit']['owner'].length == 0?'Tenant':'Owner'),
+                  (item['unit']['owner'].length == 0?item['unit']['tenant']['utfName']:item['unit']['owner']['uofName']),
+                  (item['unit']['owner'].length == 0?item['unit']['tenant']['utMobile']:item['unit']['owner']['uoMobile']), 
+                  'admincollapse'+new Date().getTime()
+                  ));
                   console.log(this.notificationListArray);
                 }
                 else {
-                  console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
-                  console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']);
-                  console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]);
-                  console.log(item['ntType']);
+                  //console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
+                  //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']);
+                  //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]);
+                  //console.log(item['ntType']);
                   this.ResidentNotificationListArray.push(new ResidentNotificationListArray((item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlComName']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlVisType']),
                     item['asAsnName'],

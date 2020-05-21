@@ -293,7 +293,7 @@ export class AppComponent {
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
 
-     for (let pageIndex = 1; pageIndex < this.paginatedvalue; pageIndex++) {
+    /* for (let pageIndex = 1; pageIndex < this.paginatedvalue; pageIndex++) {
       let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
       this.http.get(url, { headers: headers })
         .subscribe(data => {
@@ -302,7 +302,7 @@ export class AppComponent {
             ((index) => {
               setTimeout(() => {
                 if (item['ntType'] == "Join") {
-                  this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
+                  //this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
                 }
                 else {
                   //this.ResidentNotificationListArray.push(new ResidentNotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
@@ -314,7 +314,7 @@ export class AppComponent {
           err => {
             console.log(err);
           })
-    } 
+    } */
   }
   getAssociation(){
     this.uniqueAssociations=[];

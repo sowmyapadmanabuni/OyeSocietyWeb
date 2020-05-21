@@ -29,35 +29,35 @@
           <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;">
             <div class="dash-row">
               <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
+                <div class="panel panel-default" *ngFor="let itm of NotificationListArray">
                   <div class="panel-heading">
                     <h4 class="panel-title alfl">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> <img
+                      <a data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}"> <img
                           src="../../assets/images/notification_icons/mail.png">
                       </a>
-                      <span>Ajmeera Association</span>
+                      <span>{{itm['asAsnName']}}</span>
                       <span>25min ago</span>
                     </h4>
                     <div class="alfl bg-grey">
-                      <span><a class="green">Unit</a> J308</span>
-                      <span><img src="../../assets/images/notification_icons/call.png">+91 9073898989</span>
+                      <span><a class="green">Unit</a> {{itm['unUniName']}}</span>
+                      <span><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                       <span class="not-img">
-                        <img src="../../assets/images/notification_icons/user.png">
-                        <p>Subash Shinde</p>
+                        <img [src]="itm['adminEntryImg']" width="70px" height="70px">
+                        <p>{{itm['ufName']}}</p>
 
                       </span>
                     </div>
 
                   </div>
-                  <div id="collapse1" class="panel-collapse collapse">
+                  <div id="{{itm['admincollapse']}}" class="panel-collapse collapse">
                     <div class="panel-body pb">
                       <div class="not-detail">
                         <div class="col-sm-6">
-                          <h4>Current Status</h4>
-                          <p>Occupancy: Sold Owner Occupied</p>
-                          <p>Occupied By: Owner</p>
-                          <p>Owner Name: Subhash Gsj</p>
-                          <p>Mobile: +91 9898787676</p>
+                          <h4 style="color: red;">Current Status</h4>
+                          <p>Occupancy: {{itm['unOcStat']}}</p>
+                          <p>Occupied By: {{itm['occupiedBy']}}</p>
+                          <p>Owner Name: {{itm['ownername']}}</p>
+                          <p>Mobile: {{itm['uMobile']}}</p>
                         </div>
                         <div class="col-sm-6">
                           <span class="green"><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</span> <span class="red"><i class="fa fa-times" aria-hidden="true"></i>Reject</span>
