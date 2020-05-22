@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import { element } from 'protractor';
 import { Subject } from 'rxjs';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
@@ -25,6 +27,9 @@ export class EnrollassociationComponent implements OnInit {
   blockform: FormGroup;
   panform: FormGroup;
   blocksdetailsform:FormGroup;
+  uploadForm: FormGroup;
+  uploadPanForm: FormGroup;
+
   // blocksdetailsform:FormGroup=this.formBuilder.group({});
   unitsdetailsform:FormGroup;
   isbulkupload = false;
@@ -34,7 +39,7 @@ export class EnrollassociationComponent implements OnInit {
   post: any = '';
   private formSubmitAttempt: boolean;
 
-  constructor(private http: HttpClient,private cdref: ChangeDetectorRef,public viewAssnService: ViewAssociationService, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient,private cdref: ChangeDetectorRef,public viewAssnService: ViewAssociationService,private modalService: BsModalService, private formBuilder: FormBuilder) { }
   countrieslist = [
     "INDIA",
     "AFGHANISTAN",
@@ -150,9 +155,15 @@ export class EnrollassociationComponent implements OnInit {
     // this.getAssociationList()
     this.createForm();
     this.blockandunitdetails();
-    this.pandetalis();
+    // this.pandetalis();
     this.blocksdetailsform = this.formBuilder.group({
       
+    });
+    this.uploadForm = this.formBuilder.group({
+      profile: ['']
+    });
+    this.uploadPanForm = this.formBuilder.group({
+      panProfile: ['']
     });
     this.unitsDetailsgenerateform();
   }
@@ -198,12 +209,12 @@ export class EnrollassociationComponent implements OnInit {
     });
 
   }
-  pandetalis() {
-    this.panform = this.formBuilder.group({
-      'gstno':[null],
-      'panno': [null, Validators.required]
-    });
-  }
+  // pandetalis() {
+  //   this.panform = this.formBuilder.group({
+  //     'gstno':[null],
+  //     'panno': [null]
+  //   });
+  // }
   blockDetailsgenerateform() {
     this.blocksdetailsform  = this.formBuilder.group({
       'blkname': [null, Validators.required],
@@ -272,10 +283,10 @@ export class EnrollassociationComponent implements OnInit {
   isFieldValidblockandunitdetails(field: string) {
     return !this.blockform.get(field).valid && this.blockform.get(field).touched;
   }
-  isFieldValidPanDetails(field: string) {
-    return !this.panform.get(field).valid && this.panform.get(field).touched;
+  // isFieldValidPanDetails(field: string) {
+  //   return !this.panform.get(field).valid && this.panform.get(field).touched;
 
-  }
+  // }
 
   isFieldValidunitsdetails(field: string){
     return !this.unitsdetailsform.get(field).valid && this.unitsdetailsform.get(field).touched;
@@ -393,6 +404,69 @@ export class EnrollassociationComponent implements OnInit {
     "tenantemaiid": ""
 
   }
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      this.uploadForm.get('profile').setValue(file);
+    }
+  }
+  modalRef: BsModalRef;
+  ImgForPopUp:any;
+  UploadedImage: any;
+  showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,displayText){
+    this.ImgForPopUp=thumbnailASAsnLogo;
+    this.UploadedImage=displayText;
+    this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  ASAsnLogo: any;
+  thumbnailASAsnLogo:any;
+  processFile() {
+    console.log(this.uploadForm.get('profile').value);
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadForm.get('profile').value);
+    reader.onload = () => {
+      console.log(reader.result);
+      this.ASAsnLogo = reader.result;
+      this.thumbnailASAsnLogo = reader.result;
+      this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
+         console.log(this.ASAsnLogo);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  
+  }
+  onPanFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      this.uploadPanForm.get('panProfile').setValue(file);
+    }
+  }
+  uploadPANCard:any;
+  uploadPANCardThumbnail:any;
+  processPanFile(){
+    console.log(this.uploadPanForm.get('panProfile').value);
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadPanForm.get('panProfile').value);
+    reader.onload = () => {
+      console.log(reader.result);
+      this.uploadPANCard = reader.result;
+      this.uploadPANCardThumbnail = reader.result;
+      this.uploadPANCard = this.uploadPANCard.substring(this.uploadPANCard.indexOf('64') + 3);
+      //console.log(this.ASAsnLogo.indexOf('64')+1);
+      //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+      console.log(this.uploadPANCard);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+  firstLetter: string;
+  fifthLetter: string;
+  matching: boolean;
+  
   caltype =[
     "FlatRateValue",
     "dimension"
@@ -576,13 +650,52 @@ export class EnrollassociationComponent implements OnInit {
       this.validateAllFormFields(this.form); 
     }
   }
+  pancardnameoriginal:boolean;
+  pansucessname;
+  getpancardname(){
+    var panjson = {
+      "id_number": this.pannumber,
+      "type": "pan"
+    }
+    this.http.post("http://devapi.scuarex.com/oye247/api/v1/IDNumberVerification ", panjson, { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      if (res.success == true) {
+        this.matching = false;
+        // res.data.name
+if(res.data.name!=''){
+  this.pancardnameoriginal = true;
+  this.pansucessname =res.data.name;
+}
+      }else{
+        this.matching = true;
+
+      }
+    }, error => {
+      console.log(error);
+    }
+    );
+  }
   submitpandetails(event) {
-    if (this.panform.valid) {
-      this.demo1TabIndex = this.demo1TabIndex + 1;
+
+    var panjson = {
+      "id_number": this.pannumber,
+      "type": "pan"
     }
-    else {
-      this.validateAllPanFormFields(this.panform); 
+    this.http.post("http://devapi.scuarex.com/oye247/api/v1/IDNumberVerification ", panjson, { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      if (res.success == true) {
+        this.matching = false;
+        // res.data.name
+        this.demo1TabIndex = this.demo1TabIndex + 1;
+
+      }else{
+        this.matching = true;
+
+      }
+    }, error => {
+      console.log(error);
     }
+    );
 
   }
 // i:number;
@@ -913,7 +1026,7 @@ cancelunitsbulkupload(ev){
           "ASCity": this.city,
           "ASState": this.state,
           "ASPinCode": this.postalcode,
-          "ASAsnLogo": "Images/Robo.jpeg",
+          "ASAsnLogo":  (this.ASAsnLogo == undefined ? '' : this.ASAsnLogo),
           "ASAsnName": this.assname,
           "ASPrpName": this.propertyname,
           "ASPrpType": this.propertytype,
@@ -931,6 +1044,7 @@ cancelunitsbulkupload(ev){
           "ASONStat": "True",
           "ASOMStat": "False",
           "ASFaceDet": "True",
+          "ASPANDoc": this.uploadPANCard,
           "ASGSTNo": "",
           "BankDetails": [
             {
