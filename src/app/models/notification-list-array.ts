@@ -1,7 +1,12 @@
 export class NotificationListArray {
-    constructor(private ntid,
-        private ntType,
+    constructor(private unUniName,
         private asAsnName,
-        private ntDesc,
-        private sbMemID){}
+        private ntMobile,
+        private ufName,
+        private adminEntryImg,
+        private unOcStat,
+        private occupiedBy,
+        private ownername,
+        private uMobile,
+        private admincollapse){}
 }
