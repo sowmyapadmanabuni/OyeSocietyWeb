@@ -6,7 +6,10 @@
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>ASSOCIATION NAME</mat-label>
-                        <input matInput placeholder="Association Name" matTooltip="This name should match as given in the Association Pan Card" class = "text" formControlName="asnname" [(ngModel)]="assname"
+                        <input matInput placeholder="Association Name" 
+                        pattern="[A-Za-z\s]+"
+                        matTooltip="This name should match as given in the Association Pan Card" class = "text" 
+                        formControlName="asnname" [(ngModel)]="assname"
                             value="">
                         <mat-error [displayError]="isFieldValid('asnname')">
                             {{ titleAlert }}
@@ -77,7 +80,7 @@
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>CITY</mat-label>
-                        <input matInput placeholder="CITY" formControlName="cityname" class = "text" [(ngModel)]="city" value="">
+                        <input matInput placeholder="CITY" pattern="[a-zA-Z\s]*"formControlName="cityname" class = "text" [(ngModel)]="city" value="">
                         <mat-error [displayError]="isFieldValid('cityname')">
                             {{ titleAlert }}
                         </mat-error>
@@ -87,7 +90,11 @@
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>PIN/ZIP/POSTAL CODE</mat-label>
-                        <input matInput placeholder="PIN/ZIP" formControlName="zipcode" [(ngModel)]="postalcode"
+                        <input matInput placeholder="PIN/ZIP"pattern="[0-9]*" 
+                         pattern="^\d{6,}$"
+                        minlength="5"
+                        maxlength="6" 
+                        formControlName="zipcode" [(ngModel)]="postalcode"
                             value="">
                         <mat-error [displayError]="isFieldValid('zipcode')">
                             {{ titleAlert }}
@@ -108,7 +115,9 @@
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>PROPERTY NAME</mat-label>
-                        <input matInput placeholder="PROPERTY NAME" class = "text"formControlName="prtyname"
+                        <input matInput placeholder="PROPERTY NAME"
+                        pattern="[a-zA-Z\s]*"
+                         class = "text"formControlName="prtyname"
                             [(ngModel)]="propertyname" value="">
                         <mat-error [displayError]="isFieldValid('prtyname')">
                             {{ titleAlert }}
@@ -119,7 +128,10 @@
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>LOCALITY</mat-label>
-                        <input matInput placeholder="LOCALITY"class = "text" formControlName="locname" [(ngModel)]="locality"
+                        <input matInput placeholder="LOCALITY"class = "text" 
+                        pattern="[A-Za-z\s]+"
+                        maxlength="255"
+                        formControlName="locname" [(ngModel)]="locality"
                             value="">
                         <mat-error [displayError]="isFieldValid('locname')">
                             {{ titleAlert }}
@@ -129,7 +141,9 @@
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>ASSOCIATION EMAIL</mat-label>
-                        <input matInput placeholder="ASSOCIATION EMAIL" formControlName="assemail"
+                        <input matInput placeholder="ASSOCIATION EMAIL" 
+                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                        formControlName="assemail"
                             [(ngModel)]="Associationemail" value="">
                         <mat-error [displayError]="isFieldValid('assemail')">
                             {{ titleAlert }}
@@ -139,7 +153,9 @@
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>ASSOCIATION WEBSITE URL</mat-label>
-                        <input matInput placeholder="URL" formControlName="urlset" [(ngModel)]="url" value="">
+                        <input matInput placeholder="URL" 
+                         pattern="^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$"
+                        formControlName="urlset" [(ngModel)]="url" value="">
                         <mat-error [displayError]="isFieldValid('urlset')">
                             {{ titleAlert }}
                         </mat-error>
@@ -147,7 +163,7 @@
                 </form>
 
                 <div class="save">
-                    <a class="continue" mat-raised-button color="primary">RESET</a>
+                    <a class="continue" (click)="resetStep1($event)"mat-raised-button color="primary">RESET</a>
                     <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitassociationdetails($event)">SAVE & CONTINUE</a>
                 </div>
 
@@ -156,9 +172,6 @@
 
         </mat-tab>
         <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
-
-
-
         <form class="association-form">
             <div>
                 <mat-form-field class="blockdetails-form">
@@ -217,7 +230,7 @@
         </div>
         </form> 
             <div class="save">
-                <a class="continue" mat-raised-button color="primary">RESET</a>
+                <a class="continue" (click)="resetStep2($event)" mat-raised-button color="primary">RESET</a>
                 <a id="assdetailssave"mat-raised-button color="primary" (click)="submitpandetails($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab>
@@ -246,7 +259,9 @@
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">
                     <mat-label>Total No of Blocks</mat-label>
-                    <input matInput placeholder="NO OF BLOCKS" formControlName="blockno" [(ngModel)]="noofblocks"
+                    <input matInput placeholder="NO OF BLOCKS" 
+                    pattern="[0-9]*"
+                    formControlName="blockno" [(ngModel)]="noofblocks"
                         value="">
                     <mat-error [displayError]="isFieldValidblockandunitdetails('blockno')">
                         {{ titleAlert }}
@@ -256,7 +271,9 @@
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">
                     <mat-label>Total No of Units</mat-label>
-                    <input matInput placeholder="NO OF UNITS" matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value="">
+                    <input matInput placeholder="NO OF UNITS"
+                    pattern="[0-9]*"
+                    matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value="">
                     <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
                         {{ titleAlert }}
                     </mat-error>
@@ -316,7 +333,9 @@
                                 <div>
                                     <mat-form-field class="blockdetails-form">
                                             <mat-label>BLOCK NAME/NUMBER</mat-label>
-                                            <input matInput placeholder="BLOCK NAME/NUMBER" class = "text" id="label"(click)="blocksfields($event,i,'blockname')" [(ngModel)]="blocksArray[i].blockname" [ngModelOptions]="{standalone: true}" value="">
+                                            <input matInput placeholder="BLOCK NAME/NUMBER" 
+                                            pattern="[a-zA-Z0-9 _]*" 
+                                            class = "text" id="label"(click)="blocksfields($event,i,'blockname')" [(ngModel)]="blocksArray[i].blockname" [ngModelOptions]="{standalone: true}" value="">
                                             <!-- <mat-error *ngIf ="detailsdata[i]['blockname']['required']&&detailsdata[i]['blockname']['clicked']&&'!blocksArray[i].blockname'">
                                                 {{ titleAlert }}
                                             </mat-error> -->
@@ -335,7 +354,9 @@
                               <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>NO OF UNITS</mat-label>
-                                    <input matInput placeholder="NO OF UNITS" (click)="blocksfields($event,i,'units')"[(ngModel)]="blocksArray[i].units"[ngModelOptions]="{standalone:
+                                    <input matInput placeholder="NO OF UNITS" 
+                                    pattern="[0-9]*" 
+                                    (click)="blocksfields($event,i,'units')"[(ngModel)]="blocksArray[i].units"[ngModelOptions]="{standalone:
                                         true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('unitsno')">
                                         {{ titleAlert }}
@@ -347,7 +368,9 @@
                              <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER NAME</mat-label>
-                                    <input class = "text"  matInput placeholder="MANAGER NAME" (click)="blocksfields($event,i,'managername')"[(ngModel)]="blocksArray[i].managername" [ngModelOptions]="{standalone:
+                                    <input class = "text" 
+                                    pattern="[a-zA-Z _]*"
+                                    matInput placeholder="MANAGER NAME" (click)="blocksfields($event,i,'managername')"[(ngModel)]="blocksArray[i].managername" [ngModelOptions]="{standalone:
                                         true}"value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngname')">
                                         {{ titleAlert }}
@@ -359,7 +382,9 @@
                              <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER MOBILE NUMBER</mat-label>
-                                    <input matInput placeholder="MANAGER MOBILE NUMBER" (click)="blocksfields($event,i,'managermobileno')"[ngModelOptions]="{standalone:true}"
+                                    <input matInput placeholder="MANAGER MOBILE NUMBER"
+                                    pattern="[0-9]*" 
+                                    (click)="blocksfields($event,i,'managermobileno')"[ngModelOptions]="{standalone:true}"
                                         [(ngModel)]="blocksArray[i].managermobileno" value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngmobileno')">
                                         {{ titleAlert }}
@@ -371,7 +396,9 @@
                             <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER EMAIL ID</mat-label>
-                                    <input matInput placeholder="MANAGER EMAIL ID" (click)="blocksfields($event,i,'manageremailid')"[(ngModel)]="blocksArray[i].manageremailid"[ngModelOptions]="{standalone:true}"
+                                    <input matInput placeholder="MANAGER EMAIL ID" 
+                                    pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+                                    (click)="blocksfields($event,i,'manageremailid')"[(ngModel)]="blocksArray[i].manageremailid"[ngModelOptions]="{standalone:true}"
                                         value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngemaiid')">
                                         {{ titleAlert }}
@@ -561,7 +588,9 @@
                          <div>
                             <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                 <mat-label>OWNER FIRST NAME</mat-label>
-                                <input  class = "text" matInput placeholder="OWNER FIRSTNAME" (click)="unitsfields($event,i,'ownerfirstname')"[(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
+                                <input  class = "text" matInput placeholder="OWNER FIRSTNAME" 
+                                pattern="[a-zA-Z _]*"
+                                (click)="unitsfields($event,i,'ownerfirstname')"[(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
                                     true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownfirstname')">
                                         {{ titleAlert }}
@@ -572,7 +601,9 @@
                                 <div>
                                     <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                         <mat-label>OWNER LAST NAME</mat-label>
-                                        <input class = "text" matInput placeholder="OWNER LASTNAME" (click)="unitsfields($event,i,'ownerlastname')"[(ngModel)]="obj.ownerlastname"
+                                        <input class = "text" matInput placeholder="OWNER LASTNAME" 
+                                        pattern="[a-zA-Z _]*"
+                                        (click)="unitsfields($event,i,'ownerlastname')"[(ngModel)]="obj.ownerlastname"
                                         [ngModelOptions]="{standalone:true}" value="">
                                             <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownlastname')">
                                                 {{ titleAlert }}
@@ -587,6 +618,7 @@
                             <mat-label>OWNER MOBILE NUMBER</mat-label>
                             <input matInput placeholder="OWNER MOBILE NUMBER"
                             (click)="unitsfields($event,i,'ownermobilenumber')"
+                            pattern="[0-9]+"
                             [ngModelOptions]="{standalone:true}"
                                 [(ngModel)]="obj.ownermobilenumber" value="">
                                 <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownmobileno')">
@@ -600,6 +632,7 @@
                     <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                         <mat-label>OWNER EMAIL ID</mat-label>
                         <input matInput placeholder="OWNER EMAIL-ID"
+                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                         (click)="unitsfields($event,i,'owneremaiid')"
                         [(ngModel)]="obj.owneremaiid"[ngModelOptions]="{standalone:true}"value="">
                         <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownemail')">
@@ -614,6 +647,7 @@
                                 *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                 <mat-label>TENANT FIRST NAME</mat-label>
                                 <input class="text" matInput placeholder="TENANT FIRSTNAME" 
+                                pattern="[a-zA-Z _]*"
                                (click)="unitsfields($event,i,'tenantfirstname')"
                                 [(ngModel)]="obj.tenantfirstname"
                                     [ngModelOptions]="{standalone:true}" value="">
@@ -627,6 +661,7 @@
                             <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                 <mat-label>TENANT LAST NAME</mat-label>
                                 <input class = "text" matInput placeholder="TENANT LASTNAME" 
+                                pattern="[a-zA-Z _]*"
                                (click)="unitsfields($event,i,'tenantlastname')"
                                 [(ngModel)]="obj.tenantlastname"
                                 [ngModelOptions]="{standalone:true}" value="">
@@ -641,6 +676,8 @@
                                 *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                 <mat-label>TENANT MOBILE NUMBER</mat-label>
                                 <input matInput placeholder="TENANT MOBILE NUMBER" 
+                                minlength=10
+                                maxlength=10 pattern="[0-9]*"
                                (click)="unitsfields($event,i,'tenantmobilenumber')"
                                 [(ngModel)]="obj.tenantmobilenumber"
                                     [ngModelOptions]="{standalone:true}" value="">
@@ -654,7 +691,8 @@
                                 <mat-form-field  class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                     <mat-label>TENANT EMAIL ID</mat-label>
                                     <input matInput placeholder="TENANT EMAIL-ID" 
-                               (click)="unitsfields($event,i,'tenantemaiid')"
+                                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                   (click)="unitsfields($event,i,'tenantemaiid')"
                                     [(ngModel)]="obj.tenantemaiid"
                                     [ngModelOptions]="{standalone:true}" value="">
                                         <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentemail')">

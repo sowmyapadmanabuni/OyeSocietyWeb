@@ -1108,6 +1108,25 @@ cancelunitsbulkupload(ev){
    
   }
 
+  resetStep1(ev){
+
+    // let countrie = this.countries
+    // this.countries = [];
+    // this.countries = countrie;
+    this.assname= '';
+    this.ASAsnLogo = '';
+    this.countryname = 'SELECT COUNTRY';
+    this.propertytype = 'SELECT PROPERTY TYPE';
+    this.state = 'SELECT STATE';
+    this.city = '';
+    this.postalcode = '';
+    this.propertyname = '';
+    this.locality = '';
+    this.Associationemail = '';
+    this.url = '';
+    console.log(ev)
+  }
+
   public demo1TabIndex = 0;
   public demo1BtnClick() {
     const tabCount = 3;
