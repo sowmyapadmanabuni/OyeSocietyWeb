@@ -443,5 +443,9 @@ export class AppComponent {
       })
     } 
   }
+  goToNotification(e){
+    e.preventDefault();
+    this.router.navigate(['notifications']);
+  }
 }
 

@@ -8,5 +8,8 @@ export class NotificationListArray {
         private occupiedBy,
         private ownername,
         private uMobile,
-        private admincollapse){}
+        private admincollapse,
+        private adminNtid,
+        private AdmNtIsActive,
+        private adminReadStatus){}
 }

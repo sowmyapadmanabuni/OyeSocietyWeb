@@ -18,10 +18,10 @@
             <span class="l-top">&nbsp;</span>
             <ul class="tabs group">
               <li (click)="AdminsUnitShow('resident')">
-                <a data-toggle="tab">MY UNIT {{ResidentNotificationListArray.length}}</a> 
+                <a data-toggle="tab">MY UNIT {{ResidentActiveNotification}}</a> 
               </li>
               <li style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
-                <a class="act-b" data-toggle="tab">ADMIN {{notificationListArray.length}}</a> 
+                <a class="act-b" data-toggle="tab">ADMIN {{AdminActiveNotification}}</a> 
               </li>
 
             </ul>
@@ -29,11 +29,12 @@
           <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;">
             <div class="dash-row">
               <div class="panel-group" id="accordion">
+                <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" style="width: 828px;height: 37px;" placeholder="search unit">
                 <div class="panel panel-default" *ngFor="let itm of notificationListArray">
                   <div class="panel-heading">
                     <h4 class="panel-title alfl">
                       <a data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}"> <img
-                          src="../../assets/images/notification_icons/mail.png">
+                         (click)="NotificationActiveStatusUpdate(itm['adminNtid'],'Join')" src="../../assets/images/notification_icons/mail.png"> {{itm['adminReadStatus']}}
                       </a>
                       <span>{{itm['asAsnName']}}</span>
                       <span>25min ago</span>
@@ -83,10 +84,10 @@
             <span class="r-top">&nbsp;</span>
             <ul class="tabs group">
               <li (click)="AdminsUnitShow('resident')" class="active left-tab">
-                <a class="act-a" ata-toggle="tab">MY UNIT {{ResidentNotificationListArray.length}}</a> 
+                <a class="act-a" ata-toggle="tab">MY UNIT {{ResidentActiveNotification}}</a> 
               </li>
               <li (click)="AdminsButtonShow('admin')">
-                <a data-toggle="tab">ADMIN {{notificationListArray.length}}</a> 
+                <a data-toggle="tab">ADMIN {{AdminActiveNotification}}</a> 
               </li>
             </ul>
           </div>
@@ -100,7 +101,7 @@
                   <div class="panel-heading">
                     <h4 class="panel-title alfl">
                       <a data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> <img
-                          src="../../assets/images/notification_icons/mail.png">
+                        (click)="NotificationActiveStatusUpdate(item['residentNtid'],'')"  src="../../assets/images/notification_icons/mail.png"> {{item['residentReadStatus']}}
                       </a>
                       <span>{{item['asAsnName']}}</span>
                       <span>25min ago</span>
