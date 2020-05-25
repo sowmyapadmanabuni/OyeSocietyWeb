@@ -1387,9 +1387,9 @@ export class AssociationManagementComponent implements OnInit {
     else{
       this.globalService.gotojoinassociation='';
     }
-    this.uploadForm = this.formBuilder.group({
-      profile: ['']
-    });
+    // this.uploadForm = this.formBuilder.group({
+    //   profile: ['']
+    // });
     this.uploadPanForm = this.formBuilder.group({
       panProfile: ['']
     });

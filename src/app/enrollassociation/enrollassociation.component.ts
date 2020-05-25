@@ -8,8 +8,8 @@ import * as XLSX from 'xlsx';
 import { element } from 'protractor';
 import { Subject } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
-
+import { GlobalServiceService } from '../global-service.service';
+import {UtilsService} from '../../app/utils/utils.service';
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
 @Component({
@@ -39,7 +39,11 @@ export class EnrollassociationComponent implements OnInit {
   post: any = '';
   private formSubmitAttempt: boolean;
 
-  constructor(private http: HttpClient,private cdref: ChangeDetectorRef,public viewAssnService: ViewAssociationService,private modalService: BsModalService, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
+    public viewAssnService: ViewAssociationService,
+    private globalService: GlobalServiceService,
+    private utilsService:UtilsService,
+    private modalService: BsModalService, private formBuilder: FormBuilder) { }
   countrieslist = [
     "INDIA",
     "AFGHANISTAN",
@@ -163,7 +167,9 @@ export class EnrollassociationComponent implements OnInit {
       profile: ['']
     });
     this.uploadPanForm = this.formBuilder.group({
-      panProfile: ['']
+      panProfile: [''],
+      gstnumber:[''],
+      pannumber:['']
     });
     this.unitsDetailsgenerateform();
   }
@@ -332,7 +338,6 @@ export class EnrollassociationComponent implements OnInit {
   noofunits;
   amenityname;
   noofamenities;
-
   // blockdetails variables
   blocksArray = []
 
@@ -487,6 +492,10 @@ export class EnrollassociationComponent implements OnInit {
    var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
 
     console.log(date)
+
+    let ipAddress = this.utilsService.createUnit();
+    let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
+
     // var getYear:any = getFullYear();
     Object.keys(this.unitlistjson).forEach(element=>{
       console.log(this.unitlistjson[element])
@@ -497,33 +506,33 @@ export class EnrollassociationComponent implements OnInit {
 
         this.unitdetailscreatejson = {
           "ASAssnID": this.assid,
-          "ACAccntID": 9539,
+          "ACAccntID": this.globalService.getacAccntID(),
           "units": [
             {
     
               "UNUniName": unit.flatno,
               "UNUniType": unit.unittype,
               "UNOcStat": unit.ownershipstatus,
-              "UNOcSDate": currentdata,
-              "UNOwnStat": "Sold",
-              "UNSldDate": currentdata,
-              "UNDimens": unit.unitdimension,
-              "UNRate": unit.unitrate,
-              "UNCalType": unit.calculationtype,
+              "UNOcSDate": "",
+              "UNOwnStat": "",
+              "UNSldDate": "",
+              "UNDimens": "",
+              "UNRate": "",
+              "UNCalType": "",
               "FLFloorID": 14,
               "BLBlockID": unit.blockid,
               "Owner":
                 [{
     
-                  "UOFName": "",
-                  "UOLName": "",
-                  "UOMobile": "",
+                  "UOFName": unit.ownerfirstname,
+                  "UOLName": unit.ownerlastname,
+                  "UOMobile": unit.ownermobilenumber,
                   "UOISDCode": "",
                   "UOMobile1": "",
                   "UOMobile2": "",
                   "UOMobile3": "",
                   "UOMobile4": "",
-                  "UOEmail": "sowmya_padmanabhuni@oyespace.com",
+                  "UOEmail": unit.owneremaiid,
                   "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
                   "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
                   "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
@@ -532,12 +541,12 @@ export class EnrollassociationComponent implements OnInit {
     
                 }],
               "Tenant": [{
-                "UTFName": "",
-                "UTLName": "",
-                "UTMobile": "",
+                "UTFName": unit.tenantfirstname,
+                "UTLName": unit.tenantlastname,
+                "UTMobile": unit.tenantmobilenumber,
                 "UTISDCode": "+91",
                 "UTMobile1": "+919398493298",
-                "UTEmail": "So@gmail.com",
+                "UTEmail": unit.tenantemaiid,
                 "UTEmail1": "pl@gmail.com"
               }],
               "unitbankaccount":
@@ -561,7 +570,7 @@ export class EnrollassociationComponent implements OnInit {
             }
           ]
         }
-        this.http.post("http://apiuat.oyespace.com/oyeliving/api/v1/unit/create", this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+        this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
           console.log(res)
    
         }, error => {
@@ -652,6 +661,7 @@ export class EnrollassociationComponent implements OnInit {
   }
   pancardnameoriginal:boolean;
   pansucessname;
+  panresponce;
   getpancardname(){
     var panjson = {
       "id_number": this.pannumber,
@@ -659,15 +669,17 @@ export class EnrollassociationComponent implements OnInit {
     }
     this.http.post("http://devapi.scuarex.com/oye247/api/v1/IDNumberVerification ", panjson, { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
       console.log(res)
-      if (res.success == true) {
+      this.panresponce = res;
+      if (this.panresponce.success == true) {
         this.matching = false;
         // res.data.name
-if(res.data.name!=''){
+if(this.panresponce.data.name!=''&&this.pannumber.length==10){
   this.pancardnameoriginal = true;
-  this.pansucessname =res.data.name;
+  this.pansucessname =this.panresponce.data.name;
 }
       }else{
         this.matching = true;
+        this.pancardnameoriginal = false;
 
       }
     }, error => {
@@ -677,25 +689,10 @@ if(res.data.name!=''){
   }
   submitpandetails(event) {
 
-    var panjson = {
-      "id_number": this.pannumber,
-      "type": "pan"
-    }
-    this.http.post("http://devapi.scuarex.com/oye247/api/v1/IDNumberVerification ", panjson, { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
-      console.log(res)
-      if (res.success == true) {
-        this.matching = false;
-        // res.data.name
-        this.demo1TabIndex = this.demo1TabIndex + 1;
+if(this.panresponce.success == true){
+  this.demo1TabIndex = this.demo1TabIndex + 1;
 
-      }else{
-        this.matching = true;
-
-      }
-    }, error => {
-      console.log(error);
-    }
-    );
+}
 
   }
 // i:number;
@@ -706,9 +703,11 @@ if(res.data.name!=''){
     this.unitdetails[i][fieldname]["clicked"]=true;
       }
   blockdetailsidvise(element){
+    let ipAddress = this.utilsService.createBlock();
+    let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
       this.jsondata = {
         "ASAssnID": this.assid,
-        "ACAccntID": 9539,
+        "ACAccntID": this.globalService.getacAccntID(),
         "blocks": [
           {
             "BLBlkName": element.blockname,
@@ -717,21 +716,21 @@ if(res.data.name!=''){
             "BLMgrName": element.managername,
             "BLMgrMobile": element.managermobileno,
             "BLMgrEmail": element.manageremailid,
-            "ASMtType": element.measurementtype,
+            "ASMtType": "",
             "ASMtDimBs": "15",
-            "ASMtFRate": element.ratevalue,
+            "ASMtFRate": "",
             "ASUniMsmt": "12",
             "ASBGnDate": "04/05/2020",
-            "ASLPCType": element.paymentcharge,
-            "ASLPChrg": element.latepaymentcharge,
-            "ASLPSDate": element.startdate,
+            "ASLPCType": "",
+            "ASLPChrg": "",
+            "ASLPSDate": "",
             "ASDPyDate": "04/05/2020"
           }
         ]
 
       }
 
-    this.http.post("http://apiuat.oyespace.com/oyeliving/api/v1/Block/create", this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+    this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
       console.log(res)
       // Swal.fire({
       //   title:"Block Created",
@@ -1011,13 +1010,14 @@ cancelunitsbulkupload(ev){
 
   }
   submitassociationcreation(event,blocksnum) {
-  
+    let ipAddress = this.utilsService.createAssn();
+    let associationurl = `${ipAddress}oyeliving/api/v1/association/create`
     if (this.blockform.valid) {
       var num1=Number(this.noofblocks)
       var num2=Number(this.noofunits);
       var totalnoofuits = num1 + num2;
       this.jsondata = {
-        "acAccntID": 9539,
+        "acAccntID": this.globalService.getacAccntID(),
         "association": {
           "ASAddress": this.locality,
           "ASCountry": "India",
@@ -1044,7 +1044,7 @@ cancelunitsbulkupload(ev){
           "ASONStat": "True",
           "ASOMStat": "False",
           "ASFaceDet": "True",
-          "ASPANDoc": this.uploadPANCard,
+          "ASPANDoc": (this.uploadPANCard == undefined ? '' : this.uploadPANCard),
           "ASGSTNo": "",
           "BankDetails": [
             {
@@ -1064,8 +1064,8 @@ cancelunitsbulkupload(ev){
           ],
           "Amenities": [
             {
-              "AMType": this.amenityname,
-              "NoofUnits": this.noofamenities,
+              "AMType": '',
+              "NoofUnits": '',
               "AMDCreated": "2019-01-21"
             }
           ]
@@ -1073,7 +1073,8 @@ cancelunitsbulkupload(ev){
       }
    
       console.log(this.jsondata)
-      this.http.post("http://apiuat.oyespace.com/oyeliving/api/v1/association/create",this.jsondata,{ headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res:any)=>{
+      console.log(this.url)
+      this.http.post(associationurl,this.jsondata,{ headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res:any)=>{
      console.log(res)
      this.associationfinalresult = res;
    
@@ -1107,26 +1108,23 @@ cancelunitsbulkupload(ev){
     }
    
   }
+  logo: boolean = false;
 
   resetStep1(ev){
 
-    // let countrie = this.countries
-    // this.countries = [];
-    // this.countries = countrie;
-    this.assname= '';
-    this.ASAsnLogo = '';
-    this.countryname = 'SELECT COUNTRY';
-    this.propertytype = 'SELECT PROPERTY TYPE';
-    this.state = 'SELECT STATE';
-    this.city = '';
-    this.postalcode = '';
-    this.propertyname = '';
-    this.locality = '';
-    this.Associationemail = '';
-    this.url = '';
     console.log(ev)
+    this.form.reset();
+    // this.logo=''
+    // this.uploadForm.reset();
   }
+  resetStep2(ev){
+    this.uploadPanForm.reset();
 
+  }
+  resetStep3(ev){
+    this.blockform.reset();
+
+  }
   public demo1TabIndex = 0;
   public demo1BtnClick() {
     const tabCount = 3;
