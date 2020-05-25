@@ -5,6 +5,7 @@ import {ResidentNotificationListArray} from '../../app/models/resident-notificat
 import { UtilsService } from '../utils/utils.service';
 import { GlobalServiceService } from '../global-service.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import * as _ from 'underscore';
 declare var $: any;
 
 @Component({
@@ -83,6 +84,8 @@ export class NotificationsComponent implements OnInit {
     console.log(this.paginatedvalue);
     this.notificationListArray = [];
     this.ResidentNotificationListArray = [];
+    this.AdminActiveNotification = 0;
+    this.ResidentActiveNotification = 0;
     // http://apiuat.oyespace.com/oyesafe/api/v1/Notification/GetNotificationListByAccntID/11511/1
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
@@ -90,31 +93,46 @@ export class NotificationsComponent implements OnInit {
       let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
       this.http.get(url, { headers: headers })
         .subscribe(data => {
-          console.log(data);
+          //console.log(data);
           Array.from(data['data']['notificationListByAcctID']).forEach((item, index) => {
             ((index) => {
               setTimeout(() => {
                 console.log(item);
                 console.log(item['ntIsActive']);
                 if (item['ntType'] == "Join") {
+                  //console.log(item['unit']['owner'].length);
+                  //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utfName'] : item['unit']['owner'][0]['uofName']);
+                  //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utMobile'] : item['unit']['owner'][0]['uoMobile']);
                   if(item['ntIsActive']==true){
                     this.AdminActiveNotification += 1;
+                    console.log(this.AdminActiveNotification);
                   }
                   this.notificationListArray.push(new NotificationListArray(item['unit']['unUniName'], 
                   item['asAsnName'], 
-                  item['unit']['ntMobile'], 
-                  (item['unit']['owner'].length == 0?item['unit']['tenant']['utfName']:item['unit']['owner']['uofName']),
+                  item['ntMobile'], 
+                  (item['unit']['owner'].length == 0?item['unit']['tenant'][0]['utfName']:item['unit']['owner'][0]['uofName']),
                   (item['visitorlog'].length == 0 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])),
                   item['unit']['unOcStat'],
                   (item['unit']['owner'].length == 0?'Tenant':'Owner'),
-                  (item['unit']['owner'].length == 0?item['unit']['tenant']['utfName']:item['unit']['owner']['uofName']),
-                  (item['unit']['owner'].length == 0?item['unit']['tenant']['utMobile']:item['unit']['owner']['uoMobile']), 
+                  (item['unit']['owner'].length == 0?item['unit']['tenant'][0]['utfName']:item['unit']['owner'][0]['uofName']),
+                  (item['unit']['owner'].length == 0?item['unit']['tenant'][0]['utMobile']:item['unit']['owner'][0]['uoMobile']), 
                   'admincollapse'+new Date().getTime(),
                   item['ntid'],
                   item['ntIsActive'],
-                  (item['ntIsActive'] == true ? 'Unread' : 'Read')
+                  (item['ntIsActive'] == true ? 'Unread' : 'Read'),
+                  item['sbRoleID'],
+                  item['sbMemID'],
+                  item['sbUnitID'],
+                  item['sbSubID'],
+                  item['mrRolName'],
+                  item['asAssnID'],
+                  item['unSldDate'],
+                  item['unOcSDate'],
+                  item['acNotifyID'],
+                  item['ntType']
                   ));
-                  console.log(this.notificationListArray);
+                  //console.log(this.notificationListArray);
+                  this.notificationListArray = _.sortBy(this.notificationListArray, 'adminReadStatus').reverse();
                   this.notificationListArrayTemp = this.notificationListArray;
                 }
                 else {
@@ -143,6 +161,7 @@ export class NotificationsComponent implements OnInit {
                     item['ntIsActive'],
                     (item['ntIsActive'] == true ? 'Unread' : 'Read')
                     ));
+                    this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                     this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
                   //
                   //console.log(this.ResidentNotificationListArray);
@@ -194,17 +213,24 @@ export class NotificationsComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         if(param == 'Join'){
-          this.AdminActiveNotification -= 1;
           for(let i=0;i<this.notificationListArray.length;i++){
            if(this.notificationListArray[i]['adminNtid'] == ntid){
+             console.log(this.notificationListArray[i]['adminReadStatus']);
+             if(this.notificationListArray[i]['adminReadStatus'] == 'Unread'){
+              this.AdminActiveNotification -= 1;
+              console.log(this.AdminActiveNotification);
+             }
             this.notificationListArray[i]['adminReadStatus']='Read';
            }
           }
         }
         else{
-          this.ResidentActiveNotification -= 1;
           for(let j=0;j<this.ResidentNotificationListArray.length;j++){
             if(this.ResidentNotificationListArray[j]['residentNtid'] == ntid){
+              console.log(this.ResidentNotificationListArray[j]['residentReadStatus']);
+              if(this.ResidentNotificationListArray[j]['residentReadStatus'] == 'Unread'){
+                this.ResidentActiveNotification -= 1;
+              }
              this.ResidentNotificationListArray[j]['residentReadStatus']='Read';
             }
            }
@@ -215,4 +241,149 @@ export class NotificationsComponent implements OnInit {
           console.log(err);
         })
   }
+  //
+  // Accept the join request start here
+  approve(sbRoleID, sbMemID, sbUnitID, sbSubID, mrRolName, asAsnName, asAssnID, unSldDate, unOcSDate, acNotifyID, ntType, ntMobile){
+    let roleChangeToAdminOwnerUpdate=
+    {  
+        MRMRoleID: sbRoleID,
+        MEMemID: sbMemID,
+        UNUnitID: sbUnitID
+    }
+    console.log('roleChangeToAdminOwnerUpdate',roleChangeToAdminOwnerUpdate);
+    return this.http.post('http://apiuat.oyespace.com/oyeliving/api/v1/MemberRoleChangeToOwnerToAdminUpdate',roleChangeToAdminOwnerUpdate, 
+    {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
+    .subscribe(data=>{
+      console.log(data);
+      let roleName = data['sbRoleID'] === 2 ? 'Owner' : 'Tenant';
+      // -*-*-*-*-*-Send the admin notification-*-*-*-*-*-*-*-*-*-*
+      let sendAdminNotification=
+      {
+        sbSubID: sbSubID,
+        ntTitle: 'Request Approved',
+        ntDesc: 'Your request to join '+mrRolName +' '+' unit in ' +asAsnName +' association as ' +roleName +' has been approved',
+        ntType: 'Join_Status',
+        associationID: asAssnID
+      }
+      console.log('sendAdminNotification',sendAdminNotification);
+      return this.http.post('https://us-central1-jabm-fd8d9.cloudfunctions.net/sendUserNotification',sendAdminNotification)
+      .subscribe(data=>{
+        console.log('sendUserNotification',data);
+        // -*-*-*-*-*-Send the admin notification-*-*-*-*-*-*-*-*-*-*
+        // let DateUnit = {
+        //   MemberID: sbMemID,
+        //   UnitID: sbUnitID,
+        //   MemberRoleID: sbRoleID,
+        //   UNSldDate: unSldDate,
+        //   UNOcSDate: unOcSDate
+        // };
+      //  let UpdateTenant = {
+      //     MEMemID: sbMemID,
+      //     UNUnitID: sbUnitID,
+      //     MRMRoleID: sbRoleID
+      //   };
+        let NotificationCreate=       
+         {
+          ACAccntID: this.globalService.getacAccntID(),
+          ASAssnID: asAssnID,
+          NTType: ntType,
+          NTDesc: 'Your request to join ' + mrRolName +' ' +' unit in ' +asAsnName +' association as ' +roleName +' has been approved',
+          SBUnitID: sbUnitID,
+          SBMemID: sbMemID,
+          SBSubID: sbSubID,
+          SBRoleID: sbRoleID,
+          ASAsnName: asAsnName,
+          MRRolName: mrRolName,
+          NTDCreated: unOcSDate,
+          NTDUpdated: unOcSDate,
+          UNOcSDate: unOcSDate,
+          UNSldDate: unSldDate,
+          ACNotifyID: acNotifyID,
+          NTMobile :ntMobile,
+          NTUsrImg:"userImage",
+        
+        }
+        console.log('NotificationCreate',NotificationCreate);
+        return this.http.post('http://apiuat.oyespace.com/oyesafe/api/v1/Notification/Notificationcreate',NotificationCreate, 
+        {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
+        .subscribe(data=>{
+          console.log(data);
+          let DateUnit = {
+            MemberID: sbMemID,
+            UnitID: sbUnitID,
+            MemberRoleID: sbRoleID,
+            UNSldDate: unSldDate,
+            UNOcSDate: unOcSDate
+          }
+          console.log('DateUnit',DateUnit);
+          return this.http.post('http://apiuat.oyespace.com/oyeliving/api/v1/Unit/UpdateUnitRoleStatusAndDate',DateUnit, 
+          {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
+          .subscribe(data=>{
+            console.log('DateUnitSuccess',data);
+            let UpdateTenant = {
+              MEMemID: sbMemID,
+              UNUnitID: sbUnitID,
+              MRMRoleID: sbRoleID
+            }
+            console.log('UpdateTenant',UpdateTenant);
+            return this.http.post('http://apiuat.oyespace.com//oyesafe/api/v1/UpdateMemberOwnerOrTenantInActive/Update',UpdateTenant, 
+            {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
+            .subscribe(data=>{
+              console.log('UpdateTenantSuccess',data);
+              let StatusUpdate = {
+                NTID      : data['ntid'],
+                NTStatDesc : "Request Sent"
+            }
+            console.log('StatusUpdate',StatusUpdate);
+            return this.http.post('http://apiuat.oyespace.com/oyesafe/api/v1/NotificationAcceptanceRejectStatusUpdate',StatusUpdate, 
+            {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
+            .subscribe(data=>{
+              console.log('StatusUpdateSuccess',data);
+              let NotificationJoinStatusUpdate= {
+                NTID: data['ntid'],
+                NTJoinStat: 'Accepted'
+              }
+              console.log('NotificationJoinStatusUpdate',NotificationJoinStatusUpdate);
+              return this.http.post('http://apiuat.oyespace.com//oyesafe/api/v1/Notification/NotificationJoinStatusUpdate',NotificationJoinStatusUpdate, 
+            {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
+            .subscribe(data=>{
+              console.log('NotificationJoinStatusUpdate',data);
+
+              alert("Accepted");
+              
+            },
+            err=>{
+              console.log('NotificationJoinStatusUpdate',err);
+            })
+            },
+            err=>{
+              console.log('StatusUpdateSuccess',err);
+            })
+            },
+            err=>{
+              console.log('UpdateTenantError',err);
+            })
+
+
+          },
+          err=>{
+            console.log('DateUnitError',err);
+          })
+        },
+        err=>{
+          console.log(err);
+        })
+      },
+      // -*-*-*-*-*-Send the admin notification-*-*-*-*-*-*-*-*-*-*
+      err=>{
+        console.log(err);   // Error for  sendUserNotification API call
+      })
+      
+    },
+    err=>{
+      console.log(err);   // Error for  MemberRoleChangeToOwnerToAdminUpdate API call
+    })
+      
+  }
+// Accept the join request stop here
 }
