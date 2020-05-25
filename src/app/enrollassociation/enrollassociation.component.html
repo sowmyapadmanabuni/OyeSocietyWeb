@@ -30,12 +30,19 @@
                   </div>
             </mat-grid-tile> -->
 
-            <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
+            <!-- <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
                 class="fa fa-question-circle" aria-hidden="true"></i>
             <mat-label class="logo">Upload logo</mat-label>
             <input type="file" id="img" accept="image/png,imge/jpeg" />
-            <a mat-raised-button color="primary" class="Upload">Upload</a>
-
+            <a mat-raised-button color="primary" class="Upload">Upload</a> -->
+            <mat-label class="logoassociation">Upload logo</mat-label>
+            <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
+            class="fa fa-question-circle" aria-hidden="true"></i>
+            <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
+                <input type="file" id="img" name="profile" (change)="onFileSelect($event)" />
+                <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
+                 <img class="Upload1"(mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
+            </form>
 
                 <!-- <form class="association-form">
                     <p>Upload Logo of Max 2MB of Formats allowed</p>
@@ -150,41 +157,68 @@
         </mat-tab>
         <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
 
-             <!-- <form [formGroup]="panform" class="association-form">
-                <mat-form-field class="association-full-width">
-                    <mat-label>GST & PAN DETAILS</mat-label>
-                    <input matInput placeholder="GST NUMBER" [(ngModel)]="gstnumber" value=""
-                     >
 
-                 </mat-form-field>
-            </form> -->
-            <form [formGroup]="panform" class="association-form">
-                <mat-form-field class="association-full-width">
-                    <mat-label>GST NUMBER(OPTIONAL)</mat-label>
-                    <input matInput placeholder="GST NUMBER" formControlName="gstno" [(ngModel)]="gstnumber" value="">
-                    <mat-error [displayError]="isFieldValidPanDetails('gstno')">
+
+        <form class="association-form">
+            <div>
+                <mat-form-field class="blockdetails-form">
+                  
+                    <mat-label><input matTooltip="GST Available?"type="checkbox">GST NUMBER(OPTIONAL)</mat-label>
+                    <input matInput placeholder="GST NUMBER"
+                    [disabled]="toggleGSTAvailableTxt"
+                    (blur)="fillPANValue()"
+                    [(ngModel)]="gstnumber" 
+                    autocomplete='gstnumber'
+                    [ngModelOptions]="{standalone: true}" 
+                    pattern="^([0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" minlegth=15 maxlength=15 
+                    value="">
+                    <!-- <mat-error [displayError]="isFieldValidPanDetails('gstno')">
                         {{ titleAlert }}
-                    </mat-error>
+                    </mat-error> -->
                 </mat-form-field>
-            </form>
+                 <p style="color:grey; font-size:12px; margin-left: 40px;">Ex: 22AAAAA0000A1Z5</p> 
 
-            <form [formGroup]="panform" class="association-form">
-                <mat-form-field class="association-full-width">
+            </div>
+        
+            <div>
+                <mat-form-field class="blockdetails-form">
                     <mat-label>PAN NUMBER</mat-label>
-                    <input matInput  placeholder="PAN NUMBER" matTooltip= "The name on the Pan card given should be the same as the the Association name"class = "text" formControlName="panno" [(ngModel)]="pannumber" value="">
-                    <mat-error [displayError]="isFieldValidPanDetails('panno')">
-                        {{ titleAlert }}
-                    </mat-error>
+                    <input matInput placeholder="PAN NUMBER"
+                        matTooltip="The name on the Pan card given should be the same as the the Association name" class="text"
+                        [(ngModel)]="pannumber" value="" (blur)="getpancardname()"autocomplete='pannumber' [ngModelOptions]="{standalone:true}"
+                        minlength=10 maxlength=10>
+                    <!-- <mat-error [displayError]="isFieldValidPanDetails('panno')">
+                    {{ titleAlert }}
+                </mat-error> -->
                 </mat-form-field>
+                <!-- <p id='panalert' *ngIf="matching"> Valid PAN number is required </p> -->
+                <p class ="validation"*ngIf="matching">Valid PAN number is required</p>
+                <p class ="pancardoriginalname" *ngIf ="pancardnameoriginal">{{pansucessname}}</p>
+                 <p style="color:grey; font-size:12px; margin-left: 40px;">Ex: PAAAA1234A</p> 
+            </div>
+        
+        
+
+            <div id="pancardupload">
+                    <!-- <mat-label class="control-label">Upload Scanned Pan Card</mat-label> -->
+
+          <label class="control-label">Upload Scanned Pan Card</label> 
+            <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
+              [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
+              (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
+              pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
+              <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
+                <input type="file" name="panProfile" (change)="onPanFileSelect($event)"/>
+                <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')" src="{{uploadPANCardThumbnail}}" width="50px" height="50px"/>
             </form>
+            <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+              Resolution of 128*128</span>
 
-
-            <mat-label class="logo" matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128">Upload Scanned PAN Card</mat-label>
-            <input type="file" id="img2" accept="image/png,imge/jpeg" />
-
+        </div>
+        </form> 
             <div class="save">
                 <a class="continue" mat-raised-button color="primary">RESET</a>
-                <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!panform.valid" (click)="submitpandetails($event)">SAVE & CONTINUE</a>
+                <a id="assdetailssave"mat-raised-button color="primary" (click)="submitpandetails($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab>
         <!-- <mat-tab [disabled]='!tab.isActive' label="Amenities">
@@ -655,3 +689,18 @@
         </mat-tab>
     </div>
 </mat-tab-group>
+<ng-template #UploadedImagetemplate>
+    <div class="modal-content">
+  
+      <div class="modal-header">
+        
+        <h4 class="modal-title">{{UploadedImage}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="{{ImgForPopUp}}"/>
+      </div>
+    </div>
+  </ng-template>
