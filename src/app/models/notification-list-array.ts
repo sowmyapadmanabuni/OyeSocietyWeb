@@ -11,5 +11,15 @@ export class NotificationListArray {
         private admincollapse,
         private adminNtid,
         private AdmNtIsActive,
-        private adminReadStatus){}
+        private adminReadStatus,
+        private sbRoleID,
+        private sbMemID,
+        private sbUnitID,
+        private sbSubID,
+        private mrRolName,
+        private asAssnID,
+        private unSldDate,
+        private unOcSDate,
+        private acNotifyID,
+        private ntType){}
 }
