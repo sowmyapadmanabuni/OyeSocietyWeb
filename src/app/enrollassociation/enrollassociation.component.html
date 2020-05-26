@@ -200,7 +200,8 @@
                         matTooltip="The name on the Pan card given should be the same as the the Association name" class="text"
                         [(ngModel)]="pannumber" value=""
                         formControlName="pannumber"
-                        (keyup)="getpancardname()"autocomplete='pannumber' 
+                        (input)='pan()' 
+                        autocomplete='pannumber' 
                         minlength=10 maxlength=10>
                     <!-- <mat-error [displayError]="isFieldValidPanDetails('panno')">
                     {{ titleAlert }}
@@ -234,7 +235,7 @@
         </form> 
             <div class="save">
                 <a class="continue" (click)="resetStep2($event)" mat-raised-button color="primary">RESET</a>
-                <a id="assdetailssave"mat-raised-button color="primary"[disabled]="!pancardnameoriginal" (click)="submitpandetails($event)">SAVE & CONTINUE</a>
+                <a id="assdetailssave"mat-raised-button color="primary" (click)="submitpandetails($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab>
         <!-- <mat-tab [disabled]='!tab.isActive' label="Amenities">

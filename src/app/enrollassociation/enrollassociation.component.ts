@@ -442,6 +442,7 @@ export class EnrollassociationComponent implements OnInit {
     };
   
   }
+
   onPanFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -471,7 +472,20 @@ export class EnrollassociationComponent implements OnInit {
   firstLetter: string;
   fifthLetter: string;
   matching: boolean;
-  
+    pan() {
+
+    this.firstLetter = this.assname.charAt(0).toUpperCase();
+    this.fifthLetter = this.pannumber.charAt(4).toUpperCase();
+    //console.log(this.firstLetter, this.fifthLetter);
+    if (this.firstLetter == this.fifthLetter) {
+      // localStorage.setItem('AssociationPAN', this.crtAssn.PANNumber);
+      this.matching = false;
+    } else {
+
+      this.matching = true;
+    }
+
+  }
   caltype =[
     "FlatRateValue",
     "dimension"
@@ -662,39 +676,41 @@ export class EnrollassociationComponent implements OnInit {
   pancardnameoriginal:boolean;
   pansucessname;
   panresponce;
-  getpancardname(){
-    var panjson = {
-      "id_number": this.pannumber,
-      "type": "pan"
-    }
-    this.http.post("http://devapi.scuarex.com/oye247/api/v1/IDNumberVerification ", panjson, { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
-      console.log(res)
-      this.panresponce = res;
-      if (this.panresponce.success == true) {
-        this.matching = false;
-        // res.data.name
-if(this.panresponce.data.name!=''&&this.pannumber.length==10){
-  this.pancardnameoriginal = true;
-  this.pansucessname =this.panresponce.data.name;
-}
-      }else{
-        this.matching = true;
-        this.pancardnameoriginal = false;
+//   getpancardname(){
+//     var panjson = {
+//       "id_number": this.pannumber,
+//       "type": "pan"
+//     }
+//     this.http.post("http://devapi.scuarex.com/oye247/api/v1/IDNumberVerification ", panjson, { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+//       console.log(res)
+//       this.panresponce = res;
+//       if (this.panresponce.success == true) {
+//         this.matching = false;
+//         // res.data.name
+// if(this.panresponce.data.name!=''&&this.pannumber.length==10){
+//   this.pancardnameoriginal = true;
+//   this.pansucessname =this.panresponce.data.name;
+// }
+//       }else{
+//         this.matching = true;
+//         this.pancardnameoriginal = false;
 
-      }
-    }, error => {
-      console.log(error);
-    }
-    );
-  }
+//       }
+//     }, error => {
+//       console.log(error);
+//     }
+//     );
+//   }
   submitpandetails(event) {
 
-if(this.panresponce.success == true){
-  this.demo1TabIndex = this.demo1TabIndex + 1;
+    if (this.firstLetter == this.fifthLetter) {
+      this.demo1TabIndex = this.demo1TabIndex + 1;
 
-}
+    }
 
   }
+
+  
 // i:number;
   blocksfields(event,i,fieldname){
     this.detailsdata[i][fieldname]["clicked"]=true;
@@ -1114,11 +1130,13 @@ cancelunitsbulkupload(ev){
 
     console.log(ev)
     this.form.reset();
-    // this.logo=''
-    // this.uploadForm.reset();
+    this.thumbnailASAsnLogo='';
+   
   }
   resetStep2(ev){
     this.uploadPanForm.reset();
+    this.uploadPANCardThumbnail='';
+    this.pancardnameoriginal=false
 
   }
   resetStep3(ev){
