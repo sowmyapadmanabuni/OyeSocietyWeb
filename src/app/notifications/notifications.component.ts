@@ -89,7 +89,7 @@ export class NotificationsComponent implements OnInit {
     // http://apiuat.oyespace.com/oyesafe/api/v1/Notification/GetNotificationListByAccntID/11511/1
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
-     for (let pageIndex = 1; pageIndex < this.paginatedvalue; pageIndex++) {
+     for (let pageIndex = 1; pageIndex <= this.paginatedvalue; pageIndex++) {
       let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
       this.http.get(url, { headers: headers })
         .subscribe(data => {
@@ -110,12 +110,12 @@ export class NotificationsComponent implements OnInit {
                   this.notificationListArray.push(new NotificationListArray(item['unit']['unUniName'], 
                   item['asAsnName'], 
                   item['ntMobile'], 
-                  (item['unit']['owner'].length == 0?item['unit']['tenant'][0]['utfName']:item['unit']['owner'][0]['uofName']),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
                   (item['visitorlog'].length == 0 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])),
                   item['unit']['unOcStat'],
                   (item['unit']['owner'].length == 0?'Tenant':'Owner'),
-                  (item['unit']['owner'].length == 0?item['unit']['tenant'][0]['utfName']:item['unit']['owner'][0]['uofName']),
-                  (item['unit']['owner'].length == 0?item['unit']['tenant'][0]['utMobile']:item['unit']['owner'][0]['uoMobile']), 
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utMobile']):item['unit']['owner'][0]['uoMobile']), 
                   'admincollapse'+new Date().getTime(),
                   item['ntid'],
                   item['ntIsActive'],
@@ -142,7 +142,7 @@ export class NotificationsComponent implements OnInit {
                   //console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']);
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]);
-                  //console.log(item['ntType']);
+                  console.log(item['ntType']);
                   this.ResidentNotificationListArray.push(new ResidentNotificationListArray((item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlComName']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlVisType']),
                     item['asAsnName'],
@@ -243,7 +243,8 @@ export class NotificationsComponent implements OnInit {
   }
   //
   // Accept the join request start here
-  approve(sbRoleID, sbMemID, sbUnitID, sbSubID, mrRolName, asAsnName, asAssnID, unSldDate, unOcSDate, acNotifyID, ntType, ntMobile){
+  approve(sbRoleID, sbMemID, sbUnitID, sbSubID, mrRolName, asAsnName, asAssnID, unSldDate, unOcSDate, acNotifyID, ntType, ntMobile, ntid){
+    console.log('ntid',ntid)
     let roleChangeToAdminOwnerUpdate=
     {  
         MRMRoleID: sbRoleID,
@@ -251,7 +252,7 @@ export class NotificationsComponent implements OnInit {
         UNUnitID: sbUnitID
     }
     console.log('roleChangeToAdminOwnerUpdate',roleChangeToAdminOwnerUpdate);
-    return this.http.post('http://apiuat.oyespace.com/oyeliving/api/v1/MemberRoleChangeToOwnerToAdminUpdate',roleChangeToAdminOwnerUpdate, 
+    return this.http.post('http://apiuat.oyespace.com/oyeliving/api/v1/MemberRoleChangeToAdminOwnerUpdate',roleChangeToAdminOwnerUpdate, 
     {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
     .subscribe(data=>{
       console.log(data);
@@ -270,23 +271,12 @@ export class NotificationsComponent implements OnInit {
       .subscribe(data=>{
         console.log('sendUserNotification',data);
         // -*-*-*-*-*-Send the admin notification-*-*-*-*-*-*-*-*-*-*
-        // let DateUnit = {
-        //   MemberID: sbMemID,
-        //   UnitID: sbUnitID,
-        //   MemberRoleID: sbRoleID,
-        //   UNSldDate: unSldDate,
-        //   UNOcSDate: unOcSDate
-        // };
-      //  let UpdateTenant = {
-      //     MEMemID: sbMemID,
-      //     UNUnitID: sbUnitID,
-      //     MRMRoleID: sbRoleID
-      //   };
+   
         let NotificationCreate=       
          {
           ACAccntID: this.globalService.getacAccntID(),
           ASAssnID: asAssnID,
-          NTType: ntType,
+          NTType: "Join_Status",
           NTDesc: 'Your request to join ' + mrRolName +' ' +' unit in ' +asAsnName +' association as ' +roleName +' has been approved',
           SBUnitID: sbUnitID,
           SBMemID: sbMemID,
@@ -305,9 +295,10 @@ export class NotificationsComponent implements OnInit {
         }
         console.log('NotificationCreate',NotificationCreate);
         return this.http.post('http://apiuat.oyespace.com/oyesafe/api/v1/Notification/Notificationcreate',NotificationCreate, 
-        {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
+        {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
         .subscribe(data=>{
-          console.log(data);
+          console.log(data); 
+          let NTID = data['data']['notifications']['ntid']
           let DateUnit = {
             MemberID: sbMemID,
             UnitID: sbUnitID,
@@ -331,7 +322,7 @@ export class NotificationsComponent implements OnInit {
             .subscribe(data=>{
               console.log('UpdateTenantSuccess',data);
               let StatusUpdate = {
-                NTID      : data['ntid'],
+                NTID      : ntid,
                 NTStatDesc : "Request Sent"
             }
             console.log('StatusUpdate',StatusUpdate);
@@ -340,7 +331,7 @@ export class NotificationsComponent implements OnInit {
             .subscribe(data=>{
               console.log('StatusUpdateSuccess',data);
               let NotificationJoinStatusUpdate= {
-                NTID: data['ntid'],
+                NTID: ntid,
                 NTJoinStat: 'Accepted'
               }
               console.log('NotificationJoinStatusUpdate',NotificationJoinStatusUpdate);
@@ -348,7 +339,6 @@ export class NotificationsComponent implements OnInit {
             {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
             .subscribe(data=>{
               console.log('NotificationJoinStatusUpdate',data);
-
               alert("Accepted");
               
             },
@@ -363,7 +353,6 @@ export class NotificationsComponent implements OnInit {
             err=>{
               console.log('UpdateTenantError',err);
             })
-
 
           },
           err=>{
