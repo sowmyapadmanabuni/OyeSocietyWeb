@@ -726,7 +726,7 @@ export class EnrollassociationComponent implements OnInit {
   unitsfields(event,i,fieldname){
     this.unitdetails[i][fieldname]["clicked"]=true;
       }
-      blockdetailsfinalresponce=[];
+      // blockdetailsfinalresponce=[];
   blockdetailsidvise(element){
     let ipAddress = this.utilsService.createBlock();
     let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
@@ -757,15 +757,8 @@ export class EnrollassociationComponent implements OnInit {
 
     this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
       console.log(res)
+ 
 
-      this.blockdetailsfinalresponce.push(res.data.blockID)
-      // Swal.fire({
-      //   title:"Block Created",
-      //   confirmButtonColor: "#f69321",
-      //  //  type:"Success",
-      //   icon: 'success',
-      //    confirmButtonText: "OK"
-      //   })
         this.unitlistjson[element.blockname].forEach(obj => {
           obj.blockid = res.data.blockID
         })
@@ -924,10 +917,10 @@ document.getElementById('showmanual').style.display ='block';
           this.unitdetails[i][datails] ={required:true};
         })
         if (blkname == unitonce.blockname) {
-          this.blockdetailsfinalresponce.forEach(obj=>{
-            unitonce.blockid = obj
+          //  this.blockdetailsfinalresponce.forEach(obj=>{
+          //    unitonce.blockid = obj
 
-          })
+          //  })
           if (!this.unitlistjson[blkname]) {
             this.unitlistjson[blkname] = []
           }
@@ -1067,7 +1060,7 @@ cancelunitsbulkupload(ev){
           "ASPrpType": this.propertytype,
           "ASRegrNum": "367",
           "ASMtDimBs": 1.55,
-          "ASWebURL": this.url,
+          "ASWebURL": (this.url == undefined ? '' : this.url),
           "ASMgrName": "Ransingh",
           "ASMgrMobile": "9490791523",
           "ASMgrEmail": "sowmya_padmanabhuni@oyespace.com",

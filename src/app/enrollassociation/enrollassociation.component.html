@@ -389,6 +389,8 @@
                                     <mat-label>MANAGER MOBILE NUMBER</mat-label>
                                     <input matInput placeholder="MANAGER MOBILE NUMBER"
                                     pattern="[0-9]*" 
+                                    minlength="10"
+                                    maxlength="10"
                                     (click)="blocksfields($event,i,'managermobileno')"[ngModelOptions]="{standalone:true}"
                                         [(ngModel)]="blocksArray[i].managermobileno" value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngmobileno')">
@@ -624,6 +626,7 @@
                             <input matInput placeholder="OWNER MOBILE NUMBER"
                             (click)="unitsfields($event,i,'ownermobilenumber')"
                             pattern="[0-9]+"
+                            minlength="10" maxlength="10"
                             [ngModelOptions]="{standalone:true}"
                                 [(ngModel)]="obj.ownermobilenumber" value="">
                                 <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownmobileno')">
