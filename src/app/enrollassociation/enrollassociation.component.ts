@@ -43,7 +43,9 @@ export class EnrollassociationComponent implements OnInit {
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private utilsService:UtilsService,
-    private modalService: BsModalService, private formBuilder: FormBuilder) { }
+    private modalService: BsModalService, private formBuilder: FormBuilder) {
+      this.url='';
+     }
   countrieslist = [
     "INDIA",
     "AFGHANISTAN",
