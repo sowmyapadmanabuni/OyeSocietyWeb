@@ -21,5 +21,6 @@ export class NotificationListArray {
         private unSldDate,
         private unOcSDate,
         private acNotifyID,
-        private ntType){}
+        private ntType,
+        private adminNtdCreated){}
 }

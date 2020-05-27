@@ -15,5 +15,6 @@ export class ResidentNotificationListArray {
         private vlexgName,
         private residentNtid,
         private RsdntNtIsActive,
-        private residentReadStatus){}
+        private residentReadStatus,
+        private residentNtdCreated){}
 }

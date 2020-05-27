@@ -89,11 +89,11 @@ export class NotificationsComponent implements OnInit {
     // http://apiuat.oyespace.com/oyesafe/api/v1/Notification/GetNotificationListByAccntID/11511/1
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
-     for (let pageIndex = 1; pageIndex <= this.paginatedvalue; pageIndex++) {
+     for (let pageIndex = 1; pageIndex <= 1; pageIndex++) {
       let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
       this.http.get(url, { headers: headers })
         .subscribe(data => {
-          //console.log(data);
+          console.log(data);
           Array.from(data['data']['notificationListByAcctID']).forEach((item, index) => {
             ((index) => {
               setTimeout(() => {
@@ -129,7 +129,8 @@ export class NotificationsComponent implements OnInit {
                   item['unSldDate'],
                   item['unOcSDate'],
                   item['acNotifyID'],
-                  item['ntType']
+                  item['ntType'],
+                  item['ntdCreated']
                   ));
                   //console.log(this.notificationListArray);
                   this.notificationListArray = _.sortBy(this.notificationListArray, 'adminReadStatus').reverse();
@@ -159,14 +160,15 @@ export class NotificationsComponent implements OnInit {
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlexgName']),
                     item['ntid'],
                     item['ntIsActive'],
-                    (item['ntIsActive'] == true ? 'Unread' : 'Read')
+                    (item['ntIsActive'] == true ? 'Unread' : 'Read'),
+                    item['ntdCreated']
                     ));
                     this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                     this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
                   //
                   //console.log(this.ResidentNotificationListArray);
                 }
-              }, 3000 * index)
+              }, 600 * index)
             })(index)
           })
         },

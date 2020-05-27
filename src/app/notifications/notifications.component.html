@@ -37,7 +37,7 @@
                          (click)="NotificationActiveStatusUpdate(itm['adminNtid'],'Join')" src="../../assets/images/notification_icons/mail.png"> {{itm['adminReadStatus']}}
                       </a>
                       <span>{{itm['asAsnName']}}</span>
-                      <span>25min ago</span>
+                      <span>{{itm['adminNtdCreated'] | dateAgo}}</span>
                     </h4>
                     <div class="alfl bg-grey">
                       <span><a class="green">Unit</a> {{itm['unUniName']}}</span>
@@ -104,7 +104,7 @@
                         (click)="NotificationActiveStatusUpdate(item['residentNtid'],'')"  src="../../assets/images/notification_icons/mail.png"> {{item['residentReadStatus']}}
                       </a>
                       <span>{{item['asAsnName']}}</span>
-                      <span>25min ago</span>
+                      <span>{{item['residentNtdCreated'] | dateAgo}}</span>
                     </h4>
                     <div class="alfl bg-grey">
                       <span><a class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>

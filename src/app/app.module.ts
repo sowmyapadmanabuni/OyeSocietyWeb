@@ -116,6 +116,7 @@ import { MatSelectModule,
   MatTooltipModule } from '@angular/material';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { FilterVisitorPipe } from './pipes/filter-visitor.pipe';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -190,7 +191,8 @@ import { FilterVisitorPipe } from './pipes/filter-visitor.pipe';
     AdminStaffScreenComponent,
     CareersComponent,
     NotificationsComponent,
-    FilterVisitorPipe
+    FilterVisitorPipe,
+    DateAgoPipe
     ],
   imports: [
     ReactiveFormsModule,
