@@ -246,6 +246,7 @@ export class NotificationsComponent implements OnInit {
   //
   // Accept the join request start here
   approve(sbRoleID, sbMemID, sbUnitID, sbSubID, mrRolName, asAsnName, asAssnID, unSldDate, unOcSDate, acNotifyID, ntType, ntMobile, ntid){
+    let ipAddress1 = this.utilsService.getIPaddress();
     console.log('ntid',ntid)
     let roleChangeToAdminOwnerUpdate=
     {  
@@ -254,7 +255,7 @@ export class NotificationsComponent implements OnInit {
         UNUnitID: sbUnitID
     }
     console.log('roleChangeToAdminOwnerUpdate',roleChangeToAdminOwnerUpdate);
-    return this.http.post('http://apiuat.oyespace.com/oyeliving/api/v1/MemberRoleChangeToAdminOwnerUpdate',roleChangeToAdminOwnerUpdate, 
+    return this.http.post(`${ipAddress1}oyeliving/api/v1/MemberRoleChangeToAdminOwnerUpdate`,roleChangeToAdminOwnerUpdate, 
     {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
     .subscribe(data=>{
       console.log(data);
@@ -296,7 +297,7 @@ export class NotificationsComponent implements OnInit {
         
         }
         console.log('NotificationCreate',NotificationCreate);
-        return this.http.post('http://apiuat.oyespace.com/oyesafe/api/v1/Notification/Notificationcreate',NotificationCreate, 
+        return this.http.post(`${ipAddress1}oyesafe/api/v1/Notification/Notificationcreate`,NotificationCreate, 
         {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
         .subscribe(data=>{
           console.log(data); 
@@ -309,7 +310,7 @@ export class NotificationsComponent implements OnInit {
             UNOcSDate: unOcSDate
           }
           console.log('DateUnit',DateUnit);
-          return this.http.post('http://apiuat.oyespace.com/oyeliving/api/v1/Unit/UpdateUnitRoleStatusAndDate',DateUnit, 
+          return this.http.post(`${ipAddress1}oyeliving/api/v1/Unit/UpdateUnitRoleStatusAndDate`,DateUnit, 
           {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
           .subscribe(data=>{
             console.log('DateUnitSuccess',data);
@@ -319,7 +320,7 @@ export class NotificationsComponent implements OnInit {
               MRMRoleID: sbRoleID
             }
             console.log('UpdateTenant',UpdateTenant);
-            return this.http.post('http://apiuat.oyespace.com//oyesafe/api/v1/UpdateMemberOwnerOrTenantInActive/Update',UpdateTenant, 
+            return this.http.post(`${ipAddress1}oyesafe/api/v1/UpdateMemberOwnerOrTenantInActive/Update`,UpdateTenant, 
             {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
             .subscribe(data=>{
               console.log('UpdateTenantSuccess',data);
@@ -328,7 +329,7 @@ export class NotificationsComponent implements OnInit {
                 NTStatDesc : "Request Sent"
             }
             console.log('StatusUpdate',StatusUpdate);
-            return this.http.post('http://apiuat.oyespace.com/oyesafe/api/v1/NotificationAcceptanceRejectStatusUpdate',StatusUpdate, 
+            return this.http.post(`${ipAddress1}oyesafe/api/v1/NotificationAcceptanceRejectStatusUpdate`,StatusUpdate, 
             {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
             .subscribe(data=>{
               console.log('StatusUpdateSuccess',data);
@@ -337,7 +338,7 @@ export class NotificationsComponent implements OnInit {
                 NTJoinStat: 'Accepted'
               }
               console.log('NotificationJoinStatusUpdate',NotificationJoinStatusUpdate);
-              return this.http.post('http://apiuat.oyespace.com//oyesafe/api/v1/Notification/NotificationJoinStatusUpdate',NotificationJoinStatusUpdate, 
+              return this.http.post(`${ipAddress1}oyesafe/api/v1/Notification/NotificationJoinStatusUpdate`,NotificationJoinStatusUpdate, 
             {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
             .subscribe(data=>{
               console.log('NotificationJoinStatusUpdate',data);
@@ -355,7 +356,6 @@ export class NotificationsComponent implements OnInit {
             err=>{
               console.log('UpdateTenantError',err);
             })
-
           },
           err=>{
             console.log('DateUnitError',err);
@@ -376,5 +376,6 @@ export class NotificationsComponent implements OnInit {
     })
       
   }
+// Accept the join request stop here
 // Accept the join request stop here
 }
