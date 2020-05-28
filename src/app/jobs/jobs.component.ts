@@ -24,26 +24,6 @@ export class JobsComponent implements OnInit {
   jobExperience: string;
   jobType: string;
   modalRef: BsModalRef;
-<<<<<<< HEAD
-  filteredPopJob: any;
-  filteredPopJoblegth: boolean;
-  formJobTitle: any;
-  userName: any;
-  userEmail: any;
-  userPhone: any;
-  userlastName: any;
-  userLocation: any;
-  userExp: any;
-  userworkFor: any;
-  userDesig: any;
-  userRelocate: any;
-  userComments: any;
-  filename: any;
-  order: any;
-  ipAddress: string;
-
-  constructor(private jobListservice: JobopeningsService, private modalService: BsModalService, private http: HttpClient) {
-=======
   filteredPopJob:any;
   filteredPopJoblegth:boolean;
   formJobTitle:any;
@@ -63,7 +43,6 @@ export class JobsComponent implements OnInit {
   PdfFileInBase64: string;
   
 constructor(private jobListservice: JobopeningsService,private modalService: BsModalService,private http: HttpClient) {
->>>>>>> af92a4d7479537b95758059957bc41ad81cba541
     this.jobDetailslist = [];
     this.PdfFileInBase64='';
     this.jobTitle = '';
