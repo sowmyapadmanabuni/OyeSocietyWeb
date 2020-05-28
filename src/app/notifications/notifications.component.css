@@ -350,3 +350,18 @@ outside color needs */
 
     .tabs li a:after {right: -20px;top: 0px;}
 
+    .badgeAlert{display: inline-block;
+      min-width: 10px;
+      padding: 3px 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      vertical-align: baseline;
+      white-space: nowrap;
+      text-align: center;
+      background-color: #d9534f;
+      border-radius: 10px;
+      position: absolute;
+      margin-top: -10px;
+      margin-left: -10px;}

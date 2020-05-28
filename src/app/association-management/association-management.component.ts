@@ -291,6 +291,7 @@ export class AssociationManagementComponent implements OnInit {
   ImgForPopUp:any;
   UploadedImage: any;
   displayOwnerType: string;
+  UniNameForJoinAssn: any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -306,6 +307,7 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
+      this.UniNameForJoinAssn='';
       this.alreadyJoined=false;
       this.uploadPANCard='';
       this.UnitName='';
@@ -555,6 +557,12 @@ export class AssociationManagementComponent implements OnInit {
       console.log(((localStorage.getItem('AssociationCity') == '' || null) ? '' : localStorage.getItem('AssociationCity')));
       console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
     }
+  
+  this.viewAssnService.dashboardredirect.subscribe(message=>{
+    this.getAssociationDetails();
+  })
+  
+  
   }
 
   openModal(template: TemplateRef<any>) {
@@ -1076,9 +1084,12 @@ export class AssociationManagementComponent implements OnInit {
   getAccountType(accounttypeName) {
     this.BAActType = accounttypeName;
   }
+  showVar: boolean = true;
   enblEnrlAsnVew() {
-    //console.log('april4');
-    //alert('test');
+
+    //  this.showVar = !this.showVar;
+    console.log('april4');
+    // alert('test');
     localStorage.setItem('Component','AssociationManagent');
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled = true;
@@ -1682,8 +1693,9 @@ export class AssociationManagementComponent implements OnInit {
     }
     //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
   }
-  enableActive(spanCtrl, unUnitID) {
+  enableActive(spanCtrl, unUnitID,unUniName) {
     this.UnitIDforJoinAssn = unUnitID;
+    this.UniNameForJoinAssn = unUniName;
     //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
     let allSpan = document.querySelectorAll('div.block-row span');
@@ -2450,7 +2462,7 @@ export class AssociationManagementComponent implements OnInit {
                   // "userID": this.UnitIDforJoinAssn.toString(),
                   "userID": this.accountID.toString(),
                   "sbUnitID": this.UnitIDforJoinAssn.toString(),
-                  "unitName": this.UnitName,
+                  "unitName": this.UniNameForJoinAssn,
                   "sbSubID": this.accountID.toString() + this.UnitIDforJoinAssn.toString()+'usernotif',
                   "sbRoleId": '3',//OwnerType==6? '2' : '3',//'3',//'2',
                   "sbMemID": this.mememberIDforJoin.toString(),// 25353,//this.mememberIDforJoin,
@@ -2492,10 +2504,10 @@ export class AssociationManagementComponent implements OnInit {
                             "ACNotifyID" : this.accountID.toString(), //"16182",//this.accountID,                        //Notifier AvvountID
                             "ASAsnName" : this.assnName,// "QUARANTINE ASSOCIATION",//this.assnName,  
                             "ASAssnID" : data['asAssnID'].toString(),// "15212",//data['asAssnID'].toString(),
-                            "MRRolName" : this.UnitName, // "A024",
+                            "MRRolName" : this.UniNameForJoinAssn, // "A024",
                             "NTDUpdated" : "2020-May-Thu, 12:35:34",
                             "NTDCreated" : "2020-May-Thu, 12:35:34",
-                            "NTDesc" : this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",// "Swamy wants to join QUARANTINE ASSOCIATION as a ower",//this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
+                            "NTDesc" : this.account[0]['acfName']+" Wants to join "+this.UniNameForJoinAssn+" in "+this.assnName+" Association",// "Swamy wants to join QUARANTINE ASSOCIATION as a ower",//this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
                             "NTMobile" : data['acMobile'], // "+919949385898",//'+91'+data['acMobile'],
                             "NTType" : "Join",
                             "NTUsrImg" : "image.jpeg",
@@ -2560,9 +2572,9 @@ export class AssociationManagementComponent implements OnInit {
   
   requestForJoin() {
     this.alreadyJoined=false;
-    console.log(this.globalService.unitslistForAssociation);
+    console.log(JSON.parse(localStorage.getItem("assnList")));
     // Number(this.UnitIDforJoinAssn)
-    for(let item of this.globalService.unitslistForAssociation)
+    for(let item of JSON.parse(localStorage.getItem("assnList")))
     {
       if(item['unUnitID']==this.UnitIDforJoinAssn){
         this.alreadyJoined=true;
