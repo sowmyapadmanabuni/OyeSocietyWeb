@@ -307,7 +307,7 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy) {
-      this.UniNameForJoinAssn='';
+      this.UniNameForJoinAssn='Select Unit';
       this.alreadyJoined=false;
       this.uploadPANCard='';
       this.UnitName='';
@@ -561,7 +561,17 @@ export class AssociationManagementComponent implements OnInit {
   this.viewAssnService.dashboardredirect.subscribe(message=>{
     this.getAssociationDetails();
   })
-  
+    //
+    this.route.params.subscribe(data => {
+      console.log(data['id']);
+      let id = data['id'];
+      if (id == '1' || 1) {
+        this.enblEnrlAsnVew();
+      }
+      else if (id == '2' || 2) {
+        this.enblJoinAsnVew();
+      }
+    });
   
   }
 
@@ -1083,6 +1093,9 @@ export class AssociationManagementComponent implements OnInit {
   }
   getAccountType(accounttypeName) {
     this.BAActType = accounttypeName;
+  }
+  getUnitDetail(param) {
+    console.log(param);
   }
   showVar: boolean = true;
   enblEnrlAsnVew() {
@@ -1696,18 +1709,26 @@ export class AssociationManagementComponent implements OnInit {
   enableActive(spanCtrl, unUnitID,unUniName) {
     this.UnitIDforJoinAssn = unUnitID;
     this.UniNameForJoinAssn = unUniName;
+    console.log(this.UnitIDforJoinAssn);
+    console.log(this.UniNameForJoinAssn);
+    if(this.UniNameForJoinAssn=='Select Unit'){
+      this.IsUnitNotSelected=true;
+    }
+    else{
+      this.IsUnitNotSelected=false;
+    }
     //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
-    let allSpan = document.querySelectorAll('div.block-row span');
+    /* let allSpan = document.querySelectorAll('div.block-row span');
     allSpan.forEach(item => {
       if(item.classList.contains('active')){
         item.classList.remove('active');
       }
     })
-    spanCtrl.classList.toggle("active");
+    spanCtrl.classList.toggle("active"); */
     //this.activeEnabled = true;
     //$(document).ready(function () {
-      let selectedSpan = document.querySelectorAll('div.block-row span.active');
+     /* let selectedSpan = document.querySelectorAll('div.block-row span.active');
       console.log(selectedSpan.length);
       console.log(allSpan);
       if(selectedSpan.length > 0){
@@ -1715,7 +1736,7 @@ export class AssociationManagementComponent implements OnInit {
       }
       else{
         this.IsUnitNotSelected=true;
-      }
+      } */
     //});
   }
 
@@ -2571,7 +2592,8 @@ export class AssociationManagementComponent implements OnInit {
   }
   
   requestForJoin() {
-    this.alreadyJoined=false;
+    if(localStorage.getItem("assnList")){
+          this.alreadyJoined=false;
     console.log(JSON.parse(localStorage.getItem("assnList")));
     // Number(this.UnitIDforJoinAssn)
     for(let item of JSON.parse(localStorage.getItem("assnList")))
@@ -2592,6 +2614,10 @@ export class AssociationManagementComponent implements OnInit {
       this.OnSendButton(this.OwnerType);
     }
     //console.log(this.OwnerType);
+    }
+    else{
+      this.OnSendButton(7);
+    }
     
   }
   resetJoinAssociation() {

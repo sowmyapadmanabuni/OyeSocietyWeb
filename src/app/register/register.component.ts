@@ -93,6 +93,7 @@ export class RegisterComponent implements OnInit {
       this.requestService.register(requestData)
         .subscribe((response) => {
           console.log('response', response);
+          this.globalservice.setAccountID(response['data']['account']['acAccntID']);
           swal.fire({
             title: "Registered Successfully",
             text: "",
@@ -107,8 +108,8 @@ export class RegisterComponent implements OnInit {
               this.lastName = '';
               this.email = '';
               this.mobilenumber = '';
-              //this.router.navigate(['home']);
               this.globalservice.toggleregister=false;
+              this.router.navigate(['home']);
             }
           });
         },
