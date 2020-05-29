@@ -284,6 +284,13 @@ export class JoinAndEnrollComponent implements OnInit {
     this.route.params.subscribe(data => {
       console.log(data['join_enroll']);
       this.join_enroll = data['join_enroll'];
+      if( this.join_enroll == '1' || 1){
+        this.router.navigate(['association','1']);
+      }
+      else if( this.join_enroll == '2' || 2){
+        this.globalService.gotojoinassociation='id';
+        this.router.navigate(['association','2']);
+      }
     });
     this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
