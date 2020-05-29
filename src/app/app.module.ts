@@ -102,6 +102,7 @@ import { AdminStaffScreenComponent } from './admin-staff-screen/admin-staff-scre
 import { CareersComponent } from './careers/careers.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 //export const firebaseConfig = environment.firebaseConfig;
+import { GoogleChartsModule } from 'angular-google-charts';
 
 import { HttpModule } from '@angular/http';
 
@@ -117,6 +118,7 @@ import { MatSelectModule,
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { FilterVisitorPipe } from './pipes/filter-visitor.pipe';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { GoogleChartComponent } from './google-chart/google-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -192,7 +194,8 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
     CareersComponent,
     NotificationsComponent,
     FilterVisitorPipe,
-    DateAgoPipe
+    DateAgoPipe,
+    GoogleChartComponent
     ],
   imports: [
     ReactiveFormsModule,
@@ -203,6 +206,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
     AppRoutingModule,
     OrderModule,
     FormsModule,
+    GoogleChartsModule,
     Routing,
     AgmDirectionModule,
     NgxPaginationModule,

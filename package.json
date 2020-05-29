@@ -29,6 +29,7 @@
     "agm-direction": "^0.7.9",
     "angular-6-datatable": "^0.8.0",
     "angular-datatables": "^8.0.0",
+    "angular-google-charts": "^1.1.4",
     "angular-material-autocomplete-list": "^1.1.0",
     "angular-user-idle": "^2.0.0",
     "angularfire2": "^5.2.1",

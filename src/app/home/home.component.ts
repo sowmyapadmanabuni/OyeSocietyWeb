@@ -89,6 +89,10 @@ export class HomeComponent implements OnInit {
   vehicleTotalArray: any[];
   vehiclesFilteredCount: any;
 
+  public pieChartLabels:string[] = ['Add maitainance & Bank details', 'Safari'];
+  public pieChartData:number[] = [70,30];
+  public pieChartType:string = 'doughnut';
+
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
     private loginandregisterservice: LoginAndregisterService,
