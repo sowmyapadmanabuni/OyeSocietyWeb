@@ -565,11 +565,19 @@ export class AssociationManagementComponent implements OnInit {
     this.route.params.subscribe(data => {
       console.log(data['id']);
       let id = data['id'];
-      if (id == '1' || 1) {
+      if (id == '1') {
+        console.log('id-1');
         this.enblEnrlAsnVew();
       }
-      else if (id == '2' || 2) {
+      else if (id == '2') {
+        console.log('id-2');
         this.enblJoinAsnVew();
+      }
+      else if (id == '3') {
+        console.log('id-3');
+        this.viewAssnService.enrlAsnEnbled = false;
+        this.viewAssnService.vewAsnEnbled = true;
+        this.viewAssnService.joinAsnEbld = false;
       }
     });
   

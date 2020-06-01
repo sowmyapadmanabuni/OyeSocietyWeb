@@ -406,11 +406,12 @@
                         <div>
                                 <div class="chart-ui">
                                         <div class="chart">
-                                            <span class="red1">Occupied</span>    
+                                            <span style="color: #B51414;">Occupied</span>    
                                             <span class="red1"><i class="fa fa-home" aria-hidden="true"></i> 4</span>    
                                         </div>
                                  <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
                                                 [data]="pieChartData"
+                                                [colors]="doughnutChartColors1"
                                                 [chartType]="pieChartType"
                                                 (chartHover)="chartHovered($event)"
                                                 (chartClick)="chartClicked($event)"></canvas>
@@ -418,11 +419,12 @@
                                 <div></div>
                                 <div class="chart-ui">
                                         <div class="chart">
-                                                <span class="green">Occupied</span>    
+                                                <span class="green">Vacant</span>    
                                                 <span class="green"><i class="fa fa-home" aria-hidden="true"></i> 4</span>    
                                         </div>
                                  <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
-                                                [data]="pieChartData"
+                                                [data]="pieChartData1"
+                                                [colors]="doughnutChartColors"
                                                 [chartType]="pieChartType"
                                                 (chartHover)="chartHovered($event)"
                                                 (chartClick)="chartClicked($event)"></canvas>

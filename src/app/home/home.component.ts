@@ -88,10 +88,18 @@ export class HomeComponent implements OnInit {
   familyMemberCount: any;
   vehicleTotalArray: any[];
   vehiclesFilteredCount: any;
+  occupiedCount:number;
+  vacantCount:number;
+  @ViewChild('myCnv1', { static: true }) myCnv1: ElementRef;
 
-  public pieChartLabels:string[] = ['Add maitainance & Bank details', 'Safari'];
-  public pieChartData:number[] = [70,30];
+  public pieChartLabels:string[] = ['Occupied', 'Vaccant'];
+  public pieChartLabels1:string[] = ['Occupied', 'Vaccant'];
+  public pieChartData:number[] = [];
+  public pieChartData1:number[] = [];
   public pieChartType:string = 'doughnut';
+
+  public doughnutChartColors: any[] = [{ backgroundColor: ['#F3F3F3', '#27AB97'] }]
+  public doughnutChartColors1: any[] = [{ backgroundColor: ['#F3F3F3','#B51414'] }]
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -173,6 +181,47 @@ export class HomeComponent implements OnInit {
     this.GetVehicleListByAssocID();
     this.getAssociation();
     this.getVehicle(this.globalService.getCurrentUnitId());
+    this.GetUnitTotalOccupancyVacantCountDetails();
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+    console.log(this.myCnv1);
+    },3000)
+    // $(document).ready(function () {
+    //   let cnvs = document.getElementById("cnv1");
+    //   //let cnvs1 = cnvs.getContext("2d");
+    //   console.log(cnvs);
+    // })
+    /*  var cnvsx = cnvs.width / 2;
+    var cnvsy = cnvs.height / 2;
+  
+    cnvs1.textAlign = 'center';
+    cnvs1.textBaseline = 'middle';
+    cnvs1.font = '14px verdana';
+    cnvs1.fillStyle = 'black';
+    cnvs1.fillText("abc", cnvsx, cnvsy); */
+  }
+  GetUnitTotalOccupancyVacantCountDetails(){
+    let scopeIP = this.utilsService.getIPaddress();
+    let headers=this.getHttpheaders();
+    // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
+    this.http.get(scopeIP + '/oyeliving/api/v1/GetUnitTotalOccupancyVacantCountDetails/'+this.globalService.getCurrentAssociationId() ,  {headers:headers})
+    .subscribe(data=>{
+      console.log(data);
+      let occupiedCount = data['data']['unitCounts'][0]['occupiedCount'];
+      let vacantCount = data['data']['unitCounts'][0]['occupiedCount'];
+      console.log(occupiedCount,vacantCount);
+      this.occupiedCount = (occupiedCount / (occupiedCount + vacantCount)) * 100;
+      this.vacantCount = (vacantCount / (occupiedCount + vacantCount))*100
+      console.log(this.occupiedCount,this.vacantCount);
+      this.pieChartData=[this.occupiedCount,100];
+      this.pieChartData1=[this.vacantCount,100];
+      console.log(this.pieChartData);
+      console.log(this.pieChartData1);
+    },
+    err=>{
+      console.log(err);
+    })
   }
   gotToResidentInvoice() {
     this.router.navigate(['resident-invoice']);
@@ -687,7 +736,7 @@ export class HomeComponent implements OnInit {
   }
   goToAssociation() {
     this.globalService.gotojoinassociation='';
-    this.router.navigate(['association']);
+    this.router.navigate(['association','3']);
   }
   GoToJoinAssociation() {
     this.globalService.gotojoinassociation='id';
