@@ -60,6 +60,7 @@ export class GlobalServiceService {
    StaffListCalledOnce:boolean;
    unitslistForAssociation:any[];
    gotojoinassociation:any;
+   public assnIdForUnitTotalOccupancyVacantCountDetails = new Subject();
 
   constructor() {
     this.gotojoinassociation='';

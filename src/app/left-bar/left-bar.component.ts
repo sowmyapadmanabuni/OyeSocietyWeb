@@ -79,6 +79,7 @@ export class LeftBarComponent implements OnInit {
     this.value=66;
     this.displayValue='66%';
     this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
+      console.log(data);
       this.availableNoOfBlocks = data['data'].blocksByAssoc;
       if(this.availableNoOfBlocks[0]['asUniMsmt']){
         this.value=100;

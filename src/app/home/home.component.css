@@ -1,4 +1,4 @@
-.dash-shape{width: 850px;background: #e3e4e5;border-radius: 30px;margin-top: 50px;}
+.dash-shape{width: 100%;background: #e3e4e5;border-radius: 30px;margin-top: 50px;}
 .bg{background:url('../../assets/bg.png');margin: 0px 0px;
 
   background-position: left;
@@ -63,7 +63,7 @@
   
   .dash-icon{width: 40px;}
   
-  .dash-main{display: flex; width: 100%;justify-content: space-around;}
+  .dash-main{display: flex;width: 100%;justify-content: space-around;}
   
   .ad-btn-active{
   
@@ -109,7 +109,7 @@
   
   
   
-  .dash-row{display: flex;justify-content: space-around;align-items: center;}
+  .dash-row{display: flex;justify-content: space-around;align-items: center;width: 100%;}
   
   .dash-row1{display: flex;
   
@@ -339,3 +339,10 @@ outside color needs */
 
     .tabs li a:after {right: -20px;top: 0px;}
 
+/* dashboard chart */
+.chart{display: flex;
+  justify-content: space-between;}
+.chart-ui{border: 1px solid #dfdede;border-radius: 18px;padding: 14px;position: relative;}
+.red1{color: red;font-size: 15px !important;font-weight: 600;}
+.green{color: rgb(15, 129, 76) !important;font-size: 15px !important;font-weight: 600;}
+.percent{color: #B51414;position: absolute; top: 50%;left: 46%;font-weight: 900;}
