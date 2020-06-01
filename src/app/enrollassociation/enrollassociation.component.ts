@@ -395,6 +395,7 @@ export class EnrollassociationComponent implements OnInit {
 
 
   unitsrowjson = {
+
     "flatno": "",
     "unittype": "",
     "unitdimension": "",
@@ -408,7 +409,23 @@ export class EnrollassociationComponent implements OnInit {
     "tenantfirstname": "",
     "tenantlastname": "",
     "tenantmobilenumber": "",
-    "tenantemaiid": ""
+    "tenantemaiid": "",
+    "isnotvalidflatno":false,
+    "isnotvalidownerfirstname":false,
+
+    "isnotvalidownerlastname":false,
+
+    "isnotvalidownermobilenumber":false,
+
+    "isnotvalidowneremaiid":false,
+
+    "isnotvalidtenantfirstname":false,
+
+    "isnotvalidtenantlastname":false,
+
+    "isnotvalidtenantmobilenumber":false,
+    "isnotvalidtenantemaiid":false
+
 
   }
   onFileSelect(event) {
@@ -507,7 +524,10 @@ export class EnrollassociationComponent implements OnInit {
   unitlistjson = {}
   unitdetailscreatejson;
   unitsuccessarray =[]
-  
+  gotonexttab(ev){
+    this.demo2TabIndex = this.demo2TabIndex + 1;
+
+  }
   submitunitdetails(event) {
     let date = new Date();  
     var getDate = date.getDate();
@@ -725,13 +745,14 @@ export class EnrollassociationComponent implements OnInit {
   blocksfields(event,i,fieldname){
     this.detailsdata[i][fieldname]["clicked"]=true;
   }
-  unitsfields(event,i,fieldname){
-    this.unitdetails[i][fieldname]["clicked"]=true;
-      }
+  // unitsfields(event,i,fieldname){
+  //   this.unitdetails[i][fieldname]["clicked"]=true;
+  //     }
       // blockdetailsfinalresponce=[];
   blockdetailsidvise(element){
     let ipAddress = this.utilsService.createBlock();
     let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
+
       this.jsondata = {
         "ASAssnID": this.assid,
         "ACAccntID": this.globalService.getacAccntID(),
@@ -757,6 +778,8 @@ export class EnrollassociationComponent implements OnInit {
 
       }
 
+  
+
     this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
       console.log(res)
  
@@ -770,21 +793,8 @@ export class EnrollassociationComponent implements OnInit {
     }
     );
 
-    var message;
-    if(this.blockssuccessarray==1){
-      message = 'Block Created Successfully'
 
-    }
-   else if(this.blockssuccessarray>1){
-    message = this.blockssuccessarray+'-'+'Blocks Created Successfully'
-    }
-    Swal.fire({
-      title: message,
-      text: "",
-      type: "success",
-      confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
-    })
+  
   }
   movetonexttab(event){
     this.demo1TabIndex = this.demo1TabIndex + 1;
@@ -796,33 +806,73 @@ export class EnrollassociationComponent implements OnInit {
     console.log(this.blocksArray)
     this.blockssuccessarray = this.blocksArray.length;
     // if (this.blocksdetailsform.valid) {
-      this.blocksArray.forEach(element => {
+      
+     
+
+      this.blocksArray.forEach((element,index) => {
+        ((index) => {
+          setTimeout(() => {
 
         this.blockdetailsidvise(element);
   
-   
+      
         let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
         
         this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
     
     
        for (var i = 0; i < blockArraylength; i++) {
-         var data = JSON.parse(JSON.stringify(this.unitsrowjson))
-         this.unitdetails[i] ={}
-         Object.keys(data).forEach(datails=>{
-           this.unitdetails[i][datails] ={required:true};
-         })
+        let data = JSON.parse(JSON.stringify(this.unitsrowjson))
+
+        data.Id = this.jsondata.blocks[0].BLBlkName+i+1;
+        console.log(data.Id)
+        //  data.id=i+1;
+        //  this.unitdetails[i] ={}
+        //  Object.keys(data).forEach(datails=>{
+        //    this.unitdetails[i][datails] ={required:true};
+        //  })
          if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
            this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
          }
          this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
        }
-  
+      }, 3000 * index)
+    })(index)
       })
-  
-      // console.log(this.unitlistjson)
       
-
+      console.log(this.unitlistjson)
+      var message;
+      if(this.blockssuccessarray==1){
+        message = 'Block Created Successfully'
+  
+      }
+     else if(this.blockssuccessarray>1){
+      message = this.blockssuccessarray+'-'+'Blocks Created Successfully'
+      }
+      Swal.fire({
+        title: message,
+        text: "",
+        type: "success",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+      // console.log(this.unitlistjson)
+      // Object.keys(this.unitlistjson).forEach(element=>{
+       
+      //   console.log(element)
+        
+      //   this.unitlistjson[element].forEach((unit,index) => {
+      //    console.log(unit)
+      //    console.log(element)
+      //    console.log(index)
+      //    console.log(typeof unit['blockid'])
+      //    unit['id'] = unit['blockid']+index+1;
+         
+      // })
+      // console.log(this.unitlistjson)
+        
+      // // console.log(this.unitlistjson)
+      //   })
       this.demo1TabIndex = this.demo1TabIndex + 1;
     // }
     // else {
@@ -908,26 +958,192 @@ document.getElementById('showmanual').style.display ='block';
   }
 
 
+
+  unitmatching: boolean;
+  getUnitName(Id, flatno) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['flatno'] = flatno;
+          if(unit['flatno']==""||unit['flatno']==undefined){
+            unit['isnotvalidflatno']=true;
+          }
+          else{
+            unit['isnotvalidflatno']=false;
+          }
+        }
+      })
+    })
+  }
+
+
+  getownerfirstname(Id, ownerfirstname) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['ownerfirstname'] = ownerfirstname;
+          if(unit['ownerfirstname']==""){
+            unit['isnotvalidownerfirstname']=true;
+          }
+          else{
+            unit['isnotvalidownerfirstname']=false;
+          }
+        }
+      })
+    })
+  }
+  getownerlastname(Id, ownerlastname) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['ownerlastname'] = ownerlastname;
+          if(unit['ownerlastname']==""){
+            unit['isnotvalidownerlastname']=true;
+          }
+          else{
+            unit['isnotvalidownerlastname']=false;
+          }
+        }
+      })
+    })
+  }
+  getownermobilenumber(Id, ownermobilenumber) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['ownermobilenumber'] = ownermobilenumber;
+          if(unit['ownermobilenumber']==""){
+            unit['isnotvalidownermobilenumber']=true;
+          }
+          else{
+            unit['isnotvalidownermobilenumber']=false;
+          }
+        }
+      })
+    })
+  }
+  getowneremaiid(Id, owneremaiid) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['owneremaiid'] = owneremaiid;
+          if(unit['owneremaiid']==""){
+            unit['isnotvalidowneremaiid']=true;
+          }
+          else{
+            unit['isnotvalidowneremaiid']=false;
+          }
+        }
+      })
+    })
+  }
+  gettenantfirstname(Id, tenantfirstname) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['tenantfirstname'] = tenantfirstname;
+          if(unit['ownerlastname']==""){
+            unit['isnotvalidtenantfirstname']=true;
+          }
+          else{
+            unit['isnotvalidtenantfirstname']=false;
+          }
+        }
+      })
+    })
+  }
+  gettenantlastname(Id, tenantlastname) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['tenantlastname'] = tenantlastname;
+          if(unit['tenantlastname']==""){
+            unit['isnotvalidtenantlastname']=true;
+          }
+          else{
+            unit['isnotvalidtenantlastname']=false;
+          }
+        }
+      })
+    })
+  }
+  gettenantmobilenumber(Id, tenantmobilenumber) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['tenantmobilenumber'] = tenantmobilenumber;
+          if(unit['tenantmobilenumber']==""){
+            unit['isnotvalidtenantmobilenumber']=true;
+          }
+          else{
+            unit['isnotvalidtenantmobilenumber']=false;
+          }
+        }
+      })
+    })
+  }
+  gettenantemaiid(Id, tenantemaiid) {
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['tenantemaiid'] = tenantemaiid;
+          if(unit['tenantemaiid']==""){
+            unit['isnotvalidtenantemaiid']=true;
+          }
+          else{
+            unit['isnotvalidtenantemaiid']=false;
+          }
+        }
+      })
+    })
+  }
   excelunitsuploaddata(exceldata){
     this.finalblockname.forEach(blkname => {
     
       exceldata.forEach((unitonce,i) => {
 
-        this.unitdetails[i] ={}
-        Object.keys(unitonce).forEach(datails=>{
-          console.log(datails)
-          this.unitdetails[i][datails] ={required:true};
-        })
+        console.log(exceldata.Id)
+        // this.unitdetails[i] ={}
+        // Object.keys(unitonce).forEach(datails=>{
+        //   console.log(datails)
+        //   this.unitdetails[i][datails] ={required:true};
+        // })
         if (blkname == unitonce.blockname) {
           //  this.blockdetailsfinalresponce.forEach(obj=>{
           //    unitonce.blockid = obj
 
           //  })
+          unitonce.Id = blkname+i+1;
+          unitonce.isnotvalidflatno =false,
+          unitonce.isnotvalidownerfirstname=false,
+      
+          unitonce.isnotvalidownerlastname=false,
+      
+          unitonce.isnotvalidownermobilenumber=false,
+      
+          unitonce.isnotvalidowneremaiid=false,
+      
+          unitonce.isnotvalidtenantfirstname=false,
+      
+          unitonce.isnotvalidtenantlastname=false,
+      
+          unitonce.isnotvalidtenantmobilenumber=false,
+          unitonce.isnotvalidtenantemaiid=false
           if (!this.unitlistjson[blkname]) {
             this.unitlistjson[blkname] = []
           }
           Object.keys(this.unitlistjson).forEach(element => {
             this.unitlistjson[element].forEach(detalisdata => {
+
               if (blkname == element) {
                 if (!detalisdata.blockname) {
                   this.unitlistjson[blkname] = []
@@ -1163,4 +1379,9 @@ cancelunitsbulkupload(ev){
     this.demo1TabIndex = (this.demo1TabIndex + 1) % tabCount;
   }
 
+  public demo2TabIndex =0
+  public demo2BtnClick() {
+    const tabCount = 3;
+    this.demo2TabIndex = (this.demo2TabIndex + 1) % tabCount;
+  }
 }
