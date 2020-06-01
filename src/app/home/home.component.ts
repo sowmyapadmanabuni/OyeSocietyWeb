@@ -98,8 +98,10 @@ export class HomeComponent implements OnInit {
   public pieChartData1:number[] = [];
   public pieChartType:string = 'doughnut';
 
-  public doughnutChartColors: any[] = [{ backgroundColor: ['#F3F3F3', '#27AB97'] }]
-  public doughnutChartColors1: any[] = [{ backgroundColor: ['#F3F3F3','#B51414'] }]
+  public doughnutChartColors: any[] = [{ backgroundColor: ['#B51414','#F3F3F3'] }]
+  public doughnutChartColors1: any[] = [{ backgroundColor: ['#27AB97','#F3F3F3'] }]
+  _occupiedCount: any;
+  _vacantCount: any;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -111,6 +113,8 @@ export class HomeComponent implements OnInit {
     private utilsService:UtilsService,
     private http:HttpClient,private route: ActivatedRoute,
     private addvehicleservice: AddVehicleService) {
+      this._occupiedCount=0;
+      this._vacantCount=0;
       this.vehicleTotalArray=[];
       this.vehiclesFilteredCount=0;
       this.availableNoOfUnits=0;
@@ -165,6 +169,12 @@ export class HomeComponent implements OnInit {
   //
   this.associations=[];
   localStorage.setItem('Component','Home');
+  //
+    this.globalService.assnIdForUnitTotalOccupancyVacantCountDetails
+      .subscribe(data => {
+        console.log(data);
+        this.GetUnitTotalOccupancyVacantCountDetails();
+      })
   }
 
   ngOnInit() {
@@ -204,18 +214,19 @@ export class HomeComponent implements OnInit {
   GetUnitTotalOccupancyVacantCountDetails(){
     let scopeIP = this.utilsService.getIPaddress();
     let headers=this.getHttpheaders();
+    this.globalService.getCurrentAssociationId();
     // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
     this.http.get(scopeIP + '/oyeliving/api/v1/GetUnitTotalOccupancyVacantCountDetails/'+this.globalService.getCurrentAssociationId() ,  {headers:headers})
     .subscribe(data=>{
       console.log(data);
-      let occupiedCount = data['data']['unitCounts'][0]['occupiedCount'];
-      let vacantCount = data['data']['unitCounts'][0]['occupiedCount'];
-      console.log(occupiedCount,vacantCount);
-      this.occupiedCount = (occupiedCount / (occupiedCount + vacantCount)) * 100;
-      this.vacantCount = (vacantCount / (occupiedCount + vacantCount))*100
+      this._occupiedCount = data['data']['unitCounts'][0]['occupiedCount'];
+      this._vacantCount = data['data']['unitCounts'][0]['vacantCount'];
+      console.log(this._occupiedCount,this._vacantCount);
+      this.occupiedCount = (this._occupiedCount / (this._occupiedCount + this._vacantCount)) * 100;
+      this.vacantCount = (this._vacantCount / (this._occupiedCount + this._vacantCount))*100
       console.log(this.occupiedCount,this.vacantCount);
-      this.pieChartData=[this.occupiedCount,100];
-      this.pieChartData1=[this.vacantCount,100];
+      this.pieChartData=[this.occupiedCount,100-this.occupiedCount];
+      this.pieChartData1=[this.vacantCount,100-this.vacantCount];
       console.log(this.pieChartData);
       console.log(this.pieChartData1);
     },
@@ -526,6 +537,7 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationIdForMemberComponent(association.asAssnID);
         this.globalService.setCurrentAssociationIdForStaffList(association.asAssnID);
         this.globalService.setCurrentAssociationIdForVisitorLogByDates(association.asAssnID);
+        this.globalService.assnIdForUnitTotalOccupancyVacantCountDetails.next(association.asAssnID);
         if(param == ''){
           this.globalService.setCurrentAssociationName(asnName);
           console.log(this.globalService.getCurrentAssociationName());

@@ -407,11 +407,11 @@
                                 <div class="chart-ui">
                                         <div class="chart">
                                             <span style="color: #B51414;">Occupied</span>    
-                                            <span class="red1"><i class="fa fa-home" aria-hidden="true"></i> 4</span>    
+                                            <span style="color: #B51414;"><i class="fa fa-home" aria-hidden="true"></i> {{_occupiedCount}}</span>    
                                         </div>
                                  <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
                                                 [data]="pieChartData"
-                                                [colors]="doughnutChartColors1"
+                                                [colors]="doughnutChartColors"
                                                 [chartType]="pieChartType"
                                                 (chartHover)="chartHovered($event)"
                                                 (chartClick)="chartClicked($event)"></canvas>
@@ -420,11 +420,11 @@
                                 <div class="chart-ui">
                                         <div class="chart">
                                                 <span class="green">Vacant</span>    
-                                                <span class="green"><i class="fa fa-home" aria-hidden="true"></i> 4</span>    
+                                                <span class="green"><i class="fa fa-home" aria-hidden="true"></i> {{_vacantCount}}</span>    
                                         </div>
                                  <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
                                                 [data]="pieChartData1"
-                                                [colors]="doughnutChartColors"
+                                                [colors]="doughnutChartColors1"
                                                 [chartType]="pieChartType"
                                                 (chartHover)="chartHovered($event)"
                                                 (chartClick)="chartClicked($event)"></canvas>
