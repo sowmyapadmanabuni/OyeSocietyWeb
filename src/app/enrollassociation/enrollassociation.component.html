@@ -529,7 +529,7 @@
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"#file> -->
                 </div>
             <div id="unitshowmanual">
-            <mat-tab-group class="mainpage">
+            <mat-tab-group class="mainpage" [(selectedIndex)]="demo2TabIndex">
                 <div class="blockdetailsdata" *ngFor="let name of finalblockname">
                     <mat-tab  class = "text"[label]="name">
                         <div class="blockdetailsdata" *ngFor="let obj of unitlistjson[name];let i= index">
@@ -537,12 +537,14 @@
                             <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>UNIT NO/FLAT NO</mat-label>
-                                    <input class = "text" matInput placeholder="UNIT NO/FLAT NO" (click)="unitsfields($event,i,'flatno')"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
-                                        true}" value="">
+                                    <input class = "text" matInput placeholder="UNIT NO/FLAT NO"
+                                     (blur)="getUnitName(unitlistjson[name][i]['Id'],unitlistjson[name][i]['flatno'])"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
+                                        true}"  value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('flat')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                                 </mat-form-field>
+                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidflatno']">Valid unit no is required</p>
                                  <!-- <p class ="validation"*ngIf ="unitdetails[i]['flatno']['clicked']&&!unitlistjson[name][i]['flatno']">{{ titleAlert }}</p> -->
                              </div>
 
@@ -597,35 +599,40 @@
                                 <mat-label>OWNER FIRST NAME</mat-label>
                                 <input  class = "text" matInput placeholder="OWNER FIRSTNAME" 
                                 pattern="[a-zA-Z _]*"
-                                (click)="unitsfields($event,i,'ownerfirstname')"[(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
+                                (blur)="getownerfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerfirstname'])"
+                                [(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
                                     true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownfirstname')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                             </mat-form-field> 
+                            <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerfirstname']">Valid owner firstname is required</p>
+
                             <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownerfirstname']['required']&&unitdetails[i]['ownerfirstname']['clicked']&&!unitlistjson[name][i]['ownerfirstname']">{{ titleAlert }}</p>  -->
                          </div>
                                 <div>
                                     <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                         <mat-label>OWNER LAST NAME</mat-label>
                                         <input class = "text" matInput placeholder="OWNER LASTNAME" 
+                                        (blur)="getownerlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerlastname'])"
                                         pattern="[a-zA-Z _]*"
-                                        (click)="unitsfields($event,i,'ownerlastname')"[(ngModel)]="obj.ownerlastname"
+                                        [(ngModel)]="obj.ownerlastname"
                                         [ngModelOptions]="{standalone:true}" value="">
                                             <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownlastname')">
                                                 {{ titleAlert }}
                                             </mat-error> -->
                                     </mat-form-field>
+                            <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerlastname']">Valid owner lastname is required</p>
+
                                      <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownerlastname']['clicked']&&!unitlistjson[name][i]['ownerlastname']">{{ titleAlert }}</p>  -->
                                 </div>
                         
-                             
                        <div>
                         <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                             <mat-label>OWNER MOBILE NUMBER</mat-label>
                             <input matInput placeholder="OWNER MOBILE NUMBER"
-                            (click)="unitsfields($event,i,'ownermobilenumber')"
                             pattern="[0-9]+"
+                            (blur)="getownermobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownermobilenumber'])"
                             minlength="10" maxlength="10"
                             [ngModelOptions]="{standalone:true}"
                                 [(ngModel)]="obj.ownermobilenumber" value="">
@@ -633,6 +640,8 @@
                                     {{ titleAlert }}
                                 </mat-error> -->
                         </mat-form-field>
+                        <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownermobilenumber']">Valid 10 digit mobile number is required</p>
+
                          <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownermobilenumber']['clicked']&&!unitlistjson[name][i]['ownermobilenumber']">{{ titleAlert }}</p>  -->
                        </div>
                               
@@ -640,13 +649,15 @@
                     <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                         <mat-label>OWNER EMAIL ID</mat-label>
                         <input matInput placeholder="OWNER EMAIL-ID"
+                        (blur)="getowneremaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['owneremaiid'])"
                         pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                        (click)="unitsfields($event,i,'owneremaiid')"
                         [(ngModel)]="obj.owneremaiid"[ngModelOptions]="{standalone:true}"value="">
                         <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownemail')">
                             {{ titleAlert }}
                         </mat-error> -->
                     </mat-form-field>
+                    <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidowneremaiid']">valid email-id is required</p>
+
                      <!-- <p class ="validation"*ngIf ="unitdetails[i]['owneremaiid']['clicked']&&!unitlistjson[name][i]['owneremaiid']">{{ titleAlert }}</p>  -->
                   </div>
 
@@ -655,13 +666,16 @@
                                 <mat-label>TENANT FIRST NAME</mat-label>
                                 <input class="text" matInput placeholder="TENANT FIRSTNAME" 
                                 pattern="[a-zA-Z _]*"
-                                (click)="unitsfields($event,i,'tenantfirstname')"
                                 [(ngModel)]="obj.tenantfirstname"
+                        (blur)="gettenantfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantfirstname'])"
                                     [ngModelOptions]="{standalone:true}" value="">
                                 <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentfirstname')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                             </mat-form-field>
+                            <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantfirstname']">Valid firstname is
+                                required</p>
+
                      <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantfirstname']['clicked']&&!unitlistjson[name][i]['tenantfirstname']">{{ titleAlert }}</p>  -->
                         </div>           
                         <div>
@@ -669,13 +683,15 @@
                                 <mat-label>TENANT LAST NAME</mat-label>
                                 <input class = "text" matInput placeholder="TENANT LASTNAME" 
                                 pattern="[a-zA-Z _]*"
-                                (click)="unitsfields($event,i,'tenantlastname')"
+                        (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'])"
                                 [(ngModel)]="obj.tenantlastname"
                                 [ngModelOptions]="{standalone:true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentlatsname')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                             </mat-form-field>
+                            <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantlastname']"> Valid lastname is required</p>
+
                    <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantlastname']['clicked']&&!unitlistjson[name][i]['tenantlastname']">{{ titleAlert }}</p>  -->
                         </div>
                          <div>
@@ -686,13 +702,16 @@
                                 minlength=10
                                 maxlength=10 
                                 pattern="[0-9]*"
-                               (click)="unitsfields($event,i,'tenantmobilenumber')"
+                        (blur)="gettenantmobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantmobilenumber'])"
                                 [(ngModel)]="obj.tenantmobilenumber"
-                                    [ngModelOptions]="{standalone:true}" value="">
+                                [ngModelOptions]="{standalone:true}" value="">
                                 <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentmobileno')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                             </mat-form-field>
+                            <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantmobilenumber']">Valid mobile number is
+                                required</p>
+
                     <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantmobilenumber']['clicked']&&!unitlistjson[name][i]['tenantmobilenumber']">{{ titleAlert }}</p>  -->
                         </div>  
                           <div>
@@ -700,13 +719,15 @@
                                     <mat-label>TENANT EMAIL ID</mat-label>
                                     <input matInput placeholder="TENANT EMAIL-ID" 
                                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                                    (click)="unitsfields($event,i,'tenantemaiid')"
+                        (blur)="gettenantemaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantemaiid'])"
                                     [(ngModel)]="obj.tenantemaiid"
                                     [ngModelOptions]="{standalone:true}" value="">
                                         <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentemail')">
                                             {{ titleAlert }}
                                         </mat-error> -->
                                 </mat-form-field>
+                            <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantemaiid']"> Valid email-id is required</p>
+
                     <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantemaiid']['clicked']&&!unitlistjson[name][i]['tenantemaiid']">{{ titleAlert }}</p>  -->
                             </div>
                            
@@ -716,15 +737,20 @@
                         <button id="unitbulkbutton" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
 
                         </div>
+                        <div>
+                            <button id="unitssubmit"mat-raised-button color="primary"(click)="submitunitdetails($event)">SUBMIT</button>
+                        </div>
                         <div class="save">
                             <a class="continue" mat-raised-button color="primary">RESET</a>
-                            <a id="assdetailssave" mat-raised-button color="primary"(click)="submitunitdetails($event)">NEXT</a>
-                        </div>
+                            <a id="assdetailssave" mat-raised-button color="primary"(click)="gotonexttab($event)">NEXT</a>
+                        </div>    
+                     
                     </mat-tab>
-                
+                 
                 </div>
             
             </mat-tab-group>
+
                </div> 
         </mat-tab>
         <mat-tab  [disabled]='!tab.isActive' label="SUBSCRIPTION">

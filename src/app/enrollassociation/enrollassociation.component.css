@@ -19,10 +19,9 @@
 }
 #unitbulkbutton{
     display: inline-block;
-    /* margin-right: 68px; */
     margin-top: 0px;
-    top: 118px;
-    margin-left: 1173px;
+    top: 155px;
+    margin-left: 1179px;
 }
 
 .fa-plus-square,.fa-trash{border: none; color: #f7b844;font-size:18px;}
@@ -134,6 +133,13 @@ span.mat-button-wrapper {
     display: inline-flex;
 
 }
+#unitssubmit{
+    display: inline-block;
+    margin-top: 0px;
+    top: 213px;
+    margin-left: 1200px;
+}
+
 input#file_unitupload_id {
     display: none;
 }
