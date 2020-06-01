@@ -409,6 +409,7 @@
                                             <span style="color: #B51414;">Occupied</span>    
                                             <span style="color: #B51414;"><i class="fa fa-home" aria-hidden="true"></i> {{_occupiedCount}}</span>    
                                         </div>
+                                                <span style="color: #B51414;margin-left: 200px;">{{occupiedCount+'%'}}</span>
                                  <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
                                                 [data]="pieChartData"
                                                 [colors]="doughnutChartColors"
@@ -422,6 +423,7 @@
                                                 <span class="green">Vacant</span>    
                                                 <span class="green"><i class="fa fa-home" aria-hidden="true"></i> {{_vacantCount}}</span>    
                                         </div>
+                                        <span class="green" style="margin-left: 200px;">{{vacantCount+'%'}}</span>
                                  <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
                                                 [data]="pieChartData1"
                                                 [colors]="doughnutChartColors1"
