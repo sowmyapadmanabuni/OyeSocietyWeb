@@ -342,6 +342,7 @@ outside color needs */
 /* dashboard chart */
 .chart{display: flex;
   justify-content: space-between;}
-.chart-ui{border: 1px solid #dfdede;border-radius: 18px;padding: 14px;}
+.chart-ui{border: 1px solid #dfdede;border-radius: 18px;padding: 14px;position: relative;}
 .red1{color: red;font-size: 15px !important;font-weight: 600;}
-.green{color: rgb(15, 129, 76);font-size: 15px !important;font-weight: 600;}
+.green{color: rgb(15, 129, 76) !important;font-size: 15px !important;font-weight: 600;}
+.percent{color: #B51414;position: absolute; top: 50%;left: 46%;font-weight: 900;}
