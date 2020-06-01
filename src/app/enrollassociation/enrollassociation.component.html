@@ -537,8 +537,7 @@
                             <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>UNIT NO/FLAT NO</mat-label>
-                                    <input class = "text" matInput placeholder="UNIT NO/FLAT NO" (click)="unitsfields($event,i,'flatno')"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
-                                        true}" value="">
+                                    <input class = "text" matInput placeholder="UNIT NO/FLAT NO" (click)="unitsfields($event,i,'flatno')" [(ngModel)]="obj.flatno" [ngModelOptions]="{standalone:true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('flat')">
                                         {{ titleAlert }}
                                     </mat-error> -->
@@ -595,10 +594,7 @@
                          <div>
                             <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                 <mat-label>OWNER FIRST NAME</mat-label>
-                                <input  class = "text" matInput placeholder="OWNER FIRSTNAME" 
-                                pattern="[a-zA-Z _]*"
-                                (click)="unitsfields($event,i,'ownerfirstname')"[(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
-                                    true}" value="">
+                                <input  class = "text" matInput placeholder="OWNER FIRSTNAME" pattern="[a-zA-Z _]*" (click)="unitsfields($event,i,'ownerfirstname')" [(ngModel)]="obj.ownerfirstname" [ngModelOptions]="{standalone:true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownfirstname')">
                                         {{ titleAlert }}
                                     </mat-error> -->
