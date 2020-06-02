@@ -97,9 +97,10 @@ export class NotificationsComponent implements OnInit {
           Array.from(data['data']['notificationListByAcctID']).forEach((item, index) => {
             ((index) => {
               setTimeout(() => {
-                console.log(item);
+                //console.log(item);
                 console.log(item['ntIsActive']);
                 if (item['ntType'] == "Join") {
+                  console.log(item);
                   //console.log(item['unit']['owner'].length);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utfName'] : item['unit']['owner'][0]['uofName']);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utMobile'] : item['unit']['owner'][0]['uoMobile']);
@@ -130,7 +131,8 @@ export class NotificationsComponent implements OnInit {
                   item['unOcSDate'],
                   item['acNotifyID'],
                   item['ntType'],
-                  item['ntdCreated']
+                  item['ntdCreated'],
+                  item['acAccntID']
                   ));
                   //console.log(this.notificationListArray);
                   this.notificationListArray = _.sortBy(this.notificationListArray, 'adminReadStatus').reverse();
@@ -377,5 +379,78 @@ export class NotificationsComponent implements OnInit {
       
   }
 // Accept the join request stop here
-// Accept the join request stop here
+
+// 
+  rejectJoinRequest( ntid, sbRoleID, sbSubID, asAssnID, mrRolName, asAsnName, sbUnitID, sbMemID, ntdCreated, unOcSDate, acAccntID, ACNotifyID) {
+    let ipAddress = this.utilsService.getIPaddress();
+      return this.http.get(`${ipAddress}oyesafe/api/v1/NotificationActiveStatusUpdate/${ntid}`,
+        { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
+        .subscribe(data => {
+          console.log('NotificationActiveStatusUpdate', data);
+          let roleName = sbRoleID === 1 ? 'Owner' : 'Tenant';
+          return this.http.get(`${ipAddress}oyeliving/api/v1//Member/UpdateMemberStatusRejected/${sbMemID}/Rejected`,
+            { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+            .subscribe(data => {
+              console.log('UpdateMemberStatusRejected', data);
+              let cloudNotificationBody = {
+                sbSubID: sbSubID,
+                ntTitle: 'Request Declined',
+                ntDesc: 'Your request to join' + mrRolName + ' ' + ' unit in ' + asAsnName + ' association as ' + roleName + ' has been declined',
+                ntType: 'Join_Status',
+                associationID: asAssnID
+              }
+              return this.http.post('https://us-central1-jabm-fd8d9.cloudfunctions.net/sendUserNotification', cloudNotificationBody)
+                .subscribe(data => {
+                  console.log('cloudNotificationBody', data);
+                  let ReturnRejectNotification = {
+                    ACAccntID: acAccntID,
+                    ASAssnID: asAssnID,
+                    NTType: 'Join_Status',
+                    NTDesc: 'Your request to join' + mrRolName + ' ' + ' unit in ' + asAsnName + ' association as ' + roleName + ' has been declined',
+                    SBUnitID: sbUnitID,
+                    SBMemID: sbMemID,
+                    SBSubID: sbSubID,
+                    SBRoleID: 2,
+                    ASAsnName: asAsnName,
+                    MRRolName: mrRolName,
+                    NTDCreated: ntdCreated,
+                    NTDUpdated: ntdCreated,
+                    UNOcSDate: unOcSDate,
+                    UNSldDate: unOcSDate,
+                    ACNotifyID: ACNotifyID
+                  }
+                  return this.http.post(`${ipAddress}oyesafe/api/v1/Notification/Notificationcreate`, ReturnRejectNotification,
+                    { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
+                    .subscribe(data => {
+                      console.log('ReturnRejectNotification', data);
+                      let notificationJoinStatusUpdate = {
+                        NTID: ntid,
+                        NTJoinStat: 'Rejected'
+                      }
+                      return this.http.post(`${ipAddress}oyesafe/api/v1/Notification/NotificationJoinStatusUpdate`, notificationJoinStatusUpdate,
+                        { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
+                        .subscribe(data => {
+                          console.log('notificationJoinStatusUpdate', data);
+
+                        },
+                          err => {
+                            console.log('notificationJoinStatusUpdate', err);
+                          })
+                    },
+                      err => {
+                        console.log('ReturnRejectNotification', err);
+                      })
+                },
+                  err => {
+                    console.log('cloudNotificationBody', err);
+                  })
+            },
+              err => {
+                console.log('UpdateMemberStatusRejected', err);
+              })
+        },
+          err => {
+            console.log('NotificationActiveStatusUpdate', err);
+          })
+  }
 }
