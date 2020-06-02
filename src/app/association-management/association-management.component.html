@@ -893,9 +893,9 @@
           <p class="join_ass_opt c-active"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
             Association</p>
           <p class="join_ass_opt c-active"><i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircleO,'fa-circle-o' : !toggleFaCircleO}" aria-hidden="true"></i>
-            Block</p>
+            Blocks</p>
           <p class="join_ass_opt c-active"> <i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircle1,'fa-circle-o' : !toggleFaCircle1}" aria-hidden="true"></i>
-            Unit</p>
+            Units</p>
         </div>
         <div class="col-sm-9 b-left">
           <form #JoinAsnFrm="ngForm">
@@ -931,19 +931,9 @@
           <!--row3-->
           <div class="content">
             <label>Select Unit</label>
-            <!-- <div class="block-row">
+            <div class="block-row">
               <span (click)="enableActive(spanCtrl,item['unUnitID'],item['unUniName'])" #spanCtrl
                 *ngFor='let item of allUnitBlockID'>{{item['unUniName']}}</span>
-            </div> -->
-            <div class="dropdown" style="margin: 0px 0px;">
-              <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                data-toggle="dropdown">{{UniNameForJoinAssn}}
-                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-              <ul class="dropdown-menu fullw">
-                <li (click)="enableActive(spanCtrl,item['unUnitID'],item['unUniName'])" *ngFor='let item of allUnitBlockID'>
-                  <a>{{item['unUniName']}}</a>
-                </li>
-              </ul>
             </div>
           </div>
           <!--row3-->
@@ -953,7 +943,7 @@
                 [ngClass]="{'has-error' : occupancydateControl.invalid && occupancydateControl.touched}">
                 <label>Select Date Of Occupancy<span class="red">*</span></label>
                 <input type="text" class="form-control" name="UNOcSDate" #occupancydateControl='ngModel'
-                  placeholder="Occupancy Date" placement="top" required [bsConfig]='bsConfig' [(ngModel)]="UNOcSDate" bsDatepicker
+                  placeholder="Occupancy Date" required [bsConfig]='bsConfig' [(ngModel)]="UNOcSDate" bsDatepicker
                   [minDate]="minDate" />
                 <p class="alerts" *ngIf="occupancydateControl.invalid && occupancydateControl.touched && DisableDateOfOccupancyValidationMessage"> Please Select
                   Date</p>
