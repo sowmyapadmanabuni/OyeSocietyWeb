@@ -111,12 +111,12 @@ export class NotificationsComponent implements OnInit {
                   this.notificationListArray.push(new NotificationListArray(item['unit']['unUniName'], 
                   item['asAsnName'], 
                   item['ntMobile'], 
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'No resident found':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
                   (item['visitorlog'].length == 0 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])),
                   item['unit']['unOcStat'],
-                  (item['unit']['owner'].length == 0?'Tenant':'Owner'),
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utMobile']):item['unit']['owner'][0]['uoMobile']), 
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'User name not found':'Tenant'):'Owner'),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'No resident found':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'No mobile number':item['unit']['tenant'][0]['utMobile']):item['unit']['owner'][0]['uoMobile']), 
                   'admincollapse'+new Date().getTime(),
                   item['ntid'],
                   item['ntIsActive'],
@@ -142,6 +142,7 @@ export class NotificationsComponent implements OnInit {
                   if(item['ntIsActive']==true){
                   this.ResidentActiveNotification += 1;
                   }
+                  //console.log(item);
                   //console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']);
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]);
@@ -149,7 +150,7 @@ export class NotificationsComponent implements OnInit {
                   this.ResidentNotificationListArray.push(new ResidentNotificationListArray((item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlComName']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlVisType']),
                     item['asAsnName'],
-                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']),
+                    (item['visitorlog'].length == 0 ? 'Username not found' : (item['visitorlog'][0]['vlApprdBy']==''?'Username not found':item['visitorlog'][0]['vlApprdBy'])),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlMobile']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['unUniName']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vldCreated']),
@@ -157,7 +158,7 @@ export class NotificationsComponent implements OnInit {
                     (item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']))),
                     'collapse' + new Date().getTime(),
                     item['ntType'],
-                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlExAprdBy']),
+                    (item['visitorlog'].length == 0 ? 'Username not found' : (item['visitorlog'][0]['vlExAprdBy']==''?'Username not found':item['visitorlog'][0]['vlExAprdBy'])),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprStat']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlexgName']),
                     item['ntid'],
