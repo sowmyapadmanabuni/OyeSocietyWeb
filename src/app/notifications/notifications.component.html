@@ -25,19 +25,19 @@
           <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;">
             <div class="dash-row">
               <div class="panel-group" id="accordion">
-                <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" style="width: 828px;height: 37px;" placeholder="search unit">
+                <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
                 <div class="panel panel-default" *ngFor="let itm of notificationListArray">
                   <div class="panel-heading">
-                    <h4 class="panel-title alfl">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}"> <img
+                    <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}" class="read"> <img
                          (click)="NotificationActiveStatusUpdate(itm['adminNtid'],'Join')" src="../../assets/images/notification_icons/mail.png"> {{itm['adminReadStatus']}}
                       </a>
-                      <span>{{itm['asAsnName']}}</span>
-                      <span>{{itm['adminNtdCreated'] | dateAgo}}</span>
+                      <span class="uni_name">{{itm['asAsnName']}}</span>
+                      <span class="days">{{itm['adminNtdCreated'] | dateAgo}}</span>
                     </h4>
                     <div class="alfl bg-grey">
-                      <span><a class="green">Unit</a> {{itm['unUniName']}}</span>
-                      <span><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
+                      <span class="uni_name"><a class="green">Unit</a> {{itm['unUniName']}}</span>
+                      <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                       <span class="not-img">
                         <img [src]="itm['adminEntryImg']" width="70px" height="70px">
                         <p>{{itm['ufName']}}</p>
@@ -91,7 +91,7 @@
             <div class="dash-row">
 
               <div class="panel-group" id="accordion">
-                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" style="width: 828px;height: 37px;" placeholder="search unit">
+                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" class="search" placeholder="search unit">
                 <div class="panel panel-default" *ngFor="let item of ResidentNotificationListArray">
                   <div *ngIf="item['NtType']!='Announcement'">
                   <div class="panel-heading">
