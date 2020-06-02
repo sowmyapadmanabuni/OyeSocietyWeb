@@ -404,13 +404,13 @@
                 <!-- rightBar start-->
                 <div class="col-xs-12 col-sm-4 col-md-4" style="margin-top: 50px;">                       
                         <div>
-                                <div class="chart-ui">
+                                <div class="chart-ui" style="margin-bottom: 15px">
                                         <div class="chart">
                                             <span style="color: #B51414;">Occupied</span>    
                                             <span style="color: #B51414;"><i class="fa fa-home" aria-hidden="true"></i> {{_occupiedCount}}</span>    
                                         </div>
                                                 <span class="percent">{{occupiedCount+'%'}}</span>
-                                 <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
+                                 <canvas  baseChart
                                                 [data]="pieChartData"
                                                 [colors]="doughnutChartColors"
                                                 [chartType]="pieChartType"
@@ -423,8 +423,8 @@
                                                 <span class="green">Vacant</span>    
                                                 <span class="green"><i class="fa fa-home" aria-hidden="true"></i> {{_vacantCount}}</span>    
                                         </div>
-                                        <span class="green percent" >{{vacantCount+'%'}}</span>
-                                 <canvas style="align-self: flex-end; display: block; width: 100%;" baseChart
+                                        <span class="green percent">{{vacantCount+'%'}}</span>
+                                 <canvas  baseChart
                                                 [data]="pieChartData1"
                                                 [colors]="doughnutChartColors1"
                                                 [chartType]="pieChartType"
