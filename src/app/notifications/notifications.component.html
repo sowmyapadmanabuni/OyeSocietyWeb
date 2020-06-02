@@ -104,7 +104,6 @@
                     </h4>
                     <div class="alfl bg-grey">
                       <span><a class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>
-                      <span style="margin-right: -450px;"><img src="../../assets/images/notification_icons/call.png">{{item['vlMobile']}}</span>
                       <span>Visiting <a class="green">{{item['unUniName']}}</a></span>
                       <span class="not-img">
                         <img [src]="item['visitorEntryImg']" width="70px" height="70px"/>
@@ -121,6 +120,8 @@
                          <div><span style="color: red;">Entry Approved by :</span>{{item['vlApprdBy']}}</div>
                          <div><span style="color: red;">Exit Approved by :</span>{{item['vlExAprdBy']}}<span style="color: red;">From :</span>{{item['vlexgName']}}</div>
                          <div><span style="color: red;">Status :</span>{{item['vlApprStat']}}</div>
+                         <span style="margin-right: -450px;"><img src="../../assets/images/notification_icons/call.png">{{item['vlMobile']}}</span>
+
                         </div>
                       </div>
                     </div>
