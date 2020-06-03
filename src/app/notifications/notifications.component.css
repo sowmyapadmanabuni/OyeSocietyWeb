@@ -12,20 +12,30 @@
   /* .bg-grey{background: #f1eded26;} */
 
   /* Notification screen css */
-  .alfl{display: flex;justify-content: space-between;}
-  .bg-grey{background: #f5f5f5;width: 100%;padding:10px 0px 0px 0px;}
+.alfl{display: flex;justify-content: space-between;}
+.bg-grey{background: #f5f5f5;width: 100%;padding:10px 0px 0px 0px;}
 .pb{flex-direction: column}
-.not-img{position: absolute;right: 46%;z-index: 300;    text-align: center;}
+.not-img{position: absolute;right: 46%;z-index: 30;    text-align: center;}
 .not-img>img{border-radius:40px}
 .green{color: #09a409 !important;font-weight: 600;text-decoration: none;}
-  .panel{padding:0px 0px 80px 0px !important}
-  .not-detail{margin-top: 60px;width: 100%;}
-  .days{font-size: 11px;color: #8d8c8c;}
-  .read{font-size: 11px;color: #357621 !important;}
-  .uni_name{font-size: 16px;}
-  .search{width: 100%;height: 37px;border: 0px;border-bottom: 1px solid grey;margin-bottom: 10px;}
-  .search:focus{border:none !important}
-  .mob{font-size: 13px;font-weight: 600;}
+.panel{padding:0px 0px 50px 0px !important}
+.fa-check-circle,.fa-times-circle{font-size: 30px}
+.approve{color: #09a409 !important;font-weight: 600;font-size: 16px}
+.reject{color: red !important;font-weight: 600;font-size: 16px}
+.app-rej{cursor: pointer;display: flex;align-items: center;justify-content: space-between;}
+.not-detail{margin-top: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;}
+.days{font-size: 11px;color: #8d8c8c;}
+.read{font-size: 11px;color: #357621 !important;}
+.uni_name{font-size: 16px;}
+.search{width: 100%;height: 37px;border: 0px;border-bottom: 1px solid grey;margin-bottom: 10px;}
+.search:focus{border:none !important}
+.mob{font-size: 13px;font-weight: 600;}
+.tab-ti{font-size: 16px !important;font-weight: 800 !important;position: relative}
+.not-count{position: absolute;background: red;width: 20px;height: 20px;border-radius: 31px;margin-left: -5px;color: #fff;font-size: 11px;padding: 2px;}
 /* Notification screen css */
 
 
