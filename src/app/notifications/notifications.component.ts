@@ -132,7 +132,8 @@ export class NotificationsComponent implements OnInit {
                   item['acNotifyID'],
                   item['ntType'],
                   item['ntdCreated'],
-                  item['acAccntID']
+                  item['acAccntID'],
+                  item['ntJoinStat']
                   ));
                   //console.log(this.notificationListArray);
                   this.notificationListArray = _.sortBy(this.notificationListArray, 'adminReadStatus').reverse();
@@ -343,11 +344,16 @@ export class NotificationsComponent implements OnInit {
               console.log('NotificationJoinStatusUpdate',NotificationJoinStatusUpdate);
               return this.http.post(`${ipAddress1}oyesafe/api/v1/Notification/NotificationJoinStatusUpdate`,NotificationJoinStatusUpdate, 
             {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
-            .subscribe(data=>{
-              console.log('NotificationJoinStatusUpdate',data);
-              alert("Accepted");
-              
-            },
+                .subscribe(data => {
+                  console.log('NotificationJoinStatusUpdate', data);
+                  alert("Accepted");
+                  for (let i = 0; i < this.notificationListArray.length; i++) {
+                    if (this.notificationListArray[i]['adminNtid'] == ntid) {
+                      this.notificationListArray[i]['IsAccepted']=true;
+                    }
+                  }
+
+                },
             err=>{
               console.log('NotificationJoinStatusUpdate',err);
             })
@@ -433,7 +439,11 @@ export class NotificationsComponent implements OnInit {
                         { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
                         .subscribe(data => {
                           console.log('notificationJoinStatusUpdate', data);
-
+                          for (let i = 0; i < this.notificationListArray.length; i++) {
+                            if (this.notificationListArray[i]['adminNtid'] == ntid) {
+                              this.notificationListArray[i]['IsRejected']=true;
+                            }
+                          }
                         },
                           err => {
                             console.log('notificationJoinStatusUpdate', err);

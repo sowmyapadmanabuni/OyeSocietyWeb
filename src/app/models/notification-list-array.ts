@@ -23,5 +23,7 @@ export class NotificationListArray {
         private acNotifyID,
         private ntType,
         private adminNtdCreated,
-        private acAccntID){}
+        private acAccntID,
+        private ntJoinStat
+        ){}
 }
