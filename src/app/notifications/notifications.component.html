@@ -57,7 +57,7 @@
                           <p>Mobile: {{itm['uMobile']}}</p>
                         </div>
                         <div class="col-sm-6">
-                          <span style="cursor: pointer;" (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['adminNtid'])" class="green"><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</span> <span style="cursor: pointer;" (click)="rejectJoinRequest(itm['ntid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="red"><i class="fa fa-times" aria-hidden="true"></i>Reject</span>
+                          <span style="cursor: pointer;" (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['adminNtid'])" class="green"><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</span> <span style="cursor: pointer;" (click)="rejectJoinRequest(itm['adminNtid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="red"><i class="fa fa-times" aria-hidden="true"></i>Reject</span>
                         </div>
                       </div>
                     </div>

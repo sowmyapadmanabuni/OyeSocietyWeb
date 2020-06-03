@@ -222,8 +222,8 @@ export class HomeComponent implements OnInit {
       this._occupiedCount = data['data']['unitCounts'][0]['occupiedCount'];
       this._vacantCount = data['data']['unitCounts'][0]['vacantCount'];
       console.log(this._occupiedCount,this._vacantCount);
-      this.occupiedCount = (this._occupiedCount / (this._occupiedCount + this._vacantCount)) * 100;
-      this.vacantCount = (this._vacantCount / (this._occupiedCount + this._vacantCount))*100
+      this.occupiedCount =(this._occupiedCount == 0?0:(this._occupiedCount / (this._occupiedCount + this._vacantCount)) * 100);
+      this.vacantCount = (this._vacantCount == 0?0:(this._vacantCount / (this._occupiedCount + this._vacantCount))*100);
       console.log(this.occupiedCount,this.vacantCount);
       this.pieChartData=[this.occupiedCount,100-this.occupiedCount];
       this.pieChartData1=[this.vacantCount,100-this.vacantCount];

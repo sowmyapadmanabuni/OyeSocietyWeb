@@ -383,6 +383,7 @@ export class NotificationsComponent implements OnInit {
 
 // 
   rejectJoinRequest( ntid, sbRoleID, sbSubID, asAssnID, mrRolName, asAsnName, sbUnitID, sbMemID, ntdCreated, unOcSDate, acAccntID, ACNotifyID) {
+    console.log(ntid);
     let ipAddress = this.utilsService.getIPaddress();
       return this.http.get(`${ipAddress}oyesafe/api/v1/NotificationActiveStatusUpdate/${ntid}`,
         { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
