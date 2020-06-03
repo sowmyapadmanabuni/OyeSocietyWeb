@@ -5,6 +5,7 @@ import {ResidentNotificationListArray} from '../../app/models/resident-notificat
 import { UtilsService } from '../utils/utils.service';
 import { GlobalServiceService } from '../global-service.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {DashBoardService} from '../../services/dash-board.service';
 import * as _ from 'underscore';
 declare var $: any;
 
@@ -28,7 +29,8 @@ export class NotificationsComponent implements OnInit {
   constructor(private utilsService:UtilsService,
     public globalService:GlobalServiceService,
     private http: HttpClient,
-    private domSanitizer: DomSanitizer) {
+    private domSanitizer: DomSanitizer,
+    private DashBoardService:DashBoardService) {
       this.AdminActiveNotification=0;
       this.ResidentActiveNotification=0;
       this.searchVisitorText='';
@@ -100,7 +102,7 @@ export class NotificationsComponent implements OnInit {
                 //console.log(item);
                 console.log(item['ntIsActive']);
                 if (item['ntType'] == "Join") {
-                  console.log(item);
+                  //console.log(item);
                   //console.log(item['unit']['owner'].length);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utfName'] : item['unit']['owner'][0]['uofName']);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utMobile'] : item['unit']['owner'][0]['uoMobile']);
@@ -133,7 +135,8 @@ export class NotificationsComponent implements OnInit {
                   item['ntType'],
                   item['ntdCreated'],
                   item['acAccntID'],
-                  item['ntJoinStat']
+                  item['ntJoinStat'],
+                  ''
                   ));
                   //console.log(this.notificationListArray);
                   this.notificationListArray = _.sortBy(this.notificationListArray, 'adminReadStatus').reverse();
@@ -143,7 +146,7 @@ export class NotificationsComponent implements OnInit {
                   if(item['ntIsActive']==true){
                   this.ResidentActiveNotification += 1;
                   }
-                  //console.log(item);
+                  console.log(item);
                   //console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']);
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]);
@@ -165,7 +168,9 @@ export class NotificationsComponent implements OnInit {
                     item['ntid'],
                     item['ntIsActive'],
                     (item['ntIsActive'] == true ? 'Unread' : 'Read'),
-                    item['ntdCreated']
+                    item['ntdCreated'],
+                    (item['visitorlog'].length == 0 ?'':item['visitorlog'][0]['vlVisLgID']),
+                    item['asAssnID']
                     ));
                     this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                     this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
@@ -349,7 +354,7 @@ export class NotificationsComponent implements OnInit {
                   alert("Accepted");
                   for (let i = 0; i < this.notificationListArray.length; i++) {
                     if (this.notificationListArray[i]['adminNtid'] == ntid) {
-                      this.notificationListArray[i]['IsAccepted']=true;
+                      this.notificationListArray[i]['ntJoinStatTmp']='id';
                     }
                   }
 
@@ -441,7 +446,7 @@ export class NotificationsComponent implements OnInit {
                           console.log('notificationJoinStatusUpdate', data);
                           for (let i = 0; i < this.notificationListArray.length; i++) {
                             if (this.notificationListArray[i]['adminNtid'] == ntid) {
-                              this.notificationListArray[i]['IsRejected']=true;
+                              this.notificationListArray[i]['ntJoinStatTmp']='id';
                             }
                           }
                         },
@@ -465,4 +470,37 @@ export class NotificationsComponent implements OnInit {
             console.log('NotificationActiveStatusUpdate', err);
           })
   }
+  //
+  // *-*-*-*-*-*-*-*-*-*-Accept gate Visitors Start Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+acceptgateVisitor(visitorId, associationid, visitorStatus, approvedBy){
+  let ipAddress = this.utilsService.getIPaddress();
+  console.log('SENDING STATUS TO ACCEPT NOTIFICATION', visitorId, associationid, visitorStatus, approvedBy);
+  return this.http.get(`${ipAddress}oyesafe/api/v1/GetCurrentDateTime`,
+  {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
+  .subscribe(data=>{
+    console.log('GetCurrentDateTime',data);
+    let UpdateApprovalStatus ={
+      VLApprStat: visitorStatus,
+      VLVisLgID: visitorId,
+      VLApprdBy: visitorStatus == "EntryApproved" || visitorStatus == "Entry Approved" ? this.DashBoardService.acfName : approvedBy,
+      VLExAprdBy: visitorStatus == "ExitApproved" || visitorStatus == "Exit Approved"? this.DashBoardService.acfName : "",
+  }
+  console.log(UpdateApprovalStatus);
+    return this.http.post(`${ipAddress}oyesafe/api/v1/UpdateApprovalStatus`,UpdateApprovalStatus,
+    {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
+    .subscribe(data=>{
+      console.log(data);
+      alert('Success')
+    },
+    err=>{
+      console.log(err);
+      alert(err['error']['error']['message'])
+    })
+  },
+  err=>{
+    console.log('GetCurrentDateTime',err);
+   // alert(err)
+  })
+}
+// *-*-*-*-*-*-*-*-*-*-Accept gate Visitors End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 }
