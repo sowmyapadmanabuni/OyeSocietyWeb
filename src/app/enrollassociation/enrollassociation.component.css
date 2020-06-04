@@ -139,10 +139,35 @@ span.mat-button-wrapper {
     top: 213px;
     margin-left: 1200px;
 }
-
-input#file_unitupload_id {
-    display: none;
+.tab-selected
+{
+  background-color: rgb(55, 243, 8);
 }
+/* ::ng-deep #mat-tab-label-0-0 {
+  background-color: #333;
+
+}
+::ng-deep #mat-tab-label-0-1 {
+    background-color: #333;
+  
+  } */
+::ng-deep .mat-tab-label {
+   
+    background-color: #B51414 !important;
+  
+}
+
+/* Styles for the active tab label */
+::ng-deep .mat-tab-label.mat-tab-label-active {
+    background-color: white !important;
+  
+}
+/* input#file_upload_id {
+    display: none;
+} */
+/* input#file_unitupload_id {
+    display: none;
+} */
 #upload_excel {
     margin-left: 481px;
     margin-top: 100px;

@@ -169,8 +169,6 @@
                 </div>
 
             </div>
-
-
         </mat-tab>
         <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
         <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()" class="association-form">
@@ -315,19 +313,33 @@
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
                 <button id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             </div>
-            
-                <div id="upload_excel" style="display:none">
+
+            <div id="upload_excel" style="display:none">
+                <a> <img style="width: 100px;" class="excel" (click)="uploadblocks()" src="../../assets/images/upload.png"
+                    matTooltip="UPLOAD"></a>
+                <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 100px;" class="excel"
+                        src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
+                <input #fileInput type="file" id="file_upload_id" (click)="fileInput.value = null"
+                    (change)="onFileChange($event)"
+                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <div id="cancelbutton">
+                    <button mat-raised-button color="primary" (click)="cancelbulkupload($event)">Cancel</button>
+                </div>
+                <!-- <input type="file" id="file_unitupload_id" (change)="onFileunitdetailschange($event)" multiple="true"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"#file> -->
+            </div>
+                <!-- <div id="upload_excel" style="display:none">
                     <a> <img style="width: 100px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
                         matTooltip="UPLOAD"></a>
                     <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 100px;" class="excel"
                             src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
-                    <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
-                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        style="display:none" #file>
+                    <input #fileInput type="file" id="file_upload_id" (click)="fileInput.value = null" 
+                    (change)="onFileChange($event)"
+                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                  <div id="cancelbutton">
                   <button mat-raised-button color="primary" (click)="cancelbulkupload($event)">Cancel</button>
                </div>
-                </div>
+                </div> -->
                 
             <!-- <div [formGroup]="blocksdetailsform"> -->
                 <div id="showmanual" style="display:none">
@@ -480,7 +492,7 @@
                     <!-- </div> -->
                   
                     <div class="save">
-                        <a class="continue" mat-raised-button color="primary">RESET</a>
+                        <a class="continue" (click)="resetStep4($event)"mat-raised-button color="primary" >RESET</a>
                         <a id="assdetailssave" mat-raised-button color="primary"[disabled]="!blocksdetailsform.valid"(click)="createblocksdetails($event)">NEXT</a>
                     </div>
                 </div>
@@ -513,8 +525,6 @@
                  <button id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
             </div> -->
                 <div id="unitupload_excel" style="display:none">
-
-                   
                     <a> <img style="width: 100px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
                         matTooltip="UPLOAD" ></a>
                     <a href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img style="width: 100px;" class="excel"
@@ -545,7 +555,7 @@
                                     </mat-error> -->
                                 </mat-form-field>
                                 <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidflatno']">Valid unit no is required</p>
-                                <p class="validation" *ngIf="unitlistjson[name][i]['flatno']&&unitlistjson[name][i]['flatno']==undefined">Valid unit no is required</p>
+                                <p class="validation" *ngIf="unitlistjson[name][i]['flatno']==undefined">Valid unit no is required</p>
 
                                  <!-- <p class ="validation"*ngIf ="unitdetails[i]['flatno']['clicked']&&!unitlistjson[name][i]['flatno']">{{ titleAlert }}</p> -->
                              </div>
@@ -609,7 +619,7 @@
                                     </mat-error> -->
                             </mat-form-field> 
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerfirstname']">Valid owner firstname is required</p>
-                            <p class="validation" *ngIf="unitlistjson[name][i]['ownerfirstname']&&unitlistjson[name][i]['ownerfirstname']==undefined">Valid owner firstname is required</p>
+                            <p class="validation" *ngIf="unitlistjson[name][i]['ownerfirstname']==undefined">Valid owner firstname is required</p>
 
                             <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownerfirstname']['required']&&unitdetails[i]['ownerfirstname']['clicked']&&!unitlistjson[name][i]['ownerfirstname']">{{ titleAlert }}</p>  -->
                          </div>
@@ -626,7 +636,7 @@
                                             </mat-error> -->
                                     </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerlastname']">Valid owner lastname is required</p>
-                            <p class="validation" *ngIf="unitlistjson[name][i]['ownerlastname']&&unitlistjson[name][i]['ownerlastname']==undefined">Valid owner lastname is required</p>
+                            <!-- <p class="validation" *ngIf="(unitlistjson[name][i]['ownerlastname']==undefined)&&(unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']!='UNSOLD TENANT OCCUPIED UNIT')">Valid owner lastname is required</p> -->
 
                                      <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownerlastname']['clicked']&&!unitlistjson[name][i]['ownerlastname']">{{ titleAlert }}</p>  -->
                                 </div>
@@ -645,7 +655,7 @@
                                 </mat-error> -->
                         </mat-form-field>
                         <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownermobilenumber']">Valid 10 digit mobile number is required</p>
-                        <p class="validation" *ngIf="unitlistjson[name][i]['ownermobilenumber']&&unitlistjson[name][i]['ownermobilenumber']==undefined">Valid 10 digit mobile number is required</p>
+                        <!-- <p class="validation" *ngIf="(unitlistjson[name][i]['ownermobilenumber']==undefined)&&(unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']!='UNSOLD TENANT OCCUPIED UNIT')">Valid 10 digit mobile number is required</p> -->
 
                          <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownermobilenumber']['clicked']&&!unitlistjson[name][i]['ownermobilenumber']">{{ titleAlert }}</p>  -->
                        </div>
@@ -662,7 +672,7 @@
                         </mat-error> -->
                     </mat-form-field>
                     <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidowneremaiid']">valid email-id is required</p>
-                    <p class="validation" *ngIf="unitlistjson[name][i]['owneremaiid']&&unitlistjson[name][i]['owneremaiid']==undefined">valid email-id is required</p>
+                    <!-- <p class="validation" *ngIf="(unitlistjson[name][i]['owneremaiid']==undefined)&&(unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']!='UNSOLD TENANT OCCUPIED UNIT')">valid email-id is required</p> -->
 
                      <!-- <p class ="validation"*ngIf ="unitdetails[i]['owneremaiid']['clicked']&&!unitlistjson[name][i]['owneremaiid']">{{ titleAlert }}</p>  -->
                   </div>
@@ -681,9 +691,12 @@
                             </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantfirstname']">Valid firstname is
                                 required</p>
-                                <p class="validation" *ngIf="unitlistjson[name][i]['tenantfirstname']&&unitlistjson[name][i]['tenantfirstname']==undefined">Valid firstname is
+                                <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT' || unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT' && unitlistjson[name][i]['tenantfirstname']==undefined">Valid firstname is
                                     required</p>
-
+                                    <!--Test1-->
+                                    
+                                    <!--Test1-->
+                                 
                      <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantfirstname']['clicked']&&!unitlistjson[name][i]['tenantfirstname']">{{ titleAlert }}</p>  -->
                         </div>           
                         <div>
@@ -699,8 +712,8 @@
                                     </mat-error> -->
                             </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantlastname']"> Valid lastname is required</p>
-                            <p class="validation" *ngIf="unitlistjson[name][i]['tenantlastname']&&unitlistjson[name][i]['tenantlastname']==undefined">Valid lastname is
-                                required</p>
+                            <!-- <p class="validation" *ngIf="unitlistjson[name][i]['tenantlastname']==undefined&&unitlistjson[name][i]['ownershipstatus']!='SOLD OWNER OCCUPIED UNIT'">Valid lastname is
+                                required</p> -->
                    <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantlastname']['clicked']&&!unitlistjson[name][i]['tenantlastname']">{{ titleAlert }}</p>  -->
                         </div>
                          <div>
@@ -720,8 +733,8 @@
                             </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantmobilenumber']">Valid mobile number is
                                 required</p>
-                                <p class="validation" *ngIf="unitlistjson[name][i]['tenantmobilenumber']&&unitlistjson[name][i]['tenantmobilenumber']==undefined">Valid mobile number is
-                                    required</p>
+                                <!-- <p class="validation" *ngIf="unitlistjson[name][i]['tenantmobilenumber']==undefined&&unitlistjson[name][i]['ownershipstatus']!='SOLD OWNER OCCUPIED UNIT'">Valid mobile number is
+                                    required</p> -->
                     <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantmobilenumber']['clicked']&&!unitlistjson[name][i]['tenantmobilenumber']">{{ titleAlert }}</p>  -->
                         </div>  
                           <div>
@@ -737,9 +750,10 @@
                                         </mat-error> -->
                                 </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantemaiid']"> Valid email-id is required</p>
-                            <p class="validation" *ngIf="unitlistjson[name][i]['tenantemaiid']&&unitlistjson[name][i]['tenantemaiid']==undefined">Valid email-id is required</p>
+                            <!-- <p class="validation" *ngIf="(unitlistjson[name][i]['tenantemaiid']==undefined)&&(unitlistjson[name][i]['ownershipstatus']!='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']!='SOLD OWNER OCCUPIED UNIT')">Valid email-id is required</p> -->
                     <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantemaiid']['clicked']&&!unitlistjson[name][i]['tenantemaiid']">{{ titleAlert }}</p>  -->
                             </div>
+                            
                            
                             </form>
                         </div>
@@ -751,7 +765,7 @@
                             <button id="unitssubmit"mat-raised-button color="primary"(click)="submitunitdetails($event)">SUBMIT</button>
                         </div>
                         <div class="save">
-                            <a class="continue" mat-raised-button color="primary">RESET</a>
+                            <a class="continue" (click)="resetStep5($event)"mat-raised-button color="primary">RESET</a>
                             <a id="assdetailssave" mat-raised-button color="primary"(click)="gotonexttab($event)">NEXT</a>
                         </div>    
                      
