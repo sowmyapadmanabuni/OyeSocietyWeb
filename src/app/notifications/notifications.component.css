@@ -18,10 +18,11 @@
 .not-img{position: absolute;right: 46%;z-index: 30;    text-align: center;}
 .not-img>img{border-radius:40px}
 .green{color: #09a409 !important;font-weight: 600;text-decoration: none;}
-.panel{padding:0px 0px 50px 0px !important}
+.panel{padding:0px 0px 60px 0px !important}
 .fa-check-circle,.fa-times-circle{font-size: 30px}
 .approve{color: #09a409 !important;font-weight: 600;font-size: 16px}
 .reject{color: red !important;font-weight: 600;font-size: 16px}
+.exitnot-title{color: red;font-weight: 600;}
 .app-rej{cursor: pointer;display: flex;align-items: center;justify-content: space-between;}
 .not-detail{margin-top: 60px;
   width: 100%;
