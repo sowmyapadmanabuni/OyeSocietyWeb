@@ -395,7 +395,6 @@ export class EnrollassociationComponent implements OnInit {
 
 
   unitsrowjson = {
-
     "flatno": "",
     "unittype": "",
     "unitdimension": "",
@@ -411,22 +410,16 @@ export class EnrollassociationComponent implements OnInit {
     "tenantmobilenumber": "",
     "tenantemaiid": "",
     "isnotvalidflatno":false,
+    "isnotvalidunittype":false,
+    "isnotvalidownershipstatus":false,
     "isnotvalidownerfirstname":false,
-
     "isnotvalidownerlastname":false,
-
     "isnotvalidownermobilenumber":false,
-
     "isnotvalidowneremaiid":false,
-
     "isnotvalidtenantfirstname":false,
-
     "isnotvalidtenantlastname":false,
-
     "isnotvalidtenantmobilenumber":false,
     "isnotvalidtenantemaiid":false
-
-
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {
@@ -931,7 +924,7 @@ export class EnrollassociationComponent implements OnInit {
       }
       else {
         Swal.fire({
-          title: "Please check exact no of blocks and upload",
+          title: "Please Check uploaded no of blocks should not more than given no of blocks",
           text: "",
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
@@ -964,8 +957,38 @@ export class EnrollassociationComponent implements OnInit {
       })
     })
   }
-
-
+  getunittype(Id, unittype){
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['unittype'] = unittype;
+          if(unit['unittype']==""){
+            unit['isnotvalidunittype']=true;
+          }
+          else{
+            unit['isnotvalidunittype']=false;
+          }
+        }
+      })
+    })
+  }
+  getownershipstatus(Id, ownershipstatus){
+    Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          unit['ownershipstatus'] = ownershipstatus;
+          if(unit['ownershipstatus']==""){
+            unit['isnotvalidownershipstatus']=true;
+          }
+          else{
+            unit['isnotvalidownershipstatus']=false;
+          }
+        }
+      })
+    })
+  }
   getownerfirstname(Id, ownerfirstname) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
@@ -1118,6 +1141,8 @@ export class EnrollassociationComponent implements OnInit {
               if(exceldata.length<=unitslength){
                 unitonce.Id = blkname+i+1;
                 unitonce.isnotvalidflatno =false,
+                unitonce.isnotvalidunittype=false,
+                unitonce.isnotvalidownershipstatus=false,
                 unitonce.isnotvalidownerfirstname=false,
             
                 unitonce.isnotvalidownerlastname=false,
@@ -1151,7 +1176,7 @@ export class EnrollassociationComponent implements OnInit {
               }
               else{
                 Swal.fire({
-                  title: "Please check exact no units and upload",
+                  title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                   text: "",
                   confirmButtonColor: "#f69321",
                   confirmButtonText: "OK"

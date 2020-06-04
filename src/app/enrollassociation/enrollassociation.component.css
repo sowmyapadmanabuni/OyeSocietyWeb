@@ -162,12 +162,12 @@ span.mat-button-wrapper {
     background-color: white !important;
   
 }
-/* input#file_upload_id {
+input#file_upload_id {
     display: none;
-} */
-/* input#file_unitupload_id {
+} 
+ input#file_unitupload_id {
     display: none;
-} */
+}
 #upload_excel {
     margin-left: 481px;
     margin-top: 100px;
