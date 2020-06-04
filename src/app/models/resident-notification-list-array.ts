@@ -16,5 +16,8 @@ export class ResidentNotificationListArray {
         private residentNtid,
         private RsdntNtIsActive,
         private residentReadStatus,
-        private residentNtdCreated){}
+        private residentNtdCreated,
+        private vlVisLgID,
+        private asAssnID){}
+        
 }

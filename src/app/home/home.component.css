@@ -340,9 +340,9 @@ outside color needs */
     .tabs li a:after {right: -20px;top: 0px;}
 
 /* dashboard chart */
-.chart{display: flex;
-  justify-content: space-between;}
+.chart{display: flex;justify-content: space-between;}
 .chart-ui{border: 1px solid #dfdede;border-radius: 18px;padding: 14px;position: relative;}
 .red1{color: red;font-size: 15px !important;font-weight: 600;}
 .green{color: rgb(15, 129, 76) !important;font-size: 15px !important;font-weight: 600;}
 .percent{color: #B51414;position: absolute; top: 50%;left: 46%;font-weight: 900;}
+canvas{align-self: flex-end; display: block;width:280px !important;height: auto !important;margin:0px auto}

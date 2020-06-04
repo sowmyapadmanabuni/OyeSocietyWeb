@@ -14,10 +14,10 @@
             <span class="l-top">&nbsp;</span>
             <ul class="tabs group">
               <li (click)="AdminsUnitShow('resident')">
-                <a data-toggle="tab">MY UNIT {{ResidentActiveNotification}}</a> 
+                <a data-toggle="tab" class="tab-ti">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
               </li>
               <li style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
-                <a class="act-b" data-toggle="tab">ADMIN {{AdminActiveNotification}}</a> 
+                <a class="act-b tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
               </li>
 
             </ul>
@@ -25,19 +25,19 @@
           <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;">
             <div class="dash-row">
               <div class="panel-group" id="accordion">
-                <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" style="width: 828px;height: 37px;" placeholder="search unit">
+                <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
                 <div class="panel panel-default" *ngFor="let itm of notificationListArray">
                   <div class="panel-heading">
-                    <h4 class="panel-title alfl">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}"> <img
+                    <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}" class="read"> <img
                          (click)="NotificationActiveStatusUpdate(itm['adminNtid'],'Join')" src="../../assets/images/notification_icons/mail.png"> {{itm['adminReadStatus']}}
                       </a>
-                      <span>{{itm['asAsnName']}}</span>
-                      <span>{{itm['adminNtdCreated'] | dateAgo}}</span>
+                      <span class="uni_name">{{itm['asAsnName']}}</span>
+                      <span class="days">{{itm['adminNtdCreated'] | dateAgo}}</span>
                     </h4>
                     <div class="alfl bg-grey">
-                      <span><a class="green">Unit</a> {{itm['unUniName']}}</span>
-                      <span><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
+                      <span class="uni_name"><a class="green">Unit</a> {{itm['unUniName']}}</span>
+                      <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                       <span class="not-img">
                         <img [src]="itm['adminEntryImg']" width="70px" height="70px">
                         <p>{{itm['ufName']}}</p>
@@ -49,15 +49,21 @@
                   <div id="{{itm['admincollapse']}}" class="panel-collapse collapse">
                     <div class="panel-body pb">
                       <div class="not-detail">
-                        <div class="col-sm-6">
+                        <div>
                           <h4 style="color: red;">Current Status</h4>
-                          <p>Occupancy: {{itm['unOcStat']}}</p>
-                          <p>Occupied By: {{itm['occupiedBy']}}</p>
-                          <p>Owner Name: {{itm['ownername']}}</p>
-                          <p>Mobile: {{itm['uMobile']}}</p>
+                          <p>Occupancy: <strong>{{itm['unOcStat']}}</strong></p>
+                          <p>Occupied By: <strong>{{itm['occupiedBy']}}</strong></p>
+                          <p>Owner Name: <strong>{{itm['ownername']}}</strong></p>
+                          <p>Mobile: <strong>{{itm['uMobile']}}</strong></p>
                         </div>
-                        <div class="col-sm-6">
-                          <span style="cursor: pointer;" (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['adminNtid'])" class="green"><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</span> <span (click)="rejectJoinRequest(itm['ntid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="red"><i class="fa fa-times" aria-hidden="true"></i>Reject</span>
+                        <div *ngIf="itm['ntJoinStatTmp']=='' && itm['ntJoinStat']==''">
+                          <span (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['adminNtid'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approve</span>
+                        </div>
+                        <div *ngIf="itm['ntJoinStatTmp']=='' && itm['ntJoinStat']==''">
+                           <span (click)="rejectJoinRequest(itm['adminNtid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
+                        </div>
+                        <div *ngIf="itm['ntJoinStatTmp']=='id' || itm['ntJoinStat']!=''">
+                          <span>U already responded for this request</span>
                         </div>
                       </div>
                     </div>
@@ -80,10 +86,10 @@
             <span class="r-top">&nbsp;</span>
             <ul class="tabs group">
               <li (click)="AdminsUnitShow('resident')" class="active left-tab">
-                <a class="act-a" ata-toggle="tab">MY UNIT {{ResidentActiveNotification}}</a> 
+                <a class="act-a tab-ti" ata-toggle="tab">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
               </li>
               <li (click)="AdminsButtonShow('admin')">
-                <a data-toggle="tab">ADMIN {{AdminActiveNotification}}</a> 
+                <a class="tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
               </li>
             </ul>
           </div>
@@ -91,7 +97,7 @@
             <div class="dash-row">
 
               <div class="panel-group" id="accordion">
-                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" style="width: 828px;height: 37px;" placeholder="search unit">
+                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" class="search" placeholder="search unit">
                 <div class="panel panel-default" *ngFor="let item of ResidentNotificationListArray">
                   <div *ngIf="item['NtType']!='Announcement'">
                   <div class="panel-heading">
@@ -104,7 +110,6 @@
                     </h4>
                     <div class="alfl bg-grey">
                       <span><a class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>
-                      <span style="margin-right: -450px;"><img src="../../assets/images/notification_icons/call.png">{{item['vlMobile']}}</span>
                       <span>Visiting <a class="green">{{item['unUniName']}}</a></span>
                       <span class="not-img">
                         <img [src]="item['visitorEntryImg']" width="70px" height="70px"/>
@@ -121,6 +126,13 @@
                          <div><span style="color: red;">Entry Approved by :</span>{{item['vlApprdBy']}}</div>
                          <div><span style="color: red;">Exit Approved by :</span>{{item['vlExAprdBy']}}<span style="color: red;">From :</span>{{item['vlexgName']}}</div>
                          <div><span style="color: red;">Status :</span>{{item['vlApprStat']}}</div>
+                         <span style="margin-right: -450px;"><img src="../../assets/images/notification_icons/call.png">{{item['vlMobile']}}</span>
+                         <div>
+                          <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'EntryApproved', item['vlApprdBy'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Entry Approve</span>
+                        </div>
+                        <div>
+                           <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'ExitApproved', item['vlApprdBy'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Entry Reject</span>
+                        </div>
                         </div>
                       </div>
                     </div>

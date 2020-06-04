@@ -5,6 +5,7 @@ import {ResidentNotificationListArray} from '../../app/models/resident-notificat
 import { UtilsService } from '../utils/utils.service';
 import { GlobalServiceService } from '../global-service.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {DashBoardService} from '../../services/dash-board.service';
 import * as _ from 'underscore';
 declare var $: any;
 
@@ -28,7 +29,8 @@ export class NotificationsComponent implements OnInit {
   constructor(private utilsService:UtilsService,
     public globalService:GlobalServiceService,
     private http: HttpClient,
-    private domSanitizer: DomSanitizer) {
+    private domSanitizer: DomSanitizer,
+    private DashBoardService:DashBoardService) {
       this.AdminActiveNotification=0;
       this.ResidentActiveNotification=0;
       this.searchVisitorText='';
@@ -100,7 +102,7 @@ export class NotificationsComponent implements OnInit {
                 //console.log(item);
                 console.log(item['ntIsActive']);
                 if (item['ntType'] == "Join") {
-                  console.log(item);
+                  //console.log(item);
                   //console.log(item['unit']['owner'].length);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utfName'] : item['unit']['owner'][0]['uofName']);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utMobile'] : item['unit']['owner'][0]['uoMobile']);
@@ -111,12 +113,12 @@ export class NotificationsComponent implements OnInit {
                   this.notificationListArray.push(new NotificationListArray(item['unit']['unUniName'], 
                   item['asAsnName'], 
                   item['ntMobile'], 
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'No resident found':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
                   (item['visitorlog'].length == 0 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])),
                   item['unit']['unOcStat'],
-                  (item['unit']['owner'].length == 0?'Tenant':'Owner'),
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utMobile']):item['unit']['owner'][0]['uoMobile']), 
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'User name not found':'Tenant'):'Owner'),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'No resident found':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'No mobile number':item['unit']['tenant'][0]['utMobile']):item['unit']['owner'][0]['uoMobile']), 
                   'admincollapse'+new Date().getTime(),
                   item['ntid'],
                   item['ntIsActive'],
@@ -132,7 +134,9 @@ export class NotificationsComponent implements OnInit {
                   item['acNotifyID'],
                   item['ntType'],
                   item['ntdCreated'],
-                  item['acAccntID']
+                  item['acAccntID'],
+                  item['ntJoinStat'],
+                  ''
                   ));
                   //console.log(this.notificationListArray);
                   this.notificationListArray = _.sortBy(this.notificationListArray, 'adminReadStatus').reverse();
@@ -142,6 +146,7 @@ export class NotificationsComponent implements OnInit {
                   if(item['ntIsActive']==true){
                   this.ResidentActiveNotification += 1;
                   }
+                  console.log(item);
                   //console.log(item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : 'data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']));
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']);
                   //console.log(item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]);
@@ -149,7 +154,7 @@ export class NotificationsComponent implements OnInit {
                   this.ResidentNotificationListArray.push(new ResidentNotificationListArray((item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlComName']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlVisType']),
                     item['asAsnName'],
-                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprdBy']),
+                    (item['visitorlog'].length == 0 ? 'Username not found' : (item['visitorlog'][0]['vlApprdBy']==''?'Username not found':item['visitorlog'][0]['vlApprdBy'])),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlMobile']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['unUniName']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vldCreated']),
@@ -157,13 +162,15 @@ export class NotificationsComponent implements OnInit {
                     (item['visitorlog'].length == 0 ? '' : (item['visitorlog'][0]['vlEntryImg'].indexOf('.jpg') != -1 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg']))),
                     'collapse' + new Date().getTime(),
                     item['ntType'],
-                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlExAprdBy']),
+                    (item['visitorlog'].length == 0 ? 'Username not found' : (item['visitorlog'][0]['vlExAprdBy']==''?'Username not found':item['visitorlog'][0]['vlExAprdBy'])),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlApprStat']),
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlexgName']),
                     item['ntid'],
                     item['ntIsActive'],
                     (item['ntIsActive'] == true ? 'Unread' : 'Read'),
-                    item['ntdCreated']
+                    item['ntdCreated'],
+                    (item['visitorlog'].length == 0 ?'':item['visitorlog'][0]['vlVisLgID']),
+                    item['asAssnID']
                     ));
                     this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                     this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
@@ -342,11 +349,16 @@ export class NotificationsComponent implements OnInit {
               console.log('NotificationJoinStatusUpdate',NotificationJoinStatusUpdate);
               return this.http.post(`${ipAddress1}oyesafe/api/v1/Notification/NotificationJoinStatusUpdate`,NotificationJoinStatusUpdate, 
             {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
-            .subscribe(data=>{
-              console.log('NotificationJoinStatusUpdate',data);
-              alert("Accepted");
-              
-            },
+                .subscribe(data => {
+                  console.log('NotificationJoinStatusUpdate', data);
+                  alert("Accepted");
+                  for (let i = 0; i < this.notificationListArray.length; i++) {
+                    if (this.notificationListArray[i]['adminNtid'] == ntid) {
+                      this.notificationListArray[i]['ntJoinStatTmp']='id';
+                    }
+                  }
+
+                },
             err=>{
               console.log('NotificationJoinStatusUpdate',err);
             })
@@ -382,6 +394,7 @@ export class NotificationsComponent implements OnInit {
 
 // 
   rejectJoinRequest( ntid, sbRoleID, sbSubID, asAssnID, mrRolName, asAsnName, sbUnitID, sbMemID, ntdCreated, unOcSDate, acAccntID, ACNotifyID) {
+    console.log(ntid);
     let ipAddress = this.utilsService.getIPaddress();
       return this.http.get(`${ipAddress}oyesafe/api/v1/NotificationActiveStatusUpdate/${ntid}`,
         { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
@@ -431,7 +444,11 @@ export class NotificationsComponent implements OnInit {
                         { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
                         .subscribe(data => {
                           console.log('notificationJoinStatusUpdate', data);
-
+                          for (let i = 0; i < this.notificationListArray.length; i++) {
+                            if (this.notificationListArray[i]['adminNtid'] == ntid) {
+                              this.notificationListArray[i]['ntJoinStatTmp']='id';
+                            }
+                          }
                         },
                           err => {
                             console.log('notificationJoinStatusUpdate', err);
@@ -453,4 +470,37 @@ export class NotificationsComponent implements OnInit {
             console.log('NotificationActiveStatusUpdate', err);
           })
   }
+  //
+  // *-*-*-*-*-*-*-*-*-*-Accept gate Visitors Start Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+acceptgateVisitor(visitorId, associationid, visitorStatus, approvedBy){
+  let ipAddress = this.utilsService.getIPaddress();
+  console.log('SENDING STATUS TO ACCEPT NOTIFICATION', visitorId, associationid, visitorStatus, approvedBy);
+  return this.http.get(`${ipAddress}oyesafe/api/v1/GetCurrentDateTime`,
+  {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
+  .subscribe(data=>{
+    console.log('GetCurrentDateTime',data);
+    let UpdateApprovalStatus ={
+      VLApprStat: visitorStatus,
+      VLVisLgID: visitorId,
+      VLApprdBy: visitorStatus == "EntryApproved" || visitorStatus == "Entry Approved" ? this.DashBoardService.acfName : approvedBy,
+      VLExAprdBy: visitorStatus == "ExitApproved" || visitorStatus == "Exit Approved"? this.DashBoardService.acfName : "",
+  }
+  console.log(UpdateApprovalStatus);
+    return this.http.post(`${ipAddress}oyesafe/api/v1/UpdateApprovalStatus`,UpdateApprovalStatus,
+    {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
+    .subscribe(data=>{
+      console.log(data);
+      alert('Success')
+    },
+    err=>{
+      console.log(err);
+      alert(err['error']['error']['message'])
+    })
+  },
+  err=>{
+    console.log('GetCurrentDateTime',err);
+   // alert(err)
+  })
+}
+// *-*-*-*-*-*-*-*-*-*-Accept gate Visitors End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 }
