@@ -885,74 +885,62 @@ export class EnrollassociationComponent implements OnInit {
     document.getElementById('unitmanualbulk').style.display = 'none'
     document.getElementById('unitshowmanual').style.display = 'block';
   }
-  upLoad() {
+  uploadblocks() {
     document.getElementById("file_upload_id").click();
   }
+
     excelBlockList=[];
     ShowExcelUploadDiscription=true;
     ShowExcelDataList=false;
+    
+    blockfile:File
+    blockarrayBuffer:any;
+  filelist1:any;
 
-  onFileChange(ev) {
-    let workBook = null;
-    let jsonData = null;
-    const reader = new FileReader();
-    const file = ev.target.files[0];
-    reader.onload = (event) => {
-      const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
-      jsonData = workBook.SheetNames.reduce((initial, name) => {
-        const sheet = workBook.Sheets[name];
-        initial[name] = XLSX.utils.sheet_to_json(sheet);
-        return initial;
-      }, {});
-      //const dataString = JSON.stringify(jsonData);
-      console.log(jsonData['Sheet1']);
-      this.excelBlockList=jsonData['Sheet1']
-     var blocknos = this.excelBlockList.length;
-     this.isbulkupload =true;
-      // for (var i = 0; i < blocknos; i++) {
-      //   // var newdata = JSON.parse(JSON.stringify(this.rowjson))
-      //   this.blocksArray.push(this.excelBlockList[i]);
-      //   console.log(this.blocksArray)
-  
-      // }
-
-
+    onFileChange(ev){
+      this.file= ev.target.files[0];     
+      let fileReader = new FileReader();    
+      fileReader.readAsArrayBuffer(this.file);     
+      fileReader.onload = (e) => {    
+          this.arrayBuffer = fileReader.result;    
+          var data = new Uint8Array(this.arrayBuffer);    
+          var arr = new Array();    
+          for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);    
+          var bstr = arr.join("");    
+          var workbook = XLSX.read(bstr, {type:"binary"});    
+          var first_sheet_name = workbook.SheetNames[0];    
+          var worksheet = workbook.Sheets[first_sheet_name];    
+          console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
+            this.excelBlockList = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
+                 
+            this.filelist1 = [];    
+      let blockslength=Number(this.noofblocks)
       //for checking purpose blockbulkupload code commenting below
-      this.excelBlockList.forEach((list,i) => {
-        this.detailsdata[i] ={}
-        Object.keys(list).forEach(datails=>{
-          this.detailsdata[i][datails] ={required:true};
+      if (this.excelBlockList.length <= blockslength) {
+        this.excelBlockList.forEach((list, i) => {
+          this.detailsdata[i] = {}
+          Object.keys(list).forEach(datails => {
+            this.detailsdata[i][datails] = { required: true };
+          })
+          this.blocksArray.push(list);
+          console.log(this.blocksArray)
+        });
+        document.getElementById('upload_excel').style.display ='none'
+
+        document.getElementById('showmanual').style.display ='block';
+      }
+      else {
+        Swal.fire({
+          title: "Please check exact no of blocks and upload",
+          text: "",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
         })
-        this.blocksArray.push(list);
-        console.log(this.blocksArray)
-      });
+        document.getElementById('upload_excel').style.display ='block';
+      }
 
-//  for (var list of this.excelBlockList) {
-//         // var newdata = JSON.parse(JSON.stringify(this.rowjson))
-//         this.detailsdata[i] ={}
-//         Object.keys(data).forEach(datails=>{
-//           this.detailsdata[i][datails] ={required:true};
-//         })
-//         this.blocksArray.push(list);
-//         console.log(this.blocksArray)
-//        }
-
-document.getElementById('upload_excel').style.display ='none'
-
-document.getElementById('showmanual').style.display ='block';
-
-
-      // this.demo1TabIndex = this.demo1TabIndex + 1;
-
-
-      // this.submitassociationcreation(event,blocksnum);
-      // this.ShowExcelUploadDiscription=false;
-      // this.ShowExcelDataList=true;
-      //this.createBlockFromExcel(this.excelBlockList);
+      }  
     }
-    reader.readAsBinaryString(file);
-  }
   uploadunits(){
     document.getElementById("file_unitupload_id").click();
   }
@@ -1107,6 +1095,7 @@ document.getElementById('showmanual').style.display ='block';
     })
   }
   excelunitsuploaddata(exceldata){
+
     this.finalblockname.forEach(blkname => {
     
       exceldata.forEach((unitonce,i) => {
@@ -1122,41 +1111,65 @@ document.getElementById('showmanual').style.display ='block';
           //    unitonce.blockid = obj
 
           //  })
-          unitonce.Id = blkname+i+1;
-          unitonce.isnotvalidflatno =false,
-          unitonce.isnotvalidownerfirstname=false,
-      
-          unitonce.isnotvalidownerlastname=false,
-      
-          unitonce.isnotvalidownermobilenumber=false,
-      
-          unitonce.isnotvalidowneremaiid=false,
-      
-          unitonce.isnotvalidtenantfirstname=false,
-      
-          unitonce.isnotvalidtenantlastname=false,
-      
-          unitonce.isnotvalidtenantmobilenumber=false,
-          unitonce.isnotvalidtenantemaiid=false
-          if (!this.unitlistjson[blkname]) {
-            this.unitlistjson[blkname] = []
-          }
-          Object.keys(this.unitlistjson).forEach(element => {
-            this.unitlistjson[element].forEach(detalisdata => {
+          this.blocksArray.forEach((element,index) => {
+            if(element.blockname==blkname){
+            let unitslength=Number(element.units)
 
-              if (blkname == element) {
-                if (!detalisdata.blockname) {
+              if(exceldata.length<=unitslength){
+                unitonce.Id = blkname+i+1;
+                unitonce.isnotvalidflatno =false,
+                unitonce.isnotvalidownerfirstname=false,
+            
+                unitonce.isnotvalidownerlastname=false,
+            
+                unitonce.isnotvalidownermobilenumber=false,
+            
+                unitonce.isnotvalidowneremaiid=false,
+            
+                unitonce.isnotvalidtenantfirstname=false,
+            
+                unitonce.isnotvalidtenantlastname=false,
+            
+                unitonce.isnotvalidtenantmobilenumber=false,
+                unitonce.isnotvalidtenantemaiid=false
+                if (!this.unitlistjson[blkname]) {
                   this.unitlistjson[blkname] = []
                 }
+                Object.keys(this.unitlistjson).forEach(element => {
+                  this.unitlistjson[element].forEach(detalisdata => {
+      
+                    if (blkname == element) {
+                      if (!detalisdata.blockname) {
+                        this.unitlistjson[blkname] = []
+                      }
+                    }
+                  })
+                })
+                this.unitlistjson[blkname].push(unitonce)
+                document.getElementById('unitupload_excel').style.display = 'none'
+                document.getElementById('unitshowmanual').style.display = 'block';
               }
-            })
+              else{
+                Swal.fire({
+                  title: "Please check exact no units and upload",
+                  text: "",
+                  confirmButtonColor: "#f69321",
+                  confirmButtonText: "OK"
+                })
+                document.getElementById('unitupload_excel').style.display = 'block'
+
+              }
+            }
           })
-          this.unitlistjson[blkname].push(unitonce)
+          
+       
+          
         }
       });
 
   
     })
+    console.log("unit data what contains",this.unitlistjson)
   }
   file:File
   arrayBuffer:any;
@@ -1179,11 +1192,6 @@ document.getElementById('showmanual').style.display ='block';
               this.filelist = [];    
               console.log(this.filelist)    
               this.excelunitsuploaddata(arraylist)
- 
-
-              document.getElementById('unitupload_excel').style.display = 'none'
-              document.getElementById('unitshowmanual').style.display = 'block';
-      
     }  
   }
 
@@ -1373,12 +1381,34 @@ cancelunitsbulkupload(ev){
     this.blockform.reset();
 
   }
-  public demo1TabIndex = 0;
+  resetStep4(ev){
+    this.blocksArray.forEach(Object=>{
+      Object.blockname="";
+      Object.blocktype="";
+      Object.units="";
+      Object.managername="";
+      Object.managermobileno="";
+      Object.manageremailid="";
+      
+    })
+  }
+  resetStep5(ev){
+    Object.keys(this.unitlistjson).forEach(element=>{
+      console.log(this.unitlistjson[element])
+      
+      this.unitlistjson[element].forEach(unit => {
+       console.log(unit)
+
+      })
+    })
+
+  }
+   demo1TabIndex = 0;
   public demo1BtnClick() {
     const tabCount = 3;
     this.demo1TabIndex = (this.demo1TabIndex + 1) % tabCount;
   }
-
+tabs =[1,2,3,4,5,6]
   public demo2TabIndex =0
   public demo2BtnClick() {
     const tabCount = 3;
