@@ -101,10 +101,10 @@
 
               <div class="panel-group" id="accordion">
                 <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" class="search" placeholder="search unit">
-                <div class="panel panel-default" *ngFor="let item of ResidentNotificationListArray">
-                  <div *ngIf="item['NtType']!='Announcement'">
+                <div class="panel-default" *ngFor="let item of ResidentNotificationListArray">
+                  <div class="panel panel-default" *ngIf="item['NtType']!='Announcement'">
                   <div class="panel-heading">
-                    <h4 class="panel-title alfl">
+                    <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
                       <a data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> <img
                         (click)="NotificationActiveStatusUpdate(item['residentNtid'],'')"  src="../../assets/images/notification_icons/mail.png"> {{item['residentReadStatus']}}
                       </a>
@@ -122,21 +122,22 @@
                     </div>
                   </div>
                   <div id="{{item['collapse']}}" class="panel-collapse collapse">
-                    <div class="panel-body pb">
+                    <div class="panel-body pb" style="margin-top: 20px;">
                       <div class="not-detail">
-                        <div class="col-sm-12">
-                         <div><h4 style="color: red;">Entry On:</h4> <span>{{item['vldCreated'] | date:'short'}}</span> <h4 style="color: red;">From:</h4> <span>{{item['vlengName']}}</span></div>
-                         <div><span style="color: red;">Entry Approved by :</span>{{item['vlApprdBy']}}</div>
-                         <div><span style="color: red;">Exit Approved by :</span>{{item['vlExAprdBy']}}<span style="color: red;">From :</span>{{item['vlexgName']}}</div>
-                         <div><span style="color: red;">Status :</span>{{item['vlApprStat']}}</div>
-                         <span style="margin-right: -450px;"><img src="../../assets/images/notification_icons/call.png">{{item['vlMobile']}}</span>
+                        <div>
+                         <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['vldCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                         <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
+                         <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
+                         <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
+                         <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
+                        </div>
                          <div>
                           <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'EntryApproved', item['vlApprdBy'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Entry Approve</span>
                         </div>
                         <div>
                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'ExitApproved', item['vlApprdBy'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Entry Reject</span>
                         </div>
-                        </div>
+
                       </div>
                     </div>
                   </div>
