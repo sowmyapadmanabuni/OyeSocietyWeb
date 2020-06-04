@@ -25,12 +25,14 @@ export class NotificationsComponent implements OnInit {
   notificationListArrayTemp:any[];
   AdminActiveNotification: number;
   ResidentActiveNotification: number;
+  ntJoinStatTmp2: any;
 
   constructor(private utilsService:UtilsService,
     public globalService:GlobalServiceService,
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
     private DashBoardService:DashBoardService) {
+      this.ntJoinStatTmp2='';
       this.AdminActiveNotification=0;
       this.ResidentActiveNotification=0;
       this.searchVisitorText='';
@@ -136,6 +138,7 @@ export class NotificationsComponent implements OnInit {
                   item['ntdCreated'],
                   item['acAccntID'],
                   item['ntJoinStat'],
+                  '',
                   ''
                   ));
                   //console.log(this.notificationListArray);
@@ -247,6 +250,7 @@ export class NotificationsComponent implements OnInit {
            }
         }
         //this.getNotification('');
+        this.ntJoinStatTmp2 =  data['data']['notification']['ntJoinStat']; 
       },
         err => {
           console.log(err);
@@ -354,10 +358,10 @@ export class NotificationsComponent implements OnInit {
                   alert("Accepted");
                   for (let i = 0; i < this.notificationListArray.length; i++) {
                     if (this.notificationListArray[i]['adminNtid'] == ntid) {
-                      this.notificationListArray[i]['ntJoinStatTmp']='id';
+                      this.notificationListArray[i]['ntJoinStatTmp'] = 'id';
                     }
                   }
-
+                  this.ntJoinStatTmp2 = '';
                 },
             err=>{
               console.log('NotificationJoinStatusUpdate',err);
@@ -446,9 +450,10 @@ export class NotificationsComponent implements OnInit {
                           console.log('notificationJoinStatusUpdate', data);
                           for (let i = 0; i < this.notificationListArray.length; i++) {
                             if (this.notificationListArray[i]['adminNtid'] == ntid) {
-                              this.notificationListArray[i]['ntJoinStatTmp']='id';
+                              this.notificationListArray[i]['ntJoinStatTmp1']='id';
                             }
                           }
+                          this.ntJoinStatTmp2='';
                         },
                           err => {
                             console.log('notificationJoinStatusUpdate', err);
