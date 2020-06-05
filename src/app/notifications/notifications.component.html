@@ -56,10 +56,10 @@
                           <p>Owner Name: <strong>{{itm['ownername']}}</strong></p>
                           <p>Mobile: <strong>{{itm['uMobile']}}</strong></p>
                         </div>
-                        <div *ngIf="itm['ntJoinStatTmp']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Rejected'">
+                        <div *ngIf="itm['ntJoinStatTmp']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Accepted'">
                           <span (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['adminNtid'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approve</span>
                         </div>
-                        <div *ngIf="itm['ntJoinStatTmp1']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Accepted'">
+                        <div *ngIf="itm['ntJoinStatTmp1']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Rejected'">
                            <span (click)="rejectJoinRequest(itm['adminNtid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
                         </div>
                         <div *ngIf="itm['ntJoinStatTmp']=='id' || itm['ntJoinStat']=='Accepted'">
