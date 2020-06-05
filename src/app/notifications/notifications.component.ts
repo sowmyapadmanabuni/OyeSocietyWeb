@@ -8,6 +8,9 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {DashBoardService} from '../../services/dash-board.service';
 import * as _ from 'underscore';
 declare var $: any;
+import * as gateFirebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 @Component({
   selector: 'app-notifications',
@@ -486,6 +489,7 @@ acceptgateVisitor(visitorId, associationid, visitorStatus, approvedBy){
   {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
   .subscribe(data=>{
     console.log('GetCurrentDateTime',data);
+    let DateOfApproval=data['data']['currentDateTime'];
     let UpdateApprovalStatus ={
       VLApprStat: visitorStatus,
       VLVisLgID: visitorId,
@@ -495,10 +499,22 @@ acceptgateVisitor(visitorId, associationid, visitorStatus, approvedBy){
   console.log(UpdateApprovalStatus);
     return this.http.post(`${ipAddress}oyesafe/api/v1/UpdateApprovalStatus`,UpdateApprovalStatus,
     {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
-    .subscribe(data=>{
-      console.log(data);
-      alert('Success')
-    },
+      .subscribe(data => {
+        console.log(data);
+        gateFirebase
+          .database()
+          .ref(`NotificationSync/A_${associationid}/${visitorId}`)
+          .set({
+            buttonColor: '#75be6f',
+            opened: true,
+            newAttachment: false,
+            visitorlogId: visitorId,
+            updatedTime: DateOfApproval,
+            // updatedTime: res.data.data.currentDateTime,
+            status: visitorStatus,
+          });
+        alert('Success')
+      },
     err=>{
       console.log(err);
       alert(err['error']['error']['message'])
