@@ -1,439 +1,439 @@
 
 <!-- DASHBOARD FOR NON ASSOCIATION USER FOR ENROLL AND JOIN -->
 <div *ngIf='associations.length == 0' class="container-fluid np">
-        <div class="col-sm-12 np mt-80">
-                <!--Profile section-->
-                <app-left-bar></app-left-bar>
-                <!--Profile section-->
-                <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
-                        <div class="dash-main">
-                                <div class="dash-shape">
-                                        <div class="col-md-12 dash dash-bg-1">
-                                                <div class="dash-row">
-                                                        <div class="tile-link" (click)="goToEnrollAssociation()">
-                                                                <div><img class="dash-icon"
-                                                                                src="../../assets/images/icons/expense-management.png">
+                <div class="col-sm-12 np mt-80">
+                        <!--Profile section-->
+                        <app-left-bar></app-left-bar>
+                        <!--Profile section-->
+                        <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
+                                <div class="dash-main">
+                                        <div class="dash-shape">
+                                                <div class="col-md-12 dash dash-bg-1">
+                                                        <div class="dash-row">
+                                                                <div class="tile-link" (click)="goToEnrollAssociation()">
+                                                                        <div><img class="dash-icon"
+                                                                                        src="../../assets/images/icons/expense-management.png">
+                                                                        </div>
+                                                                        <div class="f-des">Enroll <br>Association</div>
                                                                 </div>
-                                                                <div class="f-des">Enroll <br>Association</div>
-                                                        </div>
-                                                        <div class="tile-link" (click)="goToJoinAssociation()">
-                                                                <div>
-                                                                        <div> Join Association</div>
+                                                                <div class="tile-link" (click)="goToJoinAssociation()">
+                                                                        <div>
+                                                                                <div> Join Association</div>
+                                                                        </div>
                                                                 </div>
                                                         </div>
+                                                        <div class="dash-row">
+                                                        </div>
+                                                        <div class="dash-row">
+                                                        </div>
                                                 </div>
-                                                <div class="dash-row">
-                                                </div>
-                                                <div class="dash-row">
-                                                </div>
+                                                <!-- <div class="dash-tab">
+                                                        <span class="l-top">&nbsp;</span>
+                                                        <ul class="tabs group">
+                                                                <li (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
+                                                                </li>
+                                                                <li *ngIf="globalService.mrmroleId == 1"
+                                                                        (click)="AdminsButtonShow()" class="active right-tab">
+                                                                        <a class="act-b" data-toggle="tab">ADMIN</a></li>
+                                                        </ul>
+                                                </div> -->
                                         </div>
-                                        <!-- <div class="dash-tab">
-                                                <span class="l-top">&nbsp;</span>
-                                                <ul class="tabs group">
-                                                        <li (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
-                                                        </li>
-                                                        <li *ngIf="globalService.mrmroleId == 1"
-                                                                (click)="AdminsButtonShow()" class="active right-tab">
-                                                                <a class="act-b" data-toggle="tab">ADMIN</a></li>
-                                                </ul>
-                                        </div> -->
                                 </div>
                         </div>
                 </div>
         </div>
-</div>
-<!-- DASHBOARD FOR NON ASSOCIATION USER FOR ENROLL AND JOIN ENDS-->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<div *ngIf='associations.length != 0' class="container-fluid np">
-        <div class="col-sm-12 np mt-80">
-                <!--Profile section-->
-                     <app-left-bar></app-left-bar>
-                <!--Profile section-->
-                <div class="col-xs-12 col-sm-7 col-md-7 b-l bg">
-                                <!--Search Drop Down start -->
-                                <!-- <div class="col-sm-12 search">
-                                        <div class="dropdown search-dropd">
-                                                <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
-                                                        data-toggle="dropdown">{{(globalService.currentAssociationName == ''?'Association':globalService.currentAssociationName)}}
-                                                        <span class="caret"></span></button>
-                                                <ul class="dropdown-menu fullw fdrop">
-                                                        <li (click)="loadAssociation(association['asAsnName'],'id')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
-                                                </ul>
-                                        </div>
-                                        <div class="dropdown search-dropd">
-                                                <button class="btn btn-primary dropdown-toggle sdm" type="button"
-                                                        data-toggle="dropdown">{{globalService.currentUnitName}}
-                                                        <span class="caret"></span></button>
-                                                <ul class="dropdown-menu fullw">
-                                                        <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
-                                                </ul>
-                                        </div>
-                                </div> -->
-                                <!--Search Drop Down End -->
-                                <!--choice heading row start-->
-                                
-                                <!-- <div class="col-sm-12 make">
-                                        <h3 class="purple">{{globalService.currentAssociationName}}</h3>
-                                </div> -->
-                                <!--choice heading row end-->
+        <!-- DASHBOARD FOR NON ASSOCIATION USER FOR ENROLL AND JOIN ENDS-->
 
 
 
-                                <!--Dashboard icons for ADMIN start-->
-                                <div class="dash-main">
-                                        <div class="dash-shape" *ngIf="localMrmRoleId == 1" >
-                                                <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 24px 0px 26px;padding: 20px 100px;">
-                                                        <div class="dash-row">
-                                                                <div class="tile-link"
-                                                                        (click)="OpenModalBlockDetails(viewBlockDetailsTemplate)">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/asso-due.png">
-                                                                        </div>
-                                                                        <div>
-                                                                                <div class="number">
-                                                                                        {{'₹ '+(amount==0?'0':amount)}}</div>
-                                                                                <div>Association <br>Amount Due</div>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="tile-link" (click)="goToAssociation()">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/association-management.png">
-                                                                        </div>
-                                                                        <div class="f-des">Association<br> Management
-                                                                        </div>
-                                                                </div>
-                                                                <div class="tile-link" (click)="goToExpense()">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/expense-management.png">
-                                                                        </div>
-                                                                        <div class="f-des">Expense <br> Management</div>
-                                                                </div>
-                                                                <!-- <div>
-                                                        <div><img class="dash-icon"
-                                                                        src="../../assets/images/dash_icons/amount_due_self.png">
-                                                        </div>
-                                                        <div (click)='gotToResidentInvoice()'>
-                                                                <div class="number">{{'₹ '+(amountdue==0?'0':amountdue)}}</div>
-                                                                <div>Amount Due</div>
-                                                        </div>
-                                                </div> -->
-                                                                <!-- <div class="tile-link" (click)="goToVehicles()">
-                                                        <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
-                                                        <div>
-                                                                <div class="number">{{(totalAssociationVehicles=='0'?'0':totalAssociationVehicles)}}</div>
-                                                                <div>Vehicles</div>
-                                                        </div>
-                                                </div> -->
-                                                                
-                                                                <!-- <div class="tile-link" (click)="goToAssociationVisitors()">
-                                                        <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
-                                                        <div>
-                                                                <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
-                                                                <div>Visitors</div>
-                                                        </div>
-                                                </div> -->
-                                                                <!-- <div>
-                                                        <div><img class="dash-icon"
-                                                                        src="../../assets/images/dash_icons/Group 1750.png">
-                                                        </div>
-                                                        <div>
-                                                                <div class="number">0</div>
-                                                                <div>Documents</div>
-                                                        </div>
-                                                </div> -->
+<div  *ngIf='associations.length != 0' class="container-fluid mt-80">
+        <!--Profile section Parent-->
+                <div class="col-sm-1">
+                        <!--Profile section-->
+                        <app-left-bar></app-left-bar>
+                        <!--Profile section-->
+                </div>
+        <!--Profile section Parent-->
 
-                                                        </div>
-                                                        <div class="dash-row">
-                                                                        <div class="tile-link" (click)="goToMembers()">
+        <!-- Dashboard part Parent-->
+        <div class="col-sm-11 b-l">
+                <div style="display: flex;justify-content: space-around;align-items: flex-end;">
+                        <!-- Dashboard part -->
+                        <div>
+                                        <div class="dash-main">
+                                                        <div class="dash-shape" *ngIf="localMrmRoleId == 1" >
+                                                                <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 24px 0px 26px;padding: 20px 100px;">
+                                                                        <div class="dash-row">
+                                                                                <div class="tile-link"
+                                                                                        (click)="OpenModalBlockDetails(viewBlockDetailsTemplate)">
                                                                                         <div><img class="dash-icon"
-                                                                                                        src="../../assets/images/icons/members.png">
+                                                                                                        src="../../assets/images/icons/asso-due.png">
                                                                                         </div>
                                                                                         <div>
                                                                                                 <div class="number">
-                                                                                                        {{(totalMember=='0'?'0':totalMember)}}
-                                                                                                </div>
-                                                                                                <!-- <div>Members</div> -->
-                                                                                                <div>Roles</div>
+                                                                                                        {{'₹ '+(amount==0?'0':amount)}}</div>
+                                                                                                <div>Association <br>Amount Due</div>
                                                                                         </div>
                                                                                 </div>
-                                                                <!-- <div>
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/staff.png">
-                                                                        </div>
-                                                                        <div>
-                                                                                <div class="number">
-                                                                                        {{(totalStaffs=='0'?'0':totalStaffs)}}
+                                                                                <div class="tile-link" (click)="goToAssociation()">
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/association-management.png">
+                                                                                        </div>
+                                                                                        <div class="f-des">Association<br> Management
+                                                                                        </div>
                                                                                 </div>
-                                                                                <div>Staff</div>
-                                                                        </div>
-                                                                </div> -->
-                                                                <!-- <div class="tile-link" (click)="goToBlocks()">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/blocks-units.png">
-                                                                        </div>
-                                                                        <div class="f-des">{{availableNoOfUnits}}-Units <br>
-                                                                                {{availableNoOfBlocks}}-Blocks</div>
-                                                                </div> -->
-                                                                <div class="tile-link" (click)="goToReports()">
-                                                                        <div>
-                                                                                <img class="dash-icon"
-                                                                                        src="../../assets/images/icons/reports.png">
-                                                                        </div>
-                                                                        <div>
-                                                                                Reports
-                                                                        </div>
-                                                                </div>
-                                                                <!-- <div>
-                                                        <div><img class="dash-icon"
-                                                                        src="../../assets/images/dash_icons/ticket.png"></div>
-                                                        <div>
-                                                                <div class="number">{{(totalTickets=='0'?'0':totalTickets)}}</div>
-                                                                <div>Tickets</div>
-                                                        </div>
-                                                </div> -->
-
-                                                        </div>
-                                                        <div class="dash-row">
-                                                                <!-- <div class="tile-link" (click)="goToPatrolling()">
-                                                        <div>
-                                                                <img class="dash-icon" src="../../assets/images/icons/patrolling.png">
-                                                        </div>
-                                                        <div>
-                                                                Patrolling
-                                                        </div>
-                                                </div>      -->
-                                                                <!-- <div class="tile-link" (click)="goToFamily()">
-                                                        <div>
-                                                                <img class="icon" src="../../assets/images/icons/family.png">
-                                                        </div>
-                                                        <div>
-                                                        Family Members
-                                                        </div>
-                                                </div>  -->
-                                                                <!-- <div class="tile-link" (click)="goToVisitors()">
-                                                        <div>
-                                                                <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
-                                                        <div>
-                                                                Visitors
-                                                        </div>
-                                                </div>  -->
-                                                        </div>
-                                                        <!-- <div class="dash-row"> 
-                                                <div class="tile-link" (click)="goToVehicles()">
-                                                        <div>
-                                                                <img class="icon" src="../../assets/images/icons/vehicles.png">
-                                                        </div>
-                                                        <div>
-                                                                Vehicles
-                                                        </div>
-                                                </div>   
-                                        
-                                        </div> -->
-
-                                                        <!-- <div class="dash-row1">
-                                                        <span  *ngIf="globalService.mrmroleId == 1" class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
-                                                        <span class="ad-btn" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
-                                        </div> -->
-                                                </div>
-                                                <div class="dash-tab">
-                                                        <span class="l-top">&nbsp;</span>
-                                                        <ul class="tabs group">
-                                                                <li *ngIf='globalService.currentUnitName!="NoUnit"' (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
-                                                                </li>
-                                                                <li style="float: right;" *ngIf="globalService.mrmroleId == 1"
-                                                                        (click)="AdminsButtonShow()" class="active right-tab">
-                                                                        <a class="act-b" data-toggle="tab">ADMIN</a></li>
-        
-                                                        </ul>
-                                                </div>
-                                        </div>
-                                        
-                                <!--Dashboard icons for ADMIN end-->
-
-
-                                <!--Dashboard icons for MyUnit(RESIDENT) start-->
-                                <div class="dash-main">
-                                        <div class="dash-shape" *ngIf="localMrmRoleId != 1">
-                                                <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 24px 26px 0px;">
-                                                        <div class="dash-row">
-
-                                                                <div>
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/asso-due.png">
-                                                                        </div>
-                                                                        <div>
-                                                                                <div class="number">
-                                                                                        {{'₹ '+(amountdue==0?'0':amountdue)}}
+                                                                                <div class="tile-link" (click)="goToExpense()">
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/expense-management.png">
+                                                                                        </div>
+                                                                                        <div class="f-des">Expense <br> Management</div>
                                                                                 </div>
+                                                                                <!-- <div>
+                                                                        <div><img class="dash-icon"
+                                                                                        src="../../assets/images/dash_icons/amount_due_self.png">
+                                                                        </div>
+                                                                        <div (click)='gotToResidentInvoice()'>
+                                                                                <div class="number">{{'₹ '+(amountdue==0?'0':amountdue)}}</div>
                                                                                 <div>Amount Due</div>
                                                                         </div>
-                                                                </div>
-
-                                                                <!-- <div class="tile-link" (click)="goToAssociation()">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/association-management.png">
-                                                                        </div>
-                                                                        <div class="f-des">Association<br> Management
-                                                                        </div>
                                                                 </div> -->
-                                                                <div class="tile-link" (click)="goToVisitors()">
-                                                                        <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
+                                                                                <!-- <div class="tile-link" (click)="goToVehicles()">
+                                                                        <div><img class="dash-icon" src="../../assets/images/icons/vehicles.png"></div>
                                                                         <div>
-                                                                                <div class="number">{{(totalUnitVisitors=='0'?'0':totalUnitVisitors)}}</div>
-                                                                                <div>Visitors</div>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="tile-link">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/members.png">
-                                                                        </div>
-                                                                        <div data-toggle="modal"
-                                                                                data-target="#associationMembersTemplate">
-                                                                                <div class="number">
-                                                                                        {{(totalMember=='0'?'0':totalMember)}}
-                                                                                </div>
-                                                                                <div>Members</div>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="tile-link" (click)="goToResidentInvoice()">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/expense-management.png">
-                                                                        </div>
-                                                                        <div class="f-des">Invoices</div>
-                                                                </div>
-                                                        </div>
-                                                        <div class="dash-row">
-                                                                <div class="tile-link" (click)="goToVehicles()">
-                                                                        <div><img class="dash-icon"
-                                                                                        src="../../assets/images/icons/vehicles.png">
-                                                                        </div>
-                                                                        <div>
-                                                                                <div class="number">
-                                                                                        {{(vehiclesFilteredCount=='0'?'0':vehiclesFilteredCount)}}
-                                                                                </div>
+                                                                                <div class="number">{{(totalAssociationVehicles=='0'?'0':totalAssociationVehicles)}}</div>
                                                                                 <div>Vehicles</div>
                                                                         </div>
-                                                                </div>
-
-                                                                <!-- <div class="tile-link" (click)="goToVisitors()">
+                                                                </div> -->
+                                                                                
+                                                                                <!-- <div class="tile-link" (click)="goToAssociationVisitors()">
                                                                         <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
                                                                         <div>
-                                                                                <div class="number">{{(totalUnitVisitors=='0'?'0':totalUnitVisitors)}}</div>
+                                                                                <div class="number">{{(totalVisitors=='0'?'0':totalVisitors)}}</div>
                                                                                 <div>Visitors</div>
                                                                         </div>
                                                                 </div> -->
-                                                                <!-- <div class="tile-link" (click)="goToStaffFromDashboard()"> -->
-                                                                <div class="tile-link" (click)="GoToJoinAssociation()">
-                                                                        <div>
-                                                                                <!-- <img class="dash-icon" src="../../assets/images/icons/staff.png"> -->
-                                                                                <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                                                                                <!-- <div>
+                                                                        <div><img class="dash-icon"
+                                                                                        src="../../assets/images/dash_icons/Group 1750.png">
                                                                         </div>
                                                                         <div>
-                                                                                <!-- <div class="number">
-                                                                                        {{(totalUnitStaffs=='0'?'0':totalUnitStaffs)}}
+                                                                                <div class="number">0</div>
+                                                                                <div>Documents</div>
+                                                                        </div>
+                                                                </div> -->
+                
+                                                                        </div>
+                                                                        <div class="dash-row">
+                                                                                        <div class="tile-link" (click)="goToMembers()">
+                                                                                                        <div><img class="dash-icon"
+                                                                                                                        src="../../assets/images/icons/members.png">
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                                <div class="number">
+                                                                                                                        {{(totalMember=='0'?'0':totalMember)}}
+                                                                                                                </div>
+                                                                                                                <!-- <div>Members</div> -->
+                                                                                                                <div>Roles</div>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                <!-- <div>
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/staff.png">
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <div class="number">
+                                                                                                        {{(totalStaffs=='0'?'0':totalStaffs)}}
+                                                                                                </div>
+                                                                                                <div>Staff</div>
+                                                                                        </div>
                                                                                 </div> -->
-                                                                                <div>Join Association</div>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="tile-link" (click)="goToFamily()">
-                                                                        <div>
-                                                                                <img class="dash-icon"
-                                                                                        src="../../assets/images/icons/family-members.png">
-                                                                        </div>
-                                                                        <div>
-                                                                                <div class="number">
-                                                                                        {{(familyMemberCount=='0'?'0':familyMemberCount)}}
+                                                                                <!-- <div class="tile-link" (click)="goToBlocks()">
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/blocks-units.png">
+                                                                                        </div>
+                                                                                        <div class="f-des">{{availableNoOfUnits}}-Units <br>
+                                                                                                {{availableNoOfBlocks}}-Blocks</div>
+                                                                                </div> -->
+                                                                                <div class="tile-link" (click)="goToReports()">
+                                                                                        <div>
+                                                                                                <img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/reports.png">
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                Reports
+                                                                                        </div>
                                                                                 </div>
-                                                                        <div>Family Members</div> 
+                                                                                <!-- <div>
+                                                                        <div><img class="dash-icon"
+                                                                                        src="../../assets/images/dash_icons/ticket.png"></div>
+                                                                        <div>
+                                                                                <div class="number">{{(totalTickets=='0'?'0':totalTickets)}}</div>
+                                                                                <div>Tickets</div>
                                                                         </div>
+                                                                </div> -->
+                
+                                                                        </div>
+                                                                        <div class="dash-row">
+                                                                                <!-- <div class="tile-link" (click)="goToPatrolling()">
+                                                                        <div>
+                                                                                <img class="dash-icon" src="../../assets/images/icons/patrolling.png">
+                                                                        </div>
+                                                                        <div>
+                                                                                Patrolling
+                                                                        </div>
+                                                                </div>      -->
+                                                                                <!-- <div class="tile-link" (click)="goToFamily()">
+                                                                        <div>
+                                                                                <img class="icon" src="../../assets/images/icons/family.png">
+                                                                        </div>
+                                                                        <div>
+                                                                        Family Members
+                                                                        </div>
+                                                                </div>  -->
+                                                                                <!-- <div class="tile-link" (click)="goToVisitors()">
+                                                                        <div>
+                                                                                <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
+                                                                        <div>
+                                                                                Visitors
+                                                                        </div>
+                                                                </div>  -->
+                                                                        </div>
+                                                                        <!-- <div class="dash-row"> 
+                                                                <div class="tile-link" (click)="goToVehicles()">
+                                                                        <div>
+                                                                                <img class="icon" src="../../assets/images/icons/vehicles.png">
+                                                                        </div>
+                                                                        <div>
+                                                                                Vehicles
+                                                                        </div>
+                                                                </div>   
+                                                        
+                                                        </div> -->
+                
+                                                                        <!-- <div class="dash-row1">
+                                                                        <span  *ngIf="globalService.mrmroleId == 1" class="ad-btn ad-btn-active" (click)="AdminsButtonShow()" value="Admin">Admin</span>
+                                                                        <span class="ad-btn" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
+                                                        </div> -->
                                                                 </div>
-                                                                <!-- <div class="tile-link" (click)="goToVisitors()">
-                                                        <div>
-                                                                <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
-                                                        <div>
-                                                                Visitors
+                                                                <div class="dash-tab">
+                                                                        <span class="l-top">&nbsp;</span>
+                                                                        <ul class="tabs group">
+                                                                                <li *ngIf='globalService.currentUnitName!="NoUnit"' (click)="AdminsUnitShow()"><a data-toggle="tab">MY UNIT</a>
+                                                                                </li>
+                                                                                <li style="float: right;" *ngIf="globalService.mrmroleId == 1"
+                                                                                        (click)="AdminsButtonShow()" class="active right-tab">
+                                                                                        <a class="act-b" data-toggle="tab">ADMIN</a></li>
+                        
+                                                                        </ul>
+                                                                </div>
                                                         </div>
-                                                </div>  -->
+                                                        
+                                                <!--Dashboard icons for ADMIN end-->
+                
+                
+                                                <!--Dashboard icons for MyUnit(RESIDENT) start-->
+                                                <div class="dash-main">
+                                                        <div class="dash-shape" *ngIf="localMrmRoleId != 1">
+                                                                <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 24px 26px 0px;">
+                                                                        <div class="dash-row">
+                
+                                                                                <div>
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/asso-due.png">
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <div class="number">
+                                                                                                        {{'₹ '+(amountdue==0?'0':amountdue)}}
+                                                                                                </div>
+                                                                                                <div>Amount Due</div>
+                                                                                        </div>
+                                                                                </div>
+                
+                                                                                <!-- <div class="tile-link" (click)="goToAssociation()">
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/association-management.png">
+                                                                                        </div>
+                                                                                        <div class="f-des">Association<br> Management
+                                                                                        </div>
+                                                                                </div> -->
+                                                                                <div class="tile-link" (click)="goToVisitors()">
+                                                                                        <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
+                                                                                        <div>
+                                                                                                <div class="number">{{(totalUnitVisitors=='0'?'0':totalUnitVisitors)}}</div>
+                                                                                                <div>Visitors</div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class="tile-link">
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/members.png">
+                                                                                        </div>
+                                                                                        <div data-toggle="modal"
+                                                                                                data-target="#associationMembersTemplate">
+                                                                                                <div class="number">
+                                                                                                        {{(totalMember=='0'?'0':totalMember)}}
+                                                                                                </div>
+                                                                                                <div>Members</div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class="tile-link" (click)="goToResidentInvoice()">
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/expense-management.png">
+                                                                                        </div>
+                                                                                        <div class="f-des">Invoices</div>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="dash-row">
+                                                                                <div class="tile-link" (click)="goToVehicles()">
+                                                                                        <div><img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/vehicles.png">
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <div class="number">
+                                                                                                        {{(vehiclesFilteredCount=='0'?'0':vehiclesFilteredCount)}}
+                                                                                                </div>
+                                                                                                <div>Vehicles</div>
+                                                                                        </div>
+                                                                                </div>
+                
+                                                                                <!-- <div class="tile-link" (click)="goToVisitors()">
+                                                                                        <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
+                                                                                        <div>
+                                                                                                <div class="number">{{(totalUnitVisitors=='0'?'0':totalUnitVisitors)}}</div>
+                                                                                                <div>Visitors</div>
+                                                                                        </div>
+                                                                                </div> -->
+                                                                                <!-- <div class="tile-link" (click)="goToStaffFromDashboard()"> -->
+                                                                                <div class="tile-link" (click)="GoToJoinAssociation()">
+                                                                                        <div>
+                                                                                                <!-- <img class="dash-icon" src="../../assets/images/icons/staff.png"> -->
+                                                                                                <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <!-- <div class="number">
+                                                                                                        {{(totalUnitStaffs=='0'?'0':totalUnitStaffs)}}
+                                                                                                </div> -->
+                                                                                                <div>Join Association</div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class="tile-link" (click)="goToFamily()">
+                                                                                        <div>
+                                                                                                <img class="dash-icon"
+                                                                                                        src="../../assets/images/icons/family-members.png">
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <div class="number">
+                                                                                                        {{(familyMemberCount=='0'?'0':familyMemberCount)}}
+                                                                                                </div>
+                                                                                        <div>Family Members</div> 
+                                                                                        </div>
+                                                                                </div>
+                                                                                <!-- <div class="tile-link" (click)="goToVisitors()">
+                                                                        <div>
+                                                                                <img class="icon" src="../../assets/images/icons/visitors.png">                                                </div>
+                                                                        <div>
+                                                                                Visitors
+                                                                        </div>
+                                                                </div>  -->
+                                                                        </div>
+                                                                        <!-- <div class="dash-row">
+                                                                <div class="tile-link" (click)="goToVehicles()">
+                                                                        <div>
+                                                                                <img class="icon" src="../../assets/images/icons/vehicles.png">
+                                                                        </div>
+                                                                        <div>
+                                                                                Vehicles
+                                                                        </div>
+                                                                </div>   
+                                                        </div> -->
+                                                                        <!-- <div class="dash-row1">
+                                                                        <span *ngIf="globalService.mrmroleId == 1" class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
+                                                                        <span class="ad-btn ad-btn-active1" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
+                                                        </div> -->
+                                                                        <!-- <div class="dash-row">
+                                                                <div *ngIf="globalService.mrmroleId == 1">
+                                                                        <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
+                                                                </div>
+                                                                <div>
+                                                                        <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
+                                                                </div>
+                                                        </div> -->
+                                                                </div>
+                                                                <div class="dash-tab">
+                                                                        <span class="r-top">&nbsp;</span>
+                                                                        <ul class="tabs group">
+                                                                                <li (click)="AdminsUnitShow()" class="active left-tab"><a class="act-a"
+                                                                                        data-toggle="tab">MY UNIT</a></li>
+                                                                                <li *ngIf="globalService.mrmroleId == 1"
+                                                                                        (click)="AdminsButtonShow()"><a
+                                                                                                data-toggle="tab">ADMIN</a></li>
+                                                                        </ul>
+                                                                </div>
                                                         </div>
-                                                        <!-- <div class="dash-row">
-                                                <div class="tile-link" (click)="goToVehicles()">
-                                                        <div>
-                                                                <img class="icon" src="../../assets/images/icons/vehicles.png">
-                                                        </div>
-                                                        <div>
-                                                                Vehicles
-                                                        </div>
-                                                </div>   
-                                        </div> -->
-                                                        <!-- <div class="dash-row1">
-                                                        <span *ngIf="globalService.mrmroleId == 1" class="ad-btn" (click)="AdminsButtonShow()" value="Admin">Admin</span>
-                                                        <span class="ad-btn ad-btn-active1" (click)="AdminsUnitShow()" value="MyUnit">My Unit</span>     
-                                        </div> -->
-                                                        <!-- <div class="dash-row">
-                                                <div *ngIf="globalService.mrmroleId == 1">
-                                                        <input class="butt" type="button" (click)="AdminsButtonShow()" value="Admin"/>
+                                                
                                                 </div>
-                                                <div>
-                                                        <input class="butt" type="button" (click)="AdminsUnitShow()" value="MyUnit"/>
-                                                </div>
-                                        </div> -->
-                                                </div>
-                                                <div class="dash-tab">
-                                                        <span class="r-top">&nbsp;</span>
-                                                        <ul class="tabs group">
-                                                                <li (click)="AdminsUnitShow()" class="active left-tab"><a class="act-a"
-                                                                        data-toggle="tab">MY UNIT</a></li>
-                                                                <li *ngIf="globalService.mrmroleId == 1"
-                                                                        (click)="AdminsButtonShow()"><a
-                                                                                data-toggle="tab">ADMIN</a></li>
-                                                        </ul>
-                                                </div>
+                                                <!--Dashboard icons for MyUnit(RESIDENT) end-->
                                         </div>
-                                
-                                </div>
-                                <!--Dashboard icons for MyUnit(RESIDENT) end-->
                         </div>
-
+                        <!-- Dashboard part -->
+                        <!-- Chart part -->
+                        <div *ngIf="localMrmRoleId == 1"> 
+                                        <div class="chart-ui" style="margin-bottom: 15px">
+                                                        <div class="chart">
+                                                            <span style="color: #B51414;">Occupied</span>    
+                                                            <span style="color: #B51414;"><i class="fa fa-home" aria-hidden="true"></i> {{_occupiedCount}}</span>    
+                                                        </div>
+                                                                <span class="percent">{{occupiedCount+'%'}}</span>
+                                                 <canvas  baseChart
+                                                                [data]="pieChartData"
+                                                                [colors]="doughnutChartColors"
+                                                                [chartType]="pieChartType"
+                                                                (chartHover)="chartHovered($event)"
+                                                                (chartClick)="chartClicked($event)"></canvas>
+                                                </div>
+                                                <div></div>
+                                                <div class="chart-ui">
+                                                        <div class="chart">
+                                                                <span class="green">Vacant</span>    
+                                                                <span class="green"><i class="fa fa-home" aria-hidden="true"></i> {{_vacantCount}}</span>    
+                                                        </div>
+                                                        <span class="green percent">{{vacantCount+'%'}}</span>
+                                                 <canvas  baseChart
+                                                                [data]="pieChartData1"
+                                                                [colors]="doughnutChartColors1"
+                                                                [chartType]="pieChartType"
+                                                                (chartHover)="chartHovered($event)"
+                                                                (chartClick)="chartClicked($event)"></canvas>
+                                                </div>
+                        </div>
+                        <!-- Chart part -->
                 </div>
-                <!-- rightBar start-->
-                <div class="col-xs-12 col-sm-4 col-md-4" style="margin-top: 50px;" *ngIf="localMrmRoleId == 1">                       
-                        <div>
-                                <div class="chart-ui" style="margin-bottom: 15px">
-                                        <div class="chart">
-                                            <span style="color: #B51414;">Occupied</span>    
-                                            <span style="color: #B51414;"><i class="fa fa-home" aria-hidden="true"></i> {{_occupiedCount}}</span>    
-                                        </div>
-                                                <span class="percent">{{occupiedCount+'%'}}</span>
-                                 <canvas  baseChart
-                                                [data]="pieChartData"
-                                                [colors]="doughnutChartColors"
-                                                [chartType]="pieChartType"
-                                                (chartHover)="chartHovered($event)"
-                                                (chartClick)="chartClicked($event)"></canvas>
-                                </div>
-                                <div></div>
-                                <div class="chart-ui">
-                                        <div class="chart">
-                                                <span class="green">Vacant</span>    
-                                                <span class="green"><i class="fa fa-home" aria-hidden="true"></i> {{_vacantCount}}</span>    
-                                        </div>
-                                        <span class="green percent">{{vacantCount+'%'}}</span>
-                                 <canvas  baseChart
-                                                [data]="pieChartData1"
-                                                [colors]="doughnutChartColors1"
-                                                [chartType]="pieChartType"
-                                                (chartHover)="chartHovered($event)"
-                                                (chartClick)="chartClicked($event)"></canvas>
-                                </div>
-                        </div>                   
-                </div>      
-                <!--rightBar end -->
         </div>
+        <!-- Dashboard part Parent-->
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+
 <!---------POPUP FOR ASSOCIATION AMOUNT DUE START HERE--------->
 <ng-template #viewBlockDetailsTemplate>
         <div class="modal-header">
