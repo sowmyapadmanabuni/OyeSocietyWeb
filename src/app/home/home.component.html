@@ -49,11 +49,11 @@
 <!---->
 <!---->
 <div *ngIf='associations.length != 0' class="container-fluid np">
-        <div class="col-sm-12 np mt-80">
+        <div class="col-sm-12 np mt-80"><!--test-->
                 <!--Profile section-->
                      <app-left-bar></app-left-bar>
                 <!--Profile section-->
-                <div class="col-xs-12 col-sm-7 col-md-7 b-l bg">
+                <div class="col-xs-12 col-sm-7 col-md-7 b-l bg"><!--test-->
                                 <!--Search Drop Down start -->
                                 <!-- <div class="col-sm-12 search">
                                         <div class="dropdown search-dropd">
@@ -256,7 +256,7 @@
 
 
                                 <!--Dashboard icons for MyUnit(RESIDENT) start-->
-                                <div class="dash-main">
+                                <div class="dash-main"><!--test-->
                                         <div class="dash-shape" *ngIf="localMrmRoleId != 1">
                                                 <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 24px 26px 0px;">
                                                         <div class="dash-row">
@@ -394,13 +394,13 @@
                                                 </div>
                                         </div>
                                 
-                                </div>
+                                </div><!--test-->
                                 <!--Dashboard icons for MyUnit(RESIDENT) end-->
                         </div>
 
-                </div>
+                </div><!--test-->
                 <!-- rightBar start-->
-                <div class="col-xs-12 col-sm-4 col-md-4" style="margin-top: 50px;" *ngIf="localMrmRoleId == 1">                       
+                <div class="col-xs-12 col-sm-4 col-md-4" style="margin-top: 50px;" *ngIf="localMrmRoleId == 1"> <!--test-->                      
                         <div>
                                 <div class="chart-ui" style="margin-bottom: 15px">
                                         <div class="chart">
@@ -430,9 +430,9 @@
                                                 (chartClick)="chartClicked($event)"></canvas>
                                 </div>
                         </div>                   
-                </div>      
+                </div>    <!--test-->  
                 <!--rightBar end -->
-        </div>
+        </div><!--test-->
 </div>
 <!---------POPUP FOR ASSOCIATION AMOUNT DUE START HERE--------->
 <ng-template #viewBlockDetailsTemplate>
