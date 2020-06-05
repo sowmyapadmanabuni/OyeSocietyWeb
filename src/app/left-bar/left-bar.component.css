@@ -1,4 +1,4 @@
-.profile{display: flex;flex-direction: column;justify-content: center;align-items: center;}
+.profile{display: flex;flex-direction: column;justify-content: center;align-items: center;width:74px}
 .profile>div{padding: 8px 0px;}
 @media only screen and (min-width: 230px) and (max-width: 992px)  {
     .profile{flex-direction: row;justify-content: space-evenly;}
