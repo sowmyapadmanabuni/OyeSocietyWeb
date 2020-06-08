@@ -904,9 +904,9 @@
             <label>Select Association</label>
             <div class="dropdown" style="margin: 0px 0px;">
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                data-toggle="dropdown">{{assnName}}
+                data-toggle="dropdown" style="width: 245px;">{{assnName}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-              <ul class="dropdown-menu fullw fdrop">
+              <ul class="dropdown-menu fullw fdrop" style="width: auto;">
                 <li *ngFor="let association of _associations"
                   (click)="loadAssociation(association['asAssnID'],association['asAsnName'])">
                   <a>{{association['asAsnName']}}</a></li>
@@ -919,9 +919,9 @@
             <label>Select Blocks</label>
             <div class="dropdown" style="margin: 0px 0px;">
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                data-toggle="dropdown">{{blBlkName}}
+                data-toggle="dropdown" style="width: 160px;">{{blBlkName}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-              <ul class="dropdown-menu fullw">
+              <ul class="dropdown-menu fullw" style="width: auto;">
                 <li (click)="prerequisitesAddUnit(item.blBlockID,item.blBlkName)" *ngFor='let item of allBlocksLists'>
                   <a>{{item.blBlkName}}</a></li>
               </ul>
@@ -931,10 +931,23 @@
           <!--row3-->
           <div class="content">
             <label>Select Unit</label>
-            <div class="block-row">
+            <!-- Unit DropDOwn -->
+            <div class="dropdown" style="margin: 0px 0px;">
+              <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                data-toggle="dropdown">{{item['unUniName']}}
+                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+              <ul class="dropdown-menu fullw">
+                <li (click)="enableActive(spanCtrl,item['unUnitID'],item['unUniName'])" #spanCtrl
+                *ngFor='let item of allUnitBlockID'>
+                  <a>{{item['unUniName']}}</a></li>
+              </ul>
+            </div>
+             <!-- Unit DropDOwn -->
+
+            <!-- <div class="block-row">
               <span (click)="enableActive(spanCtrl,item['unUnitID'],item['unUniName'])" #spanCtrl
                 *ngFor='let item of allUnitBlockID'>{{item['unUniName']}}</span>
-            </div>
+            </div> -->
           </div>
           <!--row3-->
           <div class="content">
