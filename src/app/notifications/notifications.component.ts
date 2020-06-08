@@ -107,7 +107,7 @@ export class NotificationsComponent implements OnInit {
                 //console.log(item);
                 console.log(item['ntIsActive']);
                 if (item['ntType'] == "Join") {
-                  //console.log(item);
+                  console.log(item['unit']['unOcStat']);
                   //console.log(item['unit']['owner'].length);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utfName'] : item['unit']['owner'][0]['uofName']);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utMobile'] : item['unit']['owner'][0]['uoMobile']);
