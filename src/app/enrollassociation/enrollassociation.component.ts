@@ -498,7 +498,14 @@ export class EnrollassociationComponent implements OnInit {
     }
 
   }
+  _keyPress2(event:any,Id) {
+    var ch = String.fromCharCode(event.keyCode);
+     var filter = /[a-zA-Z]/   ;
+     if(!filter.test(ch)){
+          event.returnValue = false;
+     }
 
+  }
   _keyPress(event: any, Id) {
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -1417,12 +1424,29 @@ cancelunitsbulkupload(ev){
       
     })
   }
-  resetStep5(ev){
+  resetStep5(ev,blknamecommon){
+
     Object.keys(this.unitlistjson).forEach(element=>{
       console.log(this.unitlistjson[element])
-      
       this.unitlistjson[element].forEach(unit => {
-       console.log(unit)
+    
+if(blknamecommon == unit.blockname){
+
+      unit.flatno="",
+      unit.blockname ="",
+      unit.owneremaiid="",
+      unit.ownerfirstname="",
+      unit.ownermobilenumber="",
+      unit.ownershipstatus="",
+      unit.unittype="",
+      unit.ownerlastname="",
+      unit.ownermobilenumber= "",
+      unit.owneremaiid="",
+      unit.tenantfirstname="",
+      unit.tenantlastname="",
+      unit.tenantmobilenumber="",
+      unit.tenantemaiid=""
+    }
 
       })
     })

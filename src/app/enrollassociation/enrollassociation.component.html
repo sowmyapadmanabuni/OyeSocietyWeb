@@ -386,9 +386,12 @@
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER NAME</mat-label>
                                     <input class = "text" 
-                                    pattern="[a-zA-Z _]*"
-                                    matInput placeholder="MANAGER NAME" (click)="blocksfields($event,i,'managername')"[(ngModel)]="blocksArray[i].managername" [ngModelOptions]="{standalone:
-                                        true}"value="">
+                                    (keypress)="_keyPress2($event)"
+                                    matInput placeholder="MANAGER NAME" 
+                                    (click)="blocksfields($event,i,'managername')"
+                                    [(ngModel)]="blocksArray[i].managername" 
+                                    [ngModelOptions]="{standalone:true}"
+                                    value=""pattern="[a-zA-Z _]*" required>
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngname')">
                                         {{ titleAlert }}
                                     </mat-error> -->
@@ -401,6 +404,7 @@
                                     <mat-label>MANAGER MOBILE NUMBER</mat-label>
                                     <input matInput placeholder="MANAGER MOBILE NUMBER"
                                     pattern="[0-9]*" 
+                                    (keypress)=_keyPress($event)
                                     minlength="10"
                                     maxlength="10"
                                     (click)="blocksfields($event,i,'managermobileno')"[ngModelOptions]="{standalone:true}"
@@ -567,8 +571,8 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidunittype']">Valid unittype is required</p>
-                                <p class="validation" *ngIf="unitlistjson[name][i]['unittype']==undefined">Valid unittype is required</p>
+                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidunittype']">Valid Unit Type is required</p>
+                                <p class="validation" *ngIf="unitlistjson[name][i]['unittype']==undefined">Valid Unit Type is required</p>
                                </div>
 
                               
@@ -771,7 +775,7 @@
                             <button id="unitssubmit"mat-raised-button color="primary"(click)="submitunitdetails($event)">SUBMIT</button>
                         </div>
                         <div class="save">
-                            <a class="continue" (click)="resetStep5($event)"mat-raised-button color="primary">RESET</a>
+                            <a class="continue" (click)="resetStep5($event,name)"mat-raised-button color="primary">RESET</a>
                             <a id="assdetailssave" mat-raised-button color="primary"(click)="gotonexttab($event)">NEXT</a>
                         </div>    
                      
