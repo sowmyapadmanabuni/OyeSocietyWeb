@@ -1747,6 +1747,13 @@ export class AssociationManagementComponent implements OnInit {
       } */
     //});
   }
+  getUnitDetails(unUnitID, unUniName) {
+    console.log(unUnitID, unUniName);
+    this.UnitIDforJoinAssn = unUnitID;
+    this.UniNameForJoinAssn = unUniName;
+    console.log(this.UnitIDforJoinAssn);
+    console.log(this.UniNameForJoinAssn);
+  }
 
   getAssociationDetails() {
     //console.log(this.accountID)

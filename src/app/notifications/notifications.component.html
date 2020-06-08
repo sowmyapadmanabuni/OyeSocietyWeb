@@ -1,11 +1,8 @@
 <div class="container-fluid np">
   <div class="col-sm-12 np mt-80">
     <!--Profile section-->
-
     <app-left-bar></app-left-bar>
-
     <!--Profile section-->
-
     <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
       <!--Dashboard icons for ADMIN start-->
       <div class="dash-main" *ngIf="role=='admin'">
@@ -22,7 +19,7 @@
 
             </ul>
           </div>
-          <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;">
+          <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;height: 400px; overflow: scroll;">
             <div class="dash-row">
               <div class="panel-group" id="accordion">
                 <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
@@ -96,7 +93,7 @@
               </li>
             </ul>
           </div>
-          <div class="col-md-12 dash dash-bg-1" style="border-radius: 0px 24px 26px 24px;">
+          <div class="col-md-12 dash dash-bg-1" style="border-radius: 0px 24px 26px 24px;height: 400px; overflow: scroll;">
             <div class="dash-row">
 
               <div class="panel-group" id="accordion">
