@@ -302,4 +302,5 @@
   .not-desc{font-size: 11px}
 .not-head-bg{background:#f7b844;padding: 10px;color: #fff;font-weight: 500;margin: 0px}
 /* Notification bar css */
+.not-count{position: absolute;background: red;width: 20px;height: 20px;border-radius: 31px;margin-left: -5px;color: #fff;font-size: 11px;padding: 2px;}
 

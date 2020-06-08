@@ -74,6 +74,7 @@
       </a>
       <span class="badgeAlert">{{ResidentNotificationListArray.length}}</span> -->
         <a (click)="goToNotification($event)" id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
+          <span class="not-count">{{NotificationListCountByAccntID.length}}</span>
         </a>
         <!-- <span class="badgeAlert">{{notificationListArray.length}}</span> -->
         <i tooltip="Logout" id="LogOutID" (click)='logOut()' style="cursor:pointer; margin-left: 20px;" class="fa fa-power-off" aria-hidden="true"></i>

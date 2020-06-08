@@ -1753,6 +1753,12 @@ export class AssociationManagementComponent implements OnInit {
     this.UniNameForJoinAssn = unUniName;
     console.log(this.UnitIDforJoinAssn);
     console.log(this.UniNameForJoinAssn);
+    if(this.UniNameForJoinAssn=='Select Unit'){
+      this.IsUnitNotSelected=true;
+    }
+    else{
+      this.IsUnitNotSelected=false;
+    }
   }
 
   getAssociationDetails() {

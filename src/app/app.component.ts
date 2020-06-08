@@ -44,6 +44,7 @@ export class AppComponent {
   notificationCount:number;
   paginatedvalue:number;
   maxvalue:number;
+  NotificationListCountByAccntID: unknown[];
 
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
@@ -51,6 +52,7 @@ export class AppComponent {
     private connectionService: ConnectionService,
     private userIdle: UserIdleService,
     private route: ActivatedRoute){
+      this.NotificationListCountByAccntID=[];
       this.paginatedvalue=1;
       this.maxvalue=23;
       this.notificationCount=0;
@@ -200,6 +202,7 @@ export class AppComponent {
       alert("Your session has expired Kindly Login Again");
     }); 
     //
+    this.GetNotificationListCountByAccntID();
   }
   ngAfterViewInit(){
   
@@ -355,6 +358,22 @@ export class AppComponent {
     this.globalService.setCurrentAssociationName(associationName);
     this.hideTitle=true;
     this.globalService.setAssnDropDownHiddenByDefault('false');
+  }
+  GetNotificationListCountByAccntID(){
+    let headers = this.getHttpheaders();
+    let ipAddress = this.utilsService.getIPaddress();
+    let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${1}`
+    this.http.get(url, { headers: headers })
+      .subscribe(data => {
+        console.log(data);
+        this.NotificationListCountByAccntID = Array.from(data['data']['notificationListByAcctID']).filter(item => {
+          return item['ntIsActive'] == true
+            })
+            console.log(this.NotificationListCountByAccntID);
+      },
+      err=>{
+        console.log(err);
+      })
   }
   UpdateApprovalStatus(sbMemID){
     console.log(sbMemID);
