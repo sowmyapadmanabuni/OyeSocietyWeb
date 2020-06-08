@@ -370,6 +370,7 @@ export class AppComponent {
           return item['ntIsActive'] == true
             })
             console.log(this.NotificationListCountByAccntID);
+            this.globalService.AdminResidentActiveNotification=this.NotificationListCountByAccntID.length;
       },
       err=>{
         console.log(err);

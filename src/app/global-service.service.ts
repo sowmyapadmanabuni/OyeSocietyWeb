@@ -61,6 +61,7 @@ export class GlobalServiceService {
    unitslistForAssociation:any[];
    gotojoinassociation:any;
    public assnIdForUnitTotalOccupancyVacantCountDetails = new Subject();
+   AdminResidentActiveNotification:number;
 
   constructor() {
     this.gotojoinassociation='';

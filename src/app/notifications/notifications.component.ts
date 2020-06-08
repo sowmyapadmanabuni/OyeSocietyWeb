@@ -221,7 +221,8 @@ export class NotificationsComponent implements OnInit {
       return (item['unUniName'].toLowerCase().indexOf(this.searchAdminVisitorText.toLowerCase()) > -1)
     })
   }
-  NotificationActiveStatusUpdate(ntid,param) {
+  NotificationActiveStatusUpdate(event,ntid,param) {
+    event.preventDefault();
     console.log(ntid);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
@@ -235,6 +236,7 @@ export class NotificationsComponent implements OnInit {
              console.log(this.notificationListArray[i]['adminReadStatus']);
              if(this.notificationListArray[i]['adminReadStatus'] == 'Unread'){
               this.AdminActiveNotification -= 1;
+              this.globalService.AdminResidentActiveNotification -= 1;
               console.log(this.AdminActiveNotification);
              }
             this.notificationListArray[i]['adminReadStatus']='Read';
@@ -247,6 +249,7 @@ export class NotificationsComponent implements OnInit {
               console.log(this.ResidentNotificationListArray[j]['residentReadStatus']);
               if(this.ResidentNotificationListArray[j]['residentReadStatus'] == 'Unread'){
                 this.ResidentActiveNotification -= 1;
+                this.globalService.AdminResidentActiveNotification -= 1;
               }
              this.ResidentNotificationListArray[j]['residentReadStatus']='Read';
             }
