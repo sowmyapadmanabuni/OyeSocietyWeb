@@ -957,7 +957,7 @@
                 <label>Select Date Of Occupancy<span class="red">*</span></label>
                 <input type="text" class="form-control" name="UNOcSDate" #occupancydateControl='ngModel'
                   placeholder="Occupancy Date" required [bsConfig]='bsConfig' [(ngModel)]="UNOcSDate" bsDatepicker
-                  [minDate]="minDate" />
+                  [minDate]="minDate" placement="top"/>
                 <p class="alerts" *ngIf="occupancydateControl.invalid && occupancydateControl.touched && DisableDateOfOccupancyValidationMessage"> Please Select
                   Date</p>
               </div>

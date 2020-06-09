@@ -13,7 +13,7 @@
               <li (click)="AdminsUnitShow('resident')">
                 <a data-toggle="tab" class="tab-ti">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
               </li>
-              <li style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
+              <li *ngIf="globalService.mrmroleId==1" style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
                 <a class="act-b tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
               </li>
 
@@ -88,7 +88,7 @@
               <li (click)="AdminsUnitShow('resident')" class="active left-tab">
                 <a class="act-a tab-ti" ata-toggle="tab">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
               </li>
-              <li (click)="AdminsButtonShow('admin')">
+              <li *ngIf="globalService.mrmroleId==1" (click)="AdminsButtonShow('admin')">
                 <a class="tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
               </li>
             </ul>
@@ -129,10 +129,10 @@
                          <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                         </div>
                          <div>
-                          <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'EntryApproved', item['vlApprdBy'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Entry Approve</span>
+                          <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Entry Approved', item['vlApprdBy'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Entry Approve</span>
                         </div>
                         <div>
-                           <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'ExitApproved', item['vlApprdBy'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Entry Reject</span>
+                           <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Entry Reject</span>
                         </div>
 
                       </div>
