@@ -58,6 +58,9 @@ export class NotificationsComponent implements OnInit {
     this.ResidentNotificationListArrayTemp=[];
     this.notificationListArrayTemp=[];
     gateFirebase.initializeApp(config);
+     if(this.globalService.mrmroleId!=1){
+       this.AdminsUnitShow('resident');
+     }
   }
 
   ngOnInit() {
@@ -133,7 +136,7 @@ export class NotificationsComponent implements OnInit {
                   (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
                   (item['visitorlog'].length == 0 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])),
                   item['unit']['unOcStat'],
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':'Tenant'):'Owner'),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'UnSold Vacant Unit':'Tenant'):'Owner'),
                   (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
                   (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utMobile']):item['unit']['owner'][0]['uoMobile']), 
                   'admincollapse'+new Date().getTime(),
