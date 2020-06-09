@@ -263,7 +263,7 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>Total No of Blocks</mat-label>
                     <input matInput placeholder="NO OF BLOCKS" 
-                    pattern="[0-9]*"
+                    (keypress)="keyPress3($event)"  maxlength="4"
                     formControlName="blockno" [(ngModel)]="noofblocks"
                         value="">
                     <mat-error [displayError]="isFieldValidblockandunitdetails('blockno')">
@@ -275,7 +275,7 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>Total No of Units</mat-label>
                     <input matInput placeholder="NO OF UNITS"
-                    pattern="[0-9]*"
+                    (keypress)="keyPress3($event)"  maxlength="4"
                     matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value="">
                     <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
                         {{ titleAlert }}

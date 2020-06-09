@@ -38,6 +38,7 @@ export class EnrollassociationComponent implements OnInit {
   titleAlert: string = 'This field is required';
   post: any = '';
   private formSubmitAttempt: boolean;
+  isblockdetailsempty: boolean;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -45,6 +46,7 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder) {
       this.url='';
+      this.isblockdetailsempty=false;
      }
   countrieslist = [
     "INDIA",
@@ -212,7 +214,7 @@ export class EnrollassociationComponent implements OnInit {
   blockandunitdetails() {
     this.blockform = this.formBuilder.group({
       'blockno': [null, Validators.required],
-      'unitno': [null, Validators.required],
+      'unitno': [null, Validators.required]
 
     });
 
@@ -505,6 +507,15 @@ export class EnrollassociationComponent implements OnInit {
       this.matching = true;
     }
 
+  }
+  keyPress3(event:any){
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    // console.log(inputChar, e.charCode);
+       if (!pattern.test(inputChar)) {
+       // invalid character, prevent input
+           event.preventDefault();
+      }
   }
   _keyPress2(event:any,Id) {
     var ch = String.fromCharCode(event.keyCode);
@@ -813,82 +824,99 @@ export class EnrollassociationComponent implements OnInit {
   unitdetails ={}
   blockssuccessarray;
   createblocksdetails(event) {
-    console.log(this.blocksArray)
+    this.isblockdetailsempty=false;
+    // console.log(this.blocksArray)
     this.blockssuccessarray = this.blocksArray.length;
     // if (this.blocksdetailsform.valid) {
+      setTimeout(() => {
+      this.blocksArray.forEach((element) => {
 
+        if(element.blockname==""||element.blocktype==""||element.units==""||element.managername==""||element.managermobileno==""||element.manageremailid==""){
+      this.isblockdetailsempty=true
+        }
+      })
+      this.blockdetailsfinalcreation();
+    }, 1000 )
+    console.log(this.blocksArray)
+  }
+  blockdetailsfinalcreation(){
+    if(!this.isblockdetailsempty){
       this.blocksArray.forEach((element,index) => {
-
-        ((index) => {
-          setTimeout(() => {
-
-        this.blockdetailsidvise(element);
-  
+          ((index) => {
+            setTimeout(() => {
+    
+          // this.blockdetailsidvise(element);
+          let ipAddress = this.utilsService.createBlock();
+          let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
       
-        let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
+            this.jsondata = {
+              "ASAssnID": this.assid,
+              "ACAccntID": this.globalService.getacAccntID(),
+              "blocks": [
+                {
+                  "BLBlkName": element.blockname,
+                  "BLBlkType": element.blocktype,
+                  "BLNofUnit": element.units,
+                  "BLMgrName": element.managername,
+                  "BLMgrMobile": element.managermobileno,
+                  "BLMgrEmail": element.manageremailid,
+                  "ASMtType": "",
+                  "ASMtDimBs": "15",
+                  "ASMtFRate": "",
+                  "ASUniMsmt": "12",
+                  "ASBGnDate": "04/05/2020",
+                  "ASLPCType": "",
+                  "ASLPChrg": "",
+                  "ASLPSDate": "",
+                  "ASDPyDate": "04/05/2020"
+                }
+              ]
+      
+            }
+          this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+            console.log(res)
+              this.unitlistjson[element.blockname].forEach(obj => {
+                obj.blockid = res.data.blockID
+              })
+          }, error => {
+            console.log(error);
+          }
+          );
+          let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
+          this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
+         for (var i = 0; i < blockArraylength; i++) {
+          let data = JSON.parse(JSON.stringify(this.unitsrowjson))
+    
+          data.Id = this.jsondata.blocks[0].BLBlkName+i+1;
+          console.log(data.Id)
         
-        this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
-    
-    
-       for (var i = 0; i < blockArraylength; i++) {
-        let data = JSON.parse(JSON.stringify(this.unitsrowjson))
-
-        data.Id = this.jsondata.blocks[0].BLBlkName+i+1;
-        console.log(data.Id)
-        //  data.id=i+1;
-        //  this.unitdetails[i] ={}
-        //  Object.keys(data).forEach(datails=>{
-        //    this.unitdetails[i][datails] ={required:true};
-        //  })
-         if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
-           this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
+           if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
+             this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
+           }
+           this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
          }
-         this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
-       }
-      }, 3000 * index)
-    })(index)
-      })
-      
+        }, 3000 * index)
+      })(index)
       console.log(this.unitlistjson)
-      var message;
-      if(this.blockssuccessarray==1){
-        message = 'Block Created Successfully'
-  
-      }
-     else if(this.blockssuccessarray>1){
-      message = this.blockssuccessarray+'-'+'Blocks Created Successfully'
-      }
-      Swal.fire({
-        title: message,
-        text: "",
-        type: "success",
-        confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
       })
-      // console.log(this.unitlistjson)
-      // Object.keys(this.unitlistjson).forEach(element=>{
-       
-      //   console.log(element)
-        
-      //   this.unitlistjson[element].forEach((unit,index) => {
-      //    console.log(unit)
-      //    console.log(element)
-      //    console.log(index)
-      //    console.log(typeof unit['blockid'])
-      //    unit['id'] = unit['blockid']+index+1;
-         
-      // })
-      // console.log(this.unitlistjson)
-        
-      // // console.log(this.unitlistjson)
-      //   })
+      setTimeout(() => {
+        var message;
+          if(this.blockssuccessarray==1){
+            message = 'Block Created Successfully'
+          }
+         else if(this.blockssuccessarray>1){
+          message = this.blockssuccessarray+'-'+'Blocks Created Successfully'
+          }
+          Swal.fire({
+            title: message,
+            text: "",
+            type: "success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          })
+      },3000)
       this.demo1TabIndex = this.demo1TabIndex + 1;
-    // }
-    // else {
-    //   this.validateAllBlocksDetailsFormFields(this.blocksdetailsform); //{7}
-    // }
-  
-
+    }
   }
   manualunitdetailsclick(ev) {
     document.getElementById('unitmanualbulk').style.display = 'none'
