@@ -23,6 +23,7 @@ import { ImageSnippet } from '../models/image-snippet';
 import { ImageService } from 'src/services/image.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
+import {UtilsService} from '../utils/utils.service';
 declare var $: any;
 
 
@@ -306,7 +307,8 @@ export class AssociationManagementComponent implements OnInit {
     private addblockservice: AddBlockService,
     private imageService: ImageService,
     private http: HttpClient,
-    private location: LocationStrategy) {
+    private location: LocationStrategy,
+    private UtilsService:UtilsService) {
       this.UniNameForJoinAssn='Select Unit';
       this.alreadyJoined=false;
       this.uploadPANCard='';
@@ -580,7 +582,14 @@ export class AssociationManagementComponent implements OnInit {
         this.viewAssnService.joinAsnEbld = false;
       }
     });
-  
+  //
+  this.assnName = 'Associations';
+    this.blBlkName = 'Blocks';
+    this.OwnerType = '';
+    this.UNOcSDate = '';
+    this.DisableDateOfOccupancyValidationMessage=false;
+    this.allUnitBlockID = [];
+    this.UniNameForJoinAssn=='Select Unit'
   }
 
   openModal(template: TemplateRef<any>) {
@@ -1153,6 +1162,14 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.enrlAsnEnbled = false;
     this.viewAssnService.vewAsnEnbled = false;
     this.viewAssnService.joinAsnEbld = true;
+    this.assnName = 'Associations';
+    this.blBlkName = 'Blocks';
+    this.OwnerType = '';
+    this.UNOcSDate = '';
+    this.DisableDateOfOccupancyValidationMessage=false;
+    this.allUnitBlockID = [];
+    this.UniNameForJoinAssn='Select Unit'
+    console.log(this.UniNameForJoinAssn);
   }
   viewassociation(repviewreceiptmodalit: any) {
     //console.log(JSON.stringify(repviewreceiptmodalit));
@@ -2526,8 +2543,8 @@ export class AssociationManagementComponent implements OnInit {
                 this.http.post('https://us-central1-jabm-fd8d9.cloudfunctions.net/sendAdminNotification', JSON.stringify(MessageBody), { headers: headers })
                   .subscribe(data => {
                     console.log(data);
-
-                     return this.http.get('http://apiuat.oyespace.com/oyeliving/api/v1/Member/GetMemberListByAssocID/'+this.assnID, {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
+                    let IPAddress=this.UtilsService.getIPaddress();
+                     return this.http.get(IPAddress+'oyeliving/api/v1/Member/GetMemberListByAssocID/'+this.assnID, {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
                      .subscribe(data=>{
                        
                        let memberList =data['data']['memberListByAssociation'];
@@ -2648,6 +2665,7 @@ export class AssociationManagementComponent implements OnInit {
     this.UNOcSDate = '';
     this.DisableDateOfOccupancyValidationMessage=false;
     this.allUnitBlockID = [];
+    this.UniNameForJoinAssn='Select Unit';
     let activespan = document.querySelectorAll('span.active');
     console.log(activespan.length);
     console.log(this.OwnerType);

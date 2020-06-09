@@ -12,6 +12,17 @@ import * as gateFirebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+let config = {
+  databaseURL: "https://jabm-fd8d9.firebaseio.com",
+  apiKey: "AIzaSyBaS0nRRwB5wU1D3C6CjR9b6CVOC3aHay4",
+  authDomain: "jabm-fd8d9.firebaseapp.com",
+  projectId: "jabm-fd8d9",
+  storageBucket: "jabm-fd8d9.appspot.com",
+  messagingSenderId: "1054539821176",
+  appId: "1:1054539821176:web:5f6e4b2a4db6e64e9c3d8d",
+  measurementId: "G-1K6Q5VL6WZ"
+ };
+
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
@@ -46,6 +57,10 @@ export class NotificationsComponent implements OnInit {
     this.ResidentNotificationListArray=[];
     this.ResidentNotificationListArrayTemp=[];
     this.notificationListArrayTemp=[];
+    gateFirebase.initializeApp(config);
+     if(this.globalService.mrmroleId!=1){
+       this.AdminsUnitShow('resident');
+     }
   }
 
   ngOnInit() {
@@ -121,7 +136,7 @@ export class NotificationsComponent implements OnInit {
                   (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
                   (item['visitorlog'].length == 0 ? '' : this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])),
                   item['unit']['unOcStat'],
-                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':'Tenant'):'Owner'),
+                  (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'UnSold Vacant Unit':'Tenant'):'Owner'),
                   (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utfName']):item['unit']['owner'][0]['uofName']),
                   (item['unit']['owner'].length == 0?(item['unit']['tenant'].length==0?'':item['unit']['tenant'][0]['utMobile']):item['unit']['owner'][0]['uoMobile']), 
                   'admincollapse'+new Date().getTime(),
@@ -500,13 +515,14 @@ acceptgateVisitor(visitorId, associationid, visitorStatus, approvedBy){
       VLExAprdBy: visitorStatus == "ExitApproved" || visitorStatus == "Exit Approved"? this.DashBoardService.acfName : "",
   }
   console.log(UpdateApprovalStatus);
+
     return this.http.post(`${ipAddress}oyesafe/api/v1/UpdateApprovalStatus`,UpdateApprovalStatus,
     {headers:{'X-OYE247-APIKey':'7470AD35-D51C-42AC-BC21-F45685805BBE','Content-Type':'application/json'}})
       .subscribe(data => {
         console.log(data);
         gateFirebase
           .database()
-          .ref(`NotificationSync/A_${associationid}/${visitorId}`)
+          .ref(`NotificationSync/A_${associationid}/${visitorId}/`)
           .set({
             buttonColor: '#75be6f',
             opened: true,
@@ -516,6 +532,8 @@ acceptgateVisitor(visitorId, associationid, visitorStatus, approvedBy){
             // updatedTime: res.data.data.currentDateTime,
             status: visitorStatus,
           });
+          console.log(`NotificationSync/A_${associationid}/${visitorId}`);
+ console.log(associationid,visitorId,DateOfApproval);
         alert('Success')
       },
     err=>{
