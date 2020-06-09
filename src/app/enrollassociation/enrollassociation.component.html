@@ -352,34 +352,49 @@
                                             <mat-label>BLOCK NAME/NUMBER</mat-label>
                                             <input matInput placeholder="BLOCK NAME/NUMBER" 
                                             pattern="[a-zA-Z0-9 _]*" 
-                                            class = "text" id="label"(click)="blocksfields($event,i,'blockname')" [(ngModel)]="blocksArray[i].blockname" [ngModelOptions]="{standalone: true}" value="">
+                                            (blur)="getblocknameornumber(blocksArray[i]['Id'],blocksArray[i].blockname)"
+                                            class = "text" id="label" [(ngModel)]="blocksArray[i].blockname" [ngModelOptions]="{standalone: true}" value="">
                                             <!-- <mat-error *ngIf ="detailsdata[i]['blockname']['required']&&detailsdata[i]['blockname']['clicked']&&'!blocksArray[i].blockname'">
                                                 {{ titleAlert }}
                                             </mat-error> -->
                                     </mat-form-field>
-                                    <p class ="validation"*ngIf ="detailsdata[i]['blockname']['required']&&detailsdata[i]['blockname']['clicked']&&!blocksArray[i]['blockname']">{{ titleAlert }}</p>
+                                    <!-- <p class ="validation"*ngIf ="detailsdata[i]['blockname']['required']&&detailsdata[i]['blockname']['clicked']&&!blocksArray[i]['blockname']">{{ titleAlert }}</p> -->
+                                    <!-- <p class="validation" *ngIf="detailsdata[i]['blockname']['required']==undefined">Valid name is required</p> -->
+                                    <p class="validation" *ngIf="blocksArray[i]['isnotvalidblockname']">Valid name is required</p>
+                                    <p class="validation" *ngIf="blocksArray[i]['blockname']==undefined">Valid name is required</p>
         
                                 </div>
                                 <div>
                                     <mat-form-field class="blockdetails-form">
-                                        <mat-select [(value)]="blocksArray[i].blocktype" placeholder="BLOCK TYPE">
+                                        <mat-select [(value)]="blocksArray[i].blocktype" 
+                                        (blur)="getblocktype(blocksArray[i]['Id'],blocksArray[i].blocktype)"
+                                        placeholder="BLOCK TYPE">
                                             <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
+                                    <p class="validation" *ngIf="blocksArray[i]['isnotvalidblocktype']">Valid block Type is required</p>
+                                    <p class="validation" *ngIf="blocksArray[i]['blocktype']==undefined">Valid block Type is required</p>
+                                
                                 </div>
                               <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>NO OF UNITS</mat-label>
                                     <input matInput placeholder="NO OF UNITS" 
                                     pattern="[0-9]*" 
-                                    (click)="blocksfields($event,i,'units')"[(ngModel)]="blocksArray[i].units"[ngModelOptions]="{standalone:
+                                    (blur)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)"
+
+                                    [(ngModel)]="blocksArray[i].units"[ngModelOptions]="{standalone:
                                         true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('unitsno')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                                 </mat-form-field>
-                                <p class ="validation"*ngIf ="detailsdata[i]['units']['required']&&detailsdata[i]['units']['clicked']&&!blocksArray[i]['units']">{{ titleAlert }}</p>
+                                <p class="validation" *ngIf="blocksArray[i]['isnotvalidunits']">No of units are required</p>
+                                <p class="validation" *ngIf="blocksArray[i]['units']==undefined">No of units are required</p>
+
+                                <!-- <p class ="validation"*ngIf ="detailsdata[i]['units']['required']&&detailsdata[i]['units']['clicked']&&!blocksArray[i]['units']">{{ titleAlert }}</p>
+                                <p class="validation" *ngIf="detailsdata[i]['units']['required']==undefined">No of units are required</p> -->
         
                               </div>
                              <div>
@@ -388,16 +403,21 @@
                                     <input class = "text" 
                                     (keypress)="_keyPress2($event)"
                                     matInput placeholder="MANAGER NAME" 
-                                    (click)="blocksfields($event,i,'managername')"
+                                    (blur)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
+                                  
                                     [(ngModel)]="blocksArray[i].managername" 
                                     [ngModelOptions]="{standalone:true}"
-                                    value=""pattern="[a-zA-Z _]*" required>
+                                    value=""pattern="[a-zA-Z _]*">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngname')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                                 </mat-form-field>
-                                <p class ="validation"*ngIf ="detailsdata[i]['managername']['required']&&detailsdata[i]['managername']['clicked']&&!blocksArray[i]['managername']">{{ titleAlert }}</p>
-        
+                                <!-- <p class ="validation"*ngIf ="detailsdata[i]['managername']['required']&&detailsdata[i]['managername']['clicked']&&!blocksArray[i]['managername']">{{ titleAlert }}</p>
+                                <p class="validation" *ngIf="detailsdata[i]['managername']['required']==undefined">Manager name is required</p>
+                                 -->
+                            <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagername']">Manager name is required</p>
+                            <p class="validation" *ngIf="blocksArray[i]['managername']==undefined">Manager name is required</p>
+
                              </div>
                              <div>
                                 <mat-form-field class="blockdetails-form">
@@ -407,28 +427,38 @@
                                     (keypress)=_keyPress($event)
                                     minlength="10"
                                     maxlength="10"
-                                    (click)="blocksfields($event,i,'managermobileno')"[ngModelOptions]="{standalone:true}"
+                                    (blur)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i].managermobileno)"
+                                    [ngModelOptions]="{standalone:true}"
                                         [(ngModel)]="blocksArray[i].managermobileno" value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngmobileno')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                                 </mat-form-field>
-                                <p class ="validation"*ngIf ="detailsdata[i]['managermobileno']['required']&&detailsdata[i]['managermobileno']['clicked']&&!blocksArray[i]['managermobileno']">{{ titleAlert }}</p>
-        
-                             </div>
+                                <!-- <p class ="validation"*ngIf ="detailsdata[i]['managermobileno']['required']&&detailsdata[i]['managermobileno']['clicked']&&!blocksArray[i]['managermobileno']">{{ titleAlert }}</p>
+                                <p class="validation" *ngIf="detailsdata[i]['managermobileno']['required']==undefined">Manager mobile number is required</p>
+                                 -->
+                               <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">Manager mobile number is required</p>
+                               <p class="validation" *ngIf="blocksArray[i]['managermobileno']==undefined">Manager mobile number is required</p>
+                            
+                            </div>
                             <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER EMAIL ID</mat-label>
                                     <input matInput placeholder="MANAGER EMAIL ID" 
                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-                                    (click)="blocksfields($event,i,'manageremailid')"[(ngModel)]="blocksArray[i].manageremailid"[ngModelOptions]="{standalone:true}"
-                                        value="">
+                                    [(ngModel)]="blocksArray[i].manageremailid"[ngModelOptions]="{standalone:true}"
+                                    (blur)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i].manageremailid)"
+                                    value="">
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngemaiid')">
                                         {{ titleAlert }}
                                     </mat-error> -->
                                 </mat-form-field>
-                                <p class ="validation"*ngIf ="detailsdata[i]['manageremailid']['required']&&detailsdata[i]['manageremailid']['clicked']&&!blocksArray[i]['manageremailid']">{{ titleAlert }}</p>
-        
+                               <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is required</p>
+                               <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p>
+
+                                <!-- <p class ="validation"*ngIf ="detailsdata[i]['manageremailid']['required']&&detailsdata[i]['manageremailid']['clicked']&&!blocksArray[i]['manageremailid']">{{ titleAlert }}</p>
+                                <p class="validation" *ngIf="detailsdata[i]['manageremailid']['required']==undefined">Manager email-id is required</p>
+         -->
                             </div>
                              
                                 <!-- <mat-form-field class="blockdetails-form">

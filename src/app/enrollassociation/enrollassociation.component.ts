@@ -374,7 +374,15 @@ export class EnrollassociationComponent implements OnInit {
     "paymentcharge": "",
     "ratevalue": "",
     "startdate": "",
-    "units": ""
+    "units": "",
+
+    "isnotvalidblockname":false,
+    "isnotvalidblocktype":false,
+    "isnotvalidmanageremailid":false,
+    "isnotvalidmanagermobileno":false,
+    "isnotvalidmanagername":false,
+    "isnotvalidunits":false,
+   
   }
   //unitdetails variables
 
@@ -742,9 +750,11 @@ export class EnrollassociationComponent implements OnInit {
 
   
 // i:number;
-  blocksfields(event,i,fieldname){
-    this.detailsdata[i][fieldname]["clicked"]=true;
-  }
+
+  // blocksfields(event,i,fieldname){
+  //   this.detailsdata[i][fieldname]["clicked"]=true;
+  // }
+
   // unitsfields(event,i,fieldname){
   //   this.unitdetails[i][fieldname]["clicked"]=true;
   //     }
@@ -806,10 +816,9 @@ export class EnrollassociationComponent implements OnInit {
     console.log(this.blocksArray)
     this.blockssuccessarray = this.blocksArray.length;
     // if (this.blocksdetailsform.valid) {
-      
-     
 
       this.blocksArray.forEach((element,index) => {
+
         ((index) => {
           setTimeout(() => {
 
@@ -918,10 +927,22 @@ export class EnrollassociationComponent implements OnInit {
       //for checking purpose blockbulkupload code commenting below
       if (this.excelBlockList.length <= blockslength) {
         this.excelBlockList.forEach((list, i) => {
-          this.detailsdata[i] = {}
-          Object.keys(list).forEach(datails => {
-            this.detailsdata[i][datails] = { required: true };
-          })
+          // this.detailsdata[i] = {}
+          // Object.keys(list).forEach(datails => {
+          //   this.detailsdata[i][datails] = { required: true };
+          // })
+    
+          list.Id = i+1;
+          list.isnotvalidblockname =false,
+          list.isnotvalidblocktype=false,
+          list.isnotvalidmanageremailid=false,
+          list.isnotvalidmanagermobileno=false,
+      
+          list.isnotvalidmanagername=false,
+      
+          list.isnotvalidunits=false,
+      
+         
           this.blocksArray.push(list);
           console.log(this.blocksArray)
         });
@@ -1124,6 +1145,85 @@ export class EnrollassociationComponent implements OnInit {
       })
     })
   }
+  getblocknameornumber(Id,blockname){
+    this.blocksArray.forEach(element=>{
+      if(element.Id== Id){
+        element.blockname = blockname;
+        if(element.blockname ==""){
+          element['isnotvalidblockname']=true;
+        }
+        else{
+          element['isnotvalidblockname']=false;
+        }
+      }
+    })
+
+  }
+  getnoofunits(Id,units){
+    this.blocksArray.forEach(element=>{
+      if(element.Id== Id){
+        element.units = units;
+        if(element.units ==""){
+          element['isnotvalidunits']=true;
+        }
+        else{
+          element['isnotvalidunits']=false;
+        }
+      }
+    })
+  }
+  getmanagername(Id,managername){
+    this.blocksArray.forEach(element=>{
+      if(element.Id== Id){
+        element.managername = managername;
+        if(element.managername ==""){
+          element['isnotvalidmanagername']=true;
+        }
+        else{
+          element['isnotvalidmanagername']=false;
+        }
+      }
+    })
+  }
+  getmanagermobileno(Id,managermobileno){
+    this.blocksArray.forEach(element=>{
+      if(element.Id== Id){
+        element.managermobileno = managermobileno;
+        if(element.managermobileno ==""){
+          element['isnotvalidmanagermobileno']=true;
+        }
+        else{
+          element['isnotvalidmanagermobileno']=false;
+        }
+      }
+    })
+  }
+  getmanageremailid(Id,manageremailid){
+    this.blocksArray.forEach(element=>{
+      if(element.Id== Id){
+        element.manageremailid = manageremailid;
+        if(element.manageremailid ==""){
+          element['isnotvalidmanageremailid']=true;
+        }
+        else{
+          element['isnotvalidmanageremailid']=false;
+        }
+      }
+    })
+  }
+  getblocktype(Id,blocktype){
+    this.blocksArray.forEach(element=>{
+      if(element.Id== Id){
+        element.blocktype = blocktype;
+        if(element.blocktype ==""){
+          element['isnotvalidblocktype']=true;
+        }
+        else{
+          element['isnotvalidblocktype']=false;
+        }
+      }
+    })
+  }
   excelunitsuploaddata(exceldata){
 
     this.finalblockname.forEach(blkname => {
@@ -1280,10 +1380,11 @@ cancelunitsbulkupload(ev){
   submitforconformblockdetails(event){
     for (var i = 0; i < this.associationfinalresult.data.association.asNofBlks; i++) {
         var data = JSON.parse(JSON.stringify(this.rowjson))
-        this.detailsdata[i] ={}
-        Object.keys(data).forEach(datails=>{
-          this.detailsdata[i][datails] ={required:true};
-        })
+        // this.detailsdata[i] ={}
+        // Object.keys(data).forEach(datails=>{
+        //   this.detailsdata[i][datails] ={required:true};
+        // })
+        data.Id = i+1;
         this.blocksArray.push(data);
         console.log(this.blocksArray)
   
@@ -1429,8 +1530,7 @@ cancelunitsbulkupload(ev){
     Object.keys(this.unitlistjson).forEach(element=>{
       console.log(this.unitlistjson[element])
       this.unitlistjson[element].forEach(unit => {
-    
-if(blknamecommon == unit.blockname){
+if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
 
       unit.flatno="",
       unit.blockname ="",
@@ -1446,6 +1546,25 @@ if(blknamecommon == unit.blockname){
       unit.tenantlastname="",
       unit.tenantmobilenumber="",
       unit.tenantemaiid=""
+    }else{
+      let blname = unit.Id.slice(0, -2);
+      if(blknamecommon == blname){
+        unit.flatno="",
+        unit.blockname ="",
+        unit.owneremaiid="",
+        unit.ownerfirstname="",
+        unit.ownermobilenumber="",
+        unit.ownershipstatus="",
+        unit.unittype="",
+        unit.ownerlastname="",
+        unit.ownermobilenumber= "",
+        unit.owneremaiid="",
+        unit.tenantfirstname="",
+        unit.tenantlastname="",
+        unit.tenantmobilenumber="",
+        unit.tenantemaiid=""
+      }
+   
     }
 
       })
