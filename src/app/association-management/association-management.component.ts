@@ -1118,7 +1118,7 @@ export class AssociationManagementComponent implements OnInit {
   enblEnrlAsnVew() {
 
     //  this.showVar = !this.showVar;
-    console.log('april4');
+    //console.log('april4');
     // alert('test');
     localStorage.setItem('Component','AssociationManagent');
     this.toggleStepWizrd();
