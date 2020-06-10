@@ -39,6 +39,7 @@ export class EnrollassociationComponent implements OnInit {
   post: any = '';
   private formSubmitAttempt: boolean;
   isblockdetailsempty: boolean;
+  isunitdetailsempty:boolean;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -47,6 +48,7 @@ export class EnrollassociationComponent implements OnInit {
     private modalService: BsModalService, private formBuilder: FormBuilder) {
       this.url='';
       this.isblockdetailsempty=false;
+      // this.isunitdetailsempty=false;
      }
   countrieslist = [
     "INDIA",
@@ -519,7 +521,7 @@ export class EnrollassociationComponent implements OnInit {
   }
   _keyPress2(event:any,Id) {
     var ch = String.fromCharCode(event.keyCode);
-     var filter = /[a-zA-Z]/   ;
+     var filter = /[a-zA-Z]/;
      if(!filter.test(ch)){
           event.returnValue = false;
      }
@@ -543,9 +545,114 @@ export class EnrollassociationComponent implements OnInit {
   unitlistjson = {}
   unitdetailscreatejson;
   unitsuccessarray =[]
-  gotonexttab(ev){
-    this.demo2TabIndex = this.demo2TabIndex + 1;
 
+  gotonexttab(ev, name) {
+     this.isunitdetailsempty = true;
+    Object.keys(this.unitlistjson).forEach(element => {
+      console.log(this.unitlistjson[element])
+
+      this.unitlistjson[element].forEach(unit => {
+        let headername = unit.Id.slice(0, -2);
+
+
+        if (name == headername) {
+          if(this.isunitdetailsempty){
+            if (unit.ownershipstatus == "SOLD OWNER OCCUPIED UNIT"||unit.ownershipstatus == "SOLD VACANT UNIT") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
+              ) {
+                this.isunitdetailsempty = false;
+  
+              }
+            }
+            // else if (unit.ownershipstatus == "SOLD VACANT UNIT") {
+            //   if (unit.flatno == "" || unit.flatno == undefined ||
+            //     unit.unittype == "" || unit.unittype == undefined ||
+            //     unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+            //     unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+            //     unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+            //     unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+            //     unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined) {
+            //     this.isunitdetailsempty = true
+  
+            //   }
+            // }
+            else if (unit.ownershipstatus == "SOLD TENANT OCCUPIED UNIT") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined ||
+  
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+  
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false
+  
+              }
+            } 
+            else if (unit.ownershipstatus == "UNSOLD TENANT OCCUPIED UNIT") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+  
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+  
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false
+  
+              }
+            }
+            else if (unit.ownershipstatus == "UNSOLD VACANT UNIT"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+              unit.unittype == "" || unit.unittype == undefined ||
+  
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined
+              ) {
+                this.isunitdetailsempty = false
+  
+              }
+            }
+            // else if(unit.ownershipstatus==""||unit.ownershipstatus==undefined){
+            //   if(unit.flatno == "" || unit.flatno == undefined ||
+            //   unit.unittype == "" || unit.unittype == undefined ||
+            //   unit.ownershipstatus == "" || unit.ownershipstatus == undefined ){
+            //     this.isunitdetailsempty = true
+            //   }
+            // }
+      
+          }
+         
+          // else if (this.isunitdetailsempty) {
+          //   this.demo2TabIndex = this.demo2TabIndex + 1;
+          // }
+        }
+     
+      })
+    })
+    this.unitmovingnexttab();
+
+  }
+  unitmovingnexttab(){
+    if(this.isunitdetailsempty){
+              
+      this.demo2TabIndex = this.demo2TabIndex + 1;
+
+      }
   }
   submitunitdetails(event) {
     let date = new Date();  
@@ -830,8 +937,7 @@ export class EnrollassociationComponent implements OnInit {
     // if (this.blocksdetailsform.valid) {
       setTimeout(() => {
       this.blocksArray.forEach((element) => {
-
-        if(element.blockname==""||element.blocktype==""||element.units==""||element.managername==""||element.managermobileno==""||element.manageremailid==""){
+        if(element.blockname==""||element.blockname==undefined||element.blocktype==""||element.blocktype==undefined||element.units==""||element.units==undefined||element.managername==""||element.managername==undefined||element.managermobileno==""||element.managermobileno==undefined||element.manageremailid==""||element.manageremailid==undefined){
       this.isblockdetailsempty=true
         }
       })
@@ -839,6 +945,7 @@ export class EnrollassociationComponent implements OnInit {
     }, 1000 )
     console.log(this.blocksArray)
   }
+  
   blockdetailsfinalcreation(){
     if(!this.isblockdetailsempty){
       this.blocksArray.forEach((element,index) => {
