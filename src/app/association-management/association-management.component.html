@@ -903,6 +903,16 @@
           <div class="content">
             <label>Select Association</label>
             <div class="dropdown" style="margin: 0px 0px;">
+              <form [formGroup]="form"class="association-form">
+                <mat-form-field>
+                    <mat-select formControlName="assnlist" (selectionChange)="loadAssociation($event.value)"  
+                   placeholder="Associations">
+                        <mat-option *ngFor="let association of _associations" [value]="association">{{association['asAsnName']}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </form>
+<!-- 
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                 data-toggle="dropdown" style="width: 245px;">{{assnName}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
@@ -910,7 +920,7 @@
                 <li *ngFor="let association of _associations"
                   (click)="loadAssociation(association['asAssnID'],association['asAsnName'])">
                   <a>{{association['asAsnName']}}</a></li>
-              </ul>
+              </ul> -->
             </div>
           </div>
           <!--row1-->
