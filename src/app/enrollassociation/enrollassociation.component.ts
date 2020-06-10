@@ -670,8 +670,10 @@ export class EnrollassociationComponent implements OnInit {
     Object.keys(this.unitlistjson).forEach(element=>{
       console.log(this.unitlistjson[element])
       
-      this.unitlistjson[element].forEach(unit => {
-       console.log(unit)
+      this.unitlistjson[element].forEach((unit,index) => {
+       ((index) => {
+        setTimeout(() => {
+      
    this.unitsuccessarray.push(unit);
 
         this.unitdetailscreatejson = {
@@ -747,10 +749,13 @@ export class EnrollassociationComponent implements OnInit {
           console.log(error);
         }
         );
+
+      }, 5000 * index)
+    })(index)
       });
 
     })
-    // setTimeout(() => {
+    setTimeout(() => {
     var message;
     if (this.unitsuccessarray.length == 1) {
       message = 'Unit Created Successfully'
@@ -774,14 +779,12 @@ export class EnrollassociationComponent implements OnInit {
               this.viewAssnService.vewAsnEnbled = true;
               this.viewAssnService.joinAsnEbld = false;
   
-              //localStorage.setItem('AssociationBlockHrefDetail', '');
-  
             } 
           })
 
-
-
-  }
+        },5000)
+  
+        }
 
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(this.form.controls).forEach(field => {

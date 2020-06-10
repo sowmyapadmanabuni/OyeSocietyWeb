@@ -44,7 +44,7 @@ export class AssociationManagementComponent implements OnInit {
   private newAttribute: any = {};
   uploadForm: FormGroup;
   uploadPanForm: FormGroup;
-
+  form: FormGroup;
   //crtAssn:CreateAssn;
   selectedFile: File;
   @ViewChild('viewassociationForm', { static: true }) viewassociationForm: any;
@@ -1162,7 +1162,7 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.enrlAsnEnbled = false;
     this.viewAssnService.vewAsnEnbled = false;
     this.viewAssnService.joinAsnEbld = true;
-    this.assnName = 'Associations';
+    this.form.reset();
     this.blBlkName = 'Blocks';
     this.OwnerType = '';
     this.UNOcSDate = '';
@@ -1419,6 +1419,7 @@ export class AssociationManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createForm();
     if(this.globalService.gotojoinassociation=='id'){
       this.enblJoinAsnVew();
     }
@@ -1545,12 +1546,12 @@ export class AssociationManagementComponent implements OnInit {
     }
   }
 
-  loadAssociation(asAssnID, asAsnName) {
+  loadAssociation(param) {
     this.blBlkName = 'Blocks';
     //console.log('asAssnID',asAssnID);
-    this.assnName = asAsnName;
-    this.assnID = asAssnID;
-    this.viewAssnService.getBlockDetailsByAssociationID(asAssnID)
+    this.assnName = param['asAsnName'];
+    this.assnID = param['asAssnID'];
+    this.viewAssnService.getBlockDetailsByAssociationID(this.assnID)
       .subscribe(response => {
         //console.log(response);
         this.allBlocksLists = response['data']['blocksByAssoc'];
@@ -2051,7 +2052,11 @@ export class AssociationManagementComponent implements OnInit {
     { "name": "Owner" },
     { "name": "Tenant" }
   ];
-
+  createForm() {
+    this.form = this.formBuilder.group({
+      'assnlist': [null]
+    });
+  }
   resetStep1() {
     let countrie = this.countries
     this.countries = [];
@@ -2659,7 +2664,7 @@ export class AssociationManagementComponent implements OnInit {
     
   }
   resetJoinAssociation() {
-    this.assnName = 'Associations';
+    this.form.reset();
     this.blBlkName = 'Blocks';
     this.OwnerType = '';
     this.UNOcSDate = '';
@@ -2668,6 +2673,7 @@ export class AssociationManagementComponent implements OnInit {
     this.UniNameForJoinAssn='Select Unit';
     let activespan = document.querySelectorAll('span.active');
     console.log(activespan.length);
+
     console.log(this.OwnerType);
     if (activespan.length > 0) {
       Array.from(activespan).forEach(item => {
