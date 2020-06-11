@@ -40,12 +40,14 @@ export class NotificationsComponent implements OnInit {
   AdminActiveNotification: number;
   ResidentActiveNotification: number;
   ntJoinStatTmp2: any;
+  changeViewOfActionButton: boolean;
 
   constructor(private utilsService: UtilsService,
     public globalService: GlobalServiceService,
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
     private DashBoardService: DashBoardService) {
+      this.changeViewOfActionButton=true;
     this.ntJoinStatTmp2 = '';
     this.AdminActiveNotification = 0;
     this.ResidentActiveNotification = 0;
@@ -533,6 +535,7 @@ export class NotificationsComponent implements OnInit {
               });
             console.log(`NotificationSync/A_${associationid}/${visitorId}`);
             console.log(associationid, visitorId, DateOfApproval);
+            this.changeViewOfActionButton=false;
             alert('Success')
           },
             err => {

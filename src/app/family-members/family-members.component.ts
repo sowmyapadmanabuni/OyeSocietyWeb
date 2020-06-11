@@ -46,6 +46,7 @@ export class FamilyMembersComponent implements OnInit {
   FamilyImgUploadForm:FormGroup;
   thumbnailFamilyLogo: string | ArrayBuffer;
   FamilyMemImgForPopUp: any;
+  blockidForAddFamilyMember:any;
 
   constructor(private http: HttpClient, private router: Router,
     private modalService: BsModalService,private utilsService:UtilsService,
@@ -64,6 +65,7 @@ export class FamilyMembersComponent implements OnInit {
       this.getFamilyMember();
     })
     localStorage.setItem('Component','FamilyMembers');
+    
    }
 
   ngOnInit() {
@@ -74,6 +76,7 @@ export class FamilyMembersComponent implements OnInit {
     this.FamilyImgUploadForm = this.formBuilder.group({
       profile: ['']
     });
+    this.GetUnitListByUnitID();
   }
   ngAfterViewInit() {
     $(".se-pre-con").fadeOut("slow");
@@ -93,9 +96,9 @@ export class FamilyMembersComponent implements OnInit {
     this.asAssnID = this.globalService.getCurrentAssociationId();
     this.AccountID = this.globalService.getacAccntID();
     this.unitID = this.globalService.getCurrentUnitId();
-    //console.log('unitID', this.unitID);
-    //console.log('AccountID', this.AccountID);
-    //console.log('asAssnID', this.asAssnID);
+    console.log('unitID', this.unitID);
+    console.log('AccountID', this.AccountID);
+    console.log('asAssnID', this.asAssnID);
     let scopeIP=this.utilsService.loadUnitForAssociation();
     let headers = new HttpHeaders().append('Content-Type', 'application/json')
         .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
@@ -119,6 +122,22 @@ export class FamilyMembersComponent implements OnInit {
           err => {
             //console.log(err);
           })
+  }
+
+  GetUnitListByUnitID() {
+    let scopeIP = this.utilsService.getIPaddress();
+    let headers = new HttpHeaders().append('Content-Type', 'application/json')
+      .append('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+      .append('Access-Control-Allow-Origin', "*");
+    this.http.get(scopeIP + `oyeliving/api/v1/Unit/GetUnitListByUnitID/${this.globalService.getCurrentUnitId()}`, { headers: headers })
+      .subscribe(data => {
+        //console.log(data);
+       this.blockidForAddFamilyMember = data['data']['unit']['blBlockID'];
+       console.log(this.blockidForAddFamilyMember);
+      },
+      err=>{
+        console.log(err);
+      })
   }
 
 // EDIT FAMILY MEMBER MODEL POPUP
@@ -218,7 +237,8 @@ addfamilymember() {
     "FMMinor": this.ToggleGurdian == "xyz"? false : true,
     "FMLName": "P",
     "FMGurName": "somu",
-    "PAccntID": this.AccountID
+    "PAccntID": this.AccountID,
+    "BLBlockID" : this.blockidForAddFamilyMember
   }
   console.log(familymember);
   let headers = new HttpHeaders().append('Content-Type', 'application/json')
