@@ -1085,8 +1085,9 @@ export class EnrollassociationComponent implements OnInit {
           console.log(this.blocksArray)
         });
         document.getElementById('upload_excel').style.display ='none'
-
+        document.getElementById('blockdetailscancelbutton').style.display ='none';
         document.getElementById('showmanual').style.display ='block';
+        document.getElementById('blockdetailsbuttons').style.display ='block';
       }
       else {
         Swal.fire({
@@ -1496,7 +1497,14 @@ export class EnrollassociationComponent implements OnInit {
   //   }
   //   reader.readAsBinaryString(file);
   // }
+  cancelmanualblocks(ev){
+    document.getElementById('upload_excel').style.display ='block';
+    document.getElementById('showmanual').style.display ='none';
+    document.getElementById('blockdetailscancelbutton').style.display ='none';
 
+    document.getElementById('blockdetailsbuttons').style.display ='none';
+    this.blocksArray=[]
+  }
 submitforblocksbulkupload(ev){
   document.getElementById('manualbulk').style.display ='none'
   document.getElementById('upload_excel').style.display ='block';
@@ -1528,9 +1536,13 @@ cancelunitsbulkupload(ev){
   
       }
       // this.blockDetailsgenerateform();
-      document.getElementById('manualbulk').style.display ='none'
-
+       document.getElementById('manualbulk').style.display ='none'
        document.getElementById('showmanual').style.display ='block';
+       document.getElementById('blockdetailsbuttons').style.display ='block';
+       document.getElementById('blockdetailscancelbutton').style.display ='block';
+
+
+
       // this.demo1TabIndex = this.demo1TabIndex + 1;
 
   }
