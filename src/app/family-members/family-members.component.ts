@@ -109,7 +109,7 @@ export class FamilyMembersComponent implements OnInit {
           this.familymemberarray = data['data']['familyMembers'];
           if (this.familymemberarray.length > 0) {
             this.familymemberarray.forEach(item=>{
-              this.FamilyMemberList.push(new FamilyMemberList(item['fmName'],item['fmRltn'],item['fmMobile'],'data:image/jpeg;base64,'+item['fmImgName'],item['asAssnID'],item['unUnitID'],item['fmid']))
+              this.FamilyMemberList.push(new FamilyMemberList(item['fmName'],item['fmRltn'],item['fmMobile'],item['fmImgName'],item['asAssnID'],item['unUnitID'],item['fmid']))
             })
             this.loadchangedforassociation = true;
           }

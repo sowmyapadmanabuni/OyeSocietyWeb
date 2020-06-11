@@ -524,8 +524,10 @@
                         
                         </div>
                     <!-- </div> -->
-                  
-                    <div class="save">
+                       <div id="blockdetailscancelbutton">
+                        <button id="blockdetailscancelmanual" mat-raised-button color="primary" (click)="cancelmanualblocks($event)">Cancel</button>
+                        </div>
+                    <div id="blockdetailsbuttons"class="save">
                         <a class="continue" (click)="resetStep4($event)"mat-raised-button color="primary" >RESET</a>
                         <a id="assdetailssave" mat-raised-button color="primary"[disabled]="!blocksdetailsform.valid"(click)="createblocksdetails($event)">NEXT</a>
                     </div>
