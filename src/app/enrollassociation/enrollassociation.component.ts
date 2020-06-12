@@ -554,7 +554,7 @@ export class EnrollassociationComponent implements OnInit {
       this.unitlistjson[element].forEach(unit => {
         let headername = unit.Id.slice(0, -2);
 
-
+console.log(unit)
         if (name == headername) {
           if(this.isunitdetailsempty){
             if (unit.ownershipstatus == "SOLD OWNER OCCUPIED UNIT"||unit.ownershipstatus == "SOLD VACANT UNIT") {
@@ -742,6 +742,7 @@ export class EnrollassociationComponent implements OnInit {
             }
           ]
         }
+        console.log(this.unitdetailscreatejson)
         this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
           console.log(res)
    
@@ -750,7 +751,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         );
 
-      }, 5000 * index)
+      }, 2000 * index)
     })(index)
       });
 
@@ -782,7 +783,8 @@ export class EnrollassociationComponent implements OnInit {
             } 
           })
 
-        },5000)
+        },2000)
+        document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
   
         }
 
@@ -827,6 +829,8 @@ export class EnrollassociationComponent implements OnInit {
   submitassociationdetails(event) {
     if (this.form.valid) {
       this.demo1TabIndex = this.demo1TabIndex + 1;
+    document.getElementById("mat-tab-label-0-0").style.backgroundColor = "lightblue";
+      
     }
     else {
       this.validateAllFormFields(this.form); 
@@ -864,6 +868,7 @@ export class EnrollassociationComponent implements OnInit {
 
     if (this.firstLetter == this.fifthLetter) {
       this.demo1TabIndex = this.demo1TabIndex + 1;
+      document.getElementById("mat-tab-label-0-1").style.backgroundColor = "lightblue";
 
     }
 
@@ -909,22 +914,18 @@ export class EnrollassociationComponent implements OnInit {
 
       }
 
-  
 
     this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
       console.log(res)
- 
 
         this.unitlistjson[element.blockname].forEach(obj => {
           obj.blockid = res.data.blockID
+          console.log(obj.blockid)
         })
 
     }, error => {
       console.log(error);
-    }
-    );
-
-
+    });
   
   }
   movetonexttab(event){
@@ -987,11 +988,11 @@ export class EnrollassociationComponent implements OnInit {
             console.log(res)
               this.unitlistjson[element.blockname].forEach(obj => {
                 obj.blockid = res.data.blockID
+                console.log(obj.blockid);
               })
           }, error => {
             console.log(error);
-          }
-          );
+          });
           let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
           this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
          for (var i = 0; i < blockArraylength; i++) {
@@ -1026,6 +1027,8 @@ export class EnrollassociationComponent implements OnInit {
           })
       },3000)
       this.demo1TabIndex = this.demo1TabIndex + 1;
+      document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
+
     }
   }
   manualunitdetailsclick(ev) {
@@ -1639,6 +1642,8 @@ cancelunitsbulkupload(ev){
   
    
       this.demo1TabIndex = this.demo1TabIndex + 1;
+      document.getElementById("mat-tab-label-0-2").style.backgroundColor = "lightblue";
+
     }
     else {
       this.validateAllBlockformFields(this.blockform); 

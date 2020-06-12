@@ -151,11 +151,11 @@ span.mat-button-wrapper {
     background-color: #333;
   
   } */
-::ng-deep .mat-tab-label {
+/* ::ng-deep .mat-tab-label {
    
     background-color: #B51414 !important;
   
-}
+} */
 
 /* Styles for the active tab label */
 ::ng-deep .mat-tab-label.mat-tab-label-active {
