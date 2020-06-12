@@ -1,6 +1,6 @@
 <mat-tab-group class="mainpage" [(selectedIndex)]="demo1TabIndex">
     <div class="blockdetailsdata">
-        <mat-tab #tab [disabled]='!tab.isActive'label="ASSOCIATION DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="ASSOCIATION DETAILS">
             <div class="page1">
 
                 <form [formGroup]="form" class="association-form">
@@ -175,7 +175,7 @@
             <div>
                 <mat-form-field class="blockdetails-form">
                   
-                    <mat-label><input matTooltip="GST Available?"type="checkbox">GST NUMBER(OPTIONAL)</mat-label>
+                    <mat-label>GST NUMBER(OPTIONAL)</mat-label>
                     <input matInput placeholder="GST NUMBER"
                     formControlName="gstnumber"
                     (blur)="fillPANValue()"
