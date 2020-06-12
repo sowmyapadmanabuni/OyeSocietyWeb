@@ -667,12 +667,12 @@ console.log(unit)
     let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
 
     // var getYear:any = getFullYear();
-    Object.keys(this.unitlistjson).forEach(element=>{
-      console.log(this.unitlistjson[element])
-      
-      this.unitlistjson[element].forEach((unit,index) => {
-       ((index) => {
+    Object.keys(this.unitlistjson).forEach((element,index)=>{
+      console.log(this.unitlistjson[element]);
+      ((index) => {
         setTimeout(() => {
+      this.unitlistjson[element].forEach(unit => {
+      
       
    this.unitsuccessarray.push(unit);
 
@@ -751,11 +751,12 @@ console.log(unit)
         }
         );
 
-      }, 2000 * index)
-    })(index)
+ 
       });
-
+    }, 20000 * index)
+  })(index)
     })
+
     setTimeout(() => {
     var message;
     if (this.unitsuccessarray.length == 1) {
@@ -774,7 +775,7 @@ console.log(unit)
           (result) => {
             if (result.value) {
 
-              this.viewAssnService.dashboardredirect.next(result)
+              // this.viewAssnService.dashboardredirect.next(result)
               // this.getAssociationDetails();
               this.viewAssnService.enrlAsnEnbled = false;
               this.viewAssnService.vewAsnEnbled = true;
@@ -989,6 +990,7 @@ console.log(unit)
               this.unitlistjson[element.blockname].forEach(obj => {
                 obj.blockid = res.data.blockID
                 console.log(obj.blockid);
+                console.log(this.unitlistjson)
               })
           }, error => {
             console.log(error);
