@@ -3,6 +3,7 @@ import { AudioRecordingService } from '../audio-recording.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GlobalServiceService } from '../global-service.service';
+import {UtilsService} from '../utils/utils.service';
 
 
 @Component({
@@ -58,7 +59,8 @@ export class BroadcastComponent implements OnInit {
 
   constructor(private audioRecordingService: AudioRecordingService, 
     private sanitizer: DomSanitizer,
-    private http: HttpClient,public globalService: GlobalServiceService) {
+    private http: HttpClient,public globalService: GlobalServiceService,
+    private UtilsService:UtilsService) {
 
     this.audioRecordingService.recordingFailed().subscribe(() => {
       this.isRecording = false;
@@ -118,13 +120,14 @@ export class BroadcastComponent implements OnInit {
       "ANCmnts": this.AnnouncementMessage,
       // "ACAccntID" : this.globalService.getacAccntID(),
       // "ASAssnID"  : this.globalService.getCurrentAssociationId(),
-      "ACAccntID": 2,
-      "ASAssnID": 2,
+      "ACAccntID": this.globalService.getacAccntID(), //2
+      "ASAssnID": this.globalService.getCurrentAssociationId(),//2
       "ANVoice": `${this.blobUrl}`,
       "ANRecipient": "All Owners"
     }
     console.log(MessageBody);
-    this.http.post('https://devapi.scuarex.com/oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
+    let ipAddress = this.UtilsService.getIPaddress();
+    this.http.post(ipAddress + 'oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
       .subscribe(data => {
         console.log(data);
       },

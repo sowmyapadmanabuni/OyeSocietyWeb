@@ -291,7 +291,7 @@
 
 .r-top{position: absolute;background: #fefaf0;left: 199px;z-index: 2;width: 9px;}
 
-.l-top{position: absolute;background: #ffffff;right: 199px;z-index: 2;width: 9px;}
+.l-top{position: absolute;right: 199px;z-index: 2;width: 9px;}
 
 .act-a{box-shadow:-3px 3px 3px -1px #dfdede;}
 
