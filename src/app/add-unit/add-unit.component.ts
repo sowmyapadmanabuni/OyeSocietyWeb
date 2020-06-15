@@ -93,6 +93,7 @@ export class AddUnitComponent implements OnInit {
       { "name": "UnSold Tenant Occupied Unit" }
     ];
 
+
     this.unitno = '';
     this.unitrate = '';
     this.unitdimension = '';
@@ -114,7 +115,18 @@ export class AddUnitComponent implements OnInit {
     this.newParkingDetail.VehicleNumber = "";
     this.checkIsUnitCreated=new EventEmitter<string>();
    }
-
+   occupancy = [
+    "SOLD OWNER OCCUPIED UNIT",
+    "SOLD TENANT OCCUPIED UNIT",
+    "SOLD VACANT UNIT",
+    "UNSOLD VACANT UNIT",
+    "UNSOLD TENANT OCCUPIED UNIT",
+  ]
+  unittypedata =[
+    "FLAT",
+    "VILLA",
+    "VACCANT PLOT"
+  ]
   ngOnInit() {
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     //console.log('this.currentAssociationID',this.currentAssociationID);
@@ -172,7 +184,7 @@ export class AddUnitComponent implements OnInit {
  
   tenantOwnerdiv(occupency) {
     this.occupency=occupency;
-    this.occupencys.forEach(item => {
+    this.occupancy.forEach(item => {
       if (occupency == 'UnSold Vacant Unit') {
         this.tenantDetails = false;
         this.ownerDetails = false;
@@ -237,13 +249,13 @@ export class AddUnitComponent implements OnInit {
         {
           "UNUniName": this.unitno,
           "UNUniType": this.unitType,
-          "UNRate": this.unitrate,
+          "UNRate": "",
           "UNOcStat": this.occupency,
           "UNOcSDate": "2019-03-02",
           "UNOwnStat": "",
           "UNSldDate": "2019-03-02",
-          "UNDimens": this.unitdimension,
-          "UNCalType": this.calculationtype,
+          "UNDimens": "",
+          "UNCalType": "",
           "FLFloorID": 14,
           "BLBlockID": this.viewUniService.blockIDforUnitCreation,
           "Owner":
@@ -253,12 +265,12 @@ export class AddUnitComponent implements OnInit {
             "UOLName": this.ownerLastname,
             "UOMobile": this.ownerMobnumber,
             "UOISDCode": "+91",
-            "UOMobile1": this.ownerAltnumber,
+            "UOMobile1": "",
             "UOMobile2": "",
             "UOMobile3": "",
             "UOMobile4": "",
             "UOEmail": this.ownerEmail,
-            "UOEmail1": this.ownerAltemail,
+            "UOEmail1": "",
             "UOEmail2": "",
             "UOEmail3": "",
             "UOEmail4": "",
