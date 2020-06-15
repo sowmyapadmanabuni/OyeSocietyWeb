@@ -548,103 +548,7 @@ export class EnrollassociationComponent implements OnInit {
 
   gotonexttab(ev, name) {
     console.log(name);
-     this.isunitdetailsempty = true;
-    Object.keys(this.unitlistjson).forEach(element => {
-      console.log(this.unitlistjson[element])
-
-      this.unitlistjson[element].forEach(unit => {
-        let headername = unit.Id.slice(0, -2);
-
-        if (name == headername) {
-          console.log(unit);
-          if(this.isunitdetailsempty){
-            if (unit.ownershipstatus == "SOLD OWNER OCCUPIED UNIT"||unit.ownershipstatus == "SOLD VACANT UNIT") {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
-                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
-                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
-              ) {
-                this.isunitdetailsempty = false;
-  
-              }
-            }
-            // else if (unit.ownershipstatus == "SOLD VACANT UNIT") {
-            //   if (unit.flatno == "" || unit.flatno == undefined ||
-            //     unit.unittype == "" || unit.unittype == undefined ||
-            //     unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-            //     unit.owneremaiid == "" || unit.owneremaiid == undefined ||
-            //     unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
-            //     unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-            //     unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined) {
-            //     this.isunitdetailsempty = true
-  
-            //   }
-            // }
-            else if (unit.ownershipstatus == "SOLD TENANT OCCUPIED UNIT") {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                // unit.blockname == "" || unit.blockname == undefined ||
-                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
-                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
-                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined ||
-  
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-  
-                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
-                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
-                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
-                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
-                this.isunitdetailsempty = false
-  
-              }
-            } 
-            else if (unit.ownershipstatus == "UNSOLD TENANT OCCUPIED UNIT") {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                // unit.blockname == "" || unit.blockname == undefined ||
-  
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-  
-                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
-                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
-                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
-                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
-                this.isunitdetailsempty = false
-  
-              }
-            }
-            else if (unit.ownershipstatus == "UNSOLD VACANT UNIT"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-              unit.unittype == "" || unit.unittype == undefined ||
-  
-                // unit.blockname == "" || unit.blockname == undefined ||
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined
-              ) {
-                this.isunitdetailsempty = false
-  
-              }
-            }
-            // else if(unit.ownershipstatus==""||unit.ownershipstatus==undefined){
-            //   if(unit.flatno == "" || unit.flatno == undefined ||
-            //   unit.unittype == "" || unit.unittype == undefined ||
-            //   unit.ownershipstatus == "" || unit.ownershipstatus == undefined ){
-            //     this.isunitdetailsempty = true
-            //   }
-            // }
-      
-          }
-         
-          // else if (this.isunitdetailsempty) {
-          //   this.demo2TabIndex = this.demo2TabIndex + 1;
-          // }
-        }
      
-      })
-    })
     this.unitmovingnexttab(name);
 
   }
@@ -661,7 +565,7 @@ export class EnrollassociationComponent implements OnInit {
     var getMonth = date.getMonth() + 1;
     var getFullYear = date.getFullYear();
     var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
-
+    this.unitsuccessarray=[];
     console.log(date)
 
     let ipAddress = this.utilsService.createUnit();
@@ -789,12 +693,18 @@ export class EnrollassociationComponent implements OnInit {
       }).then(
         (result) => {
           if (result.value) {
-            this.demo2TabIndex = this.demo2TabIndex + 1;
-
-            //this.viewAssnService.dashboardredirect.next(result)
-            // this.viewAssnService.enrlAsnEnbled = false;
-            // this.viewAssnService.vewAsnEnbled = true;
-            // this.viewAssnService.joinAsnEbld = false;
+            this.isunitdetailsempty=true;
+            let abc1 = Object.keys(this.unitlistjson);
+            if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+              console.log('test block');
+            this.viewAssnService.dashboardredirect.next(result)
+            this.viewAssnService.enrlAsnEnbled = false;
+            this.viewAssnService.vewAsnEnbled = true;
+            this.viewAssnService.joinAsnEbld = false;
+            }
+            else{
+              this.demo2TabIndex = this.demo2TabIndex + 1;
+            }
 
           }
         })
@@ -803,7 +713,94 @@ export class EnrollassociationComponent implements OnInit {
     document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
 
   }
+validateUnitDetailsField(name){
+  this.isunitdetailsempty = true;
+    Object.keys(this.unitlistjson).forEach(element => {
+      console.log(this.unitlistjson[element])
 
+      this.unitlistjson[element].forEach(unit => {
+        let headername = unit.Id.slice(0, -2);
+
+        if (name == headername) {
+          console.log(unit);
+          if(this.isunitdetailsempty){
+            if (unit.ownershipstatus == "SOLD OWNER OCCUPIED UNIT"||unit.ownershipstatus == "SOLD VACANT UNIT") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
+              ) {
+                this.isunitdetailsempty = false;
+  
+              }
+            }
+            // else if (unit.ownershipstatus == "SOLD VACANT UNIT") {
+            //   if (unit.flatno == "" || unit.flatno == undefined ||
+            //     unit.unittype == "" || unit.unittype == undefined ||
+            //     unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+            //     unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+            //     unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+            //     unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+            //     unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined) {
+            //     this.isunitdetailsempty = true
+  
+            //   }
+            // }
+            else if (unit.ownershipstatus == "SOLD TENANT OCCUPIED UNIT") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined ||
+  
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+  
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false
+  
+              }
+            } 
+            else if (unit.ownershipstatus == "UNSOLD TENANT OCCUPIED UNIT") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+  
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+  
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false
+  
+              }
+            }
+            else if (unit.ownershipstatus == "UNSOLD VACANT UNIT"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+              unit.unittype == "" || unit.unittype == undefined ||
+  
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined
+              ) {
+                this.isunitdetailsempty = false
+  
+              }
+            }
+      
+          }
+        }
+     
+      })
+    })
+}
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(this.form.controls).forEach(field => {
       const control = this.form.get(field);
@@ -1128,7 +1125,7 @@ export class EnrollassociationComponent implements OnInit {
 
 
   unitmatching: boolean;
-  getUnitName(Id, flatno) {
+  getUnitName(Id, flatno,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1143,8 +1140,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getunittype(Id, unittype){
+  getunittype(Id, unittype,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1159,8 +1157,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownershipstatus(Id, ownershipstatus){
+  getownershipstatus(Id, ownershipstatus,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1175,8 +1174,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownerfirstname(Id, ownerfirstname) {
+  getownerfirstname(Id, ownerfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1191,8 +1191,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownerlastname(Id, ownerlastname) {
+  getownerlastname(Id, ownerlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1207,8 +1208,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownermobilenumber(Id, ownermobilenumber) {
+  getownermobilenumber(Id, ownermobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1223,8 +1225,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getowneremaiid(Id, owneremaiid) {
+  getowneremaiid(Id, owneremaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1239,8 +1242,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantfirstname(Id, tenantfirstname) {
+  gettenantfirstname(Id, tenantfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1255,8 +1259,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantlastname(Id, tenantlastname) {
+  gettenantlastname(Id, tenantlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1271,8 +1276,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantmobilenumber(Id, tenantmobilenumber) {
+  gettenantmobilenumber(Id, tenantmobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1287,8 +1293,9 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantemaiid(Id, tenantemaiid) {
+  gettenantemaiid(Id, tenantemaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1303,6 +1310,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
   getblocknameornumber(Id,blockname){
     this.blocksArray.forEach(element=>{
