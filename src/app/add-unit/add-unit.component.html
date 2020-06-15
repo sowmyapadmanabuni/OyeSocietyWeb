@@ -25,13 +25,25 @@
 
           <div class="panel-body">
               <div class="form-group">
-                  <label class="control-label">Unit No/Flat No<span class="red">*</span></label>
+
+                  <!-- <label class="control-label">Unit No/Flat No<span class="red">*</span></label>
                   <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="unitno" #unitnoControl="ngModel" class="form-control" placeholder="Unit No/Flat No" required />
                   <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
-              </div>
+               -->
+               <mat-form-field class="blockdetails-form">
+                <mat-label>UNIT NO/FLAT NO</mat-label>
+                <input class = "text" matInput placeholder="UNIT NO/FLAT NO"
+                 (blur)="getUnitName(unitlistjson[name][i]['Id'],unitlistjson[name][i]['flatno'])"[(ngModel)]="unitno"[ngModelOptions]="{standalone:
+                    true}"  value="">
+            </mat-form-field>
+            <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidflatno']">Valid unit no is required</p>
+            <p class="validation" *ngIf="unitlistjson[name][i]['flatno']==undefined">Valid unit no is required</p> -->
+
+
+                </div>
 
               <div class="form-group">
-                <label class="control-label">Unit Type<span class="red">*</span></label>
+                <!-- <label class="control-label">Unit Type<span class="red">*</span></label>
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                         data-toggle="dropdown">{{unitType}}
@@ -40,53 +52,53 @@
                         <li *ngFor="let unitTp of unitTypes" (click)="getUnitType(unitTp.name)">
                             <a>{{unitTp.name}}</a></li>
                     </ul>
-                </div>
+                </div> -->
+
+
+                <mat-form-field class="blockdetails-form">
+                    <mat-select [(value)]="unitType" (blur)="getunittype(unitlistjson[name][i]['Id'],unitlistjson[name][i]['unittype'])"placeholder="UNIT TYPE">
+                        <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidunittype']">Valid Unit Type is required</p>
+                <p class="validation" *ngIf="unitlistjson[name][i]['unittype']==undefined">Valid Unit Type is required</p> -->
+             
             </div>
 
-              <div class="form-group">
+            <div class="form-group">
+                <!-- <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{occupency}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency.name)">
+                            <a>{{occupency.name}}</a></li>
+                    </ul>
+                </div> -->
+                <mat-form-field class="blockdetails-form">
+                  <mat-select [(value)]="occupency" (selectionChange)="tenantOwnerdiv($event.value)" 
+                  (blur)="getownershipstatus(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownershipstatus'])"
+                      placeholder="OCCUPANCY & OWNERSHIP STATUS">
+                      <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownershipstatus']">Valid ownershipstatus is required</p>
+              <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']==undefined">Valid ownershipstatus is required</p>
+      -->
+            </div>
+              <!-- <div class="form-group">
                   <label class="control-label">Unit Dimension<span class="red">*</span></label>
                   <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" (keyup)="ValidateLessThanZeroValue()" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" (keypress)="_keyPress($event)" pattern="[0-9]*" required/>
                   <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched || InvalidUnitDimension"> Valid Unit dimension is required</p>
-                </div>
+                </div> -->
           </div>
-          <div class="panel-body">
-              <div class="form-group">
-                  <label class="control-label">Unit Rate<span class="red">*</span></label>
-                  <input name="unitrate" type="text" required [(ngModel)]="unitrate" #unitrateControl="ngModel" class="form-control" (keyup)="ValidateUnitRateLessThanZeroValue()" (keypress)="_keyPress4($event)" placeholder="Unit Rate" />
-                  <p class="alerts" *ngIf="InvalidUnitRate"> Valid unit rate is required</p>
-              </div>
-
-              <div class="form-group">
-                      <label class="control-label">Calculation Type<span class="red">*</span></label>
-                      <div class="dropdown">
-                          <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                              data-toggle="dropdown">{{calculationtype}}
-                              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                          <ul class="dropdown-menu fullw">
-                              <li *ngFor="let calculationType of calculationTypes" (click)="getCalculationTypes(calculationType.name)">
-                                  <a>{{calculationType.name}}</a></li>
-                          </ul>
-                      </div>
-                  </div>
-
-              <div class="form-group">
-                      <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
-                      <div class="dropdown">
-                          <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                              data-toggle="dropdown">{{occupency}}
-                              <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                          <ul class="dropdown-menu fullw">
-                              <li *ngFor="let occupency of occupencys" (click)="tenantOwnerdiv(occupency.name)">
-                                  <a>{{occupency.name}}</a></li>
-                          </ul>
-                      </div>
-                  </div>
-
-
-          </div>
+    
           <div class="col-sm-12 pull-right">
               <button type="button" (click)="ResetCreateUnitFormOne()" class="btn btn-primary-purple m-r">Reset</button>
-              <button [disabled]="createunitFormOne.invalid || unitType=='Select Unit Type' || calculationtype=='Select Calcula...' || occupency=='Select Occupancy' || InvalidUnitRate" class="btn btn-primary-purple nextBtn" type="button m-r">Next</button>
+              <button [disabled]="createunitFormOne.invalid || unitType=='' || occupency=='Select Occupancy' || InvalidUnitRate" class="btn btn-primary-purple nextBtn" type="button m-r">Next</button>
           </div>
           </form>
       </div>
@@ -98,34 +110,90 @@
           <div class="panel-body">
 
               <div class="form-group">
-                  <label class="control-label">Owner First Name<span class="red">*</span></label>
+
+                  <!-- <label class="control-label">Owner First Name<span class="red">*</span></label>
                   <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="ownerFirtname"
                     #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
                     pattern="[a-zA-Z _]*" required/>
                     <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
+                -->
+                <mat-form-field class="blockdetails-form">
+                    <mat-label>OWNER FIRST NAME</mat-label>
+                    <input  class = "text" matInput placeholder="OWNER FIRSTNAME" 
+                    pattern="[a-zA-Z _]*"
+                    (blur)="getownerfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerfirstname'])"
+                    [(ngModel)]="ownerFirtname"[ngModelOptions]="{standalone:
+                        true}" value="">
+                </mat-form-field> 
+                <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerfirstname']">Valid owner firstname is required</p>
+                <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT' && unitlistjson[name][i]['ownerfirstname']==undefined">Valid owner firstname is required</p> -->
+
                 </div>
               <div class="form-group">
-                  <label class="control-label">Owner Last Name<span class="red">*</span></label>
+
+                  <!-- <label class="control-label">Owner Last Name<span class="red">*</span></label>
                   <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="ownerLastname"
                     #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname"
                     pattern="[a-zA-Z]*" required/>
                     <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is required</p>
+                 -->
+
+                    <mat-form-field class="blockdetails-form">
+                        <mat-label>OWNER LAST NAME</mat-label>
+                        <input class = "text" matInput placeholder="OWNER LASTNAME" 
+                        (blur)="getownerlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerlastname'])"
+                        pattern="[a-zA-Z _]*"
+                        [(ngModel)]="ownerLastname"
+                        [ngModelOptions]="{standalone:true}" value="">
+                    </mat-form-field>
+            <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerlastname']">Valid owner lastname is required</p>
+            <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT' && unitlistjson[name][i]['ownerlastname']==undefined">Valid owner lastname is required</p>  -->
+
+                
                 </div>
         
               <div class="form-group">
-                  <label class="control-label">Owner Mobile Number<span class="red">*</span></label>
+
+                  <!-- <label class="control-label">Owner Mobile Number<span class="red">*</span></label>
                   <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="ownerMobnumber"
                     #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number"
                     minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                     <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
+                -->
+                    <mat-form-field class="blockdetails-form">
+                        <mat-label>OWNER MOBILE NUMBER</mat-label>
+                        <input matInput placeholder="OWNER MOBILE NUMBER"
+                        pattern="[0-9]*" 
+                        (blur)="getownermobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownermobilenumber'])"
+                        minlength="10" maxlength="10"
+                        (keypress)=_keyPress($event)
+                        [ngModelOptions]="{standalone:true}"
+                        [(ngModel)]="ownerMobnumber" value="">
+                    </mat-form-field>
+                    <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownermobilenumber']">Valid 10 digit mobile number is required</p>
+                    <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT' && unitlistjson[name][i]['ownermobilenumber']==undefined">Valid 10 digit mobile number is required</p>  -->
+
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Owner Email Id<span class="red">*</span></label>
+
+                    <!-- <label class="control-label">Owner Email Id<span class="red">*</span></label>
                     <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
                       #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
                       pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
                       <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
-                  </div>
+                 -->
+
+                 <mat-form-field class="blockdetails-form">
+                    <mat-label>OWNER EMAIL ID</mat-label>
+                    <input matInput placeholder="OWNER EMAIL-ID"
+                    (blur)="getowneremaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['owneremaiid'])"
+                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                    [(ngModel)]="ownerEmail"[ngModelOptions]="{standalone:true}"value="">
+                </mat-form-field>
+                <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidowneremaiid']">valid email-id is required</p>
+                <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']!='UNSOLD VACANT UNIT' && unitlistjson[name][i]['owneremaiid']==undefined">valid email-id is required</p> 
+                 -->
+                    </div>
           </div>
          
         </div>
@@ -134,35 +202,101 @@
             <div class="panel-body">
               
                 <div class="form-group">
-                    <label class="control-label">Tenant First Name<span class="red">*</span></label>
+
+                    <!-- <label class="control-label">Tenant First Name<span class="red">*</span></label>
                     <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="tenantFirtname"
                       #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
                       pattern="[a-zA-Z _]*" required/>
                       <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
-                  </div>
+                 -->
+                 <mat-form-field class="blockdetails-form">
+                    <mat-label>TENANT FIRST NAME</mat-label>
+                    <input class="text" matInput placeholder="TENANT FIRSTNAME" 
+                    pattern="[a-zA-Z _]*"
+                    [(ngModel)]="tenantFirtname"
+                    (blur)="gettenantfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantfirstname'])"
+                    [ngModelOptions]="{standalone:true}" value="">
+                </mat-form-field>
+                <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantfirstname']">Valid firstname is
+                    required</p>
+                    <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT' || unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT' && unitlistjson[name][i]['tenantfirstname']==undefined">Valid firstname is
+                        required</p> -->
+
+                    </div>
                 
                 <div class="form-group">
-                    <label class="control-label">Tenant Last Name<span class="red">*</span></label>
+                    <!-- <label class="control-label">Tenant Last Name<span class="red">*</span></label>
                     <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="tenantLastname"
                       #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
                       pattern="[a-zA-Z]*" required/>
                       <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
-                  </div>
+                   -->
+                  
+                      <mat-form-field class="blockdetails-form">
+                        <mat-label>TENANT LAST NAME</mat-label>
+                        <input class = "text" matInput placeholder="TENANT LASTNAME" 
+                        pattern="[a-zA-Z _]*"
+                        (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'])"
+                        [(ngModel)]="tenantLastname"
+                        [ngModelOptions]="{standalone:true}" value="">
+                    </mat-form-field>
+                    <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantlastname']"> Valid lastname is required</p>
+                     <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT' || unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT' && unitlistjson[name][i]['tenantlastname']==undefined">Valid lastname is
+                        required</p>  -->
+
+
+                    </div>
    
                 <div class="form-group">
-                    <label class="control-label">Tenant Mobile Number<span class="red">*</span></label>
+                    
+                    <!-- <label class="control-label">Tenant Mobile Number<span class="red">*</span></label>
                     <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="tenantMobnumber"
                       #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number"
                       minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
                       <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
-                  </div>
+                 
+                  -->
+
+                      <mat-form-field class="blockdetails-form">
+                      <mat-label>TENANT MOBILE NUMBER</mat-label>
+                      <input matInput placeholder="TENANT MOBILE NUMBER" 
+                      pattern="[0-9]*"
+                      minlength="10" maxlength="10"
+                      (keypress)=_keyPress($event)
+                      (blur)="gettenantmobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantmobilenumber'])"
+                      [(ngModel)]="tenantMobnumber"
+                      [ngModelOptions]="{standalone:true}" value="">
+                  </mat-form-field>
+                  <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantmobilenumber']">Valid mobile number is
+                      required</p>
+                  <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT' || unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT' && unitlistjson[name][i]['tenantmobilenumber']==undefined">Valid mobile number is
+                          required</p>  -->
+                 
+                 
+                    </div>
                   <div class="form-group">
+<!-- 
                     <label class="control-label">Tenant Email Id<span class="red">*</span></label>
                     <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="tenantEmail"
                       #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
                       pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required/>
                       <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
-                  </div>
+                  -->
+                 
+
+                  <mat-form-field  class="blockdetails-form">
+                    <mat-label>TENANT EMAIL ID</mat-label>
+                    <input matInput placeholder="TENANT EMAIL-ID" 
+                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                    (blur)="gettenantemaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantemaiid'])"
+                    [(ngModel)]="tenantEmail"
+                    [ngModelOptions]="{standalone:true}" value="">
+                </mat-form-field>
+            <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantemaiid']"> Valid email-id is required</p>
+            <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT' || unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT' && unitlistjson[name][i]['tenantemaiid']==undefined">Valid email-id is required</p>  -->
+
+
+                    </div>
             </div>           
           </div>
 

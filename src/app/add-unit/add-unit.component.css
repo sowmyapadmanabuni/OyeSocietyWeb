@@ -136,8 +136,15 @@
         .stepwizard-step{width: 50% !important}
         .stepwizard{width: 60% !important}
         }
+ 
+     .blockdetailsdata{
+        overflow-x: auto;
+        display: inline-flex;
     
+    }
+    .blockdetails-form{
+        padding-left: 42px;
+        padding-right: 42px;
+        display: inline-flex;
     
-    
-    
-    
+    }

@@ -747,12 +747,9 @@
                                 <mat-label>TENANT LAST NAME</mat-label>
                                 <input class = "text" matInput placeholder="TENANT LASTNAME" 
                                 pattern="[a-zA-Z _]*"
-                        (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'])"
+                                (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'])"
                                 [(ngModel)]="obj.tenantlastname"
                                 [ngModelOptions]="{standalone:true}" value="">
-                                    <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentlatsname')">
-                                        {{ titleAlert }}
-                                    </mat-error> -->
                             </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantlastname']"> Valid lastname is required</p>
                              <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UNSOLD TENANT OCCUPIED UNIT' || unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT' && unitlistjson[name][i]['tenantlastname']==undefined">Valid lastname is
