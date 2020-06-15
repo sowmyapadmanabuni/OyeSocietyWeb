@@ -547,15 +547,182 @@ export class EnrollassociationComponent implements OnInit {
   unitsuccessarray =[]
 
   gotonexttab(ev, name) {
-     this.isunitdetailsempty = true;
+    console.log(name);
+     
+    this.unitmovingnexttab(name);
+
+  }
+  unitmovingnexttab(name) {
+    if (this.isunitdetailsempty) {
+      this.submitunitdetails(name);
+    }
+  }
+  submitunitdetails(name) {
+    console.log(name);
+    console.log(this.unitlistjson[name]);
+    let date = new Date();
+    var getDate = date.getDate();
+    var getMonth = date.getMonth() + 1;
+    var getFullYear = date.getFullYear();
+    var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
+    this.unitsuccessarray=[];
+    console.log(date)
+
+    let ipAddress = this.utilsService.createUnit();
+    let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
+
+    // Object.keys(this.unitlistjson).forEach(element => {
+    //console.log(this.unitlistjson[element])
+
+    //this.unitlistjson[name].forEach((unit, index) => {
+    // let headername = unit.Id.slice(0, -2);
+    //console.log(headername);
+    //console.log(unit)
+    //if (name == headername) {
+    //
+
+    this.unitlistjson[name].forEach((unit, index) => {
+
+      ((index) => {
+        setTimeout(() => {
+          this.unitsuccessarray.push(unit);
+
+          this.unitdetailscreatejson = {
+            "ASAssnID": this.assid,
+            "ACAccntID": this.globalService.getacAccntID(),
+            "units": [
+              {
+
+                "UNUniName": unit.flatno,
+                "UNUniType": unit.unittype,
+                "UNOcStat": unit.ownershipstatus,
+                "UNOcSDate": "",
+                "UNOwnStat": "",
+                "UNSldDate": "",
+                "UNDimens": "",
+                "UNRate": "",
+                "UNCalType": "",
+                "FLFloorID": 14,
+                "BLBlockID": unit.blockid,
+                "Owner":
+                  [{
+
+                    "UOFName": unit.ownerfirstname,
+                    "UOLName": unit.ownerlastname,
+                    "UOMobile": unit.ownermobilenumber,
+                    "UOISDCode": "",
+                    "UOMobile1": "",
+                    "UOMobile2": "",
+                    "UOMobile3": "",
+                    "UOMobile4": "",
+                    "UOEmail": unit.owneremaiid,
+                    "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
+                    "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
+                    "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
+                    "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
+                    "UOCDAmnt": "2000"
+
+                  }],
+                "Tenant": [{
+                  "UTFName": unit.tenantfirstname,
+                  "UTLName": unit.tenantlastname,
+                  "UTMobile": unit.tenantmobilenumber,
+                  "UTISDCode": "+91",
+                  "UTMobile1": "+919398493298",
+                  "UTEmail": unit.tenantemaiid,
+                  "UTEmail1": "pl@gmail.com"
+                }],
+                "unitbankaccount":
+                {
+                  "UBName": "SBI",
+                  "UBIFSC": "SBIN0014",
+                  "UBActNo": "LOP9090909",
+                  "UBActType": "Savings",
+                  "UBActBal": 12.3,
+                  "BLBlockID": unit.blockid
+                },
+
+                "UnitParkingLot":
+                  [
+                    {
+                      "UPLNum": "1902",
+                      "MEMemID": 287,
+                      "UPGPSPnt": "24.0088 23. 979"
+                    }
+                  ]
+              }
+            ]
+          }
+          console.log(this.unitdetailscreatejson)
+          this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+            console.log(res)
+
+          }, error => {
+            console.log(error);
+          }
+          );
+        }, 2000 * index)
+      })(index)
+
+    });
+
+    //
+    //}
+    //})
+    //})
+
+    // Object.keys(this.unitlistjson).forEach((element, index) => {
+    //   console.log(this.unitlistjson[element]);
+
+    // }) 
+
+    setTimeout(() => {
+      var message;
+      if (this.unitsuccessarray.length == 1) {
+        message = 'Unit Created Successfully'
+      }
+      else if (this.unitsuccessarray.length > 1) {
+        message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+      }
+      Swal.fire({
+        title: message,
+        text: "",
+        type: "success",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+            this.isunitdetailsempty=true;
+            let abc1 = Object.keys(this.unitlistjson);
+            if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+              console.log('test block');
+            this.viewAssnService.dashboardredirect.next(result)
+            this.viewAssnService.enrlAsnEnbled = false;
+            this.viewAssnService.vewAsnEnbled = true;
+            this.viewAssnService.joinAsnEbld = false;
+            }
+            else{
+              this.demo2TabIndex = this.demo2TabIndex + 1;
+            }
+
+          }
+        })
+
+    }, Number(this.unitlistjson[name].length) * 2000)
+    document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
+
+  }
+validateUnitDetailsField(name){
+  this.isunitdetailsempty = true;
     Object.keys(this.unitlistjson).forEach(element => {
       console.log(this.unitlistjson[element])
 
       this.unitlistjson[element].forEach(unit => {
         let headername = unit.Id.slice(0, -2);
 
-console.log(unit)
         if (name == headername) {
+          console.log(unit);
           if(this.isunitdetailsempty){
             if (unit.ownershipstatus == "SOLD OWNER OCCUPIED UNIT"||unit.ownershipstatus == "SOLD VACANT UNIT") {
               if (unit.flatno == "" || unit.flatno == undefined ||
@@ -627,168 +794,13 @@ console.log(unit)
   
               }
             }
-            // else if(unit.ownershipstatus==""||unit.ownershipstatus==undefined){
-            //   if(unit.flatno == "" || unit.flatno == undefined ||
-            //   unit.unittype == "" || unit.unittype == undefined ||
-            //   unit.ownershipstatus == "" || unit.ownershipstatus == undefined ){
-            //     this.isunitdetailsempty = true
-            //   }
-            // }
       
           }
-         
-          // else if (this.isunitdetailsempty) {
-          //   this.demo2TabIndex = this.demo2TabIndex + 1;
-          // }
         }
      
       })
     })
-    this.unitmovingnexttab();
-
-  }
-  unitmovingnexttab(){
-    if(this.isunitdetailsempty){
-              
-      this.demo2TabIndex = this.demo2TabIndex + 1;
-
-      }
-  }
-  submitunitdetails(event) {
-    let date = new Date();  
-    var getDate = date.getDate();
-    var getMonth = date.getMonth()+1;
-    var getFullYear = date.getFullYear();
-   var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
-
-    console.log(date)
-
-    let ipAddress = this.utilsService.createUnit();
-    let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
-
-    // var getYear:any = getFullYear();
-    Object.keys(this.unitlistjson).forEach((element,index)=>{
-      console.log(this.unitlistjson[element]);
-      ((index) => {
-        setTimeout(() => {
-      this.unitlistjson[element].forEach(unit => {
-      
-      
-   this.unitsuccessarray.push(unit);
-
-        this.unitdetailscreatejson = {
-          "ASAssnID": this.assid,
-          "ACAccntID": this.globalService.getacAccntID(),
-          "units": [
-            {
-    
-              "UNUniName": unit.flatno,
-              "UNUniType": unit.unittype,
-              "UNOcStat": unit.ownershipstatus,
-              "UNOcSDate": "",
-              "UNOwnStat": "",
-              "UNSldDate": "",
-              "UNDimens": "",
-              "UNRate": "",
-              "UNCalType": "",
-              "FLFloorID": 14,
-              "BLBlockID": unit.blockid,
-              "Owner":
-                [{
-    
-                  "UOFName": unit.ownerfirstname,
-                  "UOLName": unit.ownerlastname,
-                  "UOMobile": unit.ownermobilenumber,
-                  "UOISDCode": "",
-                  "UOMobile1": "",
-                  "UOMobile2": "",
-                  "UOMobile3": "",
-                  "UOMobile4": "",
-                  "UOEmail": unit.owneremaiid,
-                  "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
-                  "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
-                  "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
-                  "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
-                  "UOCDAmnt": "2000"
-    
-                }],
-              "Tenant": [{
-                "UTFName": unit.tenantfirstname,
-                "UTLName": unit.tenantlastname,
-                "UTMobile": unit.tenantmobilenumber,
-                "UTISDCode": "+91",
-                "UTMobile1": "+919398493298",
-                "UTEmail": unit.tenantemaiid,
-                "UTEmail1": "pl@gmail.com"
-              }],
-              "unitbankaccount":
-              {
-                "UBName": "SBI",
-                "UBIFSC": "SBIN0014",
-                "UBActNo": "LOP9090909",
-                "UBActType": "Savings",
-                "UBActBal": 12.3,
-                "BLBlockID": unit.blockid
-              },
-    
-              "UnitParkingLot":
-                [
-                  {
-                    "UPLNum": "1902",
-                    "MEMemID": 287,
-                    "UPGPSPnt": "24.0088 23. 979"
-                  }
-                ]
-            }
-          ]
-        }
-        console.log(this.unitdetailscreatejson)
-        this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
-          console.log(res)
-   
-        }, error => {
-          console.log(error);
-        }
-        );
-
- 
-      });
-    }, 20000 * index)
-  })(index)
-    })
-
-    setTimeout(() => {
-    var message;
-    if (this.unitsuccessarray.length == 1) {
-      message = 'Unit Created Successfully'
-    }
-    else if (this.unitsuccessarray.length > 1) {
-      message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
-    }
-        Swal.fire({
-          title:message,
-          text: "",
-          type: "success",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-        }).then(
-          (result) => {
-            if (result.value) {
-
-              // this.viewAssnService.dashboardredirect.next(result)
-              // this.getAssociationDetails();
-              this.viewAssnService.enrlAsnEnbled = false;
-              this.viewAssnService.vewAsnEnbled = true;
-              this.viewAssnService.joinAsnEbld = false;
-  
-            } 
-          })
-
-        },2000)
-        document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
-  
-        }
-
+}
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(this.form.controls).forEach(field => {
       const control = this.form.get(field);
@@ -1113,7 +1125,7 @@ console.log(unit)
 
 
   unitmatching: boolean;
-  getUnitName(Id, flatno) {
+  getUnitName(Id, flatno,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1128,8 +1140,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getunittype(Id, unittype){
+  getunittype(Id, unittype,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1144,8 +1157,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownershipstatus(Id, ownershipstatus){
+  getownershipstatus(Id, ownershipstatus,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1160,8 +1174,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownerfirstname(Id, ownerfirstname) {
+  getownerfirstname(Id, ownerfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1176,8 +1191,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownerlastname(Id, ownerlastname) {
+  getownerlastname(Id, ownerlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1192,8 +1208,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getownermobilenumber(Id, ownermobilenumber) {
+  getownermobilenumber(Id, ownermobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1208,8 +1225,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  getowneremaiid(Id, owneremaiid) {
+  getowneremaiid(Id, owneremaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1224,8 +1242,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantfirstname(Id, tenantfirstname) {
+  gettenantfirstname(Id, tenantfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1240,8 +1259,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantlastname(Id, tenantlastname) {
+  gettenantlastname(Id, tenantlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1256,8 +1276,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantmobilenumber(Id, tenantmobilenumber) {
+  gettenantmobilenumber(Id, tenantmobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1272,8 +1293,9 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
-  gettenantemaiid(Id, tenantemaiid) {
+  gettenantemaiid(Id, tenantemaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1288,6 +1310,7 @@ console.log(unit)
         }
       })
     })
+    this.validateUnitDetailsField(name);
   }
   getblocknameornumber(Id,blockname){
     this.blocksArray.forEach(element=>{

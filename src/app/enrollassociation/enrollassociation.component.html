@@ -311,7 +311,7 @@
         <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
             <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
-                <button id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
+                <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             </div>
 
             <div id="upload_excel" style="display:none">
@@ -584,7 +584,7 @@
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>UNIT NO/FLAT NO</mat-label>
                                     <input class = "text" matInput placeholder="UNIT NO/FLAT NO"
-                                     (blur)="getUnitName(unitlistjson[name][i]['Id'],unitlistjson[name][i]['flatno'])"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
+                                     (blur)="getUnitName(unitlistjson[name][i]['Id'],unitlistjson[name][i]['flatno'],name)"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
                                         true}"  value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('flat')">
                                         {{ titleAlert }}
@@ -598,7 +598,7 @@
 
                                <div>
                                 <mat-form-field class="blockdetails-form">
-                                    <mat-select [(value)]="obj.unittype" (blur)="getunittype(unitlistjson[name][i]['Id'],unitlistjson[name][i]['unittype'])"placeholder="UNIT TYPE">
+                                    <mat-select [(value)]="obj.unittype" (blur)="getunittype(unitlistjson[name][i]['Id'],unitlistjson[name][i]['unittype'],name)"placeholder="UNIT TYPE">
                                         <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                         </mat-option>
                                     </mat-select>
@@ -637,7 +637,7 @@
                              <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-select [(value)]="obj.ownershipstatus"
-                                    (blur)="getownershipstatus(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownershipstatus'])"
+                                    (blur)="getownershipstatus(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownershipstatus'],name)"
                                         placeholder="OCCUPANCY & OWNERSHIP STATUS">
                                         <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                         </mat-option>
@@ -653,7 +653,7 @@
                                 <mat-label>OWNER FIRST NAME</mat-label>
                                 <input  class = "text" matInput placeholder="OWNER FIRSTNAME" 
                                 pattern="[a-zA-Z _]*"
-                                (blur)="getownerfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerfirstname'])"
+                                (blur)="getownerfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerfirstname'],name)"
                                 [(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
                                     true}" value="">
                                     <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownfirstname')">
@@ -669,7 +669,7 @@
                                     <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                                         <mat-label>OWNER LAST NAME</mat-label>
                                         <input class = "text" matInput placeholder="OWNER LASTNAME" 
-                                        (blur)="getownerlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerlastname'])"
+                                        (blur)="getownerlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerlastname'],name)"
                                         pattern="[a-zA-Z _]*"
                                         [(ngModel)]="obj.ownerlastname"
                                         [ngModelOptions]="{standalone:true}" value="">
@@ -688,7 +688,7 @@
                             <mat-label>OWNER MOBILE NUMBER</mat-label>
                             <input matInput placeholder="OWNER MOBILE NUMBER"
                             pattern="[0-9]*" 
-                            (blur)="getownermobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownermobilenumber'])"
+                            (blur)="getownermobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownermobilenumber'],name)"
                             minlength="10" maxlength="10"
                             (keypress)=_keyPress($event)
                             [ngModelOptions]="{standalone:true}"
@@ -707,7 +707,7 @@
                     <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='SOLD VACANT UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD OWNER OCCUPIED UNIT'||unitlistjson[name][i]['ownershipstatus']=='SOLD TENANT OCCUPIED UNIT'">
                         <mat-label>OWNER EMAIL ID</mat-label>
                         <input matInput placeholder="OWNER EMAIL-ID"
-                        (blur)="getowneremaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['owneremaiid'])"
+                        (blur)="getowneremaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['owneremaiid'],name)"
                         pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                         [(ngModel)]="obj.owneremaiid"[ngModelOptions]="{standalone:true}"value="">
                         <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownemail')">
@@ -726,7 +726,7 @@
                                 <input class="text" matInput placeholder="TENANT FIRSTNAME" 
                                 pattern="[a-zA-Z _]*"
                                 [(ngModel)]="obj.tenantfirstname"
-                        (blur)="gettenantfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantfirstname'])"
+                        (blur)="gettenantfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantfirstname'],name)"
                                     [ngModelOptions]="{standalone:true}" value="">
                                 <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentfirstname')">
                                         {{ titleAlert }}
@@ -747,7 +747,11 @@
                                 <mat-label>TENANT LAST NAME</mat-label>
                                 <input class = "text" matInput placeholder="TENANT LASTNAME" 
                                 pattern="[a-zA-Z _]*"
+<<<<<<< HEAD
                                 (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'])"
+=======
+                        (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'],name)"
+>>>>>>> 0ca68060fd626fb65ff50462772324a84a4abf8f
                                 [(ngModel)]="obj.tenantlastname"
                                 [ngModelOptions]="{standalone:true}" value="">
                             </mat-form-field>
@@ -764,7 +768,7 @@
                                 pattern="[0-9]*"
                                 minlength="10" maxlength="10"
                                 (keypress)=_keyPress($event)
-                        (blur)="gettenantmobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantmobilenumber'])"
+                        (blur)="gettenantmobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantmobilenumber'],name)"
                                 [(ngModel)]="obj.tenantmobilenumber"
                                 [ngModelOptions]="{standalone:true}" value="">
                                 <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentmobileno')">
@@ -782,7 +786,7 @@
                                     <mat-label>TENANT EMAIL ID</mat-label>
                                     <input matInput placeholder="TENANT EMAIL-ID" 
                                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                        (blur)="gettenantemaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantemaiid'])"
+                        (blur)="gettenantemaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantemaiid'],name)"
                                     [(ngModel)]="obj.tenantemaiid"
                                     [ngModelOptions]="{standalone:true}" value="">
                                         <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentemail')">
@@ -798,15 +802,15 @@
                             </form>
                         </div>
                         <div>
-                        <button id="unitbulkbutton" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
+                        <button style="position: fixed;top: 55%;right: 2%;"  id="unitbulkbutton" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
 
                         </div>
                         <div>
-                            <button id="unitssubmit"mat-raised-button color="primary"(click)="submitunitdetails($event)">SUBMIT</button>
+                            <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab($event,name)">SUBMIT</button>
                         </div>
                         <div class="save">
                             <a class="continue" (click)="resetStep5($event,name)"mat-raised-button color="primary">RESET</a>
-                            <a id="assdetailssave" mat-raised-button color="primary"(click)="gotonexttab($event,name)">NEXT</a>
+                            <!-- <a id="assdetailssave" mat-raised-button color="primary"(click)="gotonexttab($event,name)">NEXT</a> -->
                         </div>    
                      
                     </mat-tab>

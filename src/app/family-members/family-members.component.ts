@@ -35,6 +35,7 @@ export class FamilyMembersComponent implements OnInit {
   EditMobileNumber:any;
   EditRelation:any;
   fmid:any;
+  AsImage:any;
   loadchangedforassociation: boolean;
   ToggleGurdian: any;
   searchTxt:any;
@@ -141,12 +142,13 @@ export class FamilyMembersComponent implements OnInit {
   }
 
 // EDIT FAMILY MEMBER MODEL POPUP
-OpenEditFamilyMemberModal(EditFamilyMemberModal: TemplateRef<any>,fmName,fmRltn,fmMobile,asAssnID,unUnitID,fmid){
+OpenEditFamilyMemberModal(EditFamilyMemberModal: TemplateRef<any>,fmName,fmRltn,fmMobile,asAssnID,fmImgName,unUnitID,fmid){
   console.log(fmName,fmRltn,fmMobile,asAssnID,unUnitID,fmid);
   this.EditFirstName=fmName;
   this.EditMobileNumber=fmMobile;
   this.EditRelation=fmRltn;
   this.fmid=fmid;
+  this.AsImage=fmImgName;
   this.asAssnID=asAssnID;
   this.unitID=unUnitID;
   this.modalRef = this.modalService.show(EditFamilyMemberModal, Object.assign({}, { class: 'gray modal-md' }));
