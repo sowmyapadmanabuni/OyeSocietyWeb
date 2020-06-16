@@ -1038,7 +1038,12 @@ validateUnitDetailsField(name){
             type: "success",
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK"
-          })
+          }).then(
+            (result) => {
+              if (result.value) {
+                console.log(this.finalblockname);
+              }
+            })
       },3000)
       this.demo1TabIndex = this.demo1TabIndex + 1;
       document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
@@ -1392,7 +1397,10 @@ validateUnitDetailsField(name){
     })
   }
   excelunitsuploaddata(exceldata){
-
+console.log(this.finalblockname);
+console.log(exceldata);
+console.log(this.blocksArray);
+console.log(this.unitlistjson);
     this.finalblockname.forEach(blkname => {
     
       exceldata.forEach((unitonce,i) => {
@@ -1408,6 +1416,7 @@ validateUnitDetailsField(name){
           //    unitonce.blockid = obj
 
           //  })
+          console.log(blkname,unitonce.blockname);
           this.blocksArray.forEach((element,index) => {
             if(element.blockname==blkname){
             let unitslength=Number(element.units)
