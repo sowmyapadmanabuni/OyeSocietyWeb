@@ -80,3 +80,249 @@ div .stepwizard-step li{
 .ng-star-inserted1{
     display: flex;
 }
+.page1{
+    padding: 42px;
+}
+/* .mainpage{
+    padding-top: 42px;
+} */
+.association-form{
+    padding:42px;
+    display: inline-flex;
+}
+.blockdetails-form{
+    padding-left: 42px;
+    padding-right: 42px;
+    display: inline-flex;
+
+}
+#pancardupload{
+    margin-left: 50px;
+}
+#unitbulkbutton{
+    display: inline-block;
+    margin-top: 0px;
+    top: 155px;
+    margin-left: 1179px;
+}
+
+.fa-plus-square,.fa-trash{border: none; color: #f7b844;font-size:18px;}
+.fa-question-circle:before {
+    font-size: 20px !important;
+}
+.fa {
+    position: absolute;
+    margin-left: 126px;
+    margin-top: 32px;
+}
+.tooltipicon{
+    font-size: 20px !important;
+
+}
+p.validation {
+    margin-left: 40px;
+    margin-top: -18px;
+    color: #B51414 !important;
+    margin-bottom: 0px;
+    margin-top: -18px;
+}
+p.pancardoriginalname{
+    margin-left: 40px;
+    margin-top: -18px;
+    color:green !important;
+    margin-bottom: 0px;
+    margin-top: -18px;
+}
+#manualbulk {
+    margin: 238px;
+    margin-left: 554px;
+    /* padding: 7px; */
+}
+#unitmanualbulk{
+    margin: 238px;
+    margin-left: 554px;
+}
+/* label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,label {
+    margin: .4rem 0;
+} */
+.logo{
+    position: absolute;
+    margin-left: 127px;
+    margin-top: 35px;
+}
+.logoassociation{
+    position: absolute;
+    /* bottom: 1px; */
+    margin-left: 47px;
+    margin-top: 34px;
+}
+#panalert{
+    color:#B51414 !important;
+    position: relative;
+    font-size: 12px;
+}
+#img{
+    margin-left: 315px;
+    margin-top: -85px;
+        /* width: 183px;
+        margin-left: 47px; */
+}
+img.Upload1 {
+    margin-left: 330px;
+}
+/* small#examplepanno{
+    margin-top: 53px;
+    margin-left: -177px;
+} */
+.Upload{
+    top: 4px;
+    left: 319px;
+    color: #ffffff !important;
+}
+.save{
+    float:right;
+    margin-top: 120px;
+}
+.continue{
+    /* margin: 10px; */
+    color: #ffffff !important;
+
+}
+#assdetailssave{
+    color: #ffffff !important;
+
+}
+span.mat-button-wrapper {
+    color: #ffffff;
+}
+#img2{
+    margin-left: 786px;
+    margin-top: -85px;
+}
+.association-form3{
+    padding-top: 40px;
+    padding-left: 207px;
+    display: inline-flex;
+
+}
+.blockdetailsdata{
+    overflow-x: auto;
+    display: inline-flex;
+
+}
+#unitssubmit{
+    display: inline-block;
+    margin-top: 0px;
+    top: 213px;
+    margin-left: 1200px;
+}
+.tab-selected
+{
+  background-color: rgb(55, 243, 8);
+}
+/* ::ng-deep #mat-tab-label-0-0 {
+  background-color: #333;
+
+}
+::ng-deep #mat-tab-label-0-1 {
+    background-color: #333;
+  
+  } */
+/* ::ng-deep .mat-tab-label {
+   
+    background-color: #B51414 !important;
+  
+} */
+
+/* Styles for the active tab label */
+::ng-deep .mat-tab-label.mat-tab-label-active {
+    background-color: white !important;
+  
+}
+input#file_upload_id {
+    display: none;
+} 
+ input#file_unitupload_id {
+    display: none;
+}
+#upload_excel {
+    margin-left: 481px;
+    margin-top: 100px;
+}
+#unitupload_excel{
+    margin-left: 481px;
+    margin-top: 100px;
+}
+#cancelbutton{
+    margin-left: 340px;
+}
+#blockdetailscancelmanual{
+    display: inline-block;
+    margin-top: 0px;
+    top: 124px;
+    margin-left: 1179px;
+}
+
+img.excel{
+    margin: 44px;
+}
+a.BULK {
+    position: relative;
+    top: 85px;
+    left: 366px;
+}
+a.MANUAL{
+    position: relative;
+    /* right: 334px; */
+    left: 461px;
+    top: 85px;
+}
+.text{
+    text-transform: uppercase;
+}
+.fields{
+    position: fixed;
+}
+::ng-deep .mat-select-panel{
+    margin-top: 20px !important;
+}
+#button1 , #button2 {
+    display:inline-block;
+    margin-right: 29px;
+    /**other codes**/
+    }
+::ng-deep .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: #B51414 !important;
+   }
+  
+
+  ::ng-deep.mat-form-field-ripple {
+   /*change color of underline when focused*/
+   background-color: #B51414 !important;
+  }
+  ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: #B51414 !important;
+}
+ .mat-error {
+    color: #B51414 !important;
+}
+
+::ng-deep .mat-input-invalid .mat-input-placeholder {
+    color: #B51414 !important;
+}
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: #B51414 !important
+}
+::ng-deep .mat-form-field .mat-select.mat-select-invalid .mat-select-arrow {
+    color: #B51414 !important
+}
+::ng-deep .mat-datepicker-content .mat-calendar {
+    width: 216px !important;
+    height: 277px !important;
+}
