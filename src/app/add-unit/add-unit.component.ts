@@ -185,17 +185,17 @@ export class AddUnitComponent implements OnInit {
   tenantOwnerdiv(occupency) {
     this.occupency=occupency;
     this.occupancy.forEach(item => {
-      if (occupency == 'UnSold Vacant Unit') {
+      if (occupency == 'UNSOLD VACANT UNIT') {
         this.tenantDetails = false;
         this.ownerDetails = false;
         this.toggleunitvehicleinformation=false;
       }
-      else if (occupency == 'UnSold Tenant Occupied Unit') {
+      else if (occupency == 'UNSOLD TENANT OCCUPIED UNIT') {
         this.tenantDetails = true;
         this.ownerDetails = false;
         this.toggleunitvehicleinformation=true;
       }
-      else if (occupency == 'Sold Tenant Occupied Unit') {
+      else if (occupency == 'SOLD TENANT OCCUPIED UNIT') {
         this.tenantDetails = true;
         this.ownerDetails = true;
         this.toggleunitvehicleinformation=true;
@@ -321,7 +321,7 @@ export class AddUnitComponent implements OnInit {
       }).then(
        (result) => {
         //this.globalservice.IsUnitCreated=true;
-        //this.router.navigate(['units']);
+        //this.router.navigate(['units']); 
 
          if (result.value) {
            console.log('inside unit test');

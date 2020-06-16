@@ -39,9 +39,13 @@
                     <mat-label>BLOCK NAME/NUMBER</mat-label>
                     <input matInput placeholder="BLOCK NAME/NUMBER" 
                     pattern="[a-zA-Z0-9 _]*" 
+                    #blocknameControl="ngModel"
+                    autocomplete='blockname'
                     (blur)="getblocknameornumber(blockname)"
                     class = "text" id="label" [(ngModel)]="blockname" [ngModelOptions]="{standalone: true}" value="">
-            </mat-form-field>
+                  </mat-form-field>
+                  <p class="validation" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid name is required</p>
+
             <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidblockname']">Valid name is required</p> -->
             <!-- <p class="validation" *ngIf="blocksArray[i]['blockname']==undefined">Valid name is required</p> -->
 
@@ -111,13 +115,17 @@
                     <mat-form-field class="blockdetails-form">
                         <mat-label>MANAGER NAME</mat-label>
                         <input class = "text" 
+                        #managernameControl="ngModel"
                         (keypress)="_keyPress2($event)"
+                        autocomplete='mngName'
                         matInput placeholder="MANAGER NAME" 
-                        (blur)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
+                
                         [(ngModel)]="mngName" 
                         [ngModelOptions]="{standalone:true}"
                         value=""pattern="[a-zA-Z _]*">
                     </mat-form-field>
+                    <p class="validation" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>-->
+
                 <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagername']">Manager name is required</p> -->
                 <!-- <p class="validation" *ngIf="blocksArray[i]['managername']==undefined">Manager name is required</p> -->
                
