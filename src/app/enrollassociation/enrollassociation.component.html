@@ -747,11 +747,7 @@
                                 <mat-label>TENANT LAST NAME</mat-label>
                                 <input class = "text" matInput placeholder="TENANT LASTNAME" 
                                 pattern="[a-zA-Z _]*"
-<<<<<<< HEAD
-                                (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'])"
-=======
                         (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'],name)"
->>>>>>> 0ca68060fd626fb65ff50462772324a84a4abf8f
                                 [(ngModel)]="obj.tenantlastname"
                                 [ngModelOptions]="{standalone:true}" value="">
                             </mat-form-field>
