@@ -364,6 +364,7 @@ export class EnrollassociationComponent implements OnInit {
   startdate;
 
   rowjson = {
+    "blockid":"",
     "blockname": "",
     "blocktype": "",
     "duedate": "",
@@ -560,6 +561,7 @@ export class EnrollassociationComponent implements OnInit {
   submitunitdetails(name) {
     console.log(name);
     console.log(this.unitlistjson[name]);
+    console.log(this.unitlistjson);
     let date = new Date();
     var getDate = date.getDate();
     var getMonth = date.getMonth() + 1;
@@ -582,7 +584,7 @@ export class EnrollassociationComponent implements OnInit {
     //
 
     this.unitlistjson[name].forEach((unit, index) => {
-
+      console.log(unit);
       ((index) => {
         setTimeout(() => {
           this.unitsuccessarray.push(unit);
@@ -963,6 +965,7 @@ validateUnitDetailsField(name){
     console.log(this.blocksArray)
   }
   
+  blockidtmp={};
   blockdetailsfinalcreation(){
     if(!this.isblockdetailsempty){
       this.blocksArray.forEach((element,index) => {
@@ -997,17 +1000,41 @@ validateUnitDetailsField(name){
               ]
       
             }
-          this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
-            console.log(res)
-              this.unitlistjson[element.blockname].forEach(obj => {
+          this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+            .subscribe((res: any) => {
+              console.log(res)
+              console.log(this.unitlistjson);
+              console.log(res.data.blockID);
+              this.blockidtmp[element.blockname]=res.data.blockID;
+              console.log(this.blockidtmp);
+              //console.log(res['data']['data']['blockID']);
+              //console.log(this.unitlistjson[element.blockname]);
+             /* this.unitlistjson[element.blockname].forEach(obj => {
                 obj.blockid = res.data.blockID
                 console.log(obj.blockid);
                 console.log(this.unitlistjson)
-              })
-          }, error => {
+              }) */
+              let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
+              this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
+              for (var i = 0; i < blockArraylength; i++) {
+                let data = JSON.parse(JSON.stringify(this.unitsrowjson))
+
+                data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
+                //data.blockid = res['data']['data']['blockID'];
+                data.blockid = res.data.blockID;
+                console.log(data.Id)
+
+                if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
+                  this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
+                }
+                this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
+                console.log(this.unitlistjson);
+                console.log(this.blocksArray);
+              }
+            }, error => {
             console.log(error);
           });
-          let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
+         /* let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
           this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
          for (var i = 0; i < blockArraylength; i++) {
           let data = JSON.parse(JSON.stringify(this.unitsrowjson))
@@ -1019,12 +1046,18 @@ validateUnitDetailsField(name){
              this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
            }
            this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
-         }
+         } */
         }, 3000 * index)
       })(index)
-      console.log(this.unitlistjson)
       })
       setTimeout(() => {
+//         this.blocksArray.forEach(element => {
+//           Object.keys(this.unitlistjson).forEach(blkname => {
+// if(blkname==element['blockname']){
+//   element['blockid']
+// }
+//           })
+//         })
         var message;
           if(this.blockssuccessarray==1){
             message = 'Block Created Successfully'
@@ -1081,7 +1114,7 @@ validateUnitDetailsField(name){
           var worksheet = workbook.Sheets[first_sheet_name];    
           console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
             this.excelBlockList = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
-                 
+                 console.log(this.excelBlockList);
             this.filelist1 = [];    
       let blockslength=Number(this.noofblocks)
       //for checking purpose blockbulkupload code commenting below
@@ -1401,6 +1434,7 @@ console.log(this.finalblockname);
 console.log(exceldata);
 console.log(this.blocksArray);
 console.log(this.unitlistjson);
+let _blkname='';
     this.finalblockname.forEach(blkname => {
     
       exceldata.forEach((unitonce,i) => {
@@ -1419,9 +1453,12 @@ console.log(this.unitlistjson);
           console.log(blkname,unitonce.blockname);
           this.blocksArray.forEach((element,index) => {
             if(element.blockname==blkname){
+              _blkname = blkname;
             let unitslength=Number(element.units)
 
               if(exceldata.length<=unitslength){
+                console.log(this.blockidtmp);
+                unitonce.blockid = this.blockidtmp[blkname];
                 unitonce.Id = blkname+i+1;
                 unitonce.isnotvalidflatno =false,
                 unitonce.isnotvalidunittype=false,
@@ -1456,6 +1493,7 @@ console.log(this.unitlistjson);
                 this.unitlistjson[blkname].push(unitonce)
                 document.getElementById('unitupload_excel').style.display = 'none'
                 document.getElementById('unitshowmanual').style.display = 'block';
+                console.log(this.unitlistjson);
               }
               else{
                 Swal.fire({
@@ -1477,6 +1515,8 @@ console.log(this.unitlistjson);
 
   
     })
+    //
+    this.validateUnitDetailsField(_blkname);
     console.log("unit data what contains",this.unitlistjson)
   }
   file:File
@@ -1561,6 +1601,7 @@ cancelunitsbulkupload(ev){
   detailsdata ={}
   
   submitforconformblockdetails(event){
+    this.blocksArray=[];
     for (var i = 0; i < this.associationfinalresult.data.association.asNofBlks; i++) {
         var data = JSON.parse(JSON.stringify(this.rowjson))
         // this.detailsdata[i] ={}

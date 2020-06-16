@@ -342,7 +342,7 @@
                 </div> -->
                 
             <!-- <div [formGroup]="blocksdetailsform"> -->
-                <div id="showmanual" style="display:none">
+                <div id="showmanual" style="display:none;margin-top: 30px;">
                     <div *ngFor="let obj of blocksArray;let i= index">
                         <!-- <app-blockdetails [i]="i" [obj]="obj" [detailsdata]="detailsdata" [blocksArray]="blocksArray" [blocksdetailsform]="blocksdetailsform.get(i.toString())"></app-blockdetails> -->
                         <div class="blockdetailsdata">
@@ -747,11 +747,7 @@
                                 <mat-label>TENANT LAST NAME</mat-label>
                                 <input class = "text" matInput placeholder="TENANT LASTNAME" 
                                 pattern="[a-zA-Z _]*"
-<<<<<<< HEAD
-                                (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'])"
-=======
-                        (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'],name)"
->>>>>>> 0ca68060fd626fb65ff50462772324a84a4abf8f
+                                (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'],name)"
                                 [(ngModel)]="obj.tenantlastname"
                                 [ngModelOptions]="{standalone:true}" value="">
                             </mat-form-field>
