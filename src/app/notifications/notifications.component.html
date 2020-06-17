@@ -27,7 +27,9 @@
                   <div class="panel-heading">
                     <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
                       <a (click)="NotificationActiveStatusUpdate($event,itm['adminNtid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}" class="read"> 
-                        <img src="../../assets/images/notification_icons/mail.png"> {{itm['adminReadStatus']}}
+                        <img *ngIf="itm['adminReadStatus']=='Unread'" src="../../assets/images/notification_icons/mail.png"> 
+                        <img *ngIf="itm['adminReadStatus']=='Read'" src="../../assets/images/notification_icons/mailopen.png"> 
+                        {{itm['adminReadStatus']}}
                       </a>
                       <span class="uni_name">{{itm['asAsnName']}}</span>
                       <span class="days">{{itm['adminNtdCreated'] | dateAgo}}</span>
@@ -103,7 +105,9 @@
                   <div class="panel-heading">
                     <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
                       <a (click)="NotificationActiveStatusUpdate($event,item['residentNtid'],'')" data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> 
-                        <img src="../../assets/images/notification_icons/mail.png"> {{item['residentReadStatus']}}
+                        <img *ngIf="item['residentReadStatus']=='Unread'" src="../../assets/images/notification_icons/mail.png"> 
+                        <img *ngIf="item['residentReadStatus']=='Read'" src="../../assets/images/notification_icons/mailopen.png"> 
+                        {{item['residentReadStatus']}} 
                       </a>
                       <span>{{item['asAsnName']}}</span>
                       <span>{{item['residentNtdCreated'] | dateAgo}}</span>
