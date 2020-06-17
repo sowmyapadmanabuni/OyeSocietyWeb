@@ -536,6 +536,7 @@ export class NotificationsComponent implements OnInit {
             console.log(`NotificationSync/A_${associationid}/${visitorId}`);
             console.log(associationid, visitorId, DateOfApproval);
             this.changeViewOfActionButton=false;
+            this.updateFirebase(associationid);
             alert('Success')
           },
             err => {
@@ -549,4 +550,19 @@ export class NotificationsComponent implements OnInit {
         })
   }
   // *-*-*-*-*-*-*-*-*-*-Accept gate Visitors End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+  updateFirebase(assId){
+    let self = this;
+    let refPath = `syncdashboard/notificationPopUpRefresh/${assId}`;
+    console.log('GETTHEDETAILS',refPath,assId)
+    let accountId = this.globalService.getacAccntID();
+    
+    gateFirebase.database()
+    .ref(refPath)
+    .set({
+    acceptedAccountId:accountId
+    }).then((data) => {
+    }).catch(error => {
+    console.log("Error:", error);
+    })
+    }
 }

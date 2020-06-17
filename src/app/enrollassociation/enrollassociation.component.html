@@ -366,6 +366,7 @@
                                 </div>
                                 <div>
                                     <mat-form-field class="blockdetails-form">
+                                        <!-- <mat-select [(value)]="residentialorcommercialtype"  -->
                                         <mat-select [(value)]="blocksArray[i].blocktype" 
                                         (blur)="getblocktype(blocksArray[i]['Id'],blocksArray[i].blocktype)"
                                         placeholder="BLOCK TYPE">
@@ -811,7 +812,7 @@
 
                         </div>
                         <div>
-                            <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab($event,name)">SUBMIT</button>
+                            <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab($event,name)">{{SubmitOrSaveAndContinue}}</button>
                         </div>
                         <div class="save">
                             <a class="continue" (click)="resetStep5($event,name)"mat-raised-button color="primary">RESET</a>

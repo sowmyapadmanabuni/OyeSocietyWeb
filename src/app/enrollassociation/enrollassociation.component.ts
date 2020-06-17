@@ -354,6 +354,7 @@ this.countrieslist = res.data.country;
   assname;
   countryname;
   propertytype;
+  residentialorcommercialtype='';
   state;
   city;
   propertyname;
@@ -565,6 +566,7 @@ this.countrieslist = res.data.country;
   unitsjson = []
   finalunits: any = [];
   finalblockname = [];
+  finalblocknameTmp = [];
   array = []
   unitlistjson = {}
   unitdetailscreatejson;
@@ -582,7 +584,18 @@ this.countrieslist = res.data.country;
     }
   }
   exceptionMessage='';
+  SubmitOrSaveAndContinue='SAVE AND CONTINUE';
   submitunitdetails(name) {
+    let abc = Object.keys(this.unitlistjson);
+    this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
+      return item !=  name;
+    })
+    console.log(this.finalblocknameTmp);
+    console.log(this.finalblocknameTmp.length);
+    if(this.finalblocknameTmp.length==1){
+      console.log('insideltab');
+      this.SubmitOrSaveAndContinue='Submit';
+    }
     this.exceptionMessage='';
     console.log(name);
     console.log(this.unitlistjson[name]);
@@ -592,7 +605,7 @@ this.countrieslist = res.data.country;
     var getMonth = date.getMonth() + 1;
     var getFullYear = date.getFullYear();
     var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
-    this.unitsuccessarray=[];
+    //this.unitsuccessarray=[];
     console.log(date)
 
     let ipAddress = this.utilsService.createUnit();
@@ -714,30 +727,37 @@ this.countrieslist = res.data.country;
         message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
       }
 
-      Swal.fire({
-        title: (this.exceptionMessage == ''?message:this.exceptionMessage),
-        text: "",
-        type: (this.exceptionMessage == ''?"success":"error"),
-        confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
-      }).then(
-        (result) => {
-          if (result.value) {
-            this.isunitdetailsempty=true;
-            let abc1 = Object.keys(this.unitlistjson);
-            if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-              console.log('test block');
-            this.viewAssnService.dashboardredirect.next(result)
-            this.viewAssnService.enrlAsnEnbled = false;
-            this.viewAssnService.vewAsnEnbled = true;
-            this.viewAssnService.joinAsnEbld = false;
+      let abc0 = Object.keys(this.unitlistjson);
+      if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
+        Swal.fire({
+          title: (this.exceptionMessage == ''?message:this.exceptionMessage),
+          text: "",
+          type: (this.exceptionMessage == ''?"success":"error"),
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.isunitdetailsempty=true;
+              //let abc1 = Object.keys(this.unitlistjson);
+              //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                console.log('test block');
+              this.viewAssnService.dashboardredirect.next(result)
+              this.viewAssnService.enrlAsnEnbled = false;
+              this.viewAssnService.vewAsnEnbled = true;
+              this.viewAssnService.joinAsnEbld = false;
+              /*}
+              else{
+                this.demo2TabIndex = this.demo2TabIndex + 1;
+              }*/
+  
             }
-            else{
-              this.demo2TabIndex = this.demo2TabIndex + 1;
-            }
-
-          }
-        })
+          })
+      }
+      else{
+        this.demo2TabIndex = this.demo2TabIndex + 1;
+      }
+      
 
     }, Number(this.unitlistjson[name].length) * 2000)
     document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
@@ -871,6 +891,13 @@ validateUnitDetailsField(name){
 
   submitassociationdetails(event) {
     if (this.form.valid) {
+      if(this.propertytype == 'Residential and Commercial'){
+        this.residentialorcommercialtype='';
+      }
+      else{
+        this.residentialorcommercialtype=this.propertytype;
+      }
+      console.log(this.residentialorcommercialtype);
       this.demo1TabIndex = this.demo1TabIndex + 1;
     document.getElementById("mat-tab-label-0-0").style.backgroundColor = "lightblue";
       
@@ -1011,6 +1038,7 @@ validateUnitDetailsField(name){
                 {
                   "BLBlkName": element.blockname,
                   "BLBlkType": element.blocktype,
+                  //"BLBlkType": this.residentialorcommercialtype,
                   "BLNofUnit": element.units,
                   "BLMgrName": element.managername,
                   "BLMgrMobile": element.managermobileno,
@@ -1028,6 +1056,7 @@ validateUnitDetailsField(name){
               ]
       
             }
+            console.log(this.jsondata);
           this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
               console.log(res)
@@ -1044,6 +1073,7 @@ validateUnitDetailsField(name){
               }) */
               let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
               this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
+              this.finalblocknameTmp.push(this.jsondata.blocks[0].BLBlkName);
               for (var i = 0; i < blockArraylength; i++) {
                 let data = JSON.parse(JSON.stringify(this.unitsrowjson))
 
@@ -1148,6 +1178,7 @@ validateUnitDetailsField(name){
       //for checking purpose blockbulkupload code commenting below
       if (this.excelBlockList.length <= blockslength) {
         this.excelBlockList.forEach((list, i) => {
+          console.log(list);
           // this.detailsdata[i] = {}
           // Object.keys(list).forEach(datails => {
           //   this.detailsdata[i][datails] = { required: true };
@@ -1162,7 +1193,7 @@ validateUnitDetailsField(name){
           list.isnotvalidmanagername=false,
       
           list.isnotvalidunits=false,
-      
+          list.blocktype=this.residentialorcommercialtype;
          
           this.blocksArray.push(list);
           console.log(this.blocksArray)
