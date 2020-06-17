@@ -387,7 +387,18 @@
              
                <div class="save">
                 <a class="continue" (click)="resetStep1($event)" mat-raised-button color="primary">RESET</a>
-                <button [disabled]="stepOneFrm.invalid" class="btn btn-primary-purple nextBtn pull-right">Next</button>
+                <button [disabled]="viewAssnService.EditAssociationData['ASAsnName'] == '' ||
+                 viewAssnService.EditAssociationData['ASCountry'] == '' ||
+                 viewAssnService.EditAssociationData['ASState'] == '' ||
+                 viewAssnService.EditAssociationData['ASCity'] =='' ||
+                 
+                 viewAssnService.EditAssociationData['ASPinCode'] == ''||
+                 viewAssnService.EditAssociationData['ASPrpType'] == ''||
+                 viewAssnService.EditAssociationData['ASPrpName'] == ''||
+                 viewAssnService.EditAssociationData['ASAddress'] == ''||
+                 viewAssnService.EditAssociationData['asAsnEmail'] == ''"
+
+ class="btn btn-primary-purple nextBtn pull-right">Next</button>
                 <!-- <a id="assdetailssave"mat-raised-button color="primary" class="btn btn-primary-purple nextBtn pull-right"[disabled]="!form.valid">NEXT</a> -->
             </div>
             </div>
