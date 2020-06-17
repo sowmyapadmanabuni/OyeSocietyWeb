@@ -122,22 +122,23 @@ export class EnrollassociationComponent implements OnInit {
     "UTTARAKHAND",
     "WEST BENGAL"
   ]
-  propertyType = [
+  propertyType = ['Residential','Commercial','Residential and Commercial']/*[
     "RESIDENTIAL",
     "COMMERCIAL PROPERTY",
     "RESIDENTIAL AND COMMERCIAL PROPERTY"
-  ]
+  ]*/
+  
   amenityType = [
     "SWIMMING POOL",
     "GYM",
     "CLUB HOUSE",
     "THEATER"
   ]
-  blockType = [
+  blockType = ['Residential','Commercial','Residential and Commercial']/*[
     "RESIDENTIAL",
     "COMMERCIAL",
     "RESIDENTIAL AND COMMERCIAL"
-  ]
+  ]*/
   paymentchargetype = [
     "MONTHLY",
     "QUATERLY",
@@ -150,12 +151,18 @@ export class EnrollassociationComponent implements OnInit {
     "YEARLY"
   ]
   occupancy = [
+    "Sold Owner Occupied Unit",
+    "Sold Tenant Occupied Unit",
+    "Sold Vacant Unit",
+    "UnSold Vacant Unit",
+    "UnSold Tenant Occupied Unit"
+  ]/*[
     "SOLD OWNER OCCUPIED UNIT",
     "SOLD TENANT OCCUPIED UNIT",
     "SOLD VACANT UNIT",
     "UNSOLD VACANT UNIT",
     "UNSOLD TENANT OCCUPIED UNIT",
-  ]
+  ]*/
   unittypedata =[
     "FLAT",
     "VILLA",
@@ -558,7 +565,9 @@ export class EnrollassociationComponent implements OnInit {
       this.submitunitdetails(name);
     }
   }
+  exceptionMessage='';
   submitunitdetails(name) {
+    this.exceptionMessage='';
     console.log(name);
     console.log(this.unitlistjson[name]);
     console.log(this.unitlistjson);
@@ -609,15 +618,15 @@ export class EnrollassociationComponent implements OnInit {
                 "Owner":
                   [{
 
-                    "UOFName": unit.ownerfirstname,
-                    "UOLName": unit.ownerlastname,
-                    "UOMobile": unit.ownermobilenumber,
+                    "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
+                    "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
+                    "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
                     "UOISDCode": "",
                     "UOMobile1": "",
                     "UOMobile2": "",
                     "UOMobile3": "",
                     "UOMobile4": "",
-                    "UOEmail": unit.owneremaiid,
+                    "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
                     "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
                     "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
                     "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
@@ -626,12 +635,12 @@ export class EnrollassociationComponent implements OnInit {
 
                   }],
                 "Tenant": [{
-                  "UTFName": unit.tenantfirstname,
-                  "UTLName": unit.tenantlastname,
-                  "UTMobile": unit.tenantmobilenumber,
+                  "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
+                  "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
+                  "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
                   "UTISDCode": "+91",
                   "UTMobile1": "+919398493298",
-                  "UTEmail": unit.tenantemaiid,
+                  "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
                   "UTEmail1": "pl@gmail.com"
                 }],
                 "unitbankaccount":
@@ -661,6 +670,8 @@ export class EnrollassociationComponent implements OnInit {
 
           }, error => {
             console.log(error);
+           this.exceptionMessage = error['error']['exceptionMessage'];
+           console.log(this.exceptionMessage);
           }
           );
         }, 2000 * index)
@@ -686,10 +697,11 @@ export class EnrollassociationComponent implements OnInit {
       else if (this.unitsuccessarray.length > 1) {
         message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
       }
+
       Swal.fire({
-        title: message,
+        title: (this.exceptionMessage == ''?message:this.exceptionMessage),
         text: "",
-        type: "success",
+        type: (this.exceptionMessage == ''?"success":"error"),
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK"
       }).then(
@@ -726,7 +738,7 @@ validateUnitDetailsField(name){
         if (name == headername) {
           console.log(unit);
           if(this.isunitdetailsempty){
-            if (unit.ownershipstatus == "SOLD OWNER OCCUPIED UNIT"||unit.ownershipstatus == "SOLD VACANT UNIT") {
+            if (unit.ownershipstatus == "Sold Owner Occupied Unit"||unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
@@ -751,7 +763,7 @@ validateUnitDetailsField(name){
   
             //   }
             // }
-            else if (unit.ownershipstatus == "SOLD TENANT OCCUPIED UNIT") {
+            else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
@@ -770,7 +782,7 @@ validateUnitDetailsField(name){
   
               }
             } 
-            else if (unit.ownershipstatus == "UNSOLD TENANT OCCUPIED UNIT") {
+            else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
   
@@ -785,7 +797,7 @@ validateUnitDetailsField(name){
   
               }
             }
-            else if (unit.ownershipstatus == "UNSOLD VACANT UNIT"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
+            else if (unit.ownershipstatus == "UnSold Vacant Unit"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
               unit.unittype == "" || unit.unittype == undefined ||
   
@@ -1445,14 +1457,14 @@ let _blkname='';
         //   console.log(datails)
         //   this.unitdetails[i][datails] ={required:true};
         // })
-        if (blkname == unitonce.blockname) {
+        if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
           //  this.blockdetailsfinalresponce.forEach(obj=>{
           //    unitonce.blockid = obj
 
           //  })
           console.log(blkname,unitonce.blockname);
           this.blocksArray.forEach((element,index) => {
-            if(element.blockname==blkname){
+            if(element.blockname.toLowerCase()==blkname.toLowerCase()){
               _blkname = blkname;
             let unitslength=Number(element.units)
 
