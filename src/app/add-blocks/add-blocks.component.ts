@@ -236,7 +236,64 @@ rate1:any;
       event.preventDefault();
     }
   }
+  blockdetailsvalid:boolean;
+  noofunitsvallid:boolean;
+  blocktypevalid:boolean;
+  managernamevalid:boolean;
+  managermobilevalid:boolean;
+  manageremailvalid:boolean;
 
+
+
+  validateblockname(ev, blockname) {
+    if (blockname!= "" || undefined) {
+      this.blockdetailsvalid = false;
+    }
+    else {
+      this.blockdetailsvalid = true;
+    }
+  }
+  validatenoofunits(ev,noofunits){
+    if (noofunits!= "" || undefined) {
+      this.noofunitsvallid = false;
+    }
+    else {
+      this.noofunitsvallid = true;
+    }
+  }
+  getblocktypevalid(blocktype){
+    if (blocktype!= "" || undefined) {
+      this.blocktypevalid = false;
+    }
+    else {
+      this.blocktypevalid = true;
+    }
+  }
+  validatemanagername(ev,mngName){
+    if (mngName!= "" || undefined) {
+      this.managernamevalid = false;
+    }
+    else {
+      this.managernamevalid = true;
+    }
+
+  }
+  validatemanagermobilenumber(ev,mobile){
+    if (mobile!= "" || undefined) {
+      this.managermobilevalid = false;
+    }
+    else {
+      this.managermobilevalid = true;
+    }
+  }
+  validatemanageremail(ev,manageremail){
+    if (manageremail!= "" || undefined) {
+      this.manageremailvalid = false;
+    }
+    else {
+      this.manageremailvalid = true;
+    }
+  }
   onDueDateValueChange(value: Date) {
     this.enableduedatevalidation = false;
     if (value != null) {

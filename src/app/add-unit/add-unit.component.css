@@ -146,5 +146,13 @@
         padding-left: 42px;
         padding-right: 42px;
         display: inline-flex;
-    
     }
+    p.validation {
+        margin-left: 40px;
+        margin-top: -18px;
+        color: #B51414 !important;
+        margin-bottom: 0px;
+        margin-top: -18px;
+        width: 260px;
+    }
+    
