@@ -344,11 +344,11 @@
                 
             <!-- <div [formGroup]="blocksdetailsform"> -->
                 <!-- <div id="showmanual" style="display:none;margin-top: 30px;"> -->
+                    <form #blkDtlFrm="ngForm" class="blockdetails-form">
                 <div id="showmanual" style="margin-top: 30px;">
                     <div *ngFor="let obj of blocksArray;let i= index">
                         <!-- <app-blockdetails [i]="i" [obj]="obj" [detailsdata]="detailsdata" [blocksArray]="blocksArray" [blocksdetailsform]="blocksdetailsform.get(i.toString())"></app-blockdetails> -->
                         <div class="blockdetailsdata">
-                            <form class="blockdetails-form">
                                 <div>
                                     <mat-form-field class="blockdetails-form">
                                             <mat-label>BLOCK NAME/NUMBER</mat-label>
@@ -522,7 +522,6 @@
                                         {{ titleAlert }}
                                     </mat-error>
                                 </mat-form-field>  -->
-                            </form>
                         </div>
                         
                         </div>
@@ -532,9 +531,11 @@
                         </div>
                     <div id="blockdetailsbuttons"class="save">
                         <a class="continue" (click)="resetStep4($event)"mat-raised-button color="primary" >RESET</a>
-                        <a id="assdetailssave" mat-raised-button color="primary"[disabled]="!blocksdetailsform.valid"(click)="createblocksdetails($event)">NEXT</a>
+                        <a id="assdetailssave" mat-raised-button color="primary" (click)="createblocksdetails($event)">NEXT</a>
+                        <!-- <button id="assdetailssave" color="primary" [disabled]="blkDtlFrm.invalid" (click)="createblocksdetails('')">NEXT</button> -->
                     </div>
                 </div>
+                </form>
           
         </mat-tab>
         <!-- <mat-tab [disabled]='!tab.isActive' label="unit bulk/manual">

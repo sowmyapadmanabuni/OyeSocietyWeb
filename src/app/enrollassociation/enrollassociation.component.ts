@@ -40,12 +40,14 @@ export class EnrollassociationComponent implements OnInit {
   private formSubmitAttempt: boolean;
   isblockdetailsempty: boolean;
   isunitdetailsempty:boolean;
+  blockdetailInvalid:boolean;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder) {
+      this.blockdetailInvalid=true;
       this.url='';
       this.isblockdetailsempty=false;
       // this.isunitdetailsempty=false;
@@ -760,7 +762,7 @@ this.countrieslist = res.data.country;
       
 
     }, Number(this.unitlistjson[name].length) * 2000)
-    document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
+    //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
 
   }
 validateUnitDetailsField(name){
@@ -899,7 +901,7 @@ validateUnitDetailsField(name){
       }
       console.log(this.residentialorcommercialtype);
       this.demo1TabIndex = this.demo1TabIndex + 1;
-    document.getElementById("mat-tab-label-0-0").style.backgroundColor = "lightblue";
+    //document.getElementById("mat-tab-label-0-0").style.backgroundColor = "lightblue";
       
     }
     else {
@@ -938,7 +940,7 @@ validateUnitDetailsField(name){
 
     if (this.firstLetter == this.fifthLetter) {
       this.demo1TabIndex = this.demo1TabIndex + 1;
-      document.getElementById("mat-tab-label-0-1").style.backgroundColor = "lightblue";
+      //document.getElementById("mat-tab-label-0-1").style.backgroundColor = "lightblue";
 
     }
 
@@ -1137,7 +1139,7 @@ validateUnitDetailsField(name){
             })
       },3000)
       this.demo1TabIndex = this.demo1TabIndex + 1;
-      document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
+      //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
     }
   }
@@ -1416,6 +1418,7 @@ validateUnitDetailsField(name){
         element.blockname = blockname;
         if(element.blockname ==""){
           element['isnotvalidblockname']=true;
+          this.blockdetailInvalid=true;
         }
         else{
           element['isnotvalidblockname']=false;
@@ -1430,6 +1433,7 @@ validateUnitDetailsField(name){
         element.units = units;
         if(element.units ==""){
           element['isnotvalidunits']=true;
+          this.blockdetailInvalid=true;
         }
         else{
           element['isnotvalidunits']=false;
@@ -1443,6 +1447,7 @@ validateUnitDetailsField(name){
         element.managername = managername;
         if(element.managername ==""){
           element['isnotvalidmanagername']=true;
+          this.blockdetailInvalid=true;
         }
         else{
           element['isnotvalidmanagername']=false;
@@ -1456,6 +1461,7 @@ validateUnitDetailsField(name){
         element.managermobileno = managermobileno;
         if(element.managermobileno ==""){
           element['isnotvalidmanagermobileno']=true;
+          this.blockdetailInvalid=true;
         }
         else{
           element['isnotvalidmanagermobileno']=false;
@@ -1469,6 +1475,7 @@ validateUnitDetailsField(name){
         element.manageremailid = manageremailid;
         if(element.manageremailid ==""){
           element['isnotvalidmanageremailid']=true;
+          this.blockdetailInvalid=true;
         }
         else{
           element['isnotvalidmanageremailid']=false;
@@ -1482,6 +1489,7 @@ validateUnitDetailsField(name){
         element.blocktype = blocktype;
         if(element.blocktype ==""){
           element['isnotvalidblocktype']=true;
+          this.blockdetailInvalid=true;
         }
         else{
           element['isnotvalidblocktype']=false;
@@ -1670,6 +1678,7 @@ cancelunitsbulkupload(ev){
         //   this.detailsdata[i][datails] ={required:true};
         // })
         data.Id = i+1;
+        data.blocktype= this.residentialorcommercialtype;
         this.blocksArray.push(data);
         console.log(this.blocksArray)
   
@@ -1779,6 +1788,7 @@ cancelunitsbulkupload(ev){
           //   this.detailsdata[i][datails] ={required:true};
           // })
           data.Id = i + 1;
+          data.blocktype= this.residentialorcommercialtype;
           this.blocksArray.push(data);
           console.log(this.blocksArray)
 
@@ -1790,7 +1800,7 @@ cancelunitsbulkupload(ev){
   
    
       this.demo1TabIndex = this.demo1TabIndex + 1;
-      document.getElementById("mat-tab-label-0-2").style.backgroundColor = "lightblue";
+      //document.getElementById("mat-tab-label-0-2").style.backgroundColor = "lightblue";
 
     }
     else {

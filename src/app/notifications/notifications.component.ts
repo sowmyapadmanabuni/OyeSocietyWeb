@@ -22,6 +22,8 @@ let config = {
   appId: "1:1054539821176:web:5f6e4b2a4db6e64e9c3d8d",
   measurementId: "G-1K6Q5VL6WZ"
 };
+gateFirebase.initializeApp(config);
+
 
 @Component({
   selector: 'app-notifications',
@@ -59,7 +61,6 @@ export class NotificationsComponent implements OnInit {
     this.ResidentNotificationListArray = [];
     this.ResidentNotificationListArrayTemp = [];
     this.notificationListArrayTemp = [];
-    gateFirebase.initializeApp(config);
     if (this.globalService.mrmroleId != 1) {
       this.AdminsUnitShow('resident');
     }
