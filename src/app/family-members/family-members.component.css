@@ -109,10 +109,10 @@ label{font-size:12px !important;font-weight: 500 !important}
     display: block;
 }
 .p-image {
-    position: relative;
-    top: 0px;
-    left: 50px;
-    color: #666666;
+  position: absolute;
+  top: 200px;
+  left: 170px;
+  color: #666666;
   transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
 }
 .p-image:hover {
