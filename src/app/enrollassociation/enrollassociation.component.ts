@@ -1725,7 +1725,7 @@ cancelunitsbulkupload(ev){
           "ASPANStat": "True",
           "ASPANNum": this.pannumber,
           "ASNofBlks": num1,
-          "ASNofUnit": totalnoofuits,
+          "ASNofUnit": num2,
           "ASONStat": "True",
           "ASOMStat": "False",
           "ASFaceDet": "True",

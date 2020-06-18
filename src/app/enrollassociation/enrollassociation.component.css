@@ -1,3 +1,6 @@
+#leftTabs li a{border: 1px solid #d4bff8;}
+
+
 .page1{
     padding: 42px;
 }
@@ -216,7 +219,7 @@ a.MANUAL{
     }
 ::ng-deep .mat-focused .mat-form-field-label {
     /*change color of label*/
-    color: #B51414 !important;
+    color: green !important;
    }
   
 

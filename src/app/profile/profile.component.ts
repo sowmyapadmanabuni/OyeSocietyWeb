@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { GlobalServiceService } from '../global-service.service';
-import{EditprofileService} from '../../services/editprofile.service';
+import{ EditprofileService } from '../../services/editprofile.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2';
 import { Router,ActivatedRoute } from '@angular/router';
