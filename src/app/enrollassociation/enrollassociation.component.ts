@@ -471,9 +471,11 @@ this.countrieslist = res.data.country;
   ImgForPopUp:any;
   UploadedImage: any;
   showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,displayText){
-    this.ImgForPopUp=thumbnailASAsnLogo;
-    this.UploadedImage=displayText;
-    this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
+    if(thumbnailASAsnLogo!=undefined){
+      this.ImgForPopUp=thumbnailASAsnLogo;
+      this.UploadedImage=displayText;
+      this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
+    }
   }
   ASAsnLogo: any;
   thumbnailASAsnLogo:any;
