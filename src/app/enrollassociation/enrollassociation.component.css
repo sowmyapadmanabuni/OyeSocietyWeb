@@ -216,7 +216,7 @@ a.MANUAL{
     }
 ::ng-deep .mat-focused .mat-form-field-label {
     /*change color of label*/
-    color: #B51414 !important;
+    color: green !important;
    }
   
 
