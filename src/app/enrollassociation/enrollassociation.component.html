@@ -309,10 +309,11 @@
            
         </mat-tab> -->
         <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
-            <div id="manualbulk">
+            <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
+            <!-- <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
                 <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
-            </div>
+            </div> -->
 
             <div id="upload_excel" style="display:none">
                 <a> <img style="width: 100px;" class="excel" (click)="uploadblocks()" src="../../assets/images/upload.png"
@@ -342,7 +343,8 @@
                 </div> -->
                 
             <!-- <div [formGroup]="blocksdetailsform"> -->
-                <div id="showmanual" style="display:none;margin-top: 30px;">
+                <!-- <div id="showmanual" style="display:none;margin-top: 30px;"> -->
+                <div id="showmanual" style="margin-top: 30px;">
                     <div *ngFor="let obj of blocksArray;let i= index">
                         <!-- <app-blockdetails [i]="i" [obj]="obj" [detailsdata]="detailsdata" [blocksArray]="blocksArray" [blocksdetailsform]="blocksdetailsform.get(i.toString())"></app-blockdetails> -->
                         <div class="blockdetailsdata">
@@ -526,7 +528,7 @@
                         </div>
                     <!-- </div> -->
                        <div id="blockdetailscancelbutton">
-                        <button id="blockdetailscancelmanual" mat-raised-button color="primary" (click)="cancelmanualblocks($event)">Cancel</button>
+                        <!-- <button id="blockdetailscancelmanual" mat-raised-button color="primary" (click)="cancelmanualblocks($event)">Cancel</button> -->
                         </div>
                     <div id="blockdetailsbuttons"class="save">
                         <a class="continue" (click)="resetStep4($event)"mat-raised-button color="primary" >RESET</a>

@@ -1142,6 +1142,7 @@ validateUnitDetailsField(name){
   filelist1:any;
 
     onFileChange(ev){
+      this.blocksArray=[];
       this.file= ev.target.files[0];     
       let fileReader = new FileReader();    
       fileReader.readAsArrayBuffer(this.file);     
@@ -1626,7 +1627,7 @@ let _blkname='';
     this.blocksArray=[]
   }
 submitforblocksbulkupload(ev){
-  document.getElementById('manualbulk').style.display ='none'
+  document.getElementById('showmanual').style.display ='none'
   document.getElementById('upload_excel').style.display ='block';
 }
 submitforbulkupload(ev){
@@ -1635,7 +1636,8 @@ submitforbulkupload(ev){
 }
 cancelbulkupload(ev){
   document.getElementById('upload_excel').style.display ='none';
-  document.getElementById('manualbulk').style.display ='block'
+  document.getElementById('showmanual').style.display ='block';
+  //this.blocksArray=[];
 }
 cancelunitsbulkupload(ev){
   document.getElementById('unitupload_excel').style.display ='none';
@@ -1657,10 +1659,10 @@ cancelunitsbulkupload(ev){
   
       }
       // this.blockDetailsgenerateform();
-       document.getElementById('manualbulk').style.display ='none'
-       document.getElementById('showmanual').style.display ='block';
-       document.getElementById('blockdetailsbuttons').style.display ='block';
-       document.getElementById('blockdetailscancelbutton').style.display ='block';
+       //document.getElementById('manualbulk').style.display ='none'
+       //document.getElementById('showmanual').style.display ='block';
+       //document.getElementById('blockdetailsbuttons').style.display ='block';
+       //document.getElementById('blockdetailscancelbutton').style.display ='block';
 
 
 
@@ -1752,7 +1754,19 @@ cancelunitsbulkupload(ev){
       //   console.log(this.blocksArray)
   
       // }
-      console.log(this.blocksArray)
+      console.log(this.blocksArray);
+        this.blocksArray = [];
+        for (var i = 0; i < this.associationfinalresult.data.association.asNofBlks; i++) {
+          var data = JSON.parse(JSON.stringify(this.rowjson))
+          // this.detailsdata[i] ={}
+          // Object.keys(data).forEach(datails=>{
+          //   this.detailsdata[i][datails] ={required:true};
+          // })
+          data.Id = i + 1;
+          this.blocksArray.push(data);
+          console.log(this.blocksArray)
+
+        }
       },error=>{
        console.log(error);
       }
