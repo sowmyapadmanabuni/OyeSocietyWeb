@@ -181,6 +181,82 @@ export class AddUnitComponent implements OnInit {
     this.tenantMobnumber='';
     this.tenantEmail='';
   }
+  flatnovalid:boolean;
+  ownerfirstnamevalid:boolean;
+  ownerlastnamevalid:boolean;
+  ownermobilevalid:boolean;
+  owneremailvalid:boolean;
+  tenantFirtnamevalid:boolean;
+  tenantLastnamevalid:boolean;
+  tenantmobilevalid:boolean;
+  tenantemailvalid:boolean;
+
+
+
+  validateflatno(ev,unitno){
+    if (unitno != "" || undefined) {
+      this.flatnovalid = false;
+    } else {
+      this.flatnovalid = true;
+    }
+  }
+  validateownerfirtname(ev,ownerFirtname){
+    if (ownerFirtname != "" || undefined) {
+      this.ownerfirstnamevalid = false;
+    } else {
+      this.ownerfirstnamevalid = true;
+    }
+  }
+  validateownerlastname(ev,ownerLastname){
+    if (ownerLastname != "" || undefined) {
+      this.ownerlastnamevalid = false;
+    } else {
+      this.ownerlastnamevalid = true;
+    }
+  }
+  validateownermobile(ev,ownerMobnumber){
+    if (ownerMobnumber != "" || undefined) {
+      this.ownermobilevalid = false;
+    } else {
+      this.ownermobilevalid = true;
+    }
+  }
+  validateowneremail(ev,ownerEmail){
+    if (ownerEmail != "" || undefined) {
+      this.owneremailvalid = false;
+    } else {
+      this.owneremailvalid = true;
+    }
+  }
+  validatetenantfirstname(ev,tenantFirtname){
+    if (tenantFirtname != "" || undefined) {
+      this.tenantFirtnamevalid = false;
+    } else {
+      this.tenantFirtnamevalid = true;
+    }
+  }
+  validatetenantlastname(ev,tenantLastname){
+    if (tenantLastname != "" || undefined) {
+      this.tenantLastnamevalid = false;
+    } else {
+      this.tenantLastnamevalid = true;
+    }
+  }
+  validatetenantmobile(ev,tenantMobnumber){
+    if (tenantMobnumber != "" || undefined) {
+      this.tenantmobilevalid = false;
+    } else {
+      this.tenantmobilevalid = true;
+    }
+  }
+
+  validatetenantemail(ev,tenantEmail){
+    if (tenantEmail != "" || undefined) {
+      this.tenantemailvalid = false;
+    } else {
+      this.tenantemailvalid = true;
+    }
+  }
  
   tenantOwnerdiv(occupency) {
     this.occupency=occupency;

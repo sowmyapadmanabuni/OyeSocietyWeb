@@ -29,7 +29,7 @@ export class EnrollassociationComponent implements OnInit {
   blocksdetailsform:FormGroup;
   uploadForm: FormGroup;
   uploadPanForm: FormGroup;
-
+  countrieslist=[];
   // blocksdetailsform:FormGroup=this.formBuilder.group({});
   unitsdetailsform:FormGroup;
   isbulkupload = false;
@@ -50,40 +50,41 @@ export class EnrollassociationComponent implements OnInit {
       this.isblockdetailsempty=false;
       // this.isunitdetailsempty=false;
      }
-  countrieslist = [
-    "INDIA",
-    "AFGHANISTAN",
-    "ALGERIA",
-    "ARGENTINA",
-    "AUSTRALIA",
-    "AUSTRIA",
-    "BELGIUM",
-    "BHUTAN",
-    "BRAZIL",
-    "CANADA",
-    "CHINA",
-    "CUBA",
-    "DENMARK",
-    "FINLAND",
-    "FRANCE",
-    "GERMANY",
-    "IRELAND",
-    "ISRAEL",
-    "ITALY",
-    "JAPAN",
-    "MALAYSIA",
-    "MEXICO",
-    "NETHERLANDS",
-    "NORWAY",
-    "QATAR",
-    "RUSSIA",
-    "SINGAPORE",
-    "SWITZERLAND",
-    "UAE",
-    "UNITED KINGDOM",
-    "USA",
-    "QATAR"
-  ]
+
+  // countrieslist = [
+  //   "INDIA",
+  //   "AFGHANISTAN",
+  //   "ALGERIA",
+  //   "ARGENTINA",
+  //   "AUSTRALIA",
+  //   "AUSTRIA",
+  //   "BELGIUM",
+  //   "BHUTAN",
+  //   "BRAZIL",
+  //   "CANADA",
+  //   "CHINA",
+  //   "CUBA",
+  //   "DENMARK",
+  //   "FINLAND",
+  //   "FRANCE",
+  //   "GERMANY",
+  //   "IRELAND",
+  //   "ISRAEL",
+  //   "ITALY",
+  //   "JAPAN",
+  //   "MALAYSIA",
+  //   "MEXICO",
+  //   "NETHERLANDS",
+  //   "NORWAY",
+  //   "QATAR",
+  //   "RUSSIA",
+  //   "SINGAPORE",
+  //   "SWITZERLAND",
+  //   "UAE",
+  //   "UNITED KINGDOM",
+  //   "USA",
+  //   "QATAR"
+  // ]
   states = [
     "ANDAMAN",
     "ANDHRA PRADESH",
@@ -122,22 +123,23 @@ export class EnrollassociationComponent implements OnInit {
     "UTTARAKHAND",
     "WEST BENGAL"
   ]
-  propertyType = [
+  propertyType = ['Residential','Commercial','Residential and Commercial']/*[
     "RESIDENTIAL",
     "COMMERCIAL PROPERTY",
     "RESIDENTIAL AND COMMERCIAL PROPERTY"
-  ]
+  ]*/
+  
   amenityType = [
     "SWIMMING POOL",
     "GYM",
     "CLUB HOUSE",
     "THEATER"
   ]
-  blockType = [
+  blockType = ['Residential','Commercial','Residential and Commercial']/*[
     "RESIDENTIAL",
     "COMMERCIAL",
     "RESIDENTIAL AND COMMERCIAL"
-  ]
+  ]*/
   paymentchargetype = [
     "MONTHLY",
     "QUATERLY",
@@ -150,12 +152,18 @@ export class EnrollassociationComponent implements OnInit {
     "YEARLY"
   ]
   occupancy = [
+    "Sold Owner Occupied Unit",
+    "Sold Tenant Occupied Unit",
+    "Sold Vacant Unit",
+    "UnSold Vacant Unit",
+    "UnSold Tenant Occupied Unit"
+  ]/*[
     "SOLD OWNER OCCUPIED UNIT",
     "SOLD TENANT OCCUPIED UNIT",
     "SOLD VACANT UNIT",
     "UNSOLD VACANT UNIT",
     "UNSOLD TENANT OCCUPIED UNIT",
-  ]
+  ]*/
   unittypedata =[
     "FLAT",
     "VILLA",
@@ -178,6 +186,7 @@ export class EnrollassociationComponent implements OnInit {
       pannumber:['']
     });
     this.unitsDetailsgenerateform();
+    this.countrylist();
   }
   isFieldValid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
@@ -311,6 +320,20 @@ export class EnrollassociationComponent implements OnInit {
 
    }
   }
+  countrylist(){
+ let countryurl = "http://apidev.oyespace.com/oyeliving/api/v1/Country/GetCountryList" 
+
+    this.http.get(countryurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+this.countrieslist = res.data.country;
+
+    }, error => {
+      console.log(error);
+     this.exceptionMessage = error['error']['exceptionMessage'];
+     console.log(this.exceptionMessage);
+    }
+    );
+  }
 
   ngAfterContentChecked() {
 
@@ -331,6 +354,7 @@ export class EnrollassociationComponent implements OnInit {
   assname;
   countryname;
   propertytype;
+  residentialorcommercialtype='';
   state;
   city;
   propertyname;
@@ -542,6 +566,7 @@ export class EnrollassociationComponent implements OnInit {
   unitsjson = []
   finalunits: any = [];
   finalblockname = [];
+  finalblocknameTmp = [];
   array = []
   unitlistjson = {}
   unitdetailscreatejson;
@@ -558,7 +583,20 @@ export class EnrollassociationComponent implements OnInit {
       this.submitunitdetails(name);
     }
   }
+  exceptionMessage='';
+  SubmitOrSaveAndContinue='SAVE AND CONTINUE';
   submitunitdetails(name) {
+    let abc = Object.keys(this.unitlistjson);
+    this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
+      return item !=  name;
+    })
+    console.log(this.finalblocknameTmp);
+    console.log(this.finalblocknameTmp.length);
+    if(this.finalblocknameTmp.length==1){
+      console.log('insideltab');
+      this.SubmitOrSaveAndContinue='Submit';
+    }
+    this.exceptionMessage='';
     console.log(name);
     console.log(this.unitlistjson[name]);
     console.log(this.unitlistjson);
@@ -567,7 +605,7 @@ export class EnrollassociationComponent implements OnInit {
     var getMonth = date.getMonth() + 1;
     var getFullYear = date.getFullYear();
     var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
-    this.unitsuccessarray=[];
+    //this.unitsuccessarray=[];
     console.log(date)
 
     let ipAddress = this.utilsService.createUnit();
@@ -609,15 +647,15 @@ export class EnrollassociationComponent implements OnInit {
                 "Owner":
                   [{
 
-                    "UOFName": unit.ownerfirstname,
-                    "UOLName": unit.ownerlastname,
-                    "UOMobile": unit.ownermobilenumber,
+                    "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
+                    "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
+                    "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
                     "UOISDCode": "",
                     "UOMobile1": "",
                     "UOMobile2": "",
                     "UOMobile3": "",
                     "UOMobile4": "",
-                    "UOEmail": unit.owneremaiid,
+                    "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
                     "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
                     "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
                     "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
@@ -626,12 +664,12 @@ export class EnrollassociationComponent implements OnInit {
 
                   }],
                 "Tenant": [{
-                  "UTFName": unit.tenantfirstname,
-                  "UTLName": unit.tenantlastname,
-                  "UTMobile": unit.tenantmobilenumber,
+                  "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
+                  "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
+                  "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
                   "UTISDCode": "+91",
                   "UTMobile1": "+919398493298",
-                  "UTEmail": unit.tenantemaiid,
+                  "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
                   "UTEmail1": "pl@gmail.com"
                 }],
                 "unitbankaccount":
@@ -661,6 +699,8 @@ export class EnrollassociationComponent implements OnInit {
 
           }, error => {
             console.log(error);
+           this.exceptionMessage = error['error']['exceptionMessage'];
+           console.log(this.exceptionMessage);
           }
           );
         }, 2000 * index)
@@ -686,30 +726,38 @@ export class EnrollassociationComponent implements OnInit {
       else if (this.unitsuccessarray.length > 1) {
         message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
       }
-      Swal.fire({
-        title: message,
-        text: "",
-        type: "success",
-        confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
-      }).then(
-        (result) => {
-          if (result.value) {
-            this.isunitdetailsempty=true;
-            let abc1 = Object.keys(this.unitlistjson);
-            if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-              console.log('test block');
-            this.viewAssnService.dashboardredirect.next(result)
-            this.viewAssnService.enrlAsnEnbled = false;
-            this.viewAssnService.vewAsnEnbled = true;
-            this.viewAssnService.joinAsnEbld = false;
-            }
-            else{
-              this.demo2TabIndex = this.demo2TabIndex + 1;
-            }
 
-          }
-        })
+      let abc0 = Object.keys(this.unitlistjson);
+      if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
+        Swal.fire({
+          title: (this.exceptionMessage == ''?message:this.exceptionMessage),
+          text: "",
+          type: (this.exceptionMessage == ''?"success":"error"),
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.isunitdetailsempty=true;
+              //let abc1 = Object.keys(this.unitlistjson);
+              //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                console.log('test block');
+              this.viewAssnService.dashboardredirect.next(result)
+              this.viewAssnService.enrlAsnEnbled = false;
+              this.viewAssnService.vewAsnEnbled = true;
+              this.viewAssnService.joinAsnEbld = false;
+              /*}
+              else{
+                this.demo2TabIndex = this.demo2TabIndex + 1;
+              }*/
+  
+            }
+          })
+      }
+      else{
+        this.demo2TabIndex = this.demo2TabIndex + 1;
+      }
+      
 
     }, Number(this.unitlistjson[name].length) * 2000)
     document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
@@ -726,7 +774,7 @@ validateUnitDetailsField(name){
         if (name == headername) {
           console.log(unit);
           if(this.isunitdetailsempty){
-            if (unit.ownershipstatus == "SOLD OWNER OCCUPIED UNIT"||unit.ownershipstatus == "SOLD VACANT UNIT") {
+            if (unit.ownershipstatus == "Sold Owner Occupied Unit"||unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
@@ -751,7 +799,7 @@ validateUnitDetailsField(name){
   
             //   }
             // }
-            else if (unit.ownershipstatus == "SOLD TENANT OCCUPIED UNIT") {
+            else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
@@ -770,7 +818,7 @@ validateUnitDetailsField(name){
   
               }
             } 
-            else if (unit.ownershipstatus == "UNSOLD TENANT OCCUPIED UNIT") {
+            else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
   
@@ -785,7 +833,7 @@ validateUnitDetailsField(name){
   
               }
             }
-            else if (unit.ownershipstatus == "UNSOLD VACANT UNIT"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
+            else if (unit.ownershipstatus == "UnSold Vacant Unit"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
               unit.unittype == "" || unit.unittype == undefined ||
   
@@ -843,6 +891,13 @@ validateUnitDetailsField(name){
 
   submitassociationdetails(event) {
     if (this.form.valid) {
+      if(this.propertytype == 'Residential and Commercial'){
+        this.residentialorcommercialtype='';
+      }
+      else{
+        this.residentialorcommercialtype=this.propertytype;
+      }
+      console.log(this.residentialorcommercialtype);
       this.demo1TabIndex = this.demo1TabIndex + 1;
     document.getElementById("mat-tab-label-0-0").style.backgroundColor = "lightblue";
       
@@ -983,6 +1038,7 @@ validateUnitDetailsField(name){
                 {
                   "BLBlkName": element.blockname,
                   "BLBlkType": element.blocktype,
+                  //"BLBlkType": this.residentialorcommercialtype,
                   "BLNofUnit": element.units,
                   "BLMgrName": element.managername,
                   "BLMgrMobile": element.managermobileno,
@@ -1000,6 +1056,7 @@ validateUnitDetailsField(name){
               ]
       
             }
+            console.log(this.jsondata);
           this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
               console.log(res)
@@ -1016,6 +1073,7 @@ validateUnitDetailsField(name){
               }) */
               let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
               this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
+              this.finalblocknameTmp.push(this.jsondata.blocks[0].BLBlkName);
               for (var i = 0; i < blockArraylength; i++) {
                 let data = JSON.parse(JSON.stringify(this.unitsrowjson))
 
@@ -1100,6 +1158,7 @@ validateUnitDetailsField(name){
   filelist1:any;
 
     onFileChange(ev){
+      this.blocksArray=[];
       this.file= ev.target.files[0];     
       let fileReader = new FileReader();    
       fileReader.readAsArrayBuffer(this.file);     
@@ -1120,6 +1179,7 @@ validateUnitDetailsField(name){
       //for checking purpose blockbulkupload code commenting below
       if (this.excelBlockList.length <= blockslength) {
         this.excelBlockList.forEach((list, i) => {
+          console.log(list);
           // this.detailsdata[i] = {}
           // Object.keys(list).forEach(datails => {
           //   this.detailsdata[i][datails] = { required: true };
@@ -1134,7 +1194,7 @@ validateUnitDetailsField(name){
           list.isnotvalidmanagername=false,
       
           list.isnotvalidunits=false,
-      
+          list.blocktype=this.residentialorcommercialtype;
          
           this.blocksArray.push(list);
           console.log(this.blocksArray)
@@ -1445,14 +1505,14 @@ let _blkname='';
         //   console.log(datails)
         //   this.unitdetails[i][datails] ={required:true};
         // })
-        if (blkname == unitonce.blockname) {
+        if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
           //  this.blockdetailsfinalresponce.forEach(obj=>{
           //    unitonce.blockid = obj
 
           //  })
           console.log(blkname,unitonce.blockname);
           this.blocksArray.forEach((element,index) => {
-            if(element.blockname==blkname){
+            if(element.blockname.toLowerCase()==blkname.toLowerCase()){
               _blkname = blkname;
             let unitslength=Number(element.units)
 
@@ -1583,7 +1643,7 @@ let _blkname='';
     this.blocksArray=[]
   }
 submitforblocksbulkupload(ev){
-  document.getElementById('manualbulk').style.display ='none'
+  document.getElementById('showmanual').style.display ='none'
   document.getElementById('upload_excel').style.display ='block';
 }
 submitforbulkupload(ev){
@@ -1592,7 +1652,8 @@ submitforbulkupload(ev){
 }
 cancelbulkupload(ev){
   document.getElementById('upload_excel').style.display ='none';
-  document.getElementById('manualbulk').style.display ='block'
+  document.getElementById('showmanual').style.display ='block';
+  //this.blocksArray=[];
 }
 cancelunitsbulkupload(ev){
   document.getElementById('unitupload_excel').style.display ='none';
@@ -1614,10 +1675,10 @@ cancelunitsbulkupload(ev){
   
       }
       // this.blockDetailsgenerateform();
-       document.getElementById('manualbulk').style.display ='none'
-       document.getElementById('showmanual').style.display ='block';
-       document.getElementById('blockdetailsbuttons').style.display ='block';
-       document.getElementById('blockdetailscancelbutton').style.display ='block';
+       //document.getElementById('manualbulk').style.display ='none'
+       //document.getElementById('showmanual').style.display ='block';
+       //document.getElementById('blockdetailsbuttons').style.display ='block';
+       //document.getElementById('blockdetailscancelbutton').style.display ='block';
 
 
 
@@ -1709,7 +1770,19 @@ cancelunitsbulkupload(ev){
       //   console.log(this.blocksArray)
   
       // }
-      console.log(this.blocksArray)
+      console.log(this.blocksArray);
+        this.blocksArray = [];
+        for (var i = 0; i < this.associationfinalresult.data.association.asNofBlks; i++) {
+          var data = JSON.parse(JSON.stringify(this.rowjson))
+          // this.detailsdata[i] ={}
+          // Object.keys(data).forEach(datails=>{
+          //   this.detailsdata[i][datails] ={required:true};
+          // })
+          data.Id = i + 1;
+          this.blocksArray.push(data);
+          console.log(this.blocksArray)
+
+        }
       },error=>{
        console.log(error);
       }
