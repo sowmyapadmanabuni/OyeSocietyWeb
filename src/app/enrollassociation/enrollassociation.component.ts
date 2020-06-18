@@ -29,7 +29,7 @@ export class EnrollassociationComponent implements OnInit {
   blocksdetailsform:FormGroup;
   uploadForm: FormGroup;
   uploadPanForm: FormGroup;
-
+  countrieslist=[];
   // blocksdetailsform:FormGroup=this.formBuilder.group({});
   unitsdetailsform:FormGroup;
   isbulkupload = false;
@@ -50,40 +50,41 @@ export class EnrollassociationComponent implements OnInit {
       this.isblockdetailsempty=false;
       // this.isunitdetailsempty=false;
      }
-  countrieslist = [
-    "INDIA",
-    "AFGHANISTAN",
-    "ALGERIA",
-    "ARGENTINA",
-    "AUSTRALIA",
-    "AUSTRIA",
-    "BELGIUM",
-    "BHUTAN",
-    "BRAZIL",
-    "CANADA",
-    "CHINA",
-    "CUBA",
-    "DENMARK",
-    "FINLAND",
-    "FRANCE",
-    "GERMANY",
-    "IRELAND",
-    "ISRAEL",
-    "ITALY",
-    "JAPAN",
-    "MALAYSIA",
-    "MEXICO",
-    "NETHERLANDS",
-    "NORWAY",
-    "QATAR",
-    "RUSSIA",
-    "SINGAPORE",
-    "SWITZERLAND",
-    "UAE",
-    "UNITED KINGDOM",
-    "USA",
-    "QATAR"
-  ]
+
+  // countrieslist = [
+  //   "INDIA",
+  //   "AFGHANISTAN",
+  //   "ALGERIA",
+  //   "ARGENTINA",
+  //   "AUSTRALIA",
+  //   "AUSTRIA",
+  //   "BELGIUM",
+  //   "BHUTAN",
+  //   "BRAZIL",
+  //   "CANADA",
+  //   "CHINA",
+  //   "CUBA",
+  //   "DENMARK",
+  //   "FINLAND",
+  //   "FRANCE",
+  //   "GERMANY",
+  //   "IRELAND",
+  //   "ISRAEL",
+  //   "ITALY",
+  //   "JAPAN",
+  //   "MALAYSIA",
+  //   "MEXICO",
+  //   "NETHERLANDS",
+  //   "NORWAY",
+  //   "QATAR",
+  //   "RUSSIA",
+  //   "SINGAPORE",
+  //   "SWITZERLAND",
+  //   "UAE",
+  //   "UNITED KINGDOM",
+  //   "USA",
+  //   "QATAR"
+  // ]
   states = [
     "ANDAMAN",
     "ANDHRA PRADESH",
@@ -185,6 +186,7 @@ export class EnrollassociationComponent implements OnInit {
       pannumber:['']
     });
     this.unitsDetailsgenerateform();
+    this.countrylist();
   }
   isFieldValid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
@@ -317,6 +319,20 @@ export class EnrollassociationComponent implements OnInit {
     return !this.blocksdetailsform.get(field).valid && this.blocksdetailsform.get(field).touched;
 
    }
+  }
+  countrylist(){
+ let countryurl = "http://apidev.oyespace.com/oyeliving/api/v1/Country/GetCountryList" 
+
+    this.http.get(countryurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+this.countrieslist = res.data.country;
+
+    }, error => {
+      console.log(error);
+     this.exceptionMessage = error['error']['exceptionMessage'];
+     console.log(this.exceptionMessage);
+    }
+    );
   }
 
   ngAfterContentChecked() {
