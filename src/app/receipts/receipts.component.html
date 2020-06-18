@@ -29,10 +29,9 @@
                                 (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
                                 <a>{{item['unUniName']}}</a></li>
                         </ul>
-                    </div> 
-                        
+                    </div>                     
                 </div>
-                    <div class="switch">
+                <div class="switch">
                         <ul class="nav nav-pills">
                             <li><a (click)="goToExpense()">Expenses</a></li>
                             <li><a (click)="goToInvoice()">Invoice</a></li>
@@ -40,10 +39,6 @@
                         </ul>
                     </div>
                 </div>
-
-
-
-
                 <div *ngIf='generatereceiptservice.enableReceiptListView'>
                     <!-- <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="search name"> -->

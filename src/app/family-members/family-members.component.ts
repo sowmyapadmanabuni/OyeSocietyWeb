@@ -12,8 +12,6 @@ import { FamilyMemberList } from '../models/family-member-list';
 import { FormGroup, FormBuilder } from '@angular/forms';
 declare var $: any;
 
-
-
 @Component({
   selector: 'app-family-members',
   templateUrl: './family-members.component.html',
@@ -29,6 +27,7 @@ export class FamilyMembersComponent implements OnInit {
   AccountID:any;
   asAssnID:any;
   FirstName: any;
+  LastName:any;
   MobileNumber: any;
   Relation: any;
   EditFirstName:any
@@ -237,7 +236,7 @@ addfamilymember() {
     "ASAssnID": this.asAssnID,
     "FMImgName": this.FMImgName,
     "FMMinor": this.ToggleGurdian == "xyz"? false : true,
-    "FMLName": "P",
+    "FMLName": this.LastName,
     "FMGurName": "somu",
     "PAccntID": this.AccountID,
     "BLBlockID" : this.blockidForAddFamilyMember
