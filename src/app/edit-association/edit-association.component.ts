@@ -137,9 +137,11 @@ export class EditAssociationComponent implements OnInit {
   ImgForPopUp:any;
   UploadedImage: any;
   showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,displayText){
+    if(thumbnailASAsnLogo!=undefined){
     this.ImgForPopUp=thumbnailASAsnLogo;
     this.UploadedImage=displayText;
     this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
+    }
   }
   ngOnInit() {
     this.createForm();

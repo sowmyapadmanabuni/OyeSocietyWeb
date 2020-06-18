@@ -1127,6 +1127,8 @@ export class AssociationManagementComponent implements OnInit {
     this.viewAssnService.joinAsnEbld = false;
     //localStorage.setItem('IsEnrollAssociationStarted','true');
     this.globalService.IsEnrollAssociationStarted = true;
+    document.getElementById('blocksandunits').style.display = 'none'
+    document.getElementById('joinassn').style.display = 'none'
     //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
   }
   toggleIsGSTAvailable() {
