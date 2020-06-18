@@ -24,6 +24,7 @@ export class EnrollassociationComponent implements OnInit {
   assid;
   blockdetailsjson;
   form: FormGroup;
+  form1: FormGroup;
   blockform: FormGroup;
   panform: FormGroup;
   blocksdetailsform:FormGroup;
@@ -49,7 +50,7 @@ export class EnrollassociationComponent implements OnInit {
     private modalService: BsModalService, private formBuilder: FormBuilder) {
       this.blockdetailInvalid=true;
       this.url='';
-      this.isblockdetailsempty=false;
+      this.isblockdetailsempty=true;
       // this.isunitdetailsempty=false;
      }
 
@@ -174,6 +175,7 @@ export class EnrollassociationComponent implements OnInit {
   ngOnInit() {
     // this.getAssociationList()
     this.createForm();
+    this.createForm1();
     this.blockandunitdetails();
     // this.pandetalis();
     this.blocksdetailsform = this.formBuilder.group({
@@ -222,6 +224,15 @@ export class EnrollassociationComponent implements OnInit {
       'assemail': [null, [Validators.required, Validators.email]],
       'urlset': [null]
 
+    });
+  }
+  createForm1() {
+    this.form1 = this.formBuilder.group({
+      'blockNameOrNumberform': [null, Validators.pattern]
+      /*'numberofunitsform': [null, Validators.pattern],
+      'managernameform': [null, Validators.pattern],
+      'managermobilenumberform': [null, Validators.pattern],
+      'manageremailidform': [null, Validators.pattern]*/
     });
   }
   blockandunitdetails() {
@@ -1135,10 +1146,10 @@ validateUnitDetailsField(name){
             (result) => {
               if (result.value) {
                 console.log(this.finalblockname);
+                this.demo1TabIndex = this.demo1TabIndex + 1;
               }
             })
       },3000)
-      this.demo1TabIndex = this.demo1TabIndex + 1;
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
     }
@@ -1413,21 +1424,25 @@ validateUnitDetailsField(name){
     this.validateUnitDetailsField(name);
   }
   getblocknameornumber(Id,blockname){
-    this.blocksArray.forEach(element=>{
-      if(element.Id== Id){
+    this.isblockdetailsempty=false;
+    this.blocksArray.forEach(element => {
+      if (element.Id == Id) {
         element.blockname = blockname;
-        if(element.blockname ==""){
-          element['isnotvalidblockname']=true;
-          this.blockdetailInvalid=true;
+        if (element.blockname == "") {
+          element['isnotvalidblockname'] = true;
+          this.blockdetailInvalid = true;
         }
-        else{
-          element['isnotvalidblockname']=false;
+        else {
+          element['isnotvalidblockname'] = false;
         }
       }
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        this.isblockdetailsempty = true
+      }
     })
-
   }
   getnoofunits(Id,units){
+    this.isblockdetailsempty=false;
     this.blocksArray.forEach(element=>{
       if(element.Id== Id){
         element.units = units;
@@ -1439,9 +1454,13 @@ validateUnitDetailsField(name){
           element['isnotvalidunits']=false;
         }
       }
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        this.isblockdetailsempty = true
+      }
     })
   }
   getmanagername(Id,managername){
+    this.isblockdetailsempty=false;
     this.blocksArray.forEach(element=>{
       if(element.Id== Id){
         element.managername = managername;
@@ -1453,9 +1472,13 @@ validateUnitDetailsField(name){
           element['isnotvalidmanagername']=false;
         }
       }
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        this.isblockdetailsempty = true
+      }
     })
   }
   getmanagermobileno(Id,managermobileno){
+    this.isblockdetailsempty=false;
     this.blocksArray.forEach(element=>{
       if(element.Id== Id){
         element.managermobileno = managermobileno;
@@ -1467,9 +1490,13 @@ validateUnitDetailsField(name){
           element['isnotvalidmanagermobileno']=false;
         }
       }
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        this.isblockdetailsempty = true
+      }
     })
   }
   getmanageremailid(Id,manageremailid){
+    this.isblockdetailsempty=false;
     this.blocksArray.forEach(element=>{
       if(element.Id== Id){
         element.manageremailid = manageremailid;
@@ -1481,19 +1508,26 @@ validateUnitDetailsField(name){
           element['isnotvalidmanageremailid']=false;
         }
       }
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        this.isblockdetailsempty = true
+      }
     })
   }
   getblocktype(Id,blocktype){
-    this.blocksArray.forEach(element=>{
-      if(element.Id== Id){
+    this.isblockdetailsempty=false;
+    this.blocksArray.forEach(element => {
+      if (element.Id == Id) {
         element.blocktype = blocktype;
-        if(element.blocktype ==""){
-          element['isnotvalidblocktype']=true;
-          this.blockdetailInvalid=true;
+        if (element.blocktype == "") {
+          element['isnotvalidblocktype'] = true;
+          this.blockdetailInvalid = true;
         }
-        else{
-          element['isnotvalidblocktype']=false;
+        else {
+          element['isnotvalidblocktype'] = false;
         }
+      }
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        this.isblockdetailsempty = true
       }
     })
   }
