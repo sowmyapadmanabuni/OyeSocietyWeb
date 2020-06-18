@@ -162,7 +162,6 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-
                 <div class="save">
                     <a class="continue" (click)="resetStep1($event)"mat-raised-button color="primary">RESET</a>
                     <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitassociationdetails($event)">SAVE & CONTINUE</a>
@@ -579,7 +578,7 @@
                 <div class="blockdetailsdata" *ngFor="let name of finalblockname">
                     <mat-tab  class = "text"[label]="name">
                         <div class="blockdetailsdata" *ngFor="let obj of unitlistjson[name];let i= index">
-                         <form class="blockdetails-form">
+                         <form class="blockdetails-form" style="margin-top: 30px;">
                             <div>
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>UNIT NO/FLAT NO</mat-label>
@@ -814,6 +813,73 @@
                 </div>
             
             </mat-tab-group>
+
+
+
+<!-- test code for units -->
+
+            <div class="container-fluid">
+                <div class="row">
+                <!-- Nav left -->
+                <ul class="nav col-md-2" id="leftTabs">
+                    <li class="active">
+                    <a href="#a_tab" data-toggle="tab">
+                        <span></span>Block 1
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#b_tab" data-toggle="tab">
+                        <span></span>Block 2
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#c_tab" data-toggle="tab">
+                        <span></span>Block 3
+                    </a>
+                    </li>
+                </ul>
+                <!-- Nav content -->
+                <div class="tab-content col-md-10">
+                        <div class="tab-pane active" id="a_tab">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#first" data-toggle="tab">Block1 (Unit 1)</a></li>                     
+                                </ul>
+                                <!-- Nav tabs content -->
+                                <div class="tab-content">
+                                    <div id="first" class="tab-pane active">Content of block1 unit1</div>           
+                                </div>
+                        </div>
+                        <div class="tab-pane" id="b_tab">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#first" data-toggle="tab">Block2 (Unit 1)</a></li>
+                                    <li><a href="#second" data-toggle="tab">Block2 (Unit 2)</a></li>
+                                </ul>
+                                <!-- Nav tabs content -->
+                                <div class="tab-content">
+                                    <div id="first" class="tab-pane active">Content of block2 unit1</div>
+                                    <div id="second" class="tab-pane">Content of block2 unit2</div>
+                                </div>
+                        </div>
+                        <div class="tab-pane" id="c_tab">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#first" data-toggle="tab">Unit 1</a></li>
+                                    <li><a href="#second" data-toggle="tab">Unit 2</a></li>
+                                    <li><a href="#third" data-toggle="tab">Unit3</a></li>
+                                </ul>
+                                <!-- Nav tabs content -->
+                                <div class="tab-content">
+                                    <div id="first" class="tab-pane active">Content of block3 unit1</div>
+                                    <div id="second" class="tab-pane">Content of block3 unit1</div>
+                                    <div id="third" class="tab-pane">Content of block3 unit1</div>
+                                </div>
+                        </div>
+                </div>
+                </div>
+            </div>
+  <!-- test unit code -->
 
                </div> 
         </mat-tab>
