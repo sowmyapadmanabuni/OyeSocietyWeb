@@ -319,7 +319,7 @@
                     matTooltip="UPLOAD"></a>
                 <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 100px;" class="excel"
                         src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
-                <input #fileInput type="file" id="file_upload_id" (click)="fileInput.value = null"
+                <input #fileInput1 type="file" id="file_upload_id" (click)="fileInput1.value = null"
                     (change)="onFileChange($event)"
                     accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                 <div id="cancelbutton">
@@ -368,15 +368,18 @@
         
                                 </div>
                                 <div>
+                                    <!-- <form [formGroup]="form1"> -->
                                     <mat-form-field class="blockdetails-form">
                                         <!-- <mat-select [(value)]="residentialorcommercialtype"  -->
-                                        <mat-select [(value)]="blocksArray[i].blocktype" 
+                                        <mat-select [disabled]="condition"
+                                        [(value)]="blocksArray[i].blocktype" 
                                         (blur)="getblocktype(blocksArray[i]['Id'],blocksArray[i].blocktype)"
                                         placeholder="BLOCK TYPE">
                                             <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
+                                    <!-- </form> -->
                                     <p class="validation" *ngIf="blocksArray[i]['isnotvalidblocktype']">Valid block Type is required</p>
                                     <p class="validation" *ngIf="blocksArray[i]['blocktype']==undefined">Valid block Type is required</p>
                                 

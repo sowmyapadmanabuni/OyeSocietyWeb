@@ -42,6 +42,8 @@ export class EnrollassociationComponent implements OnInit {
   isblockdetailsempty: boolean;
   isunitdetailsempty:boolean;
   blockdetailInvalid:boolean;
+  blocktypeform = new FormControl("");
+  condition = true;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -175,7 +177,7 @@ export class EnrollassociationComponent implements OnInit {
   ngOnInit() {
     // this.getAssociationList()
     this.createForm();
-    this.createForm1();
+    //this.createForm1();
     this.blockandunitdetails();
     // this.pandetalis();
     this.blocksdetailsform = this.formBuilder.group({
@@ -228,12 +230,13 @@ export class EnrollassociationComponent implements OnInit {
   }
   createForm1() {
     this.form1 = this.formBuilder.group({
-      'blockNameOrNumberform': [null, Validators.pattern]
+      'blocktypeform': [null]
       /*'numberofunitsform': [null, Validators.pattern],
       'managernameform': [null, Validators.pattern],
       'managermobilenumberform': [null, Validators.pattern],
       'manageremailidform': [null, Validators.pattern]*/
     });
+    this.form1.disabled;
   }
   blockandunitdetails() {
     this.blockform = this.formBuilder.group({
@@ -601,182 +604,197 @@ this.countrieslist = res.data.country;
   exceptionMessage='';
   SubmitOrSaveAndContinue='SAVE AND CONTINUE';
   submitunitdetails(name) {
-    let abc = Object.keys(this.unitlistjson);
-    this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
-      return item !=  name;
-    })
-    console.log(this.finalblocknameTmp);
-    console.log(this.finalblocknameTmp.length);
-    if(this.finalblocknameTmp.length==1){
-      console.log('insideltab');
-      this.SubmitOrSaveAndContinue='Submit';
-    }
-    this.exceptionMessage='';
-    console.log(name);
-    console.log(this.unitlistjson[name]);
-    console.log(this.unitlistjson);
-    let date = new Date();
-    var getDate = date.getDate();
-    var getMonth = date.getMonth() + 1;
-    var getFullYear = date.getFullYear();
-    var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
-    //this.unitsuccessarray=[];
-    console.log(date)
-
-    let ipAddress = this.utilsService.createUnit();
-    let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
-
-    // Object.keys(this.unitlistjson).forEach(element => {
-    //console.log(this.unitlistjson[element])
-
-    //this.unitlistjson[name].forEach((unit, index) => {
-    // let headername = unit.Id.slice(0, -2);
-    //console.log(headername);
-    //console.log(unit)
-    //if (name == headername) {
-    //
-
-    this.unitlistjson[name].forEach((unit, index) => {
-      console.log(unit);
-      ((index) => {
-        setTimeout(() => {
-          this.unitsuccessarray.push(unit);
-
-          this.unitdetailscreatejson = {
-            "ASAssnID": this.assid,
-            "ACAccntID": this.globalService.getacAccntID(),
-            "units": [
-              {
-
-                "UNUniName": unit.flatno,
-                "UNUniType": unit.unittype,
-                "UNOcStat": unit.ownershipstatus,
-                "UNOcSDate": "",
-                "UNOwnStat": "",
-                "UNSldDate": "",
-                "UNDimens": "",
-                "UNRate": "",
-                "UNCalType": "",
-                "FLFloorID": 14,
-                "BLBlockID": unit.blockid,
-                "Owner":
-                  [{
-
-                    "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
-                    "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
-                    "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
-                    "UOISDCode": "",
-                    "UOMobile1": "",
-                    "UOMobile2": "",
-                    "UOMobile3": "",
-                    "UOMobile4": "",
-                    "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
-                    "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
-                    "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
-                    "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
-                    "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
-                    "UOCDAmnt": "2000"
-
-                  }],
-                "Tenant": [{
-                  "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
-                  "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
-                  "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
-                  "UTISDCode": "+91",
-                  "UTMobile1": "+919398493298",
-                  "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
-                  "UTEmail1": "pl@gmail.com"
-                }],
-                "unitbankaccount":
-                {
-                  "UBName": "SBI",
-                  "UBIFSC": "SBIN0014",
-                  "UBActNo": "LOP9090909",
-                  "UBActType": "Savings",
-                  "UBActBal": 12.3,
-                  "BLBlockID": unit.blockid
-                },
-
-                "UnitParkingLot":
-                  [
-                    {
-                      "UPLNum": "1902",
-                      "MEMemID": 287,
-                      "UPGPSPnt": "24.0088 23. 979"
-                    }
-                  ]
-              }
-            ]
-          }
-          console.log(this.unitdetailscreatejson)
-          this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
-            console.log(res)
-
-          }, error => {
-            console.log(error);
-           this.exceptionMessage = error['error']['exceptionMessage'];
-           console.log(this.exceptionMessage);
-          }
-          );
-        }, 2000 * index)
-      })(index)
-
+    let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
+    let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
+      return valueManualUnitnameArr.indexOf(item) != idx
     });
-
-    //
-    //}
-    //})
-    //})
-
-    // Object.keys(this.unitlistjson).forEach((element, index) => {
-    //   console.log(this.unitlistjson[element]);
-
-    // }) 
-
-    setTimeout(() => {
-      var message;
-      if (this.unitsuccessarray.length == 1) {
-        message = 'Unit Created Successfully'
-      }
-      else if (this.unitsuccessarray.length > 1) {
-        message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
-      }
-
-      let abc0 = Object.keys(this.unitlistjson);
-      if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
-        Swal.fire({
-          title: (this.exceptionMessage == ''?message:this.exceptionMessage),
+    if (isManualUnitnameDuplicate) {
+          Swal.fire({
+            title: 'Duplicate Unitname Exist',
           text: "",
-          type: (this.exceptionMessage == ''?"success":"error"),
+          type: "error",
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
-        }).then(
-          (result) => {
-            if (result.value) {
-              this.isunitdetailsempty=true;
-              //let abc1 = Object.keys(this.unitlistjson);
-              //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-                console.log('test block');
-              this.viewAssnService.dashboardredirect.next(result)
-              this.viewAssnService.enrlAsnEnbled = false;
-              this.viewAssnService.vewAsnEnbled = true;
-              this.viewAssnService.joinAsnEbld = false;
-              /*}
-              else{
-                this.demo2TabIndex = this.demo2TabIndex + 1;
-              }*/
-  
-            }
+          })        
+        }
+        else{
+          let abc = Object.keys(this.unitlistjson);
+          this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
+            return item !=  name;
           })
-      }
-      else{
-        this.demo2TabIndex = this.demo2TabIndex + 1;
-      }
+          console.log(this.finalblocknameTmp);
+          console.log(this.finalblocknameTmp.length);
+          if(this.finalblocknameTmp.length==1){
+            console.log('insideltab');
+            this.SubmitOrSaveAndContinue='Submit';
+          }
+          this.exceptionMessage='';
+          console.log(name);
+          console.log(this.unitlistjson[name]);
+          console.log(this.unitlistjson);
+          let date = new Date();
+          var getDate = date.getDate();
+          var getMonth = date.getMonth() + 1;
+          var getFullYear = date.getFullYear();
+          var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
+          //this.unitsuccessarray=[];
+          console.log(date)
       
-
-    }, Number(this.unitlistjson[name].length) * 2000)
-    //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
-
+          let ipAddress = this.utilsService.createUnit();
+          let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
+      
+          // Object.keys(this.unitlistjson).forEach(element => {
+          //console.log(this.unitlistjson[element])
+      
+          //this.unitlistjson[name].forEach((unit, index) => {
+          // let headername = unit.Id.slice(0, -2);
+          //console.log(headername);
+          //console.log(unit)
+          //if (name == headername) {
+          //
+      
+          this.unitlistjson[name].forEach((unit, index) => {
+            console.log(unit);
+            ((index) => {
+              setTimeout(() => {
+                this.unitsuccessarray.push(unit);
+      
+                this.unitdetailscreatejson = {
+                  "ASAssnID": this.assid,
+                  "ACAccntID": this.globalService.getacAccntID(),
+                  "units": [
+                    {
+      
+                      "UNUniName": unit.flatno,
+                      "UNUniType": unit.unittype,
+                      "UNOcStat": unit.ownershipstatus,
+                      "UNOcSDate": "",
+                      "UNOwnStat": "",
+                      "UNSldDate": "",
+                      "UNDimens": "",
+                      "UNRate": "",
+                      "UNCalType": "",
+                      "FLFloorID": 14,
+                      "BLBlockID": unit.blockid,
+                      "Owner":
+                        [{
+      
+                          "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
+                          "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
+                          "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
+                          "UOISDCode": "",
+                          "UOMobile1": "",
+                          "UOMobile2": "",
+                          "UOMobile3": "",
+                          "UOMobile4": "",
+                          "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
+                          "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
+                          "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
+                          "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
+                          "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
+                          "UOCDAmnt": "2000"
+      
+                        }],
+                      "Tenant": [{
+                        "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
+                        "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
+                        "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
+                        "UTISDCode": "+91",
+                        "UTMobile1": "+919398493298",
+                        "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
+                        "UTEmail1": "pl@gmail.com"
+                      }],
+                      "unitbankaccount":
+                      {
+                        "UBName": "SBI",
+                        "UBIFSC": "SBIN0014",
+                        "UBActNo": "LOP9090909",
+                        "UBActType": "Savings",
+                        "UBActBal": 12.3,
+                        "BLBlockID": unit.blockid
+                      },
+      
+                      "UnitParkingLot":
+                        [
+                          {
+                            "UPLNum": "1902",
+                            "MEMemID": 287,
+                            "UPGPSPnt": "24.0088 23. 979"
+                          }
+                        ]
+                    }
+                  ]
+                }
+                console.log(this.unitdetailscreatejson)
+                this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+                .subscribe((res: any) => {
+                  console.log(res)
+      
+                }, error => {
+                  console.log(error);
+                 this.exceptionMessage = error['error']['exceptionMessage'];
+                 console.log(this.exceptionMessage);
+                });
+              }, 2000 * index)
+            })(index)
+      
+          });
+      
+          //
+          //}
+          //})
+          //})
+      
+          // Object.keys(this.unitlistjson).forEach((element, index) => {
+          //   console.log(this.unitlistjson[element]);
+      
+          // }) 
+      
+          setTimeout(() => {
+            var message;
+            if (this.unitsuccessarray.length == 1) {
+              message = 'Unit Created Successfully'
+            }
+            else if (this.unitsuccessarray.length > 1) {
+              message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+            }
+      
+            let abc0 = Object.keys(this.unitlistjson);
+            if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
+              Swal.fire({
+                title: (this.exceptionMessage == ''?message:this.exceptionMessage),
+                text: "",
+                type: (this.exceptionMessage == ''?"success":"error"),
+                confirmButtonColor: "#f69321",
+                confirmButtonText: "OK"
+              }).then(
+                (result) => {
+                  if (result.value) {
+                    this.isunitdetailsempty=true;
+                    //let abc1 = Object.keys(this.unitlistjson);
+                    //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                      console.log('test block');
+                    this.viewAssnService.dashboardredirect.next(result)
+                    this.viewAssnService.enrlAsnEnbled = false;
+                    this.viewAssnService.vewAsnEnbled = true;
+                    this.viewAssnService.joinAsnEbld = false;
+                    /*}
+                    else{
+                      this.demo2TabIndex = this.demo2TabIndex + 1;
+                    }*/
+        
+                  }
+                })
+            }
+            else{
+              this.demo2TabIndex = this.demo2TabIndex + 1;
+            }
+            
+      
+          }, Number(this.unitlistjson[name].length) * 2000)
+          //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
+      
+        }
   }
 validateUnitDetailsField(name){
   this.isunitdetailsempty = true;
@@ -906,12 +924,13 @@ validateUnitDetailsField(name){
 
   submitassociationdetails(event) {
     if (this.form.valid) {
-      if(this.propertytype == 'Residential and Commercial'){
+      /*if(this.propertytype == 'Residential and Commercial'){
         this.residentialorcommercialtype='';
       }
       else{
         this.residentialorcommercialtype=this.propertytype;
-      }
+      } */
+      this.residentialorcommercialtype=this.propertytype;
       console.log(this.residentialorcommercialtype);
       this.demo1TabIndex = this.demo1TabIndex + 1;
     //document.getElementById("mat-tab-label-0-0").style.backgroundColor = "lightblue";
@@ -1020,19 +1039,34 @@ validateUnitDetailsField(name){
   unitdetails ={}
   blockssuccessarray;
   createblocksdetails(event) {
-    this.isblockdetailsempty=false;
-    // console.log(this.blocksArray)
-    this.blockssuccessarray = this.blocksArray.length;
-    // if (this.blocksdetailsform.valid) {
-      setTimeout(() => {
-      this.blocksArray.forEach((element) => {
-        if(element.blockname==""||element.blockname==undefined||element.blocktype==""||element.blocktype==undefined||element.units==""||element.units==undefined||element.managername==""||element.managername==undefined||element.managermobileno==""||element.managermobileno==undefined||element.manageremailid==""||element.manageremailid==undefined){
-      this.isblockdetailsempty=true
+    let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
+    let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
+      return valueBlckArr.indexOf(item) != idx
+    });
+    if (isBlkNameDuplicate) {
+          Swal.fire({
+            title: 'Duplicate Blockname Exist',
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+          })        
         }
-      })
-      this.blockdetailsfinalcreation();
-    }, 1000 )
-    console.log(this.blocksArray)
+        else{
+          this.isblockdetailsempty=false;
+          // console.log(this.blocksArray)
+          this.blockssuccessarray = this.blocksArray.length;
+          // if (this.blocksdetailsform.valid) {
+            setTimeout(() => {
+            this.blocksArray.forEach((element) => {
+              if(element.blockname==""||element.blockname==undefined||element.blocktype==""||element.blocktype==undefined||element.units==""||element.units==undefined||element.managername==""||element.managername==undefined||element.managermobileno==""||element.managermobileno==undefined||element.manageremailid==""||element.manageremailid==undefined){
+            this.isblockdetailsempty=true
+              }
+            })
+            this.blockdetailsfinalcreation();
+          }, 1000 )
+          console.log(this.blocksArray)
+        }
   }
   
   blockidtmp={};
@@ -1192,33 +1226,56 @@ validateUnitDetailsField(name){
             this.filelist1 = [];    
       let blockslength=Number(this.noofblocks)
       //for checking purpose blockbulkupload code commenting below
-      if (this.excelBlockList.length <= blockslength) {
-        this.excelBlockList.forEach((list, i) => {
-          console.log(list);
-          // this.detailsdata[i] = {}
-          // Object.keys(list).forEach(datails => {
-          //   this.detailsdata[i][datails] = { required: true };
-          // })
-    
-          list.Id = i+1;
-          list.isnotvalidblockname =false,
-          list.isnotvalidblocktype=false,
-          list.isnotvalidmanageremailid=false,
-          list.isnotvalidmanagermobileno=false,
-      
-          list.isnotvalidmanagername=false,
-      
-          list.isnotvalidunits=false,
-          list.blocktype=this.residentialorcommercialtype;
-         
-          this.blocksArray.push(list);
-          console.log(this.blocksArray)
-        });
-        document.getElementById('upload_excel').style.display ='none'
-        document.getElementById('blockdetailscancelbutton').style.display ='none';
-        document.getElementById('showmanual').style.display ='block';
-        document.getElementById('blockdetailsbuttons').style.display ='block';
-      }
+        if (this.excelBlockList.length <= blockslength) {
+          let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
+          let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
+            return valueExcelBlckArr.indexOf(item) != idx
+          });
+          if (isExcelBlkNameDuplicate) {
+            Swal.fire({
+              title: 'Duplicate Blockname Exist',
+              text: "",
+              type: "error",
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            })
+          }
+          else {
+            this.excelBlockList.forEach((list, i) => {
+              console.log(list);
+              // this.detailsdata[i] = {}
+              // Object.keys(list).forEach(datails => {
+              //   this.detailsdata[i][datails] = { required: true };
+              // })
+
+              list.Id = i + 1;
+              list.isnotvalidblockname = false,
+                list.isnotvalidblocktype = false,
+                list.isnotvalidmanageremailid = false,
+                list.isnotvalidmanagermobileno = false,
+
+                list.isnotvalidmanagername = false,
+
+                list.isnotvalidunits = false,
+                list.blocktype = this.residentialorcommercialtype;
+
+              this.blocksArray.push(list);
+              console.log(this.blocksArray)
+            });
+            this.blocksArray.forEach((element) => {
+              if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                this.isblockdetailsempty = true;
+              }
+              else {
+                this.isblockdetailsempty = false;
+              }
+            })
+            document.getElementById('upload_excel').style.display = 'none'
+            document.getElementById('blockdetailscancelbutton').style.display = 'none';
+            document.getElementById('showmanual').style.display = 'block';
+            document.getElementById('blockdetailsbuttons').style.display = 'block';
+          }
+        }
       else {
         Swal.fire({
           title: "Please Check uploaded no of blocks should not more than given no of blocks",
@@ -1533,92 +1590,111 @@ validateUnitDetailsField(name){
       }
     })
   }
-  excelunitsuploaddata(exceldata){
-console.log(this.finalblockname);
-console.log(exceldata);
-console.log(this.blocksArray);
-console.log(this.unitlistjson);
-let _blkname='';
-    this.finalblockname.forEach(blkname => {
+  excelunitsuploaddata(exceldata) {
+    console.log(this.finalblockname);
+    console.log(exceldata);
+    console.log(this.blocksArray);
+    console.log(this.unitlistjson);
+    let _blkname = '';
+    //
+    //console.log(new Set(exceldata).size !== exceldata.length);
+    let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
+    let isDuplicate = valueArr.some((item, idx) => {
+      return valueArr.indexOf(item) != idx
+    });
+    if (isDuplicate) {
+          Swal.fire({
+            title: 'Duplicate Unitname Exist',
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+          })        
+        }
+        else{
+          this.finalblockname.forEach(blkname => {
     
-      exceldata.forEach((unitonce,i) => {
-
-        console.log(exceldata.Id)
-        // this.unitdetails[i] ={}
-        // Object.keys(unitonce).forEach(datails=>{
-        //   console.log(datails)
-        //   this.unitdetails[i][datails] ={required:true};
-        // })
-        if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
-          //  this.blockdetailsfinalresponce.forEach(obj=>{
-          //    unitonce.blockid = obj
-
-          //  })
-          console.log(blkname,unitonce.blockname);
-          this.blocksArray.forEach((element,index) => {
-            if(element.blockname.toLowerCase()==blkname.toLowerCase()){
-              _blkname = blkname;
-            let unitslength=Number(element.units)
-
-              if(exceldata.length<=unitslength){
-                console.log(this.blockidtmp);
-                unitonce.blockid = this.blockidtmp[blkname];
-                unitonce.Id = blkname+i+1;
-                unitonce.isnotvalidflatno =false,
-                unitonce.isnotvalidunittype=false,
-                unitonce.isnotvalidownershipstatus=false,
-                unitonce.isnotvalidownerfirstname=false,
-            
-                unitonce.isnotvalidownerlastname=false,
-            
-                unitonce.isnotvalidownermobilenumber=false,
-            
-                unitonce.isnotvalidowneremaiid=false,
-            
-                unitonce.isnotvalidtenantfirstname=false,
-            
-                unitonce.isnotvalidtenantlastname=false,
-            
-                unitonce.isnotvalidtenantmobilenumber=false,
-                unitonce.isnotvalidtenantemaiid=false
-                if (!this.unitlistjson[blkname]) {
-                  this.unitlistjson[blkname] = []
-                }
-                Object.keys(this.unitlistjson).forEach(element => {
-                  this.unitlistjson[element].forEach(detalisdata => {
+            exceldata.forEach((unitonce,i) => {
       
-                    if (blkname == element) {
-                      if (!detalisdata.blockname) {
+              console.log(exceldata.Id)
+              // this.unitdetails[i] ={}
+              // Object.keys(unitonce).forEach(datails=>{
+              //   console.log(datails)
+              //   this.unitdetails[i][datails] ={required:true};
+              // })
+              if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
+                //  this.blockdetailsfinalresponce.forEach(obj=>{
+                //    unitonce.blockid = obj
+      
+                //  })
+                console.log(blkname,unitonce.blockname);
+                this.blocksArray.forEach((element,index) => {
+                  if(element.blockname.toLowerCase()==blkname.toLowerCase()){
+                    _blkname = blkname;
+                  let unitslength=Number(element.units)
+      
+                    if(exceldata.length<=unitslength){
+                      console.log(this.blockidtmp);
+                      unitonce.blockid = this.blockidtmp[blkname];
+                      unitonce.Id = blkname+i+1;
+                      unitonce.isnotvalidflatno =false,
+                      unitonce.isnotvalidunittype=false,
+                      unitonce.isnotvalidownershipstatus=false,
+                      unitonce.isnotvalidownerfirstname=false,
+                  
+                      unitonce.isnotvalidownerlastname=false,
+                  
+                      unitonce.isnotvalidownermobilenumber=false,
+                  
+                      unitonce.isnotvalidowneremaiid=false,
+                  
+                      unitonce.isnotvalidtenantfirstname=false,
+                  
+                      unitonce.isnotvalidtenantlastname=false,
+                  
+                      unitonce.isnotvalidtenantmobilenumber=false,
+                      unitonce.isnotvalidtenantemaiid=false
+                      if (!this.unitlistjson[blkname]) {
                         this.unitlistjson[blkname] = []
                       }
+                      Object.keys(this.unitlistjson).forEach(element => {
+                        this.unitlistjson[element].forEach(detalisdata => {
+            
+                          if (blkname == element) {
+                            if (!detalisdata.blockname) {
+                              this.unitlistjson[blkname] = []
+                            }
+                          }
+                        })
+                      })
+                      this.unitlistjson[blkname].push(unitonce)
+                      document.getElementById('unitupload_excel').style.display = 'none'
+                      document.getElementById('unitshowmanual').style.display = 'block';
+                      console.log(this.unitlistjson);
                     }
-                  })
+                    else{
+                      Swal.fire({
+                        title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
+                        text: "",
+                        confirmButtonColor: "#f69321",
+                        confirmButtonText: "OK"
+                      })
+                      document.getElementById('unitupload_excel').style.display = 'block'
+      
+                    }
+                  }
                 })
-                this.unitlistjson[blkname].push(unitonce)
-                document.getElementById('unitupload_excel').style.display = 'none'
-                document.getElementById('unitshowmanual').style.display = 'block';
-                console.log(this.unitlistjson);
+                
+             
+                
               }
-              else{
-                Swal.fire({
-                  title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
-                  text: "",
-                  confirmButtonColor: "#f69321",
-                  confirmButtonText: "OK"
-                })
-                document.getElementById('unitupload_excel').style.display = 'block'
-
-              }
-            }
+            });
+      
+        
           })
-          
-       
-          
         }
-      });
-
-  
-    })
+//
+    
     //
     this.validateUnitDetailsField(_blkname);
     console.log("unit data what contains",this.unitlistjson)
