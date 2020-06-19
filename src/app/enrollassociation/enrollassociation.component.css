@@ -18,7 +18,10 @@
 
 }
 #pancardupload{
-    margin-left: 50px;
+    position: absolute;
+    /* position: relative; */
+    top: 31px;
+    left: 861px;
 }
 #unitbulkbutton{
     display: inline-block;
@@ -114,13 +117,27 @@ img.Upload1 {
     color: #ffffff !important;
 
 }
+.continueforresetpan{
+    margin-top: 38px;;
+    color: #ffffff !important;
+}
 #assdetailssave{
     color: #ffffff !important;
+    margin: 9px;
 
 }
 span.mat-button-wrapper {
     color: #ffffff;
 }
+p.panextext{
+    color: grey;
+    font-size: 12px;
+    margin-top: 54px;
+    /* margin-left: 40px; */
+    /* margin-right: -4px; */
+    margin-left: -177px;
+}
+
 #img2{
     margin-left: 786px;
     margin-top: -85px;
@@ -219,13 +236,13 @@ a.MANUAL{
     }
 ::ng-deep .mat-focused .mat-form-field-label {
     /*change color of label*/
-    color: green !important;
+    color: #B51414 !important;
    }
   
 
   ::ng-deep.mat-form-field-ripple {
    /*change color of underline when focused*/
-   background-color: #B51414 !important;
+   background-color: lightgreen !important;
   }
   ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
     background-color: #B51414 !important;
