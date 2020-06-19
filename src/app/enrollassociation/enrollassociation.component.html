@@ -38,10 +38,10 @@
             <mat-label class="logo">Upload logo</mat-label>
             <input type="file" id="img" accept="image/png,imge/jpeg" />
             <a mat-raised-button color="primary" class="Upload">Upload</a> -->
-            <mat-label class="logoassociation">Upload logo</mat-label>
+            <!-- <mat-label class="logoassociation">Upload logo</mat-label>
             <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
-            class="fa fa-question-circle" aria-hidden="true"></i>
-            <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
+            class="fa fa-question-circle" aria-hidden="true"></i> -->
+            <form [formGroup]="uploadForm" (ngSubmit)="processFile()" class="association-form">
                 <input type="file" id="img" name="profile" (change)="onFileSelect($event)" />
                 <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
                  <img class="Upload1"(mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
@@ -52,9 +52,9 @@
                 </form>
  -->
 
-                <br>
+                
 
-                <form [formGroup]="form"class="association-form">
+                <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-select [(value)]="countryname" formControlName="cntryname" placeholder="COUNTRY">
                             <mat-option *ngFor="let country of countrieslist" class = "text"[value]="country">{{country.coName}}
@@ -65,6 +65,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <br>
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-select [(value)]="state" formControlName="statename" placeholder="STATE">
@@ -86,7 +87,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <br>
+               
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>PIN/ZIP/POSTAL CODE</mat-label>
@@ -102,6 +103,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-select [(value)]="propertytype" formControlName="prprtytype" placeholder="PROPERTY TYPE">
@@ -113,6 +115,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <br>
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>PROPERTY NAME</mat-label>
@@ -125,7 +128,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <br>
+               
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>LOCALITY</mat-label>
@@ -139,6 +142,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>ASSOCIATION EMAIL</mat-label>
@@ -162,6 +166,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <br>
                 <div class="save">
                     <a class="continue" (click)="resetStep1($event)"mat-raised-button color="primary">RESET</a>
                     <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitassociationdetails($event)">SAVE & CONTINUE</a>
@@ -308,7 +313,7 @@
            
         </mat-tab> -->
         <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
-            <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
+            <button style="position: fixed;top: 55%;right: 2%;z-index: 4000000" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             <!-- <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
                 <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
