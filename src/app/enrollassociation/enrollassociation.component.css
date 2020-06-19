@@ -8,7 +8,7 @@
     padding-top: 42px;
 } */
 .association-form{
-    padding:42px;
+    padding:16px 42px;
     display: inline-flex;
 }
 .blockdetails-form{
@@ -91,13 +91,13 @@ input,label {
     font-size: 12px;
 }
 #img{
-    margin-left: 315px;
-    margin-top: -85px;
+    /* margin-left: 315px;
+    margin-top: -85px; */
         /* width: 183px;
         margin-left: 47px; */
 }
 img.Upload1 {
-    margin-left: 330px;
+    /* margin-left: 330px; */
 }
 /* small#examplepanno{
     margin-top: 53px;
@@ -105,12 +105,12 @@ img.Upload1 {
 } */
 .Upload{
     top: 4px;
-    left: 319px;
+    /* left: 319px; */
     color: #ffffff !important;
 }
 .save{
-    float:right;
-    margin-top: 120px;
+    display: flex;
+    justify-content: flex-end;
 }
 .continue{
     margin: 10px;
