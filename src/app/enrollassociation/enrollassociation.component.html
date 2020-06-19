@@ -38,10 +38,10 @@
             <mat-label class="logo">Upload logo</mat-label>
             <input type="file" id="img" accept="image/png,imge/jpeg" />
             <a mat-raised-button color="primary" class="Upload">Upload</a> -->
-            <mat-label class="logoassociation">Upload logo</mat-label>
+            <!-- <mat-label class="logoassociation">Upload logo</mat-label>
             <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
-            class="fa fa-question-circle" aria-hidden="true"></i>
-            <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
+            class="fa fa-question-circle" aria-hidden="true"></i> -->
+            <form [formGroup]="uploadForm" (ngSubmit)="processFile()" class="association-form">
                 <input type="file" id="img" name="profile" (change)="onFileSelect($event)" />
                 <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
                  <img class="Upload1"(mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
@@ -52,9 +52,9 @@
                 </form>
  -->
 
-                <br>
+                
 
-                <form [formGroup]="form"class="association-form">
+                <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-select [(value)]="countryname" formControlName="cntryname" placeholder="COUNTRY">
                             <mat-option *ngFor="let country of countrieslist" class = "text"[value]="country">{{country.coName}}
@@ -65,6 +65,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <br>
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-select [(value)]="state" formControlName="statename" placeholder="STATE">
@@ -86,7 +87,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <br>
+               
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>PIN/ZIP/POSTAL CODE</mat-label>
@@ -102,6 +103,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-select [(value)]="propertytype" formControlName="prprtytype" placeholder="PROPERTY TYPE">
@@ -113,6 +115,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <br>
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>PROPERTY NAME</mat-label>
@@ -125,7 +128,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <br>
+               
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>LOCALITY</mat-label>
@@ -139,6 +142,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>ASSOCIATION EMAIL</mat-label>
@@ -162,6 +166,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <br>
                 <div class="save">
                     <a class="continue" (click)="resetStep1($event)"mat-raised-button color="primary">RESET</a>
                     <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitassociationdetails($event)">SAVE & CONTINUE</a>
@@ -169,73 +174,72 @@
 
             </div>
         </mat-tab>
-        <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
-        <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()" class="association-form">
-            <div>
-                <mat-form-field class="blockdetails-form">
-                  
+
+        <mat-tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
+            <form [formGroup]="gstpanform" class="association-form3">
+                <mat-form-field class="association-full-width">
                     <mat-label>GST NUMBER(OPTIONAL)</mat-label>
-                    <input matInput placeholder="GST NUMBER"
-                    formControlName="gstnumber"
+                     <input matInput placeholder="GST NUMBER"
+                    formControlName="gst"
                     (blur)="fillPANValue()"
                     [(ngModel)]="gstnumber" 
                     autocomplete='gstnumber'
-                  
                     pattern="^([0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" minlegth=15 maxlength=15 
                     value="">
-                    <!-- <mat-error [displayError]="isFieldValidPanDetails('gstno')">
+                    <mat-error [displayError]="isFieldValidPanDetails('gst')">
                         {{ titleAlert }}
-                    </mat-error> -->
+                    </mat-error>
                 </mat-form-field>
-                 <p style="color:grey; font-size:12px; margin-left: 40px;">Ex: 22AAAAA0000A1Z5</p> 
-
-            </div>
-        
-            <div>
-                <mat-form-field class="blockdetails-form">
+                <p class="panextext">Ex: 22AAAAA0000A1Z5</p> 
+            </form>
+            <form [formGroup]="gstpanform" class="association-form3">
+                <mat-form-field class="association-full-width">
                     <mat-label>PAN NUMBER</mat-label>
                     <input matInput placeholder="PAN NUMBER"
-                        matTooltip="The name on the Pan card given should be the same as the the Association name" class="text"
+                        matTooltip="PLEASE INSERT ASSOCIATION PAN NUMBER" class="text"
                         [(ngModel)]="pannumber" value=""
-                        formControlName="pannumber"
-                        (input)='pan()' 
+                        formControlName="originalpan"
                         autocomplete='pannumber' 
+                        (keyup)="pan_validate($event)"
+                        pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"
                         minlength=10 maxlength=10>
-                    <!-- <mat-error [displayError]="isFieldValidPanDetails('panno')">
-                    {{ titleAlert }}
-                </mat-error> -->
+                    <mat-error [displayError]="isFieldValidPanDetails('originalpan')">
+                        {{ titleAlert }}
+                    </mat-error>
                 </mat-form-field>
-                <!-- <p id='panalert' *ngIf="matching"> Valid PAN number is required </p> -->
-                <p class ="validation"*ngIf="matching">Valid PAN number is required</p>
-                <p class ="pancardoriginalname" *ngIf ="pancardnameoriginal">{{pansucessname}}</p>
-                 <p style="color:grey; font-size:12px; margin-left: 40px;">Ex: PAAAA1234A</p> 
-            </div>
-        
-        <div id="pancardupload">
-            <!-- <mat-label class="control-label">Upload Scanned Pan Card</mat-label> -->
-        
-            <label class="control-label">Upload Scanned Pan Card</label>
-            <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
-                      [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
-                      (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
-                      pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
-                      <div>
-                        <input type="file" name="panProfile" (change)="onPanFileSelect($event)" />
-                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img
-                            (mouseover)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
-                            src="{{uploadPANCardThumbnail}}" width="50px" height="50px" />
-                      </div>
+                <p class="panextext">Ex: PAAAA1234A</p> 
+
+            </form>
+            <div id="pancardupload">
+                <!-- <mat-label class="control-label">Upload Scanned Pan Card</mat-label> -->
             
-            <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
-                Resolution of 128*128</span>
-        
-        </div>
-        </form> 
+                <label class="control-label">Upload Scanned Pan Card</label>
+                <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
+                          [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
+                          (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
+                          pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
+                          <div>
+                            <form [formGroup]="uploadPanForm" (ngSubmit)="processFile()">
+                            <input type="file" name="panProfile" (change)="onPanFileSelect($event)" />
+                            <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img
+                                (mouseover)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
+                                src="{{uploadPANCardThumbnail}}" width="50px" height="50px" />
+                            </form>
+                          </div>
+                
+                <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+                    Resolution of 128*128</span>
+            
+            </div>
+
             <div class="save">
-                <a class="continue" (click)="resetStep2($event)" mat-raised-button color="primary">RESET</a>
-                <a id="assdetailssave"mat-raised-button color="primary" (click)="submitpandetails($event)">SAVE & CONTINUE</a>
+                <a class="continueforresetpan" (click)="resetStep2($event)"mat-raised-button color="primary">RESET</a>
+                <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!gstpanform.valid"(click)="submitpandetails($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab>
+
+
+
         <!-- <mat-tab [disabled]='!tab.isActive' label="Amenities">
             <form class="association-form3">
                 <mat-form-field>
@@ -308,7 +312,7 @@
            
         </mat-tab> -->
         <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
-            <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
+            <button style="position: fixed;top: 55%;right: 2%;z-index: 4000000" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             <!-- <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
                 <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>

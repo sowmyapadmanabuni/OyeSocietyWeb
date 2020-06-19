@@ -26,6 +26,8 @@ export class EnrollassociationComponent implements OnInit {
   form: FormGroup;
   form1: FormGroup;
   blockform: FormGroup;
+
+  gstpanform:FormGroup;
   panform: FormGroup;
   blocksdetailsform:FormGroup;
   uploadForm: FormGroup;
@@ -179,7 +181,7 @@ export class EnrollassociationComponent implements OnInit {
     this.createForm();
     //this.createForm1();
     this.blockandunitdetails();
-    // this.pandetalis();
+     this.pandetalis();
     this.blocksdetailsform = this.formBuilder.group({
       
     });
@@ -246,12 +248,12 @@ export class EnrollassociationComponent implements OnInit {
     });
 
   }
-  // pandetalis() {
-  //   this.panform = this.formBuilder.group({
-  //     'gstno':[null],
-  //     'panno': [null]
-  //   });
-  // }
+  pandetalis() {
+    this.gstpanform = this.formBuilder.group({
+      'gst':[null],
+      'originalpan': [null, Validators.required]
+    });
+  }
   blockDetailsgenerateform() {
     this.blocksdetailsform  = this.formBuilder.group({
       'blkname': [null, Validators.required],
@@ -320,10 +322,10 @@ export class EnrollassociationComponent implements OnInit {
   isFieldValidblockandunitdetails(field: string) {
     return !this.blockform.get(field).valid && this.blockform.get(field).touched;
   }
-  // isFieldValidPanDetails(field: string) {
-  //   return !this.panform.get(field).valid && this.panform.get(field).touched;
+  isFieldValidPanDetails(field: string) {
+    return !this.gstpanform.get(field).valid && this.gstpanform.get(field).touched;
 
-  // }
+  }
 
   isFieldValidunitsdetails(field: string){
     return !this.unitsdetailsform.get(field).valid && this.unitsdetailsform.get(field).touched;
@@ -540,7 +542,6 @@ this.countrieslist = res.data.country;
   fifthLetter: string;
   matching: boolean;
     pan() {
-
     this.firstLetter = this.assname.charAt(0).toUpperCase();
     this.fifthLetter = this.pannumber.charAt(4).toUpperCase();
     //console.log(this.firstLetter, this.fifthLetter);
@@ -552,6 +553,35 @@ this.countrieslist = res.data.country;
       this.matching = true;
     }
 
+  }
+  // _keyPress4(event:any){
+
+  //   var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+    
+       
+  //   if(regpan.test(this.pannumber)){
+  //     // valid pan card number
+  //     console.log("valid")
+  //  } else {
+  //   console.log("notvalid")
+
+  //     // invalid pan card number
+  //  }
+  // }
+  pan_validate(ev){
+    var regpan = /^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/;
+    this.pannumber = this.pannumber.toUpperCase()
+    this.firstLetter = this.assname.charAt(0).toUpperCase();
+    this.fifthLetter = this.pannumber.charAt(4).toUpperCase();
+    if(this.firstLetter == this.fifthLetter){
+      if (regpan.test(this.pannumber) == false) {
+        console.log("PAN Number Not Valid.");
+        } else {
+          console.log("PAN Number is Valid.");
+    
+        }
+    }
+ 
   }
   keyPress3(event:any){
     const pattern = /[0-9\+\-\ ]/;
@@ -898,8 +928,8 @@ validateUnitDetailsField(name){
     });
   }
   validateAllPanFormFields(formGroup: FormGroup) {
-    Object.keys(this.panform.controls).forEach(field => {
-      const control = this.panform.get(field);
+    Object.keys(this.gstpanform.controls).forEach(field => {
+      const control = this.gstpanform.get(field);
       control.markAsTouched({ onlySelf: true });
     });
   }
@@ -969,13 +999,13 @@ validateUnitDetailsField(name){
 //     );
 //   }
   submitpandetails(event) {
-
-    if (this.firstLetter == this.fifthLetter) {
+    if (this.gstpanform.valid) {
       this.demo1TabIndex = this.demo1TabIndex + 1;
       //document.getElementById("mat-tab-label-0-1").style.backgroundColor = "lightblue";
-
-    }
-
+  }
+  else{
+    this.validateAllPanFormFields(this.gstpanform)
+  }
   }
 
   
