@@ -1841,6 +1841,7 @@ cancelunitsbulkupload(ev){
 
   }
   submitassociationcreation(event,blocksnum) {
+    this.isblockdetailsempty=true;
     let ipAddress = this.utilsService.createAssn();
     let associationurl = `${ipAddress}oyeliving/api/v1/association/create`
     if (this.blockform.valid) {
