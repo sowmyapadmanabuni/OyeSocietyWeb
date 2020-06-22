@@ -126,6 +126,13 @@ img.Upload1 {
     margin: 9px;
 
 }
+a#pansubmit{
+    position: relative;
+    height: 35px;
+    top: 29px;
+    color: #ffffff !important;
+    margin: 9px;
+}
 span.mat-button-wrapper {
     color: #ffffff;
 }
