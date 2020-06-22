@@ -219,8 +219,8 @@ export class HomeComponent implements OnInit {
     this.http.get(scopeIP + '/oyeliving/api/v1/GetUnitTotalOccupancyVacantCountDetails/'+this.globalService.getCurrentAssociationId() ,  {headers:headers})
     .subscribe(data=>{
       console.log(data);
-      this._occupiedCount = data['data']['unitCounts'][0]['occupiedCount'];
-      this._vacantCount = data['data']['unitCounts'][0]['vacantCount'];
+      this._occupiedCount = data['data']['unitCounts']['occupiedCount'];
+      this._vacantCount = data['data']['unitCounts']['vacantCount'];
       console.log(this._occupiedCount,this._vacantCount);
       this.occupiedCount =(this._occupiedCount == 0?0:(this._occupiedCount / (this._occupiedCount + this._vacantCount)) * 100);
       this.vacantCount = (this._vacantCount == 0?0:(this._vacantCount / (this._occupiedCount + this._vacantCount))*100);
