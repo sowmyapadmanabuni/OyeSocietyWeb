@@ -1093,7 +1093,7 @@ validateUnitDetailsField(name){
             setTimeout(() => {
             this.blocksArray.forEach((element) => {
               if(element.blockname==""||element.blockname==undefined||element.blocktype==""||element.blocktype==undefined||element.units==""||element.units==undefined||element.managername==""||element.managername==undefined||element.managermobileno==""||element.managermobileno==undefined||element.manageremailid==""||element.manageremailid==undefined){
-            this.isblockdetailsempty=true
+            this.isblockdetailsempty=true;
               }
             })
             this.blockdetailsfinalcreation();
@@ -1105,6 +1105,7 @@ validateUnitDetailsField(name){
   blockidtmp={};
   blockdetailsfinalcreation(){
     if(!this.isblockdetailsempty){
+      this.isblockdetailsempty=true;
       this.blocksArray.forEach((element,index) => {
           ((index) => {
             setTimeout(() => {
