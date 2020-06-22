@@ -492,6 +492,7 @@ this.countrieslist = res.data.country;
       this.UploadedImage=displayText;
       this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
     }
+    
   }
   ASAsnLogo: any;
   thumbnailASAsnLogo:any;
@@ -511,11 +512,13 @@ this.countrieslist = res.data.country;
     };
   
   }
-
+imgfilename;
   onPanFileSelect(event) {
     if (event.target.files.length > 0) {
+
       const file = event.target.files[0];
       console.log(file);
+      this.imgfilename = file.name;
       this.uploadPanForm.get('panProfile').setValue(file);
     }
   }
@@ -1960,9 +1963,12 @@ cancelunitsbulkupload(ev){
    
   }
   resetStep2(ev){
-    this.uploadPanForm.reset();
+    this.gstpanform.reset();
     this.uploadPANCardThumbnail='';
-    this.pancardnameoriginal=false
+    // this.pancardnameoriginal=false
+    this.uploadPanForm.reset();
+    this.imgfilename ='';
+    this.showImgOnPopUp(ev,undefined,'')
 
   }
   resetStep3(ev){

@@ -204,7 +204,7 @@
                         pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"
                         minlength=10 maxlength=10>
                     <mat-error [displayError]="isFieldValidPanDetails('originalpan')">
-                        {{ titleAlert }}
+                        Please Enter Valid Pan Number
                     </mat-error>
                 </mat-form-field>
                 <p class="panextext">Ex: PAAAA1234A</p> 
@@ -219,8 +219,8 @@
                           (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
                           pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
                           <div>
-                            <form [formGroup]="uploadPanForm" (ngSubmit)="processFile()">
-                            <input type="file" name="panProfile" (change)="onPanFileSelect($event)" />
+                            <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
+                            <input type="file" name="panProfile" id="uploadCaptureInputFile" (change)="onPanFileSelect($event)" />
                             <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img
                                 (mouseover)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
                                 src="{{uploadPANCardThumbnail}}" width="50px" height="50px" />
@@ -234,7 +234,7 @@
 
             <div class="save">
                 <a class="continueforresetpan" (click)="resetStep2($event)"mat-raised-button color="primary">RESET</a>
-                <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!gstpanform.valid"(click)="submitpandetails($event)">SAVE & CONTINUE</a>
+                <a id="pansubmit"mat-raised-button color="primary" [disabled]="!gstpanform.valid"(click)="submitpandetails($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab>
 
