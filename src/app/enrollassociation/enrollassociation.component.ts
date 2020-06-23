@@ -475,7 +475,8 @@ this.countrieslist = res.data.country;
     "isnotvalidtenantfirstname":false,
     "isnotvalidtenantlastname":false,
     "isnotvalidtenantmobilenumber":false,
-    "isnotvalidtenantemaiid":false
+    "isnotvalidtenantemaiid":false,
+    "isSingleUnitDataEmpty":true
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {
@@ -624,23 +625,29 @@ imgfilename;
   unitdetailscreatejson;
   unitsuccessarray =[]
 
-  gotonexttab(ev, name) {
+  gotonexttab(ev, name,obj3Id) {
     console.log(name);
+    console.log(obj3Id);
      
-    this.unitmovingnexttab(name);
+    this.unitmovingnexttab(name,obj3Id);
 
   }
-  unitmovingnexttab(name) {
-    if (this.isunitdetailsempty) {
-      this.submitunitdetails(name);
-    }
+  unitmovingnexttab(name,obj3Id) {
+    //if (this.isunitdetailsempty) {
+      this.submitunitdetails(name,obj3Id);
+    //}
   }
   exceptionMessage='';
   SubmitOrSaveAndContinue='SAVE AND CONTINUE';
-  submitunitdetails(name) {
+  submitunitdetails(name,obj3Id) {
     let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
+    console.log(valueManualUnitnameArr);
+    console.log(this.unitlistjson[name]);
     let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
-      return valueManualUnitnameArr.indexOf(item) != idx
+      console.log(valueManualUnitnameArr.indexOf(item),idx);
+      if(item != ""){
+        return valueManualUnitnameArr.indexOf(item) != idx
+      }
     });
     if (isManualUnitnameDuplicate) {
           Swal.fire({
@@ -689,88 +696,91 @@ imgfilename;
       
           this.unitlistjson[name].forEach((unit, index) => {
             console.log(unit);
-            ((index) => {
-              setTimeout(() => {
-                this.unitsuccessarray.push(unit);
-      
-                this.unitdetailscreatejson = {
-                  "ASAssnID": this.assid,
-                  "ACAccntID": this.globalService.getacAccntID(),
-                  "units": [
-                    {
-      
-                      "UNUniName": unit.flatno,
-                      "UNUniType": unit.unittype,
-                      "UNOcStat": unit.ownershipstatus,
-                      "UNOcSDate": "",
-                      "UNOwnStat": "",
-                      "UNSldDate": "",
-                      "UNDimens": "",
-                      "UNRate": "",
-                      "UNCalType": "",
-                      "FLFloorID": 14,
-                      "BLBlockID": unit.blockid,
-                      "Owner":
-                        [{
-      
-                          "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
-                          "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
-                          "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
-                          "UOISDCode": "",
-                          "UOMobile1": "",
-                          "UOMobile2": "",
-                          "UOMobile3": "",
-                          "UOMobile4": "",
-                          "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
-                          "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
-                          "UOCDAmnt": "2000"
-      
-                        }],
-                      "Tenant": [{
-                        "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
-                        "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
-                        "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
-                        "UTISDCode": "+91",
-                        "UTMobile1": "+919398493298",
-                        "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
-                        "UTEmail1": "pl@gmail.com"
+            // ((index) => {
+            //   setTimeout(() => {
+            if (unit.Id.toLowerCase() == obj3Id.toLowerCase()) {
+              console.log('test',obj3Id);
+              this.unitsuccessarray.push(unit);
+
+              this.unitdetailscreatejson = {
+                "ASAssnID": this.assid,
+                "ACAccntID": this.globalService.getacAccntID(),
+                "units": [
+                  {
+
+                    "UNUniName": unit.flatno,
+                    "UNUniType": unit.unittype,
+                    "UNOcStat": unit.ownershipstatus,
+                    "UNOcSDate": "",
+                    "UNOwnStat": "",
+                    "UNSldDate": "",
+                    "UNDimens": "",
+                    "UNRate": "",
+                    "UNCalType": "",
+                    "FLFloorID": 14,
+                    "BLBlockID": unit.blockid,
+                    "Owner":
+                      [{
+
+                        "UOFName": (unit.ownerfirstname == undefined ? '' : unit.ownerfirstname),
+                        "UOLName": (unit.ownerlastname == undefined ? '' : unit.ownerlastname),
+                        "UOMobile": (unit.ownermobilenumber == undefined ? '' : unit.ownermobilenumber),
+                        "UOISDCode": "",
+                        "UOMobile1": "",
+                        "UOMobile2": "",
+                        "UOMobile3": "",
+                        "UOMobile4": "",
+                        "UOEmail": (unit.owneremaiid == undefined ? '' : unit.owneremaiid),
+                        "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
+                        "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
+                        "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
+                        "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
+                        "UOCDAmnt": "2000"
+
                       }],
-                      "unitbankaccount":
-                      {
-                        "UBName": "SBI",
-                        "UBIFSC": "SBIN0014",
-                        "UBActNo": "LOP9090909",
-                        "UBActType": "Savings",
-                        "UBActBal": 12.3,
-                        "BLBlockID": unit.blockid
-                      },
-      
-                      "UnitParkingLot":
-                        [
-                          {
-                            "UPLNum": "1902",
-                            "MEMemID": 287,
-                            "UPGPSPnt": "24.0088 23. 979"
-                          }
-                        ]
-                    }
-                  ]
-                }
-                console.log(this.unitdetailscreatejson)
-                this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+                    "Tenant": [{
+                      "UTFName": (unit.tenantfirstname == undefined ? '' : unit.tenantfirstname),
+                      "UTLName": (unit.tenantlastname == undefined ? '' : unit.tenantlastname),
+                      "UTMobile": (unit.tenantmobilenumber == undefined ? '' : unit.tenantmobilenumber),
+                      "UTISDCode": "+91",
+                      "UTMobile1": "+919398493298",
+                      "UTEmail": (unit.tenantemaiid == undefined ? '' : unit.tenantemaiid),
+                      "UTEmail1": "pl@gmail.com"
+                    }],
+                    "unitbankaccount":
+                    {
+                      "UBName": "SBI",
+                      "UBIFSC": "SBIN0014",
+                      "UBActNo": "LOP9090909",
+                      "UBActType": "Savings",
+                      "UBActBal": 12.3,
+                      "BLBlockID": unit.blockid
+                    },
+
+                    "UnitParkingLot":
+                      [
+                        {
+                          "UPLNum": "1902",
+                          "MEMemID": 287,
+                          "UPGPSPnt": "24.0088 23. 979"
+                        }
+                      ]
+                  }
+                ]
+              }
+              console.log(this.unitdetailscreatejson)
+              this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
                 .subscribe((res: any) => {
                   console.log(res)
-      
+
                 }, error => {
                   console.log(error);
-                 this.exceptionMessage = error['error']['exceptionMessage'];
-                 console.log(this.exceptionMessage);
+                  this.exceptionMessage = error['error']['exceptionMessage'];
+                  console.log(this.exceptionMessage);
                 });
-              }, 2000 * index)
-            })(index)
+            }
+            //   }, 2000 * index)
+            // })(index)
       
           });
       
@@ -851,7 +861,10 @@ validateUnitDetailsField(name){
                 unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
               ) {
                 this.isunitdetailsempty = false;
-  
+                unit.isSingleUnitDataEmpty = true;
+              }
+              else{
+                unit.isSingleUnitDataEmpty = false;
               }
             }
             // else if (unit.ownershipstatus == "SOLD VACANT UNIT") {
@@ -882,7 +895,10 @@ validateUnitDetailsField(name){
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                 this.isunitdetailsempty = false
-  
+                unit.isSingleUnitDataEmpty = true;
+              }
+              else{
+                unit.isSingleUnitDataEmpty = false;
               }
             } 
             else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
@@ -897,7 +913,11 @@ validateUnitDetailsField(name){
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                 this.isunitdetailsempty = false
+                unit.isSingleUnitDataEmpty = true;
   
+              }
+              else{
+                unit.isSingleUnitDataEmpty = false;
               }
             }
             else if (unit.ownershipstatus == "UnSold Vacant Unit"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
@@ -908,13 +928,25 @@ validateUnitDetailsField(name){
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined
               ) {
                 this.isunitdetailsempty = false
+                unit.isSingleUnitDataEmpty = true;
   
               }
+              else{
+                unit.isSingleUnitDataEmpty = false;
+              }
             }
-      
-          }
+            else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                unit.isSingleUnitDataEmpty = true;
+              }
+              else {
+                unit.isSingleUnitDataEmpty = false;
+              }
+            }
         }
-     
+      }
       })
     })
 }
@@ -1163,6 +1195,7 @@ validateUnitDetailsField(name){
                 let data = JSON.parse(JSON.stringify(this.unitsrowjson))
 
                 data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
+                data.unitTmpid='';
                 //data.blockid = res['data']['data']['blockID'];
                 data.blockid = res.data.blockID;
                 console.log(data.Id)
@@ -1219,7 +1252,9 @@ validateUnitDetailsField(name){
               if (result.value) {
                 console.log(this.finalblockname);
                 this.blocknameforIteration = this.finalblockname[0];
+                this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']=this.unitlistjson[this.finalblockname[0]][0]['Id'];
                 console.log(this.blocknameforIteration);
+                console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
                 this.demo1TabIndex = this.demo1TabIndex + 1;
               }
             })
@@ -1250,7 +1285,19 @@ validateUnitDetailsField(name){
       }
     })
   }
-
+  assignUnitTmpid(obj2Id,blockname){
+    console.log(obj2Id);
+    this.unitlistjson[blockname].forEach(elemnt=>{
+      if(elemnt.Id==obj2Id){
+        console.log('test',obj2Id);
+        elemnt.unitTmpid=obj2Id;
+        console.log(elemnt.unitTmpid);
+      }
+      else{
+        elemnt.unitTmpid='';
+      }
+    })
+  }
     excelBlockList=[];
     ShowExcelUploadDiscription=true;
     ShowExcelDataList=false;
@@ -1692,6 +1739,8 @@ validateUnitDetailsField(name){
                       console.log(this.blockidtmp);
                       unitonce.blockid = this.blockidtmp[blkname];
                       unitonce.Id = blkname+i+1;
+                      unitonce.unitTmpid='';
+                      unitonce.isSingleUnitDataEmpty=true;
                       unitonce.isnotvalidflatno =false,
                       unitonce.isnotvalidunittype=false,
                       unitonce.isnotvalidownershipstatus=false,
