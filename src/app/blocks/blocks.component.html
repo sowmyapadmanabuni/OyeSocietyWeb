@@ -294,30 +294,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <!-- from here onwards Maintanace details related code -->
+                        <!-- <div class="col-sm-12">
                             <hr>
-                        </div>
-                        <div class="col-sm-12">
-                            <h5 style="color:#e59400;">Maintenance details</h5>
-                        </div>
-                        <div class="row" style="padding-left:15px;padding-right:15px;">
-                            <!-- <div class="col-sm-4 col-xs-12">
-                                <div class="form-group">
-                                    <p>Select Rate <span class="red">*</span></p>
-                                    <div style="display: flex;">
-                                        <input type="checkbox" name="rate" [(ngModel)]="rate" (change)="checkRate(rate)" value="flatRatevalue">
-                                        <label>&nbsp;&nbsp;Flat Rate Value</label>
-                            
-                                    </div>
-                            
-                                    <div style="display: flex;">
-                                        <input type="checkbox" name="rate" [(ngModel)]="rate1" (change)="checkRate1(rate1)" value="dimension">
-                                        <label>&nbsp;&nbsp;Dimension Based</label>
-                                    </div>
-                            
-                                </div>
-                            </div> -->
+                        </div> -->
 
+                        <!-- <div class="col-sm-12">
+                            <h5 style="color:#e59400;">Maintenance details</h5>
+                        </div> -->
+                        <!-- <div class="row" style="padding-left:15px;padding-right:15px;">
                             <div class="col-sm-4 col-xs-12" *ngIf="addRate == 'flatRatevalue'">
                                 <div class="form-group"
                                     [ngClass]="{'was-validated' : flatRatevalueControl.invalid && flatRatevalueControl.touched}">
@@ -347,9 +332,9 @@
                                     <small>Rate (SQFT / SQMTR) </small>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="row" style="padding-left:15px;padding-right:15px;">
+                        <!-- <div class="row" style="padding-left:15px;padding-right:15px;">
 
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group"
@@ -380,9 +365,9 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="row" style="padding-left:15px;padding-right:15px;">
+                        <!-- <div class="row" style="padding-left:15px;padding-right:15px;">
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label>Invoice Generation Date<span class="red">*</span></label>
@@ -407,9 +392,9 @@
                                     </ng-container>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="row" style="padding-left:15px;padding-right:15px;">
+                        <!-- <div class="row" style="padding-left:15px;padding-right:15px;">
 
                             <div class="col-sm-4 col-xs-12">
 
@@ -480,15 +465,16 @@
                                         (bsValueChange)="onStartsFromDateValueChange($event)" [(ngModel)]="ASLPSDate"
                                         #startsFromDateCtrl='bsDatepicker' bsDatepicker placement="top" />
                                     <!-- <p class="invalid-feedback">Select Date</p> -->
-                                    <ng-container *ngIf='enablestartfromdatevalidation'>
+                                    <!-- <ng-container *ngIf='enablestartfromdatevalidation'>
                                         <p class="invalidFeedback">Starts from date should be greater than or equal to
                                             due date</p>
-                                    </ng-container>
-                                </div>
+                                    </ng-container> -->
+                                <!-- </div>
 
                             </div>
 
-                        </div>
+                        </div>  -->
+
                         <div class="from-group">
                             <div class="form-group pull-right">
                                 <button type="submit" [disabled]='editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>

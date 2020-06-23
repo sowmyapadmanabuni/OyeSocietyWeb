@@ -251,7 +251,7 @@ export class EditAssociationComponent implements OnInit {
       event.preventDefault();
     }
   }
-  resetfields(){
+  resetfields(ev){
     //alert("hai");
     this.viewAssnService.EditAssociationData['ASAsnName']="";
     this.viewAssnService.EditAssociationData['ASCountry']="";
@@ -282,7 +282,7 @@ export class EditAssociationComponent implements OnInit {
   isFieldValid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
   }
-  resetStep1(ev){
+  resetStepassn(ev){
 
     console.log(ev)
     this.form.reset();
@@ -318,6 +318,10 @@ export class EditAssociationComponent implements OnInit {
   }
   UpdateAssociation(){
     console.log(this.viewAssnService.EditAssociationData);
+    let name =this.viewAssnService.EditAssociationData.ASAsnName;
+    let totalname = name.toUpperCase();
+    this.viewAssnService.EditAssociationData.ASAsnName = totalname;
+    console.log(this.viewAssnService.EditAssociationData.ASAsnName)
     this.viewAssnService.UpdateAssociation(this.viewAssnService.EditAssociationData).subscribe(res => {
       console.log(res);
       //console.log(JSON.stringify(res));
