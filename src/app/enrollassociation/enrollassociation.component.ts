@@ -589,7 +589,7 @@ imgfilename;
  
   }
   keyPress3(event:any){
-    const pattern = /[0-9\+\-\ ]/;
+    const pattern = /[1-9\+\-\ ]/;
     let inputChar = String.fromCharCode(event.charCode);
     // console.log(inputChar, e.charCode);
        if (!pattern.test(inputChar)) {

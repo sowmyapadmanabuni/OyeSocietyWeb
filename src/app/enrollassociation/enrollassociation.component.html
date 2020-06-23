@@ -135,6 +135,8 @@
                         <input matInput placeholder="LOCALITY"class = "text" 
                         pattern="[A-Za-z\s]+"
                         maxlength="255"
+                        (keypress)="_keyPress2($event)"
+
                         formControlName="locname" [(ngModel)]="locality"
                             value="">
                         <mat-error [displayError]="isFieldValid('locname')">
@@ -375,16 +377,24 @@
                                     <!-- <form [formGroup]="form1"> -->
                                     <mat-form-field class="blockdetails-form">
                                         <!-- <mat-select [(value)]="residentialorcommercialtype"  -->
-                                        <mat-select [disabled]="condition"
+
+                                        <!-- <mat-select [disabled]="condition"
                                         [(value)]="blocksArray[i].blocktype" 
                                         (blur)="getblocktype(blocksArray[i]['Id'],blocksArray[i].blocktype)"
+                                        placeholder="BLOCK TYPE">
+                                            <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
+                                            </mat-option>
+                                        </mat-select> -->
+
+                                        <mat-select [disabled]="condition"
+                                        [(value)]="blocksArray[i].blocktype" 
                                         placeholder="BLOCK TYPE">
                                             <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                     <!-- </form> -->
-                                    <p class="validation" *ngIf="blocksArray[i]['isnotvalidblocktype']">Valid block Type is required</p>
+                                    <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidblocktype']">Valid block Type is required</p> -->
                                     <p class="validation" *ngIf="blocksArray[i]['blocktype']==undefined">Valid block Type is required</p>
                                 
                                 </div>
