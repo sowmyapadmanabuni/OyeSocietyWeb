@@ -78,7 +78,8 @@ export class AdminStaffScreenComponent implements OnInit {
         console.log(data);
         this.deliveryVisitorLog= data['data']['visitorlog'];
         this.deliveryVisitorLog = this.deliveryVisitorLog.filter(item=>{
-          return item['vlVisType'] == "STAFF";
+          //return item['vlVisType'] == "STAFF";
+          return item['vlVisType'] == "STAFF" || item['vlVisType'] == "Staff Missed call Entry" || item['vlVisType'] == "Staff Voisentry";
         })
         console.log(this.deliveryVisitorLog);
       },

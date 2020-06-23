@@ -589,8 +589,209 @@
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"#file> -->
                 </div>
             <div id="unitshowmanual">
-            <mat-tab-group class="mainpage" [(selectedIndex)]="demo2TabIndex">
-                <div class="blockdetailsdata" *ngFor="let name of finalblockname">
+            <!-- <mat-tab-group class="mainpage" [(selectedIndex)]="demo2TabIndex"> -->
+                <!--test-->
+                <div class="container-fluid">
+                    <div class="row">
+                    <ul class="nav col-md-2" id="leftTabs">
+                        <li class="active" *ngFor="let obj of blocksArray">
+                        <a href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
+                            <span></span>{{obj.blockname}}
+                        </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content col-md-10">
+                        <div *ngFor="let obj1 of blocksArray">
+                            <div class="tab-pane" [ngClass]="{'active':obj1.Id==obj1.blockTmpid}" id="{{obj1.Id}}">
+                                <ul class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }">
+                                    <li [ngClass]="{'active':obj1.Id==obj1.blockTmpid}"><a href="#{{obj1.uniqueid}}" data-toggle="tab">{{obj1.blockname}}</a></li>
+                                </ul>
+                                <div [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }" class="tab-content">
+                                    <div id="{{obj1.uniqueid}}" class="tab-pane active">Content of {{obj1.blockname}}
+                                        <div class="blockdetailsdata" *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index">
+                                            <form class="blockdetails-form" style="margin-top: 30px;">
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form">
+                                                        <mat-label>UNIT NO/FLAT NO</mat-label>
+                                                        <input class="text" matInput placeholder="UNIT NO/FLAT NO"
+                                                            (blur)="getUnitName(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['flatno'],blocknameforIteration)"
+                                                            [(ngModel)]="obj.flatno" [ngModelOptions]="{standalone:
+                                                                                                   true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidflatno']">Valid unit no is required</p>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['flatno']==undefined">Valid unit no is required</p>
+                                        
+                                                </div>
+                                        
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form">
+                                                        <mat-select [(value)]="obj.unittype" placeholder="UNIT TYPE">
+                                                            <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['unittype']==undefined">Valid Unit Type is required</p>
+                                                </div>
+                                        
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form">
+                                                        <mat-select [(value)]="obj.ownershipstatus" placeholder="OCCUPANCY & OWNERSHIP STATUS">
+                                                            <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']==undefined">Valid ownershipstatus is
+                                                        required</p>
+                                                </div>
+                                        
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>OWNER FIRST NAME</mat-label>
+                                                        <input class="text" matInput placeholder="OWNER FIRSTNAME" pattern="[a-zA-Z _]*"
+                                                            (blur)="getownerfirstname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownerfirstname'],blocknameforIteration)"
+                                                            [(ngModel)]="obj.ownerfirstname" [ngModelOptions]="{standalone:
+                                                                                               true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidownerfirstname']">Valid owner firstname is
+                                                        required</p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[blocknameforIteration][i]['ownerfirstname']==undefined||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[blocknameforIteration][i]['ownerfirstname']==undefined ||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['ownerfirstname']==undefined || unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[blocknameforIteration][i]['ownerfirstname']==undefined">
+                                                        Valid owner firstname is required</p>
+                                                </div>
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>OWNER LAST NAME</mat-label>
+                                                        <input class="text" matInput placeholder="OWNER LASTNAME"
+                                                            (blur)="getownerlastname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownerlastname'],blocknameforIteration)"
+                                                            pattern="[a-zA-Z _]*" [(ngModel)]="obj.ownerlastname" [ngModelOptions]="{standalone:true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidownerlastname']">Valid owner lastname is
+                                                        required</p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[blocknameforIteration][i]['ownerlastname']==undefined ||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['ownerlastname']==undefined || unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[blocknameforIteration][i]['ownerlastname']==undefined">
+                                                        Valid owner lastname is required</p>
+                                                </div>
+                                        
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>OWNER MOBILE NUMBER</mat-label>
+                                                        <input matInput placeholder="OWNER MOBILE NUMBER" pattern="[0-9]*"
+                                                            (blur)="getownermobilenumber(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownermobilenumber'],blocknameforIteration)"
+                                                            minlength="10" maxlength="10" (keypress)=_keyPress($event) [ngModelOptions]="{standalone:true}"
+                                                            [(ngModel)]="obj.ownermobilenumber" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidownermobilenumber']">Valid 10 digit mobile
+                                                        number is required</p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[blocknameforIteration][i]['ownermobilenumber']==undefined ||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['ownermobilenumber']==undefined || unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[blocknameforIteration][i]['ownermobilenumber']==undefined">
+                                                        Valid 10 digit mobile number is required</p>
+                                                </div>
+                                        
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>OWNER EMAIL ID</mat-label>
+                                                        <input matInput placeholder="OWNER EMAIL-ID"
+                                                            (blur)="getowneremaiid(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['owneremaiid'],blocknameforIteration)"
+                                                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="obj.owneremaiid"
+                                                            [ngModelOptions]="{standalone:true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidowneremaiid']">valid email-id is required</p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[blocknameforIteration][i]['owneremaiid']==undefined ||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['owneremaiid']==undefined || unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[blocknameforIteration][i]['owneremaiid']==undefined">
+                                                        valid email-id is required</p>
+                                                </div>
+                                        
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>TENANT FIRST NAME</mat-label>
+                                                        <input class="text" matInput placeholder="TENANT FIRSTNAME" pattern="[a-zA-Z _]*"
+                                                            [(ngModel)]="obj.tenantfirstname"
+                                                            (blur)="gettenantfirstname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantfirstname'],blocknameforIteration)"
+                                                            [ngModelOptions]="{standalone:true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantfirstname']">Valid firstname is
+                                                        required</p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantfirstname']==undefined||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantfirstname']==undefined">
+                                                        Valid firstname is
+                                                        required</p>
+                                                </div>
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>TENANT LAST NAME</mat-label>
+                                                        <input class="text" matInput placeholder="TENANT LASTNAME" pattern="[a-zA-Z _]*"
+                                                            (blur)="gettenantlastname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantlastname'],blocknameforIteration)"
+                                                            [(ngModel)]="obj.tenantlastname" [ngModelOptions]="{standalone:true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantlastname']"> Valid lastname is required
+                                                    </p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantlastname']==undefined||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantlastname']==undefined">
+                                                        Valid lastname is
+                                                        required</p>
+                                                </div>
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>TENANT MOBILE NUMBER</mat-label>
+                                                        <input matInput placeholder="TENANT MOBILE NUMBER" pattern="[0-9]*" minlength="10" maxlength="10"
+                                                            (keypress)=_keyPress($event)
+                                                            (blur)="gettenantmobilenumber(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantmobilenumber'],blocknameforIteration)"
+                                                            [(ngModel)]="obj.tenantmobilenumber" [ngModelOptions]="{standalone:true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantmobilenumber']">Valid mobile number is
+                                                        required</p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantmobilenumber']==undefined||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantmobilenumber']==undefined">
+                                                        Valid mobile number is
+                                                        required</p>
+                                                </div>
+                                                <div>
+                                                    <mat-form-field class="blockdetails-form"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
+                                                        <mat-label>TENANT EMAIL ID</mat-label>
+                                                        <input matInput placeholder="TENANT EMAIL-ID" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                                            (blur)="gettenantemaiid(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantemaiid'],blocknameforIteration)"
+                                                            [(ngModel)]="obj.tenantemaiid" [ngModelOptions]="{standalone:true}" value="">
+                                                    </mat-form-field>
+                                                    <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantemaiid']"> Valid email-id is required
+                                                    </p>
+                                                    <p class="validation"
+                                                        *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantemaiid']==undefined||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantemaiid']==undefined">
+                                                        Valid email-id is required</p>
+                                                </div>
+                                        
+                                        
+                                            </form>
+                                        </div>
+                                        <div>
+                                            <button style="position: fixed;top: 55%;right: 2%;" id="unitbulkbutton" mat-raised-button color="primary"
+                                                (click)="submitforbulkupload($event)">Bulk Upload</button>
+                                        
+                                        </div>
+                                        <div>
+                                            <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}}
+                                                (click)="gotonexttab($event,blocknameforIteration)">{{SubmitOrSaveAndContinue}}</button>
+                                        </div>
+                                        <div class="save">
+                                            <a class="continue" (click)="resetStep5($event,blocknameforIteration)" mat-raised-button color="primary">RESET</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!--test-->
+                <!-- <div class="blockdetailsdata" *ngFor="let name of finalblockname">
                     <mat-tab  class = "text"[label]="name">
                         <div class="blockdetailsdata" *ngFor="let obj of unitlistjson[name];let i= index">
                          <form class="blockdetails-form" style="margin-top: 30px;">
@@ -600,75 +801,31 @@
                                     <input class = "text" matInput placeholder="UNIT NO/FLAT NO"
                                      (blur)="getUnitName(unitlistjson[name][i]['Id'],unitlistjson[name][i]['flatno'],name)"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
                                         true}"  value="">
-                                    <!-- <mat-error [displayError]="isFieldValidunitsdetails('flat')">
-                                        {{ titleAlert }}
-                                    </mat-error> -->
                                 </mat-form-field>
                                 <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidflatno']">Valid unit no is required</p>
                                 <p class="validation" *ngIf="unitlistjson[name][i]['flatno']==undefined">Valid unit no is required</p>
 
-                                 <!-- <p class ="validation"*ngIf ="unitdetails[i]['flatno']['clicked']&&!unitlistjson[name][i]['flatno']">{{ titleAlert }}</p> -->
                              </div>
 
                                <div>
                                 <mat-form-field class="blockdetails-form">
-                                    <!-- <mat-select [(value)]="obj.unittype" (blur)="getunittype(unitlistjson[name][i]['Id'],unitlistjson[name][i]['unittype'],name)"placeholder="UNIT TYPE">
-                                        <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
-                                        </mat-option>
-                                    </mat-select> -->
                                     <mat-select [(value)]="obj.unittype" placeholder="UNIT TYPE">
                                         <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidunittype']">Valid Unit Type is required</p> -->
                                 <p class="validation" *ngIf="unitlistjson[name][i]['unittype']==undefined">Valid Unit Type is required</p>
                                </div>
 
-                              
-                            <!-- <form [formGroup]="unitsdetailsform" class="association-form">
-                                <mat-form-field class="association-full-width">
-                                    <mat-label>UNIT DIMENSION(Sqft)</mat-label>
-                                    <input matInput placeholder="Unit Dimension" formControlName="dimension"[(ngModel)]="obj.unitdimension"value="" >
-                                        <mat-error [displayError]="isFieldValidunitsdetails('dimension')">
-                                            {{ titleAlert }}
-                                        </mat-error>
-                                </mat-form-field>
-                            </form>
-                            <form class="association-form">
-                                <mat-form-field>
-                                    <mat-select [(value)]="obj.calculationtype" placeholder="CALCULATION TYPE">
-                                        <mat-option *ngFor="let country of caltype" [value]="country">{{country}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </form>
-                            <form [formGroup]="unitsdetailsform" class="association-form">
-                                <mat-form-field class="association-full-width">
-                                    <mat-label>UNIT RATE</mat-label>
-                                    <input matInput placeholder="UNIT RATE"formControlName="rate"[(ngModel)]="obj.unitrate" value="">
-                                       <mat-error [displayError]="isFieldValidunitsdetails('rate')">
-                                        {{ titleAlert }}
-                                    </mat-error>
-                                </mat-form-field>
-                            </form> -->
                              <div>
                                 <mat-form-field class="blockdetails-form">
-                                    <!-- <mat-select [(value)]="obj.ownershipstatus"
-                                    (blur)="getownershipstatus(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownershipstatus'],name)"
-                                        placeholder="OCCUPANCY & OWNERSHIP STATUS">
-                                        <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
-                                        </mat-option>
-                                    </mat-select> -->
                                     <mat-select [(value)]="obj.ownershipstatus"
                                         placeholder="OCCUPANCY & OWNERSHIP STATUS">
                                         <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <!-- <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownershipstatus']">Valid ownershipstatus is required</p> -->
                                 <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']==undefined">Valid ownershipstatus is required</p>
-                       
                             </div>
                          
                          <div>
@@ -679,14 +836,9 @@
                                 (blur)="getownerfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerfirstname'],name)"
                                 [(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
                                     true}" value="">
-                                    <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownfirstname')">
-                                        {{ titleAlert }}
-                                    </mat-error> -->
                             </mat-form-field> 
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerfirstname']">Valid owner firstname is required</p>
                             <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownerfirstname']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownerfirstname']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['ownerfirstname']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['ownerfirstname']==undefined">Valid owner firstname is required</p>
-
-                            <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownerfirstname']['required']&&unitdetails[i]['ownerfirstname']['clicked']&&!unitlistjson[name][i]['ownerfirstname']">{{ titleAlert }}</p>  -->
                          </div>
                                 <div>
                                     <mat-form-field class="blockdetails-form" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
@@ -696,14 +848,9 @@
                                         pattern="[a-zA-Z _]*"
                                         [(ngModel)]="obj.ownerlastname"
                                         [ngModelOptions]="{standalone:true}" value="">
-                                            <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownlastname')">
-                                                {{ titleAlert }}
-                                            </mat-error> -->
                                     </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerlastname']">Valid owner lastname is required</p>
                             <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownerlastname']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['ownerlastname']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['ownerlastname']==undefined">Valid owner lastname is required</p> 
-
-                                     <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownerlastname']['clicked']&&!unitlistjson[name][i]['ownerlastname']">{{ titleAlert }}</p>  -->
                                 </div>
                         
                        <div>
@@ -716,14 +863,9 @@
                             (keypress)=_keyPress($event)
                             [ngModelOptions]="{standalone:true}"
                                 [(ngModel)]="obj.ownermobilenumber" value="">
-                                <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownmobileno')">
-                                    {{ titleAlert }}
-                                </mat-error> -->
                         </mat-form-field>
                         <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownermobilenumber']">Valid 10 digit mobile number is required</p>
                         <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownermobilenumber']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['ownermobilenumber']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['ownermobilenumber']==undefined">Valid 10 digit mobile number is required</p> 
-
-                         <!-- <p class ="validation"*ngIf ="unitdetails[i]['ownermobilenumber']['clicked']&&!unitlistjson[name][i]['ownermobilenumber']">{{ titleAlert }}</p>  -->
                        </div>
                               
                   <div>
@@ -733,14 +875,9 @@
                         (blur)="getowneremaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['owneremaiid'],name)"
                         pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                         [(ngModel)]="obj.owneremaiid"[ngModelOptions]="{standalone:true}"value="">
-                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('ownemail')">
-                            {{ titleAlert }}
-                        </mat-error> -->
                     </mat-form-field>
                     <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidowneremaiid']">valid email-id is required</p>
                     <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['owneremaiid']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['owneremaiid']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['owneremaiid']==undefined">valid email-id is required</p> 
-
-                     <!-- <p class ="validation"*ngIf ="unitdetails[i]['owneremaiid']['clicked']&&!unitlistjson[name][i]['owneremaiid']">{{ titleAlert }}</p>  -->
                   </div>
 
                         <div>
@@ -751,19 +888,11 @@
                                 [(ngModel)]="obj.tenantfirstname"
                         (blur)="gettenantfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantfirstname'],name)"
                                     [ngModelOptions]="{standalone:true}" value="">
-                                <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentfirstname')">
-                                        {{ titleAlert }}
-                                    </mat-error> -->
                             </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantfirstname']">Valid firstname is
                                 required</p>
                                 <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[name][i]['tenantfirstname']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['tenantfirstname']==undefined">Valid firstname is
                                     required</p>
-                                    <!--Test1-->
-                                    
-                                    <!--Test1-->
-                                 
-                     <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantfirstname']['clicked']&&!unitlistjson[name][i]['tenantfirstname']">{{ titleAlert }}</p>  -->
                         </div>           
                         <div>
                             <mat-form-field class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
@@ -777,7 +906,6 @@
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantlastname']"> Valid lastname is required</p>
                              <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[name][i]['tenantlastname']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['tenantlastname']==undefined">Valid lastname is
                                 required</p> 
-                   <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantlastname']['clicked']&&!unitlistjson[name][i]['tenantlastname']">{{ titleAlert }}</p>  -->
                         </div>
                          <div>
                             <mat-form-field class="blockdetails-form"
@@ -790,15 +918,11 @@
                         (blur)="gettenantmobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantmobilenumber'],name)"
                                 [(ngModel)]="obj.tenantmobilenumber"
                                 [ngModelOptions]="{standalone:true}" value="">
-                                <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentmobileno')">
-                                        {{ titleAlert }}
-                                    </mat-error> -->
                             </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantmobilenumber']">Valid mobile number is
                                 required</p>
                             <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[name][i]['tenantmobilenumber']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['tenantmobilenumber']==undefined">Valid mobile number is
                                     required</p> 
-                    <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantmobilenumber']['clicked']&&!unitlistjson[name][i]['tenantmobilenumber']">{{ titleAlert }}</p>  -->
                         </div>  
                           <div>
                                 <mat-form-field  class="blockdetails-form"*ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
@@ -808,13 +932,9 @@
                         (blur)="gettenantemaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantemaiid'],name)"
                                     [(ngModel)]="obj.tenantemaiid"
                                     [ngModelOptions]="{standalone:true}" value="">
-                                        <!-- <mat-error [displayError]="isFieldValidunitsdetails('tentemail')">
-                                            {{ titleAlert }}
-                                        </mat-error> -->
                                 </mat-form-field>
                             <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantemaiid']"> Valid email-id is required</p>
                             <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[name][i]['tenantemaiid']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['tenantemaiid']==undefined">Valid email-id is required</p> 
-                    <!-- <p class ="validation"*ngIf ="unitdetails[i]['tenantemaiid']['clicked']&&!unitlistjson[name][i]['tenantemaiid']">{{ titleAlert }}</p>  -->
                             </div>
                             
                            
@@ -829,80 +949,20 @@
                         </div>
                         <div class="save">
                             <a class="continue" (click)="resetStep5($event,name)"mat-raised-button color="primary">RESET</a>
-                            <!-- <a id="assdetailssave" mat-raised-button color="primary"(click)="gotonexttab($event,name)">NEXT</a> -->
                         </div>    
                      
                     </mat-tab>
                  
-                </div>
+                </div> -->
+
             
-            </mat-tab-group>
+            <!-- </mat-tab-group> -->
 
 
 
 <!-- test code for units -->
 
-            <div class="container-fluid">
-                <div class="row">
-                <!-- Nav left -->
-                <ul class="nav col-md-2" id="leftTabs">
-                    <li class="active">
-                    <a href="#a_tab" data-toggle="tab">
-                        <span></span>Block 1
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#b_tab" data-toggle="tab">
-                        <span></span>Block 2
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#c_tab" data-toggle="tab">
-                        <span></span>Block 3
-                    </a>
-                    </li>
-                </ul>
-                <!-- Nav content -->
-                <div class="tab-content col-md-10">
-                        <div class="tab-pane active" id="a_tab">
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#first" data-toggle="tab">Block1 (Unit 1)</a></li>                     
-                                </ul>
-                                <!-- Nav tabs content -->
-                                <div class="tab-content">
-                                    <div id="first" class="tab-pane active">Content of block1 unit1</div>           
-                                </div>
-                        </div>
-                        <div class="tab-pane" id="b_tab">
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#first" data-toggle="tab">Block2 (Unit 1)</a></li>
-                                    <li><a href="#second" data-toggle="tab">Block2 (Unit 2)</a></li>
-                                </ul>
-                                <!-- Nav tabs content -->
-                                <div class="tab-content">
-                                    <div id="first" class="tab-pane active">Content of block2 unit1</div>
-                                    <div id="second" class="tab-pane">Content of block2 unit2</div>
-                                </div>
-                        </div>
-                        <div class="tab-pane" id="c_tab">
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#first" data-toggle="tab">Unit 1</a></li>
-                                    <li><a href="#second" data-toggle="tab">Unit 2</a></li>
-                                    <li><a href="#third" data-toggle="tab">Unit3</a></li>
-                                </ul>
-                                <!-- Nav tabs content -->
-                                <div class="tab-content">
-                                    <div id="first" class="tab-pane active">Content of block3 unit1</div>
-                                    <div id="second" class="tab-pane">Content of block3 unit2</div>
-                                    <div id="third" class="tab-pane">Content of block3 unit3</div>
-                                </div>
-                        </div>
-                </div>
-                </div>
-            </div>
+
   <!-- test unit code -->
 
                </div> 

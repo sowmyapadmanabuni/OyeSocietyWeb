@@ -407,6 +407,7 @@ this.countrieslist = res.data.country;
 
   rowjson = {
     "blockid":"",
+    "blockTmpid":"",
     "blockname": "",
     "blocktype": "",
     "duedate": "",
@@ -1103,6 +1104,7 @@ validateUnitDetailsField(name){
   }
   
   blockidtmp={};
+  blocknameforIteration='';
   blockdetailsfinalcreation(){
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
@@ -1216,6 +1218,8 @@ validateUnitDetailsField(name){
             (result) => {
               if (result.value) {
                 console.log(this.finalblockname);
+                this.blocknameforIteration = this.finalblockname[0];
+                console.log(this.blocknameforIteration);
                 this.demo1TabIndex = this.demo1TabIndex + 1;
               }
             })
@@ -1230,6 +1234,21 @@ validateUnitDetailsField(name){
   }
   uploadblocks() {
     document.getElementById("file_upload_id").click();
+  }
+  assignTmpid(objId,blockname){
+    console.log(objId);
+    this.blocknameforIteration=blockname;
+    console.log(this.blocknameforIteration);
+    this.blocksArray.forEach(elemnt=>{
+      if(elemnt.Id==objId){
+        console.log('test',objId);
+        elemnt.blockTmpid=objId;
+        console.log(elemnt.blockTmpid);
+      }
+      else{
+        elemnt.blockTmpid='';
+      }
+    })
   }
 
     excelBlockList=[];
@@ -1283,6 +1302,8 @@ validateUnitDetailsField(name){
               // })
 
               list.Id = i + 1;
+              list.blockTmpid=1;
+              list.uniqueid = new Date().getTime();
               list.isnotvalidblockname = false,
                 list.isnotvalidblocktype = false,
                 list.isnotvalidmanageremailid = false,
@@ -1824,6 +1845,7 @@ cancelunitsbulkupload(ev){
         //   this.detailsdata[i][datails] ={required:true};
         // })
         data.Id = i+1;
+        data.blockTmpid=1;
         data.blocktype= this.residentialorcommercialtype;
         this.blocksArray.push(data);
         console.log(this.blocksArray)
@@ -1935,6 +1957,7 @@ cancelunitsbulkupload(ev){
           //   this.detailsdata[i][datails] ={required:true};
           // })
           data.Id = i + 1;
+          data.uniqueid = new Date().getTime();
           data.blocktype= this.residentialorcommercialtype;
           this.blocksArray.push(data);
           console.log(this.blocksArray)
