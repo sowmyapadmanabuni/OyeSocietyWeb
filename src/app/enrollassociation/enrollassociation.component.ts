@@ -1194,7 +1194,7 @@ validateUnitDetailsField(name){
               for (var i = 0; i < blockArraylength; i++) {
                 let data = JSON.parse(JSON.stringify(this.unitsrowjson))
 
-                data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
+                data.Id = this.jsondata.blocks[0].BLBlkName + (i + 1);
                 data.unitTmpid='';
                 //data.blockid = res['data']['data']['blockID'];
                 data.blockid = res.data.blockID;
@@ -1738,7 +1738,7 @@ validateUnitDetailsField(name){
                     if(exceldata.length<=unitslength){
                       console.log(this.blockidtmp);
                       unitonce.blockid = this.blockidtmp[blkname];
-                      unitonce.Id = blkname+i+1;
+                      unitonce.Id = blkname+(i+1);
                       unitonce.unitTmpid='';
                       unitonce.isSingleUnitDataEmpty=true;
                       unitonce.isnotvalidflatno =false,
