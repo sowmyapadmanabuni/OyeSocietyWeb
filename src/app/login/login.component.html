@@ -374,6 +374,7 @@
                                         <!-- <input type="password" id="OTPInput" placeholder="Enter OTP" (keypress)=_keyPress1($event) [(ngModel)]="otp" name="otp" maxlength="6" />
 										<i (click)="showHidePassword()" style="cursor: pointer;position: relative;right:-285px;top:-33px; color: black;" class="fa" [ngClass]="{'fa-eye-slash':hideShowEye,'fa-eye':!hideShowEye}" aria-hidden="true"></i> -->
 										<input type="password" id="OTPInput" placeholder="Enter OTP" (keypress)=_keyPress1($event) [(ngModel)]="otp"
+										[disabled]='mobilenumber=="" || mobilenumber.length !=10'
 											maxlength="6" name="otp" />
 										<i (click)="showHidePassword()" style="cursor: pointer;position: relative;right: -249px;top: -33px; color: black;"
 											class="fa" [ngClass]="{'fa-eye-slash':hideShowEye,'fa-eye':!hideShowEye}" aria-hidden="true"></i>

@@ -411,26 +411,29 @@ export class LoginComponent implements OnInit {
     //alert('test')
   }
   _keyPress(event) {
-    if(event.keyCode == 13) {
-      this.sendOTP();
-     }
-    const pattern = /[0-9]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    if (!pattern.test(inputChar)) {
-        event.preventDefault();
+    if (event.keyCode == 13) {
+      if (this.mobilenumber.length == 10) {
+        this.sendOTP();
+      }
     }
   }
+    
+
   _keyPress1(event) {
     //console.log(event.target.value);
-    if(event.keyCode == 13) {
-      this.verifyOtp();
-     }
+    if (event.keyCode == 13) {
+      if (this.otp.length == 6) {
+        this.verifyOtp();
+      }
+    }
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
-        event.preventDefault();
+      event.preventDefault();
     }
   }
+
+
   countMobileNumberLength(event){
     console.log(event.target.value);
     console.log(event.target.value.length);

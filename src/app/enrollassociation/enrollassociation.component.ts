@@ -430,6 +430,7 @@ this.countrieslist = res.data.country;
     "isnotvalidmanagermobileno":false,
     "isnotvalidmanagername":false,
     "isnotvalidunits":false,
+    "isUnitsCreatedUnderBlock":false
    
   }
   //unitdetails variables
@@ -639,7 +640,11 @@ imgfilename;
   }
   exceptionMessage='';
   SubmitOrSaveAndContinue='SAVE AND CONTINUE';
+  nextObjId='';
+  isNextIetrationEnabled;
+  nextBlckId='';
   submitunitdetails(name,obj3Id) {
+    this.isNextIetrationEnabled=false;
     let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
     console.log(valueManualUnitnameArr);
     console.log(this.unitlistjson[name]);
@@ -667,7 +672,12 @@ imgfilename;
           console.log(this.finalblocknameTmp.length);
           if(this.finalblocknameTmp.length==1){
             console.log('insideltab');
-            this.SubmitOrSaveAndContinue='Submit';
+            console.log(this.unitlistjson[this.finalblocknameTmp[0]]);
+            this.unitlistjson[this.finalblocknameTmp[0]].forEach((elmt,iidx) => {
+              if(this.unitlistjson[this.finalblocknameTmp[0]][iidx+1]==undefined){
+                this.SubmitOrSaveAndContinue='Submit';
+              }
+            });
           }
           this.exceptionMessage='';
           console.log(name);
@@ -700,6 +710,36 @@ imgfilename;
             //   setTimeout(() => {
             if (unit.Id.toLowerCase() == obj3Id.toLowerCase()) {
               console.log('test',obj3Id);
+              console.log(index);
+              console.log(this.unitlistjson[name]);
+              //console.log(this.unitlistjson[name][index+1]);
+              //console.log(this.unitlistjson[name][index+1]['Id']);
+              if(this.unitlistjson[name][index+1]==undefined){
+                console.log('test1');
+                console.log(this.blocksArray);
+                console.log(name);
+                this.blocksArray.forEach((itm,indx)=>{
+                  if(itm.blockname.toLowerCase() == name.toLowerCase()){
+                    itm.isUnitsCreatedUnderBlock=true;
+                    if(this.blocksArray[indx+1]!=undefined){
+                      console.log(this.blocksArray[indx+1]['blockname']);
+                      this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
+                      this.nextBlckId=this.blocksArray[indx+1]['Id'];
+                      console.log(this.blocknameforIteration);
+                      console.log(this.nextBlckId);
+                    }
+                  }
+                })
+                this.unitlistjson[this.blocknameforIteration][0]['unitTmpid']=this.unitlistjson[this.blocknameforIteration][0]['Id'];
+                //this.nextObjId = this.unitlistjson[this.blocknameforIteration][0]['Id'];
+                //console.log(this.nextObjId);
+                console.log(this.unitlistjson[this.blocknameforIteration]);
+                this.isNextIetrationEnabled=true;
+              }
+              else{
+                this.nextObjId = this.unitlistjson[name][index+1]['Id'];
+              }
+             console.log(this.nextObjId);
               this.unitsuccessarray.push(unit);
 
               this.unitdetailscreatejson = {
@@ -795,6 +835,12 @@ imgfilename;
           // }) 
       
           setTimeout(() => {
+            if(this.isNextIetrationEnabled){
+              this.assignTmpid(this.nextBlckId,this.blocknameforIteration);
+            }
+            else{
+              this.assignUnitTmpid(this.nextObjId,this.blocknameforIteration);
+            }
             var message;
             if (this.unitsuccessarray.length == 1) {
               message = 'Unit Created Successfully'
@@ -805,37 +851,46 @@ imgfilename;
       
             let abc0 = Object.keys(this.unitlistjson);
             if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
-              Swal.fire({
-                title: (this.exceptionMessage == ''?message:this.exceptionMessage),
-                text: "",
-                type: (this.exceptionMessage == ''?"success":"error"),
-                confirmButtonColor: "#f69321",
-                confirmButtonText: "OK"
-              }).then(
-                (result) => {
-                  if (result.value) {
-                    this.isunitdetailsempty=true;
-                    //let abc1 = Object.keys(this.unitlistjson);
-                    //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-                      console.log('test block');
-                    this.viewAssnService.dashboardredirect.next(result)
-                    this.viewAssnService.enrlAsnEnbled = false;
-                    this.viewAssnService.vewAsnEnbled = true;
-                    this.viewAssnService.joinAsnEbld = false;
-                    /*}
-                    else{
-                      this.demo2TabIndex = this.demo2TabIndex + 1;
-                    }*/
-        
+              console.log(this.unitlistjson[name]);
+              this.unitlistjson[name].forEach((elmt,iidx) => {
+                if(elmt.Id.toLowerCase() == obj3Id.toLowerCase()){
+                  if (this.unitlistjson[name][iidx + 1] == undefined) {
+                    console.log(this.unitlistjson[name]);
+                    Swal.fire({
+                      title: (this.exceptionMessage == '' ? message : this.exceptionMessage),
+                      text: "",
+                      type: (this.exceptionMessage == '' ? "success" : "error"),
+                      confirmButtonColor: "#f69321",
+                      confirmButtonText: "OK"
+                    }).then(
+                      (result) => {
+                        if (result.value) {
+                          this.isunitdetailsempty = true;
+                          //let abc1 = Object.keys(this.unitlistjson);
+                          //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                          console.log('test block');
+                          this.viewAssnService.dashboardredirect.next(result)
+                          this.viewAssnService.enrlAsnEnbled = false;
+                          this.viewAssnService.vewAsnEnbled = true;
+                          this.viewAssnService.joinAsnEbld = false;
+                          /*}
+                          else{
+                            this.demo2TabIndex = this.demo2TabIndex + 1;
+                          }*/
+  
+                        }
+                      })
                   }
-                })
+                }
+              });
             }
             else{
               this.demo2TabIndex = this.demo2TabIndex + 1;
             }
             
       
-          }, Number(this.unitlistjson[name].length) * 2000)
+          //}, Number(this.unitlistjson[name].length) * 2000)
+          }, 2000)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
       
         }
@@ -847,8 +902,9 @@ validateUnitDetailsField(name){
 
       this.unitlistjson[element].forEach(unit => {
         let headername = unit.Id.slice(0, -2);
-
-        if (name == headername) {
+        console.log(headername);
+        console.log(name);
+        if (name.toLowerCase() == headername.toLowerCase()) {
           console.log(unit);
           if(this.isunitdetailsempty){
             if (unit.ownershipstatus == "Sold Owner Occupied Unit"||unit.ownershipstatus == "Sold Vacant Unit") {
@@ -1194,7 +1250,7 @@ validateUnitDetailsField(name){
               for (var i = 0; i < blockArraylength; i++) {
                 let data = JSON.parse(JSON.stringify(this.unitsrowjson))
 
-                data.Id = this.jsondata.blocks[0].BLBlkName + (i + 1);
+                data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
                 data.unitTmpid='';
                 //data.blockid = res['data']['data']['blockID'];
                 data.blockid = res.data.blockID;
@@ -1355,7 +1411,7 @@ validateUnitDetailsField(name){
                 list.isnotvalidblocktype = false,
                 list.isnotvalidmanageremailid = false,
                 list.isnotvalidmanagermobileno = false,
-
+                list.isUnitsCreatedUnderBlock=false;
                 list.isnotvalidmanagername = false,
 
                 list.isnotvalidunits = false,
@@ -1738,7 +1794,7 @@ validateUnitDetailsField(name){
                     if(exceldata.length<=unitslength){
                       console.log(this.blockidtmp);
                       unitonce.blockid = this.blockidtmp[blkname];
-                      unitonce.Id = blkname+(i+1);
+                      unitonce.Id = blkname+i+1;
                       unitonce.unitTmpid='';
                       unitonce.isSingleUnitDataEmpty=true;
                       unitonce.isnotvalidflatno =false,
