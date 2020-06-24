@@ -430,6 +430,7 @@ this.countrieslist = res.data.country;
     "isnotvalidmanagermobileno":false,
     "isnotvalidmanagername":false,
     "isnotvalidunits":false,
+    "isUnitsCreatedUnderBlock":false
    
   }
   //unitdetails variables
@@ -719,6 +720,7 @@ imgfilename;
                 console.log(name);
                 this.blocksArray.forEach((itm,indx)=>{
                   if(itm.blockname.toLowerCase() == name.toLowerCase()){
+                    itm.isUnitsCreatedUnderBlock=true;
                     if(this.blocksArray[indx+1]!=undefined){
                       console.log(this.blocksArray[indx+1]['blockname']);
                       this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
@@ -849,33 +851,36 @@ imgfilename;
       
             let abc0 = Object.keys(this.unitlistjson);
             if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
-              this.unitlistjson[this.finalblocknameTmp[0]].forEach((elmt,iidx) => {
-                if (this.unitlistjson[this.finalblocknameTmp[0]][iidx + 1] == undefined) {
-                  console.log(this.unitlistjson[this.finalblocknameTmp[0]]);
-                  Swal.fire({
-                    title: (this.exceptionMessage == '' ? message : this.exceptionMessage),
-                    text: "",
-                    type: (this.exceptionMessage == '' ? "success" : "error"),
-                    confirmButtonColor: "#f69321",
-                    confirmButtonText: "OK"
-                  }).then(
-                    (result) => {
-                      if (result.value) {
-                        this.isunitdetailsempty = true;
-                        //let abc1 = Object.keys(this.unitlistjson);
-                        //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-                        console.log('test block');
-                        this.viewAssnService.dashboardredirect.next(result)
-                        this.viewAssnService.enrlAsnEnbled = false;
-                        this.viewAssnService.vewAsnEnbled = true;
-                        this.viewAssnService.joinAsnEbld = false;
-                        /*}
-                        else{
-                          this.demo2TabIndex = this.demo2TabIndex + 1;
-                        }*/
-
-                      }
-                    })
+              console.log(this.unitlistjson[name]);
+              this.unitlistjson[name].forEach((elmt,iidx) => {
+                if(elmt.Id.toLowerCase() == obj3Id.toLowerCase()){
+                  if (this.unitlistjson[name][iidx + 1] == undefined) {
+                    console.log(this.unitlistjson[name]);
+                    Swal.fire({
+                      title: (this.exceptionMessage == '' ? message : this.exceptionMessage),
+                      text: "",
+                      type: (this.exceptionMessage == '' ? "success" : "error"),
+                      confirmButtonColor: "#f69321",
+                      confirmButtonText: "OK"
+                    }).then(
+                      (result) => {
+                        if (result.value) {
+                          this.isunitdetailsempty = true;
+                          //let abc1 = Object.keys(this.unitlistjson);
+                          //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                          console.log('test block');
+                          this.viewAssnService.dashboardredirect.next(result)
+                          this.viewAssnService.enrlAsnEnbled = false;
+                          this.viewAssnService.vewAsnEnbled = true;
+                          this.viewAssnService.joinAsnEbld = false;
+                          /*}
+                          else{
+                            this.demo2TabIndex = this.demo2TabIndex + 1;
+                          }*/
+  
+                        }
+                      })
+                  }
                 }
               });
             }
@@ -1406,7 +1411,7 @@ validateUnitDetailsField(name){
                 list.isnotvalidblocktype = false,
                 list.isnotvalidmanageremailid = false,
                 list.isnotvalidmanagermobileno = false,
-
+                list.isUnitsCreatedUnderBlock=false;
                 list.isnotvalidmanagername = false,
 
                 list.isnotvalidunits = false,

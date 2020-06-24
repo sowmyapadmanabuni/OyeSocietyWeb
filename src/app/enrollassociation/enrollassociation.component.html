@@ -608,6 +608,7 @@
                         <a href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
                             <span></span>{{obj.blockname}}
                         </a>
+                        <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">
                         </li>
                     </ul>
                     <div class="tab-content col-md-10">
