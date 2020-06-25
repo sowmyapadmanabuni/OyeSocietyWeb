@@ -11,6 +11,10 @@
     padding:16px 42px;
     display: inline-flex;
 }
+.association-formcountry{
+    padding:16px 91px;
+    display: inline-flex;
+}
 .blockdetails-form{
     margin-top: 30px;
     display: flex;
@@ -99,7 +103,7 @@ input,label {
     margin-left: -177px;
 } */
 .Upload{
-    top: 4px;
+    /* top: 4px; */
     /* left: 319px; */
     color: #ffffff !important;
 }

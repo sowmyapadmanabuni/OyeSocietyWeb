@@ -430,6 +430,7 @@ this.countrieslist = res.data.country;
     "isnotvalidmanagermobileno":false,
     "isnotvalidmanagername":false,
     "isnotvalidunits":false,
+    "isUnitsCreatedUnderBlock":false
    
   }
   //unitdetails variables
@@ -664,17 +665,21 @@ imgfilename;
         }
         else{
           let abc = Object.keys(this.unitlistjson);
-          this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
-            return item !=  name;
-          })
+            this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
+              return item !=  name;
+            })
           console.log(this.finalblocknameTmp);
           console.log(this.finalblocknameTmp.length);
-          if(this.finalblocknameTmp.length==1){
+          if(this.finalblocknameTmp.length==0){
             console.log('insideltab');
-            console.log(this.unitlistjson[this.finalblocknameTmp[0]]);
-            this.unitlistjson[this.finalblocknameTmp[0]].forEach((elmt,iidx) => {
-              if(this.unitlistjson[this.finalblocknameTmp[0]][iidx+1]==undefined){
-                this.SubmitOrSaveAndContinue='Submit';
+            console.log(this.unitlistjson[name]);
+            this.unitlistjson[name].forEach((elmt,iidx) => {
+              if(elmt.Id == obj3Id){
+                console.log('elmt.Id == obj3Id');
+                if(this.unitlistjson[name][iidx+2]==undefined){
+                  console.log('Submit');
+                  this.SubmitOrSaveAndContinue='Submit';
+                }
               }
             });
           }
@@ -719,6 +724,7 @@ imgfilename;
                 console.log(name);
                 this.blocksArray.forEach((itm,indx)=>{
                   if(itm.blockname.toLowerCase() == name.toLowerCase()){
+                    itm.isUnitsCreatedUnderBlock=true;
                     if(this.blocksArray[indx+1]!=undefined){
                       console.log(this.blocksArray[indx+1]['blockname']);
                       this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
@@ -849,33 +855,36 @@ imgfilename;
       
             let abc0 = Object.keys(this.unitlistjson);
             if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
-              this.unitlistjson[this.finalblocknameTmp[0]].forEach((elmt,iidx) => {
-                if (this.unitlistjson[this.finalblocknameTmp[0]][iidx + 1] == undefined) {
-                  console.log(this.unitlistjson[this.finalblocknameTmp[0]]);
-                  Swal.fire({
-                    title: (this.exceptionMessage == '' ? message : this.exceptionMessage),
-                    text: "",
-                    type: (this.exceptionMessage == '' ? "success" : "error"),
-                    confirmButtonColor: "#f69321",
-                    confirmButtonText: "OK"
-                  }).then(
-                    (result) => {
-                      if (result.value) {
-                        this.isunitdetailsempty = true;
-                        //let abc1 = Object.keys(this.unitlistjson);
-                        //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-                        console.log('test block');
-                        this.viewAssnService.dashboardredirect.next(result)
-                        this.viewAssnService.enrlAsnEnbled = false;
-                        this.viewAssnService.vewAsnEnbled = true;
-                        this.viewAssnService.joinAsnEbld = false;
-                        /*}
-                        else{
-                          this.demo2TabIndex = this.demo2TabIndex + 1;
-                        }*/
-
-                      }
-                    })
+              console.log(this.unitlistjson[name]);
+              this.unitlistjson[name].forEach((elmt,iidx) => {
+                if(elmt.Id.toLowerCase() == obj3Id.toLowerCase()){
+                  if (this.unitlistjson[name][iidx + 1] == undefined) {
+                    console.log(this.unitlistjson[name]);
+                    Swal.fire({
+                      title: (this.exceptionMessage == '' ? message : this.exceptionMessage),
+                      text: "",
+                      type: (this.exceptionMessage == '' ? "success" : "error"),
+                      confirmButtonColor: "#f69321",
+                      confirmButtonText: "OK"
+                    }).then(
+                      (result) => {
+                        if (result.value) {
+                          this.isunitdetailsempty = true;
+                          //let abc1 = Object.keys(this.unitlistjson);
+                          //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                          console.log('test block');
+                          this.viewAssnService.dashboardredirect.next(result)
+                          this.viewAssnService.enrlAsnEnbled = false;
+                          this.viewAssnService.vewAsnEnbled = true;
+                          this.viewAssnService.joinAsnEbld = false;
+                          /*}
+                          else{
+                            this.demo2TabIndex = this.demo2TabIndex + 1;
+                          }*/
+  
+                        }
+                      })
+                  }
                 }
               });
             }
@@ -1374,17 +1383,14 @@ validateUnitDetailsField(name){
           console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
             this.excelBlockList = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
                  console.log(this.excelBlockList);
+                 console.log(this.excelBlockList.length);
             this.filelist1 = [];    
       let blockslength=Number(this.noofblocks)
       //for checking purpose blockbulkupload code commenting below
         if (this.excelBlockList.length <= blockslength) {
-          let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
-          let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
-            return valueExcelBlckArr.indexOf(item) != idx
-          });
-          if (isExcelBlkNameDuplicate) {
+          if (this.excelBlockList.length == 0) {
             Swal.fire({
-              title: 'Duplicate Blockname Exist',
+              title: 'Please fill all the fields',
               text: "",
               type: "error",
               confirmButtonColor: "#f69321",
@@ -1392,41 +1398,56 @@ validateUnitDetailsField(name){
             })
           }
           else {
-            this.excelBlockList.forEach((list, i) => {
-              console.log(list);
-              // this.detailsdata[i] = {}
-              // Object.keys(list).forEach(datails => {
-              //   this.detailsdata[i][datails] = { required: true };
-              // })
+            let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
+            let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
+              return valueExcelBlckArr.indexOf(item) != idx
+            });
+            if (isExcelBlkNameDuplicate) {
+              Swal.fire({
+                title: 'Duplicate Blockname Exist',
+                text: "",
+                type: "error",
+                confirmButtonColor: "#f69321",
+                confirmButtonText: "OK"
+              })
+            }
+            else {
+              this.excelBlockList.forEach((list, i) => {
+                console.log(list);
+                // this.detailsdata[i] = {}
+                // Object.keys(list).forEach(datails => {
+                //   this.detailsdata[i][datails] = { required: true };
+                // })
 
-              list.Id = i + 1;
-              list.blockTmpid=1;
-              list.uniqueid = new Date().getTime();
-              list.isnotvalidblockname = false,
-                list.isnotvalidblocktype = false,
-                list.isnotvalidmanageremailid = false,
-                list.isnotvalidmanagermobileno = false,
-
+                list.Id = i + 1;
+                list.blockTmpid = 1;
+                list.uniqueid = new Date().getTime();
+                list.isnotvalidblockname = false,
+                  list.isnotvalidblocktype = false,
+                  list.isnotvalidmanageremailid = false,
+                  list.isnotvalidmanagermobileno = false,
+                  list.isUnitsCreatedUnderBlock = false;
                 list.isnotvalidmanagername = false,
 
-                list.isnotvalidunits = false,
-                list.blocktype = this.residentialorcommercialtype;
+                  list.isnotvalidunits = false,
+                  list.blocktype = this.residentialorcommercialtype;
 
-              this.blocksArray.push(list);
-              console.log(this.blocksArray)
-            });
-            this.blocksArray.forEach((element) => {
-              if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-                this.isblockdetailsempty = true;
-              }
-              else {
-                this.isblockdetailsempty = false;
-              }
-            })
-            document.getElementById('upload_excel').style.display = 'none'
-            document.getElementById('blockdetailscancelbutton').style.display = 'none';
-            document.getElementById('showmanual').style.display = 'block';
-            document.getElementById('blockdetailsbuttons').style.display = 'block';
+                this.blocksArray.push(list);
+                console.log(this.blocksArray)
+              });
+              this.blocksArray.forEach((element) => {
+                if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                  this.isblockdetailsempty = true;
+                }
+                else {
+                  this.isblockdetailsempty = false;
+                }
+              })
+              document.getElementById('upload_excel').style.display = 'none'
+              document.getElementById('blockdetailscancelbutton').style.display = 'none';
+              document.getElementById('showmanual').style.display = 'block';
+              document.getElementById('blockdetailsbuttons').style.display = 'block';
+            }
           }
         }
       else {
@@ -1848,9 +1869,6 @@ validateUnitDetailsField(name){
         
           })
         }
-//
-    
-    //
     this.validateUnitDetailsField(_blkname);
     console.log("unit data what contains",this.unitlistjson)
   }
