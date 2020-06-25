@@ -1,6 +1,41 @@
-#leftTabs li a{border: 1px solid #d4bff8;}
-
-
+#leftTabs li a{margin: 1px}
+.nav>li>a:hover{
+    color: #fff !important;
+    background: #d4d1ef !important;
+    -webkit-transition: all 900ms;
+    transition: all 900ms;
+    border-radius: 9px;}
+    .nav-tabs>li {
+        float: left;
+        margin-bottom: -1px;
+        background: #cdc9ee;
+        color: #5a51aa;
+        margin: 0px 1px;
+        border-radius: 8px 8px 0px 0px;
+    }
+    .nav-tabs>li>a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        color: #5a51aa !important;
+        text-transform: capitalize;
+    }
+    .nav-tabs>li>a:hover {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        color: #5a51aa !important;
+        text-transform: capitalize;
+    }
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #fff !important;
+        cursor: default;
+        background-color: #5a51aa !important;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
 .page1{
     padding: 42px;
 }
@@ -104,15 +139,8 @@ input,label {
     position: relative;
     font-size: 12px;
 }
-#img{
-    /* margin-left: 315px;
-    margin-top: -85px; */
-        /* width: 183px;
-        margin-left: 47px; */
-}
-img.Upload1 {
-    /* margin-left: 330px; */
-}
+
+
 /* small#examplepanno{
     margin-top: 53px;
     margin-left: -177px;
