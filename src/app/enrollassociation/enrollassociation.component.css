@@ -1,5 +1,5 @@
-#leftTabs li a{border: 1px solid #d4bff8;}
-
+#leftTabs li a{margin: 1px}
+.active{background: red}
 
 .page1{
     padding: 42px;
