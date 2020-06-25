@@ -116,15 +116,15 @@
                                     <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='FirstName' maxlength="30"
                                         #fnameControl="ngModel" name="FirstName"
                                         class="form-control" placeholder="First Name" required/>
-                                    <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter
+                                    <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter valid
                                        First Name</p>
                                 </div>
                                 <div class="form-group">
                                         <label class="control-label">Last Name<span class="red">*</span></label>
-                                        <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='LastName' maxlength="30"
+                                        <input pattern="[a-zA-Z][a-zA-Z ]+" type="text" [(ngModel)]='LastName' maxlength="30"
                                             #lnameControl="ngModel" name="LastName"
                                             class="form-control" placeholder="Last Name" required/>
-                                        <p class="alerts" *ngIf="lnameControl.invalid && lnameControl.touched"> Enter
+                                        <p class="alerts" *ngIf="lnameControl.invalid && lnameControl.touched"> Enter valid
                                            Last Name</p>
                                     </div>
 
