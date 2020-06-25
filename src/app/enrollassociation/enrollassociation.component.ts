@@ -665,17 +665,21 @@ imgfilename;
         }
         else{
           let abc = Object.keys(this.unitlistjson);
-          this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
-            return item !=  name;
-          })
+            this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
+              return item !=  name;
+            })
           console.log(this.finalblocknameTmp);
           console.log(this.finalblocknameTmp.length);
-          if(this.finalblocknameTmp.length==1){
+          if(this.finalblocknameTmp.length==0){
             console.log('insideltab');
-            console.log(this.unitlistjson[this.finalblocknameTmp[0]]);
-            this.unitlistjson[this.finalblocknameTmp[0]].forEach((elmt,iidx) => {
-              if(this.unitlistjson[this.finalblocknameTmp[0]][iidx+1]==undefined){
-                this.SubmitOrSaveAndContinue='Submit';
+            console.log(this.unitlistjson[name]);
+            this.unitlistjson[name].forEach((elmt,iidx) => {
+              if(elmt.Id == obj3Id){
+                console.log('elmt.Id == obj3Id');
+                if(this.unitlistjson[name][iidx+2]==undefined){
+                  console.log('Submit');
+                  this.SubmitOrSaveAndContinue='Submit';
+                }
               }
             });
           }
