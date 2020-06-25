@@ -601,9 +601,9 @@
                     <ul class="nav col-md-2" id="leftTabs">
                         <li class="active" *ngFor="let obj of blocksArray" style="background: #5a51aa;color: #fff !important;border-radius: 10px;">
                         <a href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
-                            <span></span>{{obj.blockname}}
+                            <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">&nbsp;&nbsp;<span></span>{{obj.blockname}}
                         </a>
-                        <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">
+                        
                         </li>
                     </ul>
                     <div class="tab-content col-md-10">
