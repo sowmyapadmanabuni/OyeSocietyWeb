@@ -54,7 +54,7 @@
 
                 
 
-                <form [formGroup]="form" class="association-form">
+                <form [formGroup]="form" class="association-formcountry">
                     <mat-form-field>
                         <mat-select [(value)]="countryname" formControlName="cntryname" placeholder="COUNTRY">
                             <mat-option *ngFor="let country of countrieslist" class = "text"[value]="country">{{country.coName}}
@@ -552,7 +552,7 @@
                     <div id="blockdetailsbuttons"class="save">
                         <a class="continue" (click)="resetStep4($event)"mat-raised-button color="primary" >RESET</a>
                         <!-- <a id="assdetailssave" mat-raised-button color="primary" [disabled]="!form1.valid" (click)="createblocksdetails($event)">NEXT</a> -->
-                        <button class="next-bt" id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" (click)="createblocksdetails('')">NEXT</button>
+                        <button class="next-bt" id="assdetailssave" color="primary" [ngStyle]="isblockdetailsempty && {'opacity': '0.5'}" (click)="createblocksdetails('')">NEXT</button>
                     </div>
                 </div>
                 <!-- </form> -->
