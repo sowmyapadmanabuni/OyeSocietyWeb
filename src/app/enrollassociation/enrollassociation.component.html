@@ -400,6 +400,7 @@
                                     <mat-form-field class="blockdetails-form">
                                         <mat-label>NO OF UNITS</mat-label>
                                         <input matInput placeholder="NO OF UNITS" pattern="[0-9]*"
+                                        (keypress)=_keyPress($event)
                                             (blur)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)" [(ngModel)]="blocksArray[i].units"
                                             value="">
                                         <!-- <mat-error [displayError]="isFieldValidblocksdetails('unitsno')">
@@ -976,7 +977,7 @@
                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,name)">{{SubmitOrSaveAndContinue}}</button>
                            </div>
                            <div class="save">
-                               <a class="continue" (click)="resetStep5($event,name)"mat-raised-button color="primary">RESET</a>
+                               <a class="continue" (click)="resetStep5bulk($event,name)"mat-raised-button color="primary">RESET</a>
                            </div>    
                         
                        </mat-tab>
