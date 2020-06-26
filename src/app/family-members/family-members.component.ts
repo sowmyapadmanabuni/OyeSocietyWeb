@@ -86,6 +86,7 @@ export class FamilyMembersComponent implements OnInit {
   }
 
   addMemberShow(){
+    this.FMImgName='';
     this.memberList=false;
     this.addMember=true;
   }
