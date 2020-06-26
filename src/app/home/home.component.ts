@@ -211,6 +211,8 @@ export class HomeComponent implements OnInit {
     cnvs1.fillStyle = 'black';
     cnvs1.fillText("abc", cnvsx, cnvsy); */
   }
+  occpydPerc;
+  vacantPerc;
   GetUnitTotalOccupancyVacantCountDetails(){
     let scopeIP = this.utilsService.getIPaddress();
     let headers=this.getHttpheaders();
@@ -219,10 +221,12 @@ export class HomeComponent implements OnInit {
     this.http.get(scopeIP + '/oyeliving/api/v1/GetUnitTotalOccupancyVacantCountDetails/'+this.globalService.getCurrentAssociationId() ,  {headers:headers})
     .subscribe(data=>{
       console.log(data);
+      this.occpydPerc= data['data']['unitCounts']['occpydPerc'];
+      this.vacantPerc= data['data']['unitCounts']['vacantPerc'];
       this._occupiedCount = data['data']['unitCounts']['occupiedCount'];
       this._vacantCount = data['data']['unitCounts']['vacantCount'];
       console.log(this._occupiedCount,this._vacantCount);
-      this.occupiedCount =(this._occupiedCount == 0?0:(this._occupiedCount / (this._occupiedCount + this._vacantCount)) * 100);
+      this.occupiedCount = (this._occupiedCount == 0?0:(this._occupiedCount / (this._occupiedCount + this._vacantCount)) * 100);
       this.vacantCount = (this._vacantCount == 0?0:(this._vacantCount / (this._occupiedCount + this._vacantCount))*100);
       console.log(this.occupiedCount,this.vacantCount);
       this.pieChartData=[this.occupiedCount,100-this.occupiedCount];

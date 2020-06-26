@@ -24,6 +24,7 @@ import { ImageService } from 'src/services/image.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import {UtilsService} from '../utils/utils.service';
+import { ViewBlockService } from '../../services/view-block.service';
 declare var $: any;
 
 
@@ -293,6 +294,7 @@ export class AssociationManagementComponent implements OnInit {
   UploadedImage: any;
   displayOwnerType: string;
   UniNameForJoinAssn: any;
+  BlocksList:any[];
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -308,7 +310,9 @@ export class AssociationManagementComponent implements OnInit {
     private imageService: ImageService,
     private http: HttpClient,
     private location: LocationStrategy,
-    private UtilsService:UtilsService) {
+    private UtilsService:UtilsService,
+    private ViewBlockService:ViewBlockService) {
+      this.BlocksList=[];
       this.UniNameForJoinAssn='Select Unit';
       this.alreadyJoined=false;
       this.uploadPANCard='';
@@ -595,6 +599,7 @@ export class AssociationManagementComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+
   ngAfterViewInit() {
     this.toggleStepWizrd();
     $(".se-pre-con").fadeOut("slow");
@@ -1421,6 +1426,7 @@ export class AssociationManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.getBlockDetails();
     this.createForm();
     if(this.globalService.gotojoinassociation=='id'){
       this.enblJoinAsnVew();
@@ -1614,6 +1620,26 @@ export class AssociationManagementComponent implements OnInit {
       event.preventDefault();
     }
     console.log(this.blockArray);
+  }
+  getBlockDetails() {
+    this.ViewBlockService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
+      this.BlocksList = data['data'].blocksByAssoc;
+      console.log('BlocksList', this.BlocksList);
+    },
+    err=>{
+      console.log(err);
+    });
+  }
+  openblockModaltemplate(blockModaltemplate: TemplateRef<any>,asAssnID){
+    console.log(this.assnID);
+    this.ViewBlockService.getBlockDetails(asAssnID).subscribe(data => {
+      this.BlocksList = data['data'].blocksByAssoc;
+      console.log('BlocksList', this.BlocksList);
+    },
+    err=>{
+      console.log(err);
+    });
+    this.modalRef = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
   checkMobileNumberValidity(Id, BlockManagermobile) {
     console.log('blur');

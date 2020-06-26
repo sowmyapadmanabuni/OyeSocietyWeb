@@ -76,7 +76,8 @@
                   <td>{{item['asAsnName']}}</td>
                   <td>{{item['asPrpName']}}</td>
                   <td>{{item['asAddress']}}</td>
-                  <td class="txt-middle">{{item['asNofBlks']}}</td>
+                  <td class="txt-middle">{{item['asNofBlks']}}<i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewBlocks"
+                    (click)="openblockModaltemplate(blockModaltemplate,item['asAssnID'])"></i></td>
                   <td class="txt-middle">{{item['asNofUnit']}}</td>
                   <td class="txt-middle">
                     <i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewAssociation"
@@ -1388,6 +1389,63 @@
     </div>
     <div class="modal-body">
       <img src="{{ImgForPopUp}}"/>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #blockModaltemplate>
+  <div class="modal-content">
+
+    <div class="modal-header">
+      
+      <h4 class="modal-title">Blocks</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="dash-row">
+        <table class="table table-bordered"
+            [mfData]="BlocksList"
+            #mf="mfDataTable" (click)="onPageChange($event)">
+            <thead>
+                <tr>
+                    <th>
+                        S.No.
+                    </th>
+                    <th>
+                        <mfDefaultSorter (click)="removeColumnSort('BlockName')" by="blBlkName">Block Name&nbsp;<i [hidden]="columnName=='BlockName'" class="fa fa-sort"></i></mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter (click)="removeColumnSort('BlockType')" by="blBlkType">Block Type&nbsp;<i [hidden]="columnName=='BlockType'" class="fa fa-sort"></i></mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter (click)="removeColumnSort('NoOfUnits')" by="blNofUnit">No Of Units&nbsp;<i [hidden]="columnName=='NoOfUnits'" class="fa fa-sort"></i></mfDefaultSorter>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mf.data;let i=index">
+                    <ng-container *ngIf="item == -1">
+                        <td colspan="5" align="center">No Data Found</td>
+                    </ng-container>
+                    <ng-container *ngIf="item!=-1">
+                        <td class="txt-middle">{{  i+1 }}</td>
+                        <td>{{item['blBlkName']}}</td>
+                        <td>{{item['blBlkType']}}</td>
+                        <td class="txt-middle">{{item['blNofUnit']}}</td>
+                    </ng-container>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
     </div>
   </div>
 </ng-template>

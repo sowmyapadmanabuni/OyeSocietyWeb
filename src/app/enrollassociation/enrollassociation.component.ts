@@ -1409,9 +1409,11 @@ validateUnitDetailsField(name){
   
   blockidtmp={};
   blocknameforIteration='';
+  sameBlocknameExist;
   blockdetailsfinalcreation(){
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
+      this.sameBlocknameExist=false;
       this.blocksArray.forEach((element,index) => {
           ((index) => {
             setTimeout(() => {
@@ -1448,7 +1450,8 @@ validateUnitDetailsField(name){
             console.log(this.jsondata);
           this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
-              console.log(res)
+              console.log(res);
+              if(res.data.blockID){
               console.log(this.unitlistjson);
               console.log(res.data.blockID);
               this.blockidtmp[element.blockname]=res.data.blockID;
@@ -1479,6 +1482,17 @@ validateUnitDetailsField(name){
                 console.log(this.unitlistjson);
                 console.log(this.blocksArray);
               }
+            }
+              else if (res['data']['errorResponse']['message']){
+                this.sameBlocknameExist=true;
+                console.log('sameBlocknameExist');
+                Swal.fire({
+                  title: "Error",
+                  text: res['data']['errorResponse']['message'],
+                  type: "error",
+                  confirmButtonColor: "#f69321"
+                });
+              }
             }, error => {
             console.log(error);
           });
@@ -1499,19 +1513,20 @@ validateUnitDetailsField(name){
       })(index)
       })
       setTimeout(() => {
-//         this.blocksArray.forEach(element => {
-//           Object.keys(this.unitlistjson).forEach(blkname => {
-// if(blkname==element['blockname']){
-//   element['blockid']
-// }
-//           })
-//         })
-        var message;
-          if(this.blockssuccessarray==1){
+        //         this.blocksArray.forEach(element => {
+        //           Object.keys(this.unitlistjson).forEach(blkname => {
+        // if(blkname==element['blockname']){
+        //   element['blockid']
+        // }
+        //           })
+        //         })
+        if (!this.sameBlocknameExist) {
+          var message;
+          if (this.blockssuccessarray == 1) {
             message = 'Block Created Successfully'
           }
-         else if(this.blockssuccessarray>1){
-          message = this.blockssuccessarray+'-'+'Blocks Created Successfully'
+          else if (this.blockssuccessarray > 1) {
+            message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
           }
           Swal.fire({
             title: message,
@@ -1524,12 +1539,13 @@ validateUnitDetailsField(name){
               if (result.value) {
                 console.log(this.finalblockname);
                 this.blocknameforIteration = this.finalblockname[0];
-                this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']=this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
                 console.log(this.blocknameforIteration);
                 console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
                 this.demo1TabIndex = this.demo1TabIndex + 1;
               }
             })
+        }
       },3000)
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
@@ -1977,117 +1993,123 @@ validateUnitDetailsField(name){
     })
   }
   excelunitsuploaddata(exceldata) {
-    console.log(this.finalblockname);
-    console.log(exceldata);
-    console.log(this.blocksArray);
-    console.log(this.unitlistjson);
-    let _blkname = '';
-    //
-    //console.log(new Set(exceldata).size !== exceldata.length);
-    let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
-    let isDuplicate = valueArr.some((item, idx) => {
-      return valueArr.indexOf(item) != idx
-    });
-    if (isDuplicate) {
-          Swal.fire({
-            title: 'Duplicate Unitname Exist',
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-          })        
-        }
-        else{
-          this.finalblockname.forEach(blkname => {
-    
-            exceldata.forEach((unitonce,i) => {
+    console.log(exceldata.length);
+    if(exceldata.length==0){
+      Swal.fire({
+        title: 'Please fill all the fields',
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else{
+      console.log(this.finalblockname);
+      console.log(exceldata);
+      console.log(this.blocksArray);
+      console.log(this.unitlistjson);
+      let _blkname = '';
+      //
+      //console.log(new Set(exceldata).size !== exceldata.length);
+      let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
+      let isDuplicate = valueArr.some((item, idx) => {
+        return valueArr.indexOf(item) != idx
+      });
+      if (isDuplicate) {
+            Swal.fire({
+              title: 'Duplicate Unitname Exist',
+            text: "",
+            type: "error",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+            })        
+          }
+          else{
+            this.finalblockname.forEach(blkname => {
       
-              console.log(exceldata.Id)
-              // this.unitdetails[i] ={}
-              // Object.keys(unitonce).forEach(datails=>{
-              //   console.log(datails)
-              //   this.unitdetails[i][datails] ={required:true};
-              // })
-              if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
-                //  this.blockdetailsfinalresponce.forEach(obj=>{
-                //    unitonce.blockid = obj
-      
-                //  })
-                console.log(blkname,unitonce.blockname);
-                this.blocksArray.forEach((element,index) => {
-                  if(element.blockname.toLowerCase()==blkname.toLowerCase()){
-                    _blkname = blkname;
-                  let unitslength=Number(element.units)
-      
-                    if(exceldata.length<=unitslength){
-                      console.log(this.blockidtmp);
-                      unitonce.blockid = this.blockidtmp[blkname];
-                      unitonce.Id = blkname+i+1;
-                      unitonce.unitTmpid='';
-                      unitonce.isSingleUnitDataEmpty=true;
-                      unitonce.isnotvalidflatno =false,
-                      unitonce.isnotvalidunittype=false,
-                      unitonce.isnotvalidownershipstatus=false,
-                      unitonce.isnotvalidownerfirstname=false,
-                  
-                      unitonce.isnotvalidownerlastname=false,
-                  
-                      unitonce.isnotvalidownermobilenumber=false,
-                  
-                      unitonce.isnotvalidowneremaiid=false,
-                  
-                      unitonce.isnotvalidtenantfirstname=false,
-                  
-                      unitonce.isnotvalidtenantlastname=false,
-                  
-                      unitonce.isnotvalidtenantmobilenumber=false,
-                      unitonce.isnotvalidtenantemaiid=false
-                      if (!this.unitlistjson[blkname]) {
-                        this.unitlistjson[blkname] = []
-                      }
-                      Object.keys(this.unitlistjson).forEach(element => {
-                        this.unitlistjson[element].forEach(detalisdata => {
-            
-                          if (blkname == element) {
-                            if (!detalisdata.blockname) {
-                              this.unitlistjson[blkname] = []
-                            }
-                          }
-                        })
-                      })
-                      this.unitlistjson[blkname].push(unitonce)
-                      document.getElementById('unitupload_excel').style.display = 'none'
-                      document.getElementById('unitshowmanual').style.display = 'block';
-                      document.getElementById('unitsmanualnew').style.display = 'none';
-                      document.getElementById('unitsbulkold').style.display = 'block';
-
-
-
-                      console.log(this.unitlistjson);
-                    }
-                    else{
-                      Swal.fire({
-                        title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
-                        text: "",
-                        confirmButtonColor: "#f69321",
-                        confirmButtonText: "OK"
-                      })
-                      document.getElementById('unitupload_excel').style.display = 'block'
-      
-                    }
-                  }
-                })
-                
-             
-                
-              }
-            });
-      
+              exceldata.forEach((unitonce,i) => {
         
-          })
-        }
-    this.validateUnitDetailsField(_blkname);
-    console.log("unit data what contains",this.unitlistjson)
+                console.log(exceldata.Id)
+                // this.unitdetails[i] ={}
+                // Object.keys(unitonce).forEach(datails=>{
+                //   console.log(datails)
+                //   this.unitdetails[i][datails] ={required:true};
+                // })
+                if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
+                  //  this.blockdetailsfinalresponce.forEach(obj=>{
+                  //    unitonce.blockid = obj
+        
+                  //  })
+                  console.log(blkname,unitonce.blockname);
+                  this.blocksArray.forEach((element,index) => {
+                    if(element.blockname.toLowerCase()==blkname.toLowerCase()){
+                      _blkname = blkname;
+                    let unitslength=Number(element.units)
+        
+                      if(exceldata.length<=unitslength){
+                        console.log(this.blockidtmp);
+                        unitonce.blockid = this.blockidtmp[blkname];
+                        unitonce.Id = blkname+i+1;
+                        unitonce.unitTmpid='';
+                        unitonce.isSingleUnitDataEmpty=true;
+                        unitonce.isnotvalidflatno =false,
+                        unitonce.isnotvalidunittype=false,
+                        unitonce.isnotvalidownershipstatus=false,
+                        unitonce.isnotvalidownerfirstname=false,
+                    
+                        unitonce.isnotvalidownerlastname=false,
+                    
+                        unitonce.isnotvalidownermobilenumber=false,
+                    
+                        unitonce.isnotvalidowneremaiid=false,
+                    
+                        unitonce.isnotvalidtenantfirstname=false,
+                    
+                        unitonce.isnotvalidtenantlastname=false,
+                    
+                        unitonce.isnotvalidtenantmobilenumber=false,
+                        unitonce.isnotvalidtenantemaiid=false
+                        if (!this.unitlistjson[blkname]) {
+                          this.unitlistjson[blkname] = []
+                        }
+                        Object.keys(this.unitlistjson).forEach(element => {
+                          this.unitlistjson[element].forEach(detalisdata => {
+              
+                            if (blkname == element) {
+                              if (!detalisdata.blockname) {
+                                this.unitlistjson[blkname] = []
+                              }
+                            }
+                          })
+                        })
+                        this.unitlistjson[blkname].push(unitonce)
+                        document.getElementById('unitupload_excel').style.display = 'none'
+                        document.getElementById('unitshowmanual').style.display = 'block';
+                        document.getElementById('unitsmanualnew').style.display = 'none';
+                        document.getElementById('unitsbulkold').style.display = 'block';
+  
+  
+  
+                        console.log(this.unitlistjson);
+                      }
+                      else{
+                        Swal.fire({
+                          title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
+                          text: "",
+                          confirmButtonColor: "#f69321",
+                          confirmButtonText: "OK"
+                        })
+                        document.getElementById('unitupload_excel').style.display = 'block'
+                      }
+                    }
+                  })
+                }
+              });
+            })
+          }
+      this.validateUnitDetailsField(_blkname);
+      console.log("unit data what contains",this.unitlistjson)
+    }
   }
   file:File
   arrayBuffer:any;
