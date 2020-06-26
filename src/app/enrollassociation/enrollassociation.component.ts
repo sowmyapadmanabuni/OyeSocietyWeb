@@ -2192,7 +2192,8 @@ cancelbulkupload(ev){
 cancelunitsbulkupload(ev){
   document.getElementById('unitupload_excel').style.display ='none';
   document.getElementById('unitshowmanual').style.display ='block';
-  document.getElementById('unitsbulkold').style.display ='block';
+  // document.getElementById('unitsbulkold').style.display ='block';
+  document.getElementById('unitsmanualnew').style.display ='block';
 
 }
   detailsdata ={}
@@ -2371,6 +2372,52 @@ cancelunitsbulkupload(ev){
       Object.manageremailid="";
       
     })
+  }
+  resetStep5bulk(ev,blknamecommon){
+
+    Object.keys(this.unitlistjson).forEach(element=>{
+      console.log(this.unitlistjson[element])
+      this.unitlistjson[element].forEach(unit => {
+if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
+
+      unit.flatno="",
+      unit.blockname ="",
+      unit.owneremaiid="",
+      unit.ownerfirstname="",
+      unit.ownermobilenumber="",
+      unit.ownershipstatus="",
+      unit.unittype="",
+      unit.ownerlastname="",
+      unit.ownermobilenumber= "",
+      unit.owneremaiid="",
+      unit.tenantfirstname="",
+      unit.tenantlastname="",
+      unit.tenantmobilenumber="",
+      unit.tenantemaiid=""
+    }else{
+      let blname = unit.Id.slice(0, -2);
+      if(blknamecommon == blname){
+        unit.flatno="",
+        unit.blockname ="",
+        unit.owneremaiid="",
+        unit.ownerfirstname="",
+        unit.ownermobilenumber="",
+        unit.ownershipstatus="",
+        unit.unittype="",
+        unit.ownerlastname="",
+        unit.ownermobilenumber= "",
+        unit.owneremaiid="",
+        unit.tenantfirstname="",
+        unit.tenantlastname="",
+        unit.tenantmobilenumber="",
+        unit.tenantemaiid=""
+      }
+   
+    }
+
+      })
+    })
+
   }
   resetStep5(ev,blknamecommon,Id){
     Object.keys(this.unitlistjson).forEach(element=>{
