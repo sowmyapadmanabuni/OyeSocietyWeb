@@ -1020,7 +1020,7 @@
             <p class="view-head"><b>Association Name</b></p>
             <p>{{associationname}}</p>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3" *ngIf="file!=''">
             <p class="view-head"><b>Uploaded File</b></p>
             <p>{{file}}</p>
           </div>
@@ -1065,31 +1065,31 @@
                              <p>Property Type : <span>{{propertyType}}</span></p>
           </div> -->
           <div class="col-sm-3">
-            <p class="view-head"><b>No of Units</b></p>
+            <p class="view-head"><b>Total Units</b></p>
             <p>{{NoofUnits}}</p>
           </div>
           <div class="col-sm-3">
-            <p class="view-head"><b>TotalNoBlocks</b></p>
+            <p class="view-head"><b>Total Blocks</b></p>
             <p>{{blocks}}</p>
           </div>
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">       
-            <h5 style="color:#5a51aa">Pan and Registration details</h5>
+            <h5 style="color:#5a51aa">Pan and GST details</h5>
             <div class="col-sm-3">
-                <p class="view-head"><b>Pan or reg Number</b></p>
+                <p class="view-head"><b>Pan no</b></p>
                 <p>{{panno}}</p>
               </div>
               <div class="col-sm-3">
-                <p class="view-head"><b>GSTNumber</b></p>
+                <p class="view-head" *ngIf="gstno!=''"><b>GSTNumber</b></p>
                 <p style="text-transform: uppercase;">{{gstno}}</p>
               </div>
               <div class="col-sm-3">
-                <p class="view-head"><b>Uploaded Pan</b></p>
+                <p *ngIf="pandoc!=''"class="view-head"><b>Pan Document</b></p>
                 <p>{{pandoc}}</p>
               </div>       
         </div>
 
-        <div class="col-sm-12" style="margin-top: 20px;">
+        <!-- <div class="col-sm-12" style="margin-top: 20px;">
             <h5 style="color:#5a51aa">Bank Information</h5>
             <div class="col-sm-3">
                 <p class="view-head"><b>Bank Name</b></p>
@@ -1120,7 +1120,7 @@
                 <p class="view-head"><b>Amenity Number </b></p>
                 <p>{{amenityNo}}</p>
               </div>
-        </div>     
+        </div>      -->
       </div>
     </div>
 

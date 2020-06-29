@@ -9,7 +9,7 @@
                         pattern="[A-Za-z\s]+"
                         matTooltip="This name should match as given in the Association Pan Card" class = "text" 
                         formControlName="asnname" [(ngModel)]="assname"
-                            value="">
+                            value="" required>
                         <mat-error [displayError]="isFieldValid('asnname')">
                             {{ titleAlert }}
                         </mat-error>
@@ -53,8 +53,8 @@
 
                 <form [formGroup]="form" class="association-formcountry">
                     <mat-form-field>
-                        <mat-select [(value)]="countryname" formControlName="cntryname" placeholder="COUNTRY">
-                            <mat-option *ngFor="let country of countrieslist" class = "text"[value]="country">{{country.coName}}
+                        <mat-select formControlName="cntryname" placeholder="COUNTRY" required>
+                            <mat-option *ngFor="let country of countrieslist" (onSelectionChange)="selectedcountry(country)"class = "text"[value]="country">{{country.coName}}
                             </mat-option>
                         </mat-select>
                         <mat-error [displayError]="isFieldValid('cntryname')">
@@ -65,8 +65,8 @@
                 <br>
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
-                        <mat-select [(value)]="state" formControlName="statename" placeholder="STATE">
-                            <mat-option *ngFor="let state of states" [value]="state">{{state}}
+                        <mat-select formControlName="statename" placeholder="STATE" required>
+                            <mat-option *ngFor="let state of stateslist" (onSelectionChange)="selectedstate(state)" [value]="state">{{state.stName}}
                             </mat-option>
                         </mat-select>
                         <mat-error [displayError]="isFieldValid('statename')">
@@ -74,8 +74,18 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-
                 <form [formGroup]="form" class="association-form">
+                    <mat-form-field>
+                        <mat-select formControlName="cityname" placeholder="CITY" required>
+                            <mat-option *ngFor="let city of citylist" (onSelectionChange)="selectedcity(city)" [value]="city">{{city.ctName}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [displayError]="isFieldValid('cityname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <!-- <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>CITY</mat-label>
                         <input matInput placeholder="CITY" pattern="[a-zA-Z\s]*"formControlName="cityname" class = "text" [(ngModel)]="city" value="">
@@ -83,7 +93,7 @@
                             {{ titleAlert }}
                         </mat-error>
                     </mat-form-field>
-                </form>
+                </form> -->
                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
@@ -94,7 +104,7 @@
                         minlength="5"
                         maxlength="6" 
                         formControlName="zipcode" [(ngModel)]="postalcode"
-                            value="">
+                            value="" required>
                         <mat-error [displayError]="isFieldValid('zipcode')">
                             {{ titleAlert }}
                         </mat-error>
@@ -103,7 +113,7 @@
                 
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
-                        <mat-select [(value)]="propertytype" formControlName="prprtytype" placeholder="PROPERTY TYPE">
+                        <mat-select [(value)]="propertytype" formControlName="prprtytype" placeholder="PROPERTY TYPE" required>
                             <mat-option *ngFor="let property of propertyType" [value]="property">{{property}}
                             </mat-option>
                         </mat-select>
@@ -119,7 +129,7 @@
                         <input matInput placeholder="PROPERTY NAME"
                         pattern="[a-zA-Z\s]*"
                          class = "text"formControlName="prtyname"
-                            [(ngModel)]="propertyname" value="">
+                            [(ngModel)]="propertyname" value=""required>
                         <mat-error [displayError]="isFieldValid('prtyname')">
                             {{ titleAlert }}
                         </mat-error>
@@ -135,7 +145,7 @@
                         (keypress)="_keyPress2($event)"
 
                         formControlName="locname" [(ngModel)]="locality"
-                            value="">
+                            value=""required>
                         <mat-error [displayError]="isFieldValid('locname')">
                             {{ titleAlert }}
                         </mat-error>
@@ -148,7 +158,7 @@
                         <input matInput placeholder="ASSOCIATION EMAIL" 
                         pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                         formControlName="assemail"
-                            [(ngModel)]="Associationemail" value="">
+                            [(ngModel)]="Associationemail" value=""required>
                         <mat-error [displayError]="isFieldValid('assemail')">
                             {{ titleAlert }}
                         </mat-error>
@@ -179,6 +189,7 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>GST NUMBER(OPTIONAL)</mat-label>
                      <input matInput placeholder="GST NUMBER"
+                     matTooltip="Please enter registered GST number of the association"
                     formControlName="gst"
                     (blur)="fillPANValue()"
                     [(ngModel)]="gstnumber" 
@@ -195,13 +206,13 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>PAN NUMBER</mat-label>
                     <input matInput placeholder="PAN NUMBER"
-                        matTooltip="PLEASE INSERT ASSOCIATION PAN NUMBER" class="text"
+                        matTooltip="Please enter registered pan number of the association" class="text"
                         [(ngModel)]="pannumber" value=""
                         formControlName="originalpan"
                         autocomplete='pannumber' 
                         (keyup)="pan_validate($event)"
                         pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"
-                        minlength=10 maxlength=10>
+                        minlength=10 maxlength=10 required>
                     <mat-error [displayError]="isFieldValidPanDetails('originalpan')">
                         Please Enter Valid Pan Number
                     </mat-error>
@@ -232,6 +243,7 @@
             </div>
 
             <div class="save">
+                <a class="previous" (click)="previouspage($event)"mat-raised-button color="primary">PREVIOUS</a>
                 <a class="continueforresetpan" (click)="resetStep2($event)"mat-raised-button color="primary">RESET</a>
                 <a id="pansubmit"mat-raised-button color="primary" [disabled]="!gstpanform.valid"(click)="submitpandetails($event)">SAVE & CONTINUE</a>
             </div>
@@ -267,7 +279,7 @@
                     <input matInput placeholder="NO OF BLOCKS" 
                     (keypress)="keyPress3($event)"  maxlength="4"
                     formControlName="blockno" [(ngModel)]="noofblocks"
-                        value="">
+                        value=""required>
                     <mat-error [displayError]="isFieldValidblockandunitdetails('blockno')">
                         {{ titleAlert }}
                     </mat-error>
@@ -278,13 +290,14 @@
                     <mat-label>Total No of Units</mat-label>
                     <input matInput placeholder="NO OF UNITS"
                     (keypress)="keyPress3($event)"  maxlength="4"
-                    matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value="">
+                    matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value=""required>
                     <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
                         {{ titleAlert }}
                     </mat-error>
                 </mat-form-field>
             </form>
             <div class="save">
+                <a class="continue" (click)="previouspage($event)"mat-raised-button color="primary">PREVIOUS</a>
                 <a class="continue" (click)="resetStep3($event)"mat-raised-button color="primary">RESET</a>
                 <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!blockform.valid"(click)="submitassociationcreation($event,'')">SAVE & CONTINUE</a>
             </div>
@@ -358,7 +371,7 @@
                                             <input matInput placeholder="BLOCK NAME/NUMBER" 
                                             pattern="[a-zA-Z0-9 _]*" 
                                             (blur)="getblocknameornumber(blocksArray[i]['Id'],blocksArray[i].blockname)"
-                                            class = "text" id="label" [(ngModel)]="blocksArray[i].blockname" value="">
+                                            class = "text" id="label" [(ngModel)]="blocksArray[i].blockname" value=""required>
                                             <!-- <mat-error *ngIf ="detailsdata[i]['blockname']['required']&&detailsdata[i]['blockname']['clicked']&&'!blocksArray[i].blockname'">
                                                 {{ titleAlert }}
                                             </mat-error> -->
@@ -385,7 +398,7 @@
 
                                         <mat-select [disabled]="condition"
                                         [(value)]="blocksArray[i].blocktype" 
-                                        placeholder="BLOCK TYPE">
+                                        placeholder="BLOCK TYPE"required>
                                             <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
                                             </mat-option>
                                         </mat-select>
@@ -402,7 +415,7 @@
                                         <input matInput placeholder="NO OF UNITS" pattern="[0-9]*"
                                         (keypress)=_keyPress($event)
                                             (blur)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)" [(ngModel)]="blocksArray[i].units"
-                                            value="">
+                                            value=""required>
                                         <!-- <mat-error [displayError]="isFieldValidblocksdetails('unitsno')">
                                                                         {{ titleAlert }}
                                                                     </mat-error> -->
@@ -424,7 +437,7 @@
                                     matInput placeholder="MANAGER NAME" 
                                     (blur)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
                                     [(ngModel)]="blocksArray[i].managername" 
-                                    value=""pattern="[a-zA-Z _]*">
+                                    value=""pattern="[a-zA-Z _]*"required>
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngname')">
                                         {{ titleAlert }}
                                     </mat-error> -->
@@ -447,7 +460,7 @@
                                     minlength="10"
                                     maxlength="10"
                                     (blur)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i].managermobileno)"
-                                        [(ngModel)]="blocksArray[i].managermobileno" value="">
+                                        [(ngModel)]="blocksArray[i].managermobileno" value=""required>
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngmobileno')">
                                         {{ titleAlert }}
                                     </mat-error> -->
@@ -468,7 +481,7 @@
                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                     [(ngModel)]="blocksArray[i].manageremailid"
                                     (blur)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i].manageremailid)"
-                                    value="">
+                                    value=""required>
                                     <!-- <mat-error [displayError]="isFieldValidblocksdetails('mngemaiid')">
                                         {{ titleAlert }}
                                     </mat-error> -->
@@ -628,7 +641,7 @@
                                                                 <input class="text" matInput placeholder="UNIT NO/FLAT NO"
                                                                     (blur)="getUnitName(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['flatno'],blocknameforIteration)"
                                                                     [(ngModel)]="obj3.flatno" [ngModelOptions]="{standalone:
-                                                                                                           true}" value="">
+                                                                                                           true}" value=""required>
                                                             </mat-form-field>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidflatno']">Valid unit no is required</p>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['flatno']==undefined">Valid unit no is required</p>
@@ -637,7 +650,7 @@
                                                 
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
-                                                                <mat-select [(value)]="obj3.unittype" placeholder="UNIT TYPE">
+                                                                <mat-select [(value)]="obj3.unittype" placeholder="UNIT TYPE"required>
                                                                     <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -647,7 +660,7 @@
                                                 
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
-                                                                <mat-select [(value)]="obj3.ownershipstatus" placeholder="OCCUPANCY & OWNERSHIP STATUS">
+                                                                <mat-select [(value)]="obj3.ownershipstatus" placeholder="OCCUPANCY & OWNERSHIP STATUS"required>
                                                                     <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -665,7 +678,7 @@
                                                                 <input class="text" matInput placeholder="OWNER FIRSTNAME" pattern="[a-zA-Z _]*"
                                                                     (blur)="getownerfirstname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownerfirstname'],blocknameforIteration)"
                                                                     [(ngModel)]="obj3.ownerfirstname" [ngModelOptions]="{standalone:
-                                                                                                       true}" value="">
+                                                                                                       true}" value=""required>
                                                             </mat-form-field>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidownerfirstname']">Valid owner firstname is
                                                                 required</p>
@@ -679,7 +692,7 @@
                                                                 <mat-label>OWNER LAST NAME</mat-label>
                                                                 <input class="text" matInput placeholder="OWNER LASTNAME"
                                                                     (blur)="getownerlastname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownerlastname'],blocknameforIteration)"
-                                                                    pattern="[a-zA-Z _]*" [(ngModel)]="obj3.ownerlastname" [ngModelOptions]="{standalone:true}" value="">
+                                                                    pattern="[a-zA-Z _]*" [(ngModel)]="obj3.ownerlastname" [ngModelOptions]="{standalone:true}" value=""required>
                                                             </mat-form-field>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidownerlastname']">Valid owner lastname is
                                                                 required</p>
@@ -695,7 +708,7 @@
                                                                 <input matInput placeholder="OWNER MOBILE NUMBER" pattern="[0-9]*"
                                                                     (blur)="getownermobilenumber(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownermobilenumber'],blocknameforIteration)"
                                                                     minlength="10" maxlength="10" (keypress)=_keyPress($event) [ngModelOptions]="{standalone:true}"
-                                                                    [(ngModel)]="obj3.ownermobilenumber" value="">
+                                                                    [(ngModel)]="obj3.ownermobilenumber" value=""required>
                                                             </mat-form-field>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidownermobilenumber']">Valid 10 digit mobile
                                                                 number is required</p>
@@ -711,7 +724,7 @@
                                                                 <input matInput placeholder="OWNER EMAIL-ID"
                                                                     (blur)="getowneremaiid(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['owneremaiid'],blocknameforIteration)"
                                                                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="obj3.owneremaiid"
-                                                                    [ngModelOptions]="{standalone:true}" value="">
+                                                                    [ngModelOptions]="{standalone:true}" value=""required>
                                                             </mat-form-field>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidowneremaiid']">valid email-id is required</p>
                                                             <p class="validation"
@@ -727,7 +740,7 @@
                                                             <input class="text" matInput placeholder="TENANT FIRSTNAME" pattern="[a-zA-Z _]*"
                                                                 [(ngModel)]="obj3.tenantfirstname"
                                                                 (blur)="gettenantfirstname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantfirstname'],blocknameforIteration)"
-                                                                [ngModelOptions]="{standalone:true}" value="">
+                                                                [ngModelOptions]="{standalone:true}" value=""required>
                                                         </mat-form-field>
                                                         <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantfirstname']">Valid firstname is
                                                             required</p>
@@ -742,7 +755,7 @@
                                                             <mat-label>TENANT LAST NAME</mat-label>
                                                             <input class="text" matInput placeholder="TENANT LASTNAME" pattern="[a-zA-Z _]*"
                                                                 (blur)="gettenantlastname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantlastname'],blocknameforIteration)"
-                                                                [(ngModel)]="obj3.tenantlastname" [ngModelOptions]="{standalone:true}" value="">
+                                                                [(ngModel)]="obj3.tenantlastname" [ngModelOptions]="{standalone:true}" value=""required>
                                                         </mat-form-field>
                                                         <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantlastname']"> Valid lastname is required
                                                         </p>
@@ -758,7 +771,7 @@
                                                             <input matInput placeholder="TENANT MOBILE NUMBER" pattern="[0-9]*" minlength="10" maxlength="10"
                                                                 (keypress)=_keyPress($event)
                                                                 (blur)="gettenantmobilenumber(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantmobilenumber'],blocknameforIteration)"
-                                                                [(ngModel)]="obj3.tenantmobilenumber" [ngModelOptions]="{standalone:true}" value="">
+                                                                [(ngModel)]="obj3.tenantmobilenumber" [ngModelOptions]="{standalone:true}" value=""required>
                                                         </mat-form-field>
                                                         <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantmobilenumber']">Valid mobile number is
                                                             required</p>
@@ -773,7 +786,7 @@
                                                             <mat-label>TENANT EMAIL ID</mat-label>
                                                             <input matInput placeholder="TENANT EMAIL-ID" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                                                                 (blur)="gettenantemaiid(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantemaiid'],blocknameforIteration)"
-                                                                [(ngModel)]="obj3.tenantemaiid" [ngModelOptions]="{standalone:true}" value="">
+                                                                [(ngModel)]="obj3.tenantemaiid" [ngModelOptions]="{standalone:true}" value=""required>
                                                         </mat-form-field>
                                                         <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['isnotvalidtenantemaiid']"> Valid email-id is required
                                                         </p>
@@ -829,7 +842,7 @@
                                        <mat-label>UNIT NO/FLAT NO</mat-label>
                                        <input class = "text" matInput placeholder="UNIT NO/FLAT NO"
                                         (blur)="getUnitName(unitlistjson[name][i]['Id'],unitlistjson[name][i]['flatno'],name)"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
-                                           true}"  value="">
+                                           true}"  value=""required>
                                    </mat-form-field>
                                    <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidflatno']">Valid unit no is required</p>
                                    <p class="validation" *ngIf="unitlistjson[name][i]['flatno']==undefined">Valid unit no is required</p>
@@ -838,7 +851,7 @@
    
                                   <div>
                                    <mat-form-field class="blockdetails-form1">
-                                       <mat-select [(value)]="obj.unittype" placeholder="UNIT TYPE">
+                                       <mat-select [(value)]="obj.unittype" placeholder="UNIT TYPE"required>
                                            <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                            </mat-option>
                                        </mat-select>
@@ -849,7 +862,7 @@
                                 <div>
                                    <mat-form-field class="blockdetails-form1">
                                        <mat-select [(value)]="obj.ownershipstatus"
-                                           placeholder="OCCUPANCY & OWNERSHIP STATUS">
+                                           placeholder="OCCUPANCY & OWNERSHIP STATUS"required>
                                            <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                            </mat-option>
                                        </mat-select>
@@ -864,7 +877,7 @@
                                    pattern="[a-zA-Z _]*"
                                    (blur)="getownerfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerfirstname'],name)"
                                    [(ngModel)]="obj.ownerfirstname"[ngModelOptions]="{standalone:
-                                       true}" value="">
+                                       true}" value=""required>
                                </mat-form-field> 
                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerfirstname']">Valid owner firstname is required</p>
                                <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownerfirstname']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownerfirstname']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['ownerfirstname']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['ownerfirstname']==undefined">Valid owner firstname is required</p>
@@ -876,7 +889,7 @@
                                            (blur)="getownerlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['ownerlastname'],name)"
                                            pattern="[a-zA-Z _]*"
                                            [(ngModel)]="obj.ownerlastname"
-                                           [ngModelOptions]="{standalone:true}" value="">
+                                           [ngModelOptions]="{standalone:true}" value=""required>
                                        </mat-form-field>
                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownerlastname']">Valid owner lastname is required</p>
                                <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownerlastname']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['ownerlastname']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['ownerlastname']==undefined">Valid owner lastname is required</p> 
@@ -891,7 +904,7 @@
                                minlength="10" maxlength="10"
                                (keypress)=_keyPress($event)
                                [ngModelOptions]="{standalone:true}"
-                                   [(ngModel)]="obj.ownermobilenumber" value="">
+                                   [(ngModel)]="obj.ownermobilenumber" value=""required>
                            </mat-form-field>
                            <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidownermobilenumber']">Valid 10 digit mobile number is required</p>
                            <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['ownermobilenumber']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['ownermobilenumber']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['ownermobilenumber']==undefined">Valid 10 digit mobile number is required</p> 
@@ -903,7 +916,7 @@
                            <input matInput placeholder="OWNER EMAIL-ID"
                            (blur)="getowneremaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['owneremaiid'],name)"
                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                           [(ngModel)]="obj.owneremaiid"[ngModelOptions]="{standalone:true}"value="">
+                           [(ngModel)]="obj.owneremaiid"[ngModelOptions]="{standalone:true}"value=""required>
                        </mat-form-field>
                        <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidowneremaiid']">valid email-id is required</p>
                        <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='Sold Vacant Unit' && unitlistjson[name][i]['owneremaiid']==undefined ||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['owneremaiid']==undefined || unitlistjson[name][i]['ownershipstatus']=='Sold Owner Occupied Unit' && unitlistjson[name][i]['owneremaiid']==undefined">valid email-id is required</p> 
@@ -916,7 +929,7 @@
                                    pattern="[a-zA-Z _]*"
                                    [(ngModel)]="obj.tenantfirstname"
                            (blur)="gettenantfirstname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantfirstname'],name)"
-                                       [ngModelOptions]="{standalone:true}" value="">
+                                       [ngModelOptions]="{standalone:true}" value=""required>
                                </mat-form-field>
                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantfirstname']">Valid firstname is
                                    required</p>
@@ -930,7 +943,7 @@
                                    pattern="[a-zA-Z _]*"
                                    (blur)="gettenantlastname(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantlastname'],name)"
                                    [(ngModel)]="obj.tenantlastname"
-                                   [ngModelOptions]="{standalone:true}" value="">
+                                   [ngModelOptions]="{standalone:true}" value=""required>
                                </mat-form-field>
                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantlastname']"> Valid lastname is required</p>
                                 <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[name][i]['tenantlastname']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['tenantlastname']==undefined">Valid lastname is
@@ -946,7 +959,7 @@
                                    (keypress)=_keyPress($event)
                            (blur)="gettenantmobilenumber(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantmobilenumber'],name)"
                                    [(ngModel)]="obj.tenantmobilenumber"
-                                   [ngModelOptions]="{standalone:true}" value="">
+                                   [ngModelOptions]="{standalone:true}" value=""required>
                                </mat-form-field>
                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantmobilenumber']">Valid mobile number is
                                    required</p>
@@ -960,7 +973,7 @@
                                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                            (blur)="gettenantemaiid(unitlistjson[name][i]['Id'],unitlistjson[name][i]['tenantemaiid'],name)"
                                        [(ngModel)]="obj.tenantemaiid"
-                                       [ngModelOptions]="{standalone:true}" value="">
+                                       [ngModelOptions]="{standalone:true}" value=""required>
                                    </mat-form-field>
                                <p class="validation" *ngIf="unitlistjson[name][i]['isnotvalidtenantemaiid']"> Valid email-id is required</p>
                                <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[name][i]['tenantemaiid']==undefined||unitlistjson[name][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[name][i]['tenantemaiid']==undefined">Valid email-id is required</p> 
