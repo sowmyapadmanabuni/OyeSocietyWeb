@@ -35,6 +35,8 @@ export class EnrollassociationComponent implements OnInit {
   uploadForm: FormGroup;
   uploadPanForm: FormGroup;
   countrieslist=[];
+  stateslist=[];
+  citylist=[];
   // blocksdetailsform:FormGroup=this.formBuilder.group({});
   unitsdetailsform:FormGroup;
   isbulkupload = false;
@@ -60,78 +62,7 @@ export class EnrollassociationComponent implements OnInit {
       // this.isunitdetailsempty=false;
      }
 
-  // countrieslist = [
-  //   "INDIA",
-  //   "AFGHANISTAN",
-  //   "ALGERIA",
-  //   "ARGENTINA",
-  //   "AUSTRALIA",
-  //   "AUSTRIA",
-  //   "BELGIUM",
-  //   "BHUTAN",
-  //   "BRAZIL",
-  //   "CANADA",
-  //   "CHINA",
-  //   "CUBA",
-  //   "DENMARK",
-  //   "FINLAND",
-  //   "FRANCE",
-  //   "GERMANY",
-  //   "IRELAND",
-  //   "ISRAEL",
-  //   "ITALY",
-  //   "JAPAN",
-  //   "MALAYSIA",
-  //   "MEXICO",
-  //   "NETHERLANDS",
-  //   "NORWAY",
-  //   "QATAR",
-  //   "RUSSIA",
-  //   "SINGAPORE",
-  //   "SWITZERLAND",
-  //   "UAE",
-  //   "UNITED KINGDOM",
-  //   "USA",
-  //   "QATAR"
-  // ]
-  states = [
-    "ANDAMAN",
-    "ANDHRA PRADESH",
-    "ARUNACHAL PRADESH",
-    "ASSAM",
-    "BIHAR",
-    "CHANDIGARH",
-    "CHHATTISGARH",
-    "DADRA",
-    "DELHI",
-    "GOA",
-    "GUJARAT",
-    "HARYANA",
-    "HIMACHAL PRADESH",
-    "JAMMU AND KASHMIR",
-    "JHARKHAND",
-    "KARNATAKA",
-    "KERALA",
-    "LADAKH",
-    "LAKSHADWEEP",
-    "MADHYA PRADESH",
-    "MAHARASHTRA",
-    "MANIPUR",
-    "MEGHALAYA",
-    "MIZORAM",
-    "NAGALAND",
-    "ODISHA",
-    "PUDUCHERRY",
-    "PUNJAB",
-    "RAJASTHAN",
-    "SIKKIM",
-    "TAMIL NADU",
-    "TELANGANA",
-    "TRIPURA",
-    "UTTAR PRADESH",
-    "UTTARAKHAND",
-    "WEST BENGAL"
-  ]
+
   propertyType = ['Residential','Commercial','Residential and Commercial']/*[
     "RESIDENTIAL",
     "COMMERCIAL PROPERTY",
@@ -353,6 +284,50 @@ this.countrieslist = res.data.country;
      console.log(this.exceptionMessage);
     }
     );
+  }
+
+  selectedcountry(country) {
+    let countryid = country.coid;
+    this.countryname =country.coName;
+    console.log(countryid)
+
+    let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
+    console.log(stateurl)
+
+
+    this.http.get(stateurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      this.stateslist = res.data.states;
+
+    }, error => {
+      console.log(error);
+      this.exceptionMessage = error['error']['exceptionMessage'];
+      console.log(this.exceptionMessage);
+    }
+    );
+  }
+  selectedstate(state) {
+    let StateID= state.stid;
+    console.log(StateID)
+
+this.state = state.stName;
+    let cityurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetCityListByState/" + StateID;
+    console.log(cityurl)
+
+
+    this.http.get(cityurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      this.citylist = res.data.country;
+
+    }, error => {
+      console.log(error);
+      this.exceptionMessage = error['error']['exceptionMessage'];
+      console.log(this.exceptionMessage);
+    }
+    );
+  }
+  selectedcity(cityname){
+    this.city = cityname.ctName;
   }
 
   ngAfterContentChecked() {
@@ -2285,7 +2260,7 @@ cancelunitsbulkupload(ev){
         "acAccntID": this.globalService.getacAccntID(),
         "association": {
           "ASAddress": this.locality,
-          "ASCountry": "India",
+          "ASCountry": this.countryname,
           "ASBToggle": "True",
           "ASAVPymnt": "False",
           "ASCity": this.city,
@@ -2466,6 +2441,10 @@ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
 
       })
     })
+
+  }
+  previouspage(ev){
+    this.demo1TabIndex = this.demo1TabIndex - 1;
 
   }
   resetStep5(ev,blknamecommon,Id){
