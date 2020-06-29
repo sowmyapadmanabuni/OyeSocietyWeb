@@ -348,6 +348,7 @@
                 <!-- <div id="showmanual" style="display:none;margin-top: 30px;"> -->
                     <!-- <form #blkDtlFrm="ngForm" class="blockdetails-form"> -->
                 <div id="showmanual" style="margin-top: 30px;">
+                    <div *ngIf="duplicateBlocknameExist"><p style="color: red;font-size: 30px;text-transform: uppercase;">Duplicate Blockname exist please enter unique blockname</p></div>
                     <div *ngFor="let obj of blocksArray;let i= index">
                         <!-- <app-blockdetails [i]="i" [obj]="obj" [detailsdata]="detailsdata" [blocksArray]="blocksArray" [blocksdetailsform]="blocksdetailsform.get(i.toString())"></app-blockdetails> -->
                         <div class="blockdetailsdata">

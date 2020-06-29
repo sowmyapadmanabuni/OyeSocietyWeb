@@ -12,6 +12,8 @@ import { GlobalServiceService } from '../global-service.service';
 import {UtilsService} from '../../app/utils/utils.service';
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-enrollassociation',
   templateUrl: './enrollassociation.component.html',
@@ -1377,45 +1379,75 @@ validateUnitDetailsField(name){
   }
   unitdetails ={}
   blockssuccessarray;
+  commonblockarray=[];
+  uniqueBlockArr=[];
+  duplicateBlockArr=[];
+  commonblockarray1=[];
   createblocksdetails(event) {
-    let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
-    let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
-      return valueBlckArr.indexOf(item) != idx
-    });
-    if (isBlkNameDuplicate) {
-          Swal.fire({
-            title: 'Duplicate Blockname Exist',
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-          })        
-        }
-        else{
-          this.isblockdetailsempty=false;
-          // console.log(this.blocksArray)
-          this.blockssuccessarray = this.blocksArray.length;
-          // if (this.blocksdetailsform.valid) {
-            setTimeout(() => {
-            this.blocksArray.forEach((element) => {
-              if(element.blockname==""||element.blockname==undefined||element.blocktype==""||element.blocktype==undefined||element.units==""||element.units==undefined||element.managername==""||element.managername==undefined||element.managermobileno==""||element.managermobileno==undefined||element.manageremailid==""||element.manageremailid==undefined){
-            this.isblockdetailsempty=true;
-              }
-            })
-            this.blockdetailsfinalcreation();
-          }, 1000 )
-          console.log(this.blocksArray)
-        }
+    this.uniqueBlockArr=[];
+    this.duplicateBlockArr=[];
+    /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
+     console.log(valueBlckArr);
+     let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
+       return valueBlckArr.indexOf(item) != idx
+     });
+     if (isBlkNameDuplicate) {
+           Swal.fire({
+             title: 'Duplicate Blockname Exist',
+           text: "",
+           type: "error",
+           confirmButtonColor: "#f69321",
+           confirmButtonText: "OK"
+           })
+         }
+         else{ */
+    this.blocksArray.forEach(item => {
+      console.log(item.blockname.toLowerCase());
+      let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
+      console.log(found);
+      console.log(this.uniqueBlockArr);
+      if (found) {
+        this.duplicateBlockArr.push(item);
+        console.log(this.duplicateBlockArr);
+      }
+      else {
+        this.uniqueBlockArr.push(item);
+      }
+    })
+    console.log(this.uniqueBlockArr);
+    console.log(this.duplicateBlockArr);
+    
+    if (this.uniqueBlockArr.length > 0) {
+      console.log('No duplicates');
+      this.commonblockarray = this.uniqueBlockArr;
+      console.log(this.commonblockarray);
+      this.isblockdetailsempty = false;
+      this.blockssuccessarray = this.uniqueBlockArr.length;
+      setTimeout(() => {
+        this.commonblockarray.forEach((element) => {
+          if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+            this.isblockdetailsempty = true;
+          }
+        })
+        this.blockdetailsfinalcreation();
+      }, 1000)
+      console.log(this.commonblockarray);
+    }
+    //}
   }
   
   blockidtmp={};
   blocknameforIteration='';
   sameBlocknameExist;
+  duplicateBlocknameExist;
   blockdetailsfinalcreation(){
+    this.duplicateBlocknameExist=false;
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
       this.sameBlocknameExist=false;
-      this.blocksArray.forEach((element,index) => {
+      this.commonblockarray1.push(this.commonblockarray);
+      console.log(this.commonblockarray1);
+      this.commonblockarray.forEach((element,index) => {
           ((index) => {
             setTimeout(() => {
     
@@ -1538,12 +1570,28 @@ validateUnitDetailsField(name){
           }).then(
             (result) => {
               if (result.value) {
-                console.log(this.finalblockname);
-                this.blocknameforIteration = this.finalblockname[0];
-                this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
-                console.log(this.blocknameforIteration);
-                console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
-                this.demo1TabIndex = this.demo1TabIndex + 1;
+                if(this.duplicateBlockArr.length > 0){
+                  this.duplicateBlocknameExist=true;
+                  this.blocksArray=[];
+                  this.blocksArray = this.duplicateBlockArr;
+                }
+                else{
+                  this.blocksArray=[];
+                  for(let i=0;i<=this.commonblockarray1.length-1;i++){
+                    console.log(i);
+                    console.log(this.commonblockarray1[i]);
+                    this.commonblockarray1[i].forEach(elmt => {
+                      this.blocksArray.push(elmt);
+                    });
+                  }
+                  console.log(this.finalblockname);
+                  console.log(this.blocksArray);
+                  this.blocknameforIteration = this.finalblockname[0];
+                  this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                  console.log(this.blocknameforIteration);
+                  console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                  this.demo1TabIndex = this.demo1TabIndex + 1;
+                }
               }
             })
         }
@@ -1627,7 +1675,7 @@ validateUnitDetailsField(name){
             })
           }
           else {
-            let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
+           /* let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
             let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
               return valueExcelBlckArr.indexOf(item) != idx
             });
@@ -1640,7 +1688,7 @@ validateUnitDetailsField(name){
                 confirmButtonText: "OK"
               })
             }
-            else {
+            else { */
               this.excelBlockList.forEach((list, i) => {
                 console.log(list);
                 // this.detailsdata[i] = {}
@@ -1676,7 +1724,7 @@ validateUnitDetailsField(name){
               document.getElementById('blockdetailscancelbutton').style.display = 'none';
               document.getElementById('showmanual').style.display = 'block';
               document.getElementById('blockdetailsbuttons').style.display = 'block';
-            }
+            //}
           }
         }
       else {
