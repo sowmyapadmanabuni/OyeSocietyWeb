@@ -475,6 +475,7 @@ this.state = state.stName;
   ASAsnLogo: any;
   thumbnailASAsnLogo:any;
   processFile() {
+    console.log(this.thumbnailASAsnLogo);
     console.log(this.uploadForm.get('profile').value);
     var reader = new FileReader();
     reader.readAsDataURL(this.uploadForm.get('profile').value);

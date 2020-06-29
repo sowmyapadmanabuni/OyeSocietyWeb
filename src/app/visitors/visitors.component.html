@@ -84,7 +84,7 @@
 
                     <td class="txt-middle">{{item['inIsUsed']==true?'Visited':'Not Visited'}}</td>
 
-                    <td>{{item['inMobile']==''?'':'+91 '+item['inMobile']}}</td>
+                    <td>{{item['inMobile']==''?'':item['inMobile']}}</td>
                     <td class="txt-middle"> 
                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                         (click)="OpenModalForQRcode(QRtemplate,   
@@ -97,6 +97,7 @@
                         item['ineDate'],
                         item['inVisCnt'],
                         item['asAssnID'],
+                        item['inVchlNo'],
                         item['inIsActive'] )" class="fa fa-qrcode" aria-hidden="true"></i>
                         <!-- &nbsp;|&nbsp;<i data-toggle="modal" data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])" class="fa fa-trash"></i> -->
                     </td>

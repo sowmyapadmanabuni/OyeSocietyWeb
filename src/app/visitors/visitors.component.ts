@@ -209,7 +209,7 @@ currentAssociationIdForUnit:Subscription;
         }
   
     //  ------POPUP for QR CODE-----//
-    OpenModalForQRcode(QRtemplate: TemplateRef<any>, infName,inMobile,inInvtID,unUnitID,insDate,inpOfInv,ineDate,inVisCnt,asAssnID,inIsActive) {
+    OpenModalForQRcode(QRtemplate: TemplateRef<any>, infName,inMobile,inInvtID,unUnitID,insDate,inpOfInv,ineDate,inVisCnt,asAssnID,inVchlNo,inIsActive) {
       this.PurposeOfVisit = inpOfInv;
       this.InvitedDate = insDate;
       this.TotalGuest = inVisCnt;
@@ -223,7 +223,9 @@ currentAssociationIdForUnit:Subscription;
         'ineDate':ineDate,
         'inVisCnt':inVisCnt,
         'asAssnID':asAssnID,
-        'inIsActive':inIsActive
+        'inIsActive':inIsActive,
+        'inVchlNo': inVchlNo,
+        'inpOfInv': inpOfInv
       }
       this.display = true;
       this.value=JSON.stringify(qrCodeData);
