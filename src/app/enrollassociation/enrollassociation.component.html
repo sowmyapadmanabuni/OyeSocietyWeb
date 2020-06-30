@@ -369,7 +369,7 @@
                                     <!-- <form [formGroup]="form1"> -->
                                     <mat-form-field class="blockdetails-form">
                                             <mat-label>BLOCK NAME/NUMBER</mat-label>
-                                            <input matInput placeholder="BLOCK NAME/NUMBER" 
+                                            <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput placeholder="BLOCK NAME/NUMBER" 
                                             pattern="[a-zA-Z0-9 _]*" 
                                             (blur)="getblocknameornumber(blocksArray[i]['Id'],blocksArray[i].blockname)"
                                             class = "text" id="label" [(ngModel)]="blocksArray[i].blockname" value=""required>
@@ -413,7 +413,7 @@
                                 <!-- <form [formGroup]="form1"> -->
                                     <mat-form-field class="blockdetails-form">
                                         <mat-label>NO OF UNITS</mat-label>
-                                        <input matInput placeholder="NO OF UNITS" pattern="[0-9]*"
+                                        <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput placeholder="NO OF UNITS" pattern="[0-9]*"
                                         (keypress)=_keyPress($event)
                                             (blur)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)" [(ngModel)]="blocksArray[i].units"
                                             value=""required>
@@ -433,7 +433,7 @@
                                 <!-- <form [formGroup]="form1"> -->
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER NAME</mat-label>
-                                    <input class = "text" 
+                                    <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" class = "text" 
                                     (keypress)="_keyPress2($event)"
                                     matInput placeholder="MANAGER NAME" 
                                     (blur)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
@@ -455,7 +455,7 @@
                                 <!-- <form [formGroup]="form1"> -->
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER MOBILE NUMBER</mat-label>
-                                    <input matInput placeholder="MANAGER MOBILE NUMBER"
+                                    <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput placeholder="MANAGER MOBILE NUMBER"
                                     pattern="[0-9]*" 
                                     (keypress)=_keyPress($event)
                                     minlength="10"
@@ -478,7 +478,7 @@
                                 <!-- <form [formGroup]="form1"> -->
                                 <mat-form-field class="blockdetails-form">
                                     <mat-label>MANAGER EMAIL ID</mat-label>
-                                    <input matInput placeholder="MANAGER EMAIL ID" 
+                                    <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput placeholder="MANAGER EMAIL ID" 
                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                     [(ngModel)]="blocksArray[i].manageremailid"
                                     (blur)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i].manageremailid)"

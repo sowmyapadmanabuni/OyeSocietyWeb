@@ -50,6 +50,7 @@ export class EnrollassociationComponent implements OnInit {
   blockdetailInvalid:boolean;
   blocktypeform = new FormControl("");
   condition = true;
+  toggleEmptyBlockarray;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -59,6 +60,8 @@ export class EnrollassociationComponent implements OnInit {
       this.blockdetailInvalid=true;
       this.url='';
       this.isblockdetailsempty=true;
+      this.duplicateBlocknameExist=false;
+      this.toggleEmptyBlockarray=false;
       // this.isunitdetailsempty=false;
      }
 
@@ -1361,6 +1364,7 @@ validateUnitDetailsField(name){
   createblocksdetails(event) {
     this.uniqueBlockArr=[];
     this.duplicateBlockArr=[];
+    this.toggleEmptyBlockarray=false;
     /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
      console.log(valueBlckArr);
      let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
@@ -1376,38 +1380,60 @@ validateUnitDetailsField(name){
            })
          }
          else{ */
-    this.blocksArray.forEach(item => {
-      console.log(item.blockname.toLowerCase());
-      let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
-      console.log(found);
-      console.log(this.uniqueBlockArr);
-      if (found) {
-        this.duplicateBlockArr.push(item);
-        console.log(this.duplicateBlockArr);
-      }
-      else {
-        this.uniqueBlockArr.push(item);
-      }
-    })
-    console.log(this.uniqueBlockArr);
-    console.log(this.duplicateBlockArr);
-    
-    if (this.uniqueBlockArr.length > 0) {
-      console.log('No duplicates');
-      this.commonblockarray = this.uniqueBlockArr;
-      console.log(this.commonblockarray);
-      this.isblockdetailsempty = false;
-      this.blockssuccessarray = this.uniqueBlockArr.length;
-      setTimeout(() => {
-        this.commonblockarray.forEach((element) => {
-          if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-            this.isblockdetailsempty = true;
+          if(this.duplicateBlocknameExist){
+            this.toggleEmptyBlockarray=true;
+            this.commonblockarray1=[];
+            this.commonblockarray=[];
+            this.blockssuccessarray = [];
+            this.blocksArray.forEach(item => {
+              if(item.hasNoDuplicateBlockname==false){
+                this.commonblockarray.push(item);
+              }
+            })
+            this.commonblockarray.forEach((element) => {
+              if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                this.isblockdetailsempty = true;
+              }
+            })
+            console.log(this.commonblockarray);
+            this.blockssuccessarray = this.commonblockarray.length;
+            this.blockdetailsfinalcreation();
           }
-        })
-        this.blockdetailsfinalcreation();
-      }, 1000)
-      console.log(this.commonblockarray);
-    }
+          else{
+            this.blockssuccessarray =[];
+            this.blocksArray.forEach(item => {
+              console.log(item.blockname.toLowerCase());
+              let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
+              console.log(found);
+              console.log(this.uniqueBlockArr);
+              if (found) {
+                this.duplicateBlockArr.push(item);
+                console.log(this.duplicateBlockArr);
+              }
+              else {
+                this.uniqueBlockArr.push(item);
+              }
+            })
+            console.log(this.uniqueBlockArr);
+            console.log(this.duplicateBlockArr);
+            
+            if (this.uniqueBlockArr.length > 0) {
+              console.log('No duplicates');
+              this.commonblockarray = this.uniqueBlockArr;
+              console.log(this.commonblockarray);
+              this.isblockdetailsempty = false;
+              this.blockssuccessarray = this.uniqueBlockArr.length;
+              setTimeout(() => {
+                this.commonblockarray.forEach((element) => {
+                  if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                    this.isblockdetailsempty = true;
+                  }
+                })
+                this.blockdetailsfinalcreation();
+              }, 1000)
+              console.log(this.commonblockarray);
+            }
+          }
     //}
   }
   
@@ -1548,24 +1574,43 @@ validateUnitDetailsField(name){
                 if(this.duplicateBlockArr.length > 0){
                   this.duplicateBlocknameExist=true;
                   this.blocksArray=[];
-                  this.blocksArray = this.duplicateBlockArr;
+                  this.uniqueBlockArr.forEach(itm=>{
+                    itm.hasNoDuplicateBlockname=true;
+                    this.blocksArray.push(itm);
+                  })
+                  this.duplicateBlockArr.forEach(itm1=>{
+                    this.blocksArray.push(itm1);
+                  })
+                  console.log(this.blocksArray.length);
+                  console.log(this.blocksArray);
                 }
                 else{
-                  this.blocksArray=[];
-                  for(let i=0;i<=this.commonblockarray1.length-1;i++){
-                    console.log(i);
-                    console.log(this.commonblockarray1[i]);
-                    this.commonblockarray1[i].forEach(elmt => {
-                      this.blocksArray.push(elmt);
-                    });
+                  if(this.toggleEmptyBlockarray){
+                    console.log(this.finalblockname);
+                    console.log(this.blocksArray);
+                    this.blocknameforIteration = this.finalblockname[0];
+                    this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                    console.log(this.blocknameforIteration);
+                    console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                    this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
-                  console.log(this.finalblockname);
-                  console.log(this.blocksArray);
-                  this.blocknameforIteration = this.finalblockname[0];
-                  this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
-                  console.log(this.blocknameforIteration);
-                  console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
-                  this.demo1TabIndex = this.demo1TabIndex + 1;
+                  else{
+                    this.blocksArray=[];
+                    for(let i=0;i<=this.commonblockarray1.length-1;i++){
+                      console.log(i);
+                      console.log(this.commonblockarray1[i]);
+                      this.commonblockarray1[i].forEach(elmt => {
+                        this.blocksArray.push(elmt);
+                      });
+                    }
+                    console.log(this.finalblockname);
+                    console.log(this.blocksArray);
+                    this.blocknameforIteration = this.finalblockname[0];
+                    this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                    console.log(this.blocknameforIteration);
+                    console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                    this.demo1TabIndex = this.demo1TabIndex + 1;
+                  }
                 }
               }
             })
@@ -1680,8 +1725,8 @@ validateUnitDetailsField(name){
                   list.isnotvalidmanagermobileno = false,
                   list.isUnitsCreatedUnderBlock = false;
                 list.isnotvalidmanagername = false,
-
-                  list.isnotvalidunits = false,
+                  list.hasNoDuplicateBlockname = false;
+                list.isnotvalidunits = false,
                   list.blocktype = this.residentialorcommercialtype;
 
                 this.blocksArray.push(list);
