@@ -12,6 +12,8 @@ import { GlobalServiceService } from '../global-service.service';
 import {UtilsService} from '../../app/utils/utils.service';
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-enrollassociation',
   templateUrl: './enrollassociation.component.html',
@@ -33,6 +35,8 @@ export class EnrollassociationComponent implements OnInit {
   uploadForm: FormGroup;
   uploadPanForm: FormGroup;
   countrieslist=[];
+  stateslist=[];
+  citylist=[];
   // blocksdetailsform:FormGroup=this.formBuilder.group({});
   unitsdetailsform:FormGroup;
   isbulkupload = false;
@@ -58,78 +62,7 @@ export class EnrollassociationComponent implements OnInit {
       // this.isunitdetailsempty=false;
      }
 
-  // countrieslist = [
-  //   "INDIA",
-  //   "AFGHANISTAN",
-  //   "ALGERIA",
-  //   "ARGENTINA",
-  //   "AUSTRALIA",
-  //   "AUSTRIA",
-  //   "BELGIUM",
-  //   "BHUTAN",
-  //   "BRAZIL",
-  //   "CANADA",
-  //   "CHINA",
-  //   "CUBA",
-  //   "DENMARK",
-  //   "FINLAND",
-  //   "FRANCE",
-  //   "GERMANY",
-  //   "IRELAND",
-  //   "ISRAEL",
-  //   "ITALY",
-  //   "JAPAN",
-  //   "MALAYSIA",
-  //   "MEXICO",
-  //   "NETHERLANDS",
-  //   "NORWAY",
-  //   "QATAR",
-  //   "RUSSIA",
-  //   "SINGAPORE",
-  //   "SWITZERLAND",
-  //   "UAE",
-  //   "UNITED KINGDOM",
-  //   "USA",
-  //   "QATAR"
-  // ]
-  states = [
-    "ANDAMAN",
-    "ANDHRA PRADESH",
-    "ARUNACHAL PRADESH",
-    "ASSAM",
-    "BIHAR",
-    "CHANDIGARH",
-    "CHHATTISGARH",
-    "DADRA",
-    "DELHI",
-    "GOA",
-    "GUJARAT",
-    "HARYANA",
-    "HIMACHAL PRADESH",
-    "JAMMU AND KASHMIR",
-    "JHARKHAND",
-    "KARNATAKA",
-    "KERALA",
-    "LADAKH",
-    "LAKSHADWEEP",
-    "MADHYA PRADESH",
-    "MAHARASHTRA",
-    "MANIPUR",
-    "MEGHALAYA",
-    "MIZORAM",
-    "NAGALAND",
-    "ODISHA",
-    "PUDUCHERRY",
-    "PUNJAB",
-    "RAJASTHAN",
-    "SIKKIM",
-    "TAMIL NADU",
-    "TELANGANA",
-    "TRIPURA",
-    "UTTAR PRADESH",
-    "UTTARAKHAND",
-    "WEST BENGAL"
-  ]
+
   propertyType = ['Residential','Commercial','Residential and Commercial']/*[
     "RESIDENTIAL",
     "COMMERCIAL PROPERTY",
@@ -351,6 +284,50 @@ this.countrieslist = res.data.country;
      console.log(this.exceptionMessage);
     }
     );
+  }
+
+  selectedcountry(country) {
+    let countryid = country.coid;
+    this.countryname =country.coName;
+    console.log(countryid)
+
+    let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
+    console.log(stateurl)
+
+
+    this.http.get(stateurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      this.stateslist = res.data.states;
+
+    }, error => {
+      console.log(error);
+      this.exceptionMessage = error['error']['exceptionMessage'];
+      console.log(this.exceptionMessage);
+    }
+    );
+  }
+  selectedstate(state) {
+    let StateID= state.stid;
+    console.log(StateID)
+
+this.state = state.stName;
+    let cityurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetCityListByState/" + StateID;
+    console.log(cityurl)
+
+
+    this.http.get(cityurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      this.citylist = res.data.country;
+
+    }, error => {
+      console.log(error);
+      this.exceptionMessage = error['error']['exceptionMessage'];
+      console.log(this.exceptionMessage);
+    }
+    );
+  }
+  selectedcity(cityname){
+    this.city = cityname.ctName;
   }
 
   ngAfterContentChecked() {
@@ -1377,45 +1354,75 @@ validateUnitDetailsField(name){
   }
   unitdetails ={}
   blockssuccessarray;
+  commonblockarray=[];
+  uniqueBlockArr=[];
+  duplicateBlockArr=[];
+  commonblockarray1=[];
   createblocksdetails(event) {
-    let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
-    let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
-      return valueBlckArr.indexOf(item) != idx
-    });
-    if (isBlkNameDuplicate) {
-          Swal.fire({
-            title: 'Duplicate Blockname Exist',
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-          })        
-        }
-        else{
-          this.isblockdetailsempty=false;
-          // console.log(this.blocksArray)
-          this.blockssuccessarray = this.blocksArray.length;
-          // if (this.blocksdetailsform.valid) {
-            setTimeout(() => {
-            this.blocksArray.forEach((element) => {
-              if(element.blockname==""||element.blockname==undefined||element.blocktype==""||element.blocktype==undefined||element.units==""||element.units==undefined||element.managername==""||element.managername==undefined||element.managermobileno==""||element.managermobileno==undefined||element.manageremailid==""||element.manageremailid==undefined){
-            this.isblockdetailsempty=true;
-              }
-            })
-            this.blockdetailsfinalcreation();
-          }, 1000 )
-          console.log(this.blocksArray)
-        }
+    this.uniqueBlockArr=[];
+    this.duplicateBlockArr=[];
+    /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
+     console.log(valueBlckArr);
+     let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
+       return valueBlckArr.indexOf(item) != idx
+     });
+     if (isBlkNameDuplicate) {
+           Swal.fire({
+             title: 'Duplicate Blockname Exist',
+           text: "",
+           type: "error",
+           confirmButtonColor: "#f69321",
+           confirmButtonText: "OK"
+           })
+         }
+         else{ */
+    this.blocksArray.forEach(item => {
+      console.log(item.blockname.toLowerCase());
+      let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
+      console.log(found);
+      console.log(this.uniqueBlockArr);
+      if (found) {
+        this.duplicateBlockArr.push(item);
+        console.log(this.duplicateBlockArr);
+      }
+      else {
+        this.uniqueBlockArr.push(item);
+      }
+    })
+    console.log(this.uniqueBlockArr);
+    console.log(this.duplicateBlockArr);
+    
+    if (this.uniqueBlockArr.length > 0) {
+      console.log('No duplicates');
+      this.commonblockarray = this.uniqueBlockArr;
+      console.log(this.commonblockarray);
+      this.isblockdetailsempty = false;
+      this.blockssuccessarray = this.uniqueBlockArr.length;
+      setTimeout(() => {
+        this.commonblockarray.forEach((element) => {
+          if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+            this.isblockdetailsempty = true;
+          }
+        })
+        this.blockdetailsfinalcreation();
+      }, 1000)
+      console.log(this.commonblockarray);
+    }
+    //}
   }
   
   blockidtmp={};
   blocknameforIteration='';
   sameBlocknameExist;
+  duplicateBlocknameExist;
   blockdetailsfinalcreation(){
+    this.duplicateBlocknameExist=false;
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
       this.sameBlocknameExist=false;
-      this.blocksArray.forEach((element,index) => {
+      this.commonblockarray1.push(this.commonblockarray);
+      console.log(this.commonblockarray1);
+      this.commonblockarray.forEach((element,index) => {
           ((index) => {
             setTimeout(() => {
     
@@ -1538,12 +1545,28 @@ validateUnitDetailsField(name){
           }).then(
             (result) => {
               if (result.value) {
-                console.log(this.finalblockname);
-                this.blocknameforIteration = this.finalblockname[0];
-                this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
-                console.log(this.blocknameforIteration);
-                console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
-                this.demo1TabIndex = this.demo1TabIndex + 1;
+                if(this.duplicateBlockArr.length > 0){
+                  this.duplicateBlocknameExist=true;
+                  this.blocksArray=[];
+                  this.blocksArray = this.duplicateBlockArr;
+                }
+                else{
+                  this.blocksArray=[];
+                  for(let i=0;i<=this.commonblockarray1.length-1;i++){
+                    console.log(i);
+                    console.log(this.commonblockarray1[i]);
+                    this.commonblockarray1[i].forEach(elmt => {
+                      this.blocksArray.push(elmt);
+                    });
+                  }
+                  console.log(this.finalblockname);
+                  console.log(this.blocksArray);
+                  this.blocknameforIteration = this.finalblockname[0];
+                  this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                  console.log(this.blocknameforIteration);
+                  console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                  this.demo1TabIndex = this.demo1TabIndex + 1;
+                }
               }
             })
         }
@@ -1627,7 +1650,7 @@ validateUnitDetailsField(name){
             })
           }
           else {
-            let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
+           /* let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
             let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
               return valueExcelBlckArr.indexOf(item) != idx
             });
@@ -1640,7 +1663,7 @@ validateUnitDetailsField(name){
                 confirmButtonText: "OK"
               })
             }
-            else {
+            else { */
               this.excelBlockList.forEach((list, i) => {
                 console.log(list);
                 // this.detailsdata[i] = {}
@@ -1676,7 +1699,7 @@ validateUnitDetailsField(name){
               document.getElementById('blockdetailscancelbutton').style.display = 'none';
               document.getElementById('showmanual').style.display = 'block';
               document.getElementById('blockdetailsbuttons').style.display = 'block';
-            }
+            //}
           }
         }
       else {
@@ -2237,7 +2260,7 @@ cancelunitsbulkupload(ev){
         "acAccntID": this.globalService.getacAccntID(),
         "association": {
           "ASAddress": this.locality,
-          "ASCountry": "India",
+          "ASCountry": this.countryname,
           "ASBToggle": "True",
           "ASAVPymnt": "False",
           "ASCity": this.city,
@@ -2418,6 +2441,10 @@ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
 
       })
     })
+
+  }
+  previouspage(ev){
+    this.demo1TabIndex = this.demo1TabIndex - 1;
 
   }
   resetStep5(ev,blknamecommon,Id){

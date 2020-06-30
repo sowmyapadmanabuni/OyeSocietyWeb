@@ -93,7 +93,7 @@
 
 }
 p.validation {
-    margin-left: 40px;
+    /* margin-left: 40px; */
     margin-top: -18px;
     color: #B51414 !important;
     margin-bottom: 0px;
@@ -157,11 +157,16 @@ input,label {
 .continue{
     margin: 10px;
     color: #ffffff !important;
-
 }
 .continueforresetpan{
     margin-top: 38px;;
     color: #ffffff !important;
+}
+
+a.previous{
+    margin-top: 38px;
+    color: #ffffff !important;
+    right: 11px;
 }
 #assdetailssave{
     color: #ffffff !important;
