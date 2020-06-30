@@ -324,7 +324,7 @@
            
         </mat-tab> -->
         <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
-            <button style="position: fixed;top: 55%;right: 0%;z-index: 4000000" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
+            <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             <!-- <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
                 <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
@@ -590,6 +590,11 @@
 
         </mat-tab> -->
         <mat-tab [disabled]='!tab.isActive' label="UNITS DETAILS">
+                <div>
+                        <button style="float: right;margin-top:12px" id="unitbulkbutton" mat-raised-button color="primary"
+                                            (click)="submitforbulkupload($event)">Bulk Upload</button>
+                                    
+                        </div>
             <!-- <div id="unitmanualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="manualunitdetailsclick($event)">Manual Input</button>
                  <button id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
@@ -614,12 +619,16 @@
 
                  <div id="unitsmanualnew" class="container-fluid">
                     <div class="row">
+                    
                     <ul class="nav col-md-2" id="leftTabs">
-                        <li class="active" *ngFor="let obj of blocksArray" style="background: #5a51aa;color: #fff !important;border-radius: 10px;">
-                        <a href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
+                        <li class="active" *ngFor="let obj of blocksArray" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
+                        <a style="color: #fff !important;" href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
                             <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">&nbsp;&nbsp;<span></span>{{obj.blockname}}
+                            
+
                         </a>
-                        
+                        <i class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
+                        <i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
                         </li>
                     </ul>
                     <div class="tab-content col-md-10">
@@ -799,11 +808,7 @@
                                                 </div>
                                                 </form>
                                             </div>
-                                            <div>
-                                                <button style="position: fixed;top: 55%;right:0%;" id="unitbulkbutton" mat-raised-button color="primary"
-                                                    (click)="submitforbulkupload($event)">Bulk Upload</button>
-                                            
-                                            </div>
+                                           
                                             <div>
                                                 <button id="unitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
                                                     (click)="gotonexttab($event,blocknameforIteration,obj3.Id)">{{SubmitOrSaveAndContinue}}</button>
@@ -1021,7 +1026,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <img src="{{ImgForPopUp}}"/>
+        <img style="width: 100%;" src="{{ImgForPopUp}}"/>
       </div>
     </div>
   </ng-template>
