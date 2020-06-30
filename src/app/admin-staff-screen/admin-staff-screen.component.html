@@ -1,0 +1,304 @@
+<div class="container-fluid np">
+    <div class="col-sm-12 mt-80">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                    <span class="black">Admin Staffs</span>
+                <div class="switch">
+                    <ul class="nav nav-pills">
+                        <!-- <li><a (click)="goToGuests()">My Guests</a></li> -->
+                        <li><a (click)="goToAdminDeliveryScreen()">Deliveries</a></li>
+                        <li class="active"><a (click)="goToAdminStaffScreen()">Staff</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- <div class="col-sm-4 bg-grey">
+                        <div class="sea">
+                            <input type="text" id="mySearch" placeholder="Select Staff.." title="Type in a category">
+                        </div>
+
+                        <div class="m-t-30">
+                            <img src="../../assets/images/icons/user.png"> Maid  <span style="float: right;"><i
+                                    class="fa fa-share-alt" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                       <div class="date-row">
+                            <div class="del-date cal"><input type="text" placeholder="From Date" class="date" bsDatepicker></div>
+                            <div class="del-date cal"><input type="text" class="date" placeholder="To Date" bsDatepicker></div>
+                       </div>
+                       
+
+                        <div class="radio-bt">
+                            <div class="invite-radio">
+                                <div class="radio-item">
+                                    <input type="radio" id="ritema" name="ritem" value="ropt1">
+                                    <label for="ritema">Yesterday</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="ritemb" name="ritem" value="ropt2">
+                                    <label for="ritemb">Today</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="ritemc" name="ritem" value="ropt3">
+                                    <label for="ritemc">Month Till Date</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-bt">
+                            <button class="btn btn-primary-purple nextBtn" style="width:100%">Get Report</button><br>
+                            <button class="btn btn-primary-purple nextBtn" style="width:100%" type="button">Leave with vendor</button>
+                        </div>
+
+                    </div> -->
+                    <div class="enroll">
+                        <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
+                        </div>
+                        <div class="del-date cal">From<input type="text" class="date ng-pristine ng-valid ng-touched" #StartDateCtrl name="StartDate" #StartDateControl='ngModel'
+                                  placeholder="Start Date"  [(ngModel)]="StartDate" (keyup)='validateDate($event,StartDateCtrl,EndDateCtrl)'
+                                  bsDatepicker required [bsConfig]="bsConfig" [minDate]="todayDate" placement="side" (blur)="GetDeleveriesList()"/>
+                        </div>
+    
+                        <div class="del-date cal">To<input type="text" class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="End Date"
+                            [(ngModel)]="EndDate" #EndDateCtrl [bsConfig]="bsConfig" bsDatepicker required [maxDate]="maxDate" 
+                            placement="bottom" (bsValueChange)="getDeleveriesListByDateRange($event)" (keyup)='validateDate($event,StartDateCtrl,EndDateCtrl)' (blur)="GetDeleveriesList()"/>
+                        </div>                   
+                    </div>
+                    <div class="dropdown" style="width: 200px;">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                            data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul class="dropdown-menu fullw">
+                            <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                                <a>{{rows['Display']}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="dash-row table-responsive">
+                            <table class="table table-bordered" [mfData]="deliveryVisitorLog | search:['vlfName', 'vlComName']:searchTxt"
+                            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?deliveryVisitorLog.length:setnoofrows">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Sl No
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="unUniName">Unit No.</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlfName">Delivery Person Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlComName">Delivery From</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vldCreated">Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlEntryT">Entry Time</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlExitT">Exit Time</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of mf.data;let i=index">
+                                    <ng-container *ngIf="item == -1">
+                                        <td colspan="7" align="center">No Data Found</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="item!=-1">
+                                        <td>{{(PaginatedValue * (p - 1) + i)+1}}</td>
+                                        <td>{{item['unUniName']}}</td>
+                                        <td>{{item['vlfName']}}</td>
+                                        <td>{{item['vlComName']}}</td>
+                                        <td>{{item['vldCreated'] | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{item['vlEntryT'] | date:'shortTime'}}</td>
+                                        <td>{{item['vlExitT'] | date:'shortTime'}}</td>
+                                        <td>{{item['vlMobile']}}</td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+            <!--Dashboard icons end-->
+            <!--Add Expense form Starts-->
+            <div class="col-sm-12" *ngIf="addGuest">
+
+                <div class="row">
+                    <div class="stepwizard">
+                        <div class="stepwizard-row setup-panel">
+                            <div class="stepwizard-step col-lg-4 col-sm-6 col-xs-12 step-active">
+                                <a href="#step-1" type="button" class="btn btn-success btn-circle"></a><span>Visitors
+                                    Details</span>
+                            </div>
+                            <div class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
+                                <a href="#step-2" type="button"
+                                    class="btn btn-default btn-circle"></a><span>Visitors</span>
+                            </div>
+                            <div class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
+                                <a href="#step-3" type="button" class="btn btn-default btn-circle"></a><span>Invitation
+                                    Validity</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form role="form">
+                        <div class="panel panel-primary setup-content" id="step-1">
+                            <!-- <div class="panel-heading">
+                                                 <h3 class="panel-title">Association Details</h3>
+                                            </div> -->
+                            <!-- <p class="title">Current date: 04-12-2019</p> -->
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label">First Name</label>
+                                    <input maxlength="100" type="text" required="required" class="form-control"
+                                        placeholder="First Name" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Last Name</label>
+                                    <input maxlength="100" type="text" required="required" class="form-control"
+                                        placeholder="Last Name" />
+                                </div>
+                                <div class="form-group">
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-12 pull-right">
+                                <button class="btn btn-primary-purple nextBtn">Reset</button>
+                                <button class="btn btn-primary-purple nextBtn" type="button">Next</button>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-primary setup-content" id="step-2">
+                            <!-- <div class="panel-heading">
+                                                 <h3 class="panel-title">Pan & Registration Details</h3>
+                                            </div> -->
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label">Mobile Number</label>
+                                    <input maxlength="200" type="text" required="required" class="form-control"
+                                        placeholder="Select Payment Method" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Vehicle Number</label>
+                                    <input maxlength="200" type="text" required="required" class="form-control"
+                                        placeholder="Select Payment Method" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Email Id</label>
+                                    <input maxlength="200" type="text" required="required" class="form-control"
+                                        placeholder="Select Payment Method" />
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label">Purpose of Visit</label>
+                                    <input maxlength="200" type="text" required="required" class="form-control"
+                                        placeholder="Select Payment Method" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">no Of Visitors</label>
+                                    <input maxlength="200" type="text" required="required" class="form-control"
+                                        placeholder="Select Payment Method" />
+                                </div>
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 pull-right">
+                                <button class="btn btn-primary-purple nextBtn">Reset</button>
+                                <button class="btn btn-primary-purple nextBtn" type="button">Add Expense</button>
+                            </div>
+
+                        </div>
+                        <div class="panel panel-primary setup-content" id="step-3">
+
+                            <div class="panel-body">
+                                <div class="del-date cal">From<input type="text" class="date" bsDatepicker></div>
+                                <div class="del-date cal">To <input type="text" class="date" bsDatepicker></div>
+                            </div>
+                            <div class="col-sm-12 pull-right">
+                                <button class="btn btn-primary-purple nextBtn">Reset</button>
+                                <button class="btn btn-primary-purple nextBtn" type="button">Add Expense</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--Add Expense form Ends-->
+        </div>
+    </div>
+    <!--rightBar start-->
+    <!-- <app-right-bar></app-right-bar> -->
+    <!--rightBar end-->
+</div>
+
+<ng-template #Reporttemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;position: absolute;left: 269px;">Staff Report</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        
+            <div class="row">
+                <!---->
+                <div class="table-responsive hidden-xs" style="margin-top: 40px;">
+                    <table class="table">
+                        <thead>
+                            <tr style="color:#e59400;">
+                                <th>Date</th>
+                                <th>Entry Point</th>
+                                <th>Entry Time</th>
+                                <th>Exit Point</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of reportlists">
+                        
+                                <td data-toggle="modal">{{item['vlsActTm']}}
+                                </td>
+                                <td data-toggle="modal">{{item['vlengName']}}
+                                </td>
+                                <td data-toggle="modal">{{item['vldUpdated'] | date:'shortTime'}} 
+                                </td>
+                                <td data-toggle="modal">{{item['vlexgName']}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+      
+      
+        </div>
+   </ng-template>

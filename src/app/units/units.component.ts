@@ -104,10 +104,12 @@ export class UnitsComponent implements OnInit {
   undCreated: any;
   SelectOccupancyOwnershipStatus: string;
   SelectUnitType: string;
+  PaginatedValue: number;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
     private orderpipe: OrderPipe,private modalService: BsModalService) {
+      this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
                           {'Display':'15','Row':15},
@@ -150,11 +152,11 @@ export class UnitsComponent implements OnInit {
     ];
   
     this.occupencys = [
-      { "name": "Sold Owner Occupied" },
-      { "name": "Sold Tenant Occupied" },
-      { "name": "Sold Vaccant" },
-      { "name": "Unsold Vaccant" },
-      { "name": "Unsold Tenant Occupied" }
+      { "name": "Sold Owner Occupied Unit" },
+      { "name": "Sold Tenant Occupied Unit" },
+      { "name": "Sold Vacant Unit" },
+      { "name": "UnSold Vacant Unit" },
+      { "name": "UnSold Tenant Occupied Unit" }
     ];
 
     this.tenantFirtname='';
@@ -177,6 +179,7 @@ export class UnitsComponent implements OnInit {
       })
     this.SelectOccupancyOwnershipStatus='Select Occupancy Ownership Status';
     this.SelectUnitType='Select Unit Type';
+    localStorage.setItem('Component','UnitsManagent');
   }
      pageChanged(event) {
       this.config.currentPage = event;
@@ -188,6 +191,7 @@ export class UnitsComponent implements OnInit {
     this.unUniName = unUniName,
       this.unitTypeForEdit = unUniType,
       this.occupencyInEditUnit = unOcStat,
+      console.log(this.occupencyInEditUnit);
       this.UNDimens = unDimens,
       this.UNCalType = unCalType,
       // this.FLFloorID = 1,
@@ -211,6 +215,7 @@ export class UnitsComponent implements OnInit {
         this.allBlocksLists = data['data'].blocksByAssoc;
         //console.log('allBlocksLists',this.allBlocksLists);
       });
+      this.SnackBar();
   }
   GetIsUnitCreated(event) {
     console.log(event);
@@ -256,7 +261,19 @@ export class UnitsComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.allUnitBYBlockID.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;
@@ -294,11 +311,11 @@ export class UnitsComponent implements OnInit {
 
   tenantOwnerdiv(occupency) {
     this.occupencys.forEach(item => {
-      if (occupency == 'Unsold Vaccant') {
+      if (occupency == 'UnSold Vacant Unit') {
         this.tenantDetails = true;
         this.ownerDetails = false;
       }
-      else if (occupency == 'Unsold Tenant Occupied') {
+      else if (occupency == 'UnSold Tenant Occupied Unit') {
         this.tenantDetails = true;
         this.ownerDetails = false;
       }
@@ -644,6 +661,14 @@ export class UnitsComponent implements OnInit {
   NavigateToBulkUpload(){
     this.router.navigate(['excelunit']);
   }
+  // for the tost message
+ SnackBar(){
+  console.log("Hello from functionNr1 before setTimeout in code");
+  let x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+  // for tost message
   onPageChange(event) {
     //console.log(event);
     //console.log(this.p);
@@ -667,6 +692,19 @@ export class UnitsComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.allUnitBYBlockID.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
 }

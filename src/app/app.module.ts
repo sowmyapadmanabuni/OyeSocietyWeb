@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routing } from './routing';
 import { RequestformComponent } from './requestform/requestform.component';
 import { ModalModule } from 'ngx-bootstrap';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {FormsModule,ReactiveFormsModule, FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HiringComponent } from './hiring/hiring.component';
 import { MapsComponent } from './maps/maps.component';
 import { AgmCoreModule } from '@agm/core';
@@ -26,6 +26,8 @@ import { JobsComponent } from './jobs/jobs.component';
 import { GooglemapComponent } from './googlemap/googlemap.component';
 import { AgmDirectionModule } from 'agm-direction';
 import { AssociationManagementComponent } from './association-management/association-management.component';
+import { EnrollassociationComponent } from './enrollassociation/enrollassociation.component';
+
 import { ExpenseManagementComponent } from './expense-management/expense-management.component';
 import { InvoicesComponent } from './invoices/invoices.component';
 import { BlocksComponent } from './blocks/blocks.component';
@@ -85,12 +87,38 @@ import { PartnersComponent } from './partners/partners.component';
 import { LocationsComponent } from './locations/locations.component';
 import {AboutusComponent} from './aboutus/aboutus.component'
 import {AccountingComponent} from './accounting/accounting.component'
-import {SafetyComponent} from './safety/safety.component'
-
+import {SafetyComponent} from './safety/safety.component';
+import { UserIdleModule } from 'angular-user-idle';
+import { AudioRecordingService } from './audio-recording.service';
+import {BroadcastComponent } from './broadcast/broadcast.component';
  
 import { from } from 'rxjs';
+import { ErrorComponent } from './error/error.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { AdminDeleveryScreenComponent } from './admin-delevery-screen/admin-delevery-screen.component';
+import { AdminStaffScreenComponent } from './admin-staff-screen/admin-staff-screen.component';
+import { CareersComponent } from './careers/careers.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 //export const firebaseConfig = environment.firebaseConfig;
+import { GoogleChartsModule } from 'angular-google-charts';
 
+import { HttpModule } from '@angular/http';
+
+import { MatSelectModule, 
+  MatFormFieldModule,
+  MatInputModule, 
+  MatButtonModule,
+  MatCardModule,
+  MatTabsModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTooltipModule } from '@angular/material';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { FilterVisitorPipe } from './pipes/filter-visitor.pipe';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { GoogleChartComponent } from './google-chart/google-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,6 +141,7 @@ import { from } from 'rxjs';
     JobsComponent,
     GooglemapComponent,
     AssociationManagementComponent,
+    EnrollassociationComponent,
     ExpenseManagementComponent,
     VehiclesComponent,
     FamilyMembersComponent,
@@ -155,7 +184,18 @@ import { from } from 'rxjs';
     EditAssociationComponent,
     ExcelReceiptUploadComponent,
     AccountingComponent,
-    SafetyComponent
+    SafetyComponent,
+    ErrorComponent,
+    TermsAndConditionsComponent,
+    PrivacyPolicyComponent,
+    BroadcastComponent,
+    AdminDeleveryScreenComponent,
+    AdminStaffScreenComponent,
+    CareersComponent,
+    NotificationsComponent,
+    FilterVisitorPipe,
+    DateAgoPipe,
+    GoogleChartComponent
     ],
   imports: [
     ReactiveFormsModule,
@@ -163,16 +203,31 @@ import { from } from 'rxjs';
     BrowserModule,
     ChartsModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutingModule,
     OrderModule,
     FormsModule,
+    GoogleChartsModule,
     Routing,
     AgmDirectionModule,
     NgxPaginationModule,
     DataTablesModule,
+
+    HttpModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatTooltipModule,
+    MatSelectModule,
+    MatInputModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatMomentDateModule,
+    MatNativeDateModule,
+
     //AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
+    UserIdleModule.forRoot({idle:1800, timeout:60, ping:30}), //600=10minute
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey,
       libraries: ['geometry']
@@ -184,9 +239,13 @@ import { from } from 'rxjs';
     ProgressbarModule.forRoot(),
     NgxQRCodeModule,
     TooltipModule.forRoot(),
-    JwSocialButtonsModule
+    JwSocialButtonsModule,
+    TimepickerModule.forRoot()
   ],
-  providers: [],
+  providers: [AudioRecordingService],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

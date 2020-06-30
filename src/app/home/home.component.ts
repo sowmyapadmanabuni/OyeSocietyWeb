@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import {UtilsService} from '../utils/utils.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AddVehicleService } from '../../services/add-vehicle.service';
 declare var $ :any;
 
 @Component({
@@ -85,6 +86,22 @@ export class HomeComponent implements OnInit {
   availableNoOfUnits: any;
   join_enroll:any;
   familyMemberCount: any;
+  vehicleTotalArray: any[];
+  vehiclesFilteredCount: any;
+  occupiedCount:number;
+  vacantCount:number;
+  @ViewChild('myCnv1', { static: true }) myCnv1: ElementRef;
+
+  public pieChartLabels:string[] = ['Occupied', 'Vaccant'];
+  public pieChartLabels1:string[] = ['Occupied', 'Vaccant'];
+  public pieChartData:number[] = [];
+  public pieChartData1:number[] = [];
+  public pieChartType:string = 'doughnut';
+
+  public doughnutChartColors: any[] = [{ backgroundColor: ['#B51414','#F3F3F3'] }]
+  public doughnutChartColors1: any[] = [{ backgroundColor: ['#27AB97','#F3F3F3'] }]
+  _occupiedCount: any;
+  _vacantCount: any;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -94,7 +111,12 @@ export class HomeComponent implements OnInit {
     private viewassosiationservice: ViewAssociationService,
     private modalService: BsModalService,
     private utilsService:UtilsService,
-    private http:HttpClient,private route: ActivatedRoute) {
+    private http:HttpClient,private route: ActivatedRoute,
+    private addvehicleservice: AddVehicleService) {
+      this._occupiedCount=0;
+      this._vacantCount=0;
+      this.vehicleTotalArray=[];
+      this.vehiclesFilteredCount=0;
       this.availableNoOfUnits=0;
       this.availableNoOfBlocks=0;
     this.accountID = this.globalService.getacAccntID();
@@ -146,6 +168,13 @@ export class HomeComponent implements OnInit {
   });
   //
   this.associations=[];
+  localStorage.setItem('Component','Home');
+  //
+    this.globalService.assnIdForUnitTotalOccupancyVacantCountDetails
+      .subscribe(data => {
+        console.log(data);
+        this.GetUnitTotalOccupancyVacantCountDetails();
+      })
   }
 
   ngOnInit() {
@@ -161,6 +190,55 @@ export class HomeComponent implements OnInit {
     this.localMrmRoleId = this.globalService.mrmroleId;
     this.GetVehicleListByAssocID();
     this.getAssociation();
+    this.getVehicle(this.globalService.getCurrentUnitId());
+    this.GetUnitTotalOccupancyVacantCountDetails();
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+    console.log(this.myCnv1);
+    },3000)
+    // $(document).ready(function () {
+    //   let cnvs = document.getElementById("cnv1");
+    //   //let cnvs1 = cnvs.getContext("2d");
+    //   console.log(cnvs);
+    // })
+    /*  var cnvsx = cnvs.width / 2;
+    var cnvsy = cnvs.height / 2;
+  
+    cnvs1.textAlign = 'center';
+    cnvs1.textBaseline = 'middle';
+    cnvs1.font = '14px verdana';
+    cnvs1.fillStyle = 'black';
+    cnvs1.fillText("abc", cnvsx, cnvsy); */
+  }
+  occpydPerc;
+  vacantPerc;
+  GetUnitTotalOccupancyVacantCountDetails(){
+    let scopeIP = this.utilsService.getIPaddress();
+    let headers=this.getHttpheaders();
+    this.globalService.getCurrentAssociationId();
+    // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
+    this.http.get(scopeIP + '/oyeliving/api/v1/GetUnitTotalOccupancyVacantCountDetails/'+this.globalService.getCurrentAssociationId() ,  {headers:headers})
+    .subscribe(data=>{
+      console.log(data);
+      this.occpydPerc= data['data']['unitCounts']['occpydPerc'];
+      this.vacantPerc= data['data']['unitCounts']['vacantPerc'];
+      this._occupiedCount = data['data']['unitCounts']['occupiedCount'];
+      this._vacantCount = data['data']['unitCounts']['vacantCount'];
+      console.log(this._occupiedCount,this._vacantCount);
+      this.occupiedCount = (this._occupiedCount == 0?0:(this._occupiedCount / (this._occupiedCount + this._vacantCount)) * 100);
+      this.vacantCount = (this._vacantCount == 0?0:(this._vacantCount / (this._occupiedCount + this._vacantCount))*100);
+      console.log(this.occupiedCount,this.vacantCount);
+      this.pieChartData=[this.occupiedCount,100-this.occupiedCount];
+      this.pieChartData1=[this.vacantCount,100-this.vacantCount];
+      console.log(this.pieChartData,Math.round(this.occupiedCount));
+      console.log(this.pieChartData1,Math.round(this.vacantCount));
+      this.occupiedCount = Math.round(this.occupiedCount);
+      this.vacantCount = Math.round(this.vacantCount);
+    },
+    err=>{
+      console.log(err);
+    })
   }
   gotToResidentInvoice() {
     this.router.navigate(['resident-invoice']);
@@ -187,7 +265,6 @@ export class HomeComponent implements OnInit {
       }
       console.log(this.uniqueAssociations);
       this.loadAssociation((this.globalService.getCurrentAssociationName()==null?this.uniqueAssociations[0]['asAsnName']:this.globalService.getCurrentAssociationName()),this.uniqueAssociations,'id');
-      $(".se-pre-con").fadeOut("slow");
     },
       res => {
         console.log(this.associations);
@@ -211,6 +288,12 @@ export class HomeComponent implements OnInit {
 
       // }
       this.amt = res['data']['payments'].filter(item => {
+        //console.log(item);
+        if (item['pyStat'] == "Due") {
+          return item['pyAmtDue'];
+        }
+      })
+      this.associationAmountDue = this.associationAmountDue.filter(item => {
         //console.log(item);
         if (item['pyStat'] == "Due") {
           return item['pyAmtDue'];
@@ -349,7 +432,7 @@ export class HomeComponent implements OnInit {
       console.log(err);
     });
   }
-  getVehicle(unUnitID) {
+ /* getVehicle(unUnitID) {
     this.dashBrdService.getVehicle(unUnitID).subscribe(res => {
       console.log('vehicle',res);
       var data: any = res;
@@ -364,6 +447,19 @@ export class HomeComponent implements OnInit {
         console.log(err);
         this.totalVehicles = '0';
       });
+  } */
+  getVehicle(unUnitID) {
+    this.addvehicleservice.getVehicleDetails(unUnitID, this.globalService.getCurrentAssociationId(), this.globalService.getacAccntID())
+      .subscribe(data => {
+        this.vehicleTotalArray = data['data']['vehicleListByUnitID'];
+        console.log(this.vehicleTotalArray);
+        let totalVehiclesArr = data.data.vehicleListByUnitID.filter(item => {
+          return (item['veRegNo'] != '' && item['veType'] != '' && item['veMakeMdl'] != '' && item['veStickNo'] != '');
+        })
+        this.vehiclesFilteredCount = totalVehiclesArr.length;
+        console.log(this.vehiclesFilteredCount);
+      }
+      )
   }
   getStaff() {
     this.dashBrdService.getStaff(this.associationID).subscribe(res => {
@@ -399,6 +495,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadAssociation(associationName,associationList, param: any) {
+    //$(".se-pre-con").show();
     console.log(associationName);
     console.log(associationList);
     console.log(param);
@@ -434,6 +531,7 @@ export class HomeComponent implements OnInit {
           //}
         }
         console.log(this.unitlistForAssociation);
+        this.globalService.unitslistForAssociation = this.unitlistForAssociation;
         this.globalService.setCurrentAssociationId(association.asAssnID);
         this.globalService.setCurrentAssociationIdForExpense(association.asAssnID);
         this.globalService.setCurrentAssociationIdForInvoice(association.asAssnID);
@@ -443,6 +541,9 @@ export class HomeComponent implements OnInit {
         this.globalService.setCurrentAssociationIdForCustomerStatement(association.asAssnID);
         this.globalService.setCurrentAssociationIdForLeftBarComponent(association.asAssnID);
         this.globalService.setCurrentAssociationIdForMemberComponent(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForStaffList(association.asAssnID);
+        this.globalService.setCurrentAssociationIdForVisitorLogByDates(association.asAssnID);
+        this.globalService.assnIdForUnitTotalOccupancyVacantCountDetails.next(association.asAssnID);
         if(param == ''){
           this.globalService.setCurrentAssociationName(asnName);
           console.log(this.globalService.getCurrentAssociationName());
@@ -477,6 +578,7 @@ export class HomeComponent implements OnInit {
         if(this.unitlistForAssociation.length != 0) 
         {
           this.loadUnit(this.unitlistForAssociation[0]['unUniName'], this.unitlistForAssociation[0]['unUnitID']);
+          this.globalService.CallgetVisitorList('');
         }
         //console.log(this.unitlistForAssociation[0]['unUnitID']);
         //console.log(this.unitlistForAssociation[0]['unUniName']);
@@ -508,6 +610,8 @@ export class HomeComponent implements OnInit {
       this.globalService.sendMessage(associationList);
       this.globalService.SetAssociationList(associationList);
     }
+    this.globalService.InvokeGetFamilyMember('');
+    $(".se-pre-con").fadeOut("slow");
   }
   GetVehicleListByAssocID() {
     this.dashBrdService.GetVehicleListByAssocID(this.associationID)
@@ -638,6 +742,7 @@ export class HomeComponent implements OnInit {
     this.GetVisitorLogByDatesAssocAndUnitID(unUnitID);
     this.GetWorkersListByUnitID(unUnitID);
     this.GetFamilyMemberVehicleCountByAssocAcntUnitID(this.globalService.getacAccntID(),this.globalService.getCurrentAssociationId(),unUnitID);
+    this.globalService.setResidentLevelInvoice('');
   }
   AdminsUnitShow() {
     this.localMrmRoleId = 2;
@@ -648,6 +753,11 @@ export class HomeComponent implements OnInit {
     console.log('1');
   }
   goToAssociation() {
+    this.globalService.gotojoinassociation='';
+    this.router.navigate(['association','3']);
+  }
+  GoToJoinAssociation() {
+    this.globalService.gotojoinassociation='id';
     this.router.navigate(['association']);
   }
   goToBlocks() {

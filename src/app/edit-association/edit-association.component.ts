@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewAssociationService } from '../../services/view-association.service';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Amenity } from '../models/amenity';
 import Swal from 'sweetalert2';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 import { Router } from '@angular/router';
 declare var $: any;
 
@@ -14,8 +17,11 @@ export class EditAssociationComponent implements OnInit {
   countries:any[];
   propertyTypes:any[];
   newamenities:any[];
+  form: FormGroup;
+  uploadForm: FormGroup;
+  titleAlert: string = 'This field is required';
 
-  constructor(public viewAssnService: ViewAssociationService,
+  constructor(public viewAssnService: ViewAssociationService,private formBuilder: FormBuilder,private modalService: BsModalService,
     private router: Router) {
     this.newamenities = [];
     console.log(this.viewAssnService.EditAssociationData);
@@ -43,8 +49,105 @@ export class EditAssociationComponent implements OnInit {
       { "name": "Residential And Commercial Property", "displayName": "Residential And Commercial Property" }
     ];
   }
-
+  countrieslist = [
+    "INDIA",
+    "AFGHANISTAN",
+    "ALGERIA",
+    "ARGENTINA",
+    "AUSTRALIA",
+    "AUSTRIA",
+    "BELGIUM",
+    "BHUTAN",
+    "BRAZIL",
+    "CANADA",
+    "CHINA",
+    "CUBA",
+    "DENMARK",
+    "FINLAND",
+    "FRANCE",
+    "GERMANY",
+    "IRELAND",
+    "ISRAEL",
+    "ITALY",
+    "JAPAN",
+    "MALAYSIA",
+    "MEXICO",
+    "NETHERLANDS",
+    "NORWAY",
+    "QATAR",
+    "RUSSIA",
+    "SINGAPORE",
+    "SWITZERLAND",
+    "UAE",
+    "UNITED KINGDOM",
+    "USA",
+    "QATAR"
+  ]
+  states = [
+    "ANDAMAN",
+    "ANDHRA PRADESH",
+    "ARUNACHAL PRADESH",
+    "ASSAM",
+    "BIHAR",
+    "CHANDIGARH",
+    "CHHATTISGARH",
+    "DADRA",
+    "DELHI",
+    "GOA",
+    "GUJARAT",
+    "HARYANA",
+    "HIMACHAL PRADESH",
+    "JAMMU AND KASHMIR",
+    "JHARKHAND",
+    "KARNATAKA",
+    "KERALA",
+    "LADAKH",
+    "LAKSHADWEEP",
+    "MADHYA PRADESH",
+    "MAHARASHTRA",
+    "MANIPUR",
+    "MEGHALAYA",
+    "MIZORAM",
+    "NAGALAND",
+    "ODISHA",
+    "PUDUCHERRY",
+    "PUNJAB",
+    "RAJASTHAN",
+    "SIKKIM",
+    "TAMIL NADU",
+    "TELANGANA",
+    "TRIPURA",
+    "UTTAR PRADESH",
+    "UTTARAKHAND",
+    "WEST BENGAL"
+  ]
+  propertyType = [
+    "RESIDENTIAL",
+    "COMMERCIAL PROPERTY",
+    "RESIDENTIAL AND COMMERCIAL PROPERTY"
+  ]
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      this.uploadForm.get('profile').setValue(file);
+    }
+  }
+  modalRef: BsModalRef;
+  ImgForPopUp:any;
+  UploadedImage: any;
+  showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,displayText){
+    if(thumbnailASAsnLogo!=undefined){
+    this.ImgForPopUp=thumbnailASAsnLogo;
+    this.UploadedImage=displayText;
+    this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
+    }
+  }
   ngOnInit() {
+    this.createForm();
+    this.uploadForm = this.formBuilder.group({
+      profile: ['']
+    });
   }
   ngAfterViewInit() {
     $(document).ready(function () {
@@ -141,8 +244,84 @@ export class EditAssociationComponent implements OnInit {
       event.preventDefault();
     }
   }
+  _keyPress2(event: any, Id) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+  resetfields(ev){
+    //alert("hai");
+    this.viewAssnService.EditAssociationData['ASAsnName']="";
+    this.viewAssnService.EditAssociationData['ASCountry']="";
+    this.viewAssnService.EditAssociationData['ASState']="";
+    this.viewAssnService.EditAssociationData['ASCity']="";
+    this.viewAssnService.EditAssociationData['ASPinCode']="";
+    this.viewAssnService.EditAssociationData['ASPrpType']="";
+    this.viewAssnService.EditAssociationData['ASPrpName']="";
+    this.viewAssnService.EditAssociationData['ASAddress']="";
+    this.viewAssnService.EditAssociationData['asAsnEmail']="";
+    this.viewAssnService.EditAssociationData['asWebURL']="";
+  }
+  createForm() {
+    this.form = this.formBuilder.group({
+      'asnname': [null, Validators.required],
+      'cntryname':[null],
+      'statename':[null],
+      'cityname': [null, Validators.required],
+      'prprtytype':[null],
+      'zipcode': [null, Validators.required],
+      'prtyname': [null, Validators.required],
+      'locname': [null, Validators.required],
+      'assemail': [null, [Validators.required, Validators.email]],
+      'urlset': [null]
+
+    });
+  }
+  isFieldValid(field: string) {
+    return !this.form.get(field).valid && this.form.get(field).touched;
+  }
+  resetStepassn(ev){
+
+    console.log(ev)
+    this.form.reset();
+    // this.thumbnailASAsnLogo='';
+   
+  }
+  ASAsnLogo: any;
+  thumbnailASAsnLogo:any;
+  processFile() {
+    console.log(this.uploadForm.get('profile').value);
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadForm.get('profile').value);
+    reader.onload = () => {
+      console.log(reader.result);
+      this.ASAsnLogo = reader.result;
+      this.thumbnailASAsnLogo = reader.result;
+      this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
+         console.log(this.ASAsnLogo);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  
+  }
+  keyPress3(event:any){
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    // console.log(inputChar, e.charCode);
+       if (!pattern.test(inputChar)) {
+       // invalid character, prevent input
+           event.preventDefault();
+      }
+  }
   UpdateAssociation(){
     console.log(this.viewAssnService.EditAssociationData);
+    let name =this.viewAssnService.EditAssociationData.ASAsnName;
+    let totalname = name.toUpperCase();
+    this.viewAssnService.EditAssociationData.ASAsnName = totalname;
+    console.log(this.viewAssnService.EditAssociationData.ASAsnName)
     this.viewAssnService.UpdateAssociation(this.viewAssnService.EditAssociationData).subscribe(res => {
       console.log(res);
       //console.log(JSON.stringify(res));

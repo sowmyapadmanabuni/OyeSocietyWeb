@@ -35,7 +35,8 @@ export class PatrollingComponent implements OnInit {
     });
     this.PatrolingShiftArr=[];
     this.PatrolingReportData=[];
-    this.patrolingShiftName="Select Schedule"
+    this.patrolingShiftName="Select Schedule";
+    localStorage.setItem('Component','Patrolling');
    }
 
   ngOnInit() {

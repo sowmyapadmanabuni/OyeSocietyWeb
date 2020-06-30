@@ -1,7 +1,7 @@
 export class JobList {
     jobId:number;
     jobTitle:string;
-    jobExp:number;
+    jobExp:any;
     department:string;
     location:string;
     employeeType:string;

@@ -24,6 +24,7 @@ export class GlobalServiceService {
    private subject3 = new Subject<any>();
    private CurrentAssociationIdForExpense = new Subject<any>();
    private CurrentAssociationIdForMember = new Subject<any>();
+   private CurrentAssociationIdForStaffList = new Subject<any>();
    private CurrentAssociationIdForInvoice = new Subject<any>();
    private selectedAssociation = new Subject<any>();
    private CurrentAssociationIdForUnit = new Subject<any>();
@@ -36,6 +37,10 @@ export class GlobalServiceService {
    private currentAssociationIdForLeftBarComponent = new Subject<any>();
    private setCreateUnitWithAssociation = new Subject<any>();
    private setCurrentUnitIDSubject = new Subject<any>();
+   private CallgetVisitorListSubject = new Subject<any>();
+   private CallGetFamilyMemberSubject = new Subject<any>();
+   private SetResidentLevelInvoiceSubject = new Subject<any>();
+   private CurrentAssociationIdForVisitorLogByDates = new Subject<any>();
    
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;
@@ -52,8 +57,14 @@ export class GlobalServiceService {
    IsEnrollAssociationStarted:any;
    BackClicked:any;
    IsUnitCreated:boolean;
+   StaffListCalledOnce:boolean;
+   unitslistForAssociation:any[];
+   gotojoinassociation:any;
+   public assnIdForUnitTotalOccupancyVacantCountDetails = new Subject();
+   AdminResidentActiveNotification:number;
 
   constructor() {
+    this.gotojoinassociation='';
     this.IsUnitCreated=false;
     this.IsEnrollAssociationStarted=false;
     this.currentAssociationName = '';
@@ -166,6 +177,26 @@ public setCurrentUnitName(unitName)
   this.currentUnitName=unitName;
   localStorage.setItem("currentUnitName", unitName);
 }
+public CallgetVisitorList(param)
+{
+  this.CallgetVisitorListSubject.next('Id');
+}
+public SetgetVisitorList(): Observable<any>
+{
+  return this.CallgetVisitorListSubject.asObservable();
+}
+public InvokeGetFamilyMember(param){
+  this.CallGetFamilyMemberSubject.next('Id');
+}
+public SetgetFamilyMember(): Observable<any>{
+  return this.CallGetFamilyMemberSubject.asObservable();
+}
+public setResidentLevelInvoice(param){
+  this.SetResidentLevelInvoiceSubject.next('Id');
+}
+public getResidentLevelInvoice(): Observable<any>{
+ return this.SetResidentLevelInvoiceSubject.asObservable();
+}
 public getCurrentUnitName(){
 
   return localStorage.getItem("currentUnitName");
@@ -237,6 +268,23 @@ public setMrmRoleID(MrmRoleID){
   getCurrentAssociationIdForMemberComponent(): Observable<any>{
     console.log("setCurrentAssociationIdForMemberComponent")
    return this.CurrentAssociationIdForMember.asObservable();
+  }
+  setCurrentAssociationIdForStaffList(message:any){
+   //localStorage.setItem('StaffListCalledOnce','false');
+    console.log("setCurrentAssociationIdForStaffList", message)
+    this.CurrentAssociationIdForStaffList.next({ msg: message });
+  }
+  getCurrentAssociationIdForStaffList(): Observable<any>{
+    console.log("setCurrentAssociationIdForStaffList")
+   return this.CurrentAssociationIdForStaffList.asObservable();
+  }
+  setCurrentAssociationIdForVisitorLogByDates(message:any){
+    console.log("CurrentAssociationIdForVisitorLogByDates", message)
+    this.CurrentAssociationIdForVisitorLogByDates.next({ msg: message });
+  }
+  getCurrentAssociationIdForVisitorLogByDates(): Observable<any>{
+    console.log("CurrentAssociationIdForVisitorLogByDates")
+   return this.CurrentAssociationIdForVisitorLogByDates.asObservable();
   }
   setCurrentAssociationIdForInvoice(message: any) {
     console.log("setCurrentAssociationIdForInvoice", message)

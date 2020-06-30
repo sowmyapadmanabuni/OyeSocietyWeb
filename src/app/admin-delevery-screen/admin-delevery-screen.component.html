@@ -1,0 +1,106 @@
+<div class="container-fluid np">
+    <div class="col-sm-12 mt-80">
+        <!--Profile section-->
+        <app-left-bar></app-left-bar>
+        <!--Profile section-->
+        <div class="col-xs-12 col-sm-12 col-md-11 b-l">
+            <!--Dashboard icons start-->
+            <div class="col-md-12 m-t-30 dash">
+                    <span class="black">Admin Deliveries</span>
+                <div class="switch" style="margin-bottom:15px">
+                    <ul class="nav nav-pills">
+                        <!-- <li><a (click)="goToGuests()">My Guests</a></li> -->
+                        <li class="active"><a (click)="goToAdminDeliveryScreen()">Deliveries</a></li>
+                        <li><a (click)="goToAdminStaffScreen()">Staff</a></li>  
+                    </ul>
+                </div>
+                <div class="enroll">
+                    <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
+                    </div>
+                    <div class="del-date cal">From<input type="text" class="date ng-pristine ng-valid ng-touched" #StartDateCtrl name="StartDate" #StartDateControl='ngModel'
+                              placeholder="Start Date"  [(ngModel)]="StartDate" (keyup)='validateDate($event,StartDateCtrl,EndDateCtrl)'
+                              bsDatepicker required [bsConfig]="bsConfig" [minDate]="todayDate" placement="side" (blur)="GetDeleveriesList()"/>
+                    </div>
+
+                    <div class="del-date cal">To<input type="text" class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="End Date"
+                        [(ngModel)]="EndDate" #EndDateCtrl [bsConfig]="bsConfig" bsDatepicker required [maxDate]="maxDate" 
+                        placement="bottom" (bsValueChange)="getDeleveriesListByDateRange($event)" (keyup)='validateDate($event,StartDateCtrl,EndDateCtrl)' (blur)="GetDeleveriesList()"/>
+                    </div>                   
+                </div>
+                <div class="dropdown" style="width: 200px;">
+                    <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{(ShowRecords=='Show Records'?ShowRecords:setnoofrows)}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                    <ul class="dropdown-menu fullw">
+                        <li *ngFor='let rows of rowsToDisplay' (click)="setRows(rows['Row'])">
+                            <a>{{rows['Display']}}</a></li>
+                    </ul>
+                </div>
+                <div class="dash-row">
+                        <table class="table table-bordered" [mfData]="deliveryVisitorLog | search:['vlfName', 'vlComName']:searchTxt" (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="setnoofrows=='All Records'?deliveryList.length:setnoofrows">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Sl No
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="unUniName">Unit No.</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlfName">Delivery Person Name</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlComName">Delivery From</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vldCreated">Date</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlEntryT">Entry Time</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlExitT">Exit Time</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of mf.data;let i=index">
+                                    <ng-container *ngIf="item == -1">
+                                        <td colspan="7" align="center">No Data Found</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="item!=-1">
+                                        <td>{{(PaginatedValue * (p - 1) + i)+1}}</td>
+                                        <td>{{item['unUniName']}}</td>
+                                        <td>{{item['vlfName']}}</td>
+                                        <td>{{item['vlComName']}}</td>
+                                        <td>{{item['vldCreated'] | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{item['vlEntryT'] | date:'shortTime'}}</td>
+                                        <td>{{item['vlExitT'] | date:'shortTime'}}</td>
+                                        <td>{{item['vlMobile']}}</td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table> 
+                </div>
+                <div>
+                        <button class="btn btn-primary-purple nextBtn">Leave with Vendor</button>
+                </div>
+            </div>
+            <!--Dashboard icons end-->
+          
+        </div>
+    </div>
+    <!--rightBar start-->
+    <!-- <app-right-bar></app-right-bar> -->
+    <!--rightBar end-->
+</div>

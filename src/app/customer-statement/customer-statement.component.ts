@@ -44,11 +44,18 @@ export class CustomerStatementComponent implements OnInit {
   rowsToDisplay:any[];
   ShowRecords:any;
   columnName: any;
+  PaginatedValue: number;
+  allpaymentdetailsTemp:any[];
+  customerID: any;
+  unUniName: any;
 
   constructor(private viewreportservice: ViewreportService,
     public dashBrdService: DashBoardService,
     public viewInvoiceService: ViewInvoiceService,
     public globalservice: GlobalServiceService,private modalService: BsModalService) {
+      this.unUniName='';
+      this.allpaymentdetailsTemp=[];
+      this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
                           {'Display':'15','Row':15},
@@ -61,7 +68,7 @@ export class CustomerStatementComponent implements OnInit {
       this.pyBal=0;
     this.frequencys = [
       { "name": "Paid", "displayName": "Paid" },
-      { "name": "UnPaid", "displayName": "UnPaid" }
+      { "name": "Due", "displayName": "UnPaid" }
     ];
     this.currentAssociationName = this.globalservice.getCurrentAssociationName();
     this.reportID = '';
@@ -75,18 +82,32 @@ export class CustomerStatementComponent implements OnInit {
       this.globalservice.setCurrentAssociationId(msg['msg']);
       this.initialiseCustomerStatement();
     })
+    localStorage.setItem('Component','CustomerStatement');
+    this.customerID=0;
   }
 
   getPaidUnpaidDetail(reportID) {
     console.log('reportID', reportID);
     this.PaymentStatus=reportID;
-    this.displaypaymentdetails = this.allpaymentdetails.filter(item => {
+    this.allpaymentdetails = this.displaypaymentdetails
+    //this.allpaymentdetails=this.displaypaymentdetails;
+    this.allpaymentdetails = this.allpaymentdetails.filter(item => {
       return item['pyStat'] == reportID;
     })
+    console.log(this.allpaymentdetails);
+    //
+    if(/* this.UnitNameForDisplay != 'Select Unit' || */this.UnitNameForDisplay != ''){
+      console.log("!= 'Select Unit'");
+      console.log(this.UnitNameForDisplay);
+      this.allpaymentdetails = this.allpaymentdetails.filter(item => {
+        return item['unUniName'] == this.UnitNameForDisplay;
+      })
+    }
   }
   getpaymentdetails() {
     this.viewreportservice.getpaymentdetails(this.currentAssociationID).subscribe((data) => {
       this.allpaymentdetails = data['data']['payments'];
+      this.displaypaymentdetails = data['data']['payments'];
       
       console.log('allpaymentdetails', this.allpaymentdetails);
     })
@@ -116,7 +137,19 @@ export class CustomerStatementComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.allpaymentdetails.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   onPageChange(event) {
     //console.log(event);
@@ -141,8 +174,21 @@ export class CustomerStatementComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.allpaymentdetails.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   viewCustDetail() {
     this.custpanel = true;
     this.custtable = false;
@@ -150,7 +196,7 @@ export class CustomerStatementComponent implements OnInit {
   removeColumnSort(columnName) {
     this.columnName = columnName;
   }
-  OpenCustomerModel(customertemplate: TemplateRef<any>,pyDate,acAccntID,pyBal,pyAmtDue,inNumber,pyDesc,pyAmtPaid,pyStat,unUnitID){
+  OpenCustomerModel(customertemplate: TemplateRef<any>,pyDate,acAccntID,pyBal,pyAmtDue,inNumber,pyDesc,pyAmtPaid,pyStat,unUnitID,unUniName){
     console.log(pyDate);
     console.log(acAccntID);
     console.log(pyBal);
@@ -160,6 +206,7 @@ export class CustomerStatementComponent implements OnInit {
     console.log(pyAmtPaid);
     console.log(unUnitID);
     console.log(pyStat);
+    console.log(unUniName);
     this.pyDate=pyDate;
     this.acAccntID=acAccntID;
     this.pyBal=pyBal;
@@ -167,6 +214,8 @@ export class CustomerStatementComponent implements OnInit {
     this.inNumber=inNumber;
     this.pyDesc=pyDesc;
     this.pyAmtPaid=pyAmtPaid;
+    this.unUniName=unUniName;
+    this.customerID=0;
     // Fetch unit owner details start here
     //http://apiuat.oyespace.com/oyeliving/api/v1/Unit/GetUnitListByUnitID/40853
     this.viewInvoiceService.GetUnitListByUnitID(unUnitID)
@@ -177,11 +226,23 @@ export class CustomerStatementComponent implements OnInit {
         this.ResidentName=data['data']['unit']['owner'][0]['uofName'];
         this.ResidentLastName=data['data']['unit']['owner'][0]['uolName'];
         this.ResidentMobileNum=data['data']['unit']['owner'][0]['uoMobile']
+        if(data['data']['unit']['owner'][0]['uoid']){
+          this.customerID=data['data']['unit']['owner'][0]['uoid']
+        }
+        else{
+          this.customerID=0;
+        }
       }
       else if(data['data']['unit']['tenant'].length!=0){
         this.ResidentName=data['data']['unit']['tenant'][0]['utfName'];
         this.ResidentLastName=data['data']['unit']['tenant'][0]['utlName'];
-        this.ResidentMobileNum=data['data']['unit']['tenant'][0]['utMobile']
+        this.ResidentMobileNum=data['data']['unit']['tenant'][0]['utMobile'];
+        if(data['data']['unit']['tenant'][0]['uoid']){
+          this.customerID=data['data']['unit']['tenant'][0]['uoid']
+        }
+        else{
+          this.customerID=0;
+        }
       }
       else{
         this.ResidentName='';
@@ -207,11 +268,29 @@ export class CustomerStatementComponent implements OnInit {
           })
   }
   getCurrentUnitDetails(unUnitID,unUniName){
+    this.allpaymentdetailsTemp =[];
     this.UnitNameForDisplay=unUniName;
-    this.displaypaymentdetails=this.allpaymentdetails;
-    this.displaypaymentdetails = this.displaypaymentdetails.filter(item => {
+    console.log(this.displaypaymentdetails);
+    this.allpaymentdetails=this.displaypaymentdetails;
+    this.allpaymentdetails = this.allpaymentdetails.filter(item => {
       return item['unUnitID'] == unUnitID;
     })
-    console.log(this.displaypaymentdetails)
+    this.allpaymentdetailsTemp = this.allpaymentdetails;
+    console.log(this.allpaymentdetails)
+        //
+        if(this.PaymentStatus == 'Due'){
+          //this.allpaymentdetails = this.displaypaymentdetails
+          //this.allpaymentdetails=this.displaypaymentdetails;
+          this.allpaymentdetails = this.allpaymentdetails.filter(item => {
+            return item['pyStat'] == 'Due';
+          })
+        }
+        else if(this.PaymentStatus == 'Paid'){
+          //this.allpaymentdetails = this.displaypaymentdetails
+          //this.allpaymentdetails=this.displaypaymentdetails;
+          this.allpaymentdetails = this.allpaymentdetails.filter(item => {
+            return item['pyStat'] == 'Paid';
+          })
+        }
   }
 }

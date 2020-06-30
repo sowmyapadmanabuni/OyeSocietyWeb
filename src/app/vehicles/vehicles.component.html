@@ -19,7 +19,8 @@
                                         </div>
                                 </div>
                                 <div class="row" *ngIf="VehicleDataNew.length!=0">
-                                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false" data-pause="hover">
+                                                
                                                 <!-- Indicators -->
                                                 <ol class="carousel-indicators" *ngIf="VehicleDataNew.length>4">
                                                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -32,7 +33,7 @@
                                                                 <div class="vehicles-main">
                                                                         <div class="vehicles" *ngFor="let item of VehicleCarousel">
                                                                                 <p><strong>{{item['veType']}}</strong></p>
-                                                                                <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
+                                                                                <img src="{{(item['veType']=='TwoWheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
                                                                                         <!-- *ngIf="item['veType']!=''" -->
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
@@ -51,7 +52,7 @@
                                                                 <div class="vehicles-main">
                                                                         <div class="vehicles" *ngFor="let item of VehicleCarousel1">
                                                                                 <p><strong>{{item['veType']}}</strong></p>
-                                                                                <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
+                                                                                <img src="{{(item['veType']=='TwoWheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
                                                                                         <!-- *ngIf="item['veType']!=''" -->
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
@@ -104,10 +105,10 @@
                 </div> -->
                 <div class="veh-opt">
                         <label class="radio-inline">
-                                <input type="radio" name="optradio" value="TwoWheeler" [(ngModel)]="veType">Two Wheeler
+                                <input type="radio" name="optradio" value="TwoWheeler" [(ngModel)]="veType" required>Two Wheeler
                         </label>
                         <label class="radio-inline">
-                                <input type="radio" name="optradio" value="FourWheeler" [(ngModel)]="veType" >Four Wheeler
+                                <input type="radio" name="optradio" value="FourWheeler" [(ngModel)]="veType" required>Four Wheeler
                         </label>
                 </div>
                 <div class="adveh">
@@ -118,7 +119,7 @@
                         </div>
                         <div class="form-group">
                                 <label for="usr">Vehicle Number:<span class="red">*</span></label>
-                                <input type="text" minlength="10" maxlength="10" name="veRegNo" #vehiclenumberControl="ngModel" [(ngModel)]="veRegNo" class="form-control" id="usr" required>
+                                <input type="text" minlength="9" maxlength="10" name="veRegNo" #vehiclenumberControl="ngModel" [(ngModel)]="veRegNo" class="form-control" id="usr" required>
                                 <p class="alerts" *ngIf="vehiclenumberControl.invalid && vehiclenumberControl.touched"> Valid Vehicle number required</p>
                         </div>
                 </div>
@@ -182,18 +183,16 @@
                                 <!-- <div class="form-group">
                                         <label for="usr">Vehicle Type:</label>
                                         <input type="text" class="form-control" [(ngModel)]="makemodel" name="makemodel" id="usr">
-                                </div>      -->
-
-
+                                </div> -->
                                 <div class="form-group">
                                         <label class="control-label">Vehicle Type</label>
                                         <div class="col-sm-6 np">
-                                                <input style="margin-right: 10px;" value="Two Wheeler" [(ngModel)]='makemodel' type="radio"
-                                                       [checked]="makemodel=='Two Wheeler'" name="optradio">Two Wheeler
+                                                <input style="margin-right: 10px;" value="TwoWheeler" [(ngModel)]='makemodel' type="radio"
+                                                       [checked]="makemodel=='TwoWheeler'" name="makemodel">Two Wheeler
                                         </div>
                                         <div class="col-sm-6 np">
-                                                <input style="margin-right: 10px;" value="Four Wheeler" type="radio" [(ngModel)]='makemodel'
-                                                        [checked]="makemodel=='Four Wheeler'" name="optradio">Four Wheeler
+                                                <input style="margin-right: 10px;" value="FourWheeler" type="radio" [(ngModel)]='makemodel'
+                                                        [checked]="makemodel=='FourWheeler'" name="makemodel">Four Wheeler
                                         </div>
                                 </div>
                                 <div class="form-group">

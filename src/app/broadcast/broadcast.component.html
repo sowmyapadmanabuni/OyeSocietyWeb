@@ -1,0 +1,89 @@
+<div class="container panel" style="padding: 40px;margin-top:140px;float: none">
+  <!-- <h3>Announcements</h3> -->
+
+  <div class="col-sm-3 np">
+    <p class="join_ass_opt c-active"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
+      Upload Photo</p>
+    <p class="join_ass_opt c-active"><i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircleO,'fa-circle-o' : !toggleFaCircleO}" aria-hidden="true"></i>
+      Record</p>
+    <p class="join_ass_opt c-active"> <i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircle1,'fa-circle-o' : !toggleFaCircle1}" aria-hidden="true"></i>
+      Comment</p>
+  </div>
+  <div class="col-sm-9 b-left">
+    <form #JoinAsnFrm="ngForm">
+    <!--row1-->
+    <div class="content" style="background: #f3f1f1 !important;padding: 30px !important;border-radius: 13px !important;">
+        <input type="file" multiple="multiple" class="form-control-file border bg-grey" (change)="onFileSelectForBroadcast($event)" [(ngModel)]="AnnouncementImage" name="AnnouncementImage">
+
+    </div>
+    <!--row1-->
+    <!--row2-->
+    <div class="content">
+      <button class="start-button" *ngIf="!isRecording && !blobUrl" (click)="startRecording()">Start Recording</button>
+    <button class="stop-button" *ngIf="isRecording && !blobUrl" (click)="stopRecording()">Stop Recording</button>
+    <button class="cancel-button" *ngIf="!isRecording && blobUrl" (click)="clearRecordedData()">Clear Recording</button>
+    <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>&nbsp;
+    <button class="start-button" (click)="sendBroadcast()" *ngIf="blobUrl">Send Broadcast</button>
+
+    <div>
+    <audio *ngIf="!isRecording && blobUrl"  controls>
+      <source [src]="blobUrl" type="audio/webm">
+    </audio>
+    
+    </div>
+    </div>
+    <!--row2-->
+    <!--row3-->
+    <div class="content">
+      <div class="col-sm-12">
+
+      </div>
+      <!-- <label>Select Unit</label> -->
+      <!-- <div class="block-row">
+        <span (click)="enableActive(spanCtrl,item['unUnitID'])" #spanCtrl
+          *ngFor='let item of allUnitBlockID'>{{item['unUniName']}}</span>
+      </div> -->
+    </div>
+    <!--row3-->
+    <div class="content">
+      <div class="col-sm-12 np">
+        <div class="form-group">
+          <textarea class="form-control" rows="10" cols="5" id="comment" [(ngModel)]="AnnouncementMessage" name="AnnouncementMessage"></textarea>
+        </div>
+      </div>
+      <div class="col-sm-12">
+          <div class="dropdown" style="margin: 0px 0px;">
+              <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                data-toggle="dropdown">Select Recipients
+                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+              <ul class="dropdown-menu fullw fdrop">
+                <li><a>All Admins</a></li>
+                <li><a>All Owners</a></li>
+                <li><a>All Tenants</a></li>
+
+              </ul>
+            </div>
+      </div>
+    </div>
+  </form>
+  </div>
+  <div class="col-sm-12">
+    <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)="sendBroadcast()">Send</button>
+    <input class="btn btn-primary-purple pull-right"  style="margin-right: 12px;" type="button" value="Reset">
+  </div>
+</div>
+
+
+
+<!-- <div style="margin: 120px 40px">
+    <button class="start-button" *ngIf="!isRecording && !blobUrl" (click)="startRecording()">Start Recording</button>
+    <button class="stop-button" *ngIf="isRecording && !blobUrl" (click)="stopRecording()">Stop Recording</button>
+    <button class="cancel-button" *ngIf="!isRecording && blobUrl" (click)="clearRecordedData()">Clear Recording</button>
+    <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>
+    <div>
+    <audio *ngIf="!isRecording && blobUrl"  controls>
+      <source [src]="blobUrl" type="audio/webm">
+    </audio>
+    <button (click)="sendBroadcast()">Send Broadcast</button>
+    </div>
+  </div> -->

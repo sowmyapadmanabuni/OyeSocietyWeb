@@ -7,7 +7,7 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- Toolbar -->
-<div *ngIf='isAuthenticated() && !globalService.toggleregister'>
+<div class="container-fluid" style="padding: 0px;" *ngIf='isAuthenticated() && !globalService.toggleregister'>
   <!-- <div> -->
   <!-- Nav Bar start  -->
   <div class="row" style="background: #fafafa;display: flex;align-items: center;width: 100%;position: fixed;z-index: 100;margin: 0px;top: 0px;">
@@ -64,18 +64,24 @@
         </div>
      </div>   
       <!--Test2-->   
+      <!-- <a routerLink="notifications">link</a> -->
+
    </div>
+
    <!-- <div class="col-sm-1" tooltip="Logout"><i (click)='logOut()' style="cursor:pointer;" class="fa fa-power-off" aria-hidden="true"></i></div> -->
      <div class="col-sm-1">
-        <a id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
+      <!-- <a (click)="toggleNotificationPanel1($event)" id="flip1"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
+      </a>
+      <span class="badgeAlert">{{ResidentNotificationListArray.length}}</span> -->
+        <a (click)="goToNotification($event)" id="flip"><i tooltip="Notifications" class="fa fa-bell-o" aria-hidden="true"></i>
+          <span class="not-count">{{globalService.AdminResidentActiveNotification}}</span>
         </a>
-        <span class="badgeAlert">{{notificationList.length}}</span>
-        <i tooltip="Logout" (click)='logOut()' style="cursor:pointer; margin-left: 20px;" class="fa fa-power-off" aria-hidden="true"></i>
-
-        <div id="panel">         
-          <p class="not-head-bg">{{notificationList.length}} Notifications</p>
+        <!-- <span class="badgeAlert">{{notificationListArray.length}}</span> -->
+        <i tooltip="Logout" id="LogOutID" (click)='logOut()' style="cursor:pointer; margin-left: 20px;" class="fa fa-power-off" aria-hidden="true"></i>
+        <!-- <div id="panel1">         
+          <p class="not-head-bg">{{ResidentNotificationListArray.length}} Resident Notifications</p>
           <div class="not-cont">
-            <ng-container *ngFor='let item of notificationList'>
+            <ng-container *ngFor='let item of ResidentNotificationListArray'>
               <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
                 <p class="not-name">{{item['asAsnName']}}</p>
                 <span class="not-desc">{{item['ntDesc']}}</span>
@@ -89,6 +95,23 @@
             </ng-container>
           </div>
         </div>
+        <div id="panel">         
+          <p class="not-head-bg">{{notificationListArray.length}} Admin Notifications</p>
+          <div class="not-cont">
+            <ng-container *ngFor='let item of notificationListArray'>
+              <div (click)="NotificationDropDown(item['ntid'],item['ntType'])" class="main-not">
+                <p class="not-name">{{item['asAsnName']}}</p>
+                <span class="not-desc">{{item['ntDesc']}}</span>
+                <div *ngIf="toggleName == item['ntid'] && ntType=='Join'" style="display: flex;justify-content: space-between;">
+                  <button class="btn-primary-purple">Approve</button><button class="btn-primary-purple">Reject</button>
+                </div>
+                <div *ngIf="toggleName == item['ntid'] && ntType=='gate_app'" style="display: flex;justify-content: space-between;">
+                  <button (click)="EntryAprove('EntryApproved',item['sbMemID'])" class="btn-primary-purple">Allow</button><button (click)="EntryRjected('ExitApproved',item['sbMemID'])" class="btn-primary-purple">Deny</button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div> -->
        <!-- <div class="topnav" id="myTopnav">
         <div>
             <a routerLink="home" class="active"></a>
@@ -127,9 +150,9 @@
     <app-footer></app-footer>
   </footer>
   </div>
-  <div *ngIf='!isAuthenticated() && !globalService.toggleregister'>
+  <div class="container-fluid" style="margin: 0px;padding:0px" *ngIf='!isAuthenticated() && !globalService.toggleregister'>
     <app-login></app-login>
   </div>
-  <div *ngIf='globalService.toggleregister'>
+  <div class="container-fluid" style="margin: 0px;padding:0px" *ngIf='globalService.toggleregister'>
     <app-register></app-register>
   </div>

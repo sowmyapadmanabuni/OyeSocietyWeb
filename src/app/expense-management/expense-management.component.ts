@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType, HttpHeaders, HttpClient } from '@angular/common/http';
 import { GlobalServiceService } from '../global-service.service';
 import { ViewInvoiceService } from '../../services/view-invoice.service';
 import {DashBoardService} from '../../services/dash-board.service';
@@ -102,6 +102,8 @@ export class ExpenseManagementComponent implements OnInit {
   ExpSDate:any;
   ExpEDate:any;
   expenseList:ExpenseList[];
+  expenseListTemp:any[];
+  FilteredExpenseList:any[];
   togglegenerateinv:boolean;
   toggleBulkInvGenerate:boolean;
   exidList:any[];
@@ -129,6 +131,11 @@ export class ExpenseManagementComponent implements OnInit {
   toggleDistributionType:boolean;
   toggleUnitList: boolean;
   isDateFieldEmpty: boolean;
+  PaginatedValue:number;
+  ShowAllRecords: string;
+  togglegenerateinvAll:boolean;
+  checkedForGenerateInvoiceCount:number;
+  filterExpenseHead:any;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -140,8 +147,14 @@ export class ExpenseManagementComponent implements OnInit {
     public viewinvoiceservice: ViewInvoiceService,
     public dashboardservice:DashBoardService,
     private orderpipe: OrderPipe,
-    private utilsService:UtilsService
+    private utilsService:UtilsService,
+    private http: HttpClient
   ) {
+    this.filterExpenseHead='Select Expense Head';
+    this.togglegenerateinvAll=false;
+    this.checkedForGenerateInvoiceCount=0;
+    this.PaginatedValue=10;
+    this.ShowAllRecords = 'No';
     this.checkField="xyz";
     this.toggleDistributionType=false;
     this.toggleUnitList=true;
@@ -262,6 +275,8 @@ export class ExpenseManagementComponent implements OnInit {
     });
     this._viewexpensesByBlockId=[];
     this.expenseList=[];
+    this.expenseListTemp=[];
+    this.FilteredExpenseList=[];
     this.toggle='All';
     //
     this.currentAssociationIdForExpense=this.globalservice.getCurrentAssociationIdForExpense()
@@ -273,14 +288,59 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(err);
     })
   this.toggleTd=false;
-  
+  localStorage.setItem('Component','ExpenseManagent');
   }
   GetexpenseList(param) {
     this.toggle = param;
   }
+  getfilterdExpenseHead(displayName) {
+    console.log(displayName)
+    if(this.viewexpenseservice.currentBlockName == ''){
+      swal.fire({
+        title: "Please Select Block to Filter Expense",
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else{
+      this.filterExpenseHead = displayName;
+      this.expenseList = this.expenseListTemp;
+      this.expenseList = this.expenseList.filter(item=>{
+        return item['exHead'] == displayName;
+      })
+      this.FilteredExpenseList = this.expenseList;
+      console.log(this.expenseList);
+      switch(this.toggle){
+        case 'All':
+          this.GetexpenseListByInvoiceID('id','AllExp','');
+          break;
+        case 'toggleYes':
+          this.GetexpenseListByInvoiceID(true,'toggleYes','');
+          break;
+        case 'toggleNo':
+          this.GetexpenseListByInvoiceID(false,'toggleNo','');
+          break;
+      }
+    }
+  }
   setRows(RowNum) {
+    this.ShowAllRecords = 'No';
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.expenseList.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   goToExpense(){
     this.router.navigate(['expense']);
@@ -344,34 +404,32 @@ export class ExpenseManagementComponent implements OnInit {
     this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
   }
   GetExpenseListByBlockID(blockID,blBlkName) {
+    this.filterExpenseHead='Select Expense Head';
+    this.p=1;
     this.UnitName='';
     this.allUnitBYBlockID=[]
     this.expenseList=[];
     this.viewexpensesByBlockId=[];
+    this.expenseListTemp=[];
     this.blockID=blockID;
     console.log('GetExpenseListByBlockID',blockID);
     this.viewexpenseservice.currentBlockId=blockID;
     this.editexpensedata.BLBlockID=blockID
     this.viewexpenseservice.currentBlockName=blBlkName;
-    this.viewexpenseservice.GetExpenseListByBlockID(blockID)
+    /* this.viewexpenseservice.GetExpenseListByBlockID(blockID)
     .subscribe(
       data=>{
         console.log('GetExpenseListByBlockID',data);
         this.viewexpensesByBlockId=data;
         this._viewexpensesByBlockId=this.viewexpensesByBlockId;
         this.viewexpensesByBlockId.forEach(item => {
-          //console.log(item['inNumber']);
           this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
-          this.GetexpenseListByInvoiceID('id','All');
+          this.GetexpenseListByInvoiceID('id','All','abc');
         })
         console.log(this.expenseList);
         this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
         this._viewexpensesByBlockId=this.expenseList;
-        //this.expenseList = _.sortBy(this.expenseList, e => e.exDate);
-        //console.log('viewexpensesByBlockId',this.expenseList);
-        //
         this.sortedCollection = this.orderpipe.transform(this.expenseList, 'exHead');
-        //console.log(this.sortedCollection);
       },
       err=>{
         console.log(err);
@@ -380,10 +438,31 @@ export class ExpenseManagementComponent implements OnInit {
           confirmButtonColor: "#f69321"
         });
       }
+    ) */
 
-    ) 
-    //this.viewexpenseservice.GetExpenseListByBlockID(blockID);
-    //console.log(this.viewexpensesByBlockId);
+      //http://apidev.oyespace.com/oyeliving/api/v1/Expense/GetExpenseListByBlockID/{BlockID}
+       let headers = new HttpHeaders()
+       .set('Authorization', 'my-auth-token')
+       .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+       .set('Content-Type', 'application/json');
+       let ipAddress=this.utilsService.GetExpenseListByBlockID();
+       let url = `${ipAddress}oyeliving/api/v1/Expense/GetExpenseListByBlockID/${blockID}`;
+       this.http.get(url, { headers: headers })
+       .subscribe(data=>{
+         console.log(data['data']['expenseByBlock']);
+         this.viewexpensesByBlockId=data['data']['expenseByBlock'];
+        this._viewexpensesByBlockId=this.viewexpensesByBlockId;
+        // this.viewexpensesByBlockId.forEach(item => {
+        //   this.expenseList.push(new ExpenseList(item['exid'],item['exHead'], item['exApplTO'], item['unUniIden'], item['exIsInvD'], item['exDate'], item['expAmnt'], '',item['inNumber'],item['exdUpdated'],item['exDesc'],item['exRecurr'],item['exType'],item['pmid'],item['poid'],item['blBlockID']));
+        // })
+        this.expenseList=data['data']['expenseByBlock'];
+        this.expenseListTemp=data['data']['expenseByBlock'];
+        console.log(this.expenseList);
+        this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
+        this._viewexpensesByBlockId=this.expenseList;
+        this.GetexpenseListByInvoiceID('id','All','abc');
+       })
+
     this.getAllUnitDetailsByBlockID();
   }
   getExpenseListByDateRange(ExpenseEndDate) {
@@ -470,7 +549,7 @@ export class ExpenseManagementComponent implements OnInit {
         let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
         this.p= Number(element.children[0]['text']);
-      //console.log(this.p);
+      console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
       //console.log(this.p);
@@ -481,8 +560,19 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log(element.children[0]['text']);
     if(element != null){
       this.p=Number(element.children[0]['text']);
-    }
-  }
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   generateInvoice() {
     //console.log(this.blockID);
     //console.log(this.expid);
@@ -512,6 +602,7 @@ export class ExpenseManagementComponent implements OnInit {
             if (result.value) {
               this.exidList=[];
               //this.router.navigate(['home/viewinvoice']);
+              this.togglegenerateinvAll=false;
               this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
               //this.GetexpenseListByInvoiceID(this.viewinvoiceservice.expid);
             }
@@ -557,7 +648,7 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log('repexpense1-', repexpense1);
     //console.log('idx-', idx);
   }
-  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD) {
+  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD,exDisType) {
     console.log(exIsInvD);
     if (exIsInvD== false) {
       //console.log('purchaseOrders',this.purchaseOrders);
@@ -571,6 +662,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(exRecurr);
       console.log(exType);
       console.log(pmid);
+      console.log(unUniIden);
       console.log(new Date(exdUpdated));
       console.log(new Date(exdUpdated).getDate());
       console.log(new Date(exdUpdated).getMonth());
@@ -598,11 +690,13 @@ export class ExpenseManagementComponent implements OnInit {
       this.editexpensedata.EXDate = formattedDate;
       this.editexpensedata.BLBlockID = blBlockID;
       this.editexpensedata.unUniIden = unUniIden;
+      this.editexpensedata.EXDisType = exDisType;
       console.log(this.editexpensedata);
       this.checkField="xyz";
-      this.editexpensedata.PMID = '';
+      //this.editexpensedata.PMID = '';
 
       if(this.editexpensedata.EXApplTO == 'Single Unit'){
+        this.applicableTo('Single Unit');
         this.toggleUnitList=false;
       }
       else{
@@ -624,7 +718,7 @@ export class ExpenseManagementComponent implements OnInit {
   prerequisitesAddUnit(blockName: string) {
     this.addexpenseservice.prerequisitesAddUnit(this.blockID);
   }
-  applicableTo(applicableto: string) {
+  applicableTo(applicableto) {
     let blockid = this.editexpensedata.BLBlockID;
     console.log(applicableto);
     this.applies = applicableto;
@@ -908,7 +1002,7 @@ export class ExpenseManagementComponent implements OnInit {
         //console.log('invoiceLists?', this.invoiceLists);
       })
   }
-  GetexpenseListByInvoiceID(IsInvoiced,param) {
+  GetexpenseListByInvoiceID(IsInvoiced,param,param1) {
     if(this.viewexpenseservice.currentBlockName == ''){
       swal.fire({
         title: "Please Select Block",
@@ -918,6 +1012,25 @@ export class ExpenseManagementComponent implements OnInit {
         confirmButtonText: "OK"
       })
     }else{
+      if(param1 == 'abc'){
+        this.PaginatedValue=10;
+      }
+      else{
+        this.PaginatedValue=10;
+      }
+      $(document).ready(()=> {
+        let element=document.querySelector('.page-item.active');
+        // console.log(element);
+        // console.log(element);
+        if(element != null){
+        (element.children[0] as HTMLElement).click();
+        //console.log(element.children[0]['text']);
+        }
+        else if (element == null) {
+          this.PaginatedValue=0;
+        }
+      });
+      this.p=1;
       console.log(IsInvoiced);
       this.toggle=param;
       let expid='';
@@ -932,7 +1045,9 @@ export class ExpenseManagementComponent implements OnInit {
       //console.log('expid',typeof expid);
       this.viewinvoiceservice.expid=expid;
       //this._viewexpensesByBlockId = this.viewexpensesByBlockId;
-      this.expenseList = this._viewexpensesByBlockId;
+      if(this.filterExpenseHead=='Select Expense Head' || ''){
+        this.expenseList = this._viewexpensesByBlockId;
+      }
       console.log(this.expenseList);
       //console.log('expid',expid);
       //console.log('expid',typeof expid);
@@ -962,7 +1077,17 @@ export class ExpenseManagementComponent implements OnInit {
       }
       if(param == 'All'){
         console.log('test1');
-        this.expenseList = this._viewexpensesByBlockId;
+        if(this.filterExpenseHead=='Select Expense Head' || ''){
+          this.expenseList = this._viewexpensesByBlockId;
+        }
+        else{
+          if(param1 == 'abc'){
+            this.expenseList = this._viewexpensesByBlockId;
+          }
+          else{
+            this.expenseList = this.FilteredExpenseList;
+          }
+        }        
         console.log(this.expenseList);
         if(this.UnitName!=''){
           console.log('test2');
@@ -973,7 +1098,18 @@ export class ExpenseManagementComponent implements OnInit {
         }
         else{
           console.log('test3');
-          this.expenseList = this._viewexpensesByBlockId;
+          if(this.filterExpenseHead=='Select Expense Head' || ''){
+            this.expenseList = this._viewexpensesByBlockId;
+          }
+          else{
+            if(param1 == 'abc'){
+              this.expenseList = this._viewexpensesByBlockId;
+            }
+            else{
+              this.expenseList = this.FilteredExpenseList;
+            }          
+          }
+          //this.expenseList = this._viewexpensesByBlockId;
         }
       }
     //
@@ -984,6 +1120,9 @@ export class ExpenseManagementComponent implements OnInit {
         this.toggleTd = true;
       }
       else if (param == 'All') {
+        this.toggleTd = false;
+      }
+      else if (param == 'AllExp') {
         this.toggleTd = false;
       }
     //
@@ -1015,14 +1154,15 @@ export class ExpenseManagementComponent implements OnInit {
     })
   }
   toggleGenerateInv() {
-    this.toggleBulkInvGenerate = !this.toggleBulkInvGenerate;
-    this.viewexpenseservice.toggleBulkInvGenerate=this.toggleBulkInvGenerate;
-    //console.log( this.toggleBulkInvGenerate );
-    this.expenseList.forEach(item=>{
-     //console.log(typeof item['exIsInvD']); 
-     item['checkedForGenerateInvoice']=this.toggleBulkInvGenerate;
-     //console.log(item['checkedForGenerateInvoice']); 
-    })
+    this.toggleBulkInvGenerate = (this.togglegenerateinvAll==true?false:true);
+    this.viewexpenseservice.toggleBulkInvGenerate=(this.togglegenerateinvAll==true?false:true);
+    console.log( this.toggleBulkInvGenerate );
+    console.log(this.togglegenerateinvAll);
+      this.expenseList.forEach(item=>{
+        //console.log(typeof item['exIsInvD']); 
+        item['checkedForGenerateInvoice']= (this.togglegenerateinvAll==true?false:true);
+        //console.log(item['checkedForGenerateInvoice']); 
+       })
   }
   getSelectedInv(exid,e){
     console.log(exid);
@@ -1038,10 +1178,32 @@ export class ExpenseManagementComponent implements OnInit {
         console.log(this.exidList);
       }
     }
+    //
+    if (!e) {
+      //this.checkedForGenerateInvoiceCount -=1;
+      const found = this.exidList.some(el => el['EXID'] === exid);
+      if (found) {
+        let _exid = { 'EXID': exid }
+        this.exidList = this.exidList.filter(item=>{
+          return item['EXID'] != exid
+        })
+        console.log(exid);
+        console.log(this.exidList);
+      }
+    }
+    //
+     if(this.exidList.length == 1){
+      this.togglegenerateinvAll = false;
+    }
+    else if(this.exidList.length > 1){
+      this.togglegenerateinvAll = true;
+    }
   }
   initialiseEXpense(){
+    $(".se-pre-con").show();
     this.UnitName='';
-    this.allUnitBYBlockID=[]
+    this.allUnitBYBlockID=[];
+    this.allBlocksLists=[];
     this.expenseList=[];
     this.viewexpenseservice.currentBlockName = '';
     this.viewexpenseservice.getAssociationList(this.globalservice.getCurrentAssociationId())
@@ -1064,8 +1226,14 @@ export class ExpenseManagementComponent implements OnInit {
 
     this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
       .subscribe(item => {
+        console.log(item);
         this.allBlocksLists = item;
-        //console.log('allBlocksLists', this.allBlocksLists);
+        $(".se-pre-con").fadeOut("slow");
+        console.log('allBlocksLists', this.allBlocksLists);
+      },
+      err=>{
+        this.allBlocksLists=[];
+        console.log(err);
       });
     if (this.viewexpenseservice.currentBlockName != '' && this.viewexpenseservice.currentBlockId != '') {
       this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);

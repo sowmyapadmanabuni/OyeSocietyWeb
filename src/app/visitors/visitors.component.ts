@@ -7,6 +7,10 @@ import { AddVisitorService } from '../../services/add-visitor.service'
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
+import { formatDate } from '@angular/common';
+
 
 declare var $: any;
 
@@ -21,6 +25,7 @@ public searchTxt: any;
 guestList:boolean;
 addGuest:boolean;
 mytime: Date = new Date();
+totime: Date = new Date();
 modalRef: BsModalRef;
 invitationList: any[];
 invitationListLength: boolean;
@@ -44,6 +49,7 @@ INSDate: any;
 INEDate: any;
 todayDate: Date;
 bsConfig:any;
+currentAssociationIdForUnit:Subscription;
 // ADD VISITOR DATA/*/*/*/*/*/*
 
   constructor(private globalService: GlobalServiceService, private guestService: GuestService,
@@ -71,6 +77,12 @@ bsConfig:any;
         showWeekNumbers: false,
         isAnimated: true
         });
+      this.globalService.SetgetVisitorList()
+      .subscribe(data=>{
+        console.log('invoking getVisitorList');
+        this.getVisitorList('');
+      })
+      localStorage.setItem('Component','Visitors');
      }
 
   ngOnInit() {
@@ -95,6 +107,10 @@ bsConfig:any;
       console.log(this.invitationList);
       if(this.invitationList.length>0){
         this.invitationListLength=true;
+        // this.invitationList = this.invitationList.filter(item=>{
+        //   return item['infName'] != '';
+        // })
+        this.invitationList = _.sortBy(this.invitationList, e => e['insDate']);
       }
     },
     err=>{
@@ -123,8 +139,8 @@ bsConfig:any;
       "INVchlNo": this.INVchlNo,
       "INVisCnt": this.INVisCnt,
       "INPhoto": "SD",
-      "INSDate": this.INSDate,
-      "INEDate": this.INEDate,
+      "INSDate": formatDate(this.INSDate,'MM/dd/yyyy','en')+' '+formatDate(this.mytime,'hh:mm:ss','en'),
+      "INEDate": formatDate(this.INEDate,'MM/dd/yyyy','en')+' '+formatDate(this.totime,'hh:mm:ss','en'),
       "INPOfInv": this.INPOfInv,
       "INMultiEy": this.MultipleVisitors,
       "ASAssnID": this.globalService.getCurrentAssociationId(),
@@ -132,7 +148,7 @@ bsConfig:any;
       "ACAccntID": this.globalService.getacAccntID()
     };
     console.log(visitorData);
-    this.addvisitorservice.addVisitor(visitorData)
+     this.addvisitorservice.addVisitor(visitorData)
     .subscribe(data=>{
       console.log(data);
       this.getVisitorList('');
@@ -165,7 +181,7 @@ bsConfig:any;
     },
     err=>{
       console.log(err);
-    })
+    }) 
   }
   // ADD VISITOR END HERE
 
@@ -193,7 +209,7 @@ bsConfig:any;
         }
   
     //  ------POPUP for QR CODE-----//
-    OpenModalForQRcode(QRtemplate: TemplateRef<any>, infName,inMobile,inInvtID,unUnitID,insDate,inpOfInv,ineDate,inVisCnt,asAssnID,inIsActive) {
+    OpenModalForQRcode(QRtemplate: TemplateRef<any>, infName,inMobile,inInvtID,unUnitID,insDate,inpOfInv,ineDate,inVisCnt,asAssnID,inVchlNo,inIsActive) {
       this.PurposeOfVisit = inpOfInv;
       this.InvitedDate = insDate;
       this.TotalGuest = inVisCnt;
@@ -207,7 +223,9 @@ bsConfig:any;
         'ineDate':ineDate,
         'inVisCnt':inVisCnt,
         'asAssnID':asAssnID,
-        'inIsActive':inIsActive
+        'inIsActive':inIsActive,
+        'inVchlNo': inVchlNo,
+        'inpOfInv': inpOfInv
       }
       this.display = true;
       this.value=JSON.stringify(qrCodeData);

@@ -33,6 +33,15 @@
                     </li>
                 </ul>
             </div>
+            <span class="black">Filter by Expense  </span> 
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                  type="button" data-toggle="dropdown">{{filterExpenseHead}}
+                  <i class="fa fa-angle-down fa-1x" aria-hidden="true"></i></button>
+              <ul class="dropdown-menu fullw">
+                  <li *ngFor='let item of expenseHead' (click)="getfilterdExpenseHead(item['displayName'])"><a>{{item['displayName']}}</a></li>
+              </ul>
+          </div>
           </div>
           <div class="switch">
             <ul class="nav nav-pills">
@@ -73,12 +82,12 @@
           <div style="display: flex;flex-direction:column">
             <div class="switch" *ngIf='addexpenseservice.enableExpenseListView'>
                 <ul class="nav1 nav-pills1">
-                  <li [ngClass]="{'active' : toggle == 'All'}"><a (click)="GetexpenseListByInvoiceID('id','All')">All</a>
+                  <li [ngClass]="{'active' : toggle == 'All' || toggle == 'AllExp'}"><a (click)="GetexpenseListByInvoiceID('id','All','')">All</a>
                   </li>
                   <li [ngClass]="{'active' : toggle == 'toggleYes'}"><a
-                      (click)="GetexpenseListByInvoiceID(true,'toggleYes')">Invoiced</a></li>
+                      (click)="GetexpenseListByInvoiceID(true,'toggleYes','')">Invoiced</a></li>
                   <li [ngClass]="{'active' : toggle == 'toggleNo'}"><a
-                      (click)="GetexpenseListByInvoiceID(false,'toggleNo')">UnInvoiced</a></li>
+                      (click)="GetexpenseListByInvoiceID(false,'toggleNo','')">UnInvoiced</a></li>
                 </ul>
               </div>
             <button [disabled]="expenseList.length == 0" *ngIf="toggle == 'toggleNo'" class="btn-primary-purple" (click)="generateInvoice()"><i
@@ -145,7 +154,7 @@
         <div class="dash-row" *ngIf='addexpenseservice.enableExpenseListView'>
           <table class="table table-bordered"
             [mfData]="expenseList | search:['exHead', 'exApplTO', 'unUniIden','exIsInvD','exdUpdated','expAmnt']:searchTxt"
-            (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="setnoofrows">
+            (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="setnoofrows=='All Records'?expenseList.length:setnoofrows">
             <thead>
               <tr>
                 <th>
@@ -176,7 +185,7 @@
                   Action
                 </th> -->
                 <th *ngIf="toggleTd" [ngClass]="{'decrseopcty' : viewinvoiceservice.expid == 'true'}"><input type="checkbox"
-                    [(ngModel)]='togglegenerateinv' (click)='toggleGenerateInv()' /></th>
+                    [(ngModel)]='togglegenerateinvAll' (click)='toggleGenerateInv()' /></th>
               </tr>
             </thead>
             <tbody>
@@ -185,17 +194,17 @@
                   <td colspan="10" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{item['exHead']}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{item['exApplTO']}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{item['unUniIden']}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])" class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])">{{item['exHead']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])">{{item['exApplTO']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])">{{item['unUniIden']}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])">
                     <span  *ngIf="item.exIsInvD == true"> YES</span>
                     <span  *ngIf="item.exIsInvD == false"> NO</span>
                   </td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])" class="txt-middle">{{item.exdUpdated | date:"d/M/y"}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])" class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
-                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'])">{{dashboardservice.acfName | titlecase}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])" class="txt-middle">{{item.exDate | date:"d/M/y"}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])" class="amount">{{'₹ '+item.expAmnt+'.00'}}</td>
+                  <td style="cursor: pointer" (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exdUpdated,item.blBlockID,item['unUniIden'],item['exIsInvD'],item['exDisType'])">{{item['exAddedBy'] | titlecase}}</td>
                   <!-- <td>
                     <i style="cursor: pointer;" [ngClass]="{'decrseopcty' : item.exIsInvD == true}"
                       (click)="openModal(editexpensetemplate,item.exid,item.exDesc,item.expAmnt,item.exApplTO,item.exHead,item.exType,item.pmid,item.inNumber,item.poid,item.exPyCopy,item.exRecurr,item.exDate,item.blBlockID,item['unUniIden'])"
@@ -419,7 +428,7 @@
                   <select class="form-control" name="PMID" [(ngModel)]="editexpensedata.PMID"
                     #paybymethodControl='ngModel' (change)="showMethod(editexpensedata.PMID)" required>
                     <option disabled="true" selected="true" value="">Select Method *</option>
-                    <option *ngFor='let item of methodArray' [value]="item['id']">
+                    <option *ngFor='let item of methodArray' [selected]="item['id'] == editexpensedata.PMID" [value]="item['id']">
                       {{item['displayName']}}
                     </option>
                   </select>
@@ -460,7 +469,7 @@
                     #distributionControl='ngModel' required>
                     <option disabled="true" selected="true" value="">Select Distribution Type
                     </option>
-                    <option *ngFor='let item of distributionTypes' [value]="item['name']">
+                    <option *ngFor='let item of distributionTypes' [selected]="editexpensedata.EXDisType == item['name']" [value]="item['name']">
                       {{item['name']}}
                     </option>
                   </select>
@@ -474,8 +483,8 @@
                   <label>Select Unit<span class="red">*</span></label>
                   <select class="form-control" name="unUniIden" [(ngModel)]="editexpensedata.unUniIden"
                     #unitControl='ngModel' required>
-                    <option disabled="true" selected="true" value="">Select Unit </option>
-                    <option *ngFor='let item of ascUnit' [value]="item['unUniIden']">
+                    <!-- <option disabled="true" selected="true" value="">Select Unit </option> -->
+                    <option *ngFor='let item of ascUnit' [value]="item['unUniName']">
                       {{item['unUniName']}}
                     </option>
                   </select>

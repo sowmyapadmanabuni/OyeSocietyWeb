@@ -37,10 +37,10 @@
                                       </ul>
                                     </div>
                                   </div>
-                                <a> <img style="width: 50px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                                <a> <img style="width: 50px;" class="excel" (click)="upLoad(ExcelUploadExpenseTemplate)" src="../../assets/images/upload.png"
                                         tooltip="Have more num of Blocks?"></a>
                                 <a href="../../assets/Excel/Demo_Expense_Template.xlsx" download><img style="width: 50px;" class="excel"
-                                        src="../../assets/images/upload.png"
+                                        src="../../assets/images/download.png"
                                         tooltip="click to download demo excel format"></a>
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -60,7 +60,15 @@
                                    <li>Note:- Bulk Upload your Expense file in <i class="fa fa-file-excel-o"
                                      aria-hidden="true"></i> excel format, the demo excel format can be downloaded from above</li>
                                  </ul> 
-
+                                 <h4 [hidden]="toggleExpenseErrorHeading">List of Error Exist in Expense-Excel :</h4>
+                                 <ul>
+                                    <li *ngFor="let item of excelUploadExpenseErrorMessage">
+                                        <span style="font-weight: bold;">Error at S.No:</span>{{item['RowNo']}}<br>
+                                        <span style="font-weight: bold;">Column Name:</span>{{item['ColumnName']}}<br>
+                                        <span style="font-weight: bold;">Error Message:</span>{{item['ErrorMessage']}}<br>
+                                        <hr/>
+                                    </li>
+                                </ul>
                         </div>
                     </div>
                 </form>
@@ -68,8 +76,8 @@
                 <!--  -->
                 <!--  -->
                 <div class="table-responsive" *ngIf='ShowExcelDataList'>
-                    <table class="table table-bordered table-responsive"
-                        [mfData]="excelExpenseList"
+                    <table id="ExcelExpenseTable" class="table table-bordered table-responsive"
+                        [mfData]="ExcelExpenseList"
                         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="10">
                         <thead>
                             <tr>
@@ -77,58 +85,61 @@
                                     S.No.
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Head">Expense Head</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseHead">Expense Head</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Description">Expense Description</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseDescription">Expense Description</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Recurance Type">Expense Recurance Type</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseRecuranceType">Expense Recurance Type</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Applicable To Unit">Applicable To Unit</mfDefaultSorter>
+                                    <mfDefaultSorter by="ApplicableToUnit">Applicable To Unit</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expense Type">Expense Type</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenseType">Expense Type</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Amount Paid">Amount Paid</mfDefaultSorter>
+                                    <mfDefaultSorter by="AmountPaid">Amount Paid</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Distribution Type">Distribution Type</mfDefaultSorter>
+                                    <mfDefaultSorter by="DistributionType">Distribution Type</mfDefaultSorter>
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="Bank">Bank</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Payment Method">Payment Method</mfDefaultSorter>
+                                    <mfDefaultSorter by="PaymentMethod">Payment Method</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Payee Name">Payee Name</mfDefaultSorter>
+                                    <mfDefaultSorter by="PayeeName">Payee Name</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Expenditure Date">Expenditure Date</mfDefaultSorter>
+                                    <mfDefaultSorter by="ExpenditureDate">Expenditure Date</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Invoice-Receipt No">Invoice-Receipt No</mfDefaultSorter>
+                                    <mfDefaultSorter by="InvoiceReceiptNo">Invoice-Receipt No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Payee Bank">Payee Bank</mfDefaultSorter>
+                                    <mfDefaultSorter by="PayeeBank">Payee Bank</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Voucher No">Voucher No</mfDefaultSorter>
+                                    <mfDefaultSorter by="VoucherNo">Voucher No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Cheque No">Cheque No</mfDefaultSorter>
+                                    <mfDefaultSorter by="ChequeNo">Cheque No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Cheque Date">Cheque Date</mfDefaultSorter>
+                                    <mfDefaultSorter by="ChequeDate">Cheque Date</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Demand Draft No">Demand Draft No</mfDefaultSorter>
+                                    <mfDefaultSorter by="DemandDraftNo">Demand Draft No</mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Demand Draft Date">Demand Draft Date</mfDefaultSorter>
+                                    <mfDefaultSorter by="DemandDraftDate">Demand Draft Date</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="UnitName">Unit Name</mfDefaultSorter>
                                 </th>
                             </tr>
                         </thead>
@@ -139,24 +150,25 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{item['S.No']}}</td>
-                                    <td>{{item['Expense Head']}}</td>
-                                    <td>{{item['Expense Description']}}</td>
-                                    <td>{{item['Expense Recurance Type']}}</td>
-                                    <td>{{item['Applicable To Unit']}}</td>
-                                    <td>{{item['Expense Type']}}</td>
-                                    <td>{{item['Amount Paid']}}</td>
-                                    <td>{{item['Distribution Type']}}</td>
-                                    <td>{{item['Bank']}}</td>
-                                    <td>{{item['Payment Method']}}</td>
-                                    <td>{{item['Payee Name']}}</td>
-                                    <td>{{item['Expenditure Date']}}</td>
-                                    <td>{{item['Invoice-Receipt No']}}</td>
-                                    <td>{{item['Payee Bank']}}</td>
-                                    <td>{{item['Voucher No']}}</td>
-                                    <td>{{item['Cheque No']}}</td>
-                                    <td>{{item['Cheque Date']}}</td>
-                                    <td>{{item['Demand Draft No']}}</td>
-                                    <td>{{item['Demand Draft Date']}}</td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseHead']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseHead']==undefined?true:false)}">{{(item['ExpenseHead']==undefined?'Please Enter Expense Head':item['ExpenseHead'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseDescription']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseDescription']==undefined?true:false)}">{{(item['ExpenseDescription']==undefined?'Please Enter Expense Description':item['ExpenseDescription'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseRecuranceType']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseRecuranceType']==undefined?true:false)}">{{(item['ExpenseRecuranceType']==undefined?'Invalid Expense Recurance Type':item['ExpenseRecuranceType'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ApplicableToUnit']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ApplicableToUnit']==undefined?true:false)}">{{(item['ApplicableToUnit']==undefined?'Invalid Applicable To Unit':item['ApplicableToUnit'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenseType']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseType']==undefined?true:false)}">{{(item['ExpenseType']==undefined?'Invalid Expense Type':item['ExpenseType'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['AmountPaid']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['AmountPaid']==undefined?true:false)}">{{(item['AmountPaid']==undefined?'Invalid Amount Paid':item['AmountPaid'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['DistributionType']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['DistributionType']==undefined?true:false)}">{{(item['DistributionType']==undefined?'Invalid Distribution Type':item['DistributionType'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['Bank']==undefined || item['PaymentMethod']=='Demand Draft' && item['Bank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['Bank']==undefined || item['PaymentMethod']=='Demand Draft' && item['Bank']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['Bank']==undefined || item['PaymentMethod']=='Demand Draft' && item['Bank']==undefined?'Please Select Bank':item['Bank'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']==undefined?true:false)}">{{(item['PaymentMethod']==undefined?'Invalid Payment Method':item['PaymentMethod'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['PayeeName']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeName']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['PayeeName']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeName']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['PayeeName']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeName']==undefined?'Please Enter Payee Name':item['PayeeName'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ExpenditureDate']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenditureDate']==undefined?true:false)}">{{(item['ExpenditureDate']==undefined?'Invalid Expenditure Date':item['ExpenditureDate'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['InvoiceReceiptNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['InvoiceReceiptNo']==undefined?true:false)}">{{(item['InvoiceReceiptNo']==undefined?'Please Enter Invoice-Receipt Number':item['InvoiceReceiptNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['PayeeBank']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeBank']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['PayeeBank']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeBank']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['PayeeBank']==undefined || item['PaymentMethod']=='Demand Draft' && item['PayeeBank']==undefined?'Invalid Payee Bank Name':item['PayeeBank'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cash' && item['VoucherNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cash' && item['VoucherNo']==undefined?true:false)}">{{(item['PaymentMethod']=='Cash' && item['VoucherNo']==undefined?'Please Enter Voucher Number':item['VoucherNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['ChequeNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['ChequeNo']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['ChequeNo']==undefined?'Invalid Cheque No':item['ChequeNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Cheque' && item['ChequeDate']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Cheque' && item['ChequeDate']==undefined?true:false)}">{{(item['PaymentMethod']=='Cheque' && item['ChequeDate']==undefined?'Invalid Cheque Date':item['ChequeDate'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftNo']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftNo']==undefined?true:false)}">{{(item['PaymentMethod']=='Demand Draft' && item['DemandDraftNo']==undefined?'Invalid Demand Draft No':item['DemandDraftNo'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftDate']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['PaymentMethod']=='Demand Draft' && item['DemandDraftDate']==undefined?true:false)}">{{(item['PaymentMethod']=='Demand Draft' && item['DemandDraftDate']==undefined?'Invalid Demand Draft Date':item['DemandDraftDate'])}}</span></td>
+                                    <td [ngClass]="{'classRed':(item['ApplicableToUnit']=='Single Unit' && item['UnitName']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ApplicableToUnit']=='Single Unit' && item['UnitName']==undefined?true:false)}">{{(item['ApplicableToUnit']=='Single Unit' && item['UnitName']==undefined?'Please Enter UnitName':item['UnitName'])}}</span></td>
                                 </ng-container>
                             </tr>
                         </tbody>
@@ -169,7 +181,7 @@
                         </tfoot>
                     </table>
                     <div>
-                        <button style="float: right;" class="btn-primary-purple" (click)="createExpenseFromBlock()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Expense</button>
+                        <button style="float: right;" class="btn-primary-purple" [disabled]="IsNotValidExcelExpenseList" (click)="createExpenseFromBlockTable()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Excel Expense</button>
                     </div>
                 </div>
 
@@ -177,3 +189,24 @@
         </div>
     </div>
 </div>
+<!---->
+<!---->
+<ng-template #ExcelUploadExpenseTemplate>
+
+        <div class="modal-header">
+            <h4 class="modal-title orange">Upload Excel-Expense Error List</h4>
+            <button type="button" style="margin-right: 11px;margin-top: -19px;" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li *ngFor="let item of excelUploadExpenseErrorMessage">
+                    <span style="font-weight: bold;">Error at S.No:</span>{{item['RowNo']}}<br>
+                    <span style="font-weight: bold;">Column Name:</span>{{item['ColumnName']}}<br>
+                    <span style="font-weight: bold;">Error Message:</span>{{item['ErrorMessage']}}<br>
+                    <hr/>
+                </li>
+            </ul>
+        </div>
+</ng-template>

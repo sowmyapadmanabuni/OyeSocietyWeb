@@ -41,7 +41,8 @@ export class ReportsComponent implements OnInit {
     this.router.navigate(['journel']);
   }
   goToVisitorLogs(){
-    this.router.navigate(['visitors']);
+    //this.router.navigate(['visitors']);
+    this.router.navigate(['admindeleveryscreen']);
   }
   goToPatrolling(){
     this.router.navigate(['patroling']);

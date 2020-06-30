@@ -1,0 +1,16 @@
+<div class="container-fluid p-40" *ngIf="!toggleShowJobsContent">
+    <img src="../../assets/images/Careers.png" style="width: 100%;">
+    <div style="position: absolute; top: 50%;right: 100px;">
+           <a (click)="myFunction($event)"> <button class="cont-bt" style="background: #e58739;">Open Positions</button></a>&nbsp;
+            <button class="cont-bt" style="background: #e58739;">Life @ GudKru</button>
+        </div>
+</div>
+
+<div *ngIf="toggleShowJobsContent">
+     <app-jobs></app-jobs>
+</div>
+
+
+
+
+

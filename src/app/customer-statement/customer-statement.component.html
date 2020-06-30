@@ -53,7 +53,7 @@
 
             <ul class="dropdown-menu fullw">
 
-              <li (click)="getPaidUnpaidDetail(blck.displayName)" *ngFor='let blck of frequencys'>
+              <li (click)="getPaidUnpaidDetail(blck.name)" *ngFor='let blck of frequencys'>
                 <a>{{blck.displayName}}</a></li>
 
             </ul>
@@ -62,7 +62,7 @@
 
         </div>
 
-        <div><button class="btn-primary-purple">Cancel</button></div>
+        <!-- <div><button class="btn-primary-purple">Cancel</button></div> -->
 
 
 
@@ -91,7 +91,7 @@
 
       <table class="table table-bordered"
         [mfData]="allpaymentdetails | search:['unUnitID', 'pyDesc', 'pyDate','pyAmtDue']:searchTxt"
-        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?allpaymentdetails.length:setnoofrows">
 
         <thead>
 
@@ -112,6 +112,11 @@
             <th>
 
               <mfDefaultSorter (click)="removeColumnSort('PaymentDescription')" by="pyDesc">Payment Description&nbsp;<i [hidden]="columnName=='PaymentDescription'" class="fa fa-sort"></i></mfDefaultSorter>
+
+            </th>
+            <th>
+
+              <mfDefaultSorter (click)="removeColumnSort('PaymentStatus')" by="pyStat">Payment&nbsp;<i [hidden]="columnName=='PaymentStatus'" class="fa fa-sort"></i></mfDefaultSorter>
 
             </th>
 
@@ -155,19 +160,21 @@
 
             <ng-container *ngIf="item!=-1">
 
-              <td>{{ (10 * (p - 1) + i)+1 }}</td>
+              <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
 
               <td>{{item.unUniName}}</td>
 
               <td>{{item.pyDesc}}</td>
 
-              <td>{{item.pydCreated|date:"yyyy/MM/dd"}}</td>
+              <td>{{item['pyStat']}}</td>
+
+              <td>{{item.pydCreated|date:"dd/MM/yyyy"}}</td>
 
               <td class="amount">{{'₹ '+item.pyAmtDue+'.00'}}</td>
 
               <td class="amount">{{'₹ '+item.pyAmtPaid+'.00'}}</td>
 
-              <td><i (click)="OpenCustomerModel(customertemplate,item['pyDate'],item['acAccntID'],item['pyBal'],item['pyAmtDue'],item['inNumber'],item['pyDesc'],item['pyAmtPaid'],item['pyStat'],item['unUnitID'])" class="fa fa-eye"></i>
+              <td><i (click)="OpenCustomerModel(customertemplate,item['pyDate'],item['acAccntID'],item['pyBal'],item['pyAmtDue'],item['inNumber'],item['pyDesc'],item['pyAmtPaid'],item['pyStat'],item['unUnitID'],item['unUniName'])" class="fa fa-eye"></i>
               </td>
 
             </ng-container>
@@ -210,14 +217,17 @@
 <ng-template #customertemplate>
 
   <div class="modal-content">
-
+    <button type="button" class="close" style="padding-right: 10px;" aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
     <div class="cus-panel">
 
       <div>
 
         <!--top header-->
 
-        <div><img src="../../assets/sOyeSociety.png"></div>
+        <!-- <div><img src="../../assets/sOyeSociety.png"></div> -->
 
         <div>
 
@@ -239,7 +249,7 @@
 
           <p><b>Date:</b> {{pyDate|date:'dd/MM/yyyy'}}</p>
 
-          <p class="bill">Bill To</p>
+          <p class="bill">Bill To: {{unUniName}}</p>
 
           <p><b>Name:</b> {{ResidentName}}</p>
 
@@ -247,7 +257,7 @@
 
           <p><b>Street Address:</b></p>
 
-          <p><b>City:</b> Banglore</p>
+          <p><b>City:</b> Banglore 560070</p>
 
           <p><b>Phone Number:</b> {{ResidentMobileNum}}</p>
 
@@ -257,7 +267,7 @@
 
           <!-- <p><b>Statement:</b> November 30, 2019</p> -->
 
-          <p><b>Customer Id:</b>{{acAccntID}}</p>
+          <p><b>Customer Id:</b>{{customerID}}</p>
 
           <p class="bill">Account Summary</p>
 
@@ -269,7 +279,7 @@
 
           <p><b>Total Balance Due:</b>{{pyAmtDue}}</p>
 
-          <p><b>Payment Due Date</b></p>
+          <!-- <p><b>Payment Due Date</b></p> -->
 
         </div>
 
@@ -367,29 +377,29 @@
 
       </div>
 
-      <p class="txt-center">It is a long established fact that a reader will be distracted by the readable content
+      <!-- <p class="txt-center">It is a long established fact that a reader will be distracted by the readable content
 
         of
 
         a page when looking at its layout. The point of using Lorem Ipsum</p>
 
-      <p class="txt-center">Make All the cheque payable to my company name</p>
+      <p class="txt-center">Make All the cheque payable to my company name</p> -->
 
       <h5 class="txt-center">Thank You For Your Business</h5>
 
       <hr>
 
-      <p style="text-align: center;">Neo Town, Electronic city Phase 1, Bengaluru-560010</p>
+      <p style="text-align: center;">#27(old #194) 27th cross, Jayanagar 6th block Banglore - 560070</p>
 
       <div>
 
-        <p><b>Telephone:</b> 7876878576</p>
+        <p><b>Contact:</b>+91 9066390663</p>
 
-        <p><b>Fax:</b> 343233454352</p>
+        <!-- <p><b>Fax:</b> 343233454352</p> -->
 
-        <p><b>Email:</b> info@OyeSpace.com</p>
+        <p><b>Email:</b> happy@scuarex.com</p>
 
-        <p><b>Website:</b> www.OyeSpace.com</p>
+        <p><b>Website:</b> www.scuarex.com</p>
 
       </div>
 
@@ -450,7 +460,7 @@
 
           <!-- <p><b>Statement:</b> November 30, 2019</p> -->
 
-          <p><b>Customer Id:</b>{{acAccntID}}</p>
+          <p><b>Customer Id:</b>{{customerID}}</p>
 
           <p class="bill">Account Summary</p>
 

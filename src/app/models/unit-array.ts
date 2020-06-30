@@ -22,6 +22,8 @@ export class UnitArray {
         private _ownerDetails,
         private _UnitNoFlatNoValid,
         private _UnitDimensionNotValid,
-        private _UnitRateNotValid
+        private _UnitRateNotValid,
+        private _SOOU,
+        private _STOU
         ){}
 }

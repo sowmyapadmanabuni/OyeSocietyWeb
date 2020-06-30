@@ -55,6 +55,10 @@ export class ReceiptsComponent implements OnInit {
   toggleUL:boolean;
   bsConfig:any;
   isDateFieldEmpty: boolean;
+  associationAddress: any;
+  PaginatedValue: number;
+  PaymentInstrument: string;
+  pyBkDet: any;
 
   constructor(private modalService: BsModalService,
     public globalservice:GlobalServiceService,
@@ -65,6 +69,8 @@ export class ReceiptsComponent implements OnInit {
     public generatereceiptservice: GenerateReceiptService,
     private route: ActivatedRoute) 
     { 
+      this.pyBkDet='';
+      this.PaginatedValue=10;
       this.isDateFieldEmpty=false;
       this.toggleUL=false;
       this.globalservice.IsEnrollAssociationStarted==true;
@@ -83,6 +89,7 @@ export class ReceiptsComponent implements OnInit {
       });
       
       this.currentAssociationID=this.globalservice.getCurrentAssociationId();
+      this.GetAssnAddress(this.currentAssociationID);
       this.unitIdentifier='';
       this.invoiceNumber='';
       this.pymtDate='';
@@ -94,7 +101,7 @@ export class ReceiptsComponent implements OnInit {
       this.currentAssociationIdForReceipts=this.globalservice.getCurrentAssociationIdForReceipts()
       .subscribe(msg=>{
         console.log(msg);
-        this.globalservice.setCurrentAssociationId(msg['msg']);
+        //this.globalservice.setCurrentAssociationId(msg['msg']);
         this.initialiseReceipts();
       })
       this.bsConfig = Object.assign({}, {
@@ -103,6 +110,7 @@ export class ReceiptsComponent implements OnInit {
         showWeekNumbers: false,
         isAnimated: true
         });
+      this.PaymentInstrument='';
     }
 
   ngOnInit() {
@@ -128,14 +136,28 @@ export class ReceiptsComponent implements OnInit {
   }
   initialiseReceipts(){
     this.viewPayments=[];
+    this.allBlocksLists=[];
+    this.currentBlockName='';
     this.viewreceiptservice.getpaymentlist(this.globalservice.getCurrentAssociationId())
     .subscribe(data=>{
       console.log(data['data']['payments']);
       this.viewPayments=data['data']['payments']
     },
     err=>{
+      this.viewPayments=[];
       console.log(err);
     });
+    //
+    this.addexpenseservice.GetBlockListByAssocID(this.globalservice.getCurrentAssociationId())
+    .subscribe(item => {
+      this.allBlocksLists = item;
+      console.log('allBlocksLists', this.allBlocksLists);
+    },
+    err=>{
+      this.allBlocksLists=[];
+      console.log(err);
+    });
+    //
   this.getMembers();
   }
   goToExpense(){
@@ -175,7 +197,7 @@ export class ReceiptsComponent implements OnInit {
     this.generatereceiptservice.enableReceiptListView=false;
     this.generatereceiptservice.enableGenerateReceiptView=true;
   }
-  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pydCreated,pyAmtPaid,unUniName,pyAmtDue,pyBal,pyRefNo,pyVoucherNo){
+  OpenViewReceiptModal(Receipts: TemplateRef<any>,unUnitID,inNumber,pydCreated,pyAmtPaid,unUniName,pyAmtDue,pyBal,pyRefNo,pyVoucherNo,pmid,pyBkDet){
     this.UnitName=unUniName;
     this.InvoiceNum=inNumber;
     this.paymentDate=pydCreated;
@@ -184,11 +206,36 @@ export class ReceiptsComponent implements OnInit {
     this.Balance=pyBal;
     this.pyRefNo=pyRefNo;
     this.pyVoucherNo=pyVoucherNo;
+    this.pyBkDet=pyBkDet;
+    console.log(pmid);
+    switch (pmid) {
+      case '1':
+        this.PaymentInstrument = "Cash";
+        break;
+      case '2':
+        this.PaymentInstrument = "Cheque";
+        break;
+      case '3':
+        this.PaymentInstrument = "Demand Draft";
+        break;
+    }
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.viewPayments.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   viewReceipt(unitIdentifier, invoiceNumber, pymtDate, amountPaid) {
     console.log(unitIdentifier, invoiceNumber, pymtDate, amountPaid);
@@ -220,8 +267,21 @@ export class ReceiptsComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.viewPayments.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   getMembers() {
     this.associationTotalMembers = [];
     this.UnitNameForDisplay='';
@@ -315,4 +375,14 @@ export class ReceiptsComponent implements OnInit {
       });
     }
   }
+  GetAssnAddress(currentAssociationID){
+    this.viewreceiptservice.getAssociationAddress(currentAssociationID)
+    .subscribe(data=>{
+    this.associationAddress=data['data']['association']['asAddress'];
+    console.log(this.associationAddress);
+    },
+    err=>{
+    console.log(err);
+    })
+    }
 }

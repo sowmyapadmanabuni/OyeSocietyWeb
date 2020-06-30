@@ -10,19 +10,25 @@
         <!-- Title and enroll button part -->
          <div class="enr-bt">
             <h3 class="purple">Association Management</h3>
-            <div class="enroll">
+            <div class="enroll" *ngIf="globalService.gotojoinassociation==''">
                 <div>
-                    <button class="btn-primary-purple" (click)="goToBlocks()" style="margin-right: 16px;">
+                    <button id="blocksandunits" class="btn-primary-purple" (click)="goToBlocks()" style="margin-right: 16px;">
                         <i class="fa fa-building" aria-hidden="true"></i> Blocks & Units</button>
                   <button class="btn-primary-purple" (click)="enblEnrlAsnVew()" style="margin-right: 16px;"><i class="fa fa-plus" aria-hidden="true"></i>
                     Enroll Association</button>
-                  <button class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                  <button id="joinassn" class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Association</button>
+                </div>
+              </div>
+            <div class="enroll" *ngIf="globalService.gotojoinassociation=='id'">
+                <div>
+                  <button class="btn-primary-purple">
                     <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Association</button>
                 </div>
               </div>
          </div>
         <!-- Title and enroll button part -->
-
+        <!-- <app-enrollassociation [showMePartially]="showVar"></app-enrollassociation> -->
         <div *ngIf='viewAssnService.vewAsnEnbled'>
           <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by Association Name, Property Name, Locality">
         </div>
@@ -38,7 +44,7 @@
         <div *ngIf='viewAssnService.vewAsnEnbled' class="dash-row table-responsive">
           <table class="table table-bordered table-fixed"
             [mfData]="associations | search:['asAsnName', 'asPrpName', 'asAddress','asNofBlks','asNofUnit']:searchTxt"
-            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?associations.length:setnoofrows">
             <thead>
               <tr>
                 <th>S.No.</th>
@@ -66,11 +72,12 @@
                   <td colspan="7" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
-                  <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
+                  <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
                   <td>{{item['asAsnName']}}</td>
                   <td>{{item['asPrpName']}}</td>
                   <td>{{item['asAddress']}}</td>
-                  <td class="txt-middle">{{item['asNofBlks']}}</td>
+                  <td class="txt-middle">{{item['asNofBlks']}}<i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewBlocks"
+                    (click)="openblockModaltemplate(blockModaltemplate,item['asAssnID'])"></i></td>
                   <td class="txt-middle">{{item['asNofUnit']}}</td>
                   <td class="txt-middle">
                     <i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewAssociation"
@@ -93,7 +100,7 @@
       </div>
       <!--Dashboard icons end-->
       <!--Enroll Association form Starts-->
-      <div *ngIf='viewAssnService.enrlAsnEnbled' class="col-sm-12">
+      <div *ngIf='viewAssnService.enrlAsnEnbled1' class="col-sm-12">
         <div style="overflow-x: scroll;">
             <div class="stepwizard" style="overflow-x: scroll;
             width: 2000px;">
@@ -118,7 +125,7 @@
                       Details</span>
               </div>
               <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                  <a href="#step-6" type="button" class="btn btn-circle-o"></a><span>Units
+                  <a href="#step-6" (click)="chkBlkUntDetail($event)" type="button" id="UnitDetailID" class="btn btn-circle-o"></a><span>Units
                       Details</span>
               </div>
               <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
@@ -157,7 +164,7 @@
                     <!-- <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)"> -->
                     <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
                         <input type="file" name="profile" (change)="onFileSelect($event)" />
-                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>
+                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
                     </form>
                 </div>
                 <div class="form-group">
@@ -173,7 +180,7 @@
                       data-toggle="dropdown">{{crtAssn.country}}
                       <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                     <ul class="dropdown-menu fullw fdrop">
-                      <li *ngFor='let country of countries | orderBy:order' (click)="openPANfield(country['name'])">
+                      <li *ngFor="let country of countries | orderBy:name" (click)="openPANfield(country['name'])" aria-autocomplete="none">
                         <a>{{country['name']}}</a></li>
                     </ul>
                   </div>
@@ -266,9 +273,9 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'SELECT THE STATE' || crtAssn.propertyType == 'SELECT PROPERTY TYPE'" class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
-                <button class="btn btn-primary-purple pull-right" type="button"
-                  (click)='resetStep1()' style="margin-right: 13px;">Reset</button>
+                <button [disabled]="crtAssn.country == 'SELECT THE COUNTRY' || crtAssn.state == 'SELECT THE STATE' || crtAssn.propertyType == 'SELECT PROPERTY TYPE'" class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueOne" type="button">Save & continue</button>
+                <button class="btn btn-primary-purple pull-right" type="reset"
+                  (click)='resetStep1()' id="ResetOne" style="margin-right: 13px;">Reset</button>
               </div>
             </div>
             </form>
@@ -300,18 +307,22 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label">Upload Scanned Pan Card</label>
-                  <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
+                  <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
                     [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
                     (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
-                    pattern="(.*?)\.(png|jpeg|jpg)$" />
+                    pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
+                    <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
+                      <input type="file" name="panProfile" (change)="onPanFileSelect($event)" />
+                      <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')" src="{{uploadPANCardThumbnail}}" width="50px" height="50px"/>
+                  </form>
                   <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
                     Resolution of 128*128</span>
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueTwo" [disabled]="!toggleGSTAvailableTxt" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
-                  (click)='resetStep2()'>Reset</button>
+                 id="ResetTwo" (click)='resetStep2()'>Reset</button>
               </div>
             </div>
           </form>
@@ -341,8 +352,8 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <button class="btn btn-primary-purple nextBtn pull-right" type="button">Save & continue</button>
-                <button class="btn btn-primary-purple pull-right" type="button" (click)='resetStep3()'>Reset</button>
+                <button class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueThree" type="button">Save & continue</button>
+                <button class="btn btn-primary-purple pull-right" type="button" id="ResetThree" (click)='resetStep3()'>Reset</button>
               </div>
             </div>
             </form>
@@ -355,8 +366,8 @@
                 <app-new-amenity [newamenities]='newamenities' (addAmenities)='addAmenity($event)'
                   (deleteamenity)='deleteamenity($event)'></app-new-amenity>
               </div>
-              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" (click)="onSubmit()">Save & continue</button>
-              <button class="btn btn-primary-purple pull-right" type="button">Reset</button>
+              <button id="AddExp" class="btn btn-primary-purple nextBtn pull-right" type="submit" id="SaveContinueFour" (click)="onSubmit()">Save & continue</button>
+              <button class="btn btn-primary-purple pull-right" id="ResetFour" type="button">Reset</button>
             </div>
             </form>
             <div class="panel panel-primary setup-content" id="step-5" style="overflow-x: scroll;">
@@ -514,15 +525,15 @@
                
                 <!-- <app-block-array></app-block-array> -->
                 <div class="col-sm-12 pull-right" style="position: absolute;bottom: -23px;">
-                    <button class="btn btn-primary-purple  pull-right" type="button" (click)='createBlock()'>Save & continue</button>
-                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)='resetStep5()'>Reset</button>
+                    <button class="btn btn-primary-purple  pull-right" type="button" id="SaveContinueFive" (click)='createBlock()'>Save & continue</button>
+                  <button class="btn btn-primary-purple nextBtn pull-right" type="button" id="ResetFive" (click)='resetStep5()'>Reset</button>
               </div>
                 </div>           
               </div>
               
           </div>
   
-          <div class="panel panel-primary setup-content" id="step-6"     style="overflow-x: scroll;">
+          <div class="panel panel-primary setup-content" id="step-6" style="overflow-x: scroll;">
             <div class="row" style="margin: 13px;">
               <div class="stepwizard">
                 <div class="stepwizard-row-stepseven setup-panel-stepseven">
@@ -551,7 +562,8 @@
                       <div class="panel-body" *ngFor="let itm of item['UnitArray']">
                           <div class="form-group mr">
                               <label class="control-label lab">Unit No/Flat No<span class="red">*</span></label>
-                              <input maxlength="100" name="unitno" id="unitno" type="text" (keyup)="ValidateUnitNoFlatNo(itm['_id'],itm['_unitno'])" required [(ngModel)]="itm['_unitno']" #unitnoControl="ngModel" class="form-control" (blur)="getUnitNoFlatNo(itm['_id'],itm['_unitno'])" placeholder="Unit No/Flat No" required />
+                              <input type="text" name="unitno" [(ngModel)]="itm['_unitno']" #UnitNoFlatNoControl="ngModel" class="form-control" 
+                               placeholder="UnitNoFlatNo" (keyup)="ValidateUnitNoFlatNo(itm['_id'],itm['_unitno'])" (blur)="getUnitNoFlatNo(itm['_id'],itm['_unitno'])" required/>
                               <p class="alerts" *ngIf="itm['_UnitNoFlatNoValid']=='NotValid'"> Valid unit no is required</p>
                           </div>
                           <div class="form-group mr">
@@ -601,7 +613,7 @@
                                   </div>
                           </div>
                     <!-- OWNER INFORMATION -->
-                    <div *ngIf="itm['_ownerDetails'] == 'Sold Owner Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">            
+                    <div *ngIf="itm['_SOOU'] == 'SOOU'" style="display: flex">            
                           <div class="form-group mr">
                               <label class="control-label lab">Owner First Name<span class="red">*</span></label>
                               <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
@@ -633,45 +645,86 @@
                             </div>
                     </div>
                     <!-- TANENT INFORMATION -->
-                    <div *ngIf="itm['_tenantDetails'] == 'UnSold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Tenant Occupied Unit' || itm['_tenantDetails'] == 'Sold Owner Occupied Unit' && itm['_uniqueId']==itm['_id']" style="display: flex">                          
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
-                                <input type="text" name="tenantFirtname" id="tenantFirtname" (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"
-                                  #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname"
-                                  pattern="[a-zA-Z _]*" required/>
-                                  <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
-                              </div>
-                            
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant Last Name<span class="red">*</span></label>
-                                <input type="text" name="tenantLastname" id="tenantLastname" (blur)="getTenantLastName(itm['_id'],itm['_tenantLastname'])" [(ngModel)]="itm['_tenantLastname']"
-                                  #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
-                                  pattern="[a-zA-Z _]*" required/>
-                                  <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required</p>
-                              </div>
-               
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant Mobile Number<span class="red">*</span></label>
-                                <input type="text" name="tenantMobnumber" id="tenantMobnumber" (blur)="getTenantMobileNumber(itm['_id'],itm['_tenantMobnumber'])" [(ngModel)]="itm['_tenantMobnumber']"
-                                  #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number"
-                                  minlength=10 maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event)/>
-                                  <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is required</p>
-                              </div>
-                            <div class="form-group mr">
-                                <label class="control-label lab">Tenant Email Id<span class="red">*</span></label>
-                                <input type="text" name="tenantEmail" id="tenantEmail" (blur)="getTenantEmailId(itm['_id'],itm['_tenantEmail'])" [(ngModel)]="itm['_tenantEmail']"
-                                  #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
-                                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
-                                  <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
-                              </div>
-                      </div> 
+                    <div *ngIf="itm['_STOU'] == 'STOU'" style="display: flex">
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner First Name<span class="red">*</span></label>
+                        <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="itm['_ownerFirtname']"
+                          #ownerFirtnameControl="ngModel" class="form-control" placeholder="Owner firstname"
+                          (blur)="getOwnerFirstName(itm['_id'],itm['_ownerFirtname'])" pattern="[a-zA-Z _]*" required />
+                        <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is
+                          required</p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner Last Name<span class="red">*</span></label>
+                        <input type="text" name="ownerLastname" id="ownerLastname"
+                          (blur)="getOwnerLastName(itm['_id'],itm['_ownerLastname'])" [(ngModel)]="itm['_ownerLastname']"
+                          #ownerLastnameControl="ngModel" class="form-control" placeholder="Owner lastname" pattern="[a-zA-Z _]*"
+                          required />
+                        <p class="alerts" *ngIf="ownerLastnameControl.invalid && ownerLastnameControl.touched"> Valid owner lastname is
+                          required</p>
+                      </div>
+                    
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner Mobile Number<span class="red">*</span></label>
+                        <input type="text" name="ownerMobnumber" id="ownerMobnumber"
+                          (blur)="getOwnerMobileNumber(itm['_id'],itm['_ownerMobnumber'])" [(ngModel)]="itm['_ownerMobnumber']"
+                          #ownerMobnumberControl="ngModel" class="form-control" placeholder="Owner mobile number" minlength=10 maxlength=10
+                          pattern="[0-9]*" required (keypress)=_keyPress($event) />
+                        <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+"
+                          *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required
+                        </p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Owner Email Id<span class="red">*</span></label>
+                        <input type="text" name="ownerEmail" id="ownerEmail" (blur)="getOwnerEmailId(itm['_id'],itm['_ownerEmail'])"
+                          [(ngModel)]="itm['_ownerEmail']" #ownerEmailControl="ngModel" class="form-control" placeholder="Owner email-id"
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required />
+                        <p class="alerts" *ngIf="ownerEmailControl.invalid && ownerEmailControl.touched"> valid email-id is required</p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant First Name<span class="red">*</span></label>
+                        <input type="text" name="tenantFirtname" id="tenantFirtname"
+                          (blur)="getTenantFirstName(itm['_id'],itm['_tenantFirtname'])" [(ngModel)]="itm['_tenantFirtname']"
+                          #tenantFirtnameControl="ngModel" class="form-control" placeholder="Tenant firstname" pattern="[a-zA-Z _]*"
+                          required />
+                        <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is
+                          required</p>
+                      </div>
+                    
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant Last Name<span class="red">*</span></label>
+                        <input type="text" name="tenantLastname" id="tenantLastname"
+                          (blur)="getTenantLastName(itm['_id'],itm['_tenantLastname'])" [(ngModel)]="itm['_tenantLastname']"
+                          #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname" pattern="[a-zA-Z _]*"
+                          required />
+                        <p class="alerts" *ngIf="tenantLastnameControl.invalid && tenantLastnameControl.touched"> Valid lastname is required
+                        </p>
+                      </div>
+                    
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant Mobile Number<span class="red">*</span></label>
+                        <input type="text" name="tenantMobnumber" id="tenantMobnumber"
+                          (blur)="getTenantMobileNumber(itm['_id'],itm['_tenantMobnumber'])" [(ngModel)]="itm['_tenantMobnumber']"
+                          #tenantMobnumberControl="ngModel" class="form-control" placeholder="Tenant mobile number" minlength=10
+                          maxlength=10 pattern="[0-9]*" required (keypress)=_keyPress($event) />
+                        <p class="alerts" *ngIf="tenantMobnumberControl.invalid && tenantMobnumberControl.touched"> Valid mobile number is
+                          required</p>
+                      </div>
+                      <div class="form-group mr">
+                        <label class="control-label lab">Tenant Email Id<span class="red">*</span></label>
+                        <input type="text" name="tenantEmail" id="tenantEmail" (blur)="getTenantEmailId(itm['_id'],itm['_tenantEmail'])"
+                          [(ngModel)]="itm['_tenantEmail']" #tenantEmailControl="ngModel" class="form-control" placeholder="Tenant email-id"
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required />
+                        <p class="alerts" *ngIf="tenantEmailControl.invalid && tenantEmailControl.touched"> Valid email-id is required</p>
+                      </div>
+                    </div>
                       </div>
                       
                   </div>           
               </form>
               <div class="col-sm-12 pull-right">
-                <button type="button" class="btn btn-primary-purple pull-right">Reset</button>
-                <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid" (click)="createUnit()">Create</button>
+                <button id="CreateUnitId" class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="createunitForm.invalid || disableCreateUnitBtnAfterClick" (click)="createUnit()">Create</button>
+                <button type="button" id="ResetSix" class="btn btn-primary-purple pull-right">Reset</button>
             </div>
             </div>
           </div>
@@ -830,6 +883,9 @@
           </div> -->
         </div>
       </div>
+      <div *ngIf='viewAssnService.enrlAsnEnbled' class="col-sm-12">
+        <app-enrollassociation [showMePartially]="showVar"></app-enrollassociation>
+      </div>
       <!--Enroll Association form Starts-->
 
       <!--Join Association form Starts-->
@@ -848,14 +904,24 @@
           <div class="content">
             <label>Select Association</label>
             <div class="dropdown" style="margin: 0px 0px;">
+              <form [formGroup]="form"class="association-form">
+                <mat-form-field>
+                    <mat-select formControlName="assnlist" (selectionChange)="loadAssociation($event.value)"  
+                   placeholder="Associations">
+                        <mat-option *ngFor="let association of _associations" [value]="association">{{association['asAsnName']}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </form>
+<!-- 
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                data-toggle="dropdown">{{assnName}}
+                data-toggle="dropdown" style="width: 245px;">{{assnName}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-              <ul class="dropdown-menu fullw fdrop">
+              <ul class="dropdown-menu fullw fdrop" style="width: auto;">
                 <li *ngFor="let association of _associations"
                   (click)="loadAssociation(association['asAssnID'],association['asAsnName'])">
                   <a>{{association['asAsnName']}}</a></li>
-              </ul>
+              </ul> -->
             </div>
           </div>
           <!--row1-->
@@ -864,9 +930,9 @@
             <label>Select Blocks</label>
             <div class="dropdown" style="margin: 0px 0px;">
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                data-toggle="dropdown">{{blBlkName}}
+                data-toggle="dropdown" style="width: 160px;">{{blBlkName}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-              <ul class="dropdown-menu fullw">
+              <ul class="dropdown-menu fullw" style="width: auto;">
                 <li (click)="prerequisitesAddUnit(item.blBlockID,item.blBlkName)" *ngFor='let item of allBlocksLists'>
                   <a>{{item.blBlkName}}</a></li>
               </ul>
@@ -876,10 +942,23 @@
           <!--row3-->
           <div class="content">
             <label>Select Unit</label>
-            <div class="block-row">
-              <span (click)="enableActive(spanCtrl,item['unUnitID'])" #spanCtrl
-                *ngFor='let item of allUnitBlockID'>{{item['unUniName']}}</span>
+            <!-- Unit DropDOwn -->
+            <div class="dropdown" style="margin: 0px 0px;">
+              <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                data-toggle="dropdown" style="width: 200px">{{UniNameForJoinAssn}}
+                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+              <ul class="dropdown-menu fullw" style="width: 200px">
+                <li (click)="getUnitDetails(item['unUnitID'],item['unUniName'])" #spanCtrl
+                *ngFor='let item of allUnitBlockID'>
+                  <a>{{item['unUniName']}}</a></li>
+              </ul>
             </div>
+             <!-- Unit DropDOwn -->
+
+            <!-- <div class="block-row">
+              <span (click)="enableActive(spanCtrl,item['unUnitID'],item['unUniName'])" #spanCtrl
+                *ngFor='let item of allUnitBlockID'>{{item['unUniName']}}</span>
+            </div> -->
           </div>
           <!--row3-->
           <div class="content">
@@ -889,8 +968,8 @@
                 <label>Select Date Of Occupancy<span class="red">*</span></label>
                 <input type="text" class="form-control" name="UNOcSDate" #occupancydateControl='ngModel'
                   placeholder="Occupancy Date" required [bsConfig]='bsConfig' [(ngModel)]="UNOcSDate" bsDatepicker
-                  [minDate]="minDate" />
-                <p class="alerts" *ngIf="occupancydateControl.invalid && occupancydateControl.touched"> Please Select
+                  [minDate]="minDate" placement="top"/>
+                <p class="alerts" *ngIf="occupancydateControl.invalid && occupancydateControl.touched && DisableDateOfOccupancyValidationMessage"> Please Select
                   Date</p>
               </div>
             </div>
@@ -910,8 +989,8 @@
         </form>
         </div>
         <div class="col-sm-12">
-          <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="assnName == 'Associations' || blBlkName == 'Blocks' || IsUnitNotSelected || UNOcSDate == '' || OwnerType == ''" (click)='requestForJoin()'>Join</button>
-          <input class="btn btn-primary-purple pull-right" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="button" value="Reset">
+          <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="assnName == 'Associations' || blBlkName == 'Blocks' || IsUnitNotSelected || UNOcSDate == '' || OwnerType == ''" id="JoinRequest" (click)='requestForJoin()'>Join</button>
+          <input class="btn btn-primary-purple pull-right" id="ResetJoinID" style="margin-right: 12px;" (click)='resetJoinAssociation()' type="button" value="Reset">
         </div>
       </div>
       <!--Join Association form Ends-->
@@ -1002,7 +1081,7 @@
               </div>
               <div class="col-sm-3">
                 <p class="view-head"><b>GSTNumber</b></p>
-                <p>{{gstno}}</p>
+                <p style="text-transform: uppercase;">{{gstno}}</p>
               </div>
               <div class="col-sm-3">
                 <p class="view-head"><b>Uploaded Pan</b></p>
@@ -1294,6 +1373,79 @@
           </form>
         </div>
       </div>
+    </div>
+  </div>
+</ng-template>
+<!---->
+<ng-template #UploadedImagetemplate>
+  <div class="modal-content">
+
+    <div class="modal-header">
+      
+      <h4 class="modal-title">{{UploadedImage}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <img src="{{ImgForPopUp}}"/>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #blockModaltemplate>
+  <div class="modal-content">
+
+    <div class="modal-header">
+      
+      <h4 class="modal-title">Blocks</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="dash-row">
+        <table class="table table-bordered"
+            [mfData]="BlocksList"
+            #mf="mfDataTable" (click)="onPageChange($event)">
+            <thead>
+                <tr>
+                    <th>
+                        S.No.
+                    </th>
+                    <th>
+                        <mfDefaultSorter (click)="removeColumnSort('BlockName')" by="blBlkName">Block Name&nbsp;<i [hidden]="columnName=='BlockName'" class="fa fa-sort"></i></mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter (click)="removeColumnSort('BlockType')" by="blBlkType">Block Type&nbsp;<i [hidden]="columnName=='BlockType'" class="fa fa-sort"></i></mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter (click)="removeColumnSort('NoOfUnits')" by="blNofUnit">No Of Units&nbsp;<i [hidden]="columnName=='NoOfUnits'" class="fa fa-sort"></i></mfDefaultSorter>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mf.data;let i=index">
+                    <ng-container *ngIf="item == -1">
+                        <td colspan="5" align="center">No Data Found</td>
+                    </ng-container>
+                    <ng-container *ngIf="item!=-1">
+                        <td class="txt-middle">{{  i+1 }}</td>
+                        <td>{{item['blBlkName']}}</td>
+                        <td>{{item['blBlkType']}}</td>
+                        <td class="txt-middle">{{item['blNofUnit']}}</td>
+                    </ng-container>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
     </div>
   </div>
 </ng-template>

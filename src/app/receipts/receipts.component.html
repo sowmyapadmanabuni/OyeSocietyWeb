@@ -29,10 +29,9 @@
                                 (click)="getCurrentUnitDetails(item['unUnitID'],item['unUniName'])">
                                 <a>{{item['unUniName']}}</a></li>
                         </ul>
-                    </div> 
-                        
+                    </div>                     
                 </div>
-                    <div class="switch">
+                <div class="switch">
                         <ul class="nav nav-pills">
                             <li><a (click)="goToExpense()">Expenses</a></li>
                             <li><a (click)="goToInvoice()">Invoice</a></li>
@@ -40,10 +39,6 @@
                         </ul>
                     </div>
                 </div>
-
-
-
-
                 <div *ngIf='generatereceiptservice.enableReceiptListView'>
                     <!-- <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
                         placeholder="search name"> -->
@@ -67,7 +62,7 @@
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pydCreated','pyAmtPaid']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?viewPayments.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>
@@ -83,7 +78,13 @@
                                     <mfDefaultSorter (click)="removeColumnSort('PaymentDate')" by="pydCreated">Payment Date&nbsp;<i [hidden]="columnName=='PaymentDate'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
+                                    <mfDefaultSorter (click)="removeColumnSort('TotalAmount')" by="pyAmtDue">Total Amount&nbsp;<i [hidden]="columnName=='TotalAmount'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('Amount')" by="pyAmtPaid">Amount Paid&nbsp;<i [hidden]="columnName=='Amount'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('BalanceAmount')" by="pyBal">Balance Amount&nbsp;<i [hidden]="columnName=='BalanceAmount'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <!-- <th>
                                     Action
@@ -93,14 +94,16 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{ (10 * (p - 1) + i)+1 }}</td>
-                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{item['unUniName']}}</td>
-                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])">{{item['inNumber']}}</td>
-                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])" class="amount">{{item['pydCreated'] | date : "d-M-y"}}</td>
-                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'])" class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}.00</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])">{{item['unUniName']}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])" class="amount">{{item['pydCreated'] | date : "d-M-y"}}</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])" class="amount"><i class="fa fa-inr"></i> {{item['pyAmtDue']}}.00</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])" class="amount"><i class="fa fa-inr"></i> {{item['pyAmtPaid']}}.00</td>
+                                    <td style="cursor: pointer" (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pydCreated'],item['pyAmtPaid'],item['unUniName'],item['pyAmtDue'],item['pyBal'],item['pyRefNo'],item['pyVoucherNo'],item['pmid'],item['pyBkDet'])" class="amount"><i class="fa fa-inr"></i> {{item['pyBal']}}.00</td>
                                     <!-- <td> <i data-toggle="modal" data-target="#ViewReceiptTemplate" style="cursor: pointer"
                                             (click)="viewReceipt(item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])"
                                             class="fa fa-eye" tooltip="view Receipt"></i> </td> -->
@@ -111,13 +114,13 @@
                             </tr>
                             <tr *ngIf="viewPayments.length == 0">
                                 <ng-container>
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="6">
+                                <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -179,7 +182,7 @@
 
                     <table class="table table-bordered"
                         [mfData]="viewPayments | search:['unUnitID', 'inNumber', 'pyDate','pyAmtPaid']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?viewPayments.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>
@@ -205,7 +208,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td (click)="OpenViewReceiptModal(Receipts,item['unUnitID'],item['inNumber'],item['pyDate'],item['pyAmtPaid'])" class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
@@ -224,7 +227,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="6">
+                                <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -246,19 +249,6 @@
     <!--rightBar end-->
 </div>
 <!--/*/*/*/* RECIPTS FOR RESIDENT END /*/*/*/*-->
-
-<ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        This is a modal.
-    </div>
-</ng-template>
-
 <div class="modal fade" id="ViewReceiptTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -364,7 +354,7 @@
         <div class="modal-body">
             <div class="receipt-head">
                 <p class="purple">{{globalservice.getCurrentAssociationName()}}</p>
-                <p style="text-align: center">Address:No. 254/185/26, 2nd Main, “Baswer Sannidhi” Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd Bengaluru 560100 India</p>
+                <p style="text-align: center">{{associationAddress}}</p>
             </div>
             <!-- <p class="summary">Receipt Summary</p> -->
             <div class="receipt-head" style="align-items: flex-start;">
@@ -372,10 +362,10 @@
                     <p class="nm"><strong>Unit:</strong> {{UnitName}}</p>
                     <p class="nm"><strong>Invoice Number:</strong> {{InvoiceNum}}</p>
                     <p class="nm"><strong>Payment Date:</strong> {{paymentDate|date:'dd/MM/yyyy'}}</p>
-                    <p><strong>Reciept Id:</strong> {{InvoiceNum}}</p>
+                    <p><strong>Reciept Id:</strong> {{'R-'+InvoiceNum}}</p>
                 </div>
             </div>
-            <p>Received Rupees <b>{{AmountDue | words}}</b> from Name of Unit <b>{{UnitName}}</b></p>
+            <!-- <p>Received Rupees <b>{{AmountDue | words}}</b>from Unit Name <b>{{UnitName}}</b></p> -->
             <table class="table table-bordered">
                 <tbody>
                     <tr>
@@ -384,22 +374,32 @@
                     </tr>
                     <tr>
                         <!-- <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td> -->
-                        <td>Amount Paid {{paymentDate|date:'dd/MM/yyyy'}}</td>
+                        <td>Amount Due</td>
                         <td>₹ {{AmountDue}}.00</td>
                     </tr>
-                   
+                    <tr>
+                        <!-- <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td> -->
+                        <td>Amount Paid {{paymentDate|date:'dd/MM/yyyy'}}</td>
+                        <td>₹ {{AmountPaid}}.00</td>
+                    </tr>
+                    <tr>
+                        <!-- <td>Amount Paid #{{pyVoucherNo}} {{paymentDate|date:'dd/MM/yyyy'}}</td> -->
+                        <td>Balance</td>
+                        <td>₹ {{Balance}}.00</td>
+                    </tr>
                 </tbody>
             </table>
+            <p><strong>Amount in words</strong>:<b> {{AmountPaid | words}} only </b>from Unit Name <b>{{UnitName}}</b></p>
             <div class="receipt-head" style="align-items: flex-start;">
                     <div>
-                        <p><strong>Payment Instrument:</strong> Online Payment</p>
-                        <p><strong>Instrument Bank:</strong> Payment Gateway</p>
+                        <p><strong>Payment Instrument:</strong> {{PaymentInstrument}}</p>
+                        <p><strong>Instrument Bank:</strong> {{PaymentInstrument=='Cash'?'Cash Payment':pyBkDet}}</p>
                         <p><strong>Reference Number:</strong> {{pyRefNo}}</p>
                     </div>
             </div>
             <p class="succtrans">Transaction Successful</p>
             <p style="text-align: center;">Electronically generated;does not require a signature.</p>
-            <p style="text-align: right;">Generated From : <strong>OyeSociety</strong></p>
+            <p style="text-align: right;">Generated From : <strong>ScuareX</strong></p>
             <div class="print-receipt">
                 <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print Receipt</button>
             </div>

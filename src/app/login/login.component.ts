@@ -1,11 +1,13 @@
 import { Component, ViewChild, ElementRef, OnInit, EventEmitter, Output,TemplateRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { ContactformService } from '../../contactform.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {GlobalServiceService} from '../global-service.service';
 import {DashBoardService} from '../../services/dash-board.service';
 import {UtilsService} from '../utils/utils.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -22,6 +24,7 @@ export class LoginComponent implements OnInit {
   inpt: any;
   public countrydata: object;
   toggleShowClientContent:boolean;
+  toggleShowCareersContent:boolean;
   toggleShowPartnersContent:boolean;
   toggleLoginContent:boolean;
   toggleShowLocationsContent:boolean;
@@ -37,14 +40,26 @@ export class LoginComponent implements OnInit {
   modalRef: any;
   hideGetInButton:boolean;
 
-  constructor(private modalService:BsModalService,
+  firstname:any;
+  mailid:any;
+  mobileNumber:any;
+  Subject:any;
+  City:any;
+  Country:any;
+  Locality:any;
+  Message:any;
+
+@ViewChild('ContactForm',{static:true}) ContactForm: any;
+  constructor(private modalService:BsModalService,private contactformService : ContactformService,
     private http: HttpClient, public router: Router,
     private globalserviceservice: GlobalServiceService, private route: ActivatedRoute,
     private dashboardservice:DashBoardService,private utilsService:UtilsService) {
+
       this.otp='';
-      this.mobilenumber='';
     this.toggleLoginContent=true;
     this.toggleShowClientContent=false;
+    this.toggleShowCareersContent=false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
@@ -52,6 +67,16 @@ export class LoginComponent implements OnInit {
     this.toggleShowAccountingContent=false;
     this.isOTPSent=false;
     this.hideGetInButton=false;
+    this.firstname="";
+    this.mobilenumber='';
+    this.mobileNumber='';
+    this.mailid="";
+    this.Subject="";
+    this.City="",
+    this.Country="",
+    this.Locality="",
+    this.Message="";
+
       //alert('inside login component');
     // redirect to home if already logged in
     if (this.globalserviceservice.acAccntID) {
@@ -67,9 +92,9 @@ export class LoginComponent implements OnInit {
       //this.router.navigate([this.returnUrl]);
     }
   }
-
+  
   ngOnInit() {
-     // get return url from route parameters or default to '/'
+      // get return url from route parameters or default to '/'
      //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
   openModal3(privacy: TemplateRef<any>) {
@@ -81,17 +106,20 @@ export class LoginComponent implements OnInit {
   openModal5(termsconditions: TemplateRef<any>) {
     this.modalRef = this.modalService.show(termsconditions, { class: 'modal-lg' });
   }
+  openModal6(reqdemo: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(reqdemo, { class: 'modal-lg' });
+  }
   ngAfterViewInit(){
-    // $("#login").on('click',function(event) {
-    //   $("#login-form").slideDown();
-    //   event.stopPropagation();
-    // });
-    // $("#login").on('focusout',function() {
-    //   $("#login-form").slideUp();
-    // });
+    $("#login").on('click',function(event) {
+      $("#login-form").toggle();
+      event.stopPropagation();
+    });
+    $("#login").on('focusout',function() {
+      $("#login-form").slideUp();
+    });
 
     // $("body").click(function (event) {
-    //   // event.stopPropagation();
+    //   event.stopPropagation();
     //   $("#login-form").slideUp();
     //   event.stopPropagation();
     // });
@@ -102,6 +130,9 @@ export class LoginComponent implements OnInit {
     $("#topDiv").click(function(){
       $("#login-form").slideUp();
     });
+    // $("#main").click(function(){
+    //   $("#login-form").slideUp();
+    // });
     // $("#login-form").on('blur', function () {
     //   $("#login-form").slideUp();
     // });
@@ -363,7 +394,7 @@ export class LoginComponent implements OnInit {
   }
   telInputObject(telinputobj) {
     this.code = '+' + telinputobj['b'].getAttribute('data-dial-code');
-    //console.log(this.code);
+    console.log(this.code);
   }
   hasError(errorobj) {
     //console.log(errorobj);
@@ -380,26 +411,29 @@ export class LoginComponent implements OnInit {
     //alert('test')
   }
   _keyPress(event) {
-    if(event.keyCode == 13) {
-      this.sendOTP();
-     }
-    const pattern = /[0-9]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    if (!pattern.test(inputChar)) {
-        event.preventDefault();
+    if (event.keyCode == 13) {
+      if (this.mobilenumber.length == 10) {
+        this.sendOTP();
+      }
     }
   }
+    
+
   _keyPress1(event) {
     //console.log(event.target.value);
-    if(event.keyCode == 13) {
-      this.verifyOtp();
-     }
+    if (event.keyCode == 13) {
+      if (this.otp.length == 6) {
+        this.verifyOtp();
+      }
+    }
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
-        event.preventDefault();
+      event.preventDefault();
     }
   }
+
+
   countMobileNumberLength(event){
     console.log(event.target.value);
     console.log(event.target.value.length);
@@ -417,14 +451,26 @@ export class LoginComponent implements OnInit {
   showClientContent() {
     this.toggleShowClientContent = true;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
     this.toggleShowSafetyContent=false;
     this.toggleShowAccountingContent=false;
   }
-
+  showCareersContent() {
+    this.toggleShowClientContent = false;
+    this.toggleShowCareersContent = true;
+    this.toggleLoginContent=false;
+    this.toggleShowPartnersContent=false;
+    this.toggleShowLocationsContent=false;
+    this.toggleShowAboutUsContent=false;
+    this.toggleShowSafetyContent=false;
+    this.toggleShowAccountingContent=false;
+  }
   showPartnersContent(){
+    this.toggleShowCareersContent = false;
+
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
     this.toggleShowPartnersContent=true;
@@ -436,6 +482,8 @@ export class LoginComponent implements OnInit {
 
   showLocationContent(){
     this.toggleShowClientContent = false;
+    this.toggleShowCareersContent = false;
+
     this.toggleLoginContent=false;
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=true;
@@ -448,6 +496,8 @@ export class LoginComponent implements OnInit {
   showAboutUsContent(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=true;
@@ -457,6 +507,8 @@ export class LoginComponent implements OnInit {
   GoToHome(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=true;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
@@ -467,6 +519,8 @@ export class LoginComponent implements OnInit {
   GoToSafety(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
@@ -479,6 +533,8 @@ export class LoginComponent implements OnInit {
   GoToAccounting(){
     this.toggleShowClientContent = false;
     this.toggleLoginContent=false;
+    this.toggleShowCareersContent = false;
+
     this.toggleShowPartnersContent=false;
     this.toggleShowLocationsContent=false;
     this.toggleShowAboutUsContent=false;
@@ -491,5 +547,58 @@ export class LoginComponent implements OnInit {
     popup.classList.toggle("show");
 }
 
+ myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+
+
+submitContactForm(){
+  let contactform=  {
+    "Name"     : this.firstname,
+    "Email"  : this.mailid,
+      "MobileNumber"  : this.mobileNumber,
+      "Subject": "+91"+ this.mobileNumber,
+      "PageName"    : "Scuarex request demo",
+      "City"    : this.City,
+      "Country"    : this.Country,
+      "Locality"    : this.Locality,
+      "Message"    : this.Message,
+      }
+this.contactformService.submitContactForm(contactform)
+.subscribe(data=>{
+  console.log(data);
+  Swal.fire({
+    title: "Request Demo Details Submitted Successfully",
+    text: "",
+    type: "success",
+    confirmButtonColor: "#f69321"
+  }).then(
+    (result) => {
+      if (result.value) {
+        this.firstname='';
+        this.mailid='';
+        this.mobileNumber='';
+        this.City='';
+        this.Country='';
+        this.Locality='';
+        this.Message='';
+        this.Subject='';
+        this.modalRef.hide();
+        this.ContactForm.reset();
+      }
+    })
+},
+err=>{
+  console.log(err);
+}
+
+)
+
+  }
 }
 

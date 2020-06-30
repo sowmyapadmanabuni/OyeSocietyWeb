@@ -39,7 +39,7 @@
                 </div>
 <!--  -->
 <div class="dash-row" *ngIf='guestList'>
-    <table class="table table-bordered" [mfData]="invitationList | search:['infName', 'inpOfInv', 'insDate', 'ineDate', 'inVisCnt', 'inMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="10">
+    <table class="table table-bordered" [mfData]="invitationList | search:['infName', 'inpOfInv', 'insDate', 'ineDate', 'inVisCnt', 'inMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="30">
         <thead>
             <tr>
                 <th>S.No.</th>
@@ -59,6 +59,9 @@
                     <mfDefaultSorter by="inVisCnt">Guest Expected</mfDefaultSorter>
                 </th>
                 <th>
+                    <mfDefaultSorter by="inVisCnt">Visited</mfDefaultSorter>
+                </th>
+                <th>
                     <mfDefaultSorter by="inMobile">Mobile Number</mfDefaultSorter>
                 </th>
                 <th>
@@ -67,9 +70,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of mf.data;let i=index">
+            <tr *ngFor="let item of mf.data|orderBy:insDate;let i=index">
                 <ng-container *ngIf="item == -1">
-                    <td colspan="8" align="center">No Data Found</td>
+                    <td colspan="9" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
                     <td class="txt-middle">{{(i+1)}}</td>
@@ -78,7 +81,10 @@
                     <td class="txt-middle">{{item['insDate']|date:'dd/MM/yyyy'}}</td>
                     <td class="txt-middle">{{item['ineDate']|date:'dd/MM/yyyy'}}</td>
                     <td class="txt-middle">{{item['inVisCnt']}}</td>
-                    <td>{{item['inMobile']}}</td>
+
+                    <td class="txt-middle">{{item['inIsUsed']==true?'Visited':'Not Visited'}}</td>
+
+                    <td>{{item['inMobile']==''?'':item['inMobile']}}</td>
                     <td class="txt-middle"> 
                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                         (click)="OpenModalForQRcode(QRtemplate,   
@@ -91,6 +97,7 @@
                         item['ineDate'],
                         item['inVisCnt'],
                         item['asAssnID'],
+                        item['inVchlNo'],
                         item['inIsActive'] )" class="fa fa-qrcode" aria-hidden="true"></i>
                         <!-- &nbsp;|&nbsp;<i data-toggle="modal" data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])" class="fa fa-trash"></i> -->
                     </td>
@@ -99,7 +106,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8">
+                <td colspan="9">
                     <mfBootstrapPaginator></mfBootstrapPaginator>
                 </td>
             </tr>
@@ -148,19 +155,21 @@
                     </div>
                     <div class="guest-input1">           
                         <div class="form-group" style="width:100%">
-                            <label class="control-label">Purpose of invitation<sup>*</sup></label>
+                            <label class="control-label">Purpose of invitation</label>
                             <input class="form-control" name="INPOfInv" [(ngModel)]="INPOfInv" #INPOfInvControl="ngModel" rows="10" id="comment">
                         </div>
                     </div>
                     <p>Invitation Validity</p>
                     <div class="guest-input">
                         <div class="form-group">
-                            <label class="control-label purple">From</label>
-                            <input type="text" name="INSDate" #INSDateControl='ngModel' [(ngModel)]="INSDate" bsDatepicker required [minDate]="todayDate" [bsConfig]="bsConfig" placeholder="From Date" class="form-control" bsDatepicker>
+                            <label class="control-label purple">From <sup>*</sup></label>
+                            <input type="text" name="INSDate" #INSDateControl='ngModel' [(ngModel)]="INSDate" bsDatepicker required [minDate]="todayDate" [bsConfig]="bsConfig" placeholder="From Date" class="form-control" bsDatepicker required>
+                            <timepicker name="mytime" [(ngModel)]="mytime"></timepicker>
                         </div>
                         <div class="form-group">
-                            <label class="control-label purple">Till</label>
-                            <input type="text" name="INEDate" #INEDateControl='ngModel' [minDate]="todayDate"  [(ngModel)]="INEDate" placeholder="Till Date" [bsConfig]="bsConfig" class="form-control" bsDatepicker>
+                            <label class="control-label purple">Till <sup>*</sup></label>
+                            <input type="text" name="INEDate" #INEDateControl='ngModel' [minDate]="INSDate"  [(ngModel)]="INEDate" placeholder="Till Date" [bsConfig]="bsConfig" class="form-control" bsDatepicker required>
+                            <timepicker name="totime" [(ngModel)]="totime"></timepicker>
                         </div>
                         <!--<div class="form-group">
                              <timepicker [(ngModel)]="mytime"></timepicker>
@@ -185,7 +194,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Guest count<sup>*</sup></label>
-                            <input name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event)/>
+                            <input name="INVisCnt" [(ngModel)]="INVisCnt" #INVisCntControl="ngModel" type="text" class="form-control" placeholder="Guest Count" (keypress)=_keyPress($event) required/>
                     </div>
                     <div class="col-sm-12 pull-right">
                         <button type="reset" class="btn btn-primary-reset">Reset</button>

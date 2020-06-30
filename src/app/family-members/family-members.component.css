@@ -93,5 +93,33 @@ label{font-size:12px !important;font-weight: 500 !important}
 .enrollassociationshow{display: block}
 .stepwizard-step:last-child{border-right:none}
 .step-active{border-bottom: 3px solid #5a51aa;}
+.circle {
+    border-radius: 1000px !important;
+    overflow: hidden;
+    width: 128px;
+    height: 128px;
+    border: 8px solid rgba(255, 255, 255, 0.7);
+    position: relative;
+    top: 27px;
+    background: #b4b0b0;margin: 0px auto;
+}
+.profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
+.p-image {
+  position: absolute;
+  top: 200px;
+  left: 170px;
+  color: #666666;
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.p-image:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.file-upload {
+    display: none;
+}
 
 

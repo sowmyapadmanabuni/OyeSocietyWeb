@@ -236,7 +236,64 @@ rate1:any;
       event.preventDefault();
     }
   }
+  blockdetailsvalid:boolean;
+  noofunitsvallid:boolean;
+  blocktypevalid:boolean;
+  managernamevalid:boolean;
+  managermobilevalid:boolean;
+  manageremailvalid:boolean;
 
+
+
+  validateblockname(ev, blockname) {
+    if (blockname!= "" || undefined) {
+      this.blockdetailsvalid = false;
+    }
+    else {
+      this.blockdetailsvalid = true;
+    }
+  }
+  validatenoofunits(ev,noofunits){
+    if (noofunits!= "" || undefined) {
+      this.noofunitsvallid = false;
+    }
+    else {
+      this.noofunitsvallid = true;
+    }
+  }
+  getblocktypevalid(blocktype){
+    if (blocktype!= "" || undefined) {
+      this.blocktypevalid = false;
+    }
+    else {
+      this.blocktypevalid = true;
+    }
+  }
+  validatemanagername(ev,mngName){
+    if (mngName!= "" || undefined) {
+      this.managernamevalid = false;
+    }
+    else {
+      this.managernamevalid = true;
+    }
+
+  }
+  validatemanagermobilenumber(ev,mobile){
+    if (mobile!= "" || undefined) {
+      this.managermobilevalid = false;
+    }
+    else {
+      this.managermobilevalid = true;
+    }
+  }
+  validatemanageremail(ev,manageremail){
+    if (manageremail!= "" || undefined) {
+      this.manageremailvalid = false;
+    }
+    else {
+      this.manageremailvalid = true;
+    }
+  }
   onDueDateValueChange(value: Date) {
     this.enableduedatevalidation = false;
     if (value != null) {
@@ -304,7 +361,11 @@ rate1:any;
   passvalue(frequency) {
     //console.log(frequency);
   }
-
+  blockType = [
+    "RESIDENTIAL",
+    "COMMERCIAL",
+    "RESIDENTIAL AND COMMERCIAL"
+  ]
   createBlock() {
     //frm.classList.add('was-validated');
     // if (this.ctrateBlockform.valid) {
@@ -321,15 +382,15 @@ rate1:any;
             "BLMgrMobile": this.mobile,
             "BLMgrEmail": this.manageremail,
             "ASMtType": '',
-            "ASMtDimBs": this.maintenanceValue,
-            "ASMtFRate": this.flatRatevalue,
-            "ASUniMsmt": this.meter,
-            "ASIcRFreq": this.frequency,
-            "ASBGnDate": formatDate(this.billGenerationDate, 'yyyy/MM/dd', 'en'),
-            "ASLPCType": this.latePymtChargeType,
-            "ASLPChrg": this.latePymtCharge,
-            "ASLPSDate": formatDate(this.startsFrom, 'yyyy/MM/dd', 'en'),
-            "ASDPyDate": formatDate(this.dueDate, 'yyyy/MM/dd', 'en'),
+            "ASMtDimBs": '',
+            "ASMtFRate": '',
+            "ASUniMsmt": '',
+            "ASIcRFreq": '',
+            "ASBGnDate": '',
+            "ASLPCType": '',
+            "ASLPChrg": '',
+            "ASLPSDate": '',
+            "ASDPyDate": '',
             "BankDetails": ''
           }
         ]

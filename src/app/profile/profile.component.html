@@ -5,14 +5,13 @@
         <!--Profile section-->
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
                 <div class="col-md-12 m-t-30" *ngIf="profile">
-                        <span class="black">My Profile</span>
+                        <span class="black">My Profile/</span>
                         <!--profile container-->
                         <div class="prof-cont">
                              <!-- Image Section -->
                              <div class="circle">
                                     <!-- User Profile Image -->
-                                    <img class="profile-pic" src="http://cdn.cutestpaw.com/wp-content/uploads/2012/07/l-Wittle-puppy-yawning.jpg">
-                             
+                                    <img class="profile-pic" [src]="acImgName">                           
                                     <!-- Default Image -->
                                     <!-- <i class="fa fa-user fa-5x"></i> -->
                                   </div>
@@ -38,7 +37,7 @@
                              <!-- Image Section -->
                              <div class="circle">
                                     <!-- User Profile Image -->
-                                    <img id="imgthumbnail" class="profile-pic">
+                                    <img id="imgthumbnail" [src]="acImgName" class="profile-pic">
                              
                                     <!-- Default Image -->
                                     <!-- <i class="fa fa-user fa-5x"></i> -->

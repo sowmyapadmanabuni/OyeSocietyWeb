@@ -89,7 +89,7 @@
                 <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
                         [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?PaidUnpaidinvoiceLists.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>
@@ -110,7 +110,7 @@
                                 <th style="width: 400px;">
                                     Action
                                 </th>
-                                <th *ngIf="toggle == 'toggleNo'">
+                                <th *ngIf="toggle == 'toggleNo'" style="text-align: center"> 
                                     <input type="checkbox" (change)='toggleAllCheck($event)'>&nbsp;
                                     <i *ngIf="isChecked" style="cursor:pointer" (click)="sendEmailToAll()"
                                         class="fa fa-paper-plane"></i>
@@ -118,21 +118,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of mf.data;let i=index">
+                            <tr *ngFor="let item of mf.data|orderBy:unUniName;let i=index">
                                 <ng-container *ngIf="item == -1">
                                     <td colspan="6" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
-                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['unit']['unUniName']}}</td>
-                                    <td class="txt-middle" style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inNumber']}}</td>
-                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
-                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                    <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">{{item['unit']['unUniName']}}</td>
+                                    <td class="txt-middle" style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td class="amount">
                                         <span *ngIf="item['inPaid'] == 'No'">
-                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
+                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
                                                <a tooltip="Mail Invoice" (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)" style="cursor: pointer; font-size: 12px;">Send Reminder </a> | 
                                                <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)" style="cursor: pointer; font-size: 12px;">Adjustments</a> | 
                                                <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
@@ -151,16 +151,15 @@
                                                 Sorry, your browser does not support inline SVG.  
                                               </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
                                         </span> -->
-                                        <span *ngIf="item['inPaid'] == 'Yes'">
+                                        <span *ngIf="item['inPaid'] == 'UnPaid'">
                                             <button tooltip="View Invoice" class="smallBtn"
-                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">
+                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">
                                                <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
-                                            </button> |
-                                            <!-- <i (click)="OpenViewReceiptModal(ViewReceiptTemplate)" tooltip="View Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
-                                            <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a>
+                                            </button> <!--|-->
+                                            <!-- <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a> -->
                                         </span>
                                     </td>
-                                    <td *ngIf="toggle == 'toggleNo'">
+                                    <td *ngIf="toggle == 'toggleNo'" style="text-align: center">
                                         <input class="chkBox" type="checkbox" [value]="item.inid" [checked]='checkAll'
                                             (change)='toggleIsChecked($event)'>
                                     </td>
@@ -179,7 +178,7 @@
                                 </td>
                             </tr>
                             <tr *ngIf="toggle == 'toggleNo'">
-                                <td colspan="6">
+                                <td colspan="7">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -274,7 +273,7 @@
                 <div class="dash-row" style="overflow-y: scroll;">
                     <table class="table table-bordered"
                         [mfData]="PaidUnpaidinvoiceLists | search:['unUnitID', 'inNumber', 'inGenDate','inTotVal']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?residentInvoiceList.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
@@ -293,7 +292,7 @@
                         <tbody>
                             <tr *ngFor="let item of mf.data;let i=index">
                                 <ng-container *ngIf="item == -1">
-                                    <td colspan="6" align="center">No Data Found</td>
+                                    <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td>{{ (10 * (p - 1) + i)+1 }}</td>
@@ -951,7 +950,7 @@
                             [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
                             <label>Cheque Date <span class="red"></span></label>
 
-                            <input type="text" class="form-control" name="chequeDate" #chequeDateControl='ngModel'
+                            <input type="text" autocomplete="off" class="form-control" name="chequeDate" #chequeDateControl='ngModel'
                                 placeholder="Chequedate" required [(ngModel)]="chequeDate" bsDatepicker
                                 [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
                         </div>
@@ -1010,7 +1009,7 @@
                                     *ngIf="dscntInvdiscountedAmountControl.invalid && dscntInvdiscountedAmountControl.touched">
                                     Discounted
                                     Amount</p> -->
-                                <p class="alerts" *ngIf="isInValidZeroAmount && dscntInvdiscountedAmountControl.touched">Invalid Discounted Amount</p>
+                                <p class="alerts" *ngIf="isInValidZeroAmount && dscntInvdiscountedAmountControl.touched || moreDiscountedAmount">Invalid Discounted Amount</p>
                             </div>
                         </div>
                         <div class="col-sm-4 col-xs-12">
@@ -1024,6 +1023,16 @@
                                 <p class="alerts"
                                     *ngIf="dscntInvdescriptionControl.invalid && dscntInvdescriptionControl.touched">
                                     Discount Reason</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xs-12">
+                            <label>Credit </label>
+                            <div class="form-group">
+                                <input type="radio" name="Credit" value="Credit" #CreditControl='ngModel' [(ngModel)]="CreditOrDebit" class="form-control"/>
+                            </div>
+                            <label>Debit </label>
+                            <div class="form-group">
+                                <input type="radio" name="Debit" value="Debit" #DebitControl='ngModel' [(ngModel)]="CreditOrDebit" class="form-control"/>
                             </div>
                         </div>
 
@@ -1049,10 +1058,10 @@
     <div id="Invoice">
         <div class="modal-header1">
             <div class="inv-details">
-                <img style="width: 200px;" src="../../assets/images/icons/invoice.png">
-                <p><strong>Invoice Date:</strong> {{invoiceDate | date: "MMMM d, y"}}</p>
+                <img style="width: 200px;" src="../../assets/images/icons/invoice.png"><span>For unit <span style="font-size: x-large; color: red;"><b>{{unUniName}}</b></span></span>                <p><strong>Invoice Date:</strong> {{invoiceDate | date: "MMMM d, y"}}</p>
                 <p><strong>Due Date:</strong> {{asdPyDate | date: "MMMM d, y"}}</p>
                 <p><strong>Invoice No:</strong> {{invoiceNumber}}</p>
+                <p><strong>Unit owner name:</strong> <span style="color: red;">{{OwnerNameToShowOnInvoice}}</span></p>
             </div>
             <div class="inv-details t-right">
                 <!-- <img (click)="printInvoice()" src="../../assets/images/icons/printer.png"> -->
@@ -1199,11 +1208,19 @@
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                         </ng-container> -->
-                        <ng-container *ngFor='let item of invoiceDetails;let i=index'>
+                        <ng-container *ngFor='let item of InvoiceDescriptionListOne;let i=index'>
                             <tr>
                                 <td>{{i+1}}</td>
                                 <td><span>{{item['idDesc']}}</span></td>
-                                <td><span>-</span></td>
+                                <td><span>{{item['gst']}}</span></td>
+                                <td><span>₹ {{item['idValue']}}.00</span></td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor='let item of InvoiceDescriptionListTwo;let i=index'>
+                            <tr>
+                                <td>{{InvoiceDescriptionListOne.length + (i+1)}}</td>
+                                <td><span>{{item['idDesc']}}</span></td>
+                                <td><span>{{item['gst']}}</span></td>
                                 <td><span>₹ {{item['idValue']}}.00</span></td>
                             </tr>
                         </ng-container>
@@ -1694,7 +1711,7 @@
                           <label>Payment Date<span class="red">*</span></label>
                           <input type="text" class="form-control" name="paymentDate" #paymentDateControl='ngModel'
                             placeholder="Payment Date" required [bsConfig]="bsConfig" [(ngModel)]="paymentDate" #PaymentDate='bsDatepicker'
-                            bsDatepicker [minDate]="minPaymentDateDate" [maxDate]="maxPaymentDateDate"/>
+                            bsDatepicker autocomplete="off" [minDate]="minPaymentDateDate" [maxDate]="maxPaymentDateDate"/>
                             <p class="alerts" *ngIf="paymentDateControl.invalid && paymentDateControl.touched"> Please Select Payment Date</p>
                       </div>
                   </div>
@@ -1734,7 +1751,7 @@
           
                           <input type="text" class="form-control" name="receiptChequeDate" #chequeDateControl='ngModel'
                         placeholder="Chequedate" required [(ngModel)]="receiptChequeDate"
-                        bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }"/>
+                        bsDatepicker [bsConfig]="bsConfig"/>
                       </div>
                   </div>
               </div>
@@ -1743,8 +1760,9 @@
                 
               </div>
               <div class="row">                
-                  <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
-                  <button style="float: right;" type="button" (click)="resetForm()" class="btn btn-primary-purple m-r">Reset </button>                           
+                  <button style="float: right;" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button> 
+                  <!-- <button style="float: right;" [disabled]="genRe.invalid || ValidateReceiptModal || ValidateAmountPaid || disableGenerateReceipt" type="submit" class="btn btn-primary-purple m-r" (click)="generateInvoiceReceipt()"> Generate</button>  -->
+                  <button style="float: right;" (click)="resetForm()" class="btn btn-primary-purple m-r">Reset </button>                           
               </div>
           
             </form>
@@ -1764,7 +1782,7 @@
         <div class="modal-body">
             <div class="receipt-head">
                 <p class="purple">{{globalservice.getCurrentAssociationName()}}</p>
-                <p style="text-align: center">Address:No. 254/185/26, 2nd Main, “Baswer Sannidhi” Achi Ashirvad-2, Neeladri Layout, Doddathoguru Rd Bengaluru 560100 India</p>
+                <p style="text-align: center">{{associationAddress}}</p>
             </div>
             <!-- <p class="summary">Receipt Summary</p> -->
             <div class="receipt-head" style="align-items: flex-start;">
@@ -1799,7 +1817,7 @@
             </div>
             <p class="succtrans">Transaction Successful</p>
             <p style="text-align: center;">Electronically generated;does not require a signature.</p>
-            <p style="text-align: right;">Generated From : <strong>OyeSociety</strong></p>
+            <p style="text-align: right;">Generated From : <strong>ScuareX</strong></p>
             <div class="print-receipt">
                 <button (click)="printInvoice()" class="btn-primary-purple"><i class="fa fa fa-print" aria-hidden="true"></i> Print Receipt</button>
             </div>

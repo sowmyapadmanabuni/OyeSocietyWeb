@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import {GlobalServiceService} from './global-service.service';
-import {Router} from '@angular/router';
+import {Router,ActivatedRoute} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {UtilsService} from '../app/utils/utils.service';
 import {DashBoardService} from '../services/dash-board.service';
 import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { UnitlistForAssociation } from './models/unitlist-for-association';
+import { ConnectionService } from 'ng-connection-service';
+import swal from 'sweetalert2';
+import { UserIdleService } from 'angular-user-idle';
+import {NotificationListArray} from '../app/models/notification-list-array';
+import {ResidentNotificationListArray} from '../app/models/resident-notification-list-array';
+
 declare var $:any;
 
 @Component({
@@ -30,14 +36,31 @@ export class AppComponent {
   getAssociationListSubscription: Subscription;
   unitlistForAssociation:any[];
   hideTitle:boolean;
+  title = 'internet-connection-check';
+  status = 'ONLINE'; //initializing as online by default
+  isConnected = true;
+  notificationListArray:NotificationListArray[];
+  ResidentNotificationListArray:ResidentNotificationListArray[];
+  notificationCount:number;
+  paginatedvalue:number;
+  maxvalue:number;
+  NotificationListCountByAccntID: unknown[];
+
   constructor(public globalService:GlobalServiceService,public router:Router,
     public dashBoardService: DashBoardService,
-    private http: HttpClient,private utilsService:UtilsService){
-      this.globalService.IsEnrollAssociationStarted=false;
-    //  
-
+    private http: HttpClient,private utilsService:UtilsService,
+    private connectionService: ConnectionService,
+    private userIdle: UserIdleService,
+    private route: ActivatedRoute){
+      this.NotificationListCountByAccntID=[];
+      this.paginatedvalue=1;
+      this.maxvalue=23;
+      this.notificationCount=0;
+    this.globalService.IsEnrollAssociationStarted=false;
     this.globalService.toggleregister=false;
-    console.log(this.isAuthenticated());
+    this.notificationListArray=[];
+    this.ResidentNotificationListArray=[];
+   // console.log(this.isAuthenticated());
     this.accountID=this.globalService.getacAccntID();
     this.globalService.toggledashboard=false;
     this.hideTitle=true;
@@ -131,20 +154,58 @@ export class AppComponent {
         console.log(this.uniqueAssociations);
       }
         //
+
+        this.connectionService.monitor().subscribe(isConnected => {
+          this.isConnected = isConnected;
+          if(this.isConnected){
+          this.status = "ONLINE";
+          this.router.navigate(['home']);
+          } else {
+          this.status = "INTERNET CONNECTION ERROR"
+          this.router.navigate(['error']);
+          }
+          alert(this.status);
+          });
+          
+
+
+
+
+
   }
   ngOnInit() {
     if(this.globalService.getacAccntID()){
-      this.getNotification();
+      //this.GetNotificationListByAccntID();   
+      //this.getNotification();
       //this.getAssociation();
       this.HideOrShowNotification=false;
-    }    
+    }
+    //Start watching for user inactivity.
+    this.userIdle.startWatching();
+    
+    // Start watching when user idle is starting.
+    this.userIdle.onTimerStart().subscribe(count => 
+     {
+       //console.log(count)
+      let eventList= ['click', 'mouseover','keydown','DOMMouseScroll','mousewheel',
+        'mousedown','touchstart','touchmove','scroll','keyup'];
+        for(let event of eventList) {
+        document.body.addEventListener(event, () =>this.userIdle.resetTimer());
+        }
+      });
+    
+    // Start watch when time is up.
+    this.userIdle.onTimeout().subscribe(() => {
+      //console.log('Time is up!');
+      console.log(document.getElementById('LogOutID'));
+      document.getElementById('LogOutID').click();
+      alert("Your session has expired Kindly Login Again");
+    }); 
+    //
+    this.GetNotificationListCountByAccntID();
   }
   ngAfterViewInit(){
-    $(document).ready(function(){
-      $("#flip").click(function(){
-        $("#panel").slideToggle("slow");
-      });
-    });
+  
     
   }
   myFunction() {
@@ -155,19 +216,32 @@ export class AppComponent {
       x.className = "topnav";
     }
   }
+  toggleNotificationPanel(e) {
+    e.preventDefault();
+    document.getElementById('panel').style.display = 'block';
+  }
+  toggleNotificationPanel1(e) {
+    e.preventDefault();
+    document.getElementById('panel1').style.display = 'block';
+  }
   toggleDashboard() {
     //console.log('inside toggleDashboard');
     //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
     console.log(this.globalService.IsEnrollAssociationStarted);
     this.globalService.IsEnrollAssociationStarted=true;
-    if(this.globalService.IsEnrollAssociationStarted==true){
-      let status = confirm('Changes you have made not saved');
-      console.log(status)
-      if(status){
-        this.globalService.toggledashboard = true;
-        this.router.navigate(['home']);
+    //if(this.globalService.IsEnrollAssociationStarted==true){
+      if(localStorage.getItem('Component')=='AssociationManagent'){
+        let status = confirm('Changes you have made not saved');
+        console.log(status)
+        if(status){
+          this.globalService.toggledashboard = true;
+          this.router.navigate(['home']);
+        }
+        else{
+          localStorage.setItem('Component','AssociationManagent');
+        }
       }
-    }
+    //}
     else{
       this.globalService.toggledashboard = true;
       this.router.navigate(['home']);
@@ -194,19 +268,56 @@ export class AppComponent {
       return false;
     }
   }
-  getNotification(){
+  GetNotificationListByAccntID(){
+    console.log(this.paginatedvalue);
+    let headers = this.getHttpheaders();
+    let ipAddress = this.utilsService.getIPaddress();
+
+    let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${this.paginatedvalue}`
+      this.http.get(url, { headers: headers })
+        .subscribe(data => {
+          if (data['data']['notificationListByAcctID'].length == 0) {
+            console.log(data);
+            this.getNotification();
+          }
+          else {
+            this.paginatedvalue += 1;
+            this.GetNotificationListByAccntID();
+            console.log(data);
+          }
+        })
+  }
+  getNotification() {
+    this.paginatedvalue -= 1;
+    console.log(this.paginatedvalue);
+    this.notificationListArray = [];
+    this.ResidentNotificationListArray = [];
     // http://apiuat.oyespace.com/oyesafe/api/v1/Notification/GetNotificationListByAccntID/11511/1
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
-    let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${1}`
-    this.http.get(url, { headers: headers })
-   .subscribe(data=>{
-     console.log(data['data']['notificationListByAcctID']);
-     this.notificationList=data['data']['notificationListByAcctID'];
-   },
-   err=>{
-     //console.log(err);
-   })
+
+    /* for (let pageIndex = 1; pageIndex < this.paginatedvalue; pageIndex++) {
+      let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${pageIndex}`
+      this.http.get(url, { headers: headers })
+        .subscribe(data => {
+          console.log(data);
+          Array.from(data['data']['notificationListByAcctID']).forEach((item, index) => {
+            ((index) => {
+              setTimeout(() => {
+                if (item['ntType'] == "Join") {
+                  //this.notificationListArray.push(new NotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
+                }
+                else {
+                  //this.ResidentNotificationListArray.push(new ResidentNotificationListArray(item['ntid'], item['ntType'], item['asAsnName'], item['ntDesc'], item['sbMemID']));
+                }
+              }, 3000 * index)
+            })(index)
+          })
+        },
+          err => {
+            console.log(err);
+          })
+    } */
   }
   getAssociation(){
     this.uniqueAssociations=[];
@@ -247,6 +358,23 @@ export class AppComponent {
     this.globalService.setCurrentAssociationName(associationName);
     this.hideTitle=true;
     this.globalService.setAssnDropDownHiddenByDefault('false');
+  }
+  GetNotificationListCountByAccntID(){
+    let headers = this.getHttpheaders();
+    let ipAddress = this.utilsService.getIPaddress();
+    let url = `${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/${1}`
+    this.http.get(url, { headers: headers })
+      .subscribe(data => {
+        console.log(data);
+        this.NotificationListCountByAccntID = Array.from(data['data']['notificationListByAcctID']).filter(item => {
+          return item['ntIsActive'] == true
+            })
+            console.log(this.NotificationListCountByAccntID);
+            this.globalService.AdminResidentActiveNotification=this.NotificationListCountByAccntID.length;
+      },
+      err=>{
+        console.log(err);
+      })
   }
   UpdateApprovalStatus(sbMemID){
     console.log(sbMemID);
@@ -316,11 +444,28 @@ export class AppComponent {
     this.globalService.setUnit(params);
     this.globalService.HideUnitDropDwn=false;
     this.globalService.NotMoreThanOneUnit=true;
+    this.globalService.CallgetVisitorList('');
   }
   logOut() {
+    console.log(navigator.onLine);
+   if(navigator.onLine){
     this.globalService.clear();
     this.router.navigate(['root']);
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
+    }
+    else{
+      swal.fire({
+        title: "",
+        text: "Please Check Internet Connection and try Again",
+        showCancelButton: false,
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK",
+      })
+    } 
+  }
+  goToNotification(e){
+    e.preventDefault();
+    this.router.navigate(['notifications']);
   }
 }
 

@@ -1,0 +1,204 @@
+<div class="container-fluid np">
+  <div class="col-sm-12 np mt-80">
+    <!--Profile section-->
+    <app-left-bar></app-left-bar>
+    <!--Profile section-->
+    <div class="col-xs-12 col-sm-12 col-md-11 b-l bg">
+      <!--Dashboard icons for ADMIN start-->
+      <div class="dash-main" *ngIf="role=='admin'">
+        <div class="dash-shape">
+          <div class="dash-tab">
+            <span class="l-top">&nbsp;</span>
+            <ul class="tabs group">
+              <li (click)="AdminsUnitShow('resident')">
+                <a data-toggle="tab" class="tab-ti">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
+              </li>
+              <li *ngIf="globalService.mrmroleId==1" style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
+                <a class="act-b tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
+              </li>
+
+            </ul>
+          </div>
+          <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;height: 400px; overflow: scroll;">
+            <div class="dash-row">
+              <div class="panel-group" id="accordion">
+                <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
+                <div class="panel panel-default" *ngFor="let itm of notificationListArray">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
+                      <a (click)="NotificationActiveStatusUpdate($event,itm['adminNtid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}" class="read"> 
+                        <img *ngIf="itm['adminReadStatus']=='Unread'" src="../../assets/images/notification_icons/mail.png"> 
+                        <img *ngIf="itm['adminReadStatus']=='Read'" src="../../assets/images/notification_icons/mailopen.png"> 
+                        {{itm['adminReadStatus']}}
+                      </a>
+                      <span class="uni_name">{{itm['asAsnName']}}</span>
+                      <span class="days">{{itm['adminNtdCreated'] | dateAgo}}</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span class="uni_name"><a class="green">Unit</a> {{itm['unUniName']}}</span>
+                      <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
+                      <span class="not-img">
+                        <img [src]="itm['adminEntryImg']" width="70px" height="70px">
+                        <p>{{itm['ufName']}}</p>
+
+                      </span>
+                    </div>
+
+                  </div>
+                  <div id="{{itm['admincollapse']}}" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div>
+                          <h4 style="color: red;">Current Status</h4>
+                          <p>Occupancy: <strong>{{itm['unOcStat']}}</strong></p>
+                          <p>Occupied By: <strong>{{itm['occupiedBy']}}</strong></p>
+                          <p>Owner Name: <strong>{{itm['ownername']}}</strong></p>
+                          <p>Mobile: <strong>{{itm['uMobile']}}</strong></p>
+                        </div>
+                        <div *ngIf="itm['ntJoinStatTmp']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Accepted'">
+                          <span (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['adminNtid'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approve</span>
+                        </div>
+                        <div *ngIf="itm['ntJoinStatTmp1']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Rejected'">
+                           <span (click)="rejectJoinRequest(itm['adminNtid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
+                        </div>
+                        <div *ngIf="itm['ntJoinStatTmp']=='id' || itm['ntJoinStat']=='Accepted'">
+                          <span class="approve">Request Approved</span>
+                        </div>
+                        <div *ngIf="itm['ntJoinStatTmp1']=='id' || itm['ntJoinStat']=='Rejected'">
+                          <span class="reject">Request Rejected</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!---->
+      </div>
+      <!--Dashboard icons for ADMIN end-->
+
+
+      <!--Dashboard icons for MyUnit(RESIDENT) start-->
+      <div class="dash-main" *ngIf="role=='resident'">
+        <div class="dash-shape">
+          <div class="dash-tab">
+            <span class="r-top">&nbsp;</span>
+            <ul class="tabs group">
+              <li (click)="AdminsUnitShow('resident')" class="active left-tab">
+                <a class="act-a tab-ti" ata-toggle="tab">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
+              </li>
+              <li *ngIf="globalService.mrmroleId==1" (click)="AdminsButtonShow('admin')">
+                <a class="tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-12 dash dash-bg-1" style="border-radius: 0px 24px 26px 24px;height: 400px; overflow: scroll;">
+            <div class="dash-row">
+
+              <div class="panel-group" id="accordion">
+                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" class="search" placeholder="search unit">
+                <div class="panel-default" *ngFor="let item of ResidentNotificationListArray">
+                  <div class="panel panel-default" *ngIf="item['NtType']!='Announcement'">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
+                      <a (click)="NotificationActiveStatusUpdate($event,item['residentNtid'],'')" data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> 
+                        <img *ngIf="item['residentReadStatus']=='Unread'" src="../../assets/images/notification_icons/mail.png"> 
+                        <img *ngIf="item['residentReadStatus']=='Read'" src="../../assets/images/notification_icons/mailopen.png"> 
+                        {{item['residentReadStatus']}} 
+                      </a>
+                      <span>{{item['asAsnName']}}</span>
+                      <span>{{item['residentNtdCreated'] | dateAgo}}</span>
+                    </h4>
+                    <div class="alfl bg-grey">
+                      <span><a class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>
+                      <span>Visiting <a class="green">{{item['unUniName']}}</a></span>
+                      <span class="not-img">
+                        <img [src]="item['visitorEntryImg']" width="70px" height="70px"/>
+                        <p>{{item['vlApprdBy']}}</p>
+
+                      </span>
+                    </div>
+                  </div>
+                  <div id="{{item['collapse']}}" class="panel-collapse collapse">
+                    <div class="panel-body pb" style="margin-top: 20px;">
+                      <div class="not-detail">
+                        <div>
+                          <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['vldCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                          <div *ngIf="item['vlVisType']!='Kid Exit' || item['vlVisType']!='Guest with Invitation'"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
+                          <div *ngIf="item['vlVisType']!='Kid Exit' || item['vlVisType']!='Guest with Invitation'"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
+                          <!-- <div *ngIf="item['vlVisType']=='Kid Exit'"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}{{item['vlexgName']}}</div> -->
+                          <div *ngIf="item['vlVisType']!='Kid Exit' || item['vlVisType']!='Guest with Invitation'"><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
+                          <!-- <div *ngIf="item['vlVisType']=='Kid Exit'"><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']='Entry Approved'? 'Exit Approved': 'Exit Pending'}}</div> -->
+                          <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
+                          </div>
+                         <!-- <div>
+                          <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Entry Approved', item['vlApprdBy'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Allow</span>
+                        </div>
+                        <div>
+                           <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Deny</span>
+                        </div> -->
+                        <div *ngIf="item['vlVisType']!='Guest with Invitation'">
+                        <div *ngIf="item['vlApprStat']=='Entry Pending' || item['vlApprStat']=='Exit Pending'">
+                          <div *ngIf="changeViewOfActionButton">
+                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Entry Approved', item['vlApprdBy'])"
+                              class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Allow</span>
+                          </div>
+                        </div>
+                        <div *ngIf="item['vlApprStat']=='Entry Pending' || item['vlApprStat']=='Exit Pending'">
+                          <div *ngIf="changeViewOfActionButton">
+                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])"
+                              class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Deny</span>
+                          </div>
+                        </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="item['NtType']=='Announcement'" class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title alfl">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> <img
+                          src="../../assets/images/icons/speaker.png">
+                      </a>
+                    </h4>
+                    <span>test</span>
+                  </div>
+                  <div id="{{item['collapse']}}" class="panel-collapse collapse">
+                    <div class="panel-body pb">
+                      <div class="not-detail">
+                        <div class="col-sm-12">
+                          <div style="height: 100px;background-color: aliceblue;">
+                          </div>
+                          message
+                          <input style="width: 800px;height: 50px;border-color: red;" type="text" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+      <!--Dashboard icons for MyUnit(RESIDENT) end-->
+
+
+    </div>
+
+  </div>
+  <!--rightBar start-->
+  <!-- <app-right-bar></app-right-bar> -->
+  <!--rightBar end-->
+</div>

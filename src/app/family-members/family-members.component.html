@@ -12,10 +12,10 @@
             </div>
                 <div class="dash-row" *ngIf='memberList'>
                     <table class="table table-bordered"
-                        [mfData]="familymemberarray | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt"
+                        [mfData]="FamilyMemberList | search:['fmName', 'fmRltn', 'fmMobile']:searchTxt"
                         #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead>
-                            <tr style="background: #ededed;">
+                            <tr>
                                 <th>S.No.</th>
                                 <th>
                                     <mfDefaultSorter by="fmName">Member Name</mfDefaultSorter>
@@ -25,6 +25,9 @@
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="fmMobile">Mobile Number</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="fmImgName">Photo</mfDefaultSorter>
                                 </th>
                                 <th>
                                     Action
@@ -41,9 +44,11 @@
                                     <td>{{item['fmName']}}</td>
                                     <td>{{item['fmRltn']}}</td>
                                     <td>{{item['fmMobile']}}</td>
+                                    <td *ngIf="item['fmImgName']!=''"><img (mouseover)="showFamilyMemImgInPopUp(FamilyMemberImagetemplate,item['fmImgName'])" src="{{'data:image/jpeg;base64,'+item['fmImgName']}}" width="50px" height="50px"/> </td>
+                                    <td *ngIf="item['fmImgName']==''"><img src="../../assets/images/family.png" width="50px" height="50px"/> </td>
                                     <td class="txt-middle">
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
-                                            (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['unUnitID'],item['fmid'])"
+                                            (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['fmImgName'],item['unUnitID'],item['fmid'])"
                                             class="fa fa-pencil"></i>&nbsp;|&nbsp;<i data-toggle="modal"
                                             data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])"
                                             class="fa fa-trash"></i>
@@ -53,7 +58,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="5">
+                                <td colspan="6">
                                     <mfBootstrapPaginator></mfBootstrapPaginator>
                                 </td>
                             </tr>
@@ -72,15 +77,19 @@
                                          <h3 class="panel-title">Pan & Registration Details</h3>
                                     </div> -->
                             <h3 class="title">Family Details</h3>
-                            <div class="panel-body">
-                                <!-- <div class="form-group">
-                                    <label class="control-label">Relationship<span class="red">*</span></label>
-                                    <input pattern="[a-zA-Z _]*" maxlength="20" type="text" [(ngModel)]='Relation' name="Relation" #relationshipControl="ngModel" class="form-control" placeholder="Relationship" required/>
-
-                                    <p class="alerts"
-                                        *ngIf="relationshipControl.invalid && relationshipControl.touched"> Enter the
-                                        Relation</p>
-                                </div> -->
+                            <div class="panel-body" style="align-items: center;">
+                                <div class="form-group">
+                                    <div class="circle">
+                                        <!-- User Profile Image -->
+                                        <img id="imgthumbnail" class="profile-pic">
+                                    </div>
+                                    <!-- Image Section -->
+                                    <div class="p-image">
+                                        <i (click)="OpenFileUpload()" class="fa fa-camera upload-button"></i>
+                                        <input class="file-upload" id="uploadFileinput" type="file" accept="image/*"
+                                            (change)='onFileSelected($event)' />
+                                    </div>
+                                </div>
 
 
                                 <div class="form-group">
@@ -107,9 +116,18 @@
                                     <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='FirstName' maxlength="30"
                                         #fnameControl="ngModel" name="FirstName"
                                         class="form-control" placeholder="First Name" required/>
-                                    <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter the
-                                        Name</p>
+                                    <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter
+                                       First Name</p>
                                 </div>
+                                <div class="form-group">
+                                        <label class="control-label">Last Name<span class="red">*</span></label>
+                                        <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='LastName' maxlength="30"
+                                            #lnameControl="ngModel" name="LastName"
+                                            class="form-control" placeholder="Last Name" required/>
+                                        <p class="alerts" *ngIf="lnameControl.invalid && lnameControl.touched"> Enter
+                                           Last Name</p>
+                                    </div>
+
                                 <div class="form-group">
                                     <label class="control-label">Mobile Number<span class="red">*</span></label>
                                     <input minlength=10 maxlength=10 pattern="[0-9]*" [(ngModel)]='MobileNumber'
@@ -132,14 +150,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group" *ngIf="ToggleGurdian=='abc'">
-                                    <label class="control-label">Gardien's Name</label>
+                                    <label class="control-label">Guardian's Name</label>
                                     <input maxlength="200" type="text" required="required" class="form-control"
-                                        placeholder="Last Name" />
+                                        placeholder="First Name" />
                                 </div>
                                 <div class="form-group" *ngIf="ToggleGurdian=='abc'">
-                                    <label class="control-label">Gardien's Mobile Number</label>
-                                    <input maxlength="200" type="text" required="required" class="form-control"
-                                        placeholder="Last Name" />
+                                    <label class="control-label">Guardian's Mobile Number</label>
+                                    <input minlength=10 maxlength=10 pattern="[0-9]*" type="text" required="required" class="form-control"
+                                        placeholder="Mobile Number" (keypress)=_keyPress($event)/>
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -263,7 +281,7 @@
 
                 <div class="form-group">
                 <label><b>Mobile Number</b></label>
-                <input type="text" placeholder="MobileNumber" [(ngModel)]='EditMobileNumber' minlength=10 maxlength=13 
+                <input type="text" placeholder="MobileNumber" autocomplete="off" [(ngModel)]='EditMobileNumber' minlength=10 maxlength=13 
                     name="EditMobileNumber" class="form-control" #MobileNumberControl="ngModel"
                     style="margin-bottom: 10px;" (keypress)=_keyPress($event) required>
                     <p class="alerts" *ngIf="MobileNumberControl.errors?.pattern"> Enter valid mobile number</p>
@@ -276,9 +294,18 @@
                     class="form-control" #RelationControl="ngModel" style="margin-bottom: 10px;" required>
                     <p class="alerts" *ngIf="RelationControl.touched && RelationControl.invalid"> Enter relation</p>
                 </div>
+                <div class="form-group">
+                    <label class="control-label">Upload</label>
+                    <form [formGroup]="FamilyImgUploadForm" (ngSubmit)="processFile()">
+                        <input type="file" name="profile" (change)="onFileSelect($event)" />
+                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> 
+                        <img *ngIf="AsImage!=''" src="{{'data:image/jpeg;base64,'+AsImage}}" width="50px" height="50px" />
+                        <img *ngIf="AsImage==''" src="../../assets/images/family.png" width="50px" height="50px"/>
+                    </form>
+                </div>
 
 
-                <div style="margin-top: 20px;">
+                <div style="margin-top: 20px;    text-align: right;">
                     <button type="submit" class="btn btn-primary-purple nextBtn" [disabled]="editFamilyMember.invalid"
                         (click)='updatefamilymember()'>Update</button>
                 </div>
@@ -287,3 +314,20 @@
     </div>
 </ng-template>
 <!-- EDIT FAMILY MEMBER -->
+
+<!---->
+<ng-template #FamilyMemberImagetemplate>
+    <div class="modal-content">
+  
+      <div class="modal-header">
+        
+        <h4 class="modal-title">Family Member Image</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img width="850px" height="750px" src="{{'data:image/jpeg;base64,'+FamilyMemImgForPopUp}}"/>
+      </div>
+    </div>
+  </ng-template>

@@ -23,6 +23,8 @@ import { ImageSnippet } from '../models/image-snippet';
 import { ImageService } from 'src/services/image.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
+import {UtilsService} from '../utils/utils.service';
+import { ViewBlockService } from '../../services/view-block.service';
 declare var $: any;
 
 
@@ -42,11 +44,13 @@ export class AssociationManagementComponent implements OnInit {
   viewAssociation_Table: boolean;
   private newAttribute: any = {};
   uploadForm: FormGroup;
-
+  uploadPanForm: FormGroup;
+  form: FormGroup;
   //crtAssn:CreateAssn;
   selectedFile: File;
   @ViewChild('viewassociationForm', { static: true }) viewassociationForm: any;
   accountID: number;
+  DisableDateOfOccupancyValidationMessage:boolean;
   currentAssociationID: string;
   associations: any = [];
   crtAssn: any = {};
@@ -272,12 +276,25 @@ export class AssociationManagementComponent implements OnInit {
   selectedFile2: ImageSnippet;
   @ViewChild('avatar', { static: true }) avatar: any;
   ASAsnLogo: any;
+  thumbnailASAsnLogo:any;
   setnoofrows: any;
   rowsToDisplay: any[];
   ShowRecords: any;
   columnName: any;
   stateList: string[];
   IsUnitNotSelected:boolean;
+  PaginatedValue: number;
+  disableCreateUnitBtnAfterClick: boolean;
+  UnitName: any;
+  uploadPANCard:any;
+  uploadPANCardThumbnail:any;
+  alreadyJoined: boolean;
+  mememberIDforJoin: any;
+  ImgForPopUp:any;
+  UploadedImage: any;
+  displayOwnerType: string;
+  UniNameForJoinAssn: any;
+  BlocksList:any[];
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -292,7 +309,16 @@ export class AssociationManagementComponent implements OnInit {
     private addblockservice: AddBlockService,
     private imageService: ImageService,
     private http: HttpClient,
-    private location: LocationStrategy) {
+    private location: LocationStrategy,
+    private UtilsService:UtilsService,
+    private ViewBlockService:ViewBlockService) {
+      this.BlocksList=[];
+      this.UniNameForJoinAssn='Select Unit';
+      this.alreadyJoined=false;
+      this.uploadPANCard='';
+      this.UnitName='';
+      this.disableCreateUnitBtnAfterClick=false;
+    this.PaginatedValue=10;
     this.IsUnitNotSelected=true;
     this.OwnerType = '';
     this.globalService.IsEnrollAssociationStarted == false;
@@ -302,10 +328,12 @@ export class AssociationManagementComponent implements OnInit {
       return false;
     });
     //
-    this.crtAssn.state = 'Select the State';
+    this.DisableDateOfOccupancyValidationMessage=true;
+//this.crtAssn.state = 'Select the State';
+    this.crtAssn.state = 'SELECT STATE';
     this.crtAssn.name = '';
-    this.crtAssn.name = '';
-    this.stateList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttarakhand", "Uttar Pradesh", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry"]
+    this.crtAssn.city='';
+        this.stateList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttarakhand", "Uttar Pradesh", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry"]
 
     this.columnName = 'col';
     this.rowsToDisplay = [{ 'Display': '5', 'Row': 5 },
@@ -495,26 +523,31 @@ export class AssociationManagementComponent implements OnInit {
 
     if (localStorage.getItem('AssociationCreationStatus') == 'pending') {
       console.log(localStorage.getItem('AssociationName'));
-      this.crtAssn.name = ((localStorage.getItem('AssociationName') == 'null') ? '' : localStorage.getItem('AssociationName'))
+      this.crtAssn.name = ((localStorage.getItem('AssociationName') == null) ? '' : localStorage.getItem('AssociationName'))
       this.crtAssn.country = localStorage.getItem('AssociationCountry')
-      this.crtAssn.state = (localStorage.getItem('AssociationState') == '' || 'null' ? 'SELECT THE STATE' : localStorage.getItem('AssociationState'))
-      this.crtAssn.city = (localStorage.getItem('AssociationCity') == '' || 'null' ? '' : localStorage.getItem('AssociationCity'))
-      this.crtAssn.postalCode = (localStorage.getItem('AssociationPostalCode') == '' || 'null' ? '' : localStorage.getItem('AssociationPostalCode'))
+      this.crtAssn.state = (localStorage.getItem('AssociationState') == '' || null ? 'SELECT THE STATE' : localStorage.getItem('AssociationState'))
+      this.crtAssn.city = (localStorage.getItem('AssociationCity') == '' || null ? '' : localStorage.getItem('AssociationCity'))
+      this.crtAssn.postalCode = (localStorage.getItem('AssociationPostalCode') == '' || null ? '' : localStorage.getItem('AssociationPostalCode'))
       this.crtAssn.propertyType = localStorage.getItem('AssociationPropertyType')
       this.crtAssn.propertyName = localStorage.getItem('AssociationPropertyName')
       this.crtAssn.locality = localStorage.getItem('AssociationLocality')
       this.crtAssn.email = localStorage.getItem('AssociationEmail')
-      this.crtAssn.GSTNumber = (localStorage.getItem('AssociationGST') == 'null' ? '' : localStorage.getItem('AssociationGST'))
+      this.crtAssn.GSTNumber = (localStorage.getItem('AssociationGST') == null ? '' : localStorage.getItem('AssociationGST'))
       this.crtAssn.PANNumber = localStorage.getItem('AssociationPAN')
       this.crtAssn.totalNoBlocks = localStorage.getItem('AssociationBlockNumber')
-      this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber')
-      this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities')) == null ? [] : JSON.parse(localStorage.getItem('AssociationAmenities')))
+      this.crtAssn.totalNoUnits = localStorage.getItem('AssociationUnitNumber');
+      //console.log(localStorage.getItem('AssociationAmenities'));
+      //console.log(typeof localStorage.getItem('AssociationAmenities'));
+      //console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
+      this.newamenities = (JSON.parse(localStorage.getItem('AssociationAmenities')) == '' || null || 'null' ? [] : JSON.parse(localStorage.getItem('AssociationAmenities')))
       this.blockArray = (JSON.parse(localStorage.getItem('AssociationBlockArray')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockArray')))
       this.BlockHrefDetail = (JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')) == null ? [] : JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
       if (this.BlockHrefDetail.length == 0) {
+        console.log('BlockHrefDetail.length == 0')
         localStorage.setItem('CreateUnitFromSavedData', 'false');
       }
       else {
+        console.log('BlockHrefDetail.length != 0')
         localStorage.setItem('CreateUnitFromSavedData', 'true');
       }
       console.log(this.blockArray);
@@ -524,19 +557,68 @@ export class AssociationManagementComponent implements OnInit {
       console.log(this.crtAssn.country);
       console.log(this.crtAssn.propertyType);
       console.log(this.crtAssn.state);
+      console.log(localStorage.getItem('AssociationCity'));
+      console.log(this.crtAssn.city);
+      console.log(this.newamenities);
+      console.log(((localStorage.getItem('AssociationCity') == '' || null) ? '' : localStorage.getItem('AssociationCity')));
+      console.log(JSON.parse(localStorage.getItem('AssociationAmenities')));
     }
+  
+  this.viewAssnService.dashboardredirect.subscribe(message=>{
+    this.getAssociationDetails();
+  })
+    //
+    this.route.params.subscribe(data => {
+      console.log(data['id']);
+      let id = data['id'];
+      if (id == '1') {
+        console.log('id-1');
+        this.enblEnrlAsnVew();
+      }
+      else if (id == '2') {
+        console.log('id-2');
+        this.enblJoinAsnVew();
+      }
+      else if (id == '3') {
+        console.log('id-3');
+        this.viewAssnService.enrlAsnEnbled = false;
+        this.viewAssnService.vewAsnEnbled = true;
+        this.viewAssnService.joinAsnEbld = false;
+      }
+    });
+  //
+  this.assnName = 'Associations';
+    this.blBlkName = 'Blocks';
+    this.OwnerType = '';
+    this.UNOcSDate = '';
+    this.DisableDateOfOccupancyValidationMessage=false;
+    this.allUnitBlockID = [];
+    this.UniNameForJoinAssn=='Select Unit'
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+
   ngAfterViewInit() {
     this.toggleStepWizrd();
     $(".se-pre-con").fadeOut("slow");
   }
   setRows(RowNum) {
     this.ShowRecords = 'abc';
-    this.setnoofrows = (RowNum == 'All' ? this.associations.length : RowNum);
+    this.setnoofrows = (RowNum == 'All' ?'All Records': RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   getUnitType(unitTpname, _id) {
     console.log(unitTpname);
@@ -549,7 +631,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getUnitDimension(_id, _unitdimension) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -567,7 +649,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getUnitRate(_id, _unitrate) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -585,7 +667,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   ValidateUnitRate(id,unitrate){
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -618,7 +700,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   processFile() {
     /* const formData = new FormData();
@@ -646,6 +728,7 @@ export class AssociationManagementComponent implements OnInit {
     reader.onload = () => {
       console.log(reader.result);
       this.ASAsnLogo = reader.result;
+      this.thumbnailASAsnLogo = reader.result;
       this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
       //console.log(this.ASAsnLogo.indexOf('64')+1);
       //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
@@ -660,6 +743,23 @@ export class AssociationManagementComponent implements OnInit {
     //     (err) => console.log(err)
     //   );
   }
+  processPanFile(){
+    console.log(this.uploadPanForm.get('panProfile').value);
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadPanForm.get('panProfile').value);
+    reader.onload = () => {
+      console.log(reader.result);
+      this.uploadPANCard = reader.result;
+      this.uploadPANCardThumbnail = reader.result;
+      this.uploadPANCard = this.uploadPANCard.substring(this.uploadPANCard.indexOf('64') + 3);
+      //console.log(this.ASAsnLogo.indexOf('64')+1);
+      //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+      console.log(this.uploadPANCard);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
   getCalculationTypes(calculationTypename, _id) {
     console.log(calculationTypename);
     this.calculationtype = calculationTypename;
@@ -671,7 +771,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   ValidateUnitNoFlatNo(id,_unitno){
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -689,6 +789,8 @@ export class AssociationManagementComponent implements OnInit {
         }
       }
     }
+    console.log(this.BlockHrefDetail);
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   tenantOwnerdiv(occupency, _id) {
     this.occupency = occupency;
@@ -699,6 +801,17 @@ export class AssociationManagementComponent implements OnInit {
         if (this.BlockHrefDetail[i]['UnitArray'][j]['_id'] == _id) {
           this.BlockHrefDetail[i]['UnitArray'][j]['_occupency'] = occupency;
           this.BlockHrefDetail[i]['UnitArray'][j]['_uniqueId'] = _id;
+
+          if (occupency == 'Sold Owner Occupied Unit') {
+            console.log('Sold Owner Occupied Unit');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_SOOU'] = 'SOOU';
+            this.BlockHrefDetail[i]['UnitArray'][j]['_STOU'] = '';
+          }
+          if (occupency == 'Sold Tenant Occupied Unit') {
+            console.log('Sold Tenant Occupied Unit');
+            this.BlockHrefDetail[i]['UnitArray'][j]['_STOU'] = 'STOU';
+            this.BlockHrefDetail[i]['UnitArray'][j]['_SOOU'] = '';
+          }
 
           this.occupencys.forEach(item => {
             if (occupency == 'UnSold Vacant Unit') {
@@ -736,7 +849,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerFirstName(_id, _ownerFirtname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -747,7 +860,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerLastName(_id, _ownerLastname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -758,7 +871,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerMobileNumber(_id, _ownerMobnumber) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -769,7 +882,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getOwnerEmailId(_id, _ownerEmail) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -780,7 +893,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantFirstName(_id, _tenantFirtname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -791,7 +904,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantLastName(_id, _tenantLastname) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -802,7 +915,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantMobileNumber(_id, _tenantMobnumber) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -813,7 +926,7 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   getTenantEmailId(_id, _tenantEmail) {
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
@@ -824,12 +937,13 @@ export class AssociationManagementComponent implements OnInit {
       }
     }
     console.log(this.BlockHrefDetail);
-    localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
+    //localStorage.setItem('AssociationBlockHrefDetail', JSON.stringify(this.BlockHrefDetail));
   }
   countryName(countryName) {
     this.ASCountry = countryName;
   }
   createUnit() {
+    this.disableCreateUnitBtnAfterClick=true;
     console.log(this.BlockHrefDetail);
     for (let i = 0; i < this.BlockHrefDetail.length; i++) {
       for (let j = 0; j < this.BlockHrefDetail[i]['UnitArray'].length; j++) {
@@ -945,7 +1059,7 @@ export class AssociationManagementComponent implements OnInit {
             localStorage.setItem('AssociationUnitNumber', '')
             localStorage.setItem('AssociationAmenities', '')
             localStorage.setItem('AssociationBlockArray', '')
-            localStorage.setItem('AssociationBlockHrefDetail', '');
+            //localStorage.setItem('AssociationBlockHrefDetail', '');
 
           } else if (result.dismiss === Swal.DismissReason.cancel) {
 
@@ -977,7 +1091,21 @@ export class AssociationManagementComponent implements OnInit {
     //console.log(this.p);
     let element = document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p = Number(element.children[0]['text']);
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.associations.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }
   }
   pageChanged(event: any): void {
     this.page = event.page;
@@ -988,15 +1116,24 @@ export class AssociationManagementComponent implements OnInit {
   getAccountType(accounttypeName) {
     this.BAActType = accounttypeName;
   }
+  getUnitDetail(param) {
+    console.log(param);
+  }
+  showVar: boolean = true;
   enblEnrlAsnVew() {
-    // console.log('test');
+
+    //  this.showVar = !this.showVar;
+    //console.log('april4');
     // alert('test');
+    localStorage.setItem('Component','AssociationManagent');
     this.toggleStepWizrd();
     this.viewAssnService.enrlAsnEnbled = true;
     this.viewAssnService.vewAsnEnbled = false;
     this.viewAssnService.joinAsnEbld = false;
     //localStorage.setItem('IsEnrollAssociationStarted','true');
     this.globalService.IsEnrollAssociationStarted = true;
+    document.getElementById('blocksandunits').style.display = 'none'
+    document.getElementById('joinassn').style.display = 'none'
     //console.log(localStorage.getItem('IsEnrollAssociationStarted'))
   }
   toggleIsGSTAvailable() {
@@ -1023,11 +1160,23 @@ export class AssociationManagementComponent implements OnInit {
         localStorage.setItem('AssociationPAN', this.crtAssn.PANNumber);
       }
     }
+    if((<HTMLInputElement>document.getElementById('GSTNumberID')).value != ''){
+      this.toggleGSTAvailableTxt=true;
+      }
   }
   enblJoinAsnVew() {
+    localStorage.setItem('Component','JoinAssociationManagent');
     this.viewAssnService.enrlAsnEnbled = false;
     this.viewAssnService.vewAsnEnbled = false;
     this.viewAssnService.joinAsnEbld = true;
+    this.form.reset();
+    this.blBlkName = 'Blocks';
+    this.OwnerType = '';
+    this.UNOcSDate = '';
+    this.DisableDateOfOccupancyValidationMessage=false;
+    this.allUnitBlockID = [];
+    this.UniNameForJoinAssn='Select Unit'
+    console.log(this.UniNameForJoinAssn);
   }
   viewassociation(repviewreceiptmodalit: any) {
     //console.log(JSON.stringify(repviewreceiptmodalit));
@@ -1277,8 +1426,19 @@ export class AssociationManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.getBlockDetails();
+    this.createForm();
+    if(this.globalService.gotojoinassociation=='id'){
+      this.enblJoinAsnVew();
+    }
+    else{
+      this.globalService.gotojoinassociation='';
+    }
     this.uploadForm = this.formBuilder.group({
       profile: ['']
+    });
+    this.uploadPanForm = this.formBuilder.group({
+      panProfile: ['']
     });
 
     this.check = "true";
@@ -1306,7 +1466,8 @@ export class AssociationManagementComponent implements OnInit {
 
     this.association = "";
     this.association = "";
-    this.crtAssn.country = 'SELECT THE COUNTRY';
+    this.crtAssn.country = 'SELECT COUNTRY';
+    this.crtAssn.state = 'SELECT STATE';
     this.crtAssn.propertyType = 'SELECT PROPERTY TYPE';
     this.crtAssn.newBAActType = '';
     this.viewAssnService.getAssociationAllDetails()
@@ -1323,6 +1484,13 @@ export class AssociationManagementComponent implements OnInit {
       const file = event.target.files[0];
       console.log(file);
       this.uploadForm.get('profile').setValue(file);
+    }
+  }
+  onPanFileSelect(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file);
+      this.uploadPanForm.get('panProfile').setValue(file);
     }
   }
 
@@ -1386,12 +1554,12 @@ export class AssociationManagementComponent implements OnInit {
     }
   }
 
-  loadAssociation(asAssnID, asAsnName) {
+  loadAssociation(param) {
     this.blBlkName = 'Blocks';
     //console.log('asAssnID',asAssnID);
-    this.assnName = asAsnName;
-    this.assnID = asAssnID;
-    this.viewAssnService.getBlockDetailsByAssociationID(asAssnID)
+    this.assnName = param['asAsnName'];
+    this.assnID = param['asAssnID'];
+    this.viewAssnService.getBlockDetailsByAssociationID(this.assnID)
       .subscribe(response => {
         //console.log(response);
         this.allBlocksLists = response['data']['blocksByAssoc'];
@@ -1452,6 +1620,26 @@ export class AssociationManagementComponent implements OnInit {
       event.preventDefault();
     }
     console.log(this.blockArray);
+  }
+  getBlockDetails() {
+    this.ViewBlockService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
+      this.BlocksList = data['data'].blocksByAssoc;
+      console.log('BlocksList', this.BlocksList);
+    },
+    err=>{
+      console.log(err);
+    });
+  }
+  openblockModaltemplate(blockModaltemplate: TemplateRef<any>,asAssnID){
+    console.log(this.assnID);
+    this.ViewBlockService.getBlockDetails(asAssnID).subscribe(data => {
+      this.BlocksList = data['data'].blocksByAssoc;
+      console.log('BlocksList', this.BlocksList);
+    },
+    err=>{
+      console.log(err);
+    });
+    this.modalRef = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
   checkMobileNumberValidity(Id, BlockManagermobile) {
     console.log('blur');
@@ -1572,15 +1760,29 @@ export class AssociationManagementComponent implements OnInit {
     }
     //this.startsFromMaxDate.setDate(this.startsFromMaxDate.getDate() + 1);
   }
-  enableActive(spanCtrl, unUnitID) {
+  enableActive(spanCtrl, unUnitID,unUniName) {
     this.UnitIDforJoinAssn = unUnitID;
+    this.UniNameForJoinAssn = unUniName;
+    console.log(this.UnitIDforJoinAssn);
+    console.log(this.UniNameForJoinAssn);
+    if(this.UniNameForJoinAssn=='Select Unit'){
+      this.IsUnitNotSelected=true;
+    }
+    else{
+      this.IsUnitNotSelected=false;
+    }
     //console.log(spanCtrl);
     //spanCtrl.classList.add("active");
-    spanCtrl.classList.toggle("active");
+    /* let allSpan = document.querySelectorAll('div.block-row span');
+    allSpan.forEach(item => {
+      if(item.classList.contains('active')){
+        item.classList.remove('active');
+      }
+    })
+    spanCtrl.classList.toggle("active"); */
     //this.activeEnabled = true;
     //$(document).ready(function () {
-      let selectedSpan = document.querySelectorAll('div.block-row span.active');
-      let allSpan = document.querySelectorAll('div.block-row span');
+     /* let selectedSpan = document.querySelectorAll('div.block-row span.active');
       console.log(selectedSpan.length);
       console.log(allSpan);
       if(selectedSpan.length > 0){
@@ -1588,8 +1790,21 @@ export class AssociationManagementComponent implements OnInit {
       }
       else{
         this.IsUnitNotSelected=true;
-      }
+      } */
     //});
+  }
+  getUnitDetails(unUnitID, unUniName) {
+    console.log(unUnitID, unUniName);
+    this.UnitIDforJoinAssn = unUnitID;
+    this.UniNameForJoinAssn = unUniName;
+    console.log(this.UnitIDforJoinAssn);
+    console.log(this.UniNameForJoinAssn);
+    if(this.UniNameForJoinAssn=='Select Unit'){
+      this.IsUnitNotSelected=true;
+    }
+    else{
+      this.IsUnitNotSelected=false;
+    }
   }
 
   getAssociationDetails() {
@@ -1679,7 +1894,7 @@ export class AssociationManagementComponent implements OnInit {
     this.router.navigate(['joinassociation', asAssnID]);
   }
   addAmenity(event) {
-    //console.log('amenity',event);
+    console.log('amenity',event);
     //console.log('AMType'+ event['AMType']);
     //console.log('NoofAmenities'+ event['NoofAmenities']);
     if (event['AMType'] !== "" && event['NoofAmenities'] !== "") {
@@ -1855,7 +2070,7 @@ export class AssociationManagementComponent implements OnInit {
     { "name": "United Arab Emirates" }, { "name": "United Kingdom" }, { "name": "United States of America" },
     { "name": "Qatar" }, { "name": "Qatar" }
   ];
-
+  order1: string = 'name';
   propertyTypes: any = [
     { "name": "residential", "displayName": "Residential Property" },
     { "name": "Commercial Property", "displayName": "Commercial Property" },
@@ -1865,7 +2080,11 @@ export class AssociationManagementComponent implements OnInit {
     { "name": "Owner" },
     { "name": "Tenant" }
   ];
-
+  createForm() {
+    this.form = this.formBuilder.group({
+      'assnlist': [null]
+    });
+  }
   resetStep1() {
     let countrie = this.countries
     this.countries = [];
@@ -1874,13 +2093,15 @@ export class AssociationManagementComponent implements OnInit {
     this.crtAssn.logo = '';
     this.crtAssn.country = 'SELECT COUNTRY';
     this.crtAssn.propertyType = 'SELECT PROPERTY TYPE';
-    this.crtAssn.state = '';
+    this.crtAssn.state = 'SELECT STATE';
     this.crtAssn.city = '';
     this.crtAssn.postalCode = '';
     this.crtAssn.propertyName = '';
     this.crtAssn.locality = '';
     this.crtAssn.email = '';
     this.crtAssn.url = '';
+    
+    
   }
   resetStep2() {
     this.crtAssn.PANNumber = '';
@@ -1925,7 +2146,7 @@ export class AssociationManagementComponent implements OnInit {
         "ASOLOStat": "False",
         "ASOTPStat": "False",
         "ASOPStat": "False",
-        "ASPANDoc": "uploadPANCard",
+        "ASPANDoc": this.uploadPANCard,
         //"aspanDoc": this.crtAssn.uploadPANCard,
         //"ASRegrNum": this.crtAssn.assnRegisterNo,
         // "BankName": this.crtAssn.BankName,
@@ -2080,7 +2301,7 @@ export class AssociationManagementComponent implements OnInit {
                 let unitArraylength = (Number(item['noofunits']));
                 // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
                 for (let i = 0; i < unitArraylength; i++) {
-                  this.unitArray.push(new UnitArray(item['blkNme'] + i.toString(), item['blkNme'], data['data'].blockID, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','',''));
+                  this.unitArray.push(new UnitArray(item['blkNme'] + i.toString(), item['blkNme'], data['data'].blockID, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','','',''));
                 }
                 console.log(this.unitArray);
                 if (data['data'].blockID) {
@@ -2198,7 +2419,20 @@ export class AssociationManagementComponent implements OnInit {
       this.globalService.SetCreateUnitWithAssociation(this.BlockHrefDetail, this.unitArrayList)
       this.enableCreateUnitWithAssociation = true;
       this.toggleStepTest('');
+      $(document).ready(function () {
+        console.log($('div.setup-panel div:last').children('a'));
+        $('div.setup-panel div:last').children('a').trigger('click');
+      })
     }, (2000 * (this.blockArray.length + 1)));
+  }
+  chkBlkUntDetail(e) {
+    e.preventDefault();
+    this.disableCreateUnitBtnAfterClick=true;
+    console.log(this.BlockHrefDetail);
+    //console.log(JSON.parse(localStorage.getItem('AssociationBlockHrefDetail')))
+    // setTimeout(() => {
+    //   this.BlockHrefDetail = JSON.parse(localStorage.getItem('AssociationBlockHrefDetail'));
+    // }, 2000)
   }
   // */*/*/*/*/*/*/*/*/block creation along with association end*/*/*/*/*/*/*/*/*/*/*/
   OpenSendRequest(OpenSendRequest: TemplateRef<any>) {
@@ -2213,7 +2447,7 @@ export class AssociationManagementComponent implements OnInit {
     this.viewassociationForm.reset();
   }
 
-  OnSendButton(OwnerType) {
+ /* OnSendButton(OwnerType) {
     this.dashboardservice.getAccountFirstName(this.accountID).subscribe(res => {
       //console.log(JSON.stringify(res));
       var data: any = res;
@@ -2270,19 +2504,204 @@ export class AssociationManagementComponent implements OnInit {
         //console.log(err);
       });
 
+  } */
+  OnSendButton(OwnerType) {
+
+    this.dashboardservice.getAccountFirstName(this.accountID).subscribe(res => {
+      //console.log(JSON.stringify(res));
+      var data: any = res;
+      this.account = data.data.account;
+      console.log('account', this.account);
+      console.log(this.account[0]['acfName']);
+      console.log(this.account[0]['aclName']);
+      console.log(this.account[0]['acMobile']);
+      OwnerType==6? this.displayOwnerType='Owner' : this.displayOwnerType='Tenant'
+      //
+      let senddataForJoinOwner = {
+        "ASAssnID": Number(this.assnID),
+        "BLBlockID": Number(this.blockID),
+        "UNUnitID": Number(this.UnitIDforJoinAssn),
+        "MRMRoleID": OwnerType,//(OwnerType=='joinowner'?1:2),
+        "FirstName": this.account[0]['acfName'],
+        "MobileNumber": this.account[0]['acMobile'],
+        "ISDCode": "+91",
+        "LastName": this.account[0]['aclName'],
+        "Email": "",
+        "SoldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
+        "OccupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
+      }
+      console.log(senddataForJoinOwner);
+      this.viewAssnService.joinAssociation(senddataForJoinOwner)
+        .subscribe(
+          (data) => {
+            console.log("senddataForJoinOwner",data);
+
+
+            let RequestorDetail = {
+              ACMobile: '+91'+this.account[0]['acMobile'],
+              ASAssnID: Number(this.assnID),
+              UNUnitID: Number(this.UnitIDforJoinAssn),
+              MRMRoleID: OwnerType==6? '6': '7',
+            }
+            console.log('RequestorDetails',RequestorDetail);
+            this.viewAssnService.getRequestorDetails(RequestorDetail)
+            .subscribe(
+              (data) =>{
+                console.log(data);
+                this.mememberIDforJoin= data['data']['member']['meMemID'];
+                console.log(this.mememberIDforJoin);
+                let MessageBody = {
+                  // "userID": this.UnitIDforJoinAssn.toString(),
+                  "userID": this.accountID.toString(),
+                  "sbUnitID": this.UnitIDforJoinAssn.toString(),
+                  "unitName": this.UniNameForJoinAssn,
+                  "sbSubID": this.accountID.toString() + this.UnitIDforJoinAssn.toString()+'usernotif',
+                  "sbRoleId": '3',//OwnerType==6? '2' : '3',//'3',//'2',
+                  "sbMemID": this.mememberIDforJoin.toString(),// 25353,//this.mememberIDforJoin,
+                  "sbName": this.account[0]['acfName'],
+                  "associationID": this.assnID.toString(),//"15144",
+                  "associationName": this.assnName,
+                  "ntType": "Join",
+                  "ntTitle": "Request to join "+this.assnName+" Association",
+                  "ntDesc": this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association"+" as"+this.displayOwnerType,
+                  "roleName": OwnerType==6? 'Owner' : 'Tenant',//"Tenant", //"Owner",
+                  "soldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
+                  "occupancyDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
+
+                   }
+                console.log(MessageBody);
+                const headers = new HttpHeaders()
+                  .set('Content-Type', 'application/json')
+                  .set('Access-Control-Allow-Origin', '*');
+                this.http.post('https://us-central1-jabm-fd8d9.cloudfunctions.net/sendAdminNotification', JSON.stringify(MessageBody), { headers: headers })
+                  .subscribe(data => {
+                    console.log(data);
+                    let IPAddress=this.UtilsService.getIPaddress();
+                     return this.http.get(IPAddress+'oyeliving/api/v1/Member/GetMemberListByAssocID/'+this.assnID, {headers:{'X-Champ-APIKey':'1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1','Content-Type':'application/json'}})
+                     .subscribe(data=>{
+                       
+                       let memberList =data['data']['memberListByAssociation'];
+                       console.log('memberData',memberList);
+
+                   memberList.map(data => {
+                       if (
+                           data.mrmRoleID === 1 &&
+                           data.meIsActive &&
+                           data.acAccntID !== this.accountID
+                       ) {
+                           console.log('adminssss', data);
+
+                           let inAppNotification ={
+                            "ACAccntID" : data['acAccntID'].toString(), //"16360",//data['acAccntID'],                      //Admins accountID
+                            "ACNotifyID" : this.accountID.toString(), //"16182",//this.accountID,                        //Notifier AvvountID
+                            "ASAsnName" : this.assnName,// "QUARANTINE ASSOCIATION",//this.assnName,  
+                            "ASAssnID" : data['asAssnID'].toString(),// "15212",//data['asAssnID'].toString(),
+                            "MRRolName" : this.UniNameForJoinAssn, // "A024",
+                            "NTDUpdated" : "2020-May-Thu, 12:35:34",
+                            "NTDCreated" : "2020-May-Thu, 12:35:34",
+                            "NTDesc" : this.account[0]['acfName']+" Wants to join "+this.UniNameForJoinAssn+" in "+this.assnName+" Association",// "Swamy wants to join QUARANTINE ASSOCIATION as a ower",//this.account[0]['acfName']+" Wants to join "+this.UnitName+" in "+this.assnName+" Association",
+                            "NTMobile" : data['acMobile'], // "+919949385898",//'+91'+data['acMobile'],
+                            "NTType" : "Join",
+                            "NTUsrImg" : "image.jpeg",
+                            "SBMemID" : this.mememberIDforJoin.toString(),// "25353",//data['meMemID'].toString(),     User MemID
+                            "SBRoleID" : OwnerType==6? '2' : '3',//'3',//"2",
+                            "SBSubID" : this.accountID.toString()+Number(this.UnitIDforJoinAssn).toString()+'usernotif',// "1618241944usernotif",//this.accountID.toString()+Number(this.UnitIDforJoinAssn).toString()+'usernotif',
+                            "SBUnitID" : Number(this.UnitIDforJoinAssn).toString(),// "41944",//Number(this.UnitIDforJoinAssn).toString(),
+                            "UNOcSDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en'),
+                            "UNSldDate": formatDate(this.UNOcSDate, 'yyyy-MM-dd', 'en')
+                          }
+
+                          console.log('InAppNotification',inAppNotification);
+
+                           this.viewAssnService.createInAppNotification(inAppNotification)
+                           .subscribe(data=>{
+                             console.log(data);
+                           })
+                       }
+                   });
+                     },
+                     err=>{
+                       console.log(err);
+                     })
+
+                  })
+              },
+              (err)=>{
+                console.log(err);
+              }
+            )
+
+            console.log(data);
+            Swal.fire({
+              title: 'Request sent',
+              type: 'success',
+              confirmButtonColor: "#f69321"
+            }).then(
+              (result) => {
+                if (result.value) {
+                  this.router.navigate(['home']);
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                  //this.router.navigate(['']);
+                }
+              })
+            //console.log(data);
+          },
+          err => {
+            console.log(err);
+            Swal.fire({
+              title: "Error",
+              type: 'error',
+              text: `${err['error']['error']['message']}`,
+              confirmButtonColor: "#f69321"
+            });
+          })
+      //
+    },
+      err => {
+        //console.log(err);
+      });
   }
+  
   requestForJoin() {
+    if(localStorage.getItem("assnList")){
+          this.alreadyJoined=false;
+    console.log(JSON.parse(localStorage.getItem("assnList")));
+    // Number(this.UnitIDforJoinAssn)
+    for(let item of JSON.parse(localStorage.getItem("assnList")))
+    {
+      if(item['unUnitID']==this.UnitIDforJoinAssn){
+        this.alreadyJoined=true;
+        break;
+      }
+    };
+    if(this.alreadyJoined){
+      Swal.fire({
+        title: 'Already joined',
+        type: 'error',
+        confirmButtonColor: "#f69321"
+      })
+    }
+    else{
+      this.OnSendButton(this.OwnerType);
+    }
     //console.log(this.OwnerType);
-    this.OnSendButton(this.OwnerType);
+    }
+    else{
+      this.OnSendButton(7);
+    }
+    
   }
   resetJoinAssociation() {
-    this.assnName = 'Associations';
+    this.form.reset();
     this.blBlkName = 'Blocks';
     this.OwnerType = '';
     this.UNOcSDate = '';
+    this.DisableDateOfOccupancyValidationMessage=false;
     this.allUnitBlockID = [];
+    this.UniNameForJoinAssn='Select Unit';
     let activespan = document.querySelectorAll('span.active');
     console.log(activespan.length);
+
     console.log(this.OwnerType);
     if (activespan.length > 0) {
       Array.from(activespan).forEach(item => {
@@ -2340,6 +2759,11 @@ export class AssociationManagementComponent implements OnInit {
 
     this.modalRef = this.modalService.show(joinowner,
       Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,displayText){
+    this.ImgForPopUp=thumbnailASAsnLogo;
+    this.UploadedImage=displayText;
+    this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
 
 
@@ -2706,12 +3130,17 @@ export class AssociationManagementComponent implements OnInit {
         $(".form-group").removeClass("has-error");
         for (var i = 0; i < curInputs.length; i++) {
           if (!curInputs[i].validity.valid) {
+            console.log(curStepBtn);
             isValid = false;
             console.log($(curInputs[i]))
             $(curInputs[i]).closest(".form-group").addClass("has-error");
             console.log($(curInputs[i]));
             console.log($(curInputs[i]).closest(".alerts"));
           }
+        }
+        if(curStepBtn == 'step-4'){
+          console.log('step-4');
+          isValid = true;
         }
         if (isValid) {
           nextStepWizard.removeAttr('disabled').trigger('click');

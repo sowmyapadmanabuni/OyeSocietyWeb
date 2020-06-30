@@ -93,6 +93,7 @@ export class AddUnitComponent implements OnInit {
       { "name": "UnSold Tenant Occupied Unit" }
     ];
 
+
     this.unitno = '';
     this.unitrate = '';
     this.unitdimension = '';
@@ -114,7 +115,18 @@ export class AddUnitComponent implements OnInit {
     this.newParkingDetail.VehicleNumber = "";
     this.checkIsUnitCreated=new EventEmitter<string>();
    }
-
+   occupancy = [
+    "SOLD OWNER OCCUPIED UNIT",
+    "SOLD TENANT OCCUPIED UNIT",
+    "SOLD VACANT UNIT",
+    "UNSOLD VACANT UNIT",
+    "UNSOLD TENANT OCCUPIED UNIT",
+  ]
+  unittypedata =[
+    "FLAT",
+    "VILLA",
+    "VACCANT PLOT"
+  ]
   ngOnInit() {
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     //console.log('this.currentAssociationID',this.currentAssociationID);
@@ -151,21 +163,115 @@ export class AddUnitComponent implements OnInit {
     ////console.log(calculationTypename);
     this.calculationtype = calculationTypename;
   }
+  ResetCreateUnitFormOne(){
+    this.unitno='';
+    this.occupency='Select Occupancy';
+    this.unitType='Select Unit Type';
+    this.calculationtype='Select Calcula...';
+    this.unitdimension = '';
+    this.unitrate = '';
+  }
+  ResetCreateUnitFormTwo(){
+    this.ownerFirtname = '';
+    this.ownerLastname = '';
+    this.ownerMobnumber='';
+    this.ownerEmail='';
+    this.tenantFirtname='';
+    this.tenantLastname='';
+    this.tenantMobnumber='';
+    this.tenantEmail='';
+  }
+  flatnovalid:boolean;
+  ownerfirstnamevalid:boolean;
+  ownerlastnamevalid:boolean;
+  ownermobilevalid:boolean;
+  owneremailvalid:boolean;
+  tenantFirtnamevalid:boolean;
+  tenantLastnamevalid:boolean;
+  tenantmobilevalid:boolean;
+  tenantemailvalid:boolean;
 
+
+
+  validateflatno(ev,unitno){
+    if (unitno != "" || undefined) {
+      this.flatnovalid = false;
+    } else {
+      this.flatnovalid = true;
+    }
+  }
+  validateownerfirtname(ev,ownerFirtname){
+    if (ownerFirtname != "" || undefined) {
+      this.ownerfirstnamevalid = false;
+    } else {
+      this.ownerfirstnamevalid = true;
+    }
+  }
+  validateownerlastname(ev,ownerLastname){
+    if (ownerLastname != "" || undefined) {
+      this.ownerlastnamevalid = false;
+    } else {
+      this.ownerlastnamevalid = true;
+    }
+  }
+  validateownermobile(ev,ownerMobnumber){
+    if (ownerMobnumber != "" || undefined) {
+      this.ownermobilevalid = false;
+    } else {
+      this.ownermobilevalid = true;
+    }
+  }
+  validateowneremail(ev,ownerEmail){
+    if (ownerEmail != "" || undefined) {
+      this.owneremailvalid = false;
+    } else {
+      this.owneremailvalid = true;
+    }
+  }
+  validatetenantfirstname(ev,tenantFirtname){
+    if (tenantFirtname != "" || undefined) {
+      this.tenantFirtnamevalid = false;
+    } else {
+      this.tenantFirtnamevalid = true;
+    }
+  }
+  validatetenantlastname(ev,tenantLastname){
+    if (tenantLastname != "" || undefined) {
+      this.tenantLastnamevalid = false;
+    } else {
+      this.tenantLastnamevalid = true;
+    }
+  }
+  validatetenantmobile(ev,tenantMobnumber){
+    if (tenantMobnumber != "" || undefined) {
+      this.tenantmobilevalid = false;
+    } else {
+      this.tenantmobilevalid = true;
+    }
+  }
+
+  validatetenantemail(ev,tenantEmail){
+    if (tenantEmail != "" || undefined) {
+      this.tenantemailvalid = false;
+    } else {
+      this.tenantemailvalid = true;
+    }
+  }
+ 
   tenantOwnerdiv(occupency) {
     this.occupency=occupency;
-    this.occupencys.forEach(item => {
-      if (occupency == 'UnSold Vacant Unit') {
+    this.occupancy.forEach(item => {
+      if (occupency == 'UNSOLD VACANT UNIT') {
         this.tenantDetails = false;
         this.ownerDetails = false;
         this.toggleunitvehicleinformation=false;
       }
-      else if (occupency == 'UnSold Tenant Occupied Unit') {
+      else if (occupency == 'UNSOLD TENANT OCCUPIED UNIT') {
         this.tenantDetails = true;
         this.ownerDetails = false;
         this.toggleunitvehicleinformation=true;
       }
-      else if (occupency == 'Sold Tenant Occupied Unit') {
+      else if (occupency == 'SOLD TENANT OCCUPIED UNIT') {
         this.tenantDetails = true;
         this.ownerDetails = true;
         this.toggleunitvehicleinformation=true;
@@ -182,6 +288,15 @@ export class AddUnitComponent implements OnInit {
     const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
+  _keyPress4(event: any) {
+    const pattern = /[\d*\.?\d?]/;
+    //var RegExp = new RegExp(/^\d*\.?\d*$/); 
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+    //if (!RegExp.test(event.target.value)) {
         event.preventDefault();
     }
   }
@@ -210,13 +325,13 @@ export class AddUnitComponent implements OnInit {
         {
           "UNUniName": this.unitno,
           "UNUniType": this.unitType,
-          "UNRate": this.unitrate,
+          "UNRate": "",
           "UNOcStat": this.occupency,
           "UNOcSDate": "2019-03-02",
           "UNOwnStat": "",
           "UNSldDate": "2019-03-02",
-          "UNDimens": this.unitdimension,
-          "UNCalType": this.calculationtype,
+          "UNDimens": "",
+          "UNCalType": "",
           "FLFloorID": 14,
           "BLBlockID": this.viewUniService.blockIDforUnitCreation,
           "Owner":
@@ -226,12 +341,12 @@ export class AddUnitComponent implements OnInit {
             "UOLName": this.ownerLastname,
             "UOMobile": this.ownerMobnumber,
             "UOISDCode": "+91",
-            "UOMobile1": this.ownerAltnumber,
+            "UOMobile1": "",
             "UOMobile2": "",
             "UOMobile3": "",
             "UOMobile4": "",
             "UOEmail": this.ownerEmail,
-            "UOEmail1": this.ownerAltemail,
+            "UOEmail1": "",
             "UOEmail2": "",
             "UOEmail3": "",
             "UOEmail4": "",
@@ -282,7 +397,7 @@ export class AddUnitComponent implements OnInit {
       }).then(
        (result) => {
         //this.globalservice.IsUnitCreated=true;
-        //this.router.navigate(['units']);
+        //this.router.navigate(['units']); 
 
          if (result.value) {
            console.log('inside unit test');

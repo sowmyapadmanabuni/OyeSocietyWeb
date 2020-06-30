@@ -132,8 +132,26 @@
     .result-row{flex-direction: column}
     .flat-img img{width:100%}
     }
+    .blockdetailsdata{
+        overflow-x: auto;
+        display: inline-flex;
     
+    }
+    .blockdetails-form{
+        padding-left: 42px;
+        padding-right: 42px;
+        display: inline-flex;
     
-    
+    }
+    .text{
+        text-transform: uppercase;
+    }
+    p.validation {
+        margin-left: 40px;
+        margin-top: -18px;
+        color: #B51414 !important;
+        margin-bottom: 0px;
+        margin-top: -18px;
+    }
     
     

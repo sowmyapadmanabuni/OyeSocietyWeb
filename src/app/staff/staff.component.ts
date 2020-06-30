@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { GlobalServiceService } from '../global-service.service'
 import { ViewStaffService } from '../../services/view-staff.service'
-import { from } from 'rxjs';
+import { Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert2';
@@ -21,6 +21,8 @@ export class StaffComponent implements OnInit {
   WorkerID: any;
   searchTxt:any;
   addGuest:any;
+  baseUrl:any;
+  currentAssociationIdForStaffList:Subscription
 
   constructor(private router: Router, private globalServiceService: GlobalServiceService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.EndDate = '';
@@ -28,6 +30,15 @@ export class StaffComponent implements OnInit {
     this.WorkerNameList = [];
     this.reportlists = [];
     this.WorkerID = '';
+    this.baseUrl='data:image/png;base64,';
+    this.currentAssociationIdForStaffList = this.globalServiceService.getCurrentAssociationIdForStaffList()
+    .subscribe(data=>{
+      console.log(data);
+      //console.log(localStorage.getItem('StaffListCalledOnce'))
+      //if(localStorage.getItem('StaffListCalledOnce')=='false'){
+        this.StaffList();
+      //}
+    })
   }
 
   ngOnInit() {
@@ -37,23 +48,30 @@ export class StaffComponent implements OnInit {
     
   }
   StaffList() {
+    //localStorage.setItem('StaffListCalledOnce','true')      
     this.viewStaffService.GetStaffList()
       .subscribe(data => {
-        //console.log(data);
-        if(data['data']['errorResponse']['message']){
-          swal.fire({
-            title: "",
-            text: `${data['data']['errorResponse']['message']}`,
-            type: "info",
-            confirmButtonColor: "#f69321"
-          })
+        console.log(data);
+        if(data['data']['errorResponse'])
+        {
+          if(data['data']['errorResponse']['message']){
+            swal.fire({
+              title: "",
+              text: `${data['data']['errorResponse']['message']}`,
+              type: "info",
+              confirmButtonColor: "#f69321"
+            })
+          }
         }
+        
         this.WorkerNameList = data['data']['worker'];
+       // console.log(this.WorkerNameList);
+
         this.WorkerNameList = _.sortBy(this.WorkerNameList, e => e['wkfName']);
-        //console.log(this.WorkerNameList);
+        console.log(this.WorkerNameList);
       },
         err => {
-          //console.log(err);
+          console.log(err);
         })
   }
 

@@ -11,6 +11,7 @@ import { ViewChild } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
 import {GlobalServiceService} from '../global-service.service';
+import {DashBoardService} from '../../services/dash-board.service';
 
 //import * as XLSX from 'xlsx';
 
@@ -83,7 +84,8 @@ export class AddExpenseComponent implements OnInit {
   constructor(private addexpenseservice: AddExpenseService,
     private router: Router,
     private viewexpensesservice: ViewExpensesService,
-    private globalservice: GlobalServiceService) {
+    private globalservice: GlobalServiceService,
+    private dashboardservice:DashBoardService) {
     this.invalidAmount = false;
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.currentAssociationName=this.globalservice.getCurrentAssociationName();
@@ -121,6 +123,9 @@ export class AddExpenseComponent implements OnInit {
     this.expensedata.EXDisType = 'Select Distribution Type';
     this.expensedata.UnUniIden = 'Select Unit';
     this.paymentMethodType='Select Payment Method';
+    if (this.paymentMethodType = 'Select Payment Method') {
+      this.checkField = "Cash";
+    }
     this.expensedata.PMID = '';
     this.expensedata.BABName = 'Select Bank';
     this.expensedata.EXPBName = 'Payee Bank';
@@ -129,7 +134,7 @@ export class AddExpenseComponent implements OnInit {
     this.expensedata.EXDDNo='';
     this.expensedata.EXDDDate='';
     this.expensedata.EXVoucherNo='';
-    this.expensedata.EXAddedBy='';
+    this.expensedata.EXAddedBy=this.dashboardservice.acfName;
     this.avialableUnitSpace = 0;
     this.EXDate = null;
     this.EXChqDate = null;
@@ -484,6 +489,8 @@ export class AddExpenseComponent implements OnInit {
       );
   }
   addExp() {
+    this.expensedata.BABName = 'SBI';
+    this.expensedata.EXPBName = 'SBI';
     if(this.expensedata.UnUniIden == 'Select Unit'){
       this.expensedata.UnUniIden='';
     }

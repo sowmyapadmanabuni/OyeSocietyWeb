@@ -44,7 +44,13 @@ export class ExcelUnitUploadComponent implements OnInit {
     $(".se-pre-con").fadeOut("slow");
   }
   upLoad() {
-    document.getElementById("file_upload_id").click();
+    if(this.blBlkName=="Select Block Name"){
+      alert("Please select the block");
+    }
+    else{
+      document.getElementById("file_upload_id").click();
+    }
+   
   }
   getBlocks() {
     this.viewUniService.getBlocks(this.currentAssociationID).subscribe(res => {
@@ -56,6 +62,7 @@ export class ExcelUnitUploadComponent implements OnInit {
   }
   getAllUnitDetailsByBlockID(blBlockID, blBlkName) {
     this.currentSelectedBlockID = blBlockID;
+    this.blBlkName=blBlkName;
     console.log('Current selected BlockID', this.currentSelectedBlockID)
   }
   onFileChange(ev) {

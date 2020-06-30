@@ -284,6 +284,13 @@ export class JoinAndEnrollComponent implements OnInit {
     this.route.params.subscribe(data => {
       console.log(data['join_enroll']);
       this.join_enroll = data['join_enroll'];
+      if( this.join_enroll == '1' || 1){
+        this.router.navigate(['association','1']);
+      }
+      else if( this.join_enroll == '2' || 2){
+        this.globalService.gotojoinassociation='id';
+        this.router.navigate(['association','2']);
+      }
     });
     this.enableCreateUnitWithAssociation=false;
     this.meter='sqft';
@@ -1567,7 +1574,7 @@ this.crtAssn.newBAActType='';
                 let unitArraylength = (Number(item['noofunits']));
                 // this.globalService.blockArrayLength=Number(this.crtAssn.totalNoBlocks);
                 for(let i=0;i<unitArraylength;i++){
-                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','','','','','','','',''));
+                  this.unitArray.push(new UnitArray(item['blkNme']+i.toString(),item['blkNme'],data['data'].blockID,'','','','','','','','','','','','','','','','','','','','','',''));
                 }
                 console.log(this.unitArray);
                 if (data['data'].blockID) {

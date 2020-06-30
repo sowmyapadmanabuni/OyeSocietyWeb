@@ -75,7 +75,7 @@
                 <div class="dash-row" *ngIf="viewUniService.unitList">
                     <table class="table table-bordered"
                         [mfData]="allUnitBYBlockID | search:['unUniName','unUniType','unDimens']:searchTxt"
-                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows">
+                        #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?allUnitBYBlockID.length:setnoofrows">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
@@ -103,7 +103,7 @@
                                     <td colspan="7" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td class="txt-middle">{{ (10 * (p - 1) + i)+1 }}</td>
+                                    <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
                                     <td>{{item.unUniName}}</td>
                                     <td>{{item.unUniType}}</td>
                                     <td>{{item.unDimens}} SqFt</td>
@@ -214,7 +214,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="from-group" style="padding-left:15px;">
-                                    <p>Unit Name : <strong>{{unUniName}}</strong></p>
+                                    <p>Unit Name : <strong>{{unUniName}} {{unOcStat}}</strong></p>
                                 </div>
                             </div>
 
@@ -236,7 +236,7 @@
                                     <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="occupencyInEditUnit" name="occupencyInEditUnit"
-                                            data-toggle="dropdown">{{SelectOccupancyOwnershipStatus=='Select Occupancy Ownership Status'?SelectOccupancyOwnershipStatus:UNOcStat}}
+                                            data-toggle="dropdown">{{SelectOccupancyOwnershipStatus==''?'Select Occupancy Ownership Status':occupencyInEditUnit}}
                                             <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                         <ul class="dropdown-menu fullw">
                                             <li (click)="SelectOccupencyStatus('Sold Owner Occupied Unit')"><a>Sold Owner Occupied Unit</a></li>
@@ -253,7 +253,7 @@
                                     <label class="control-label">Unit Type<span class="red">*</span></label>
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="unitTypeForEdit" name="unitTypeForEdit"
-                                            data-toggle="dropdown">{{SelectUnitType=='Select Unit Type'?SelectUnitType:UNUniType}}
+                                            data-toggle="dropdown">{{SelectUnitType==''?'Select Unit Type':unitTypeForEdit}}
                                             <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                         <ul class="dropdown-menu fullw">
                                             <li (click)="getUnitType('Flat')"><a>Flat</a></li>
@@ -303,3 +303,6 @@
         </div>
     </div>
 </ng-template>
+
+
+<div id="snackbar"></div>

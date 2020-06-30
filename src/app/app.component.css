@@ -253,7 +253,7 @@
   padding: 12px;
 }
 /* Notification bar css */
-#panel, #flip {
+#panel,#panel1, #flip {
   padding: 5px;
   text-align: center;
   /* background-color: #e5eecc; */
@@ -279,6 +279,21 @@
   border-color: #f7b844;
   border: 1px solid #efdbb8;
 }
+#panel1 {
+  padding: 0px;
+  display: none;
+  min-width: 160px;
+  max-width: 275px;
+  width: 275px;
+  z-index: 9995;
+  position: absolute;
+  z-index: 20000;
+  right: 300px;
+  top: 46px;
+  background: #fff;
+  border-color: #f7b844;
+  border: 1px solid #efdbb8;
+}
 .main-not:hover{background:#f8e4bf;cursor: pointer;}
 .not-cont{overflow-y: scroll;height: 200px;}
 .main-not{padding: 10px 20px;text-align: left;    border-bottom: 1px solid #f5f5f5;}
@@ -287,4 +302,5 @@
   .not-desc{font-size: 11px}
 .not-head-bg{background:#f7b844;padding: 10px;color: #fff;font-weight: 500;margin: 0px}
 /* Notification bar css */
+.not-count{position: absolute;background: red;width: 20px;height: 20px;border-radius: 31px;margin-left: -5px;color: #fff;font-size: 11px;padding: 2px;}
 

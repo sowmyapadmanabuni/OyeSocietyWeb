@@ -19,6 +19,8 @@ import { ViewUnitService } from '../../services/view-unit.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as _ from 'lodash';
+import {InvoiceDescriptionListOne} from '../models/invoice-description-list-one';
+import {InvoiceDescriptionListTwo} from '../models/invoice-description-list-two';
 
 
 @Component({
@@ -162,6 +164,7 @@ export class InvoicesComponent implements OnInit {
   searchTxt:any;
   viewPayments: object[];
   CurrentAssociationIdForInvoice:Subscription;
+  GetResidentLevelInvoiceSubject:Subscription;
   localMrmRoleId: string;
   InvoiceStartDate:any;
   InvoiceEndDate:any;
@@ -183,6 +186,15 @@ export class InvoicesComponent implements OnInit {
   isInValidZeroAmount: boolean;
   ValidateInvdescription:boolean;
   isDateFieldEmpty: boolean;
+  PaginatedValue: number;
+  disableGenerateReceipt:boolean;
+  unUniName: any;
+  associationAddress:any;
+  moreDiscountedAmount: boolean;
+  OwnerNameToShowOnInvoice: any;
+  CreditOrDebit:any;
+  InvoiceDescriptionListOne:InvoiceDescriptionListOne[];
+  InvoiceDescriptionListTwo:InvoiceDescriptionListTwo[];
 
   constructor(public viewinvoiceservice: ViewInvoiceService,
     private modalService: BsModalService,
@@ -195,6 +207,14 @@ export class InvoicesComponent implements OnInit {
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
     private route: ActivatedRoute) {
+    this.InvoiceDescriptionListOne=[];
+    this.InvoiceDescriptionListTwo=[];
+      this.CreditOrDebit='Credit';
+      this.OwnerNameToShowOnInvoice='';
+      this.moreDiscountedAmount=false;
+    this.associationAddress='';
+    this.unUniName = '';
+    this.PaginatedValue = 10;
       this.isDateFieldEmpty=false;
       this.ValidateInvdescription=true;
       this.isInValidZeroAmount=true;
@@ -250,6 +270,7 @@ export class InvoicesComponent implements OnInit {
     this.residentInvoiceList=[];
     this.toggle='All';
     this.paymentMethodType='Select Payment Method';
+    this.disableGenerateReceipt=true;
     this.expensedataBABName='Bank';
     this.viewPayments = [];
     this.minPaymentDateDate = new Date();
@@ -313,14 +334,30 @@ export class InvoicesComponent implements OnInit {
       showWeekNumbers: false,
       isAnimated: true
       });
+    this.GetResidentLevelInvoiceSubject = this.globalservice.getResidentLevelInvoice()
+      .subscribe(data => {
+        this.DisplayResidentLevelInvoice();
+      })
   }
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.PaidUnpaidinvoiceLists.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   setResidentRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.residentInvoiceList.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;
@@ -375,24 +412,46 @@ export class InvoicesComponent implements OnInit {
         }
       })
     //
-    if(this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2'){
-          this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
-      .subscribe(data => {
-        console.log(data);
-        this.residentInvoiceList=data['data']['invoices'];
-        this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
-      },
-        err => {
-          console.log(err);
-          swal.fire({
-            title: "An error has occurred",
-            text: `${err['error']['error']['message']}`,
-            type: "error",
-            confirmButtonColor: "#f69321"
-          });
-        })
+    if (this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2') {
+      this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+        .subscribe(data => {
+          console.log(data);
+          this.residentInvoiceList = data['data']['invoices'];
+          this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+        },
+          err => {
+            console.log(err);
+            /* swal.fire({
+               title: "An error has occurred",
+               text: `${err['error']['error']['message']}`,
+               type: "error",
+               confirmButtonColor: "#f69321"
+             }); */
+          })
     }
-
+    //
+    this.GetAssnAddress();
+  }
+  DisplayResidentLevelInvoice(){
+    this.residentInvoiceList=[];
+    this.PaidUnpaidinvoiceLists = [];
+    this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+    .subscribe(data => {
+      console.log(data);
+      this.residentInvoiceList=data['data']['invoices'];
+      this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+    },
+      err => {
+        this.residentInvoiceList=[];
+      this.PaidUnpaidinvoiceLists = [];
+        console.log(err);
+        /* swal.fire({
+          title: "An error has occurred",
+          text: `${err['error']['error']['message']}`,
+          type: "error",
+          confirmButtonColor: "#f69321"
+        }); */
+      })
   }
   _keyPress(event: any) {
     const pattern = /[0-9]/;
@@ -422,11 +481,11 @@ export class InvoicesComponent implements OnInit {
       this.ValidateAmountPaid=false;
     }
   }
-  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>, unUnitID, inid, inNumber, inTotVal, inPaid, inDisType,indCreated){
+  OpenViewReceiptModal(ViewReceiptTemplate:TemplateRef<any>,unUnitID, inid, inNumber, inTotVal, inPaid, inDisType,indCreated){
     this.UnitNameForViewReceipt=unUnitID;
     this.InvoiceNumForViewReceipt=inNumber;
     this.paymentDateForViewReceipt=indCreated;
-    this.InvoiceNumForViewReceipt=inid;
+    //this.InvoiceNumForViewReceipt=inid;
     this.AmountDueForViewReceipt=inTotVal;
     this.paymentTypeInViewReceipt=inDisType;
     this.isPaidForViewReceipt=inPaid;
@@ -489,7 +548,7 @@ export class InvoicesComponent implements OnInit {
   convert(){
 
     let doc = new jsPDF();
-    let head = ["Invoice Number", "Invoice Date","Amount"];
+    let head = ["Invoice Number","Unit Name","Invoice Date","Amount"];
     let body = [];
 
     /* The following array of object as response from the API req  */
@@ -502,7 +561,7 @@ export class InvoicesComponent implements OnInit {
 
 
     this.invoiceLists.forEach(element => {
-      let temp = [element['inNumber'], formatDate(element['inGenDate'], 'dd/MM/yyyy', 'en') , 'Rs.'+element['inTotVal']];
+      let temp = [element['inNumber'],element['unit']['unUniName'], formatDate(element['inGenDate'], 'dd/MM/yyyy', 'en') , 'Rs.'+element['inTotVal']];
       body.push(temp);
     });
     console.log(body);
@@ -567,7 +626,7 @@ export class InvoicesComponent implements OnInit {
 
   }
 
-  viewInvoice1(event, invoicePop: TemplateRef<any>, inid, inGenDate, inNumber, inDsCVal, unUnitID) {
+  viewInvoice1(event, invoicePop: TemplateRef<any>, inid, inGenDate, inNumber, inDsCVal, unUnitID,unUniName) {
     event.preventDefault();
     //alert('inside viewinvoice');
     console.log('inGenDate', inGenDate);
@@ -575,6 +634,7 @@ export class InvoicesComponent implements OnInit {
     console.log('inid', inid);
     console.log('inDsCVal', inDsCVal);
     console.log('unUnitID', unUnitID);
+    console.log('unUniName', unUniName);
 
     this.securityfee = 0;
     this.housekeepingfee = 0;
@@ -594,11 +654,23 @@ export class InvoicesComponent implements OnInit {
     this.invoiceNumber = inNumber;
     this.discountedValue = inDsCVal;
     this.unitID = unUnitID;
+    this.unUniName=unUniName;
+    this.InvoiceDescriptionListOne=[];
+    this.InvoiceDescriptionListTwo=[];
 
     this.viewinvoiceservice.GetUnitListByUnitID(this.unitID)
       .subscribe(data => {
         console.log('GetUnitListByUnitID', data);
         this.singleUnitDetails = data['data'].unit;
+        if(data['data']['unit']['owner'].length>0){
+          this.OwnerNameToShowOnInvoice = data['data']['unit'].owner[0].uofName;
+          }
+          else if(data['data']['unit']['tenant'].length>0){
+          this.OwnerNameToShowOnInvoice = data['data']['unit'].owner[0].utfName;
+          }
+          else{
+          this.OwnerNameToShowOnInvoice = "Owner name is not updated";
+          }
 
         if (data['data'].unit.owner.length > 0) {
           this.OwnerFirstName = data['data']['unit'].owner[0].uofName;
@@ -631,11 +703,20 @@ export class InvoicesComponent implements OnInit {
     this.viewinvoiceservice.invoiceDetails(inid, unUnitID)
       .subscribe(data => {
         this.InvoiceValue = 0;
+        this._discountedValue=0;
         console.log('invoiceDetails--', data['data']['invoiceDetails']);
+        data['data']['invoiceDetails'].forEach(item => {
+          if (item['idDesc'] != 'Discount Value') {
+            this.InvoiceDescriptionListOne.push(new InvoiceDescriptionListOne(item['idDesc'], '-', item['idValue']))
+          }
+          if (item['idDesc'] == 'Discount Value') {
+            this.InvoiceDescriptionListTwo.push(new InvoiceDescriptionListTwo(item['idDesc'], '-', item['idValue']))
+          }
+        })
         this.invoiceDetails = data['data']['invoiceDetails'];
         data['data']['invoiceDetails'].forEach(item => {
 
-          if (item['idDesc'] == "Common Area Electric Bill") {
+          /* if (item['idDesc'] == "Common Area Electric Bill") {
             this.commonareafee = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
@@ -694,13 +775,23 @@ export class InvoicesComponent implements OnInit {
             //this.rentingfees = item['idValue'];
             this.InvoiceValue += item['idValue'];
           }
-          else if (item['idDesc'] == "Discount Value") {
-            //this._discountedValue += item['idValue'];
-            this.InvoiceValue += item['idValue'];
+          else if (item['idDesc'] == "Discount Value") { 
+            this._discountedValue += Number(item['idValue']);
+            //this.InvoiceValue -= item['idValue'];
             console.log(this._discountedValue);
+          } */
+           if (item['idDesc'] == "Discount Value") { 
+            this._discountedValue += Number(item['idValue']);
+            //this.InvoiceValue -= item['idValue'];
+            console.log(this._discountedValue);
+          }
+          else{
+            this.InvoiceValue += item['idValue'];
           }
         })
         console.log(this._discountedValue);
+        console.log(this.InvoiceValue - this._discountedValue);
+        this.InvoiceValue = (this.InvoiceValue - this._discountedValue);
        //let finalValueWithDiscount = this.InvoiceValue - this._discountedValue;
         //console.log(finalValueWithDiscount);
         this.modalRef = this.modalService.show(invoicePop,Object.assign({}, { class: 'gray modal-lg' }));
@@ -1048,14 +1139,16 @@ export class InvoicesComponent implements OnInit {
     this.dscntInvdescription = "";
   }
   checkDiscountedAmount(dscntInvdiscountedAmount) {
+    console.log(dscntInvdiscountedAmount);
     var totalAmount = this.totalAmountForValidation;
     var discountedAmount = dscntInvdiscountedAmount;
-    if (totalAmount < discountedAmount) {
-      this.toastr.error('', 'Discounted Amount Cannot more than Total Amount', {
-        timeOut: 3000
-      });
+    console.log('totalAmount',totalAmount);
+    if (totalAmount < Number(discountedAmount)) {
+      console.log('Discounted Amount Cannot more than Total Amount');
+      this.moreDiscountedAmount=true;
     } else {
       this.validationResult = false;
+      this.moreDiscountedAmount=false;
     }
     if(dscntInvdiscountedAmount == 0){
       this.isInValidZeroAmount=true;
@@ -1074,11 +1167,11 @@ export class InvoicesComponent implements OnInit {
   }
   discountInvoice(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription) {
     console.log(dscntInvinvoiceNumber, dscntInvdiscountedAmount, dscntInvdescription);
-
+    console.log(this.CreditOrDebit);
     var discountData = {
       "INID": dscntInvinvoiceNumber,
       // "IDDesc": dscntInvdescription,
-      "INDisType"  : "Credit",
+      "INDisType"  : this.CreditOrDebit,
       "INDsCVal": dscntInvdiscountedAmount
     }
     console.log(discountData);
@@ -1096,6 +1189,7 @@ export class InvoicesComponent implements OnInit {
         }).then(
           (result) => {
             if (result.value) {
+              this.CreditOrDebit='Credit';
               this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId, this.viewinvoiceservice.invoiceBlock);
             } else if (result.dismiss === swal.DismissReason.cancel) {
             }
@@ -1111,7 +1205,7 @@ export class InvoicesComponent implements OnInit {
             type: "error",
             confirmButtonColor: "#f69321"
           });
-        })
+        }) 
   }
   openModal1(generateReceipt: TemplateRef<any>) {
     this.modalRef.hide();
@@ -1191,6 +1285,27 @@ export class InvoicesComponent implements OnInit {
     })
   }
   generateInvoiceReceipt(){
+    let paymentDesc;
+    let paymentRefNo;
+    switch(this.expensedataPMID){
+      case 1:
+        paymentDesc= 'Cash Payment';
+        paymentRefNo=this.receiptVoucherNo;
+        break;
+      case 2:
+        paymentDesc= 'Cheque Payment';
+        paymentRefNo=this.receiptChequeNo;
+        break;
+      case 3:
+        paymentDesc= 'Demand Draft Payment';
+        paymentRefNo=this.receiptddNo;
+        break;
+      case 4:
+        paymentDesc= 'Online Payment';
+        paymentRefNo='Online';
+        break;
+    }
+    this.disableGenerateReceipt=true;
     let genReceipt = {
       "PYAmtPaid": this.totalamountPaid,
       "INNumber": this.invoicenumber,
@@ -1199,12 +1314,12 @@ export class InvoicesComponent implements OnInit {
       "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en'),
     
       "MEMemID"  : "1",
-      "PYRefNo"  : "sfg54658",
+      "PYRefNo"  : paymentRefNo,
       "PYBkDet"  : this.expensedataBABName,
       "PYTax"    : "12.6",
-      "PMID"     : 1,
+      "PMID"     : this.expensedataPMID,//1,
       "PYAmtDue" : this.totalAmountDue,
-      "PYDesc"   : "PaymentMade",
+      "PYDesc"   :paymentDesc,
       "PYVoucherNo" : this.receiptVoucherNo,
       "PYChqNo" : this.receiptChequeNo,
       "PYChqDate" :formatDate((this.receiptChequeDate==''?new Date():this.receiptChequeDate),'yyyy/MM/dd', 'en'),
@@ -1227,7 +1342,7 @@ export class InvoicesComponent implements OnInit {
       }).then(
         (result) => {
           if (result.value) {
-            
+            this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
           } else if (result.dismiss === swal.DismissReason.cancel) {
 
           }
@@ -1235,6 +1350,8 @@ export class InvoicesComponent implements OnInit {
 
     },
     err=>{
+      this.modalRef.hide();
+      this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
       console.log(err);
       swal.fire({
         title: "",
@@ -1363,17 +1480,31 @@ export class InvoicesComponent implements OnInit {
 
     }
     else{
+      this.PaginatedValue=0;
+      $(document).ready(()=> {
+        let element=document.querySelector('.page-item.active');
+        // console.log(element);
+        // console.log(element);
+        if(element != null){
+        (element.children[0] as HTMLElement).click();
+        //console.log(element.children[0]['text']);
+        }
+        else if (element == null) {
+          this.PaginatedValue=0;
+        }
+      });
+
       this.p=1;
       this.toggle=param;
       console.log(IsPaid);
       let paid = '';
       if (IsPaid) {
-        paid = 'Yes';
+        paid = 'UnPaid'; //Yes
       }
       else {
         paid = 'No';
       }
-      if(paid == 'Yes' || paid == 'No'){
+      if(paid == 'UnPaid' || paid == 'No'){
         this.PaidUnpaidinvoiceLists = this.invoiceLists;
         this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
           return item['inPaid'] == paid;
@@ -1408,6 +1539,7 @@ export class InvoicesComponent implements OnInit {
       }
   }
   OpenReceiptModal(Receipts: TemplateRef<any>,inNumber,inTotVal,inAmtPaid,unUnitID){
+    this.checkField='';
     this.invoicenumber=inNumber;
     this.totalAmountDue=inTotVal;
     this.totalamountPaid=inAmtPaid;
@@ -1465,7 +1597,7 @@ export class InvoicesComponent implements OnInit {
         let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
         this.p= Number(element.children[0]['text']);
-      //console.log(this.p);
+      console.log(this.p);
     } 
     if(event['srcElement']['text'] == '«'){
       //console.log(this.p);
@@ -1474,10 +1606,25 @@ export class InvoicesComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.PaidUnpaidinvoiceLists.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   
   resetForm(){
+    this.disableGenerateReceipt=true;
+    this.checkField='';
     this.totalamountPaid='';
     this.paymentMethodType='Select Payment Method';
     this.expensedataBABName='Bank';
@@ -1487,9 +1634,11 @@ export class InvoicesComponent implements OnInit {
     this.receiptEXDDDate='';
     this.receiptChequeNo='';
     this.receiptChequeDate='';
+    
   }
   showMethod(PMID: string,displayName) {
     console.log(displayName);
+    this.disableGenerateReceipt=false;
     switch (displayName) {
       case 'Cash':
         this.expensedataPMID = 1;
@@ -1615,5 +1764,15 @@ export class InvoicesComponent implements OnInit {
     if(this.isDateFieldEmpty==true){
       this.getCurrentBlockDetails(this.viewinvoiceservice.invoiceBlockId,this.viewinvoiceservice.invoiceBlock);
     }
+  }
+  GetAssnAddress() {
+    this.viewreceiptservice.getAssociationAddress(this.globalservice.getCurrentAssociationId())
+      .subscribe(data => {
+        this.associationAddress = data['data']['association']['asAddress'];
+        console.log(this.associationAddress);
+      },
+        err => {
+          console.log(err);
+        })
   }
 }

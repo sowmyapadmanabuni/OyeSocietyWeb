@@ -35,6 +35,7 @@ export class ViewStaffService {
   }
   // http://apiuat.oyespace.com/oye247/api/v1/GetWorkersListByUnitID/40469
   GetStaffList(){
+    console.log(this.globalServiceService.getCurrentAssociationId(),this.globalServiceService.getacAccntID(),this.globalServiceService.getCurrentUnitId())
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
     let url = `${ipAddress}oye247/api/v1/GetWorkerListByAssocIDAccountIDAndUnitID/${this.globalServiceService.getCurrentAssociationId()}/${this.globalServiceService.getacAccntID()}/${this.globalServiceService.getCurrentUnitId()}`

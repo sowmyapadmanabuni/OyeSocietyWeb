@@ -10,23 +10,22 @@ import { formatDate } from '@angular/common';
 })
 export class ViewDeliveryService {
   constructor(private http: HttpClient, private utilsService: UtilsService, private globalService: GlobalServiceService) { }
+
   getVisitorList(date):Observable<any> {
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
     let url = `${ipAddress}oyesafe/api/v1/VisitorLog/GetVisitorLogByDatesAssocAndUnitID`
     var DeliveryData = {
-      "StartDate":(date['StartDate']=='')? "2019-08-11" : date['StartDate'],
-      "EndDate": (date['EndDate']=='')? "2019-15-11" : date['EndDate'],
-      "ASAssnID": this.globalService.currentAssociationId,
-      "UNUnitID": this.globalService.currentUnitId,
-      "ACAccntID": this.globalService.getacAccntID()
-      
-      // "ToDate": (date['Todate']=='')? formatDate(new Date(),'yyyy-MM-dd','en') : date['Todate']
-      
+      "StartDate": "2020-01-03",//(date['StartDate']=='')? "2019-08-11" : date['StartDate'],
+      "EndDate": "2020-04-10",//(date['EndDate']=='')? "2019-15-11" : date['EndDate'],
+      "ASAssnID": 15143,//this.globalService.getCurrentAssociationId(),
+      "UNUnitID": 41382,//this.globalService.getCurrentUnitId(),
+      "ACAccntID": 16236//this.globalService.getacAccntID()      
     }
-    //console.log('req data',DeliveryData);
+    console.log('req data',DeliveryData);
    return this.http.post(url, JSON.stringify(DeliveryData), { headers: headers })
   }
+  
   getHttpheaders(): HttpHeaders {
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')

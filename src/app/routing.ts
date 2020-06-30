@@ -47,7 +47,15 @@ import {JoinAndEnrollComponent} from './join-and-enroll/join-and-enroll.componen
 import {EditAssociationComponent} from './edit-association/edit-association.component';
 import {AccountingComponent} from './accounting/accounting.component'
 import {SafetyComponent} from './safety/safety.component'
-import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component'
+import {ErrorComponent} from './error/error.component'
+import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-conditions.component';
+import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
+import {BroadcastComponent } from './broadcast/broadcast.component';
+import {ExcelReceiptUploadComponent} from './excel-receipt-upload/excel-receipt-upload.component';
+import {AdminDeleveryScreenComponent} from './admin-delevery-screen/admin-delevery-screen.component';
+import {AdminStaffScreenComponent} from './admin-staff-screen/admin-staff-screen.component';
+import { CareersComponent } from './careers/careers.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 const routes: Routes = [
@@ -67,8 +75,11 @@ const routes: Routes = [
     { path: 'testimonials', component:TestimonialsComponent, canActivate: [AuthGuard]},
     { path: 'blogs', component:BlogsComponent, canActivate: [AuthGuard]},
     { path: 'jobs', component:JobsComponent, canActivate: [AuthGuard]},
+    { path: 'careers', component:CareersComponent, canActivate: [AuthGuard]},
     { path: 'googlemaps', component:GooglemapComponent, canActivate: [AuthGuard]},
+    { path: 'notifications', component:NotificationsComponent, canActivate: [AuthGuard]},
     { path: 'association', component:AssociationManagementComponent, canActivate: [AuthGuard],canDeactivate:[AuthGuard]},
+    { path: 'association/:id', component:AssociationManagementComponent, canActivate: [AuthGuard],canDeactivate:[AuthGuard]},
     { path: 'expense', component:ExpenseManagementComponent, canActivate: [AuthGuard]},
     { path: 'blocks', component:BlocksComponent, canActivate: [AuthGuard]},
     { path: 'invoice', component:InvoicesComponent, canActivate: [AuthGuard]},
@@ -84,6 +95,7 @@ const routes: Routes = [
     { path: 'visitors', component:VisitorsComponent, canActivate: [AuthGuard]},
     { path: 'AssocitionVisitors', component:AssociationVisitorComponent, canActivate: [AuthGuard]},
     { path: 'staffs', component:StaffComponent, canActivate: [AuthGuard]},
+    { path: 'error', component:ErrorComponent, canActivate: [AuthGuard]},
     { path: 'deliveries', component:DeliveriesComponent, canActivate: [AuthGuard]},
     { path: 'reports', component:ReportsComponent, canActivate: [AuthGuard]},
     { path: 'patroling', component:PatrollingComponent, canActivate: [AuthGuard]},
@@ -102,7 +114,13 @@ const routes: Routes = [
     { path: 'excelreceipt', component:ExcelReceiptUploadComponent, canActivate: [AuthGuard]},
     { path: 'joinenroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
     { path: 'joinenroll/:join_enroll', component:JoinAndEnrollComponent, canActivate: [AuthGuard]},
-    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]}
+    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]},
+    { path: 'termsandcondition', component:TermsAndConditionsComponent},
+    { path: 'privacypolicy', component:PrivacyPolicyComponent},
+    { path: 'broadcast', component:BroadcastComponent},
+    { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]},
+    { path: 'admindeleveryscreen', component:AdminDeleveryScreenComponent, canActivate: [AuthGuard]},
+    { path: 'adminstaffscreen', component:AdminStaffScreenComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes,{scrollPositionRestoration:'enabled'})],

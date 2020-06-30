@@ -34,9 +34,12 @@ export class MembersComponent implements OnInit {
   columnName: any;
   getMembersSubscription:Subscription;
   fillMemberArray: boolean;
+  PaginatedValue: number;
+  uoMobile:any;
 
   constructor(public dashBrdService: DashBoardService, private http: HttpClient,
     public globalService: GlobalServiceService, public utilsService: UtilsService) {
+      this.PaginatedValue=10;
       this.fillMemberArray=true;
       this.rowsToDisplay=[{'Display':'5','Row':5},
       {'Display':'10','Row':10},
@@ -60,6 +63,7 @@ export class MembersComponent implements OnInit {
     })
     console.log(this.associationID);
     this.role = [{ 'Role': 'Admin', 'RoleId': 1 }, { 'Role': 'Owner', 'RoleId': 2 }];
+    localStorage.setItem('Component','Members');
   }
 
   ngOnInit() {
@@ -79,8 +83,8 @@ export class MembersComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         console.log(data['data']['unit']);
-        this.allMemberByAccount = [];
-        Array.from(data['data']['unit']).forEach(item=> {
+        this.allMemberByAccount = data['data']['unit'];
+       /* Array.from(data['data']['unit']).forEach(item=> {
               let headers = this.getHttpheaders();
               return this.http.get(IPAddress + 'oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/'+item['asAssnID']+'/'+item['unUnitID']+'/'+item['acAccntID'], { headers: headers })
               // http://apidev.oyespace.com/oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/{AssociationID}/{UnitID}/{AccountID}
@@ -104,7 +108,7 @@ export class MembersComponent implements OnInit {
                 }, err => {
                   console.log(err);
                 })
-        })
+        }) */
         console.log(this.allMemberByAccount);
       },
         err => {
@@ -117,49 +121,79 @@ export class MembersComponent implements OnInit {
             confirmButtonColor: "#f69321"
           })
         })
+        this.PaginatedValue=0;
+        $(document).ready(()=> {
+          let element=document.querySelector('.page-item.active');
+          // console.log(element);
+          // console.log(element);
+          if(element != null){
+          (element.children[0] as HTMLElement).click();
+          //console.log(element.children[0]['text']);
+          }
+          else if (element == null) {
+            this.PaginatedValue=0;
+          }
+        });
   }
 
 
-  AdminCreate(uoMobile, unUnitID, roleid, role) {
-    console.log(uoMobile, unUnitID, roleid, role);
-    this.ChangeRole = role;
-    this.SelectedUnitID = unUnitID;
-    let toOwnertoAdmin = {
-      ACMobile: uoMobile,
-      UNUnitID: unUnitID,
-      MRMRoleID: roleid,
-      ASAssnID: this.associationID
-    }
-    console.log(toOwnertoAdmin);
-    let headers = this.getHttpheaders();
-    let IPAddress = this.utilsService.getIPaddress();
-    this.http.post(IPAddress + '/oyeliving/api/v1/MemberRoleChangeToOwnerToAdminUpdate/', JSON.stringify(toOwnertoAdmin), { headers: headers })
+  AdminCreate(unUnitID, roleid, role) {
+    this.uoMobile='';
+    let ipaddress = this.utilsService.getIPaddress();
+    //let headers1 = this.getHttpheaders();
+    this.http.get(ipaddress + `oyeliving/api/v1/Unit/GetUnitListByUnitID/` + unUnitID, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
       .subscribe(data => {
         console.log(data);
+       this.uoMobile = ((data['data']['unit']['owner'].length == 0) ? ((data['data']['unit']['tenant'].length == 0 ? '' : (data['data']['unit']['tenant'][0]['utMobile'].includes("+91", 3)) ? data['data']['unit']['tenant'][0]['utMobile'].slice(3) : data['data']['unit']['tenant'][0]['utMobile'])) : ((data['data']['unit']['owner'][0]['uoMobile'].includes("+91", 3)) ? data['data']['unit']['owner'][0]['uoMobile'].slice(3) : data['data']['unit']['owner'][0]['uoMobile']));
+       console.log(this.uoMobile);
+       //
+       console.log(unUnitID, roleid, role);
+       this.ChangeRole = role;
+       this.SelectedUnitID = unUnitID;
+       let toOwnertoAdmin = {
+         ACMobile: this.uoMobile,
+         UNUnitID: unUnitID,
+         MRMRoleID: roleid,
+         ASAssnID: this.associationID
+       }
+       console.log(toOwnertoAdmin);
+       let headers = this.getHttpheaders();
+       let IPAddress = this.utilsService.getIPaddress();
+       this.http.post(IPAddress + '/oyeliving/api/v1/MemberRoleChangeToOwnerToAdminUpdate/', JSON.stringify(toOwnertoAdmin), { headers: headers })
+         .subscribe(data => {
+           console.log(data);
+   
+           swal.fire({
+             title: "Role Changed Successfully",
+             text: "",
+             type: "success",
+             confirmButtonColor: "#f69321",
+             confirmButtonText: "OK"
+           }).then(
+             (result) => {
+               if (result.value) {
+                this.SelectedUnitID='SelectRole';
+                 this.GetMemberList(this.associationID);
+               }
+             });
+         },
+           err => {
+             console.log(err);
+             swal.fire({
+               title: "Error",
+               text: err['error']['error']['message'],
+               type: "error",
+               confirmButtonColor: "#f69321",
+               confirmButtonText: "OK"
+             })
+           })
+       //
 
-        swal.fire({
-          title: "Role Changed Successfully",
-          text: "",
-          type: "success",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-        }).then(
-          (result) => {
-            if (result.value) {
-              this.GetMemberList(this.associationID);
-            }
-          });
       },
-        err => {
-          console.log(err);
-          swal.fire({
-            title: "Error",
-            text: err['error']['error']['message'],
-            type: "error",
-            confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
-          })
-        })
+      err=>{
+        console.log(err);
+        this.uoMobile='';
+      }) 
   }
 
   onPageChange(event) {
@@ -185,8 +219,21 @@ export class MembersComponent implements OnInit {
     //console.log(this.p);
     let element=document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    this.p=Number(element.children[0]['text']);
-  }
+    if(element != null){
+      this.p=Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        //let PminusOne=this.p-1;
+        //console.log(PminusOne);
+        //console.log((this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
+        //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
+        console.log(this.p);
+        this.PaginatedValue=(this.setnoofrows=='All Records'?this.allMemberByAccount.length:this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }  }
   SendNotification() {
     console.log(this.allMemberByAccount);
   }
@@ -236,9 +283,23 @@ export class MembersComponent implements OnInit {
         console.log(data);
       })
   }
+
+  
   setRows(RowNum) {
     this.ShowRecords='abc';
-    this.setnoofrows = (RowNum=='All'?this.allMemberByAccount.length:RowNum);
+    this.setnoofrows = (RowNum=='All'?'All Records':RowNum);
+    $(document).ready(()=> {
+      let element=document.querySelector('.page-item.active');
+      console.log(element);
+      console.log(element);
+      if(element != null){
+      (element.children[0] as HTMLElement).click();
+      console.log(element.children[0]['text']);
+      }
+      else if (element == null) {
+        this.PaginatedValue=0;
+      }
+    });
   }
   removeColumnSort(columnName) {
     this.columnName = columnName;

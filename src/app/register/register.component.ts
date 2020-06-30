@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
   // @ViewChild('myButton1') myButton1: any;
   modalRef: BsModalRef;
   terms:boolean;
+  terms2: any;
 
   constructor(private modalService: BsModalService,
     private requestService: RegisterService,
@@ -36,6 +37,7 @@ export class RegisterComponent implements OnInit {
     private router:Router,
     public globalservice:GlobalServiceService) {
       this.terms=false;
+      this.terms2='';
      }
 
   ngOnInit() {
@@ -57,7 +59,14 @@ export class RegisterComponent implements OnInit {
   }
 
   validateCheckBox(event){
-    //console.log('event',event);
+    console.log('event',event.target.value);
+    this.terms2=event.target.value;
+    let termsChkbox = <HTMLInputElement>document.getElementById("terms1");
+    console.log(termsChkbox.checked);
+    if(!termsChkbox.checked){
+      this.terms2='';
+      console.log(this.terms2);
+    }
     //console.log('event.target.validity.valueMissing',event.target.validity.valueMissing);
     event.target.setCustomValidity(event.target.validity.valueMissing ? "" : "");
   }
@@ -93,6 +102,7 @@ export class RegisterComponent implements OnInit {
       this.requestService.register(requestData)
         .subscribe((response) => {
           console.log('response', response);
+          this.globalservice.setAccountID(response['data']['account']['acAccntID']);
           swal.fire({
             title: "Registered Successfully",
             text: "",
@@ -107,8 +117,8 @@ export class RegisterComponent implements OnInit {
               this.lastName = '';
               this.email = '';
               this.mobilenumber = '';
-              //this.router.navigate(['home']);
               this.globalservice.toggleregister=false;
+              this.router.navigate(['home']);
             }
           });
         },
