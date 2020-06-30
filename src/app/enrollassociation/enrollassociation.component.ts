@@ -2129,9 +2129,30 @@ cancelunitsbulkupload(ev){
       
     })
   }
-  resetStep5(ev,blknamecommon){
-
+  resetStep5(ev,blknamecommon,Id){
     Object.keys(this.unitlistjson).forEach(element=>{
+      this.unitlistjson[element].forEach(unit => {
+        if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
+          console.log(Id);
+          unit.flatno="",
+          unit.blockname ="",
+          unit.owneremaiid="",
+          unit.ownerfirstname="",
+          unit.ownermobilenumber="",
+          unit.ownershipstatus="",
+          unit.unittype="",
+          unit.ownerlastname="",
+          unit.ownermobilenumber= "",
+          unit.owneremaiid="",
+          unit.tenantfirstname="",
+          unit.tenantlastname="",
+          unit.tenantmobilenumber="",
+          unit.tenantemaiid=""
+        }
+      })
+    })
+
+   /* Object.keys(this.unitlistjson).forEach(element=>{
       console.log(this.unitlistjson[element])
       this.unitlistjson[element].forEach(unit => {
 if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
@@ -2172,7 +2193,7 @@ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
     }
 
       })
-    })
+    }) */
 
   }
    demo1TabIndex = 0;

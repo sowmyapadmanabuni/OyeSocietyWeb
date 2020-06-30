@@ -547,7 +547,7 @@
                     <div id="blockdetailsbuttons"class="save">
                         <a class="continue" (click)="resetStep4($event)"mat-raised-button color="primary" >RESET</a>
                         <!-- <a id="assdetailssave" mat-raised-button color="primary" [disabled]="!form1.valid" (click)="createblocksdetails($event)">NEXT</a> -->
-                        <button class="next-bt" id="assdetailssave" color="primary" [ngStyle]="isblockdetailsempty && {'opacity': '0.5'}" (click)="createblocksdetails('')">NEXT</button>
+                        <button class="next-bt" id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty?'0.5':'1'}" (click)="createblocksdetails('')">NEXT</button>
                     </div>
                 </div>
                 <!-- </form> -->
@@ -795,7 +795,7 @@
                                                     (click)="gotonexttab($event,blocknameforIteration,obj3.Id)">{{SubmitOrSaveAndContinue}}</button>
                                             </div>
                                             <div class="save">
-                                                <a class="continue" (click)="resetStep5($event,blocknameforIteration)" mat-raised-button color="primary">RESET</a>
+                                                <a class="continue" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
                                             </div>
     
                                         </div>
