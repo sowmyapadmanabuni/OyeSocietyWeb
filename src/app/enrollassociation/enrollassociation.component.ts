@@ -62,6 +62,7 @@ export class EnrollassociationComponent implements OnInit {
       this.isblockdetailsempty=true;
       this.duplicateBlocknameExist=false;
       this.toggleEmptyBlockarray=false;
+      this.duplicateUnitrecordexist=false;
       // this.isunitdetailsempty=false;
      }
 
@@ -637,199 +638,227 @@ imgfilename;
   // nextObjId1='';
   // isNextIetrationEnabled1;
   // nextBlckId1='';
-
+  unitlistuniquejson=[];
+  unitlistduplicatejson=[];
+  duplicateUnitrecordexist;
   submitunitdetails1(name) {
-    let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
+    this.unitsuccessarray = [];
+   /* let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
     let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
       return valueManualUnitnameArr.indexOf(item) != idx
     });
     if (isManualUnitnameDuplicate) {
-          Swal.fire({
-            title: 'Duplicate Unitname Exist',
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-          })        
-        }
-        else{
-          let abc = Object.keys(this.unitlistjson);
-          this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
-            return item !=  name;
-          })
-          console.log(this.finalblocknameTmp);
-          console.log(this.finalblocknameTmp.length);
-          if(this.finalblocknameTmp.length==1){
-            console.log('insideltab');
-            this.SubmitOrSaveAndContinue1='Submit';
+      Swal.fire({
+        title: 'Duplicate Unitname Exist',
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else { */
+      let abc = Object.keys(this.unitlistjson);
+      this.finalblocknameTmp = this.finalblocknameTmp.filter(item => {
+        return item != name;
+      })
+      console.log(this.finalblocknameTmp);
+      console.log(this.finalblocknameTmp.length);
+      if (this.finalblocknameTmp.length == 1) {
+        console.log('insideltab');
+        this.SubmitOrSaveAndContinue1 = 'Submit';
+      }
+      this.exceptionMessage1 = '';
+      console.log(name);
+      console.log(this.unitlistjson[name]);
+      console.log(this.unitlistjson);
+      let date = new Date();
+      var getDate = date.getDate();
+      var getMonth = date.getMonth() + 1;
+      var getFullYear = date.getFullYear();
+      var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
+      //this.unitsuccessarray=[];
+      console.log(date)
+
+      let ipAddress = this.utilsService.createUnit();
+      let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
+      // 
+      if (this.unitlistduplicatejson.length>0) {
+        this.unitlistjson[name] = this.unitlistduplicatejson;
+        console.log(this.unitlistjson[name]);
+        this.duplicateUnitrecordexist= true;
+      }
+      else {
+        this.unitlistjson[name].forEach(iitm => {
+          console.log(iitm.flatno.toLowerCase());
+          let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
+          console.log(found);
+          console.log(this.unitlistuniquejson);
+          if (found) {
+            this.unitlistduplicatejson.push(iitm);
+            console.log(this.unitlistduplicatejson);
+            this.duplicateUnitrecordexist= true;
           }
-          this.exceptionMessage1='';
-          console.log(name);
-          console.log(this.unitlistjson[name]);
-          console.log(this.unitlistjson);
-          let date = new Date();
-          var getDate = date.getDate();
-          var getMonth = date.getMonth() + 1;
-          var getFullYear = date.getFullYear();
-          var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
-          //this.unitsuccessarray=[];
-          console.log(date)
-      
-          let ipAddress = this.utilsService.createUnit();
-          let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
-      
-          // Object.keys(this.unitlistjson).forEach(element => {
-          //console.log(this.unitlistjson[element])
-      
-          //this.unitlistjson[name].forEach((unit, index) => {
-          // let headername = unit.Id.slice(0, -2);
-          //console.log(headername);
-          //console.log(unit)
-          //if (name == headername) {
-          //
-      
-          this.unitlistjson[name].forEach((unit, index) => {
-            console.log(unit);
-            ((index) => {
-              setTimeout(() => {
-                this.unitsuccessarray.push(unit);
-      
-                this.unitdetailscreatejson = {
-                  "ASAssnID": this.assid,
-                  "ACAccntID": this.globalService.getacAccntID(),
-                  "units": [
-                    {
-      
-                      "UNUniName": unit.flatno,
-                      "UNUniType": unit.unittype,
-                      "UNOcStat": unit.ownershipstatus,
-                      "UNOcSDate": "",
-                      "UNOwnStat": "",
-                      "UNSldDate": "",
-                      "UNDimens": "",
-                      "UNRate": "",
-                      "UNCalType": "",
-                      "FLFloorID": 14,
-                      "BLBlockID": unit.blockid,
-                      "Owner":
-                        [{
-      
-                          "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
-                          "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
-                          "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
-                          "UOISDCode": "",
-                          "UOMobile1": "",
-                          "UOMobile2": "",
-                          "UOMobile3": "",
-                          "UOMobile4": "",
-                          "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
-                          "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
-                          "UOCDAmnt": "2000"
-      
-                        }],
-                      "Tenant": [{
-                        "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
-                        "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
-                        "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
-                        "UTISDCode": "+91",
-                        "UTMobile1": "+919398493298",
-                        "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
-                        "UTEmail1": "pl@gmail.com"
-                      }],
-                      "unitbankaccount":
+          else {
+            this.unitlistuniquejson.push(iitm);
+            iitm.hasNoDuplicateUnitname = true;
+            console.log(this.unitlistuniquejson);
+          }
+        })
+      }
+      console.log(this.unitlistjson[name]);
+      //
+    this.unitlistjson[name].forEach((unit, index) => {
+      console.log(unit);
+      ((index) => {
+        setTimeout(() => {
+          if (unit.hasNoDuplicateUnitname) {
+            this.unitsuccessarray.push(unit);
+
+            this.unitdetailscreatejson = {
+              "ASAssnID": this.assid,
+              "ACAccntID": this.globalService.getacAccntID(),
+              "units": [
+                {
+
+                  "UNUniName": unit.flatno,
+                  "UNUniType": unit.unittype,
+                  "UNOcStat": unit.ownershipstatus,
+                  "UNOcSDate": "",
+                  "UNOwnStat": "",
+                  "UNSldDate": "",
+                  "UNDimens": "",
+                  "UNRate": "",
+                  "UNCalType": "",
+                  "FLFloorID": 14,
+                  "BLBlockID": unit.blockid,
+                  "Owner":
+                    [{
+
+                      "UOFName": (unit.ownerfirstname == undefined ? '' : unit.ownerfirstname),
+                      "UOLName": (unit.ownerlastname == undefined ? '' : unit.ownerlastname),
+                      "UOMobile": (unit.ownermobilenumber == undefined ? '' : unit.ownermobilenumber),
+                      "UOISDCode": "",
+                      "UOMobile1": "",
+                      "UOMobile2": "",
+                      "UOMobile3": "",
+                      "UOMobile4": "",
+                      "UOEmail": (unit.owneremaiid == undefined ? '' : unit.owneremaiid),
+                      "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
+                      "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
+                      "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
+                      "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
+                      "UOCDAmnt": "2000"
+
+                    }],
+                  "Tenant": [{
+                    "UTFName": (unit.tenantfirstname == undefined ? '' : unit.tenantfirstname),
+                    "UTLName": (unit.tenantlastname == undefined ? '' : unit.tenantlastname),
+                    "UTMobile": (unit.tenantmobilenumber == undefined ? '' : unit.tenantmobilenumber),
+                    "UTISDCode": "+91",
+                    "UTMobile1": "+919398493298",
+                    "UTEmail": (unit.tenantemaiid == undefined ? '' : unit.tenantemaiid),
+                    "UTEmail1": "pl@gmail.com"
+                  }],
+                  "unitbankaccount":
+                  {
+                    "UBName": "SBI",
+                    "UBIFSC": "SBIN0014",
+                    "UBActNo": "LOP9090909",
+                    "UBActType": "Savings",
+                    "UBActBal": 12.3,
+                    "BLBlockID": unit.blockid
+                  },
+
+                  "UnitParkingLot":
+                    [
                       {
-                        "UBName": "SBI",
-                        "UBIFSC": "SBIN0014",
-                        "UBActNo": "LOP9090909",
-                        "UBActType": "Savings",
-                        "UBActBal": 12.3,
-                        "BLBlockID": unit.blockid
-                      },
-      
-                      "UnitParkingLot":
-                        [
-                          {
-                            "UPLNum": "1902",
-                            "MEMemID": 287,
-                            "UPGPSPnt": "24.0088 23. 979"
-                          }
-                        ]
-                    }
-                  ]
+                        "UPLNum": "1902",
+                        "MEMemID": 287,
+                        "UPGPSPnt": "24.0088 23. 979"
+                      }
+                    ]
                 }
-                console.log(this.unitdetailscreatejson)
-                this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
-                .subscribe((res: any) => {
-                  console.log(res)
-      
-                }, error => {
-                  console.log(error);
-                 this.exceptionMessage1 = error['error']['exceptionMessage'];
-                 console.log(this.exceptionMessage1);
-                });
-              }, 2000 * index)
-            })(index)
-      
-          });
-      
-          //
-          //}
-          //})
-          //})
-      
-          // Object.keys(this.unitlistjson).forEach((element, index) => {
-          //   console.log(this.unitlistjson[element]);
-      
-          // }) 
-      
-          setTimeout(() => {
-            var message;
-            if (this.unitsuccessarray.length == 1) {
-              message = 'Unit Created Successfully'
+              ]
             }
-            else if (this.unitsuccessarray.length > 1) {
-              message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
-            }
+            console.log(this.unitdetailscreatejson)
+            this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+              .subscribe((res: any) => {
+                console.log(res)
+
+              }, error => {
+                console.log(error);
+                this.exceptionMessage1 = error['error']['exceptionMessage'];
+                console.log(this.exceptionMessage1);
+              });
+          }
+        }, 2000 * index)
+      })(index)
+
+    });
       
-            let abc0 = Object.keys(this.unitlistjson);
-            if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
-              Swal.fire({
-                title: (this.exceptionMessage1 == ''?message:this.exceptionMessage),
-                text: "",
-                type: (this.exceptionMessage1 == ''?"success":"error"),
-                confirmButtonColor: "#f69321",
-                confirmButtonText: "OK"
-              }).then(
-                (result) => {
-                  if (result.value) {
-                    this.isunitdetailsempty=true;
-                    //let abc1 = Object.keys(this.unitlistjson);
-                    //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-                      console.log('test block');
-                    this.viewAssnService.dashboardredirect.next(result)
-                    this.viewAssnService.enrlAsnEnbled = false;
-                    this.viewAssnService.vewAsnEnbled = true;
-                    this.viewAssnService.joinAsnEbld = false;
-                    /*}
-                    else{
-                      this.demo2TabIndex = this.demo2TabIndex + 1;
-                    }*/
-        
-                  }
+      setTimeout(() => {
+        var message;
+        if (this.unitsuccessarray.length == 1) {
+          message = 'Unit Created Successfully'
+        }
+        else if (this.unitsuccessarray.length > 1) {
+          message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+        }
+        if (this.duplicateUnitrecordexist) {
+          Swal.fire({
+            title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+            text: "",
+            type: "success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          }).then(
+            (result) => {
+              if (result.value) {
+                this.unitlistduplicatejson.forEach(itm1=>{
+                  itm1.this.unitlistduplicatejson
                 })
-            }
-            else{
-              this.demo2TabIndex = this.demo2TabIndex + 1;
-            }
-            
-      
-          }, Number(this.unitlistjson[name].length) * 2000)
+              }
+            })
+        }
+        let abc0 = Object.keys(this.unitlistjson);
+        if (Object.keys(this.unitlistjson)[abc0.length - 1] == name) {
+          Swal.fire({
+            title: (this.exceptionMessage1 == '' ? message : this.exceptionMessage),
+            text: "",
+            type: (this.exceptionMessage1 == '' ? "success" : "error"),
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          }).then(
+            (result) => {
+              if (result.value) {
+                this.isunitdetailsempty = true;
+                //let abc1 = Object.keys(this.unitlistjson);
+                //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                console.log('test block');
+                this.viewAssnService.dashboardredirect.next(result)
+                this.viewAssnService.enrlAsnEnbled = false;
+                this.viewAssnService.vewAsnEnbled = true;
+                this.viewAssnService.joinAsnEbld = false;
+                /*}
+                else{
+                  this.demo2TabIndex = this.demo2TabIndex + 1;
+                }*/
+
+              }
+            })
+        }
+        else {
+          console.log('demo2TabIndex');
+          if(!this.duplicateUnitrecordexist){
+            this.demo2TabIndex = this.demo2TabIndex + 1;
+          }
+        }
+
+
+      }, Number(this.unitlistjson[name].length) * 2000)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
       
-        }
+        //}
   }
   exceptionMessage='';
   SubmitOrSaveAndContinue='SAVE AND CONTINUE';
@@ -2121,6 +2150,7 @@ validateUnitDetailsField(name){
                         unitonce.Id = blkname+i+1;
                         unitonce.unitTmpid='';
                         unitonce.isSingleUnitDataEmpty=true;
+                        unitonce.hasNoDuplicateUnitname=false;
                         unitonce.isnotvalidflatno =false,
                         unitonce.isnotvalidunittype=false,
                         unitonce.isnotvalidownershipstatus=false,
