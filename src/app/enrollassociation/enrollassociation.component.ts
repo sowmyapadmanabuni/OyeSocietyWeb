@@ -12,6 +12,8 @@ import { GlobalServiceService } from '../global-service.service';
 import {UtilsService} from '../../app/utils/utils.service';
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-enrollassociation',
   templateUrl: './enrollassociation.component.html',
@@ -33,6 +35,8 @@ export class EnrollassociationComponent implements OnInit {
   uploadForm: FormGroup;
   uploadPanForm: FormGroup;
   countrieslist=[];
+  stateslist=[];
+  citylist=[];
   // blocksdetailsform:FormGroup=this.formBuilder.group({});
   unitsdetailsform:FormGroup;
   isbulkupload = false;
@@ -58,78 +62,7 @@ export class EnrollassociationComponent implements OnInit {
       // this.isunitdetailsempty=false;
      }
 
-  // countrieslist = [
-  //   "INDIA",
-  //   "AFGHANISTAN",
-  //   "ALGERIA",
-  //   "ARGENTINA",
-  //   "AUSTRALIA",
-  //   "AUSTRIA",
-  //   "BELGIUM",
-  //   "BHUTAN",
-  //   "BRAZIL",
-  //   "CANADA",
-  //   "CHINA",
-  //   "CUBA",
-  //   "DENMARK",
-  //   "FINLAND",
-  //   "FRANCE",
-  //   "GERMANY",
-  //   "IRELAND",
-  //   "ISRAEL",
-  //   "ITALY",
-  //   "JAPAN",
-  //   "MALAYSIA",
-  //   "MEXICO",
-  //   "NETHERLANDS",
-  //   "NORWAY",
-  //   "QATAR",
-  //   "RUSSIA",
-  //   "SINGAPORE",
-  //   "SWITZERLAND",
-  //   "UAE",
-  //   "UNITED KINGDOM",
-  //   "USA",
-  //   "QATAR"
-  // ]
-  states = [
-    "ANDAMAN",
-    "ANDHRA PRADESH",
-    "ARUNACHAL PRADESH",
-    "ASSAM",
-    "BIHAR",
-    "CHANDIGARH",
-    "CHHATTISGARH",
-    "DADRA",
-    "DELHI",
-    "GOA",
-    "GUJARAT",
-    "HARYANA",
-    "HIMACHAL PRADESH",
-    "JAMMU AND KASHMIR",
-    "JHARKHAND",
-    "KARNATAKA",
-    "KERALA",
-    "LADAKH",
-    "LAKSHADWEEP",
-    "MADHYA PRADESH",
-    "MAHARASHTRA",
-    "MANIPUR",
-    "MEGHALAYA",
-    "MIZORAM",
-    "NAGALAND",
-    "ODISHA",
-    "PUDUCHERRY",
-    "PUNJAB",
-    "RAJASTHAN",
-    "SIKKIM",
-    "TAMIL NADU",
-    "TELANGANA",
-    "TRIPURA",
-    "UTTAR PRADESH",
-    "UTTARAKHAND",
-    "WEST BENGAL"
-  ]
+
   propertyType = ['Residential','Commercial','Residential and Commercial']/*[
     "RESIDENTIAL",
     "COMMERCIAL PROPERTY",
@@ -353,6 +286,50 @@ this.countrieslist = res.data.country;
     );
   }
 
+  selectedcountry(country) {
+    let countryid = country.coid;
+    this.countryname =country.coName;
+    console.log(countryid)
+
+    let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
+    console.log(stateurl)
+
+
+    this.http.get(stateurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      this.stateslist = res.data.states;
+
+    }, error => {
+      console.log(error);
+      this.exceptionMessage = error['error']['exceptionMessage'];
+      console.log(this.exceptionMessage);
+    }
+    );
+  }
+  selectedstate(state) {
+    let StateID= state.stid;
+    console.log(StateID)
+
+this.state = state.stName;
+    let cityurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetCityListByState/" + StateID;
+    console.log(cityurl)
+
+
+    this.http.get(cityurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      this.citylist = res.data.country;
+
+    }, error => {
+      console.log(error);
+      this.exceptionMessage = error['error']['exceptionMessage'];
+      console.log(this.exceptionMessage);
+    }
+    );
+  }
+  selectedcity(cityname){
+    this.city = cityname.ctName;
+  }
+
   ngAfterContentChecked() {
 
      this.cdref.detectChanges();
@@ -500,6 +477,7 @@ this.countrieslist = res.data.country;
   ASAsnLogo: any;
   thumbnailASAsnLogo:any;
   processFile() {
+    console.log(this.thumbnailASAsnLogo);
     console.log(this.uploadForm.get('profile').value);
     var reader = new FileReader();
     reader.readAsDataURL(this.uploadForm.get('profile').value);
@@ -633,10 +611,222 @@ imgfilename;
     this.unitmovingnexttab(name,obj3Id);
 
   }
+  gotonexttab1(ev, name) {
+    console.log(name);
+     
+    this.unitmovingnexttab1(name);
+
+  }
+  unitmovingnexttab1(name) {
+    //if (this.isunitdetailsempty) {
+      this.submitunitdetails1(name);
+    //}
+  }
   unitmovingnexttab(name,obj3Id) {
     //if (this.isunitdetailsempty) {
       this.submitunitdetails(name,obj3Id);
     //}
+  }
+
+
+  exceptionMessage1='';
+  SubmitOrSaveAndContinue1='SAVE AND CONTINUE';
+  // nextObjId1='';
+  // isNextIetrationEnabled1;
+  // nextBlckId1='';
+
+  submitunitdetails1(name) {
+    let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
+    let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
+      return valueManualUnitnameArr.indexOf(item) != idx
+    });
+    if (isManualUnitnameDuplicate) {
+          Swal.fire({
+            title: 'Duplicate Unitname Exist',
+          text: "",
+          type: "error",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+          })        
+        }
+        else{
+          let abc = Object.keys(this.unitlistjson);
+          this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
+            return item !=  name;
+          })
+          console.log(this.finalblocknameTmp);
+          console.log(this.finalblocknameTmp.length);
+          if(this.finalblocknameTmp.length==1){
+            console.log('insideltab');
+            this.SubmitOrSaveAndContinue1='Submit';
+          }
+          this.exceptionMessage1='';
+          console.log(name);
+          console.log(this.unitlistjson[name]);
+          console.log(this.unitlistjson);
+          let date = new Date();
+          var getDate = date.getDate();
+          var getMonth = date.getMonth() + 1;
+          var getFullYear = date.getFullYear();
+          var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
+          //this.unitsuccessarray=[];
+          console.log(date)
+      
+          let ipAddress = this.utilsService.createUnit();
+          let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
+      
+          // Object.keys(this.unitlistjson).forEach(element => {
+          //console.log(this.unitlistjson[element])
+      
+          //this.unitlistjson[name].forEach((unit, index) => {
+          // let headername = unit.Id.slice(0, -2);
+          //console.log(headername);
+          //console.log(unit)
+          //if (name == headername) {
+          //
+      
+          this.unitlistjson[name].forEach((unit, index) => {
+            console.log(unit);
+            ((index) => {
+              setTimeout(() => {
+                this.unitsuccessarray.push(unit);
+      
+                this.unitdetailscreatejson = {
+                  "ASAssnID": this.assid,
+                  "ACAccntID": this.globalService.getacAccntID(),
+                  "units": [
+                    {
+      
+                      "UNUniName": unit.flatno,
+                      "UNUniType": unit.unittype,
+                      "UNOcStat": unit.ownershipstatus,
+                      "UNOcSDate": "",
+                      "UNOwnStat": "",
+                      "UNSldDate": "",
+                      "UNDimens": "",
+                      "UNRate": "",
+                      "UNCalType": "",
+                      "FLFloorID": 14,
+                      "BLBlockID": unit.blockid,
+                      "Owner":
+                        [{
+      
+                          "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
+                          "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
+                          "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
+                          "UOISDCode": "",
+                          "UOMobile1": "",
+                          "UOMobile2": "",
+                          "UOMobile3": "",
+                          "UOMobile4": "",
+                          "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
+                          "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
+                          "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
+                          "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
+                          "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
+                          "UOCDAmnt": "2000"
+      
+                        }],
+                      "Tenant": [{
+                        "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
+                        "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
+                        "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
+                        "UTISDCode": "+91",
+                        "UTMobile1": "+919398493298",
+                        "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
+                        "UTEmail1": "pl@gmail.com"
+                      }],
+                      "unitbankaccount":
+                      {
+                        "UBName": "SBI",
+                        "UBIFSC": "SBIN0014",
+                        "UBActNo": "LOP9090909",
+                        "UBActType": "Savings",
+                        "UBActBal": 12.3,
+                        "BLBlockID": unit.blockid
+                      },
+      
+                      "UnitParkingLot":
+                        [
+                          {
+                            "UPLNum": "1902",
+                            "MEMemID": 287,
+                            "UPGPSPnt": "24.0088 23. 979"
+                          }
+                        ]
+                    }
+                  ]
+                }
+                console.log(this.unitdetailscreatejson)
+                this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+                .subscribe((res: any) => {
+                  console.log(res)
+      
+                }, error => {
+                  console.log(error);
+                 this.exceptionMessage1 = error['error']['exceptionMessage'];
+                 console.log(this.exceptionMessage1);
+                });
+              }, 2000 * index)
+            })(index)
+      
+          });
+      
+          //
+          //}
+          //})
+          //})
+      
+          // Object.keys(this.unitlistjson).forEach((element, index) => {
+          //   console.log(this.unitlistjson[element]);
+      
+          // }) 
+      
+          setTimeout(() => {
+            var message;
+            if (this.unitsuccessarray.length == 1) {
+              message = 'Unit Created Successfully'
+            }
+            else if (this.unitsuccessarray.length > 1) {
+              message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+            }
+      
+            let abc0 = Object.keys(this.unitlistjson);
+            if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
+              Swal.fire({
+                title: (this.exceptionMessage1 == ''?message:this.exceptionMessage),
+                text: "",
+                type: (this.exceptionMessage1 == ''?"success":"error"),
+                confirmButtonColor: "#f69321",
+                confirmButtonText: "OK"
+              }).then(
+                (result) => {
+                  if (result.value) {
+                    this.isunitdetailsempty=true;
+                    //let abc1 = Object.keys(this.unitlistjson);
+                    //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                      console.log('test block');
+                    this.viewAssnService.dashboardredirect.next(result)
+                    this.viewAssnService.enrlAsnEnbled = false;
+                    this.viewAssnService.vewAsnEnbled = true;
+                    this.viewAssnService.joinAsnEbld = false;
+                    /*}
+                    else{
+                      this.demo2TabIndex = this.demo2TabIndex + 1;
+                    }*/
+        
+                  }
+                })
+            }
+            else{
+              this.demo2TabIndex = this.demo2TabIndex + 1;
+            }
+            
+      
+          }, Number(this.unitlistjson[name].length) * 2000)
+          //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
+      
+        }
   }
   exceptionMessage='';
   SubmitOrSaveAndContinue='SAVE AND CONTINUE';
@@ -1164,43 +1354,75 @@ validateUnitDetailsField(name){
   }
   unitdetails ={}
   blockssuccessarray;
+  commonblockarray=[];
+  uniqueBlockArr=[];
+  duplicateBlockArr=[];
+  commonblockarray1=[];
   createblocksdetails(event) {
-    let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
-    let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
-      return valueBlckArr.indexOf(item) != idx
-    });
-    if (isBlkNameDuplicate) {
-          Swal.fire({
-            title: 'Duplicate Blockname Exist',
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-          })        
-        }
-        else{
-          this.isblockdetailsempty=false;
-          // console.log(this.blocksArray)
-          this.blockssuccessarray = this.blocksArray.length;
-          // if (this.blocksdetailsform.valid) {
-            setTimeout(() => {
-            this.blocksArray.forEach((element) => {
-              if(element.blockname==""||element.blockname==undefined||element.blocktype==""||element.blocktype==undefined||element.units==""||element.units==undefined||element.managername==""||element.managername==undefined||element.managermobileno==""||element.managermobileno==undefined||element.manageremailid==""||element.manageremailid==undefined){
-            this.isblockdetailsempty=true;
-              }
-            })
-            this.blockdetailsfinalcreation();
-          }, 1000 )
-          console.log(this.blocksArray)
-        }
+    this.uniqueBlockArr=[];
+    this.duplicateBlockArr=[];
+    /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
+     console.log(valueBlckArr);
+     let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
+       return valueBlckArr.indexOf(item) != idx
+     });
+     if (isBlkNameDuplicate) {
+           Swal.fire({
+             title: 'Duplicate Blockname Exist',
+           text: "",
+           type: "error",
+           confirmButtonColor: "#f69321",
+           confirmButtonText: "OK"
+           })
+         }
+         else{ */
+    this.blocksArray.forEach(item => {
+      console.log(item.blockname.toLowerCase());
+      let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
+      console.log(found);
+      console.log(this.uniqueBlockArr);
+      if (found) {
+        this.duplicateBlockArr.push(item);
+        console.log(this.duplicateBlockArr);
+      }
+      else {
+        this.uniqueBlockArr.push(item);
+      }
+    })
+    console.log(this.uniqueBlockArr);
+    console.log(this.duplicateBlockArr);
+    
+    if (this.uniqueBlockArr.length > 0) {
+      console.log('No duplicates');
+      this.commonblockarray = this.uniqueBlockArr;
+      console.log(this.commonblockarray);
+      this.isblockdetailsempty = false;
+      this.blockssuccessarray = this.uniqueBlockArr.length;
+      setTimeout(() => {
+        this.commonblockarray.forEach((element) => {
+          if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+            this.isblockdetailsempty = true;
+          }
+        })
+        this.blockdetailsfinalcreation();
+      }, 1000)
+      console.log(this.commonblockarray);
+    }
+    //}
   }
   
   blockidtmp={};
   blocknameforIteration='';
+  sameBlocknameExist;
+  duplicateBlocknameExist;
   blockdetailsfinalcreation(){
+    this.duplicateBlocknameExist=false;
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
-      this.blocksArray.forEach((element,index) => {
+      this.sameBlocknameExist=false;
+      this.commonblockarray1.push(this.commonblockarray);
+      console.log(this.commonblockarray1);
+      this.commonblockarray.forEach((element,index) => {
           ((index) => {
             setTimeout(() => {
     
@@ -1236,7 +1458,8 @@ validateUnitDetailsField(name){
             console.log(this.jsondata);
           this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
-              console.log(res)
+              console.log(res);
+              if(res.data.blockID){
               console.log(this.unitlistjson);
               console.log(res.data.blockID);
               this.blockidtmp[element.blockname]=res.data.blockID;
@@ -1267,6 +1490,17 @@ validateUnitDetailsField(name){
                 console.log(this.unitlistjson);
                 console.log(this.blocksArray);
               }
+            }
+              else if (res['data']['errorResponse']['message']){
+                this.sameBlocknameExist=true;
+                console.log('sameBlocknameExist');
+                Swal.fire({
+                  title: "Error",
+                  text: res['data']['errorResponse']['message'],
+                  type: "error",
+                  confirmButtonColor: "#f69321"
+                });
+              }
             }, error => {
             console.log(error);
           });
@@ -1287,19 +1521,20 @@ validateUnitDetailsField(name){
       })(index)
       })
       setTimeout(() => {
-//         this.blocksArray.forEach(element => {
-//           Object.keys(this.unitlistjson).forEach(blkname => {
-// if(blkname==element['blockname']){
-//   element['blockid']
-// }
-//           })
-//         })
-        var message;
-          if(this.blockssuccessarray==1){
+        //         this.blocksArray.forEach(element => {
+        //           Object.keys(this.unitlistjson).forEach(blkname => {
+        // if(blkname==element['blockname']){
+        //   element['blockid']
+        // }
+        //           })
+        //         })
+        if (!this.sameBlocknameExist) {
+          var message;
+          if (this.blockssuccessarray == 1) {
             message = 'Block Created Successfully'
           }
-         else if(this.blockssuccessarray>1){
-          message = this.blockssuccessarray+'-'+'Blocks Created Successfully'
+          else if (this.blockssuccessarray > 1) {
+            message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
           }
           Swal.fire({
             title: message,
@@ -1310,14 +1545,31 @@ validateUnitDetailsField(name){
           }).then(
             (result) => {
               if (result.value) {
-                console.log(this.finalblockname);
-                this.blocknameforIteration = this.finalblockname[0];
-                this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']=this.unitlistjson[this.finalblockname[0]][0]['Id'];
-                console.log(this.blocknameforIteration);
-                console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
-                this.demo1TabIndex = this.demo1TabIndex + 1;
+                if(this.duplicateBlockArr.length > 0){
+                  this.duplicateBlocknameExist=true;
+                  this.blocksArray=[];
+                  this.blocksArray = this.duplicateBlockArr;
+                }
+                else{
+                  this.blocksArray=[];
+                  for(let i=0;i<=this.commonblockarray1.length-1;i++){
+                    console.log(i);
+                    console.log(this.commonblockarray1[i]);
+                    this.commonblockarray1[i].forEach(elmt => {
+                      this.blocksArray.push(elmt);
+                    });
+                  }
+                  console.log(this.finalblockname);
+                  console.log(this.blocksArray);
+                  this.blocknameforIteration = this.finalblockname[0];
+                  this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                  console.log(this.blocknameforIteration);
+                  console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                  this.demo1TabIndex = this.demo1TabIndex + 1;
+                }
               }
             })
+        }
       },3000)
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
@@ -1398,7 +1650,7 @@ validateUnitDetailsField(name){
             })
           }
           else {
-            let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
+           /* let valueExcelBlckArr = this.excelBlockList.map(item => { return item.blockname.toLowerCase() });
             let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
               return valueExcelBlckArr.indexOf(item) != idx
             });
@@ -1411,7 +1663,7 @@ validateUnitDetailsField(name){
                 confirmButtonText: "OK"
               })
             }
-            else {
+            else { */
               this.excelBlockList.forEach((list, i) => {
                 console.log(list);
                 // this.detailsdata[i] = {}
@@ -1447,7 +1699,7 @@ validateUnitDetailsField(name){
               document.getElementById('blockdetailscancelbutton').style.display = 'none';
               document.getElementById('showmanual').style.display = 'block';
               document.getElementById('blockdetailsbuttons').style.display = 'block';
-            }
+            //}
           }
         }
       else {
@@ -1765,112 +2017,123 @@ validateUnitDetailsField(name){
     })
   }
   excelunitsuploaddata(exceldata) {
-    console.log(this.finalblockname);
-    console.log(exceldata);
-    console.log(this.blocksArray);
-    console.log(this.unitlistjson);
-    let _blkname = '';
-    //
-    //console.log(new Set(exceldata).size !== exceldata.length);
-    let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
-    let isDuplicate = valueArr.some((item, idx) => {
-      return valueArr.indexOf(item) != idx
-    });
-    if (isDuplicate) {
-          Swal.fire({
-            title: 'Duplicate Unitname Exist',
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-          })        
-        }
-        else{
-          this.finalblockname.forEach(blkname => {
-    
-            exceldata.forEach((unitonce,i) => {
+    console.log(exceldata.length);
+    if(exceldata.length==0){
+      Swal.fire({
+        title: 'Please fill all the fields',
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else{
+      console.log(this.finalblockname);
+      console.log(exceldata);
+      console.log(this.blocksArray);
+      console.log(this.unitlistjson);
+      let _blkname = '';
+      //
+      //console.log(new Set(exceldata).size !== exceldata.length);
+      let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
+      let isDuplicate = valueArr.some((item, idx) => {
+        return valueArr.indexOf(item) != idx
+      });
+      if (isDuplicate) {
+            Swal.fire({
+              title: 'Duplicate Unitname Exist',
+            text: "",
+            type: "error",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+            })        
+          }
+          else{
+            this.finalblockname.forEach(blkname => {
       
-              console.log(exceldata.Id)
-              // this.unitdetails[i] ={}
-              // Object.keys(unitonce).forEach(datails=>{
-              //   console.log(datails)
-              //   this.unitdetails[i][datails] ={required:true};
-              // })
-              if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
-                //  this.blockdetailsfinalresponce.forEach(obj=>{
-                //    unitonce.blockid = obj
-      
-                //  })
-                console.log(blkname,unitonce.blockname);
-                this.blocksArray.forEach((element,index) => {
-                  if(element.blockname.toLowerCase()==blkname.toLowerCase()){
-                    _blkname = blkname;
-                  let unitslength=Number(element.units)
-      
-                    if(exceldata.length<=unitslength){
-                      console.log(this.blockidtmp);
-                      unitonce.blockid = this.blockidtmp[blkname];
-                      unitonce.Id = blkname+i+1;
-                      unitonce.unitTmpid='';
-                      unitonce.isSingleUnitDataEmpty=true;
-                      unitonce.isnotvalidflatno =false,
-                      unitonce.isnotvalidunittype=false,
-                      unitonce.isnotvalidownershipstatus=false,
-                      unitonce.isnotvalidownerfirstname=false,
-                  
-                      unitonce.isnotvalidownerlastname=false,
-                  
-                      unitonce.isnotvalidownermobilenumber=false,
-                  
-                      unitonce.isnotvalidowneremaiid=false,
-                  
-                      unitonce.isnotvalidtenantfirstname=false,
-                  
-                      unitonce.isnotvalidtenantlastname=false,
-                  
-                      unitonce.isnotvalidtenantmobilenumber=false,
-                      unitonce.isnotvalidtenantemaiid=false
-                      if (!this.unitlistjson[blkname]) {
-                        this.unitlistjson[blkname] = []
-                      }
-                      Object.keys(this.unitlistjson).forEach(element => {
-                        this.unitlistjson[element].forEach(detalisdata => {
-            
-                          if (blkname == element) {
-                            if (!detalisdata.blockname) {
-                              this.unitlistjson[blkname] = []
-                            }
-                          }
-                        })
-                      })
-                      this.unitlistjson[blkname].push(unitonce)
-                      document.getElementById('unitupload_excel').style.display = 'none'
-                      document.getElementById('unitshowmanual').style.display = 'block';
-                      console.log(this.unitlistjson);
-                    }
-                    else{
-                      Swal.fire({
-                        title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
-                        text: "",
-                        confirmButtonColor: "#f69321",
-                        confirmButtonText: "OK"
-                      })
-                      document.getElementById('unitupload_excel').style.display = 'block'
-      
-                    }
-                  }
-                })
-                
-             
-                
-              }
-            });
-      
+              exceldata.forEach((unitonce,i) => {
         
-          })
-        }
-    this.validateUnitDetailsField(_blkname);
-    console.log("unit data what contains",this.unitlistjson)
+                console.log(exceldata.Id)
+                // this.unitdetails[i] ={}
+                // Object.keys(unitonce).forEach(datails=>{
+                //   console.log(datails)
+                //   this.unitdetails[i][datails] ={required:true};
+                // })
+                if (blkname.toLowerCase() == unitonce.blockname.toLowerCase()) {
+                  //  this.blockdetailsfinalresponce.forEach(obj=>{
+                  //    unitonce.blockid = obj
+        
+                  //  })
+                  console.log(blkname,unitonce.blockname);
+                  this.blocksArray.forEach((element,index) => {
+                    if(element.blockname.toLowerCase()==blkname.toLowerCase()){
+                      _blkname = blkname;
+                    let unitslength=Number(element.units)
+        
+                      if(exceldata.length<=unitslength){
+                        console.log(this.blockidtmp);
+                        unitonce.blockid = this.blockidtmp[blkname];
+                        unitonce.Id = blkname+i+1;
+                        unitonce.unitTmpid='';
+                        unitonce.isSingleUnitDataEmpty=true;
+                        unitonce.isnotvalidflatno =false,
+                        unitonce.isnotvalidunittype=false,
+                        unitonce.isnotvalidownershipstatus=false,
+                        unitonce.isnotvalidownerfirstname=false,
+                    
+                        unitonce.isnotvalidownerlastname=false,
+                    
+                        unitonce.isnotvalidownermobilenumber=false,
+                    
+                        unitonce.isnotvalidowneremaiid=false,
+                    
+                        unitonce.isnotvalidtenantfirstname=false,
+                    
+                        unitonce.isnotvalidtenantlastname=false,
+                    
+                        unitonce.isnotvalidtenantmobilenumber=false,
+                        unitonce.isnotvalidtenantemaiid=false
+                        if (!this.unitlistjson[blkname]) {
+                          this.unitlistjson[blkname] = []
+                        }
+                        Object.keys(this.unitlistjson).forEach(element => {
+                          this.unitlistjson[element].forEach(detalisdata => {
+              
+                            if (blkname == element) {
+                              if (!detalisdata.blockname) {
+                                this.unitlistjson[blkname] = []
+                              }
+                            }
+                          })
+                        })
+                        this.unitlistjson[blkname].push(unitonce)
+                        document.getElementById('unitupload_excel').style.display = 'none'
+                        document.getElementById('unitshowmanual').style.display = 'block';
+                        document.getElementById('unitsmanualnew').style.display = 'none';
+                        document.getElementById('unitsbulkold').style.display = 'block';
+  
+  
+  
+                        console.log(this.unitlistjson);
+                      }
+                      else{
+                        Swal.fire({
+                          title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
+                          text: "",
+                          confirmButtonColor: "#f69321",
+                          confirmButtonText: "OK"
+                        })
+                        document.getElementById('unitupload_excel').style.display = 'block'
+                      }
+                    }
+                  })
+                }
+              });
+            })
+          }
+      this.validateUnitDetailsField(_blkname);
+      console.log("unit data what contains",this.unitlistjson)
+    }
   }
   file:File
   arrayBuffer:any;
@@ -1941,6 +2204,8 @@ submitforblocksbulkupload(ev){
 }
 submitforbulkupload(ev){
   document.getElementById('unitshowmanual').style.display ='none'
+  document.getElementById('unitsbulkold').style.display ='none'
+
   document.getElementById('unitupload_excel').style.display ='block';
 }
 cancelbulkupload(ev){
@@ -1950,7 +2215,10 @@ cancelbulkupload(ev){
 }
 cancelunitsbulkupload(ev){
   document.getElementById('unitupload_excel').style.display ='none';
-  document.getElementById('unitshowmanual').style.display ='block'
+  document.getElementById('unitshowmanual').style.display ='block';
+  // document.getElementById('unitsbulkold').style.display ='block';
+  document.getElementById('unitsmanualnew').style.display ='block';
+
 }
   detailsdata ={}
   
@@ -1992,7 +2260,7 @@ cancelunitsbulkupload(ev){
         "acAccntID": this.globalService.getacAccntID(),
         "association": {
           "ASAddress": this.locality,
-          "ASCountry": "India",
+          "ASCountry": this.countryname,
           "ASBToggle": "True",
           "ASAVPymnt": "False",
           "ASCity": this.city,
@@ -2128,6 +2396,56 @@ cancelunitsbulkupload(ev){
       Object.manageremailid="";
       
     })
+  }
+  resetStep5bulk(ev,blknamecommon){
+
+    Object.keys(this.unitlistjson).forEach(element=>{
+      console.log(this.unitlistjson[element])
+      this.unitlistjson[element].forEach(unit => {
+if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
+
+      unit.flatno="",
+      unit.blockname ="",
+      unit.owneremaiid="",
+      unit.ownerfirstname="",
+      unit.ownermobilenumber="",
+      unit.ownershipstatus="",
+      unit.unittype="",
+      unit.ownerlastname="",
+      unit.ownermobilenumber= "",
+      unit.owneremaiid="",
+      unit.tenantfirstname="",
+      unit.tenantlastname="",
+      unit.tenantmobilenumber="",
+      unit.tenantemaiid=""
+    }else{
+      let blname = unit.Id.slice(0, -2);
+      if(blknamecommon == blname){
+        unit.flatno="",
+        unit.blockname ="",
+        unit.owneremaiid="",
+        unit.ownerfirstname="",
+        unit.ownermobilenumber="",
+        unit.ownershipstatus="",
+        unit.unittype="",
+        unit.ownerlastname="",
+        unit.ownermobilenumber= "",
+        unit.owneremaiid="",
+        unit.tenantfirstname="",
+        unit.tenantlastname="",
+        unit.tenantmobilenumber="",
+        unit.tenantemaiid=""
+      }
+   
+    }
+
+      })
+    })
+
+  }
+  previouspage(ev){
+    this.demo1TabIndex = this.demo1TabIndex - 1;
+
   }
   resetStep5(ev,blknamecommon,Id){
     Object.keys(this.unitlistjson).forEach(element=>{
