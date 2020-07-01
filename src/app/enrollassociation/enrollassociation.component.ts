@@ -51,6 +51,7 @@ export class EnrollassociationComponent implements OnInit {
   blocktypeform = new FormControl("");
   condition = true;
   toggleEmptyBlockarray;
+  unitrecordDuplicateUnitnameModified;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -63,6 +64,8 @@ export class EnrollassociationComponent implements OnInit {
       this.duplicateBlocknameExist=false;
       this.toggleEmptyBlockarray=false;
       this.duplicateUnitrecordexist=false;
+      this.unitrecordDuplicateUnitnameModified=false;
+      this.totalUnitcount=0;
       // this.isunitdetailsempty=false;
      }
 
@@ -644,6 +647,8 @@ imgfilename;
   unitlistuniquejson=[];
   unitlistduplicatejson=[];
   duplicateUnitrecordexist;
+  totalUnitcount;
+  message;
   submitunitdetails1(name) {
     this.unitsuccessarray = [];
    /* let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
@@ -666,7 +671,7 @@ imgfilename;
       })
       console.log(this.finalblocknameTmp);
       console.log(this.finalblocknameTmp.length);
-      if (this.finalblocknameTmp.length == 1) {
+      if (this.finalblocknameTmp.length == 0) {
         console.log('insideltab');
         this.SubmitOrSaveAndContinue1 = 'Submit';
       }
@@ -682,42 +687,57 @@ imgfilename;
       //this.unitsuccessarray=[];
       console.log(date)
 
-      let ipAddress = this.utilsService.createUnit();
-      let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
-      // 
-      if (this.unitlistduplicatejson.length>0) {
-        this.unitlistjson[name] = this.unitlistduplicatejson;
-        console.log(this.unitlistjson[name]);
-        this.duplicateUnitrecordexist= true;
-      }
-      else {
-        this.unitlistjson[name].forEach(iitm => {
-          console.log(iitm.flatno.toLowerCase());
-          let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
-          console.log(found);
-          console.log(this.unitlistuniquejson);
-          if (found) {
-            this.unitlistduplicatejson.push(iitm);
-            console.log(this.unitlistduplicatejson);
-            this.duplicateUnitrecordexist= true;
-          }
-          else {
-            this.unitlistuniquejson.push(iitm);
-            iitm.hasNoDuplicateUnitname = true;
-            console.log(this.unitlistuniquejson);
-          }
-        })
-      }
+    let ipAddress = this.utilsService.createUnit();
+    let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
+    // 
+    /* if (this.unitlistduplicatejson.length>0) {
+       this.unitlistjson[name] = [];
+       this.unitlistjson[name] = this.unitlistduplicatejson;
+       console.log(this.unitlistjson[name]);
+       this.duplicateUnitrecordexist= true;
+     }
+     else { */
+    if (this.unitrecordDuplicateUnitnameModified) {
+      let tempArr = [];
+      this.unitlistjson[name].forEach(iitm => {
+        if (iitm.hasNoDuplicateUnitname == false) {
+          tempArr.push(iitm);
+        }
+      })
+      this.unitlistjson[name] = [];
+      this.unitlistjson[name] = tempArr;
       console.log(this.unitlistjson[name]);
+      this.duplicateUnitrecordexist=false;
+    }
+    else{
+      this.unitlistjson[name].forEach(iitm => {
+        console.log(iitm.flatno.toLowerCase());
+        let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
+        console.log(found);
+        console.log(this.unitlistuniquejson);
+        if (found) {
+          this.unitlistduplicatejson.push(iitm);
+          console.log(this.unitlistduplicatejson);
+          this.duplicateUnitrecordexist = true;
+        }
+        else {
+          this.unitlistuniquejson.push(iitm);
+          iitm.hasNoDuplicateUnitname = true;
+          console.log(this.unitlistuniquejson);
+        }
+      })
+      this.unitlistjson[name] = [];
+      this.unitlistjson[name] = this.unitlistuniquejson;
+      console.log(this.unitlistjson[name]);
+    }
+      //}
       //
     this.unitlistjson[name].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
         setTimeout(() => {
-          if (unit.hasNoDuplicateUnitname) {
-            this.unitsuccessarray.push(unit);
-
-            this.unitdetailscreatejson = {
+          this.unitsuccessarray.push(unit);
+          this.unitdetailscreatejson = {
               "ASAssnID": this.assid,
               "ACAccntID": this.globalService.getacAccntID(),
               "units": [
@@ -787,25 +807,23 @@ imgfilename;
             this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
               .subscribe((res: any) => {
                 console.log(res)
-
+                this.totalUnitcount += 1;
               }, error => {
                 console.log(error);
                 this.exceptionMessage1 = error['error']['exceptionMessage'];
                 console.log(this.exceptionMessage1);
               });
-          }
         }, 2000 * index)
       })(index)
 
     });
       
       setTimeout(() => {
-        var message;
         if (this.unitsuccessarray.length == 1) {
-          message = 'Unit Created Successfully'
+          this.message = 'Unit Created Successfully'
         }
         else if (this.unitsuccessarray.length > 1) {
-          message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
         }
         if (this.duplicateUnitrecordexist) {
           Swal.fire({
@@ -817,42 +835,104 @@ imgfilename;
           }).then(
             (result) => {
               if (result.value) {
-                this.unitlistduplicatejson.forEach(itm1=>{
-                  itm1.this.unitlistduplicatejson
-                })
+                let tmpArr = [];
+                if(this.unitlistuniquejson.length>0){
+                  this.unitlistuniquejson.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                if(this.unitlistduplicatejson.length>0){
+                  this.unitlistduplicatejson.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                this.unitlistjson[name]=[];
+                this.unitlistjson[name]=tmpArr;
+                console.log(this.unitlistjson[name]);
+                this.unitrecordDuplicateUnitnameModified=true;
               }
             })
         }
         let abc0 = Object.keys(this.unitlistjson);
         if (Object.keys(this.unitlistjson)[abc0.length - 1] == name) {
-          Swal.fire({
-            title: (this.exceptionMessage1 == '' ? message : this.exceptionMessage),
-            text: "",
-            type: (this.exceptionMessage1 == '' ? "success" : "error"),
-            confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
-          }).then(
-            (result) => {
-              if (result.value) {
-                this.isunitdetailsempty = true;
-                //let abc1 = Object.keys(this.unitlistjson);
-                //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-                console.log('test block');
-                this.viewAssnService.dashboardredirect.next(result)
-                this.viewAssnService.enrlAsnEnbled = false;
-                this.viewAssnService.vewAsnEnbled = true;
-                this.viewAssnService.joinAsnEbld = false;
-                /*}
-                else{
-                  this.demo2TabIndex = this.demo2TabIndex + 1;
-                }*/
+          console.log('insidelasttab');
+          if (!this.duplicateUnitrecordexist) {
+            console.log('inlasttabNoduplicaterecordexist');
+            let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+            Swal.fire({
+              title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
+              text: "",
+              type: (this.exceptionMessage1 == '' ? "success" : "error"),
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            }).then(
+              (result) => {
+                if (result.value) {
+                  this.isunitdetailsempty = true;
+                  //let abc1 = Object.keys(this.unitlistjson);
+                  //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                  console.log('test block');
+                  this.viewAssnService.dashboardredirect.next(result)
+                  this.viewAssnService.enrlAsnEnbled = false;
+                  this.viewAssnService.vewAsnEnbled = true;
+                  this.viewAssnService.joinAsnEbld = false;
+                  /*}
+                  else{
+                    this.demo2TabIndex = this.demo2TabIndex + 1;
+                  }*/
 
-              }
-            })
+                }
+              })
+          }
+          else{
+            console.log('inlasttabduplicaterecordexist');
+            Swal.fire({
+              title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+              text: "",
+              type: "success",
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            }).then(
+              (result) => {
+                if (result.value) {
+                  let tmpArr = [];
+                  if(this.unitlistuniquejson.length>0){
+                    this.unitlistuniquejson.forEach(itm1 => {
+                      tmpArr.push(itm1);
+                    })
+                  }
+                  if(this.unitlistduplicatejson.length>0){
+                    this.unitlistduplicatejson.forEach(itm1 => {
+                      tmpArr.push(itm1);
+                    })
+                  }
+                  this.unitlistjson[name]=[];
+                  this.unitlistjson[name]=tmpArr;
+                  console.log(this.unitlistjson[name]);
+                  this.unitrecordDuplicateUnitnameModified=true;
+                }
+              })
+          }
         }
         else {
           console.log('demo2TabIndex');
-          if(!this.duplicateUnitrecordexist){
+          if (!this.duplicateUnitrecordexist) {
+            let tmpArr = [];
+            if (this.unitlistuniquejson.length > 0) {
+              this.unitlistuniquejson.forEach(itm1 => {
+                tmpArr.push(itm1);
+              })
+            }
+            if (this.unitlistduplicatejson.length > 0) {
+              this.unitlistduplicatejson.forEach(itm1 => {
+                tmpArr.push(itm1);
+              })
+            }
+            this.unitlistjson[name] = [];
+            this.unitlistjson[name] = tmpArr;
+            console.log(this.unitlistjson[name]);
+            this.unitlistuniquejson = [];
+            this.unitlistduplicatejson = [];
             this.demo2TabIndex = this.demo2TabIndex + 1;
           }
         }
@@ -1673,6 +1753,8 @@ validateUnitDetailsField(name){
         elemnt.blockTmpid='';
       }
     })
+    console.log(this.unitlistjson[blockname][0]['Id'],blockname);
+    this.assignUnitTmpid(this.unitlistjson[blockname][0]['Id'],blockname);
   }
   assignUnitTmpid(obj2Id,blockname){
     console.log(obj2Id);
@@ -2094,6 +2176,8 @@ validateUnitDetailsField(name){
     })
   }
   excelunitsuploaddata(exceldata) {
+    this.unitrecordDuplicateUnitnameModified=false;  
+    this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
     if(exceldata.length==0){
       Swal.fire({
@@ -2112,7 +2196,7 @@ validateUnitDetailsField(name){
       let _blkname = '';
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
-      let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
+     /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
       let isDuplicate = valueArr.some((item, idx) => {
         return valueArr.indexOf(item) != idx
       });
@@ -2125,7 +2209,7 @@ validateUnitDetailsField(name){
             confirmButtonText: "OK"
             })        
           }
-          else{
+          else{ */
             this.finalblockname.forEach(blkname => {
       
               exceldata.forEach((unitonce,i) => {
@@ -2208,7 +2292,7 @@ validateUnitDetailsField(name){
                 }
               });
             })
-          }
+          //}
       this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains",this.unitlistjson)
     }
@@ -2232,7 +2316,7 @@ validateUnitDetailsField(name){
         console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
           var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
               this.filelist = [];    
-              console.log(this.filelist)    
+              console.log(this.filelist) 
               this.excelunitsuploaddata(arraylist)
     }  
   }

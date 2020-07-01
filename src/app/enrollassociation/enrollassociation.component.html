@@ -594,14 +594,12 @@
 
         </mat-tab> -->
         <mat-tab [disabled]='!tab.isActive' label="UNITS DETAILS">
-            <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button>
-
-                <!-- <div>
-                    <button style="float: right;margin-top:12px" id="unitbulkbutton" mat-raised-button color="primary"
-                        (click)="submitforbulkupload($event)">Bulk Upload</button>
-                
-                </div> --> 
-
+                <div>
+                        <!-- <button style="float: right;margin-top:12px" id="unitbulkbutton" mat-raised-button color="primary"
+                                            (click)="submitforbulkupload($event)">Bulk Upload</button> -->
+                        <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button>
+                                    
+                        </div>
             <!-- <div id="unitmanualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="manualunitdetailsclick($event)">Manual Input</button>
                  <button id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
@@ -848,6 +846,7 @@
                 <mat-tab-group class="mainpage" [(selectedIndex)]="demo2TabIndex"> 
                     <div class="blockdetailsdata" *ngFor="let name of finalblockname">
                        <mat-tab  class = "text"[label]="name">
+                        <div *ngIf="duplicateUnitrecordexist"><p style="color: red;font-size: 30px;text-transform: uppercase;">Duplicate Unitname exist please enter unique unitname</p></div>
                            <div class="blockdetailsdata" *ngFor="let obj of unitlistjson[name];let i= index">
                             <form class="blockdetails-form1" style="margin-top: 30px;">
                                <div>
@@ -995,10 +994,11 @@
                               
                                </form>
                            </div>
-                           <!-- <div>
-                           <button style="position: fixed;top: 55%;right: 2%;"  id="unitbulkbutton" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
+                           <div>
+                           <!-- <button style="position: fixed;top: 55%;right: 2%;"  id="unitbulkbutton" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button>  -->
+                           <!-- <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> -->
    
-                           </div> --> 
+                           </div>
                            <div>
                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,name)">{{SubmitOrSaveAndContinue1}}</button>
                            </div>
