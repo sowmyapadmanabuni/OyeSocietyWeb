@@ -1750,6 +1750,8 @@ validateUnitDetailsField(name){
         elemnt.blockTmpid='';
       }
     })
+    console.log(this.unitlistjson[blockname][0]['Id'],blockname);
+    this.assignUnitTmpid(this.unitlistjson[blockname][0]['Id'],blockname);
   }
   assignUnitTmpid(obj2Id,blockname){
     console.log(obj2Id);
