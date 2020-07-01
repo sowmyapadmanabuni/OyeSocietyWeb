@@ -483,19 +483,20 @@ this.state = state.stName;
   processFile() {
     console.log(this.thumbnailASAsnLogo);
     console.log(this.uploadForm.get('profile').value);
-    var reader = new FileReader();
-    reader.readAsDataURL(this.uploadForm.get('profile').value);
-    reader.onload = () => {
-      console.log(reader.result);
-      this.ASAsnLogo = reader.result;
-      this.thumbnailASAsnLogo = reader.result;
-      this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
-         console.log(this.ASAsnLogo);
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-  
+      var reader = new FileReader();
+      if(this.uploadForm.get('profile').value!=null){
+        reader.readAsDataURL(this.uploadForm.get('profile').value);
+        reader.onload = () => {
+          console.log(reader.result);
+          this.ASAsnLogo = reader.result;
+          this.thumbnailASAsnLogo = reader.result;
+          this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
+             console.log(this.ASAsnLogo);
+        };
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        };
+      }
   }
 imgfilename;
   onPanFileSelect(event) {
@@ -512,6 +513,7 @@ imgfilename;
   processPanFile(){
     console.log(this.uploadPanForm.get('panProfile').value);
     var reader = new FileReader();
+    if(this.uploadPanForm.get('panProfile').value!=null){
     reader.readAsDataURL(this.uploadPanForm.get('panProfile').value);
     reader.onload = () => {
       console.log(reader.result);
@@ -525,6 +527,7 @@ imgfilename;
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  }
   }
   firstLetter: string;
   fifthLetter: string;
@@ -572,7 +575,7 @@ imgfilename;
  
   }
   keyPress3(event:any){
-    const pattern = /[1-9\+\-\ ]/;
+    const pattern = /^[1-9][0-9]*$/;
     let inputChar = String.fromCharCode(event.charCode);
     // console.log(inputChar, e.charCode);
        if (!pattern.test(inputChar)) {
@@ -1920,7 +1923,7 @@ validateUnitDetailsField(name){
         console.log(unit)
         if (unit['Id'] == Id) {
           unit['tenantfirstname'] = tenantfirstname;
-          if(unit['ownerlastname']==""){
+          if(unit['tenantfirstname']==""){
             unit['isnotvalidtenantfirstname']=true;
           }
           else{
@@ -2439,18 +2442,34 @@ cancelunitsbulkupload(ev){
     }
    
   }
+  fileInputfinal;
+  fileopen(ev,fileInput2){
+    fileInput2.value = null
+    this.fileInputfinal =fileInput2;
+  }
+
+  fileInputfinal1;
+  fileopen1(ev,fileInput3){
+    fileInput3.value = null
+    this.fileInputfinal1 =fileInput3;
+  }
+  
   logo: boolean = false;
 
   resetStep1(ev){
 
     console.log(ev)
     this.form.reset();
-    this.thumbnailASAsnLogo='';
+    this.thumbnailASAsnLogo=undefined;
+   this.fileopen(ev,this.fileInputfinal);
+   this.uploadForm.reset();
    
   }
+
   resetStep2(ev){
     this.gstpanform.reset();
-    this.uploadPANCardThumbnail='';
+    this.uploadPANCardThumbnail= undefined;
+    this.fileopen1(ev,this.fileInputfinal1);
     // this.pancardnameoriginal=false
     this.uploadPanForm.reset();
     this.imgfilename ='';
