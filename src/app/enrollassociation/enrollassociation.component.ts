@@ -1911,6 +1911,9 @@ validateUnitDetailsField(name){
     })
     this.validateUnitDetailsField(name);
   }
+  getUnittypeOnChange(event){
+    console.log(event);
+  }
   getownershipstatus(Id, ownershipstatus,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {

@@ -661,7 +661,7 @@
                                                 
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
-                                                                <mat-select [(value)]="obj3.unittype" placeholder="UNIT TYPE"required>
+                                                                <mat-select (selectionChange)="getUnittypeOnChange($event)" [(value)]="obj3.unittype" placeholder="UNIT TYPE"required>
                                                                     <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                                     </mat-option>
                                                                 </mat-select>
