@@ -85,9 +85,9 @@
                                 <th>
                                     <mfDefaultSorter (click)="removeColumnSort('UnitType')" by="unUniType">Unit Type&nbsp;<i [hidden]="columnName=='UnitType'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
-                                <th>
+                                <!-- <th>
                                     <mfDefaultSorter (click)="removeColumnSort('UnitDimension')" by="unDimens">Unit Dimension&nbsp;<i [hidden]="columnName=='UnitDimension'" class="fa fa-sort"></i></mfDefaultSorter>
-                                </th>
+                                </th> -->
                                 <th>
                                     <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name&nbsp;<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
@@ -106,7 +106,7 @@
                                     <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
                                     <td>{{item.unUniName}}</td>
                                     <td>{{item.unUniType}}</td>
-                                    <td>{{item.unDimens}} SqFt</td>
+                                    <!-- <td>{{item.unDimens}} SqFt</td> -->
                                     <td>{{(item.owner.length > 0 ? item.owner[0].uofName : ((item.tenant.length > 0) ? item.tenant[0].utfName :''))}}
                                     </td>
                                     <td>{{(item.owner.length > 0 ? item.owner[0].uoEmail : ((item.tenant.length > 0) ? item.tenant[0].utEmail :''))}}

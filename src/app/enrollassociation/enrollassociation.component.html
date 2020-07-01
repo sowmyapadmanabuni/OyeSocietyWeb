@@ -590,11 +590,14 @@
 
         </mat-tab> -->
         <mat-tab [disabled]='!tab.isActive' label="UNITS DETAILS">
-                <div>
-                        <button style="float: right;margin-top:12px" id="unitbulkbutton" mat-raised-button color="primary"
-                                            (click)="submitforbulkupload($event)">Bulk Upload</button>
-                                    
-                        </div>
+            <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button>
+
+                <!-- <div>
+                    <button style="float: right;margin-top:12px" id="unitbulkbutton" mat-raised-button color="primary"
+                        (click)="submitforbulkupload($event)">Bulk Upload</button>
+                
+                </div> --> 
+
             <!-- <div id="unitmanualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="manualunitdetailsclick($event)">Manual Input</button>
                  <button id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
@@ -988,10 +991,10 @@
                               
                                </form>
                            </div>
-                           <div>
+                           <!-- <div>
                            <button style="position: fixed;top: 55%;right: 2%;"  id="unitbulkbutton" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
    
-                           </div>
+                           </div> --> 
                            <div>
                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,name)">{{SubmitOrSaveAndContinue}}</button>
                            </div>
