@@ -39,7 +39,9 @@
             <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
             class="fa fa-question-circle" aria-hidden="true"></i> -->
             <form [formGroup]="uploadForm" (ngSubmit)="processFile()" class="association-form">
-                <input type="file" id="img" name="profile" (change)="onFileSelect($event)" />
+                <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
+
+                <!-- <input type="file" id="img" name="profile" (change)="onFileSelect($event)" /> -->
                 <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
                  <img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
             </form>
@@ -230,7 +232,9 @@
                           pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
                           <div>
                             <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
-                            <input type="file" name="panProfile" id="uploadCaptureInputFile" (change)="onPanFileSelect($event)" />
+                <input #fileInput3 type="file" id="uploadCaptureInputFile" name="panProfile" (change)="onPanFileSelect($event)" (click)="fileopen1($event,fileInput3)">
+
+                            <!-- <input type="file" name="panProfile" id="uploadCaptureInputFile" (change)="onPanFileSelect($event)" /> -->
                             <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img
                               [hidden]="uploadPANCardThumbnail == undefined"  (click)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
                                 src="{{uploadPANCardThumbnail}}" width="50px" height="50px" />
@@ -277,7 +281,7 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>Total No of Blocks</mat-label>
                     <input matInput placeholder="NO OF BLOCKS" 
-                    (keypress)="keyPress3($event)"  maxlength="4"
+                    (keypress)="keyPress3($event)"  
                     formControlName="blockno" [(ngModel)]="noofblocks"
                         value=""required>
                     <mat-error [displayError]="isFieldValidblockandunitdetails('blockno')">
@@ -289,7 +293,7 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>Total No of Units</mat-label>
                     <input matInput placeholder="NO OF UNITS"
-                    (keypress)="keyPress3($event)"  maxlength="4"
+                    (keypress)="keyPress3($event)" 
                     matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value=""required>
                     <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
                         {{ titleAlert }}
