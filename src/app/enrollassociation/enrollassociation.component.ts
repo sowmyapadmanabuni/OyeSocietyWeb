@@ -279,7 +279,7 @@ export class EnrollassociationComponent implements OnInit {
    }
   }
   countrylist(){
- let countryurl = "http://apidev.oyespace.com/oyeliving/api/v1/Country/GetCountryList" 
+ let countryurl = "https://devapi.scuarex.com/oyeliving/api/v1/Country/GetCountryList" 
 
     this.http.get(countryurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
       console.log(res)
@@ -2546,7 +2546,7 @@ cancelunitsbulkupload(ev){
   resetStep4(ev){
     this.blocksArray.forEach(Object=>{
       Object.blockname="";
-      Object.blocktype="";
+      // Object.blocktype="";
       Object.units="";
       Object.managername="";
       Object.managermobileno="";
