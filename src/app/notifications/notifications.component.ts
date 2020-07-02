@@ -6,6 +6,7 @@ import { UtilsService } from '../utils/utils.service';
 import { GlobalServiceService } from '../global-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DashBoardService } from '../../services/dash-board.service';
+import {Router,ActivatedRoute} from '@angular/router';
 import * as _ from 'underscore';
 declare var $: any;
 import * as gateFirebase from 'firebase';
@@ -44,7 +45,7 @@ export class NotificationsComponent implements OnInit {
   ntJoinStatTmp2: any;
   changeViewOfActionButton: boolean;
 
-  constructor(private utilsService: UtilsService,
+  constructor(private utilsService: UtilsService,public router:Router,
     public globalService: GlobalServiceService,
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
@@ -198,7 +199,7 @@ export class NotificationsComponent implements OnInit {
                   this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                   this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
                   //
-                  //console.log(this.ResidentNotificationListArray);
+                  console.log(this.ResidentNotificationListArray);
                 }
               }, 600 * index)
             })(index)
@@ -538,7 +539,8 @@ export class NotificationsComponent implements OnInit {
             console.log(associationid, visitorId, DateOfApproval);
             this.changeViewOfActionButton=false;
             this.updateFirebase(associationid);
-            alert('Success')
+            alert('Success');
+            this.router.navigate(['home']);
           },
             err => {
               console.log(err);
