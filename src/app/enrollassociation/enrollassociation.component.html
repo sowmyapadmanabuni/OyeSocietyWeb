@@ -628,12 +628,11 @@
                     <ul class="nav col-md-2" id="leftTabs">
                         <li class="active" *ngFor="let obj of blocksArray" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
                         <a style="color: #fff !important;" href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
-                            <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">&nbsp;&nbsp;<span></span>{{obj.blockname}}
-                            
-
+                            <!-- <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">&nbsp;&nbsp;<span></span>{{obj.blockname}} -->
+                            &nbsp;&nbsp;<span></span>{{obj.blockname}}
+                            <i [hidden]="obj.isUnitsCreatedUnderBlock" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
+                            <i [hidden]="obj.isUnitsCreatedUnderBlock1" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
                         </a>
-                        <i class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
-                        <i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
                         </li>
                     </ul>
                     <div class="tab-content col-md-10">
@@ -665,7 +664,7 @@
                                                 
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
-                                                                <mat-select (selectionChange)="getUnittypeOnChange($event)" [(value)]="obj3.unittype" placeholder="UNIT TYPE"required>
+                                                                <mat-select (selectionChange)="getUnittypeOnChange($event,blocknameforIteration)" [(value)]="obj3.unittype" placeholder="UNIT TYPE"required>
                                                                     <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -675,7 +674,7 @@
                                                 
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
-                                                                <mat-select [(value)]="obj3.ownershipstatus" placeholder="OCCUPANCY & OWNERSHIP STATUS"required>
+                                                                <mat-select (selectionChange)="getOwnershipstatusOnChange($event,blocknameforIteration)" [(value)]="obj3.ownershipstatus" placeholder="OCCUPANCY & OWNERSHIP STATUS"required>
                                                                     <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                                                     </mat-option>
                                                                 </mat-select>
