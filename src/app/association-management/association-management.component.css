@@ -83,3 +83,7 @@ div .stepwizard-step li{
     display: flex;
 }
 
+img#icon {
+    height: 50px;
+    width: 50px;
+}

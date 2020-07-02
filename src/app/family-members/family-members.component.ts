@@ -275,6 +275,7 @@ addfamilymember() {
               this.Relation="Select Relation";
               this.FirstName='';
               this.MobileNumber='';
+              this.LastName='';
               // this.ToggleGurdian='';           
             } else if (result.dismiss === swal.DismissReason.cancel) {
               this.router.navigate(['']);

@@ -1022,7 +1022,8 @@
           </div>
           <div class="col-sm-3" *ngIf="file!=''">
             <p class="view-head"><b>Uploaded File</b></p>
-            <p>{{file}}</p>
+            <img id="icon" src="{{'data:image/png;base64,'+ file}}">
+            <!-- <p>{{file}}</p> -->
           </div>
           <div class="col-sm-3">
             <p class="view-head"><b>Country</b></p>
@@ -1085,7 +1086,8 @@
               </div>
               <div class="col-sm-3">
                 <p *ngIf="pandoc!=''"class="view-head"><b>Pan Document</b></p>
-                <p>{{pandoc}}</p>
+                <img id="icon" src="{{'data:image/png;base64,'+ pandoc}}">
+                <!-- <p>{{pandoc}}</p> -->
               </div>       
         </div>
 

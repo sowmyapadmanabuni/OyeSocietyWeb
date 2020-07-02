@@ -50,6 +50,8 @@ export class EnrollassociationComponent implements OnInit {
   blockdetailInvalid:boolean;
   blocktypeform = new FormControl("");
   condition = true;
+  toggleEmptyBlockarray;
+  unitrecordDuplicateUnitnameModified;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -59,6 +61,11 @@ export class EnrollassociationComponent implements OnInit {
       this.blockdetailInvalid=true;
       this.url='';
       this.isblockdetailsempty=true;
+      this.duplicateBlocknameExist=false;
+      this.toggleEmptyBlockarray=false;
+      this.duplicateUnitrecordexist=false;
+      this.unitrecordDuplicateUnitnameModified=false;
+      this.totalUnitcount=0;
       // this.isunitdetailsempty=false;
      }
 
@@ -272,7 +279,7 @@ export class EnrollassociationComponent implements OnInit {
    }
   }
   countrylist(){
- let countryurl = "http://apidev.oyespace.com/oyeliving/api/v1/Country/GetCountryList" 
+ let countryurl = "https://devapi.scuarex.com/oyeliving/api/v1/Country/GetCountryList" 
 
     this.http.get(countryurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
       console.log(res)
@@ -407,7 +414,8 @@ this.state = state.stName;
     "isnotvalidmanagermobileno":false,
     "isnotvalidmanagername":false,
     "isnotvalidunits":false,
-    "isUnitsCreatedUnderBlock":false
+    "isUnitsCreatedUnderBlock":false,
+    "isUnitsCreatedUnderBlock1":true
    
   }
   //unitdetails variables
@@ -479,19 +487,20 @@ this.state = state.stName;
   processFile() {
     console.log(this.thumbnailASAsnLogo);
     console.log(this.uploadForm.get('profile').value);
-    var reader = new FileReader();
-    reader.readAsDataURL(this.uploadForm.get('profile').value);
-    reader.onload = () => {
-      console.log(reader.result);
-      this.ASAsnLogo = reader.result;
-      this.thumbnailASAsnLogo = reader.result;
-      this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
-         console.log(this.ASAsnLogo);
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-  
+      var reader = new FileReader();
+      if(this.uploadForm.get('profile').value!=null){
+        reader.readAsDataURL(this.uploadForm.get('profile').value);
+        reader.onload = () => {
+          console.log(reader.result);
+          this.ASAsnLogo = reader.result;
+          this.thumbnailASAsnLogo = reader.result;
+          this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
+             console.log(this.ASAsnLogo);
+        };
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        };
+      }
   }
 imgfilename;
   onPanFileSelect(event) {
@@ -508,6 +517,7 @@ imgfilename;
   processPanFile(){
     console.log(this.uploadPanForm.get('panProfile').value);
     var reader = new FileReader();
+    if(this.uploadPanForm.get('panProfile').value!=null){
     reader.readAsDataURL(this.uploadPanForm.get('panProfile').value);
     reader.onload = () => {
       console.log(reader.result);
@@ -521,6 +531,7 @@ imgfilename;
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  }
   }
   firstLetter: string;
   fifthLetter: string;
@@ -568,7 +579,7 @@ imgfilename;
  
   }
   keyPress3(event:any){
-    const pattern = /[1-9\+\-\ ]/;
+     const pattern = /^[1-9][0-9]*$/;
     let inputChar = String.fromCharCode(event.charCode);
     // console.log(inputChar, e.charCode);
        if (!pattern.test(inputChar)) {
@@ -634,199 +645,304 @@ imgfilename;
   // nextObjId1='';
   // isNextIetrationEnabled1;
   // nextBlckId1='';
-
+  unitlistuniquejson=[];
+  unitlistduplicatejson=[];
+  duplicateUnitrecordexist;
+  totalUnitcount;
+  message;
   submitunitdetails1(name) {
-    let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
+    this.unitsuccessarray = [];
+   /* let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
     let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
       return valueManualUnitnameArr.indexOf(item) != idx
     });
     if (isManualUnitnameDuplicate) {
-          Swal.fire({
-            title: 'Duplicate Unitname Exist',
-          text: "",
-          type: "error",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-          })        
+      Swal.fire({
+        title: 'Duplicate Unitname Exist',
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else { */
+      let abc = Object.keys(this.unitlistjson);
+      this.finalblocknameTmp = this.finalblocknameTmp.filter(item => {
+        return item != name;
+      })
+      console.log(this.finalblocknameTmp);
+      console.log(this.finalblocknameTmp.length);
+      if (this.finalblocknameTmp.length == 0) {
+        console.log('insideltab');
+        this.SubmitOrSaveAndContinue1 = 'Submit';
+      }
+      this.exceptionMessage1 = '';
+      console.log(name);
+      console.log(this.unitlistjson[name]);
+      console.log(this.unitlistjson);
+      let date = new Date();
+      var getDate = date.getDate();
+      var getMonth = date.getMonth() + 1;
+      var getFullYear = date.getFullYear();
+      var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
+      //this.unitsuccessarray=[];
+      console.log(date)
+
+    let ipAddress = this.utilsService.createUnit();
+    let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
+    // 
+    /* if (this.unitlistduplicatejson.length>0) {
+       this.unitlistjson[name] = [];
+       this.unitlistjson[name] = this.unitlistduplicatejson;
+       console.log(this.unitlistjson[name]);
+       this.duplicateUnitrecordexist= true;
+     }
+     else { */
+    if (this.unitrecordDuplicateUnitnameModified) {
+      let tempArr = [];
+      this.unitlistjson[name].forEach(iitm => {
+        if (iitm.hasNoDuplicateUnitname == false) {
+          tempArr.push(iitm);
         }
-        else{
-          let abc = Object.keys(this.unitlistjson);
-          this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
-            return item !=  name;
-          })
-          console.log(this.finalblocknameTmp);
-          console.log(this.finalblocknameTmp.length);
-          if(this.finalblocknameTmp.length==1){
-            console.log('insideltab');
-            this.SubmitOrSaveAndContinue1='Submit';
-          }
-          this.exceptionMessage1='';
-          console.log(name);
-          console.log(this.unitlistjson[name]);
-          console.log(this.unitlistjson);
-          let date = new Date();
-          var getDate = date.getDate();
-          var getMonth = date.getMonth() + 1;
-          var getFullYear = date.getFullYear();
-          var currentdata = getDate + "-" + getMonth + "-" + getFullYear;
-          //this.unitsuccessarray=[];
-          console.log(date)
-      
-          let ipAddress = this.utilsService.createUnit();
-          let unitcreateurl = `${ipAddress}oyeliving/api/v1/unit/create`
-      
-          // Object.keys(this.unitlistjson).forEach(element => {
-          //console.log(this.unitlistjson[element])
-      
-          //this.unitlistjson[name].forEach((unit, index) => {
-          // let headername = unit.Id.slice(0, -2);
-          //console.log(headername);
-          //console.log(unit)
-          //if (name == headername) {
-          //
-      
-          this.unitlistjson[name].forEach((unit, index) => {
-            console.log(unit);
-            ((index) => {
-              setTimeout(() => {
-                this.unitsuccessarray.push(unit);
-      
-                this.unitdetailscreatejson = {
-                  "ASAssnID": this.assid,
-                  "ACAccntID": this.globalService.getacAccntID(),
-                  "units": [
-                    {
-      
-                      "UNUniName": unit.flatno,
-                      "UNUniType": unit.unittype,
-                      "UNOcStat": unit.ownershipstatus,
-                      "UNOcSDate": "",
-                      "UNOwnStat": "",
-                      "UNSldDate": "",
-                      "UNDimens": "",
-                      "UNRate": "",
-                      "UNCalType": "",
-                      "FLFloorID": 14,
-                      "BLBlockID": unit.blockid,
-                      "Owner":
-                        [{
-      
-                          "UOFName": (unit.ownerfirstname==undefined?'':unit.ownerfirstname),
-                          "UOLName": (unit.ownerlastname==undefined?'':unit.ownerlastname),
-                          "UOMobile": (unit.ownermobilenumber==undefined?'':unit.ownermobilenumber),
-                          "UOISDCode": "",
-                          "UOMobile1": "",
-                          "UOMobile2": "",
-                          "UOMobile3": "",
-                          "UOMobile4": "",
-                          "UOEmail": (unit.owneremaiid==undefined?'':unit.owneremaiid),
-                          "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
-                          "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
-                          "UOCDAmnt": "2000"
-      
-                        }],
-                      "Tenant": [{
-                        "UTFName": (unit.tenantfirstname==undefined?'':unit.tenantfirstname),
-                        "UTLName": (unit.tenantlastname==undefined?'':unit.tenantlastname),
-                        "UTMobile": (unit.tenantmobilenumber==undefined?'':unit.tenantmobilenumber),
-                        "UTISDCode": "+91",
-                        "UTMobile1": "+919398493298",
-                        "UTEmail": (unit.tenantemaiid==undefined?'':unit.tenantemaiid),
-                        "UTEmail1": "pl@gmail.com"
-                      }],
-                      "unitbankaccount":
+      })
+      this.unitlistjson[name] = [];
+      this.unitlistjson[name] = tempArr;
+      console.log(this.unitlistjson[name]);
+      this.duplicateUnitrecordexist=false;
+    }
+    else{
+      this.unitlistjson[name].forEach(iitm => {
+        console.log(iitm.flatno.toLowerCase());
+        let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
+        console.log(found);
+        console.log(this.unitlistuniquejson);
+        if (found) {
+          this.unitlistduplicatejson.push(iitm);
+          console.log(this.unitlistduplicatejson);
+          this.duplicateUnitrecordexist = true;
+        }
+        else {
+          this.unitlistuniquejson.push(iitm);
+          iitm.hasNoDuplicateUnitname = true;
+          console.log(this.unitlistuniquejson);
+        }
+      })
+      this.unitlistjson[name] = [];
+      this.unitlistjson[name] = this.unitlistuniquejson;
+      console.log(this.unitlistjson[name]);
+    }
+      //}
+      //
+    this.unitlistjson[name].forEach((unit, index) => {
+      console.log(unit);
+      ((index) => {
+        setTimeout(() => {
+          this.unitsuccessarray.push(unit);
+          this.unitdetailscreatejson = {
+              "ASAssnID": this.assid,
+              "ACAccntID": this.globalService.getacAccntID(),
+              "units": [
+                {
+
+                  "UNUniName": unit.flatno,
+                  "UNUniType": unit.unittype,
+                  "UNOcStat": unit.ownershipstatus,
+                  "UNOcSDate": "",
+                  "UNOwnStat": "",
+                  "UNSldDate": "",
+                  "UNDimens": "",
+                  "UNRate": "",
+                  "UNCalType": "",
+                  "FLFloorID": 14,
+                  "BLBlockID": unit.blockid,
+                  "Owner":
+                    [{
+
+                      "UOFName": (unit.ownerfirstname == undefined ? '' : unit.ownerfirstname),
+                      "UOLName": (unit.ownerlastname == undefined ? '' : unit.ownerlastname),
+                      "UOMobile": (unit.ownermobilenumber == undefined ? '' : unit.ownermobilenumber),
+                      "UOISDCode": "",
+                      "UOMobile1": "",
+                      "UOMobile2": "",
+                      "UOMobile3": "",
+                      "UOMobile4": "",
+                      "UOEmail": (unit.owneremaiid == undefined ? '' : unit.owneremaiid),
+                      "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
+                      "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
+                      "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
+                      "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
+                      "UOCDAmnt": "2000"
+
+                    }],
+                  "Tenant": [{
+                    "UTFName": (unit.tenantfirstname == undefined ? '' : unit.tenantfirstname),
+                    "UTLName": (unit.tenantlastname == undefined ? '' : unit.tenantlastname),
+                    "UTMobile": (unit.tenantmobilenumber == undefined ? '' : unit.tenantmobilenumber),
+                    "UTISDCode": "+91",
+                    "UTMobile1": "+919398493298",
+                    "UTEmail": (unit.tenantemaiid == undefined ? '' : unit.tenantemaiid),
+                    "UTEmail1": "pl@gmail.com"
+                  }],
+                  "unitbankaccount":
+                  {
+                    "UBName": "SBI",
+                    "UBIFSC": "SBIN0014",
+                    "UBActNo": "LOP9090909",
+                    "UBActType": "Savings",
+                    "UBActBal": 12.3,
+                    "BLBlockID": unit.blockid
+                  },
+
+                  "UnitParkingLot":
+                    [
                       {
-                        "UBName": "SBI",
-                        "UBIFSC": "SBIN0014",
-                        "UBActNo": "LOP9090909",
-                        "UBActType": "Savings",
-                        "UBActBal": 12.3,
-                        "BLBlockID": unit.blockid
-                      },
-      
-                      "UnitParkingLot":
-                        [
-                          {
-                            "UPLNum": "1902",
-                            "MEMemID": 287,
-                            "UPGPSPnt": "24.0088 23. 979"
-                          }
-                        ]
-                    }
-                  ]
+                        "UPLNum": "1902",
+                        "MEMemID": 287,
+                        "UPGPSPnt": "24.0088 23. 979"
+                      }
+                    ]
                 }
-                console.log(this.unitdetailscreatejson)
-                this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
-                .subscribe((res: any) => {
-                  console.log(res)
-      
-                }, error => {
-                  console.log(error);
-                 this.exceptionMessage1 = error['error']['exceptionMessage'];
-                 console.log(this.exceptionMessage1);
-                });
-              }, 2000 * index)
-            })(index)
-      
-          });
-      
-          //
-          //}
-          //})
-          //})
-      
-          // Object.keys(this.unitlistjson).forEach((element, index) => {
-          //   console.log(this.unitlistjson[element]);
-      
-          // }) 
-      
-          setTimeout(() => {
-            var message;
-            if (this.unitsuccessarray.length == 1) {
-              message = 'Unit Created Successfully'
+              ]
             }
-            else if (this.unitsuccessarray.length > 1) {
-              message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
-            }
+            console.log(this.unitdetailscreatejson)
+            this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+              .subscribe((res: any) => {
+                console.log(res)
+                this.totalUnitcount += 1;
+              }, error => {
+                console.log(error);
+                this.exceptionMessage1 = error['error']['exceptionMessage'];
+                console.log(this.exceptionMessage1);
+              });
+        }, 2000 * index)
+      })(index)
+
+    });
       
-            let abc0 = Object.keys(this.unitlistjson);
-            if(Object.keys(this.unitlistjson)[abc0.length-1]==name){
-              Swal.fire({
-                title: (this.exceptionMessage1 == ''?message:this.exceptionMessage),
-                text: "",
-                type: (this.exceptionMessage1 == ''?"success":"error"),
-                confirmButtonColor: "#f69321",
-                confirmButtonText: "OK"
-              }).then(
-                (result) => {
-                  if (result.value) {
-                    this.isunitdetailsempty=true;
-                    //let abc1 = Object.keys(this.unitlistjson);
-                    //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
-                      console.log('test block');
-                    this.viewAssnService.dashboardredirect.next(result)
-                    this.viewAssnService.enrlAsnEnbled = false;
-                    this.viewAssnService.vewAsnEnbled = true;
-                    this.viewAssnService.joinAsnEbld = false;
-                    /*}
-                    else{
-                      this.demo2TabIndex = this.demo2TabIndex + 1;
-                    }*/
-        
+      setTimeout(() => {
+        if (this.unitsuccessarray.length == 1) {
+          this.message = 'Unit Created Successfully'
+        }
+        else if (this.unitsuccessarray.length > 1) {
+          this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+        }
+        if (this.duplicateUnitrecordexist) {
+          Swal.fire({
+            title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+            text: "",
+            type: "success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          }).then(
+            (result) => {
+              if (result.value) {
+                let tmpArr = [];
+                if(this.unitlistuniquejson.length>0){
+                  this.unitlistuniquejson.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                if(this.unitlistduplicatejson.length>0){
+                  this.unitlistduplicatejson.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                this.unitlistjson[name]=[];
+                this.unitlistjson[name]=tmpArr;
+                console.log(this.unitlistjson[name]);
+                this.unitrecordDuplicateUnitnameModified=true;
+              }
+            })
+        }
+        let abc0 = Object.keys(this.unitlistjson);
+        if (Object.keys(this.unitlistjson)[abc0.length - 1] == name) {
+          console.log('insidelasttab');
+          if (!this.duplicateUnitrecordexist) {
+            console.log('inlasttabNoduplicaterecordexist');
+            let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+            Swal.fire({
+              title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
+              text: "",
+              type: (this.exceptionMessage1 == '' ? "success" : "error"),
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            }).then(
+              (result) => {
+                if (result.value) {
+                  this.isunitdetailsempty = true;
+                  //let abc1 = Object.keys(this.unitlistjson);
+                  //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
+                  console.log('test block');
+                  this.viewAssnService.dashboardredirect.next(result)
+                  this.viewAssnService.enrlAsnEnbled = false;
+                  this.viewAssnService.vewAsnEnbled = true;
+                  this.viewAssnService.joinAsnEbld = false;
+                  /*}
+                  else{
+                    this.demo2TabIndex = this.demo2TabIndex + 1;
+                  }*/
+
+                }
+              })
+          }
+          else{
+            console.log('inlasttabduplicaterecordexist');
+            Swal.fire({
+              title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+              text: "",
+              type: "success",
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            }).then(
+              (result) => {
+                if (result.value) {
+                  let tmpArr = [];
+                  if(this.unitlistuniquejson.length>0){
+                    this.unitlistuniquejson.forEach(itm1 => {
+                      tmpArr.push(itm1);
+                    })
                   }
-                })
+                  if(this.unitlistduplicatejson.length>0){
+                    this.unitlistduplicatejson.forEach(itm1 => {
+                      tmpArr.push(itm1);
+                    })
+                  }
+                  this.unitlistjson[name]=[];
+                  this.unitlistjson[name]=tmpArr;
+                  console.log(this.unitlistjson[name]);
+                  this.unitrecordDuplicateUnitnameModified=true;
+                }
+              })
+          }
+        }
+        else {
+          console.log('demo2TabIndex');
+          if (!this.duplicateUnitrecordexist) {
+            let tmpArr = [];
+            if (this.unitlistuniquejson.length > 0) {
+              this.unitlistuniquejson.forEach(itm1 => {
+                tmpArr.push(itm1);
+              })
             }
-            else{
-              this.demo2TabIndex = this.demo2TabIndex + 1;
+            if (this.unitlistduplicatejson.length > 0) {
+              this.unitlistduplicatejson.forEach(itm1 => {
+                tmpArr.push(itm1);
+              })
             }
-            
-      
-          }, Number(this.unitlistjson[name].length) * 2000)
+            this.unitlistjson[name] = [];
+            this.unitlistjson[name] = tmpArr;
+            console.log(this.unitlistjson[name]);
+            this.unitlistuniquejson = [];
+            this.unitlistduplicatejson = [];
+            this.demo2TabIndex = this.demo2TabIndex + 1;
+          }
+        }
+
+
+      }, Number(this.unitlistjson[name].length) * 2000)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
       
-        }
+        //}
   }
   exceptionMessage='';
   SubmitOrSaveAndContinue='SAVE AND CONTINUE';
@@ -915,6 +1031,7 @@ imgfilename;
                 this.blocksArray.forEach((itm,indx)=>{
                   if(itm.blockname.toLowerCase() == name.toLowerCase()){
                     itm.isUnitsCreatedUnderBlock=true;
+                    itm.isUnitsCreatedUnderBlock1=false;
                     if(this.blocksArray[indx+1]!=undefined){
                       console.log(this.blocksArray[indx+1]['blockname']);
                       this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
@@ -1361,6 +1478,7 @@ validateUnitDetailsField(name){
   createblocksdetails(event) {
     this.uniqueBlockArr=[];
     this.duplicateBlockArr=[];
+    this.toggleEmptyBlockarray=false;
     /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
      console.log(valueBlckArr);
      let isBlkNameDuplicate = valueBlckArr.some((item, idx) => {
@@ -1376,38 +1494,60 @@ validateUnitDetailsField(name){
            })
          }
          else{ */
-    this.blocksArray.forEach(item => {
-      console.log(item.blockname.toLowerCase());
-      let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
-      console.log(found);
-      console.log(this.uniqueBlockArr);
-      if (found) {
-        this.duplicateBlockArr.push(item);
-        console.log(this.duplicateBlockArr);
-      }
-      else {
-        this.uniqueBlockArr.push(item);
-      }
-    })
-    console.log(this.uniqueBlockArr);
-    console.log(this.duplicateBlockArr);
-    
-    if (this.uniqueBlockArr.length > 0) {
-      console.log('No duplicates');
-      this.commonblockarray = this.uniqueBlockArr;
-      console.log(this.commonblockarray);
-      this.isblockdetailsempty = false;
-      this.blockssuccessarray = this.uniqueBlockArr.length;
-      setTimeout(() => {
-        this.commonblockarray.forEach((element) => {
-          if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-            this.isblockdetailsempty = true;
+          if(this.duplicateBlocknameExist){
+            this.toggleEmptyBlockarray=true;
+            this.commonblockarray1=[];
+            this.commonblockarray=[];
+            this.blockssuccessarray = [];
+            this.blocksArray.forEach(item => {
+              if(item.hasNoDuplicateBlockname==false){
+                this.commonblockarray.push(item);
+              }
+            })
+            this.commonblockarray.forEach((element) => {
+              if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                this.isblockdetailsempty = true;
+              }
+            })
+            console.log(this.commonblockarray);
+            this.blockssuccessarray = this.commonblockarray.length;
+            this.blockdetailsfinalcreation();
           }
-        })
-        this.blockdetailsfinalcreation();
-      }, 1000)
-      console.log(this.commonblockarray);
-    }
+          else{
+            this.blockssuccessarray =[];
+            this.blocksArray.forEach(item => {
+              console.log(item.blockname.toLowerCase());
+              let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
+              console.log(found);
+              console.log(this.uniqueBlockArr);
+              if (found) {
+                this.duplicateBlockArr.push(item);
+                console.log(this.duplicateBlockArr);
+              }
+              else {
+                this.uniqueBlockArr.push(item);
+              }
+            })
+            console.log(this.uniqueBlockArr);
+            console.log(this.duplicateBlockArr);
+            
+            if (this.uniqueBlockArr.length > 0) {
+              console.log('No duplicates');
+              this.commonblockarray = this.uniqueBlockArr;
+              console.log(this.commonblockarray);
+              this.isblockdetailsempty = false;
+              this.blockssuccessarray = this.uniqueBlockArr.length;
+              setTimeout(() => {
+                this.commonblockarray.forEach((element) => {
+                  if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                    this.isblockdetailsempty = true;
+                  }
+                })
+                this.blockdetailsfinalcreation();
+              }, 1000)
+              console.log(this.commonblockarray);
+            }
+          }
     //}
   }
   
@@ -1548,24 +1688,43 @@ validateUnitDetailsField(name){
                 if(this.duplicateBlockArr.length > 0){
                   this.duplicateBlocknameExist=true;
                   this.blocksArray=[];
-                  this.blocksArray = this.duplicateBlockArr;
+                  this.uniqueBlockArr.forEach(itm=>{
+                    itm.hasNoDuplicateBlockname=true;
+                    this.blocksArray.push(itm);
+                  })
+                  this.duplicateBlockArr.forEach(itm1=>{
+                    this.blocksArray.push(itm1);
+                  })
+                  console.log(this.blocksArray.length);
+                  console.log(this.blocksArray);
                 }
                 else{
-                  this.blocksArray=[];
-                  for(let i=0;i<=this.commonblockarray1.length-1;i++){
-                    console.log(i);
-                    console.log(this.commonblockarray1[i]);
-                    this.commonblockarray1[i].forEach(elmt => {
-                      this.blocksArray.push(elmt);
-                    });
+                  if(this.toggleEmptyBlockarray){
+                    console.log(this.finalblockname);
+                    console.log(this.blocksArray);
+                    this.blocknameforIteration = this.finalblockname[0];
+                    this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                    console.log(this.blocknameforIteration);
+                    console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                    this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
-                  console.log(this.finalblockname);
-                  console.log(this.blocksArray);
-                  this.blocknameforIteration = this.finalblockname[0];
-                  this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
-                  console.log(this.blocknameforIteration);
-                  console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
-                  this.demo1TabIndex = this.demo1TabIndex + 1;
+                  else{
+                    this.blocksArray=[];
+                    for(let i=0;i<=this.commonblockarray1.length-1;i++){
+                      console.log(i);
+                      console.log(this.commonblockarray1[i]);
+                      this.commonblockarray1[i].forEach(elmt => {
+                        this.blocksArray.push(elmt);
+                      });
+                    }
+                    console.log(this.finalblockname);
+                    console.log(this.blocksArray);
+                    this.blocknameforIteration = this.finalblockname[0];
+                    this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                    console.log(this.blocknameforIteration);
+                    console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                    this.demo1TabIndex = this.demo1TabIndex + 1;
+                  }
                 }
               }
             })
@@ -1596,6 +1755,8 @@ validateUnitDetailsField(name){
         elemnt.blockTmpid='';
       }
     })
+    console.log(this.unitlistjson[blockname][0]['Id'],blockname);
+    this.assignUnitTmpid(this.unitlistjson[blockname][0]['Id'],blockname);
   }
   assignUnitTmpid(obj2Id,blockname){
     console.log(obj2Id);
@@ -1679,9 +1840,10 @@ validateUnitDetailsField(name){
                   list.isnotvalidmanageremailid = false,
                   list.isnotvalidmanagermobileno = false,
                   list.isUnitsCreatedUnderBlock = false;
+                  list.isUnitsCreatedUnderBlock1 = true;
                 list.isnotvalidmanagername = false,
-
-                  list.isnotvalidunits = false,
+                  list.hasNoDuplicateBlockname = false;
+                list.isnotvalidunits = false,
                   list.blocktype = this.residentialorcommercialtype;
 
                 this.blocksArray.push(list);
@@ -1754,6 +1916,13 @@ validateUnitDetailsField(name){
       })
     })
     this.validateUnitDetailsField(name);
+  }
+  getUnittypeOnChange(event,blocknameforIteration){
+    console.log(event,blocknameforIteration);
+    this.validateUnitDetailsField(blocknameforIteration);
+  }
+  getOwnershipstatusOnChange(event,blocknameforIteration){
+    this.validateUnitDetailsField(blocknameforIteration);
   }
   getownershipstatus(Id, ownershipstatus,name){
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -1846,7 +2015,7 @@ validateUnitDetailsField(name){
         console.log(unit)
         if (unit['Id'] == Id) {
           unit['tenantfirstname'] = tenantfirstname;
-          if(unit['ownerlastname']==""){
+          if(unit['tenantfirstname']==""){
             unit['isnotvalidtenantfirstname']=true;
           }
           else{
@@ -2017,6 +2186,8 @@ validateUnitDetailsField(name){
     })
   }
   excelunitsuploaddata(exceldata) {
+    this.unitrecordDuplicateUnitnameModified=false;  
+    this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
     if(exceldata.length==0){
       Swal.fire({
@@ -2035,7 +2206,7 @@ validateUnitDetailsField(name){
       let _blkname = '';
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
-      let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
+     /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
       let isDuplicate = valueArr.some((item, idx) => {
         return valueArr.indexOf(item) != idx
       });
@@ -2048,7 +2219,7 @@ validateUnitDetailsField(name){
             confirmButtonText: "OK"
             })        
           }
-          else{
+          else{ */
             this.finalblockname.forEach(blkname => {
       
               exceldata.forEach((unitonce,i) => {
@@ -2076,6 +2247,7 @@ validateUnitDetailsField(name){
                         unitonce.Id = blkname+i+1;
                         unitonce.unitTmpid='';
                         unitonce.isSingleUnitDataEmpty=true;
+                        unitonce.hasNoDuplicateUnitname=false;
                         unitonce.isnotvalidflatno =false,
                         unitonce.isnotvalidunittype=false,
                         unitonce.isnotvalidownershipstatus=false,
@@ -2130,7 +2302,7 @@ validateUnitDetailsField(name){
                 }
               });
             })
-          }
+          //}
       this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains",this.unitlistjson)
     }
@@ -2154,7 +2326,7 @@ validateUnitDetailsField(name){
         console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
           var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
               this.filelist = [];    
-              console.log(this.filelist)    
+              console.log(this.filelist) 
               this.excelunitsuploaddata(arraylist)
     }  
   }
@@ -2364,18 +2536,34 @@ cancelunitsbulkupload(ev){
     }
    
   }
+  fileInputfinal;
+  fileopen(ev,fileInput2){
+    fileInput2.value = null
+    this.fileInputfinal =fileInput2;
+  }
+
+  fileInputfinal1;
+  fileopen1(ev,fileInput3){
+    fileInput3.value = null
+    this.fileInputfinal1 =fileInput3;
+  }
+  
   logo: boolean = false;
 
   resetStep1(ev){
 
     console.log(ev)
     this.form.reset();
-    this.thumbnailASAsnLogo='';
+    this.thumbnailASAsnLogo=undefined;
+   this.fileopen(ev,this.fileInputfinal);
+   this.uploadForm.reset();
    
   }
+
   resetStep2(ev){
     this.gstpanform.reset();
-    this.uploadPANCardThumbnail='';
+    this.uploadPANCardThumbnail= undefined;
+    this.fileopen1(ev,this.fileInputfinal1);
     // this.pancardnameoriginal=false
     this.uploadPanForm.reset();
     this.imgfilename ='';
@@ -2389,7 +2577,7 @@ cancelunitsbulkupload(ev){
   resetStep4(ev){
     this.blocksArray.forEach(Object=>{
       Object.blockname="";
-      Object.blocktype="";
+      // Object.blocktype="";
       Object.units="";
       Object.managername="";
       Object.managermobileno="";

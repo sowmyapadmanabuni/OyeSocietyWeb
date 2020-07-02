@@ -51,7 +51,7 @@
     display: inline-flex;
 }
 .blockdetails-form{
-    margin-top: 30px;
+    margin-top: 0px;
     display: flex;
      flex-direction: column; 
     padding-right: 42px;
@@ -59,7 +59,7 @@
 
 }
 .blockdetails-form1{
-    margin-top: 30px;
+    margin-top: 0px;
     display: flex;
     /* flex-direction: column; */
     padding-right: 42px;
@@ -75,7 +75,7 @@
 #unitbulkbutton{
     display: inline-block;
     margin-top: 0px;
-    top: 155px;
+    /* top: 155px; */
     margin-left: 1179px;
 }
 
@@ -83,11 +83,11 @@
 .fa-question-circle:before {
     font-size: 20px !important;
 }
-.fa {
+/* .fa {
     position: absolute;
     margin-left: 126px;
     margin-top: 32px;
-}
+} */
 .tooltipicon{
     font-size: 20px !important;
 
