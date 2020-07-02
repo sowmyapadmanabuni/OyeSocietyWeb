@@ -668,12 +668,8 @@
                                                 
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
-<<<<<<< HEAD
                                                                 <mat-label>UNIT TYPE<span class="red">*</span></mat-label>
                                                                 <mat-select [(value)]="obj3.unittype">
-=======
-                                                                <mat-select (selectionChange)="getUnittypeOnChange($event,blocknameforIteration)" [(value)]="obj3.unittype" placeholder="UNIT TYPE"required>
->>>>>>> e3341498f93975cba78bc9a2b58961854213f1b2
                                                                     <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -683,12 +679,8 @@
                                                 
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
-<<<<<<< HEAD
                                                                 <mat-label>OCCUPANCY & OWNERSHIP STATUS<span class="red">*</span></mat-label>
                                                                 <mat-select [(value)]="obj3.ownershipstatus">
-=======
-                                                                <mat-select (selectionChange)="getOwnershipstatusOnChange($event,blocknameforIteration)" [(value)]="obj3.ownershipstatus" placeholder="OCCUPANCY & OWNERSHIP STATUS"required>
->>>>>>> e3341498f93975cba78bc9a2b58961854213f1b2
                                                                     <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                                                     </mat-option>
                                                                 </mat-select>
