@@ -414,7 +414,8 @@ this.state = state.stName;
     "isnotvalidmanagermobileno":false,
     "isnotvalidmanagername":false,
     "isnotvalidunits":false,
-    "isUnitsCreatedUnderBlock":false
+    "isUnitsCreatedUnderBlock":false,
+    "isUnitsCreatedUnderBlock1":true
    
   }
   //unitdetails variables
@@ -1030,6 +1031,7 @@ imgfilename;
                 this.blocksArray.forEach((itm,indx)=>{
                   if(itm.blockname.toLowerCase() == name.toLowerCase()){
                     itm.isUnitsCreatedUnderBlock=true;
+                    itm.isUnitsCreatedUnderBlock1=false;
                     if(this.blocksArray[indx+1]!=undefined){
                       console.log(this.blocksArray[indx+1]['blockname']);
                       this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
@@ -1838,6 +1840,7 @@ validateUnitDetailsField(name){
                   list.isnotvalidmanageremailid = false,
                   list.isnotvalidmanagermobileno = false,
                   list.isUnitsCreatedUnderBlock = false;
+                  list.isUnitsCreatedUnderBlock1 = true;
                 list.isnotvalidmanagername = false,
                   list.hasNoDuplicateBlockname = false;
                 list.isnotvalidunits = false,
@@ -1913,6 +1916,13 @@ validateUnitDetailsField(name){
       })
     })
     this.validateUnitDetailsField(name);
+  }
+  getUnittypeOnChange(event,blocknameforIteration){
+    console.log(event,blocknameforIteration);
+    this.validateUnitDetailsField(blocknameforIteration);
+  }
+  getOwnershipstatusOnChange(event,blocknameforIteration){
+    this.validateUnitDetailsField(blocknameforIteration);
   }
   getownershipstatus(Id, ownershipstatus,name){
     Object.keys(this.unitlistjson).forEach(element=>{
