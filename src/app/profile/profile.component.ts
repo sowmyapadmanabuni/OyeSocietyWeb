@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   accountID: number;
   currentAssociationID: string;
   allAccount=[];
+  tempImg:any;
   acfName: any;
   aclName: any;
   acMobile: any;
@@ -76,6 +77,7 @@ export class ProfileComponent implements OnInit {
      this.acMobile1= this.allAccount[0]['acMobile1'];
     this.currentaccountid=this.allAccount[0]['acAccntID'];
     this.acImgName='data:image/jpeg;base64,' + this.allAccount[0]['acImgName'];
+    this.tempImg=this.acImgName.substring(this.acImgName.indexOf('64') + 3);
       });
   }
 
@@ -101,7 +103,7 @@ console.log(this.currentaccountid);
         "ACEmail3"	: "",
         "ACEmail4"  : "",
         "ACAccntID"	: this.currentaccountid,
-        "ACImgName": this.ACImgName
+        "ACImgName": (this.ACImgName==""?this.tempImg:this.ACImgName)
     }
   console.log(this.updateProfileData);
 
