@@ -5,10 +5,10 @@
                 <a class="active" href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Blocks
                     Details</span>
             </div>
-            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
+            <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
                 <a class="disabled" href="#step-2" type="button" class="btn btn-circle-o"></a><span>Manager
                     Details</span>
-            </div>
+            </div> -->
             <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
                 <a class="disabled" href="#step-3" type="button" class="btn btn-circle-o"></a><span>Maitainance
                     Details</span>
@@ -92,19 +92,7 @@
                     <p class="validation" *ngIf="noofunitsvallid">No of units are required</p> 
                     <!-- <p class="validation" *ngIf="blocksArray[i]['units']==undefined">No of units are required</p> -->
                 </div>
-            </div> 
-           
-            <div class="col-sm-12 pull-right">
-                <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep1()'>Reset</button>
-                <button [disabled]="blockname == '' || blocktype == '' || noofunits == ''"  class="btn btn-primary-purple nextBtn m-r" type="button">Next</button>
-            </div>
-        </div>
-
-        <div class="panel panel-primary setup-content" id="step-2">
-            <!-- <div class="panel-heading">
-             <h3 class="panel-title">Pan & Registration Details</h3>
-        </div> -->
-            <div class="panel-body">
+                
                 <div class="form-group">
                     <!-- <label id=label4>Manager Name <span class="red">*</span></label>
                     <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="mngName"
@@ -114,7 +102,6 @@
                     <mat-form-field class="blockdetails-form">
                         <mat-label>MANAGER NAME</mat-label>
                         <input class = "text" 
-                        #managernameControl="ngModel"
                         (keypress)="_keyPress2($event)"
                         (keyup)="validatemanagername($event,mngName)"
                         autocomplete='mngName'
@@ -174,13 +161,69 @@
                 <p class="validation" *ngIf="manageremailvalid">Manager email-id is required</p> 
                <!-- <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p> -->
                 </div>
+            </div> 
+           
+            <div class="col-sm-12 pull-right">
+                <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep1()'>Reset</button>
+                <button [disabled]="blockname == '' || blocktype == '' || noofunits == ''|| mngName == '' || mobile == '' || manageremail == ''"  class="btn btn-primary-purple nextBtn m-r" type="submit">Add Block</button>
+            </div>
+        </div>
+
+        <!-- <div class="panel panel-primary setup-content" id="step-2">
+          
+            <div class="panel-body">
+                <div class="form-group">
+                
+                    <mat-form-field class="blockdetails-form">
+                        <mat-label>MANAGER NAME</mat-label>
+                        <input class = "text" 
+                        #managernameControl="ngModel"
+                        (keypress)="_keyPress2($event)"
+                        (keyup)="validatemanagername($event,mngName)"
+                        autocomplete='mngName'
+                        matInput placeholder="MANAGER NAME" 
+                        [(ngModel)]="mngName" 
+                        [ngModelOptions]="{standalone:true}"
+                        value=""pattern="[a-zA-Z _]*">
+                    </mat-form-field>
+                    <p class="validation" *ngIf="managernamevalid">Manager name is required</p>
+
+                </div> 
+                <div class="form-group">
+
+               <mat-form-field class="blockdetails-form">
+                <mat-label>MANAGER MOBILE NUMBER</mat-label>
+                <input matInput placeholder="MANAGER MOBILE NUMBER"
+                pattern="[0-9]*" 
+                (keypress)=_keyPress($event)
+                minlength="10"
+                maxlength="10"
+                (keyup)="validatemanagermobilenumber($event,mobile)"
+                [ngModelOptions]="{standalone:true}"
+                    [(ngModel)]="mobile" value="">
+            </mat-form-field>
+            <p class="validation" *ngIf="managermobilevalid">Manager mobile is required</p>
+                </div>
+                
+                <div class="form-group">
+
+                   <mat-form-field class="blockdetails-form">
+                    <mat-label>MANAGER EMAIL ID</mat-label>
+                    <input matInput placeholder="MANAGER EMAIL ID" 
+                    pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+                    [(ngModel)]="manageremail"[ngModelOptions]="{standalone:true}"
+                    (keyup)="validatemanageremail($event,manageremail)"
+                    value="">
+                </mat-form-field>
+                <p class="validation" *ngIf="manageremailvalid">Manager email-id is required</p> 
+                </div>
             </div>
             <div class="col-sm-12 pull-right">
                 <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep2()'>Reset</button>
                 <button [disabled]="mngName == '' || mobile == '' || manageremail == ''"class="btn btn-primary-purple nextBtn m-r" type="submit">Add Block</button>
             </div>
 
-        </div>
+        </div> -->
 
      
     </form>
