@@ -263,11 +263,6 @@
       </div>
   </ng-template> -->
 
-
-
-  
-
-
   <div class="row bg" style="background-image: url('images/bg-01.jpeg');">
 		<div class="container">
 			<div class="row">
@@ -283,16 +278,16 @@
 							<form #registerFrm="ngForm">
 								<div class="form-group first-row">
 									<div class="user-wrapper">
-                                        <input  placeholder="First Name" name="firstName" #firstNameCtrl='ngModel' [(ngModel)]="firstName" type="text" pattern="[A-Za-z]" required/>
-                                        <p style="color: red;" *ngIf="firstNameCtrl.touched && firstNameCtrl.errors.required">Enter valid Firstname</p>
+                                        <input  placeholder="First Name" name="firstName" #firstNameCtrl='ngModel' [(ngModel)]="firstName" type="text" pattern="[a-zA-Z _]*" required/>
+                                        <p style="color: red;" *ngIf="firstNameCtrl.invalid && firstNameCtrl.touched">Enter valid Firstname</p>
 									</div>
 									
                                 </div>
                                 <div class="form-group first-row">
 									
 									<div class="user-wrapper" style="width: 100%;">
-                                        <input placeholder="Last Name" name="lastName" #lastNameCtrl='ngModel' [(ngModel)]="lastName" type="text" pattern="[A-Za-z]" required/>
-                                        <p style="color: red;" *ngIf="lastNameCtrl.touched && lastNameCtrl.errors.required">Enter valid Lastname</p>
+                                        <input placeholder="Last Name" name="lastName" #lastNameCtrl='ngModel' [(ngModel)]="lastName" type="text" pattern="[a-zA-Z _]*" required/>
+                                        <p style="color: red;" *ngIf="lastNameCtrl.invalid && lastNameCtrl.touched">Enter valid Lastname</p>
 									</div>
 								</div>
 								<div class="form-group first-row">

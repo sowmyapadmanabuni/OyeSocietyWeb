@@ -116,12 +116,19 @@ export class AddUnitComponent implements OnInit {
     this.checkIsUnitCreated=new EventEmitter<string>();
    }
    occupancy = [
+    "Sold Owner Occupied Unit" ,
+    "Sold Tenant Occupied Unit" ,
+    "Sold Vacant Unit" ,
+    "UnSold Vacant Unit" ,
+    "UnSold Tenant Occupied Unit" 
+ ]/*[
     "SOLD OWNER OCCUPIED UNIT",
     "SOLD TENANT OCCUPIED UNIT",
     "SOLD VACANT UNIT",
     "UNSOLD VACANT UNIT",
     "UNSOLD TENANT OCCUPIED UNIT",
-  ]
+  ]*/
+  
   unittypedata =[
     "FLAT",
     "VILLA",
@@ -387,7 +394,7 @@ export class AddUnitComponent implements OnInit {
     console.log(createUnitData);
 
     this.viewUniService.createUnit(createUnitData).subscribe((response) => {
-
+      console.log(response);
       Swal.fire({
         title: 'Unit Created Successfuly',
         type: 'success',
