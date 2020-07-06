@@ -138,8 +138,9 @@
     
     }
     .blockdetails-form{
-        padding-left: 42px;
+        /* padding-left: 42px; */
         padding-right: 42px;
+        padding-left: 4px;
         display: inline-flex;
     
     }
@@ -147,7 +148,7 @@
         text-transform: uppercase;
     }
     p.validation {
-        margin-left: 40px;
+        /* margin-left: 40px; */
         margin-top: -18px;
         color: #B51414 !important;
         margin-bottom: 0px;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 // import { CommonserviceService } from './../commonservice.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -134,8 +134,11 @@ export class EnrollassociationComponent implements OnInit {
       pannumber:['']
     });
     this.unitsDetailsgenerateform();
-    this.countrylist();
+     this.countrylist();
   }
+  ngOnChanges(changes: SimpleChanges) {
+  //  this.countrylist();
+}
   isFieldValid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
   }
@@ -2551,16 +2554,41 @@ cancelunitsbulkupload(ev){
   logo: boolean = false;
 
   resetStep1(ev){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
 
-    console.log(ev)
-    this.form.reset();
-    this.thumbnailASAsnLogo=undefined;
-   this.fileopen(ev,this.fileInputfinal);
-   this.uploadForm.reset();
+        if (result.value) {
+          console.log(ev)
+          this.form.reset();
+          this.thumbnailASAsnLogo=undefined;
+         this.fileopen(ev,this.fileInputfinal);
+         this.uploadForm.reset();
+        }
+      })
+
    
   }
 
   resetStep2(ev){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+         
     this.gstpanform.reset();
     this.uploadPANCardThumbnail= undefined;
     this.fileopen1(ev,this.fileInputfinal1);
@@ -2568,67 +2596,114 @@ cancelunitsbulkupload(ev){
     this.uploadPanForm.reset();
     this.imgfilename ='';
     this.showImgOnPopUp(ev,undefined,'')
+        }
+      })
+
 
   }
   resetStep3(ev){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
     this.blockform.reset();
+        
+        }
+      })
+
 
   }
   resetStep4(ev){
-    this.blocksArray.forEach(Object=>{
-      Object.blockname="";
-      // Object.blocktype="";
-      Object.units="";
-      Object.managername="";
-      Object.managermobileno="";
-      Object.manageremailid="";
-      
-    })
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+          this.blocksArray.forEach(Object=>{
+            Object.blockname="";
+            // Object.blocktype="";
+            Object.units="";
+            Object.managername="";
+            Object.managermobileno="";
+            Object.manageremailid="";
+            
+          })
+        }
+      })
+
   }
   resetStep5bulk(ev,blknamecommon){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
 
-    Object.keys(this.unitlistjson).forEach(element=>{
-      console.log(this.unitlistjson[element])
-      this.unitlistjson[element].forEach(unit => {
-if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
-
-      unit.flatno="",
-      unit.blockname ="",
-      unit.owneremaiid="",
-      unit.ownerfirstname="",
-      unit.ownermobilenumber="",
-      unit.ownershipstatus="",
-      unit.unittype="",
-      unit.ownerlastname="",
-      unit.ownermobilenumber= "",
-      unit.owneremaiid="",
-      unit.tenantfirstname="",
-      unit.tenantlastname="",
-      unit.tenantmobilenumber="",
-      unit.tenantemaiid=""
-    }else{
-      let blname = unit.Id.slice(0, -2);
-      if(blknamecommon == blname){
-        unit.flatno="",
-        unit.blockname ="",
-        unit.owneremaiid="",
-        unit.ownerfirstname="",
-        unit.ownermobilenumber="",
-        unit.ownershipstatus="",
-        unit.unittype="",
-        unit.ownerlastname="",
-        unit.ownermobilenumber= "",
-        unit.owneremaiid="",
-        unit.tenantfirstname="",
-        unit.tenantlastname="",
-        unit.tenantmobilenumber="",
-        unit.tenantemaiid=""
-      }
-   
-    }
-
+        if (result.value) {
+          Object.keys(this.unitlistjson).forEach(element=>{
+            console.log(this.unitlistjson[element])
+            this.unitlistjson[element].forEach(unit => {
+      if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
+      
+            unit.flatno="",
+            unit.blockname ="",
+            unit.owneremaiid="",
+            unit.ownerfirstname="",
+            unit.ownermobilenumber="",
+            unit.ownershipstatus="",
+            unit.unittype="",
+            unit.ownerlastname="",
+            unit.ownermobilenumber= "",
+            unit.owneremaiid="",
+            unit.tenantfirstname="",
+            unit.tenantlastname="",
+            unit.tenantmobilenumber="",
+            unit.tenantemaiid=""
+          }else{
+            let blname = unit.Id.slice(0, -2);
+            if(blknamecommon == blname){
+              unit.flatno="",
+              unit.blockname ="",
+              unit.owneremaiid="",
+              unit.ownerfirstname="",
+              unit.ownermobilenumber="",
+              unit.ownershipstatus="",
+              unit.unittype="",
+              unit.ownerlastname="",
+              unit.ownermobilenumber= "",
+              unit.owneremaiid="",
+              unit.tenantfirstname="",
+              unit.tenantlastname="",
+              unit.tenantmobilenumber="",
+              unit.tenantemaiid=""
+            }
+         
+          }
+      
+            })
+          })
+        }
       })
-    })
+
+
+  
 
   }
   previouspage(ev){
@@ -2636,6 +2711,18 @@ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
 
   }
   resetStep5(ev,blknamecommon,Id){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+      
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
@@ -2657,6 +2744,10 @@ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
         }
       })
     })
+        }
+      })
+
+
 
    /* Object.keys(this.unitlistjson).forEach(element=>{
       console.log(this.unitlistjson[element])

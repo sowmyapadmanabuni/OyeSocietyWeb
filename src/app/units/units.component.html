@@ -154,26 +154,26 @@
             <div class="modal-header" style="background-color: whitesmoke;">
                
                
-                <h4 class="modal-title" id="myModalLabel" style="color:#b33951; font-family: Quicksand;"><u>View Unit</u></h4>
+                <h4 class="modal-title" id="myModalLabel" style="color:#5a51aa; font-family: Quicksand;">Unit Information</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
 
             <div class="modal-body" style="font-family: Quicksand;">
-                <div class="row" style="border:2px solid #b33951; padding:5px;">
+                <div class="row" style="padding:5px;">
                     <div class="col-sm-12"> 
                         <h5 class="text-center">Association Name : <strong>{{currentAssociationName}}</strong></h5> 
                         <br>                          
-                        <h5 style="color:#b33951">Unit Information</h5>
-                        <br>
+                        <!-- <h5 style="color:#5a51aa">Unit Information</h5>
+                        <br> -->
                     </div>
                     <div class="col-sm-4">
-                        <p>Unit No : <span>{{viewUnitRow.unitNo}}</span></p>
+                        <p><strong>Unit No :</strong> <span>{{viewUnitRow.unitNo}}</span></p>
                     </div>
                     <div class="col-sm-4">
-                        <p>Unit Type : <span>{{viewUnitRow.unitType}}</span></p>
+                        <p><strong>Unit Type : </strong><span>{{viewUnitRow.unitType}}</span></p>
                     </div>
                     <div class="col-sm-4">
-                        <p>Unit Dimension : <span>{{viewUnitRow.unitDimen}}</span></p>
+                        <p><strong>Unit Dimension : </strong><span>{{viewUnitRow.unitDimen}}</span></p>
                     </div>
 
                     <div class="col-sm-12">
@@ -181,13 +181,13 @@
                     </div>
 
                     <div class="col-sm-4">
-                        <p>Unit Rate : <span>{{viewUnitRow.rate}}</span></p>
+                        <p><strong>Unit Rate : </strong><span>{{viewUnitRow.rate}}</span></p>
                     </div>
                     <div class="col-sm-4">
-                        <p>Calculation Type : <span>{{viewUnitRow.calculationType}}</span></p><!---->
+                        <p><strong>Calculation Type : </strong><span>{{viewUnitRow.calculationType}}</span></p><!---->
                     </div>
                     <div class="col-sm-4">
-                        <p>Occupancy Status : <span>{{viewUnitRow.occupencyStatus}}</span></p>
+                        <p><strong>Occupancy Status : </strong><span>{{viewUnitRow.occupencyStatus}}</span></p>
                     </div>
                 </div>
             </div> <!---------Modal Body close----------> 
