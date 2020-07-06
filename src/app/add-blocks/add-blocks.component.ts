@@ -520,6 +520,9 @@ rate1:any;
     this.blockname='';
     this.blocktype = '';
     this.noofunits='';
+    this.mngName='';
+    this.mobile='';
+    this.manageremail='';
   }
   resetStep2(){
     this.mngName='';

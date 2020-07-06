@@ -1040,20 +1040,20 @@
           </div>
           <div class="col-sm-3">
             <p class="view-head"><b>City</b></p>
-            <p>{{city}}</p>
+            <p style="text-transform: uppercase;">{{city}}</p>
           </div>
 
           <div class="col-sm-3">
             <p class="view-head"><b>Property Type</b></p>
-            <p>{{propertyType}}</p>
+            <p style="text-transform: uppercase;">{{propertyType}}</p>
           </div>
           <div class="col-sm-3">
             <p class="view-head"><b>Property Name</b></p>
-            <p>{{propertyName}}</p>
+            <p style="text-transform: uppercase;">{{propertyName}}</p>
           </div>
           <div class="col-sm-3">
             <p class="view-head"><b>Locality</b></p>
-            <p>{{locality}}</p>
+            <p style="text-transform: uppercase;">{{locality}}</p>
           </div>
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">
@@ -1075,7 +1075,7 @@
           </div>
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">       
-            <h5 style="color:#5a51aa">Pan and GST details</h5>
+            <h5 style="color:#5a51aa">PAN and GST Details</h5>
             <div class="col-sm-3">
                 <p class="view-head"><b>Pan no</b></p>
                 <p>{{panno}}</p>
@@ -1084,8 +1084,8 @@
                 <p class="view-head" *ngIf="gstno!=''"><b>GSTNumber</b></p>
                 <p style="text-transform: uppercase;">{{gstno}}</p>
               </div>
-              <div class="col-sm-3">
-                <p *ngIf="pandoc!=''"class="view-head"><b>Pan Document</b></p>
+              <div class="col-sm-3" *ngIf="pandoc!=''">
+                <p class="view-head"><b>Pan Document</b></p>
                 <img id="icon" src="{{'data:image/png;base64,'+ pandoc}}">
                 <!-- <p>{{pandoc}}</p> -->
               </div>       
