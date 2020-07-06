@@ -1859,7 +1859,7 @@ validateUnitDetailsField(name){
               })
               document.getElementById('upload_excel').style.display = 'none'
               document.getElementById('blockdetailscancelbutton').style.display = 'none';
-              document.getElementById('showmanual').style.display = 'block';
+              document.getElementById('showmanualblockwithhorizantalview').style.display = 'block';
               document.getElementById('blockdetailsbuttons').style.display = 'block';
             //}
           }
@@ -2364,14 +2364,14 @@ validateUnitDetailsField(name){
   // }
   cancelmanualblocks(ev){
     document.getElementById('upload_excel').style.display ='block';
-    document.getElementById('showmanual').style.display ='none';
+    document.getElementById('showmanualblockwithhorizantalview').style.display ='none';
     document.getElementById('blockdetailscancelbutton').style.display ='none';
 
     document.getElementById('blockdetailsbuttons').style.display ='none';
     this.blocksArray=[]
   }
 submitforblocksbulkupload(ev){
-  document.getElementById('showmanual').style.display ='none'
+  document.getElementById('showmanualblockwithhorizantalview').style.display ='none'
   document.getElementById('upload_excel').style.display ='block';
 }
 submitforbulkupload(ev){
@@ -2382,7 +2382,7 @@ submitforbulkupload(ev){
 }
 cancelbulkupload(ev){
   document.getElementById('upload_excel').style.display ='none';
-  document.getElementById('showmanual').style.display ='block';
+  document.getElementById('showmanualblockwithhorizantalview').style.display ='block';
   //this.blocksArray=[];
 }
 cancelunitsbulkupload(ev){
@@ -2411,7 +2411,7 @@ cancelunitsbulkupload(ev){
       }
       // this.blockDetailsgenerateform();
        //document.getElementById('manualbulk').style.display ='none'
-       //document.getElementById('showmanual').style.display ='block';
+       //document.getElementById('showmanualblockwithhorizantalview').style.display ='block';
        //document.getElementById('blockdetailsbuttons').style.display ='block';
        //document.getElementById('blockdetailscancelbutton').style.display ='block';
 
