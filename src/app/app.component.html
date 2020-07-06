@@ -29,7 +29,7 @@
                    <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm wel" type="button"
                            data-toggle="dropdown">{{globalService.getCurrentUnitName()}}
                            <span class="caret"></span></button>
-                   <ul class="dropdown-menu fullw">
+                   <ul class="dropdown-menu fullw" style="height: 300px;">
                            <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
                    </ul>
                </div>
