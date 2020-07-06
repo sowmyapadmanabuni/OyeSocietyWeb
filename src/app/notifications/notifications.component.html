@@ -138,9 +138,9 @@
                                                   <!-- "Staff Voisentry" template -->
                                                   <div *ngIf="item['vlVisType']=='Staff Voisentry'">
                                                     <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
-                                                    <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
-                                                    <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
-                                                    <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
+                                                    <!-- <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div> -->
+                                                    <!-- <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div> -->
+                                                    <!-- <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div> -->
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                     </div>
                                                   <!-- "Staff Voisentry" template -->
@@ -202,21 +202,33 @@
                         <div>
                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Deny</span>
                         </div> -->
+                        <div *ngIf="item['vlVisType']!='Staff Voisentry'">
                         <div *ngIf="item['vlVisType']!='Guest with Invitation'">
+
                         <div *ngIf="item['vlApprStat']=='Entry Pending' || item['vlApprStat']=='Exit Pending'">
+                          <div *ngIf="item['vlApprStat']=='Entry Pending'">
                           <div *ngIf="changeViewOfActionButton">
                             <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Entry Approved', item['vlApprdBy'])"
                               class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Allow</span>
                           </div>
                         </div>
+
+                        <div *ngIf="item['vlApprStat']=='Exit Pending'">
+                          <div *ngIf="changeViewOfActionButton">
+                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])"
+                              class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Allow</span>
+                          </div>
+                        </div>
+                        </div>
+
                         <div *ngIf="item['vlApprStat']=='Entry Pending' || item['vlApprStat']=='Exit Pending'">
                           <div *ngIf="changeViewOfActionButton">
                             <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])"
                               class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Deny</span>
                           </div>
                         </div>
-
                         </div>
+                      </div>
 
                       </div>
                     </div>
