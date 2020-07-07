@@ -831,6 +831,10 @@ imgfilename;
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
         }
         if (this.duplicateUnitrecordexist) {
+          document.getElementById('unitupload_excel').style.display = 'none'
+          document.getElementById('unitshowmanual').style.display = 'block';
+          document.getElementById('unitsmanualnew').style.display = 'none';
+          document.getElementById('unitsbulkold').style.display = 'block';
           Swal.fire({
             title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
             text: "",
@@ -864,6 +868,10 @@ imgfilename;
           if (!this.duplicateUnitrecordexist) {
             console.log('inlasttabNoduplicaterecordexist');
             let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+            document.getElementById('unitupload_excel').style.display = 'none'
+            document.getElementById('unitshowmanual').style.display = 'block';
+            document.getElementById('unitsmanualnew').style.display = 'none';
+            document.getElementById('unitsbulkold').style.display = 'block';
             Swal.fire({
               title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
               text: "",
@@ -891,6 +899,10 @@ imgfilename;
           }
           else{
             console.log('inlasttabduplicaterecordexist');
+            document.getElementById('unitupload_excel').style.display = 'none'
+            document.getElementById('unitshowmanual').style.display = 'block';
+            document.getElementById('unitsmanualnew').style.display = 'none';
+            document.getElementById('unitsbulkold').style.display = 'block';
             Swal.fire({
               title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
               text: "",
@@ -938,6 +950,10 @@ imgfilename;
             console.log(this.unitlistjson[name]);
             this.unitlistuniquejson = [];
             this.unitlistduplicatejson = [];
+            document.getElementById('unitupload_excel').style.display = 'none'
+            document.getElementById('unitshowmanual').style.display = 'block';
+            document.getElementById('unitsmanualnew').style.display = 'none';
+            document.getElementById('unitsbulkold').style.display = 'block';
             this.demo2TabIndex = this.demo2TabIndex + 1;
           }
         }
@@ -2328,6 +2344,7 @@ validateUnitDetailsField(name){
       }
     })
   }
+  isValidUnitRecord:boolean;
   excelunitsuploaddata(exceldata) {
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
@@ -2347,6 +2364,7 @@ validateUnitDetailsField(name){
       console.log(this.blocksArray);
       console.log(this.unitlistjson);
       let _blkname = '';
+      this.isValidUnitRecord=false;
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
      /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
@@ -2422,13 +2440,7 @@ validateUnitDetailsField(name){
                           })
                         })
                         this.unitlistjson[blkname].push(unitonce)
-                        document.getElementById('unitupload_excel').style.display = 'none'
-                        document.getElementById('unitshowmanual').style.display = 'block';
-                        document.getElementById('unitsmanualnew').style.display = 'none';
-                        document.getElementById('unitsbulkold').style.display = 'block';
-  
-  
-  
+                        this.isValidUnitRecord=true;  
                         console.log(this.unitlistjson);
                       }
                       else{
@@ -2447,7 +2459,12 @@ validateUnitDetailsField(name){
             })
           //}
       this.validateUnitDetailsField(_blkname);
-      console.log("unit data what contains",this.unitlistjson)
+      console.log("unit data what contains",this.unitlistjson);
+      setTimeout(()=>{
+        if(this.isValidUnitRecord){
+          this.gotonexttab1('',_blkname);
+        }
+      },2000)
     }
   }
   file:File

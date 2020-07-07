@@ -323,3 +323,9 @@ a.MANUAL{
     padding: 6px 22px;
     border-radius: 6px;
     font-weight: 500;}
+.green-lbl{
+    color: green;;
+}
+.red-lbl{
+    color: red;
+}
