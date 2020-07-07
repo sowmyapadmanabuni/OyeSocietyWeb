@@ -1665,6 +1665,11 @@ validateUnitDetailsField(name){
       })(index)
       })
       setTimeout(() => {
+        document.getElementById('upload_excel').style.display = 'none'
+        document.getElementById('blockdetailscancelbutton').style.display = 'none';
+        document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
+        document.getElementById('showmanual').style.display = 'block';
+        document.getElementById('blockdetailsbuttons').style.display = 'block';
         //         this.blocksArray.forEach(element => {
         //           Object.keys(this.unitlistjson).forEach(blkname => {
         // if(blkname==element['blockname']){
@@ -1965,11 +1970,9 @@ validateUnitDetailsField(name){
                   this.isblockdetailsempty = false;
                 }
               })
-              document.getElementById('upload_excel').style.display = 'none'
-              document.getElementById('blockdetailscancelbutton').style.display = 'none';
-              document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
-              document.getElementById('showmanual').style.display = 'block';
-              document.getElementById('blockdetailsbuttons').style.display = 'block';
+              setTimeout(()=>{
+                this.createblocksdetails('');
+              },1000)
             //}
           }
         }
