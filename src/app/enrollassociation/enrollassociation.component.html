@@ -590,7 +590,7 @@
                                             <mat-label>BLOCK NAME/NUMBER<span class="red">*</span></mat-label>
                                             <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput
                                                 placeholder="BLOCK NAME/NUMBER" pattern="[a-zA-Z0-9 _]*"
-                                                (blur)="getblocknameornumber(blocksArray[i]['Id'],blocksArray[i].blockname)"
+                                                (keyup)="getblocknameornumber(blocksArray[i]['Id'],blocksArray[i].blockname)"
                                                 class="text" id="label" [(ngModel)]="blocksArray[i].blockname" value="">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="blocksArray[i]['isnotvalidblockname']">Valid name is required</p>
@@ -615,7 +615,7 @@
                                             <mat-label>NO OF UNITS<span class="red">*</span></mat-label>
                                             <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput
                                                 placeholder="NO OF UNITS" pattern="[0-9]*" (keypress)=_keyPress($event)
-                                                (blur)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)"
+                                                (keyup)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)"
                                                 [(ngModel)]="blocksArray[i].units" value="">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="blocksArray[i]['isnotvalidunits']">No of units are required</p>
@@ -627,7 +627,7 @@
                                             <mat-label>MANAGER NAME<span class="red">*</span></mat-label>
                                             <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" class="text"
                                                 (keypress)="_keyPress2($event)" matInput placeholder="MANAGER NAME"
-                                                (blur)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
+                                                (keyup)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
                                                 [(ngModel)]="blocksArray[i].managername" value="" pattern="[a-zA-Z _]*">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagername']">Manager name is required
@@ -642,7 +642,7 @@
                                             <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput
                                                 placeholder="MANAGER MOBILE NUMBER" pattern="[0-9]*" (keypress)=_keyPress($event)
                                                 minlength="10" maxlength="10"
-                                                (blur)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i].managermobileno)"
+                                                (keyup)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i].managermobileno)"
                                                 [(ngModel)]="blocksArray[i].managermobileno" value="">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">Manager mobile number
@@ -658,7 +658,7 @@
                                                 placeholder="MANAGER EMAIL ID"
                                                 pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                                 [(ngModel)]="blocksArray[i].manageremailid"
-                                                (blur)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i].manageremailid)" value="">
+                                                (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i].manageremailid)" value="">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is
                                             required</p>
@@ -733,7 +733,7 @@
                  <div id="unitsmanualnew" class="container-fluid">
                     <div class="row">
                     
-                    <ul class="nav col-md-2" id="leftTabs">
+                    <ul class="nav col-md-2" id="leftTabs" style="margin-top: 48px;">
                         <li class="active" *ngFor="let obj of blocksArray" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
                         <a style="color: #fff !important;" href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
                             <!-- <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">&nbsp;&nbsp;<span></span>{{obj.blockname}} -->

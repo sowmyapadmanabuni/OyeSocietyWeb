@@ -1,7 +1,7 @@
 #leftTabs li a{margin: 1px}
 .nav>li>a:hover{
-    color: #fff !important;
-    background: #d4d1ef !important;
+    color: #000 !important;
+    background: none !important;
     -webkit-transition: all 900ms;
     transition: all 900ms;
     border-radius: 9px;}
@@ -319,7 +319,7 @@ a.MANUAL{
     height: 277px !important;
 }
 .next-bt{background-color: #673ab7;
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    /* box-shadow: 1px 1px 1px 1px #673ab70d; */
     padding: 6px 22px;
     border-radius: 6px;
     font-weight: 500;}
