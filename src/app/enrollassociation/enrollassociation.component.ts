@@ -1145,7 +1145,10 @@ imgfilename;
               console.log(this.unitdetailscreatejson)
               this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
                 .subscribe((res: any) => {
-                  console.log(res)
+                  console.log(res);
+                  unit.isUnitCreated=true;
+                  unit.isUnitNotCreated=false;
+                  unit.isSingleUnitDataEmpty=true;
 
                 }, error => {
                   console.log(error);
@@ -1644,6 +1647,8 @@ validateUnitDetailsField(name){
                 data.unitTmpid='';
                 //data.blockid = res['data']['data']['blockID'];
                 data.blockid = res.data.blockID;
+                data.isUnitCreated=false;
+                data.isUnitNotCreated=true;
                 console.log(data.Id)
 
                 if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
@@ -1807,6 +1812,8 @@ validateUnitDetailsField(name){
                 data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
                 data.unitTmpid='';
                 data.blockid = res.data.blockID;
+                data.isUnitCreated=false;
+                data.isUnitNotCreated=true;
                 console.log(data.Id)
 
                 if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
@@ -1828,6 +1835,7 @@ validateUnitDetailsField(name){
                     this.blocksArray[index1].blockTmpid='';
                     elemnt.isBlockCreated=true;
                     elemnt.isNotBlockCreated=false;
+                    elemnt.isblockdetailsempty1=true;
                     this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
                   else{
@@ -1836,6 +1844,7 @@ validateUnitDetailsField(name){
                     elemnt.blockTmpid='';
                     elemnt.isBlockCreated=true;
                     elemnt.isNotBlockCreated=false;
+                    elemnt.isblockdetailsempty1=true;
                     console.log(elemnt.blockTmpid);
                     console.log(this.blocksArray[index1+1].blockTmpid);
                   }
@@ -1897,11 +1906,9 @@ validateUnitDetailsField(name){
     console.log(blkarrId);
     this.blocksArray.forEach(elemnt=>{
       if(elemnt.Id==blkarrId){
-        if(!elemnt.isBlockCreated){
-          console.log('test-isBlockCreated-false',blkarrId);
+          console.log('test',blkarrId);
           elemnt.blockTmpid=blkarrId;
           console.log(elemnt.blockTmpid);
-        }
       }
       else{
         elemnt.blockTmpid='';
@@ -2436,7 +2443,9 @@ validateUnitDetailsField(name){
                         unitonce.isnotvalidtenantlastname=false,
                     
                         unitonce.isnotvalidtenantmobilenumber=false,
-                        unitonce.isnotvalidtenantemaiid=false
+                        unitonce.isnotvalidtenantemaiid=false;
+                        unitonce.isUnitCreated=false;
+                        unitonce.isUnitNotCreated=true;
                         if (!this.unitlistjson[blkname]) {
                           this.unitlistjson[blkname] = []
                         }

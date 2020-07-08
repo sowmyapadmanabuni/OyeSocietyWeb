@@ -269,6 +269,7 @@ addfamilymember() {
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
         })
+        this.ToggleGurdian="xyz";           
       }
       else{
         Swal.fire({
@@ -284,7 +285,7 @@ addfamilymember() {
               this.FirstName='';
               this.MobileNumber='';
               this.LastName='';
-              // this.ToggleGurdian='';           
+              this.ToggleGurdian="xyz";           
             } else if (result.dismiss === swal.DismissReason.cancel) {
               this.router.navigate(['']);
             }
@@ -301,6 +302,7 @@ resetFamilyMemberModal(){
   this.EditMobileNumber='';
   this.EditRelation='';
   this.Relation='Select Relation';
+  this.ToggleGurdian="xyz";           
 }
 resetUpdateFamilyMemberModal(){
   this.EditFirstName='';

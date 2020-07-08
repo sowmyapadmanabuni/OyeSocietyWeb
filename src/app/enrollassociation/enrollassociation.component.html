@@ -568,9 +568,9 @@
                         <!-- <button id="blockdetailscancelmanual" mat-raised-button color="primary" (click)="cancelmanualblocks($event)">Cancel</button> -->
                         </div>
                     <div id="blockdetailsbuttons"class="save">
-                        <a class="continue" (click)="resetStep4($event)"mat-raised-button color="primary" >RESET</a>
+                        <a class="continue" (click)="resetStep4($event)" mat-raised-button color="primary" >RESET</a>
                         <!-- <a id="assdetailssave" mat-raised-button color="primary" [disabled]="!form1.valid" (click)="createblocksdetails($event)">NEXT</a> -->
-                        <button class="next-bt" id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
+                        <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
                     </div>
                 </div>
                 <!--showmanualblockwithhorizantalview-->
@@ -588,11 +588,13 @@
                         </ul>
                         <div class="tab-content">
                             <div [ngStyle]="{'display':obj.Id==obj.blockTmpid ? 'block' : 'none' }" *ngFor="let obj of blocksArray;let i= index" class="tab-pane">
-                                <div id="{{obj.Id}}" class="blockdetailsdata">
+                                <div id="{{obj.Id}}" class="blockdetailsdata" style="display: flex;flex-direction: column;align-items: stretch;justify-content: space-evenly;margin-top: 20px;">
+                                    <div style="display: flex; align-items: center;justify-content: space-evenly;">
+
                                     <div>
                                         <mat-form-field class="blockdetails-form">
                                             <mat-label>BLOCK NAME/NUMBER<span class="red">*</span></mat-label>
-                                            <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput
+                                            <input disabled="{{obj.isBlockCreated}}" matInput
                                                 placeholder="BLOCK NAME/NUMBER" pattern="[a-zA-Z0-9 _]*"
                                                 (keyup)="getblocknameornumber(blocksArray[i]['Id'],blocksArray[i].blockname)"
                                                 class="text" id="label" [(ngModel)]="blocksArray[i].blockname" value="">
@@ -612,12 +614,11 @@
                                         </mat-form-field>
                                         <p class="validation" *ngIf="blocksArray[i]['blocktype']==undefined">Valid block Type is
                                             required</p>
-                
                                     </div>
                                     <div>
                                         <mat-form-field class="blockdetails-form">
                                             <mat-label>NO OF UNITS<span class="red">*</span></mat-label>
-                                            <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput
+                                            <input disabled="{{obj.isBlockCreated}}" matInput
                                                 placeholder="NO OF UNITS" pattern="[0-9]*" (keypress)=_keyPress($event)
                                                 (keyup)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)"
                                                 [(ngModel)]="blocksArray[i].units" value="">
@@ -626,10 +627,13 @@
                                         <p class="validation" *ngIf="blocksArray[i]['units']==undefined">No of units are required</p>
                 
                                     </div>
+                                </div>
+
+                                <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                     <div>
                                         <mat-form-field class="blockdetails-form">
                                             <mat-label>MANAGER NAME<span class="red">*</span></mat-label>
-                                            <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" class="text"
+                                            <input disabled="{{obj.isBlockCreated}}" class="text"
                                                 (keypress)="_keyPress2($event)" matInput placeholder="MANAGER NAME"
                                                 (keyup)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
                                                 [(ngModel)]="blocksArray[i].managername" value="" pattern="[a-zA-Z _]*">
@@ -643,7 +647,7 @@
                                     <div>
                                         <mat-form-field class="blockdetails-form">
                                             <mat-label>MANAGER MOBILE NUMBER<span class="red">*</span></mat-label>
-                                            <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput
+                                            <input disabled="{{obj.isBlockCreated}}" matInput
                                                 placeholder="MANAGER MOBILE NUMBER" pattern="[0-9]*" (keypress)=_keyPress($event)
                                                 minlength="10" maxlength="10"
                                                 (keyup)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i].managermobileno)"
@@ -658,7 +662,7 @@
                                     <div>
                                         <mat-form-field class="blockdetails-form">
                                             <mat-label>MANAGER EMAIL ID<span class="red">*</span></mat-label>
-                                            <input disabled="{{obj['hasNoDuplicateBlockname']==true}}" matInput
+                                            <input disabled="{{obj.isBlockCreated}}" matInput
                                                 placeholder="MANAGER EMAIL ID"
                                                 pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                                 [(ngModel)]="blocksArray[i].manageremailid"
@@ -670,9 +674,11 @@
                                             required</p>
                                     </div>
                                 </div>
+
+                                </div>
                                 <div id="blockdetailsbuttons1" class="save">
                                     <a class="continue" (click)="resetManualBlockCreationFields($event)" mat-raised-button color="primary">RESET</a>
-                                    <button class="next-bt" id="assdetailssave1" color="primary" [disabled]="obj.isblockdetailsempty1"
+                                    <button class="continue mat-raised-button mat-button-base mat-primary" id="assdetailssave1" color="primary" [disabled]="obj.isblockdetailsempty1"
                                         [ngStyle]="{'opacity':obj.isblockdetailsempty1 ? '0.5' : '1' }"
                                         (click)="createblocksdetails1(obj.blockname,obj.blocktype,obj.units,obj.managername,obj.managermobileno,obj.manageremailid,obj.Id,i)">NEXT</button>
                                 </div>
@@ -739,7 +745,7 @@
                     
                     <ul class="nav col-md-2" id="leftTabs" style="margin-top: 48px;">
                         <li class="active" *ngFor="let obj of blocksArray" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
-                        <a style="color: #fff !important;" href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
+                        <a style="color: #fff !important;background: #5a51aa;" href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
                             <!-- <input type="checkbox" value="unt" [checked]="obj.isUnitsCreatedUnderBlock">&nbsp;&nbsp;<span></span>{{obj.blockname}} -->
                             &nbsp;&nbsp;<span></span>{{obj.blockname | uppercase}}
                             <i [hidden]="obj.isUnitsCreatedUnderBlock" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
@@ -752,7 +758,12 @@
                             <div class="tab-pane" [ngClass]="{'active':obj1.Id==obj1.blockTmpid}" id="{{obj1.Id}}">
                                 
                                 <ul class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }">
-                                    <li  *ngFor="let obj2 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj2.Id==obj2.unitTmpid}"><a href="#{{obj2.Id}}" (click)="assignUnitTmpid(obj2.Id,blocknameforIteration)" data-toggle="tab">{{obj2.flatno==''?'Unit':obj2.flatno}}</a></li>
+                                    <li  *ngFor="let obj2 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj2.Id==obj2.unitTmpid}">
+                                        <a href="#{{obj2.Id}}" (click)="assignUnitTmpid(obj2.Id,blocknameforIteration)" data-toggle="tab">{{obj2.flatno==''?'Unit':obj2.flatno}}
+                                            &nbsp;&nbsp;<span></span>
+                                    <i [hidden]="obj2.isUnitCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
+                                    <i [hidden]="obj2.isUnitNotCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
+                                        </a></li>
                                 </ul>
                                 <div [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }" class="tab-content">
                                     <div *ngFor="let obj3 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj3.Id==obj3.unitTmpid}" class="tab-pane">
@@ -764,7 +775,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>UNIT NO/FLAT NO<span class="red">*</span></mat-label>
-                                                                <input class="text" matInput placeholder="UNIT NO/FLAT NO"
+                                                                <input disabled="{{obj3.isUnitCreated}}" class="text" matInput placeholder="UNIT NO/FLAT NO"
                                                                     (keyup)="getUnitName(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['flatno'],blocknameforIteration)"
                                                                     [(ngModel)]="obj3.flatno" [ngModelOptions]="{standalone:
                                                                                                            true}" value="">
@@ -777,7 +788,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>UNIT TYPE<span class="red">*</span></mat-label>
-                                                                <mat-select [(value)]="obj3.unittype">
+                                                                <mat-select disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.unittype">
                                                                     <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -788,7 +799,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>OCCUPANCY & OWNERSHIP STATUS<span class="red">*</span></mat-label>
-                                                                <mat-select [(value)]="obj3.ownershipstatus">
+                                                                <mat-select disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.ownershipstatus">
                                                                     <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -803,7 +814,7 @@
                                                             <mat-form-field class="blockdetails-form"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label>OWNER FIRST NAME<span class="red">*</span></mat-label>
-                                                                <input class="text" matInput placeholder="OWNER FIRSTNAME" pattern="[a-zA-Z _]*"
+                                                                <input disabled="{{obj3.isUnitCreated}}" class="text" matInput placeholder="OWNER FIRSTNAME" pattern="[a-zA-Z _]*"
                                                                     (keyup)="getownerfirstname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownerfirstname'],blocknameforIteration)"
                                                                     [(ngModel)]="obj3.ownerfirstname" [ngModelOptions]="{standalone:
                                                                                                        true}" value="">
@@ -818,7 +829,7 @@
                                                             <mat-form-field class="blockdetails-form"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label>OWNER LAST NAME<span class="red">*</span></mat-label>
-                                                                <input class="text" matInput placeholder="OWNER LASTNAME"
+                                                                <input disabled="{{obj3.isUnitCreated}}" class="text" matInput placeholder="OWNER LASTNAME"
                                                                     (keyup)="getownerlastname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownerlastname'],blocknameforIteration)"
                                                                     pattern="[a-zA-Z _]*" [(ngModel)]="obj3.ownerlastname" [ngModelOptions]="{standalone:true}" value="">
                                                             </mat-form-field>
@@ -833,7 +844,7 @@
                                                             <mat-form-field class="blockdetails-form"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label>OWNER MOBILE NUMBER<span class="red">*</span></mat-label>
-                                                                <input matInput placeholder="OWNER MOBILE NUMBER" pattern="[0-9]*"
+                                                                <input disabled="{{obj3.isUnitCreated}}" matInput placeholder="OWNER MOBILE NUMBER" pattern="[0-9]*"
                                                                     (keyup)="getownermobilenumber(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['ownermobilenumber'],blocknameforIteration)"
                                                                     minlength="10" maxlength="10" (keypress)=_keyPress($event) [ngModelOptions]="{standalone:true}"
                                                                     [(ngModel)]="obj3.ownermobilenumber" value="">
@@ -849,7 +860,7 @@
                                                             <mat-form-field class="blockdetails-form"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label>OWNER EMAIL ID<span class="red">*</span></mat-label>
-                                                                <input matInput placeholder="OWNER EMAIL-ID"
+                                                                <input disabled="{{obj3.isUnitCreated}}" matInput placeholder="OWNER EMAIL-ID"
                                                                     (keyup)="getowneremaiid(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['owneremaiid'],blocknameforIteration)"
                                                                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="obj3.owneremaiid"
                                                                     [ngModelOptions]="{standalone:true}" value="">
@@ -865,7 +876,7 @@
                                                         <mat-form-field class="blockdetails-form"
                                                             *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                             <mat-label>TENANT FIRST NAME<span class="red">*</span></mat-label>
-                                                            <input class="text" matInput placeholder="TENANT FIRSTNAME" pattern="[a-zA-Z _]*"
+                                                            <input disabled="{{obj3.isUnitCreated}}" class="text" matInput placeholder="TENANT FIRSTNAME" pattern="[a-zA-Z _]*"
                                                                 [(ngModel)]="obj3.tenantfirstname"
                                                                 (keyup)="gettenantfirstname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantfirstname'],blocknameforIteration)"
                                                                 [ngModelOptions]="{standalone:true}" value="">
@@ -881,7 +892,7 @@
                                                         <mat-form-field class="blockdetails-form"
                                                             *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                             <mat-label>TENANT LAST NAME<span class="red">*</span></mat-label>
-                                                            <input class="text" matInput placeholder="TENANT LASTNAME" pattern="[a-zA-Z _]*"
+                                                            <input disabled="{{obj3.isUnitCreated}}" class="text" matInput placeholder="TENANT LASTNAME" pattern="[a-zA-Z _]*"
                                                                 (keyup)="gettenantlastname(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantlastname'],blocknameforIteration)"
                                                                 [(ngModel)]="obj3.tenantlastname" [ngModelOptions]="{standalone:true}" value="">
                                                         </mat-form-field>
@@ -896,7 +907,7 @@
                                                         <mat-form-field class="blockdetails-form"
                                                             *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                             <mat-label>TENANT MOBILE NUMBER<span class="red">*</span></mat-label>
-                                                            <input matInput placeholder="TENANT MOBILE NUMBER" pattern="[0-9]*" minlength="10" maxlength="10"
+                                                            <input disabled="{{obj3.isUnitCreated}}" matInput placeholder="TENANT MOBILE NUMBER" pattern="[0-9]*" minlength="10" maxlength="10"
                                                                 (keypress)=_keyPress($event)
                                                                 (keyup)="gettenantmobilenumber(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantmobilenumber'],blocknameforIteration)"
                                                                 [(ngModel)]="obj3.tenantmobilenumber" [ngModelOptions]="{standalone:true}" value="">
@@ -912,7 +923,7 @@
                                                         <mat-form-field class="blockdetails-form"
                                                             *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                             <mat-label>TENANT EMAIL ID<span class="red">*</span></mat-label>
-                                                            <input matInput placeholder="TENANT EMAIL-ID" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                                            <input disabled="{{obj3.isUnitCreated}}" matInput placeholder="TENANT EMAIL-ID" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                                                                 (keyup)="gettenantemaiid(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['tenantemaiid'],blocknameforIteration)"
                                                                 [(ngModel)]="obj3.tenantemaiid" [ngModelOptions]="{standalone:true}" value="">
                                                         </mat-form-field>
