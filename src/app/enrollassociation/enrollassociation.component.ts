@@ -52,6 +52,7 @@ export class EnrollassociationComponent implements OnInit {
   condition = true;
   toggleEmptyBlockarray;
   unitrecordDuplicateUnitnameModified;
+  disableElement:boolean;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -66,6 +67,7 @@ export class EnrollassociationComponent implements OnInit {
       this.duplicateUnitrecordexist=false;
       this.unitrecordDuplicateUnitnameModified=false;
       this.totalUnitcount=0;
+      this.disableElement=true;
       // this.isunitdetailsempty=false;
      }
 
@@ -419,8 +421,9 @@ this.state = state.stName;
     "isnotvalidunits":false,
     "isUnitsCreatedUnderBlock":false,
     "isUnitsCreatedUnderBlock1":true,
-    "isblockdetailsempty1":true
-   
+    "isblockdetailsempty1":true,
+    "isNotBlockCreated":true,
+    "isBlockCreated":false
   }
   //unitdetails variables
 
@@ -1823,12 +1826,16 @@ validateUnitDetailsField(name){
                     this.blocksArray[0].blockTmpid=this.blocksArray[0].Id;
                     console.log(this.blocksArray);
                     this.blocksArray[index1].blockTmpid='';
+                    elemnt.isBlockCreated=true;
+                    elemnt.isNotBlockCreated=false;
                     this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
                   else{
                     console.log('test',objId);
                     this.blocksArray[index1+1].blockTmpid=objId+1;
                     elemnt.blockTmpid='';
+                    elemnt.isBlockCreated=true;
+                    elemnt.isNotBlockCreated=false;
                     console.log(elemnt.blockTmpid);
                     console.log(this.blocksArray[index1+1].blockTmpid);
                   }
@@ -1890,9 +1897,11 @@ validateUnitDetailsField(name){
     console.log(blkarrId);
     this.blocksArray.forEach(elemnt=>{
       if(elemnt.Id==blkarrId){
-        console.log('test',blkarrId);
-        elemnt.blockTmpid=blkarrId;
-        console.log(elemnt.blockTmpid);
+        if(!elemnt.isBlockCreated){
+          console.log('test-isBlockCreated-false',blkarrId);
+          elemnt.blockTmpid=blkarrId;
+          console.log(elemnt.blockTmpid);
+        }
       }
       else{
         elemnt.blockTmpid='';
@@ -1974,6 +1983,8 @@ validateUnitDetailsField(name){
                 list.isnotvalidunits = false,
                   list.blocktype = this.residentialorcommercialtype;
                   list.isblockdetailsempty1=true;
+                  list.isNotBlockCreated=true;
+                  list.isBlockCreated=false;
 
                 this.blocksArray.push(list);
                 console.log(this.blocksArray)
@@ -2679,6 +2690,8 @@ cancelunitsbulkupload(ev){
           data.blockTmpid = 1;
           data.uniqueid = new Date().getTime();
           data.blocktype= this.residentialorcommercialtype;
+          data.isNotBlockCreated=true;
+          data.isBlockCreated=false;
           this.blocksArray.push(data);
           console.log(this.blocksArray);
 
