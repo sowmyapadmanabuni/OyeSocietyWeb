@@ -2504,10 +2504,10 @@ validateUnitDetailsField(name){
         var first_sheet_name = workbook.SheetNames[0];    
         var worksheet = workbook.Sheets[first_sheet_name];    
         console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
-          var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
+          let arraylist1 = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
               this.filelist = [];    
               console.log(this.filelist) 
-              this.excelunitsuploaddata(arraylist)
+              this.excelunitsuploaddata(arraylist1)
     }  
   }
 
