@@ -1804,6 +1804,7 @@ validateUnitDetailsField(name){
               if(res.data.blockID){
               console.log(this.unitlistjson);
               console.log(res.data.blockID);
+              this.blockidtmp[blockname]=res.data.blockID;
               let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit));
               this.finalblockname.push(blockname);
               for (let i = 0; i < blockArraylength; i++) {
