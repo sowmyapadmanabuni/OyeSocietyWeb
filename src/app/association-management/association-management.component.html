@@ -16,7 +16,9 @@
                         <i class="fa fa-building" aria-hidden="true"></i> Blocks & Units</button>
                   <button class="btn-primary-purple" (click)="enblEnrlAsnVew()" style="margin-right: 16px;"><i class="fa fa-plus" aria-hidden="true"></i>
                     Enroll Association</button>
-                  <button id="joinassn" class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                  <!-- <button id="joinassn" class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Associations</button> -->
+                  <button id="joinassn" class="btn-primary-purple" (click)="openModal6(reqdemo)">
                     <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Associations</button>
                 </div>
               </div>
@@ -1449,3 +1451,23 @@
     </div>
   </div>
 </ng-template>
+
+
+<!--Request a Demo pop up box-->
+<ng-template #reqdemo>
+
+	<div class="modal-header" style="background: #82808026;display: flex;justify-content: space-between;">
+		<h4 class="modal-title" style="width: 100%;">Select your city</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid citypa">
+      <div *ngFor="let city of cities" (click)="fliterCity(city['cityName'])" class="cityui">{{city['cityName']}}</div>
+      <div  (click)="fliterCity('ecity')" class="cityui">Other Cities</div>
+
+		</div>
+	</div>
+</ng-template>
+<!--Request a Demo pop up box-->
