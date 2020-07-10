@@ -1475,7 +1475,7 @@ export class AssociationManagementComponent implements OnInit {
         //console.log('getAssociationAllDetails',item);
         this._associations = item['data']['associations'];
         //this.availableNoOfBlocks = item.length;
-        //console.log('associations', this.associations);  
+        console.log('associations', this.associations);  
 
       })
   }

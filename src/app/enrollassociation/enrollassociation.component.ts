@@ -52,6 +52,7 @@ export class EnrollassociationComponent implements OnInit {
   condition = true;
   toggleEmptyBlockarray;
   unitrecordDuplicateUnitnameModified;
+  disableElement:boolean;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -66,6 +67,7 @@ export class EnrollassociationComponent implements OnInit {
       this.duplicateUnitrecordexist=false;
       this.unitrecordDuplicateUnitnameModified=false;
       this.totalUnitcount=0;
+      this.disableElement=true;
       // this.isunitdetailsempty=false;
      }
 
@@ -419,8 +421,9 @@ this.state = state.stName;
     "isnotvalidunits":false,
     "isUnitsCreatedUnderBlock":false,
     "isUnitsCreatedUnderBlock1":true,
-    "isblockdetailsempty1":true
-   
+    "isblockdetailsempty1":true,
+    "isNotBlockCreated":true,
+    "isBlockCreated":false
   }
   //unitdetails variables
 
@@ -1142,7 +1145,10 @@ imgfilename;
               console.log(this.unitdetailscreatejson)
               this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
                 .subscribe((res: any) => {
-                  console.log(res)
+                  console.log(res);
+                  unit.isUnitCreated=true;
+                  unit.isUnitNotCreated=false;
+                  unit.isSingleUnitDataEmpty=true;
 
                 }, error => {
                   console.log(error);
@@ -1641,6 +1647,8 @@ validateUnitDetailsField(name){
                 data.unitTmpid='';
                 //data.blockid = res['data']['data']['blockID'];
                 data.blockid = res.data.blockID;
+                data.isUnitCreated=false;
+                data.isUnitNotCreated=true;
                 console.log(data.Id)
 
                 if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
@@ -1796,6 +1804,7 @@ validateUnitDetailsField(name){
               if(res.data.blockID){
               console.log(this.unitlistjson);
               console.log(res.data.blockID);
+              this.blockidtmp[blockname]=res.data.blockID;
               let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit));
               this.finalblockname.push(blockname);
               for (let i = 0; i < blockArraylength; i++) {
@@ -1804,6 +1813,8 @@ validateUnitDetailsField(name){
                 data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
                 data.unitTmpid='';
                 data.blockid = res.data.blockID;
+                data.isUnitCreated=false;
+                data.isUnitNotCreated=true;
                 console.log(data.Id)
 
                 if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
@@ -1823,12 +1834,18 @@ validateUnitDetailsField(name){
                     this.blocksArray[0].blockTmpid=this.blocksArray[0].Id;
                     console.log(this.blocksArray);
                     this.blocksArray[index1].blockTmpid='';
+                    elemnt.isBlockCreated=true;
+                    elemnt.isNotBlockCreated=false;
+                    elemnt.isblockdetailsempty1=true;
                     this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
                   else{
                     console.log('test',objId);
                     this.blocksArray[index1+1].blockTmpid=objId+1;
                     elemnt.blockTmpid='';
+                    elemnt.isBlockCreated=true;
+                    elemnt.isNotBlockCreated=false;
+                    elemnt.isblockdetailsempty1=true;
                     console.log(elemnt.blockTmpid);
                     console.log(this.blocksArray[index1+1].blockTmpid);
                   }
@@ -1890,9 +1907,9 @@ validateUnitDetailsField(name){
     console.log(blkarrId);
     this.blocksArray.forEach(elemnt=>{
       if(elemnt.Id==blkarrId){
-        console.log('test',blkarrId);
-        elemnt.blockTmpid=blkarrId;
-        console.log(elemnt.blockTmpid);
+          console.log('test',blkarrId);
+          elemnt.blockTmpid=blkarrId;
+          console.log(elemnt.blockTmpid);
       }
       else{
         elemnt.blockTmpid='';
@@ -1974,6 +1991,8 @@ validateUnitDetailsField(name){
                 list.isnotvalidunits = false,
                   list.blocktype = this.residentialorcommercialtype;
                   list.isblockdetailsempty1=true;
+                  list.isNotBlockCreated=true;
+                  list.isBlockCreated=false;
 
                 this.blocksArray.push(list);
                 console.log(this.blocksArray)
@@ -2425,7 +2444,9 @@ validateUnitDetailsField(name){
                         unitonce.isnotvalidtenantlastname=false,
                     
                         unitonce.isnotvalidtenantmobilenumber=false,
-                        unitonce.isnotvalidtenantemaiid=false
+                        unitonce.isnotvalidtenantemaiid=false;
+                        unitonce.isUnitCreated=false;
+                        unitonce.isUnitNotCreated=true;
                         if (!this.unitlistjson[blkname]) {
                           this.unitlistjson[blkname] = []
                         }
@@ -2484,10 +2505,10 @@ validateUnitDetailsField(name){
         var first_sheet_name = workbook.SheetNames[0];    
         var worksheet = workbook.Sheets[first_sheet_name];    
         console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
-          var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
+          let arraylist1 = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
               this.filelist = [];    
               console.log(this.filelist) 
-              this.excelunitsuploaddata(arraylist)
+              this.excelunitsuploaddata(arraylist1)
     }  
   }
 
@@ -2679,6 +2700,8 @@ cancelunitsbulkupload(ev){
           data.blockTmpid = 1;
           data.uniqueid = new Date().getTime();
           data.blocktype= this.residentialorcommercialtype;
+          data.isNotBlockCreated=true;
+          data.isBlockCreated=false;
           this.blocksArray.push(data);
           console.log(this.blocksArray);
 

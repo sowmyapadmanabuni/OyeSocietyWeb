@@ -17,7 +17,7 @@
                   <button class="btn-primary-purple" (click)="enblEnrlAsnVew()" style="margin-right: 16px;"><i class="fa fa-plus" aria-hidden="true"></i>
                     Enroll Association</button>
                   <button id="joinassn" class="btn-primary-purple" (click)="enblJoinAsnVew()">
-                    <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Association</button>
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Associations</button>
                 </div>
               </div>
             <div class="enroll" *ngIf="globalService.gotojoinassociation=='id'">
@@ -901,12 +901,11 @@
           <form #JoinAsnFrm="ngForm">
           <!--row1-->
           <div class="content">
-            <label>Select Association</label>
+            <label>Select Associations</label>
             <div class="dropdown" style="margin: 0px 0px;">
               <form [formGroup]="form"class="association-form">
                 <mat-form-field>
-                    <mat-select formControlName="assnlist" (selectionChange)="loadAssociation($event.value)"  
-                   placeholder="Associations">
+                    <mat-select formControlName="assnlist" (selectionChange)="loadAssociation($event.value)" placeholder="Associations">
                         <mat-option *ngFor="let association of _associations" [value]="association">{{association['asAsnName']}}
                         </mat-option>
                     </mat-select>
