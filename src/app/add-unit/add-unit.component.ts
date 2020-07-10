@@ -268,17 +268,17 @@ export class AddUnitComponent implements OnInit {
   tenantOwnerdiv(occupency) {
     this.occupency=occupency;
     this.occupancy.forEach(item => {
-      if (occupency == 'UNSOLD VACANT UNIT') {
+      if (occupency == 'UnSold Vacant Unit') {
         this.tenantDetails = false;
         this.ownerDetails = false;
         this.toggleunitvehicleinformation=false;
       }
-      else if (occupency == 'UNSOLD TENANT OCCUPIED UNIT') {
+      else if (occupency == 'UnSold Tenant Occupied Unit') {
         this.tenantDetails = true;
         this.ownerDetails = false;
         this.toggleunitvehicleinformation=true;
       }
-      else if (occupency == 'SOLD TENANT OCCUPIED UNIT') {
+      else if (occupency == 'Sold Tenant Occupied Unit') {
         this.tenantDetails = true;
         this.ownerDetails = true;
         this.toggleunitvehicleinformation=true;
