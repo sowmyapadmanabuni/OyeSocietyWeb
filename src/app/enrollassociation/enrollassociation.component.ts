@@ -2364,7 +2364,9 @@ validateUnitDetailsField(name){
     })
   }
   isValidUnitRecord:boolean;
-  excelunitsuploaddata(exceldata) {
+  isExcelDataExceed:boolean;
+  excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
+    this.isExcelDataExceed=false;
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
@@ -2465,13 +2467,16 @@ validateUnitDetailsField(name){
                         console.log(this.unitlistjson);
                       }
                       else{
+                        this.isExcelDataExceed=true;
+                        //this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate,Object.assign({}, { class: 'gray modal-sm' }));
+
                         Swal.fire({
                           title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                           text: "",
                           confirmButtonColor: "#f69321",
                           confirmButtonText: "OK"
                         })
-                        document.getElementById('unitupload_excel').style.display = 'block'
+                        document.getElementById('unitupload_excel').style.display = 'block';
                       }
                     }
                   })
@@ -2491,7 +2496,9 @@ validateUnitDetailsField(name){
   file:File
   arrayBuffer:any;
   filelist:any;
-  onFileunitdetailschange(ev){
+  blockunitcountmodalRef: BsModalRef;
+
+  onFileunitdetailschange(ev,UpdateBlockUnitCountTemplate){
     this.file= ev.target.files[0];     
     let fileReader = new FileReader();    
     fileReader.readAsArrayBuffer(this.file);     
@@ -2508,7 +2515,7 @@ validateUnitDetailsField(name){
           let arraylist1 = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
               this.filelist = [];    
               console.log(this.filelist) 
-              this.excelunitsuploaddata(arraylist1)
+              this.excelunitsuploaddata(arraylist1,UpdateBlockUnitCountTemplate)
     }  
   }
 
