@@ -18,6 +18,8 @@ export class ResidentNotificationListArray {
         private residentReadStatus,
         private residentNtdCreated,
         private vlVisLgID,
-        private asAssnID){}
+        private asAssnID,
+        private vlfName,
+        private vlExitT){}
         
 }

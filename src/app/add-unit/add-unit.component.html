@@ -264,7 +264,7 @@
           <div class="col-sm-12 pull-right">
               <button type="button" (click)="ResetCreateUnitFormOne()" class="btn btn-primary-purple m-r">Reset</button>
               <!-- <button [disabled]="unitno == ''|| unitType=='' || occupency==''" class="btn btn-primary-purple nextBtn" type="button m-r">Next</button> -->
-              <button class="btn btn-primary-purple nextBtn m-r" type="button" [disabled]="unitno == ''|| unitType=='' || occupency=='' || createunitForm.invalid" (click)="createUnit()">Create</button>
+              <button class="btn btn-primary-purple nextBtn m-r" type="button" [disabled]="unitno == ''|| unitType=='' || occupency==''|| createunitFormOne.invalid" (click)="createUnit()">Create</button>
             </div>
           </form>
       </div>

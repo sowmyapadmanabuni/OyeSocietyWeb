@@ -42,6 +42,10 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.excelBlockList=[];
     this.ShowExcelUploadDiscription=true;
     this.ShowExcelDataList=false;
+    this.isblockdetailsempty=true;
+    this.duplicateBlocknameExist=false;
+    this.toggleEmptyBlockarray=false;
+ 
    }
 
   ngOnInit() {
