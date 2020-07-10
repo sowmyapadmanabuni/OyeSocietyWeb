@@ -9,7 +9,7 @@ export class UtilsService {
   url: string;
 
   constructor(private http: HttpClient) {
-    this.ipAddress = 'https://uatapi.scuarex.com/'; //'https://apiuat.oyespace.com/'; //'http://staging.oyespace.com/'; //'https://uatapi.scuarex.com/'
+    this.ipAddress = 'https://uatapi.scuarex.com/'; 
    }
 
   createBlock(){

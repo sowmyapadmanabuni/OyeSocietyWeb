@@ -219,6 +219,14 @@ updatefamilymember() {
 }
 // UPDATE FAMILY MEMBER API CALL END
 
+_keyPress1(event1: any) {
+  const pattern1 = /[^A-Za-z]/;
+  let inputChar1 = String.fromCharCode(event1.charCode);
+  if (!pattern1.test(inputChar1)) {
+      event.preventDefault();
+  }
+}
+
 _keyPress(event: any) {
   const pattern = /[0-9]/;
   let inputChar = String.fromCharCode(event.charCode);
@@ -261,6 +269,7 @@ addfamilymember() {
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
         })
+        this.ToggleGurdian="xyz";           
       }
       else{
         Swal.fire({
@@ -276,7 +285,7 @@ addfamilymember() {
               this.FirstName='';
               this.MobileNumber='';
               this.LastName='';
-              // this.ToggleGurdian='';           
+              this.ToggleGurdian="xyz";           
             } else if (result.dismiss === swal.DismissReason.cancel) {
               this.router.navigate(['']);
             }
@@ -293,6 +302,7 @@ resetFamilyMemberModal(){
   this.EditMobileNumber='';
   this.EditRelation='';
   this.Relation='Select Relation';
+  this.ToggleGurdian="xyz";           
 }
 resetUpdateFamilyMemberModal(){
   this.EditFirstName='';

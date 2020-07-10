@@ -44,7 +44,7 @@
                                     <td>{{item['fmName']}}</td>
                                     <td>{{item['fmRltn']}}</td>
                                     <td>{{item['fmMobile']}}</td>
-                                    <td *ngIf="item['fmImgName']!=''"><img (mouseover)="showFamilyMemImgInPopUp(FamilyMemberImagetemplate,item['fmImgName'])" src="{{'data:image/jpeg;base64,'+item['fmImgName']}}" width="50px" height="50px"/> </td>
+                                    <td *ngIf="item['fmImgName']!=''"><img (click)="showFamilyMemImgInPopUp(FamilyMemberImagetemplate,item['fmImgName'])" src="{{'data:image/jpeg;base64,'+item['fmImgName']}}" width="50px" height="50px"/> </td>
                                     <td *ngIf="item['fmImgName']==''"><img src="../../assets/images/family.png" width="50px" height="50px"/> </td>
                                     <td class="txt-middle">
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
@@ -104,14 +104,7 @@
                                         </ul>
                                     </div>
                                 </div>
-
-
-
-
-
-
-
-                                <div class="form-group">
+                                 <div class="form-group">
                                     <label class="control-label">First Name<span class="red">*</span></label>
                                     <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='FirstName' maxlength="30"
                                         #fnameControl="ngModel" name="FirstName"
@@ -123,7 +116,7 @@
                                         <label class="control-label">Last Name<span class="red">*</span></label>
                                         <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='LastName' maxlength="30"
                                             #lnameControl="ngModel" name="LastName"
-                                            class="form-control" placeholder="Last Name" required/>
+                                            class="form-control" placeholder="Last Name" (keypress)=_keyPress1($event1) required/>
                                         <p class="alerts" *ngIf="lnameControl.invalid && lnameControl.touched"> Enter valid
                                            Last Name</p>
                                     </div>
@@ -177,7 +170,7 @@
             <div class="col-sm-12 panel" style="padding: 40px;" *ngIf="joinassociation">
                 <div class="col-sm-3 np">
                     <p class="join_ass_opt c-active"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        Association</p>
+                        Associationn</p>
                     <p class="join_ass_opt c-active"><i class="fa fa-circle-o" aria-hidden="true"></i>
                         Blocks</p>
                     <p class="join_ass_opt c-active"> <i class="fa fa-circle-o" aria-hidden="true"></i>

@@ -52,6 +52,7 @@ export class EnrollassociationComponent implements OnInit {
   condition = true;
   toggleEmptyBlockarray;
   unitrecordDuplicateUnitnameModified;
+  disableElement:boolean;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -66,6 +67,7 @@ export class EnrollassociationComponent implements OnInit {
       this.duplicateUnitrecordexist=false;
       this.unitrecordDuplicateUnitnameModified=false;
       this.totalUnitcount=0;
+      this.disableElement=true;
       // this.isunitdetailsempty=false;
      }
 
@@ -418,8 +420,10 @@ this.state = state.stName;
     "isnotvalidmanagername":false,
     "isnotvalidunits":false,
     "isUnitsCreatedUnderBlock":false,
-    "isUnitsCreatedUnderBlock1":true
-   
+    "isUnitsCreatedUnderBlock1":true,
+    "isblockdetailsempty1":true,
+    "isNotBlockCreated":true,
+    "isBlockCreated":false
   }
   //unitdetails variables
 
@@ -830,6 +834,10 @@ imgfilename;
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
         }
         if (this.duplicateUnitrecordexist) {
+          document.getElementById('unitupload_excel').style.display = 'none'
+          document.getElementById('unitshowmanual').style.display = 'block';
+          document.getElementById('unitsmanualnew').style.display = 'none';
+          document.getElementById('unitsbulkold').style.display = 'block';
           Swal.fire({
             title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
             text: "",
@@ -863,6 +871,10 @@ imgfilename;
           if (!this.duplicateUnitrecordexist) {
             console.log('inlasttabNoduplicaterecordexist');
             let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+            document.getElementById('unitupload_excel').style.display = 'none'
+            document.getElementById('unitshowmanual').style.display = 'block';
+            document.getElementById('unitsmanualnew').style.display = 'none';
+            document.getElementById('unitsbulkold').style.display = 'block';
             Swal.fire({
               title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
               text: "",
@@ -890,6 +902,10 @@ imgfilename;
           }
           else{
             console.log('inlasttabduplicaterecordexist');
+            document.getElementById('unitupload_excel').style.display = 'none'
+            document.getElementById('unitshowmanual').style.display = 'block';
+            document.getElementById('unitsmanualnew').style.display = 'none';
+            document.getElementById('unitsbulkold').style.display = 'block';
             Swal.fire({
               title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
               text: "",
@@ -937,6 +953,10 @@ imgfilename;
             console.log(this.unitlistjson[name]);
             this.unitlistuniquejson = [];
             this.unitlistduplicatejson = [];
+            document.getElementById('unitupload_excel').style.display = 'none'
+            document.getElementById('unitshowmanual').style.display = 'block';
+            document.getElementById('unitsmanualnew').style.display = 'none';
+            document.getElementById('unitsbulkold').style.display = 'block';
             this.demo2TabIndex = this.demo2TabIndex + 1;
           }
         }
@@ -1125,7 +1145,10 @@ imgfilename;
               console.log(this.unitdetailscreatejson)
               this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
                 .subscribe((res: any) => {
-                  console.log(res)
+                  console.log(res);
+                  unit.isUnitCreated=true;
+                  unit.isUnitNotCreated=false;
+                  unit.isSingleUnitDataEmpty=true;
 
                 }, error => {
                   console.log(error);
@@ -1624,6 +1647,8 @@ validateUnitDetailsField(name){
                 data.unitTmpid='';
                 //data.blockid = res['data']['data']['blockID'];
                 data.blockid = res.data.blockID;
+                data.isUnitCreated=false;
+                data.isUnitNotCreated=true;
                 console.log(data.Id)
 
                 if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
@@ -1664,6 +1689,11 @@ validateUnitDetailsField(name){
       })(index)
       })
       setTimeout(() => {
+        document.getElementById('upload_excel').style.display = 'none'
+        document.getElementById('blockdetailscancelbutton').style.display = 'none';
+        document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
+        document.getElementById('showmanual').style.display = 'block';
+        document.getElementById('blockdetailsbuttons').style.display = 'block';
         //         this.blocksArray.forEach(element => {
         //           Object.keys(this.unitlistjson).forEach(blkname => {
         // if(blkname==element['blockname']){
@@ -1737,6 +1767,105 @@ validateUnitDetailsField(name){
 
     }
   }
+  createblocksdetails1(blockname, blocktype, units, managername, managermobileno, manageremailid,objId,index1) {
+    console.log(blockname, blocktype, units, managername, managermobileno, manageremailid,objId,index1);
+    console.log(this.blocksArray.length);
+    let ipAddress = this.utilsService.createBlock();
+          let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
+      
+            this.jsondata = {
+              "ASAssnID": this.assid,
+              "ACAccntID": this.globalService.getacAccntID(),
+              "blocks": [
+                {
+                  "BLBlkName": blockname,
+                  "BLBlkType": blocktype,
+                  "BLNofUnit": units,
+                  "BLMgrName": managername,
+                  "BLMgrMobile": managermobileno,
+                  "BLMgrEmail": manageremailid,
+                  "ASMtType": "",
+                  "ASMtDimBs": "15",
+                  "ASMtFRate": "",
+                  "ASUniMsmt": "12",
+                  "ASBGnDate": "04/05/2020",
+                  "ASLPCType": "",
+                  "ASLPChrg": "",
+                  "ASLPSDate": "",
+                  "ASDPyDate": "04/05/2020"
+                }
+              ]
+      
+            }
+            console.log(this.jsondata);
+          this.http.post(blockcreateurl, this.jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
+            .subscribe((res: any) => {
+              console.log(res);
+              if(res.data.blockID){
+              console.log(this.unitlistjson);
+              console.log(res.data.blockID);
+              this.blockidtmp[blockname]=res.data.blockID;
+              let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit));
+              this.finalblockname.push(blockname);
+              for (let i = 0; i < blockArraylength; i++) {
+                let data = JSON.parse(JSON.stringify(this.unitsrowjson))
+
+                data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
+                data.unitTmpid='';
+                data.blockid = res.data.blockID;
+                data.isUnitCreated=false;
+                data.isUnitNotCreated=true;
+                console.log(data.Id)
+
+                if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
+                  this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
+                }
+                this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
+                console.log(this.unitlistjson);
+              }
+              this.blocksArray.forEach(elemnt=>{
+                if(elemnt.Id==objId){
+                  if(this.blocksArray.length-1 == index1){
+                    console.log('inside last tab');
+                    console.log(this.finalblockname);
+                    this.unitlistjson[this.finalblockname[0]][0]['unitTmpid'] = this.unitlistjson[this.finalblockname[0]][0]['Id'];
+                    console.log(this.unitlistjson[this.finalblockname[0]][0]['unitTmpid']);
+                    console.log(this.unitlistjson[this.finalblockname[0]]);
+                    this.blocksArray[0].blockTmpid=this.blocksArray[0].Id;
+                    console.log(this.blocksArray);
+                    this.blocksArray[index1].blockTmpid='';
+                    elemnt.isBlockCreated=true;
+                    elemnt.isNotBlockCreated=false;
+                    elemnt.isblockdetailsempty1=true;
+                    this.demo1TabIndex = this.demo1TabIndex + 1;
+                  }
+                  else{
+                    console.log('test',objId);
+                    this.blocksArray[index1+1].blockTmpid=objId+1;
+                    elemnt.blockTmpid='';
+                    elemnt.isBlockCreated=true;
+                    elemnt.isNotBlockCreated=false;
+                    elemnt.isblockdetailsempty1=true;
+                    console.log(elemnt.blockTmpid);
+                    console.log(this.blocksArray[index1+1].blockTmpid);
+                  }
+                }
+              })
+            }
+              else if (res['data']['errorResponse']['message']){
+                this.sameBlocknameExist=true;
+                console.log('sameBlocknameExist');
+                Swal.fire({
+                  title: "Error",
+                  text: res['data']['errorResponse']['message'],
+                  type: "error",
+                  confirmButtonColor: "#f69321"
+                });
+              }
+            }, error => {
+            console.log(error);
+          })
+  }
   manualunitdetailsclick(ev) {
     document.getElementById('unitmanualbulk').style.display = 'none'
     document.getElementById('unitshowmanual').style.display = 'block';
@@ -1771,6 +1900,19 @@ validateUnitDetailsField(name){
       }
       else{
         elemnt.unitTmpid='';
+      }
+    })
+  }
+  assignBlkarrTmpid(blkarrId){
+    console.log(blkarrId);
+    this.blocksArray.forEach(elemnt=>{
+      if(elemnt.Id==blkarrId){
+          console.log('test',blkarrId);
+          elemnt.blockTmpid=blkarrId;
+          console.log(elemnt.blockTmpid);
+      }
+      else{
+        elemnt.blockTmpid='';
       }
     })
   }
@@ -1848,6 +1990,9 @@ validateUnitDetailsField(name){
                   list.hasNoDuplicateBlockname = false;
                 list.isnotvalidunits = false,
                   list.blocktype = this.residentialorcommercialtype;
+                  list.isblockdetailsempty1=true;
+                  list.isNotBlockCreated=true;
+                  list.isBlockCreated=false;
 
                 this.blocksArray.push(list);
                 console.log(this.blocksArray)
@@ -1860,10 +2005,9 @@ validateUnitDetailsField(name){
                   this.isblockdetailsempty = false;
                 }
               })
-              document.getElementById('upload_excel').style.display = 'none'
-              document.getElementById('blockdetailscancelbutton').style.display = 'none';
-              document.getElementById('showmanual').style.display = 'block';
-              document.getElementById('blockdetailsbuttons').style.display = 'block';
+              setTimeout(()=>{
+                this.createblocksdetails('');
+              },1000)
             //}
           }
         }
@@ -2092,9 +2236,16 @@ validateUnitDetailsField(name){
         else {
           element['isnotvalidblockname'] = false;
         }
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+          element.isblockdetailsempty1=true;  
+        }
+        else{
+          element.isblockdetailsempty1=false;  
+        }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
+
       }
     })
   }
@@ -2109,6 +2260,12 @@ validateUnitDetailsField(name){
         }
         else{
           element['isnotvalidunits']=false;
+        }
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+          element.isblockdetailsempty1=true;  
+        }
+        else{
+          element.isblockdetailsempty1=false;  
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
@@ -2128,6 +2285,12 @@ validateUnitDetailsField(name){
         else{
           element['isnotvalidmanagername']=false;
         }
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+          element.isblockdetailsempty1=true;  
+        }
+        else{
+          element.isblockdetailsempty1=false;  
+        }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
@@ -2146,6 +2309,12 @@ validateUnitDetailsField(name){
         else{
           element['isnotvalidmanagermobileno']=false;
         }
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+          element.isblockdetailsempty1=true;  
+        }
+        else{
+          element.isblockdetailsempty1=false;  
+        }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
@@ -2163,6 +2332,12 @@ validateUnitDetailsField(name){
         }
         else{
           element['isnotvalidmanageremailid']=false;
+        }
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+          element.isblockdetailsempty1=true;  
+        }
+        else{
+          element.isblockdetailsempty1=false;  
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
@@ -2188,6 +2363,7 @@ validateUnitDetailsField(name){
       }
     })
   }
+  isValidUnitRecord:boolean;
   excelunitsuploaddata(exceldata) {
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
@@ -2207,6 +2383,7 @@ validateUnitDetailsField(name){
       console.log(this.blocksArray);
       console.log(this.unitlistjson);
       let _blkname = '';
+      this.isValidUnitRecord=false;
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
      /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
@@ -2267,7 +2444,9 @@ validateUnitDetailsField(name){
                         unitonce.isnotvalidtenantlastname=false,
                     
                         unitonce.isnotvalidtenantmobilenumber=false,
-                        unitonce.isnotvalidtenantemaiid=false
+                        unitonce.isnotvalidtenantemaiid=false;
+                        unitonce.isUnitCreated=false;
+                        unitonce.isUnitNotCreated=true;
                         if (!this.unitlistjson[blkname]) {
                           this.unitlistjson[blkname] = []
                         }
@@ -2282,13 +2461,7 @@ validateUnitDetailsField(name){
                           })
                         })
                         this.unitlistjson[blkname].push(unitonce)
-                        document.getElementById('unitupload_excel').style.display = 'none'
-                        document.getElementById('unitshowmanual').style.display = 'block';
-                        document.getElementById('unitsmanualnew').style.display = 'none';
-                        document.getElementById('unitsbulkold').style.display = 'block';
-  
-  
-  
+                        this.isValidUnitRecord=true;  
                         console.log(this.unitlistjson);
                       }
                       else{
@@ -2307,7 +2480,12 @@ validateUnitDetailsField(name){
             })
           //}
       this.validateUnitDetailsField(_blkname);
-      console.log("unit data what contains",this.unitlistjson)
+      console.log("unit data what contains",this.unitlistjson);
+      setTimeout(()=>{
+        if(this.isValidUnitRecord){
+          this.gotonexttab1('',_blkname);
+        }
+      },2000)
     }
   }
   file:File
@@ -2327,10 +2505,10 @@ validateUnitDetailsField(name){
         var first_sheet_name = workbook.SheetNames[0];    
         var worksheet = workbook.Sheets[first_sheet_name];    
         console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
-          var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
+          let arraylist1 = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
               this.filelist = [];    
               console.log(this.filelist) 
-              this.excelunitsuploaddata(arraylist)
+              this.excelunitsuploaddata(arraylist1)
     }  
   }
 
@@ -2367,13 +2545,14 @@ validateUnitDetailsField(name){
   // }
   cancelmanualblocks(ev){
     document.getElementById('upload_excel').style.display ='block';
-    document.getElementById('showmanual').style.display ='none';
+    document.getElementById('showmanualblockwithhorizantalview').style.display ='none';
     document.getElementById('blockdetailscancelbutton').style.display ='none';
 
     document.getElementById('blockdetailsbuttons').style.display ='none';
     this.blocksArray=[]
   }
 submitforblocksbulkupload(ev){
+  document.getElementById('showmanualblockwithhorizantalview').style.display ='none'
   document.getElementById('showmanual').style.display ='none'
   document.getElementById('upload_excel').style.display ='block';
 }
@@ -2385,7 +2564,7 @@ submitforbulkupload(ev){
 }
 cancelbulkupload(ev){
   document.getElementById('upload_excel').style.display ='none';
-  document.getElementById('showmanual').style.display ='block';
+  document.getElementById('showmanualblockwithhorizantalview').style.display ='block';
   //this.blocksArray=[];
 }
 cancelunitsbulkupload(ev){
@@ -2414,7 +2593,7 @@ cancelunitsbulkupload(ev){
       }
       // this.blockDetailsgenerateform();
        //document.getElementById('manualbulk').style.display ='none'
-       //document.getElementById('showmanual').style.display ='block';
+       //document.getElementById('showmanualblockwithhorizantalview').style.display ='block';
        //document.getElementById('blockdetailsbuttons').style.display ='block';
        //document.getElementById('blockdetailscancelbutton').style.display ='block';
 
@@ -2518,10 +2697,13 @@ cancelunitsbulkupload(ev){
           //   this.detailsdata[i][datails] ={required:true};
           // })
           data.Id = i + 1;
+          data.blockTmpid = 1;
           data.uniqueid = new Date().getTime();
           data.blocktype= this.residentialorcommercialtype;
+          data.isNotBlockCreated=true;
+          data.isBlockCreated=false;
           this.blocksArray.push(data);
-          console.log(this.blocksArray)
+          console.log(this.blocksArray);
 
         }
       },error=>{
