@@ -1162,3 +1162,18 @@
       </div>
     </div>
   </ng-template>
+<ng-template #UpdateBlockUnitCountTemplate>
+    <div class="modal-content">
+  
+      <div class="modal-header">
+        
+        <h4 class="modal-title">{{UploadedImage}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img style="width: 100%;" src="{{ImgForPopUp}}"/>
+      </div>
+    </div>
+  </ng-template>
