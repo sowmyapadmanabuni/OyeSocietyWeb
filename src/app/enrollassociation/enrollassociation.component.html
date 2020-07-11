@@ -1185,10 +1185,13 @@
         </div>
         <div class="modal-body">
             <p>Add Block Count:</p>
-           <div>CurrentBlockCount:<i class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-plus-square" aria-hidden="true"></i>
+           <div>CurrentBlockCount:<i (click)="reduceBlockCount()" class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i (click)="increaseBlockCount()" class="fa fa-plus-square" aria-hidden="true"></i>
            </div> 
             <p>Add Unit Count:</p>
-            <div>CurrentUnitCount:<i class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-plus-square" aria-hidden="true"></i>
+            <div>CurrentUnitCount:<i (click)="reduceUnitCount()" class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i (click)="increaseUnitCount()" class="fa fa-plus-square" aria-hidden="true"></i>
+            </div>
+            <div>
+                <button (click)="UpdateBlockUnitCount()">UpdateCount</button>
             </div>
         </div>
     </div>

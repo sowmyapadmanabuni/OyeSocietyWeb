@@ -12,6 +12,7 @@ import { GlobalServiceService } from '../global-service.service';
 import {UtilsService} from '../../app/utils/utils.service';
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
+import { ViewBlockService } from '../../services/view-block.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -58,7 +59,8 @@ export class EnrollassociationComponent implements OnInit {
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private utilsService:UtilsService,
-    private modalService: BsModalService, private formBuilder: FormBuilder) {
+    private modalService: BsModalService, private formBuilder: FormBuilder,
+    private ViewBlockService:ViewBlockService) {
       this.blockdetailInvalid=true;
       this.url='';
       this.isblockdetailsempty=true;
@@ -2366,7 +2368,6 @@ validateUnitDetailsField(name){
   isValidUnitRecord:boolean;
   isExcelDataExceed:boolean;
   excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
-    this.isExcelDataExceed=false;
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
@@ -2386,6 +2387,7 @@ validateUnitDetailsField(name){
       console.log(this.unitlistjson);
       let _blkname = '';
       this.isValidUnitRecord=false;
+      this.isExcelDataExceed=false;
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
      /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
@@ -2468,14 +2470,13 @@ validateUnitDetailsField(name){
                       }
                       else{
                         this.isExcelDataExceed=true;
-                        //this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate,Object.assign({}, { class: 'gray modal-sm' }));
-
-                        Swal.fire({
+                        console.log('this.isExcelDataExceed=true');
+                       /* Swal.fire({
                           title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                           text: "",
                           confirmButtonColor: "#f69321",
                           confirmButtonText: "OK"
-                        })
+                        })*/
                         document.getElementById('unitupload_excel').style.display = 'block';
                       }
                     }
@@ -2487,6 +2488,45 @@ validateUnitDetailsField(name){
       this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains",this.unitlistjson);
       setTimeout(()=>{
+        if(this.isExcelDataExceed){
+            //http://devapi.scuarex.com/oyeliving/api/v1/UpdatAssociationUnitBlockLimit 
+           let blockunitcountupdateRequestBody =
+            {    "ASNofBlks" : 4,
+                 "ASNofUnit" : 111,
+                 "ASAssnID"  : this.assid
+            }
+            console.log(blockunitcountupdateRequestBody);
+            const headers = new HttpHeaders()
+            .set('Authorization', 'my-auth-token')
+            .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+            .set('Content-Type', 'application/json');
+            let IPaddress=this.utilsService.getIPaddress();
+            this.http.post(IPaddress + 'oyeliving/api/v1/UpdatAssociationUnitBlockLimit',blockunitcountupdateRequestBody,  {headers:headers})
+            .subscribe(res=>{
+              console.log(res);
+            },
+            err=>{
+              console.log(err);
+            })
+            setTimeout(()=>{
+              this.http.get(IPaddress + 'oyeliving/api/v1/association/getAssociationList/'+this.assid ,{headers:headers})
+              .subscribe(resp=>{
+                console.log(resp);
+                this.ViewBlockService.getBlockDetails(this.assid)
+                .subscribe(data => {
+                  console.log(data);
+                  console.log(data['data'].blocksByAssoc)
+                },err=>{
+                  console.log(err);
+                })
+              },
+              err=>{
+                console.log(err);
+              })
+            },2000)
+            //
+            this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate,Object.assign({}, { class: 'gray modal-sm' }));
+        }                       
         if(this.isValidUnitRecord){
           this.gotonexttab1('',_blkname);
         }
