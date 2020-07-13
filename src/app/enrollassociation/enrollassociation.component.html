@@ -580,7 +580,7 @@
                         <ul class="nav nav-tabs">
                             <li *ngFor="let blkarr of blocksArray;let i= index" [ngClass]="{'active':blkarr.Id==blkarr.blockTmpid}"><a
                                     href="#{{blkarr.Id}}" (click)="assignBlkarrTmpid(blkarr.Id)"
-                                    data-toggle="tab">{{blkarr.blockname==''?'Block'+(i+1):blkarr.blockname}}
+                                    data-toggle="tab">{{blkarr.blockname==''?'Block'+(i+1):blkarr.blockname|uppercase}}
                                     &nbsp;&nbsp;<span></span>
                                     <i [hidden]="blkarr.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
                                     <i [hidden]="blkarr.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
