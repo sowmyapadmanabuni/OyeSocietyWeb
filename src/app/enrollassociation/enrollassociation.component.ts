@@ -302,7 +302,7 @@ this.countrieslist = res.data.country;
     let countryid = country.coid;
     this.countryname =country.coName;
     console.log(countryid)
-
+    
     let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
     console.log(stateurl)
 

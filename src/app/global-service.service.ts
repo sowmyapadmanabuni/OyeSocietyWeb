@@ -60,9 +60,10 @@ export class GlobalServiceService {
    StaffListCalledOnce:boolean;
    unitslistForAssociation:any[];
    gotojoinassociation:any;
-   public assnIdForUnitTotalOccupancyVacantCountDetails = new Subject();
-   AdminResidentActiveNotification:number;
-
+  public assnIdForUnitTotalOccupancyVacantCountDetails = new Subject();
+  AdminResidentActiveNotification:number;
+  noofblockscount;
+ 
   constructor() {
     this.gotojoinassociation='';
     this.IsUnitCreated=false;
