@@ -66,6 +66,13 @@ export class NotificationsComponent implements OnInit {
       this.AdminsUnitShow('resident');
     }
   }
+  // ngAfterViewInit(){
+  //   const classArr: any = document.querySelectorAll('.panel-heading');
+  //   classArr.addEventListener('click', this.NotificationActiveStatusUpdate(1,3,'Join'))
+  // }
+
+
+
 
   ngOnInit() {
     $(function () {
@@ -77,6 +84,7 @@ export class NotificationsComponent implements OnInit {
     //
     this.GetNotificationListByAccntID();
   }
+  
   AdminsUnitShow(resident) {
     this.role = resident;
   }
@@ -194,7 +202,9 @@ export class NotificationsComponent implements OnInit {
                     (item['ntIsActive'] == true ? 'Unread' : 'Read'),
                     item['ntdCreated'],
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlVisLgID']),
-                    item['asAssnID']
+                    item['asAssnID'],
+                    (item['visitorlog'].length == 0 ? '' :item['visitorlog'][0]['vlfName']),
+                    (item['visitorlog'].length == 0 ? '' :item['visitorlog'][0]['vlExitT'])
                   ));
                   this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                   this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
@@ -225,7 +235,7 @@ export class NotificationsComponent implements OnInit {
       this.ResidentNotificationListArray = this.ResidentNotificationListArrayTemp;
     }
     this.ResidentNotificationListArray = this.ResidentNotificationListArray.filter(item => {
-      return (item['unUniName'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1)
+      return (item['unUniName'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1 || item['vlVisType'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1 || item['residentNtdCreated'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1)
     })
   }
   searchAdminVisitorList() {
@@ -239,9 +249,10 @@ export class NotificationsComponent implements OnInit {
       return (item['unUniName'].toLowerCase().indexOf(this.searchAdminVisitorText.toLowerCase()) > -1)
     })
   }
-  NotificationActiveStatusUpdate(event, ntid, param) {
+  NotificationActiveStatusUpdate(event, ntid, param, vlApprdBy) {
     event.preventDefault();
     console.log(ntid);
+    console.log(vlApprdBy);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
     let url = `${ipAddress}oyesafe/api/v1/NotificationActiveStatusUpdate/${ntid}`
@@ -527,7 +538,7 @@ export class NotificationsComponent implements OnInit {
               .database()
               .ref(`NotificationSync/A_${associationid}/${visitorId}/`)
               .set({
-                buttonColor: '#75be6f',
+                buttonColor: visitorStatus == "Entry Approved" || visitorStatus == "Exit Approved" ? '#75be6f' : '#ff0000',
                 opened: true,
                 newAttachment: false,
                 visitorlogId: visitorId,

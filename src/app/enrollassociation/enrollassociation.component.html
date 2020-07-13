@@ -728,7 +728,7 @@
                     <a href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                             src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
                     <input #fileInput type="file" id="file_unitupload_id" (click)="fileInput.value = null"
-                        (change)="onFileunitdetailschange($event)"
+                        (change)="onFileunitdetailschange($event,UpdateBlockUnitCountTemplate)"
                         accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                     <div id="cancelbutton">
                         <button mat-raised-button color="primary" (click)="cancelunitsbulkupload($event)">Cancel</button>
@@ -1171,3 +1171,28 @@
       </div>
     </div>
   </ng-template>
+
+<ng-template #UpdateBlockUnitCountTemplate>
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h4 class="modal-title">Uploaded no of units is more than given no of units for particualar Block,Please
+                update units count</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="blockunitcountmodalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Add Block Count:</p>
+           <div>CurrentBlockCount:<i (click)="reduceBlockCount()" class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i (click)="increaseBlockCount()" class="fa fa-plus-square" aria-hidden="true"></i>
+           </div> 
+            <p>Add Unit Count:</p>
+            <div>CurrentUnitCount:<i (click)="reduceUnitCount()" class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i (click)="increaseUnitCount()" class="fa fa-plus-square" aria-hidden="true"></i>
+            </div>
+            <div>
+                <button (click)="UpdateBlockUnitCount()">UpdateCount</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

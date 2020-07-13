@@ -46,6 +46,7 @@ export class AssociationManagementComponent implements OnInit {
   uploadForm: FormGroup;
   uploadPanForm: FormGroup;
   form: FormGroup;
+  cityName:any;
   //crtAssn:CreateAssn;
   selectedFile: File;
   @ViewChild('viewassociationForm', { static: true }) viewassociationForm: any;
@@ -620,6 +621,33 @@ export class AssociationManagementComponent implements OnInit {
       }
     });
   }
+ 
+cities=[];
+
+  openModal6(reqdemo: TemplateRef<any>) {
+    let ipAddress=this.UtilsService.getIPaddress()
+    const headers = new HttpHeaders()
+      .set('Authorization', 'my-auth-token')
+      .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+      .set('Content-Type', 'application/json');
+    this.http.get('https://devapi.scuarex.com/oyeliving/api/v1/GetJoinAssociationCitiesList', { headers: headers })
+       .subscribe(
+         (response) => {
+           console.log(response);
+          this.cities=response['data']['joinAssociationCities'];
+          console.log(this.cities);
+         },
+         (error) => {
+           console.log(error);
+         }
+       );
+
+
+
+    this.modalRef = this.modalService.show(reqdemo, { class: 'modal-md' });
+
+  }
+
   getUnitType(unitTpname, _id) {
     console.log(unitTpname);
 
@@ -1165,6 +1193,7 @@ export class AssociationManagementComponent implements OnInit {
       }
   }
   enblJoinAsnVew() {
+    //console.log(cityName);
     localStorage.setItem('Component','JoinAssociationManagent');
     this.viewAssnService.enrlAsnEnbled = false;
     this.viewAssnService.vewAsnEnbled = false;
@@ -1176,7 +1205,7 @@ export class AssociationManagementComponent implements OnInit {
     this.DisableDateOfOccupancyValidationMessage=false;
     this.allUnitBlockID = [];
     this.UniNameForJoinAssn='Select Unit'
-    console.log(this.UniNameForJoinAssn);
+   // console.log(this.UniNameForJoinAssn);
   }
   viewassociation(repviewreceiptmodalit: any) {
     //console.log(JSON.stringify(repviewreceiptmodalit));
@@ -1331,6 +1360,20 @@ export class AssociationManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(viewreceiptmodal,
       Object.assign({}, { class: 'gray modal-lg' }));
   }
+  filteredAssociationCityWise=[];
+  fliterCity(cityName){
+    console.log(cityName);
+    this._associations=this.filteredAssociationCityWise;
+    console.log(this._associations);
+    this._associations=this._associations.filter(item=>{
+      return item['asCity']==cityName;
+    })
+console.log(this._associations);
+this.modalRef.hide()
+this.enblJoinAsnVew()
+
+  }
+
 
   UpdateAssociation() {
 
@@ -1474,6 +1517,8 @@ export class AssociationManagementComponent implements OnInit {
       .subscribe(item => {
         //console.log('getAssociationAllDetails',item);
         this._associations = item['data']['associations'];
+        this.filteredAssociationCityWise=this._associations;
+
         //this.availableNoOfBlocks = item.length;
         console.log('associations', this.associations);  
 

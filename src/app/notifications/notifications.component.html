@@ -24,6 +24,7 @@
               <div class="panel-group" id="accordion">
                 <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
                 <div class="panel panel-default" *ngFor="let itm of notificationListArray">
+                    <a (click)="NotificationActiveStatusUpdate($event,itm['adminNtid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}"> 
                   <div class="panel-heading">
                     <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
                       <a (click)="NotificationActiveStatusUpdate($event,itm['adminNtid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}" class="read"> 
@@ -45,6 +46,7 @@
                     </div>
 
                   </div>
+                </a>
                   <div id="{{itm['admincollapse']}}" class="panel-collapse collapse">
                     <div class="panel-body pb">
                       <div class="not-detail">
@@ -101,7 +103,9 @@
               <div class="panel-group" id="accordion">
                 <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" class="search" placeholder="search unit">
                 <div class="panel-default" *ngFor="let item of ResidentNotificationListArray">
+                 <a style="color: black !important;" (click)="NotificationActiveStatusUpdate($event,item['residentNtid'],'',item['vlApprdBy'])" data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}">
                   <div class="panel panel-default" *ngIf="item['NtType']!='Announcement'">
+                    <!-- <a style="color: black !important;" (click)="NotificationActiveStatusUpdate($event,item['residentNtid'],'')" data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> -->
                   <div class="panel-heading">
                     <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
                       <a (click)="NotificationActiveStatusUpdate($event,item['residentNtid'],'')" data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> 
@@ -117,11 +121,12 @@
                       <span>Visiting <a class="green">{{item['unUniName']}}</a></span>
                       <span class="not-img">
                         <img [src]="item['visitorEntryImg']" width="70px" height="70px"/>
-                        <p>{{item['vlApprdBy']}}</p>
+                        <p>{{item['vlfName']}}</p>
 
                       </span>
                     </div>
                   </div>
+                <!-- </a> -->
                   <div id="{{item['collapse']}}" class="panel-collapse collapse">
                     <div class="panel-body pb" style="margin-top: 20px;">
                       <div class="not-detail">
@@ -137,7 +142,7 @@
 
                                                   <!-- "Staff Voisentry" template -->
                                                   <div *ngIf="item['vlVisType']=='Staff Voisentry'">
-                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
                                                     <!-- <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div> -->
                                                     <!-- <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div> -->
                                                     <!-- <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div> -->
@@ -147,20 +152,20 @@
                                                   
                                                   <!-- "Staff Missed call Entry" template -->
                                                   <div *ngIf="item['vlVisType']=='Staff Missed call Entry'">
-                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
-                                                    <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
-                                                    <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
+                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                                                    <div *ngIf="item['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
+                                                    <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
                                                     <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
-                                                    </div>
+                                                  </div>
                                                   <!-- "Staff Missed call Entry" template -->
                         
                         
                                                   <!-- "Delivery" template -->
                                                   <div *ngIf="item['vlVisType']=='Delivery'">
-                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
-                                                    <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
-                                                    <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
+                                                    <div *ngIf="item['residentNtdCreated']"><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                                                    <div *ngIf="item['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
+                                                    <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
                                                     <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                     </div>
@@ -168,7 +173,7 @@
                         
                                                   <!-- Guest with Invitation template -->
                                                 <div *ngIf="item['vlVisType']=='Guest with Invitation'">
-                                                  <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                                                  <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
                                                   <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                   <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                 </div>
@@ -176,20 +181,19 @@
                         
                                                   <!-- KID EXIT template -->
                                                 <div *ngIf="item['vlVisType']=='Kid Exit'">
-                                                  <div><span class="exitnot-title">Exit On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'short'}}</span>
-                                                    &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
-                                                  <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}&nbsp;&nbsp;<span
-                                                      class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
-                                                  <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
+                                                  <div *ngIf="item['residentNtdCreated']"><span class="exitnot-title">Exit On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                                                  <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
+                                                  <!-- <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div> -->
                                                   <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                 </div>
                                                   <!-- KID EXIT template -->
 
                                                   <!-- Guest without Invitation template -->
                                                   <div *ngIf="item['vlVisType']=='Guest without Invitation'">
-                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'short'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
                                                     <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
-                                                    <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div>
+                                                    <!-- <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div> -->
+                                                    <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
                                                     <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                   </div>
@@ -223,7 +227,7 @@
 
                         <div *ngIf="item['vlApprStat']=='Entry Pending' || item['vlApprStat']=='Exit Pending'">
                           <div *ngIf="changeViewOfActionButton">
-                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])"
+                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Entry Rejected', item['vlApprdBy'])"
                               class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Deny</span>
                           </div>
                         </div>
@@ -234,6 +238,7 @@
                     </div>
                   </div>
                 </div>
+              </a>
                 <div *ngIf="item['NtType']=='Announcement'" class="panel panel-default">
                   <div class="panel-heading">
                     <h4 class="panel-title alfl">

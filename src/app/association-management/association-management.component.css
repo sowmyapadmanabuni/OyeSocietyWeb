@@ -1,4 +1,13 @@
 .bg{padding: 50px 0px !important;}
+.citypa{    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    justify-content: inherit;
+    justify-content: end;
+    text-align: center;}
+.cityui{border: 1px solid grey;padding: 22px;width: 178px;}
+.cityui:hover{background:#5a51aa;color: #fff;cursor: pointer;}
 .black{color: #333333;}
 .enroll{display: flex;justify-content: flex-end;align-items: center;}
 /* .bg-grey{background: #f1eded26;} */
