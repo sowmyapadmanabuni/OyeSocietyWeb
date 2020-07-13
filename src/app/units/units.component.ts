@@ -613,8 +613,8 @@ export class UnitsComponent implements OnInit {
       "UNOcSDate" : "2018-02-25",
       "UNOwnStat" : "Active",
       "UNSldDate"    : "2018-02-02",
-      "UNDimens"  : this.UNDimens,
-      "UNCalType"    : this.UNCalType,
+      "UNDimens"  : "",
+      "UNCalType"    : "",
       "FLFloorID" : 1,
       "BLBlockID" : this.blockID,
       "UNUnitID"  : this.UNUnitID
