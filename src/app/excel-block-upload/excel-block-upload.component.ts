@@ -31,7 +31,7 @@ export class ExcelBlockUploadComponent implements OnInit {
   ShowExcelUploadDiscription:boolean;
   ShowExcelDataList:boolean;
   blockdetailInvalid:boolean;
-
+  condition = true;
   constructor(
     public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
@@ -66,8 +66,8 @@ export class ExcelBlockUploadComponent implements OnInit {
     let asslistapi = "https://uatapi.scuarex.com/oyeliving/api/v1/association/getAssociationList/" + assnid;
 
     this.http.get(asslistapi, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
-    this.globalService.noofblockscount = res.data.asNofBlks;
-    this.blocktypeaspropertytype = res.data.asPrpType;
+    this.globalService.noofblockscount = res.data.association.asNofBlks;
+    this.blocktypeaspropertytype = res.data.association.asPrpType;
     }, error => {
       console.log(error);
      this.exceptionMessage = error['error']['exceptionMessage'];
@@ -368,7 +368,7 @@ export class ExcelBlockUploadComponent implements OnInit {
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
         })
-        document.getElementById('upload_excel').style.display ='block';
+        // document.getElementById('upload_excel').style.display ='block';
       }
     }
     reader.readAsBinaryString(file);

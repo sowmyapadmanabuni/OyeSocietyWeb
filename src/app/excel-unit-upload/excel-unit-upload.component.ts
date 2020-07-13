@@ -238,7 +238,8 @@ export class ExcelUnitUploadComponent implements OnInit {
                           confirmButtonColor: "#f69321",
                           confirmButtonText: "OK"
                         })
-                        // document.getElementById('unitupload_excel').style.display = 'block'
+                        //document.getElementById('uploadexcelscreen').style.display = 'block'
+                       // document.getElementById('unitsbulkold').style.display = 'none'
                       }
                     
                
@@ -701,7 +702,67 @@ export class ExcelUnitUploadComponent implements OnInit {
         })
       })
   }
+  resetStep5bulk(ev,blknamecommon){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+          Object.keys(this.unitlistjson).forEach(element=>{
+            console.log(this.unitlistjson[element])
+            this.unitlistjson[element].forEach(unit => {
+      if(blknamecommon.toUpperCase() == unit.blockname.toUpperCase()&&unit.blockname!=undefined){
+      
+            unit.flatno="",
+            unit.blockname ="",
+            unit.owneremaiid="",
+            unit.ownerfirstname="",
+            unit.ownermobilenumber="",
+            unit.ownershipstatus="",
+            unit.unittype="",
+            unit.ownerlastname="",
+            unit.ownermobilenumber= "",
+            unit.owneremaiid="",
+            unit.tenantfirstname="",
+            unit.tenantlastname="",
+            unit.tenantmobilenumber="",
+            unit.tenantemaiid=""
+          }else{
+            let blname = unit.Id.slice(0, -2);
+            if(blknamecommon == blname){
+              unit.flatno="",
+              unit.blockname ="",
+              unit.owneremaiid="",
+              unit.ownerfirstname="",
+              unit.ownermobilenumber="",
+              unit.ownershipstatus="",
+              unit.unittype="",
+              unit.ownerlastname="",
+              unit.ownermobilenumber= "",
+              unit.owneremaiid="",
+              unit.tenantfirstname="",
+              unit.tenantlastname="",
+              unit.tenantmobilenumber="",
+              unit.tenantemaiid=""
+            }
+         
+          }
+      
+            })
+          })
+        }
+      })
+
+
   
+
+  }
   keyPress3(event:any){
     const pattern = /^[1-9][0-9]*$/;
    let inputChar = String.fromCharCode(event.charCode);
