@@ -677,7 +677,7 @@
 
                                 </div>
                                 <div id="blockdetailsbuttons1" class="save">
-                                    <a class="continue" (click)="resetManualBlockCreationFields($event)" mat-raised-button color="primary">RESET</a>
+                                    <a class="continue" (click)="resetManualBlockCreationFields($event,obj.Id)" mat-raised-button color="primary">RESET</a>
                                     <button class="continue mat-raised-button mat-button-base mat-primary" id="assdetailssave1" color="primary" [disabled]="obj.isblockdetailsempty1"
                                         [ngStyle]="{'opacity':obj.isblockdetailsempty1 ? '0.5' : '1' }"
                                         (click)="createblocksdetails1(obj.blockname,obj.blocktype,obj.units,obj.managername,obj.managermobileno,obj.manageremailid,obj.Id,i)">NEXT</button>
@@ -788,7 +788,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>UNIT TYPE<span class="red">*</span></mat-label>
-                                                                <mat-select disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.unittype">
+                                                                <mat-select (selectionChange)="getUnittype(unitlistjson[blocknameforIteration][i]['Id'],obj3.unittype,blocknameforIteration)" disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.unittype">
                                                                     <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -799,7 +799,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>OCCUPANCY & OWNERSHIP STATUS<span class="red">*</span></mat-label>
-                                                                <mat-select disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.ownershipstatus">
+                                                                <mat-select (selectionChange)="getOwnerShipStatus(unitlistjson[blocknameforIteration][i]['Id'],obj3.ownershipstatus,blocknameforIteration)" disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.ownershipstatus">
                                                                     <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -993,7 +993,7 @@
                                   <div>
                                    <mat-form-field class="blockdetails-form1">
                                     <mat-label [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">UNIT TYPE<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
-                                       <mat-select disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.unittype">
+                                       <mat-select (selectionChange)="getUnittype(unitlistjson[blocknameforIteration][i]['Id'],obj.unittype,blocknameforIteration)" disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.unittype">
                                            <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                            </mat-option>
                                        </mat-select>
@@ -1004,7 +1004,7 @@
                                 <div>
                                    <mat-form-field class="blockdetails-form1">
                                     <mat-label [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">OCCUPANCY & OWNERSHIP STATUS<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
-                                       <mat-select disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.ownershipstatus">
+                                       <mat-select (selectionChange)="getOwnerShipStatus(unitlistjson[blocknameforIteration][i]['Id'],obj.ownershipstatus,blocknameforIteration)" disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.ownershipstatus">
                                            <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                            </mat-option>
                                        </mat-select>

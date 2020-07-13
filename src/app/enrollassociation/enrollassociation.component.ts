@@ -833,7 +833,13 @@ imgfilename;
           this.message = 'Unit Created Successfully'
         }
         else if (this.unitsuccessarray.length > 1) {
-          this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          if(this.unitlistduplicatejson.length>0){
+            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                            ${this.unitlistduplicatejson.length} Duplicate`
+          }
+          else{
+            this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          }
         }
         if (this.duplicateUnitrecordexist) {
           document.getElementById('unitupload_excel').style.display = 'none'
@@ -841,7 +847,7 @@ imgfilename;
           document.getElementById('unitsmanualnew').style.display = 'none';
           document.getElementById('unitsbulkold').style.display = 'block';
           Swal.fire({
-            title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+            title: this.message,
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
@@ -908,8 +914,15 @@ imgfilename;
             document.getElementById('unitshowmanual').style.display = 'block';
             document.getElementById('unitsmanualnew').style.display = 'none';
             document.getElementById('unitsbulkold').style.display = 'block';
+            if(this.unitlistduplicatejson.length>0){
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                              ${this.unitlistduplicatejson.length} Duplicate`
+            }
+            else{
+              this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+            }
             Swal.fire({
-              title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+              title: this.message,
               text: "",
               type: "success",
               confirmButtonColor: "#f69321",
@@ -1709,7 +1722,13 @@ validateUnitDetailsField(name){
             message = 'Block Created Successfully'
           }
           else if (this.blockssuccessarray > 1) {
-            message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+            if(this.duplicateBlockArr.length > 0){
+              message = `${this.blockssuccessarray }'-Blocks Created Successfully
+                         ${this.duplicateBlockArr.length} Duplicate`;
+            }
+            else{
+              message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+            }
           }
           Swal.fire({
             title: message,
@@ -1867,6 +1886,34 @@ validateUnitDetailsField(name){
             }, error => {
             console.log(error);
           })
+  }
+  resetManualBlockCreationFields(ev,objId){
+    console.log('ev');
+    console.log(this.blocksArray);
+    console.log(objId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      cancelButtonText:"NO"
+    }).then(
+      (result) => {
+        console.log(result)
+        if (result.value) {
+          this.blocksArray.forEach(elemnt=>{
+            if(elemnt.Id==objId){
+              console.log('elemnt.Id==objId');
+              elemnt.blockname='';
+              elemnt.blocktype='';
+              elemnt.units='';
+              elemnt.managername='';
+              elemnt.managermobileno='';
+              elemnt.manageremailid='';
+            }
+          })
+        }})
   }
   manualunitdetailsclick(ev) {
     document.getElementById('unitmanualbulk').style.display = 'none'
@@ -2047,6 +2094,14 @@ validateUnitDetailsField(name){
         }
       })
     })
+    this.validateUnitDetailsField(name);
+  }
+  getUnittype(Id,unittype,name){
+    console.log(Id,unittype,name);
+    this.validateUnitDetailsField(name);
+  }
+  getOwnerShipStatus(Id,unittype,name){
+    console.log(Id,unittype,name);
     this.validateUnitDetailsField(name);
   }
   getunittype(Id, unittype,name){
