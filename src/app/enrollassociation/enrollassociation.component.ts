@@ -2471,12 +2471,12 @@ validateUnitDetailsField(name){
                       else{
                         this.isExcelDataExceed=true;
                         console.log('this.isExcelDataExceed=true');
-                       /* Swal.fire({
+                        Swal.fire({
                           title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                           text: "",
                           confirmButtonColor: "#f69321",
                           confirmButtonText: "OK"
-                        })*/
+                        })
                         document.getElementById('unitupload_excel').style.display = 'block';
                       }
                     }
