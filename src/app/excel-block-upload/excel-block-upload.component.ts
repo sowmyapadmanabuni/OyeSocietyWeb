@@ -37,6 +37,7 @@ export class ExcelBlockUploadComponent implements OnInit {
     public viewBlockService: ViewBlockService,
     public addblockservice: AddBlockService,
     public viewUnitService: ViewUnitService,
+    private http: HttpClient,
     public router:Router
   ) {
     this.excelBlockList=[];
@@ -49,12 +50,30 @@ export class ExcelBlockUploadComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.getassociationlist();
   }
   ngAfterViewInit(){
     $(".se-pre-con").fadeOut("slow");
   }
   upLoad() {
     document.getElementById("file_upload_id").click();
+  } 
+  exceptionMessage='';
+  blocktypeaspropertytype;
+  getassociationlist(){
+    let assnid=this.globalService.getCurrentAssociationId()
+
+    let asslistapi = "https://uatapi.scuarex.com/oyeliving/api/v1/association/getAssociationList/" + assnid;
+
+    this.http.get(asslistapi, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+    this.globalService.noofblockscount = res.data.asNofBlks;
+    this.blocktypeaspropertytype = res.data.asPrpType;
+    }, error => {
+      console.log(error);
+     this.exceptionMessage = error['error']['exceptionMessage'];
+     console.log(this.exceptionMessage);
+    }
+    );
   }
   keyPress3(event:any){
     const pattern = /^[1-9][0-9]*$/;
@@ -275,7 +294,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       this.ShowExcelDataList=true;
       //this.createBlockFromExcel(this.excelBlockList);
 
-       let blockslength=Number("10")
+       let blockslength=Number(this.globalService.noofblockscount)
       //for checking purpose blockbulkupload code commenting below
 
          if (this.excelBlockList.length <= blockslength) {
@@ -322,7 +341,7 @@ export class ExcelBlockUploadComponent implements OnInit {
                 list.isnotvalidmanagername = false,
                   list.hasNoDuplicateBlockname = false;
                 list.isnotvalidunits = false,
-                   list.blocktype = "Residential"
+                   list.blocktype = this.blocktypeaspropertytype;
                   list.isblockdetailsempty1=true;
 
                 this.blocksArray.push(list);
