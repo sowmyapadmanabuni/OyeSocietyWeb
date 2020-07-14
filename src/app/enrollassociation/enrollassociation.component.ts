@@ -1709,13 +1709,9 @@ validateUnitDetailsField(name){
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
         document.getElementById('showmanual').style.display = 'block';
         document.getElementById('blockdetailsbuttons').style.display = 'block';
-        //         this.blocksArray.forEach(element => {
-        //           Object.keys(this.unitlistjson).forEach(blkname => {
-        // if(blkname==element['blockname']){
-        //   element['blockid']
-        // }
-        //           })
-        //         })
+        this.commonblockarray.forEach(element => {
+          element.hasNoDuplicateBlockname=true;
+        })
         if (!this.sameBlocknameExist) {
           var message;
           if (this.blockssuccessarray == 1) {
