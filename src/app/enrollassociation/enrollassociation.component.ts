@@ -1858,6 +1858,8 @@ validateUnitDetailsField(name){
                     elemnt.isBlockCreated=true;
                     elemnt.isNotBlockCreated=false;
                     elemnt.isblockdetailsempty1=true;
+                    console.log(this.blocksArray[0]['Id'],this.blocksArray[0]['blockname']);
+                    this.assignTmpid(this.blocksArray[0]['Id'],this.blocksArray[0]['blockname']);
                     this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
                   else{
