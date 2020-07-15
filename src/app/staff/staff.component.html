@@ -9,20 +9,40 @@
                     <span class="black">Staffs</span>
                 <div class="switch">
                     <ul class="nav nav-pills">
-                        <li><a (click)="goToGuests()">My Guests</a></li>
-                        <li><a (click)="goToDelivery()">Deliveries</a></li>
-                        <li class="active"><a (click)="goToInvoice()">Staff</a></li>
+                        <li class="active"><a (click)="goToStaff()">My Staff</a></li>
+                        <li><a>Other Staffs</a></li>
                     </ul>
                 </div>
                 <div>
                     <div class="col-sm-4 bg-grey">
-                        <div class="sea">
-                            <input type="text" id="mySearch" placeholder="Select Staff.." title="Type in a category">
+                        <div>
+                            <!-- <input type="text" id="mySearch" placeholder="Select Staff.." title="Type in a category"> -->
+                            <div class="dropdown search-dropd sha" style="margin-top:0px">
+                                    <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm br overh" type="button"
+                                            data-toggle="dropdown">Select Staff
+                                            <span class="caret"></span></button>
+                                    <ul class="dropdown-menu fullw fdrop" style="height: auto !important;">
+                                            <li><a>Vinay</a></li>
+                                            <li><a>Aneesh</a></li>
+                                            <li><a>Raghavendra</a></li>
+                                            <li><a>Satya</a></li>
+                                    </ul>
+                                </div>
                         </div>
 
                         <div class="m-t-30">
-                            <img src="../../assets/images/icons/user.png"> Maid  <span style="float: right;"><i
-                                    class="fa fa-share-alt" aria-hidden="true"></i>
+                            <img src="../../assets/images/icons/user.png"> Maid <br> 
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>&nbsp;
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+
+
+                            <span style="float: right;">
+                                <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <i class="fa fa-share-alt" aria-hidden="true"></i>
                             </span>
                         </div>
                        <div class="date-row">
@@ -50,11 +70,23 @@
 
                         <div class="report-bt">
                             <button class="btn btn-primary-purple nextBtn" style="width:100%">Get Report</button><br>
-                            <button class="btn btn-primary-purple nextBtn" style="width:100%" type="button">Leave with vendor</button>
+                            <!-- <button class="btn btn-primary-purple nextBtn" style="width:100%" type="button">Leave with vendor</button> -->
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <div class="dash-row table-responsive">
+                        <div class="col-sm-12">
+                                <h3>View Reports</h3>
+                            <p>testing...</p>
+
+                        </div>
+                        <div class="col-sm-12">
+                                <h3>View Documents</h3>
+                            <p>Document1</p>
+
+                        </div>
+                    
+
+                        <!-- <div class="dash-row table-responsive">
                             <table class="table table-bordered" [mfData]="WorkerNameList | search:['wkfName', 'wkDesgn', 'wkMobile']:searchTxt"
                             #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
@@ -104,7 +136,7 @@
                                 </tr>
                             </tfoot>
                             </table>
-                        </div>
+                        </div> -->
                     </div>
 
 
