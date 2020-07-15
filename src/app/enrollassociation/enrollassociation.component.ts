@@ -61,6 +61,7 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService:ViewBlockService) {
+      this.iindex=0;
       this.blockdetailInvalid=true;
       this.url='';
       this.isblockdetailsempty=true;
@@ -471,7 +472,8 @@ this.state = state.stName;
     "isnotvalidtenantlastname":false,
     "isnotvalidtenantmobilenumber":false,
     "isnotvalidtenantemaiid":false,
-    "isSingleUnitDataEmpty":true
+    "isSingleUnitDataEmpty":true,
+    "displayText":"SaveAndContinue"
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {
@@ -624,33 +626,35 @@ imgfilename;
   unitdetailscreatejson;
   unitsuccessarray =[]
 
-  gotonexttab(ev, name,obj3Id) {
+  gotonexttab(ev, name,obj3Id,index) {
     console.log(name);
     console.log(obj3Id);
+    console.log(index);
      
-    this.unitmovingnexttab(name,obj3Id);
+    this.unitmovingnexttab(name,obj3Id,index);
 
   }
-  gotonexttab1(ev, name) {
+  gotonexttab1(ev, name,index) {
     console.log(name);
      
-    this.unitmovingnexttab1(name);
+    this.unitmovingnexttab1(name,index);
 
   }
-  unitmovingnexttab1(name) {
+  unitmovingnexttab1(name,index) {
     //if (this.isunitdetailsempty) {
-      this.submitunitdetails1(name);
+      this.submitunitdetails1(name,index);
     //}
   }
-  unitmovingnexttab(name,obj3Id) {
+  unitmovingnexttab(name,obj3Id,index) {
     //if (this.isunitdetailsempty) {
-      this.submitunitdetails(name,obj3Id);
+      this.submitunitdetails(name,obj3Id,index);
     //}
   }
 
 
   exceptionMessage1='';
-  SubmitOrSaveAndContinue1='SAVE AND CONTINUE';
+  SubmitOrSaveAndContinue1='Save And Continue';
+  SubmitOrSaveAndContinue2='';
   // nextObjId1='';
   // isNextIetrationEnabled1;
   // nextBlckId1='';
@@ -659,8 +663,14 @@ imgfilename;
   duplicateUnitrecordexist;
   totalUnitcount;
   message;
-  submitunitdetails1(name) {
+  submitunitdetails1(name,index) {
     this.unitsuccessarray = [];
+    if(this.finalblocknameTmp.length==(this.iindex+2)){
+      console.log('iFinsideLTab');
+      this.finalblocknameTmp[this.iindex+1]['displaytext']="Submit";
+      console.log(this.finalblocknameTmp);
+    }
+    this.iindex += 1;
    /* let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
     let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
       return valueManualUnitnameArr.indexOf(item) != idx
@@ -674,17 +684,12 @@ imgfilename;
         confirmButtonText: "OK"
       })
     }
-    else { */
+    else { 
       let abc = Object.keys(this.unitlistjson);
       this.finalblocknameTmp = this.finalblocknameTmp.filter(item => {
-        return item != name;
-      })
-      console.log(this.finalblocknameTmp);
-      console.log(this.finalblocknameTmp.length);
-      if (this.finalblocknameTmp.length == 0) {
-        console.log('insideltab');
-        this.SubmitOrSaveAndContinue1 = 'Submit';
-      }
+        return item['name'] != name;
+      }) */
+   
       this.exceptionMessage1 = '';
       console.log(name);
       console.log(this.unitlistjson[name]);
@@ -987,7 +992,7 @@ imgfilename;
   nextObjId='';
   isNextIetrationEnabled;
   nextBlckId='';
-  submitunitdetails(name,obj3Id) {
+  submitunitdetails(name,obj3Id,index) {
     this.isNextIetrationEnabled=false;
     let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
     console.log(valueManualUnitnameArr);
@@ -1008,7 +1013,7 @@ imgfilename;
           })        
         }
         else{
-          let abc = Object.keys(this.unitlistjson);
+         /* let abc = Object.keys(this.unitlistjson);
             this.finalblocknameTmp = this.finalblocknameTmp.filter(item=>{
               return item !=  name;
             })
@@ -1026,11 +1031,18 @@ imgfilename;
                 }
               }
             });
-          }
+          } */
           this.exceptionMessage='';
           console.log(name);
           console.log(this.unitlistjson[name]);
           console.log(this.unitlistjson);
+          if(this.unitlistjson[name].length == (index+2)){
+            console.log('this.unitlistjson[name].length == (index+2)');
+            console.log(this.unitlistjson[name][index+1]);
+            console.log(index+1);
+            this.unitlistjson[name][index+1].displayText='Submit';
+            console.log(this.unitlistjson[name]);
+          }
           let date = new Date();
           var getDate = date.getDate();
           var getMonth = date.getMonth() + 1;
@@ -1654,7 +1666,7 @@ validateUnitDetailsField(name){
               }) */
               let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
               this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
-              this.finalblocknameTmp.push(this.jsondata.blocks[0].BLBlkName);
+              this.finalblocknameTmp.push({'name':this.jsondata.blocks[0].BLBlkName,'displaytext':'Save And Continue'});
               for (var i = 0; i < blockArraylength; i++) {
                 let data = JSON.parse(JSON.stringify(this.unitsrowjson))
 
@@ -2420,6 +2432,7 @@ validateUnitDetailsField(name){
   }
   isValidUnitRecord:boolean;
   isExcelDataExceed:boolean;
+  iindex:any;
   excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
@@ -2581,7 +2594,7 @@ validateUnitDetailsField(name){
             this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate,Object.assign({}, { class: 'gray modal-sm' }));
         }                       
         if(this.isValidUnitRecord){
-          this.gotonexttab1('',_blkname);
+          this.gotonexttab1('',_blkname,this.iindex);
         }
       },2000)
     }
