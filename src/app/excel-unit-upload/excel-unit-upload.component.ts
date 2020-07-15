@@ -708,7 +708,9 @@ export class ExcelUnitUploadComponent implements OnInit {
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)

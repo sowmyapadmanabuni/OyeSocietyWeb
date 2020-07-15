@@ -41,7 +41,7 @@ export class AddUnitComponent implements OnInit {
   newVehicleNo:any;
   occupencys:object[];
   tenantDetails: boolean = false;
-  ownerDetails: boolean = true;
+  ownerDetails: boolean = false;
   currentAssociationID:string;
   allBlocksLists: any[];
 
@@ -170,14 +170,84 @@ export class AddUnitComponent implements OnInit {
     ////console.log(calculationTypename);
     this.calculationtype = calculationTypename;
   }
-  ResetCreateUnitFormOne(){
-    this.unitno='';
-    this.occupency='Select Occupancy';
-    this.unitType='Select Unit Type';
-    this.calculationtype='Select Calcula...';
-    this.unitdimension = '';
-    this.unitrate = '';
+
+  ResetCreateUnitFormOne(ev,occupency) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+          this.occupency=occupency;
+          if(this.occupency){
+            this.occupancy.forEach(item => {
+              if (occupency == 'UnSold Vacant Unit') {
+                this.unitno='';
+                this.occupency='';
+                this.unitType='';
+                this.tenantDetails = false;
+                this.ownerDetails = false;
+              }
+              else if (occupency == 'UnSold Tenant Occupied Unit') {
+                this.unitno='';
+                this.occupency='';
+                this.unitType='';
+                this.tenantFirtname='';
+                this.tenantLastname='';
+                this.tenantMobnumber='';
+                this.tenantEmail='';
+                this.tenantDetails = false;
+                this.ownerDetails = false;
+              }
+              else if (occupency == 'Sold Tenant Occupied Unit') {
+                this.unitno='';
+                this.occupency='';
+                this.unitType='';
+                this.ownerFirtname = '';
+                this.ownerLastname = '';
+                this.ownerMobnumber = '';
+                this.ownerEmail = '';
+      
+                this.tenantFirtname='';
+                this.tenantLastname='';
+                this.tenantMobnumber='';
+                this.tenantEmail='';
+                this.tenantDetails = false;
+                this.ownerDetails = false;
+              }
+              else {
+                this.unitno='';
+                this.occupency='';
+                this.unitType='';
+                this.ownerFirtname = '';
+                this.ownerLastname = '';
+                this.ownerMobnumber = '';
+                this.ownerEmail = '';
+                this.tenantDetails = false;
+                this.ownerDetails = false;
+              }
+            })
+          }
+          else{
+            this.unitno='';
+            this.occupency='';
+            this.unitType='';
+            this.tenantDetails = false;
+            this.ownerDetails = false;
+          }
+       
+        }
+      })
+
   }
+
   ResetCreateUnitFormTwo(){
     this.ownerFirtname = '';
     this.ownerLastname = '';
@@ -267,28 +337,31 @@ export class AddUnitComponent implements OnInit {
  
   tenantOwnerdiv(occupency) {
     this.occupency=occupency;
-    this.occupancy.forEach(item => {
-      if (occupency == 'UnSold Vacant Unit') {
-        this.tenantDetails = false;
-        this.ownerDetails = false;
-        this.toggleunitvehicleinformation=false;
-      }
-      else if (occupency == 'UnSold Tenant Occupied Unit') {
-        this.tenantDetails = true;
-        this.ownerDetails = false;
-        this.toggleunitvehicleinformation=true;
-      }
-      else if (occupency == 'Sold Tenant Occupied Unit') {
-        this.tenantDetails = true;
-        this.ownerDetails = true;
-        this.toggleunitvehicleinformation=true;
-      }
-      else {
-        this.tenantDetails = false;
-        this.ownerDetails = true;
-        this.toggleunitvehicleinformation=true;
-      }
-    })
+    if(this.occupency){
+      this.occupancy.forEach(item => {
+        if (occupency == 'UnSold Vacant Unit') {
+          this.tenantDetails = false;
+          this.ownerDetails = false;
+          this.toggleunitvehicleinformation=false;
+        }
+        else if (occupency == 'UnSold Tenant Occupied Unit') {
+          this.tenantDetails = true;
+          this.ownerDetails = false;
+          this.toggleunitvehicleinformation=true;
+        }
+        else if (occupency == 'Sold Tenant Occupied Unit') {
+          this.tenantDetails = true;
+          this.ownerDetails = true;
+          this.toggleunitvehicleinformation=true;
+        }
+        else {
+          this.tenantDetails = false;
+          this.ownerDetails = true;
+          this.toggleunitvehicleinformation=true;
+        }
+      })
+    }
+ 
   }
 
   _keyPress(event: any) {

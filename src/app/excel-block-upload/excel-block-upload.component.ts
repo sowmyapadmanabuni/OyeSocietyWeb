@@ -105,7 +105,9 @@ export class ExcelBlockUploadComponent implements OnInit {
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -540,6 +542,83 @@ export class ExcelBlockUploadComponent implements OnInit {
           // this.http.post(blockcreateurl, jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
               console.log(res);
+
+              console.log(res);
+              if (res['data'].blockID) {
+                let createUnitData =
+                {
+                  "ASAssnID": this.globalService.getCurrentAssociationId(),
+                  "ACAccntID": this.globalService.getacAccntID(),
+                  "units": [
+                    {
+                      "UNUniName": element.blockname + "-" + "Common",
+                      "UNUniType": '',
+                      "UNRate": '',
+                      "UNOcStat": '',
+                      "UNOcSDate": '',
+                      "UNOwnStat": '',
+                      "UNSldDate": '',
+                      "UNDimens": '',
+                      "UNCalType": '',
+                      "BLBlockID": res['data'].blockID,
+                      "Owner":
+                        [{
+    
+                          "UOFName": '',
+                          "UOLName": '',
+                          "UOMobile": '',
+                          "UOISDCode": '',
+                          "UOMobile1": '',
+                          "UOMobile2": '',
+                          "UOMobile3": '',
+                          "UOMobile4": '',
+                          "UOEmail": '',
+                          "UOEmail1": '',
+                          "UOEmail2": '',
+                          "UOEmail3": '',
+                          "UOEmail4": '',
+                          "UOCDAmnt": ''
+                        }],
+                      "unitbankaccount":
+                      {
+                        "UBName": '',
+                        "UBIFSC": '',
+                        "UBActNo": '',
+                        "UBActType": '',
+                        "UBActBal": '',
+                        "BLBlockID": res['data'].blockID
+                      },
+                      "Tenant":
+                        [{
+    
+                          "UTFName": '',
+                          "UTLName": '',
+                          "UTMobile": '',
+                          "UTISDCode": '',
+                          "UTMobile1": '',
+                          "UTEmail": '',
+                          "UTEmail1": ''
+                        }],
+                      "UnitParkingLot":
+                        [
+                          {
+                            "UPLNum": '',
+                            "MEMemID": '',
+                            "UPGPSPnt": ''
+    
+                          }
+                        ]
+                    }
+                  ]
+                }
+    
+                this.viewUnitService.createUnit(createUnitData).subscribe(data => {
+                  console.log(data);
+                },
+                  err => {
+                    console.log(err);
+                  })
+              }
               if(res.data.blockID){
              
               this.blockidtmp[element.blockname]=res.data.blockID;

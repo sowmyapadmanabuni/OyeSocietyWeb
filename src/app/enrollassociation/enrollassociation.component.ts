@@ -2840,8 +2840,11 @@ cancelunitsbulkupload(ev){
       title: "Are you sure?",
       text: "Do you really want to reset?",
       type: "warning",
-      confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonColor: '#f69321',
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+      
     }).then(
       (result) => {
         console.log(result)
@@ -2850,7 +2853,9 @@ cancelunitsbulkupload(ev){
           console.log(ev)
           this.form.reset();
           this.thumbnailASAsnLogo=undefined;
-         this.fileopen(ev,this.fileInputfinal);
+          if(this.fileInputfinal){
+            this.fileopen(ev,this.fileInputfinal);
+          }
          this.uploadForm.reset();
         }
       })
@@ -2864,7 +2869,9 @@ cancelunitsbulkupload(ev){
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -2873,7 +2880,9 @@ cancelunitsbulkupload(ev){
          
     this.gstpanform.reset();
     this.uploadPANCardThumbnail= undefined;
-    this.fileopen1(ev,this.fileInputfinal1);
+    if(this.fileInputfinal1){
+      this.fileopen1(ev,this.fileInputfinal1);
+    }
     // this.pancardnameoriginal=false
     this.uploadPanForm.reset();
     this.imgfilename ='';
@@ -2889,7 +2898,9 @@ cancelunitsbulkupload(ev){
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -2908,7 +2919,9 @@ cancelunitsbulkupload(ev){
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -2933,7 +2946,9 @@ cancelunitsbulkupload(ev){
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK", 
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -2998,7 +3013,9 @@ cancelunitsbulkupload(ev){
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
