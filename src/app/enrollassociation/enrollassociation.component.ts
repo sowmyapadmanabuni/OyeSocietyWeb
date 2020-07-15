@@ -471,7 +471,8 @@ this.state = state.stName;
     "isnotvalidtenantlastname":false,
     "isnotvalidtenantmobilenumber":false,
     "isnotvalidtenantemaiid":false,
-    "isSingleUnitDataEmpty":true
+    "isSingleUnitDataEmpty":true,
+    "displayText":"SaveAndContinue"
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {

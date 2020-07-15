@@ -945,7 +945,7 @@
                                            
                                             <div>
                                                 <button id="unitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
-                                                    (click)="gotonexttab($event,blocknameforIteration,obj3.Id)">{{SubmitOrSaveAndContinue}}</button>
+                                                    (click)="gotonexttab($event,blocknameforIteration,obj3.Id)">{{obj3.displayText}}</button>
                                             </div>
                                             <div class="save">
                                                 <a class="continue" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
