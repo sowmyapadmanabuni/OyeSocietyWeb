@@ -12,6 +12,7 @@ import { GlobalServiceService } from '../global-service.service';
 import {UtilsService} from '../../app/utils/utils.service';
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
+import { ViewBlockService } from '../../services/view-block.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -58,7 +59,8 @@ export class EnrollassociationComponent implements OnInit {
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private utilsService:UtilsService,
-    private modalService: BsModalService, private formBuilder: FormBuilder) {
+    private modalService: BsModalService, private formBuilder: FormBuilder,
+    private ViewBlockService:ViewBlockService) {
       this.blockdetailInvalid=true;
       this.url='';
       this.isblockdetailsempty=true;
@@ -302,7 +304,7 @@ this.countrieslist = res.data.country;
     let countryid = country.coid;
     this.countryname =country.coName;
     console.log(countryid)
-
+    
     let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
     console.log(stateurl)
 
@@ -831,7 +833,13 @@ imgfilename;
           this.message = 'Unit Created Successfully'
         }
         else if (this.unitsuccessarray.length > 1) {
-          this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          if(this.unitlistduplicatejson.length>0){
+            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                            ${this.unitlistduplicatejson.length} Duplicate`
+          }
+          else{
+            this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          }
         }
         if (this.duplicateUnitrecordexist) {
           document.getElementById('unitupload_excel').style.display = 'none'
@@ -839,7 +847,7 @@ imgfilename;
           document.getElementById('unitsmanualnew').style.display = 'none';
           document.getElementById('unitsbulkold').style.display = 'block';
           Swal.fire({
-            title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+            title: this.message,
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
@@ -906,8 +914,15 @@ imgfilename;
             document.getElementById('unitshowmanual').style.display = 'block';
             document.getElementById('unitsmanualnew').style.display = 'none';
             document.getElementById('unitsbulkold').style.display = 'block';
+            if(this.unitlistduplicatejson.length>0){
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                              ${this.unitlistduplicatejson.length} Duplicate`
+            }
+            else{
+              this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+            }
             Swal.fire({
-              title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+              title: this.message,
               text: "",
               type: "success",
               confirmButtonColor: "#f69321",
@@ -1694,20 +1709,22 @@ validateUnitDetailsField(name){
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
         document.getElementById('showmanual').style.display = 'block';
         document.getElementById('blockdetailsbuttons').style.display = 'block';
-        //         this.blocksArray.forEach(element => {
-        //           Object.keys(this.unitlistjson).forEach(blkname => {
-        // if(blkname==element['blockname']){
-        //   element['blockid']
-        // }
-        //           })
-        //         })
+        this.commonblockarray.forEach(element => {
+          element.hasNoDuplicateBlockname=true;
+        })
         if (!this.sameBlocknameExist) {
           var message;
           if (this.blockssuccessarray == 1) {
             message = 'Block Created Successfully'
           }
           else if (this.blockssuccessarray > 1) {
-            message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+            if(this.duplicateBlockArr.length > 0){
+              message = `${this.blockssuccessarray }'-Blocks Created Successfully
+                         ${this.duplicateBlockArr.length} Duplicate`;
+            }
+            else{
+              message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+            }
           }
           Swal.fire({
             title: message,
@@ -1837,6 +1854,8 @@ validateUnitDetailsField(name){
                     elemnt.isBlockCreated=true;
                     elemnt.isNotBlockCreated=false;
                     elemnt.isblockdetailsempty1=true;
+                    console.log(this.blocksArray[0]['Id'],this.blocksArray[0]['blockname']);
+                    this.assignTmpid(this.blocksArray[0]['Id'],this.blocksArray[0]['blockname']);
                     this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
                   else{
@@ -1865,6 +1884,34 @@ validateUnitDetailsField(name){
             }, error => {
             console.log(error);
           })
+  }
+  resetManualBlockCreationFields(ev,objId){
+    console.log('ev');
+    console.log(this.blocksArray);
+    console.log(objId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      cancelButtonText:"NO"
+    }).then(
+      (result) => {
+        console.log(result)
+        if (result.value) {
+          this.blocksArray.forEach(elemnt=>{
+            if(elemnt.Id==objId){
+              console.log('elemnt.Id==objId');
+              elemnt.blockname='';
+              elemnt.blocktype='';
+              elemnt.units='';
+              elemnt.managername='';
+              elemnt.managermobileno='';
+              elemnt.manageremailid='';
+            }
+          })
+        }})
   }
   manualunitdetailsclick(ev) {
     document.getElementById('unitmanualbulk').style.display = 'none'
@@ -2045,6 +2092,14 @@ validateUnitDetailsField(name){
         }
       })
     })
+    this.validateUnitDetailsField(name);
+  }
+  getUnittype(Id,unittype,name){
+    console.log(Id,unittype,name);
+    this.validateUnitDetailsField(name);
+  }
+  getOwnerShipStatus(Id,unittype,name){
+    console.log(Id,unittype,name);
     this.validateUnitDetailsField(name);
   }
   getunittype(Id, unittype,name){
@@ -2364,7 +2419,8 @@ validateUnitDetailsField(name){
     })
   }
   isValidUnitRecord:boolean;
-  excelunitsuploaddata(exceldata) {
+  isExcelDataExceed:boolean;
+  excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
@@ -2384,6 +2440,7 @@ validateUnitDetailsField(name){
       console.log(this.unitlistjson);
       let _blkname = '';
       this.isValidUnitRecord=false;
+      this.isExcelDataExceed=false;
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
      /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
@@ -2465,13 +2522,15 @@ validateUnitDetailsField(name){
                         console.log(this.unitlistjson);
                       }
                       else{
+                        this.isExcelDataExceed=true;
+                        console.log('this.isExcelDataExceed=true');
                         Swal.fire({
                           title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                           text: "",
                           confirmButtonColor: "#f69321",
                           confirmButtonText: "OK"
                         })
-                        document.getElementById('unitupload_excel').style.display = 'block'
+                        document.getElementById('unitupload_excel').style.display = 'block';
                       }
                     }
                   })
@@ -2482,6 +2541,45 @@ validateUnitDetailsField(name){
       this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains",this.unitlistjson);
       setTimeout(()=>{
+        if(this.isExcelDataExceed){
+            //http://devapi.scuarex.com/oyeliving/api/v1/UpdatAssociationUnitBlockLimit 
+           let blockunitcountupdateRequestBody =
+            {    "ASNofBlks" : 4,
+                 "ASNofUnit" : 111,
+                 "ASAssnID"  : this.assid
+            }
+            console.log(blockunitcountupdateRequestBody);
+            const headers = new HttpHeaders()
+            .set('Authorization', 'my-auth-token')
+            .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
+            .set('Content-Type', 'application/json');
+            let IPaddress=this.utilsService.getIPaddress();
+            this.http.post(IPaddress + 'oyeliving/api/v1/UpdatAssociationUnitBlockLimit',blockunitcountupdateRequestBody,  {headers:headers})
+            .subscribe(res=>{
+              console.log(res);
+            },
+            err=>{
+              console.log(err);
+            })
+            setTimeout(()=>{
+              this.http.get(IPaddress + 'oyeliving/api/v1/association/getAssociationList/'+this.assid ,{headers:headers})
+              .subscribe(resp=>{
+                console.log(resp);
+                this.ViewBlockService.getBlockDetails(this.assid)
+                .subscribe(data => {
+                  console.log(data);
+                  console.log(data['data'].blocksByAssoc)
+                },err=>{
+                  console.log(err);
+                })
+              },
+              err=>{
+                console.log(err);
+              })
+            },2000)
+            //
+            this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate,Object.assign({}, { class: 'gray modal-sm' }));
+        }                       
         if(this.isValidUnitRecord){
           this.gotonexttab1('',_blkname);
         }
@@ -2491,7 +2589,9 @@ validateUnitDetailsField(name){
   file:File
   arrayBuffer:any;
   filelist:any;
-  onFileunitdetailschange(ev){
+  blockunitcountmodalRef: BsModalRef;
+
+  onFileunitdetailschange(ev,UpdateBlockUnitCountTemplate){
     this.file= ev.target.files[0];     
     let fileReader = new FileReader();    
     fileReader.readAsArrayBuffer(this.file);     
@@ -2508,7 +2608,7 @@ validateUnitDetailsField(name){
           let arraylist1 = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
               this.filelist = [];    
               console.log(this.filelist) 
-              this.excelunitsuploaddata(arraylist1)
+              this.excelunitsuploaddata(arraylist1,UpdateBlockUnitCountTemplate)
     }  
   }
 

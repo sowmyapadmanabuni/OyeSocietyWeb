@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { GlobalServiceService } from '../global-service.service';
 import { OrderPipe } from 'ngx-order-pipe';
 import * as XLSX from 'xlsx';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -39,7 +40,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     "VILLA",
     "VACCANT PLOT"
   ]
-  constructor(private router: Router, private viewUniService: ViewUnitService,
+  constructor(private router: Router, private viewUniService: ViewUnitService,private http: HttpClient,
     private globalService: GlobalServiceService) {
     this.excelUnitList = [];
     this.ShowExcelUploadDiscription = true;
@@ -64,6 +65,15 @@ export class ExcelUnitUploadComponent implements OnInit {
   ngAfterViewInit(){
     $(".se-pre-con").fadeOut("slow");
   }
+  unitfinalcount;
+  getblockcount() {
+    this.blocks.forEach(ele => {
+      if (ele.blBlockID == this.currentSelectedBlockID) {
+        this.unitfinalcount = ele.blNofUnit;
+        console.log(this.unitfinalcount)
+      }
+    })
+  }
   upLoad() {
     if(this.blBlkName=="Select Block Name"){
       alert("Please select the block");
@@ -85,6 +95,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.currentSelectedBlockID = blBlockID;
     this.blBlkName=blBlkName;
     console.log('Current selected BlockID', this.currentSelectedBlockID)
+    this.getblockcount();
   }
   onFileChange(ev) {
     let workBook = null;
@@ -174,7 +185,7 @@ export class ExcelUnitUploadComponent implements OnInit {
                   // console.log(this.blBlkName,unitonce.blockname);
                
                       _blkname = this.blBlkName;
-                     let unitslength=Number(exceldata.length)
+                     let unitslength=Number(this.unitfinalcount)
         
                       if(exceldata.length<=unitslength){
 
@@ -227,7 +238,8 @@ export class ExcelUnitUploadComponent implements OnInit {
                           confirmButtonColor: "#f69321",
                           confirmButtonText: "OK"
                         })
-                        document.getElementById('unitupload_excel').style.display = 'block'
+                        //document.getElementById('uploadexcelscreen').style.display = 'block'
+                       // document.getElementById('unitsbulkold').style.display = 'none'
                       }
                     
                
@@ -690,7 +702,67 @@ export class ExcelUnitUploadComponent implements OnInit {
         })
       })
   }
+  resetStep5bulk(ev,blknamecommon){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+          Object.keys(this.unitlistjson).forEach(element=>{
+            console.log(this.unitlistjson[element])
+            this.unitlistjson[element].forEach(unit => {
+      if(blknamecommon.toUpperCase() == unit.blockname.toUpperCase()&&unit.blockname!=undefined){
+      
+            unit.flatno="",
+            unit.blockname ="",
+            unit.owneremaiid="",
+            unit.ownerfirstname="",
+            unit.ownermobilenumber="",
+            unit.ownershipstatus="",
+            unit.unittype="",
+            unit.ownerlastname="",
+            unit.ownermobilenumber= "",
+            unit.owneremaiid="",
+            unit.tenantfirstname="",
+            unit.tenantlastname="",
+            unit.tenantmobilenumber="",
+            unit.tenantemaiid=""
+          }else{
+            let blname = unit.Id.slice(0, -2);
+            if(blknamecommon == blname){
+              unit.flatno="",
+              unit.blockname ="",
+              unit.owneremaiid="",
+              unit.ownerfirstname="",
+              unit.ownermobilenumber="",
+              unit.ownershipstatus="",
+              unit.unittype="",
+              unit.ownerlastname="",
+              unit.ownermobilenumber= "",
+              unit.owneremaiid="",
+              unit.tenantfirstname="",
+              unit.tenantlastname="",
+              unit.tenantmobilenumber="",
+              unit.tenantemaiid=""
+            }
+         
+          }
+      
+            })
+          })
+        }
+      })
+
+
   
+
+  }
   keyPress3(event:any){
     const pattern = /^[1-9][0-9]*$/;
    let inputChar = String.fromCharCode(event.charCode);

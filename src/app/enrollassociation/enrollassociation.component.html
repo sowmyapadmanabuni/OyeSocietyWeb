@@ -580,7 +580,7 @@
                         <ul class="nav nav-tabs">
                             <li *ngFor="let blkarr of blocksArray;let i= index" [ngClass]="{'active':blkarr.Id==blkarr.blockTmpid}"><a
                                     href="#{{blkarr.Id}}" (click)="assignBlkarrTmpid(blkarr.Id)"
-                                    data-toggle="tab">{{blkarr.blockname==''?'Block'+(i+1):blkarr.blockname}}
+                                    data-toggle="tab">{{blkarr.blockname==''?'Block'+(i+1):blkarr.blockname|uppercase}}
                                     &nbsp;&nbsp;<span></span>
                                     <i [hidden]="blkarr.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
                                     <i [hidden]="blkarr.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
@@ -677,7 +677,7 @@
 
                                 </div>
                                 <div id="blockdetailsbuttons1" class="save">
-                                    <a class="continue" (click)="resetManualBlockCreationFields($event)" mat-raised-button color="primary">RESET</a>
+                                    <a class="continue" (click)="resetManualBlockCreationFields($event,obj.Id)" mat-raised-button color="primary">RESET</a>
                                     <button class="continue mat-raised-button mat-button-base mat-primary" id="assdetailssave1" color="primary" [disabled]="obj.isblockdetailsempty1"
                                         [ngStyle]="{'opacity':obj.isblockdetailsempty1 ? '0.5' : '1' }"
                                         (click)="createblocksdetails1(obj.blockname,obj.blocktype,obj.units,obj.managername,obj.managermobileno,obj.manageremailid,obj.Id,i)">NEXT</button>
@@ -728,7 +728,7 @@
                     <a href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                             src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
                     <input #fileInput type="file" id="file_unitupload_id" (click)="fileInput.value = null"
-                        (change)="onFileunitdetailschange($event)"
+                        (change)="onFileunitdetailschange($event,UpdateBlockUnitCountTemplate)"
                         accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                     <div id="cancelbutton">
                         <button mat-raised-button color="primary" (click)="cancelunitsbulkupload($event)">Cancel</button>
@@ -788,7 +788,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>UNIT TYPE<span class="red">*</span></mat-label>
-                                                                <mat-select disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.unittype">
+                                                                <mat-select (selectionChange)="getUnittype(unitlistjson[blocknameforIteration][i]['Id'],obj3.unittype,blocknameforIteration)" disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.unittype">
                                                                     <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -799,7 +799,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>OCCUPANCY & OWNERSHIP STATUS<span class="red">*</span></mat-label>
-                                                                <mat-select disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.ownershipstatus">
+                                                                <mat-select (selectionChange)="getOwnerShipStatus(unitlistjson[blocknameforIteration][i]['Id'],obj3.ownershipstatus,blocknameforIteration)" disabled="{{obj3.isUnitCreated}}" [(value)]="obj3.ownershipstatus">
                                                                     <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -993,7 +993,7 @@
                                   <div>
                                    <mat-form-field class="blockdetails-form1">
                                     <mat-label [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">UNIT TYPE<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
-                                       <mat-select disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.unittype">
+                                       <mat-select (selectionChange)="getUnittype(unitlistjson[blocknameforIteration][i]['Id'],obj.unittype,blocknameforIteration)" disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.unittype">
                                            <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                            </mat-option>
                                        </mat-select>
@@ -1004,7 +1004,7 @@
                                 <div>
                                    <mat-form-field class="blockdetails-form1">
                                     <mat-label [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">OCCUPANCY & OWNERSHIP STATUS<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
-                                       <mat-select disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.ownershipstatus">
+                                       <mat-select (selectionChange)="getOwnerShipStatus(unitlistjson[blocknameforIteration][i]['Id'],obj.ownershipstatus,blocknameforIteration)" disabled="{{obj['hasNoDuplicateUnitname']==true}}" [(value)]="obj.ownershipstatus">
                                            <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                            </mat-option>
                                        </mat-select>
@@ -1171,18 +1171,28 @@
       </div>
     </div>
   </ng-template>
+
 <ng-template #UpdateBlockUnitCountTemplate>
     <div class="modal-content">
-  
-      <div class="modal-header">
-        
-        <h4 class="modal-title">{{UploadedImage}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <img style="width: 100%;" src="{{ImgForPopUp}}"/>
-      </div>
+
+        <div class="modal-header">
+
+            <h4 class="modal-title">Uploaded no of units is more than given no of units for particualar Block,Please
+                update units count</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="blockunitcountmodalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Add Block Count:</p>
+           <div>CurrentBlockCount:<i (click)="reduceBlockCount()" class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i (click)="increaseBlockCount()" class="fa fa-plus-square" aria-hidden="true"></i>
+           </div> 
+            <p>Add Unit Count:</p>
+            <div>CurrentUnitCount:<i (click)="reduceUnitCount()" class="fa fa-minus-square" aria-hidden="true"></i>&nbsp;&nbsp;<i (click)="increaseUnitCount()" class="fa fa-plus-square" aria-hidden="true"></i>
+            </div>
+            <div>
+                <button (click)="UpdateBlockUnitCount()">UpdateCount</button>
+            </div>
+        </div>
     </div>
-  </ng-template>
+</ng-template>

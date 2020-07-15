@@ -33,7 +33,7 @@
                            <li (click)="loadUnit(unt['unUniName'],unt['unUnitID'])" *ngFor="let unt of unitlistForAssociation"><a>{{unt['unUniName']}}</a></li>
                    </ul>
                </div>
-               <span *ngIf='globalService.MoreThanOneUnit' (click)='toggleUnitDropDwn()' class="switch">switch</span>
+               <span id="switchunitId" *ngIf='globalService.MoreThanOneUnit' (click)='toggleUnitDropDwn()' class="switch">switch</span>
            </div>
            <p class="wel" style="width:auto !important;">&nbsp;in</p>
            <div id="dro-switch">
@@ -46,7 +46,7 @@
                            <li (click)="loadAssociation(association['asAsnName'],'')" *ngFor="let association of uniqueAssociations"><a >{{association['asAsnName']}}</a></li>
                    </ul>
                </div>
-              <span (click)='toggleAsnDropDwn()' class="switch">switch</span>
+              <span id="switchassociationId" (click)='toggleAsnDropDwn()' class="switch">switch</span>
            </div>
            
         </div>

@@ -92,7 +92,7 @@
 
                 <!-- -->
 
-                <div class="dash-row" style="overflow-x: scroll;" *ngIf='ShowExcelDataList'>
+                <div class="dash-row" *ngIf='ShowExcelDataList'>
 
                     <!-- <table class="table table-bordered" [mfData]="excelUnitList" #mf="mfDataTable"
                         (click)="onPageChange($event)" [mfRowsOnPage]="10">
@@ -403,7 +403,7 @@
                                        <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blBlkName)">{{SubmitOrSaveAndContinue1}}</button>
                                    </div>
                                    <div class="save">
-                                       <a class="continue" (click)="resetStep5bulk($event,name)"mat-raised-button color="primary">RESET</a>
+                                       <a class="continue" (click)="resetStep5bulk($event,blBlkName)"mat-raised-button color="primary">RESET</a>
                                    </div>    
                                 
                                </mat-tab>
