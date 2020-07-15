@@ -40,10 +40,12 @@
             class="fa fa-question-circle" aria-hidden="true"></i> -->
             <form [formGroup]="uploadForm" (ngSubmit)="processFile()" class="association-form">
                 <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
-
+<div style="width: 130px;">
+ <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
+<img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
+</div>
                 <!-- <input type="file" id="img" name="profile" (change)="onFileSelect($event)" /> -->
-                <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
-                 <img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
+                 <!-- <img *ngIf="thumbnailASAsnLogo==undefined" class="Upload1" src="../../assets/images/map_placeholder.png" width="50px" height="50px"/> -->
             </form>
 
                 <!-- <form class="association-form">
@@ -191,7 +193,7 @@
         </mat-tab>
 
         <mat-tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
-            <form [formGroup]="gstpanform" class="association-form3">
+            <form [formGroup]="gstpanform" class="association-form3" style="padding-left: 125px;">
                 <mat-form-field class="association-full-width">
                     <mat-label>GST NUMBER(OPTIONAL)</mat-label>
                      <input matInput placeholder="GST NUMBER"
@@ -208,7 +210,7 @@
                 </mat-form-field>
                 <p class="panextext">Ex: 22AAAAA0000A1Z5</p> 
             </form>
-            <form [formGroup]="gstpanform" class="association-form3">
+            <form [formGroup]="gstpanform" class="association-form3" style="padding-left:239px">
                 <mat-form-field class="association-full-width">
                     <mat-label>PAN NUMBER<span class="red">*</span></mat-label>
                     <input matInput placeholder="PAN NUMBER"
@@ -945,7 +947,7 @@
                                            
                                             <div>
                                                 <button id="unitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
-                                                    (click)="gotonexttab($event,blocknameforIteration,obj3.Id)">{{SubmitOrSaveAndContinue}}</button>
+                                                    (click)="gotonexttab($event,blocknameforIteration,obj3.Id)">{{obj3.displayText}}</button>
                                             </div>
                                             <div class="save">
                                                 <a class="continue" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
