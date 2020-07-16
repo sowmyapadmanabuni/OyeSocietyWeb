@@ -9,7 +9,12 @@ export class UtilsService {
   url: string;
 
   constructor(private http: HttpClient) {
+<<<<<<< HEAD
     this.ipAddress = 'https://devapi.scuarex.com/'; 
+=======
+    this.ipAddress = 'https://uatapi.scuarex.com/';
+    //this.ipAddress = 'http://devapi.scuarex.com/';
+>>>>>>> 5a8310e4ee36207d990480d4b31c164bdbf106b8
    }
 
   createBlock(){

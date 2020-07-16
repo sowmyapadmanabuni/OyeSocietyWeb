@@ -261,6 +261,7 @@ addfamilymember() {
       this.addMember=false;
       this.memberList=true;
       this.getFamilyMember();
+      
       if(!data['success']){
         Swal.fire({
           title: "Sorry! MobileNumber already Exists",
@@ -269,7 +270,11 @@ addfamilymember() {
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
         })
-        this.ToggleGurdian="xyz";           
+        this.ToggleGurdian="xyz"; 
+        this.Relation="Select Relation";
+              this.FirstName='';
+              this.MobileNumber='';
+              this.LastName='';          
       }
       else{
         Swal.fire({

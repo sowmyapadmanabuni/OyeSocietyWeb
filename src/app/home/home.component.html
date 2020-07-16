@@ -294,7 +294,16 @@
                                                                                                 <div>Vehicles</div>
                                                                                         </div>
                                                                                 </div>
-                
+                                                                                 <div (click)="goToStaff()">
+                                                                                        <div><img class="dash-icon" src="../../assets/images/icons/staff.png">
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <div class="number">
+                                                                                                        {{(totalStaffs=='0'?'0':totalStaffs)}}
+                                                                                                </div>
+                                                                                                <div>Staff</div>
+                                                                                        </div>
+                                                                                </div>
                                                                                 <!-- <div class="tile-link" (click)="goToVisitors()">
                                                                                         <div><img class="dash-icon" src="../../assets/images/icons/visitors.png"></div>
                                                                                         <div>

@@ -6,7 +6,6 @@
     <div class="col-xs-12 col-sm-12 col-md-11 b-l">
       <!--Dashboard icons start-->
       <div class="col-md-12 m-t-30 dash">
-
         <!-- Title and enroll button part -->
          <div class="enr-bt">
             <h3 class="purple">Association Management</h3>
@@ -14,9 +13,11 @@
                 <div>
                     <button id="blocksandunits" class="btn-primary-purple" (click)="goToBlocks()" style="margin-right: 16px;">
                         <i class="fa fa-building" aria-hidden="true"></i> Blocks & Units</button>
-                  <button class="btn-primary-purple" (click)="enblEnrlAsnVew()" style="margin-right: 16px;"><i class="fa fa-plus" aria-hidden="true"></i>
-                    Enroll Association</button>
-                  <button id="joinassn" class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                  <button class="btn-primary-purple" (click)="enblEnrlAsnVew()" style="margin-right: 16px;">
+                    <i class="fa fa-plus" aria-hidden="true"></i>Enroll Association</button>
+                  <!-- <button id="joinassn" class="btn-primary-purple" (click)="enblJoinAsnVew()">
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Associations</button> -->
+                  <button id="joinassn" class="btn-primary-purple" (click)="openModal6(reqdemo)">
                     <i class="fa fa-handshake-o" aria-hidden="true"></i> Join Associations</button>
                 </div>
               </div>
@@ -156,20 +157,21 @@
                     required</p>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Upload logo</label>
                   <!-- <input type="file" name="ASAsnLogo" [(ngModel)]="crtAssn.logo" #logoControl="ngModel"
                     class="form-control" style="font-family: Quicksand" (change)='onFileChanged($event)'
                     pattern="(.*?)\.(png|jpeg|jpg)$" id="viewassosnuploadFileinput"> -->
                     <!-- <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)"> -->
                     <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
+                        <label class="control-label">Upload logo</label>
+
                         <input type="file" name="profile" (change)="onFileSelect($event)" />
-                        <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
-                    </form>
+                        <button class="btn btn-primary-purple" style="margin: 5px 0px;width: 129px;" type="submit">Upload</button>
+                        <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
+                        <!-- <img src="../../assets/images/icons/profile.png" width="50px" height="50px"/> -->
+                    <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and Resolution of 128*128</span>
+                      </form>
                 </div>
-                <div class="form-group">
-                  <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
-                    Resolution of 128*128</span>
-                </div>
+                
               </div>
               <div class="panel-body">
                 <div class="form-group">
@@ -283,7 +285,7 @@
               <!-- <div class="panel-heading">
                                <h3 class="panel-title">Pan & Registration Details</h3>
                           </div> -->
-              <div class="panel-body">
+              <div class="panel-body" style="display: flex;justify-content:space-evenly">
                 <div class="form-group">
                   <label class="control-label"><input tooltip="GST Available?" style="margin: 13px 24px 0px -41px;" type="checkbox" name="IsGSTAvailable" (change)='toggleIsGSTAvailable()'/>
                     GST Number</label>
@@ -305,25 +307,28 @@
                   <p class="alerts" *ngIf="matching"> Valid PAN number is required </p>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Upload Scanned Pan Card</label>
                   <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
                     [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
                     (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
                     pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
                     <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
+                                        <label class="control-label">Upload Scanned Pan Card</label>
+
                       <input type="file" name="panProfile" (change)="onPanFileSelect($event)" />
                       <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img (mouseover)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')" src="{{uploadPANCardThumbnail}}" width="50px" height="50px"/>
-                  </form>
-                  <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
-                    Resolution of 128*128</span>
+                      <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+                          Resolution of 128*128</span>
+                    </form>
+                  
                 </div>
               </div>
-              <div class="col-sm-12">
+             
+            </div>
+            <div class="col-sm-12">
                 <button class="btn btn-primary-purple nextBtn pull-right" id="SaveContinueTwo" [disabled]="!toggleGSTAvailableTxt" type="button">Save & continue</button>
                 <button class="btn btn-primary-purple pull-right" type="button"
                  id="ResetTwo" (click)='resetStep2()'>Reset</button>
               </div>
-            </div>
           </form>
           <form #stepThreeForm="ngForm">
             <div class="panel panel-primary setup-content" id="step-3">
@@ -1014,42 +1019,42 @@
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">
           <h5 style="color:#5a51aa">Enroll Information</h5>
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>Association Name</b></p>
             <p>{{associationname}}</p>
           </div>
-          <div class="col-sm-3" *ngIf="file!=''">
+          <div class="col-sm-3 np" *ngIf="file!=''">
             <p class="view-head"><b>Uploaded File</b></p>
             <img id="icon" src="{{'data:image/png;base64,'+ file}}">
             <!-- <p>{{file}}</p> -->
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3  ">
             <p class="view-head"><b>Country</b></p>
             <p>{{country}}</p>
           </div>
 
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>PinCode</b></p>
             <p>{{pincode}}</p>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>State</b></p>
             <p>{{State}}</p>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>City</b></p>
             <p style="text-transform: uppercase;">{{city}}</p>
           </div>
 
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>Property Type</b></p>
             <p style="text-transform: uppercase;">{{propertyType}}</p>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>Property Name</b></p>
             <p style="text-transform: uppercase;">{{propertyName}}</p>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>Locality</b></p>
             <p style="text-transform: uppercase;">{{locality}}</p>
           </div>
@@ -1063,26 +1068,26 @@
           <!-- <div class="col-sm-4">
                              <p>Property Type : <span>{{propertyType}}</span></p>
           </div> -->
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>Total Units</b></p>
             <p>{{NoofUnits}}</p>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3 np">
             <p class="view-head"><b>Total Blocks</b></p>
             <p>{{blocks}}</p>
           </div>
         </div>
         <div class="col-sm-12" style="margin-top: 20px;">       
             <h5 style="color:#5a51aa">PAN and GST Details</h5>
-            <div class="col-sm-3">
+            <div class="col-sm-3 np">
                 <p class="view-head"><b>Pan no</b></p>
                 <p>{{panno}}</p>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-3 np">
                 <p class="view-head" *ngIf="gstno!=''"><b>GSTNumber</b></p>
                 <p style="text-transform: uppercase;">{{gstno}}</p>
               </div>
-              <div class="col-sm-3" *ngIf="pandoc!=''">
+              <div class="col-sm-3 np" *ngIf="pandoc!=''">
                 <p class="view-head"><b>Pan Document</b></p>
                 <img id="icon" src="{{'data:image/png;base64,'+ pandoc}}">
                 <!-- <p>{{pandoc}}</p> -->
@@ -1449,3 +1454,23 @@
     </div>
   </div>
 </ng-template>
+
+
+<!--Request a Demo pop up box-->
+<ng-template #reqdemo>
+
+	<div class="modal-header" style="background: #82808026;display: flex;justify-content: space-between;">
+		<h4 class="modal-title" style="width: 100%;">Select your city</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid citypa">
+      <div *ngFor="let city of cities" (click)="fliterCity(city['cityName'])" class="cityui">{{city['cityName']}}</div>
+      <div  (click)="fliterCity('ecity')" class="cityui">Other Cities</div>
+
+		</div>
+	</div>
+</ng-template>
+<!--Request a Demo pop up box-->

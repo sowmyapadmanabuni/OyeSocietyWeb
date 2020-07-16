@@ -31,12 +31,13 @@ export class ExcelBlockUploadComponent implements OnInit {
   ShowExcelUploadDiscription:boolean;
   ShowExcelDataList:boolean;
   blockdetailInvalid:boolean;
-
+  condition = true;
   constructor(
     public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
     public addblockservice: AddBlockService,
     public viewUnitService: ViewUnitService,
+    private http: HttpClient,
     public router:Router
   ) {
     this.excelBlockList=[];
@@ -49,12 +50,30 @@ export class ExcelBlockUploadComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.getassociationlist();
   }
   ngAfterViewInit(){
     $(".se-pre-con").fadeOut("slow");
   }
   upLoad() {
     document.getElementById("file_upload_id").click();
+  } 
+  exceptionMessage='';
+  blocktypeaspropertytype;
+  getassociationlist(){
+    let assnid=this.globalService.getCurrentAssociationId()
+
+    let asslistapi = "https://uatapi.scuarex.com/oyeliving/api/v1/association/getAssociationList/" + assnid;
+
+    this.http.get(asslistapi, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+    this.globalService.noofblockscount = res.data.association.asNofBlks;
+    this.blocktypeaspropertytype = res.data.association.asPrpType;
+    }, error => {
+      console.log(error);
+     this.exceptionMessage = error['error']['exceptionMessage'];
+     console.log(this.exceptionMessage);
+    }
+    );
   }
   keyPress3(event:any){
     const pattern = /^[1-9][0-9]*$/;
@@ -86,7 +105,9 @@ export class ExcelBlockUploadComponent implements OnInit {
       text: "Do you really want to reset?",
       type: "warning",
       confirmButtonColor: "#f69321",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -275,7 +296,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       this.ShowExcelDataList=true;
       //this.createBlockFromExcel(this.excelBlockList);
 
-       let blockslength=Number("10")
+       let blockslength=Number(this.globalService.noofblockscount)
       //for checking purpose blockbulkupload code commenting below
 
          if (this.excelBlockList.length <= blockslength) {
@@ -322,7 +343,7 @@ export class ExcelBlockUploadComponent implements OnInit {
                 list.isnotvalidmanagername = false,
                   list.hasNoDuplicateBlockname = false;
                 list.isnotvalidunits = false,
-                   list.blocktype = "Residential"
+                   list.blocktype = this.blocktypeaspropertytype;
                   list.isblockdetailsempty1=true;
 
                 this.blocksArray.push(list);
@@ -349,7 +370,7 @@ export class ExcelBlockUploadComponent implements OnInit {
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK"
         })
-        document.getElementById('upload_excel').style.display ='block';
+        // document.getElementById('upload_excel').style.display ='block';
       }
     }
     reader.readAsBinaryString(file);
@@ -521,6 +542,83 @@ export class ExcelBlockUploadComponent implements OnInit {
           // this.http.post(blockcreateurl, jsondata, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
               console.log(res);
+
+              console.log(res);
+              if (res['data'].blockID) {
+                let createUnitData =
+                {
+                  "ASAssnID": this.globalService.getCurrentAssociationId(),
+                  "ACAccntID": this.globalService.getacAccntID(),
+                  "units": [
+                    {
+                      "UNUniName": element.blockname + "-" + "Common",
+                      "UNUniType": '',
+                      "UNRate": '',
+                      "UNOcStat": '',
+                      "UNOcSDate": '',
+                      "UNOwnStat": '',
+                      "UNSldDate": '',
+                      "UNDimens": '',
+                      "UNCalType": '',
+                      "BLBlockID": res['data'].blockID,
+                      "Owner":
+                        [{
+    
+                          "UOFName": '',
+                          "UOLName": '',
+                          "UOMobile": '',
+                          "UOISDCode": '',
+                          "UOMobile1": '',
+                          "UOMobile2": '',
+                          "UOMobile3": '',
+                          "UOMobile4": '',
+                          "UOEmail": '',
+                          "UOEmail1": '',
+                          "UOEmail2": '',
+                          "UOEmail3": '',
+                          "UOEmail4": '',
+                          "UOCDAmnt": ''
+                        }],
+                      "unitbankaccount":
+                      {
+                        "UBName": '',
+                        "UBIFSC": '',
+                        "UBActNo": '',
+                        "UBActType": '',
+                        "UBActBal": '',
+                        "BLBlockID": res['data'].blockID
+                      },
+                      "Tenant":
+                        [{
+    
+                          "UTFName": '',
+                          "UTLName": '',
+                          "UTMobile": '',
+                          "UTISDCode": '',
+                          "UTMobile1": '',
+                          "UTEmail": '',
+                          "UTEmail1": ''
+                        }],
+                      "UnitParkingLot":
+                        [
+                          {
+                            "UPLNum": '',
+                            "MEMemID": '',
+                            "UPGPSPnt": ''
+    
+                          }
+                        ]
+                    }
+                  ]
+                }
+    
+                this.viewUnitService.createUnit(createUnitData).subscribe(data => {
+                  console.log(data);
+                },
+                  err => {
+                    console.log(err);
+                  })
+              }
               if(res.data.blockID){
              
               this.blockidtmp[element.blockname]=res.data.blockID;

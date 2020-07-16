@@ -775,6 +775,9 @@ export class HomeComponent implements OnInit {
   goToVisitors() {
     this.router.navigate(['visitors']);
   }
+  goToStaff() {
+    this.router.navigate(['staffs']);
+  }
   goToAssociationVisitors() {
     this.router.navigate(['AssocitionVisitors']);
   }
