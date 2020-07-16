@@ -20,6 +20,14 @@ export class ResidentNotificationListArray {
         private vlVisLgID,
         private asAssnID,
         private vlfName,
-        private vlExitT){}
+        private vlExitT,
+        private approvedBy,
+        private ntDesc,
+        private wkDesgn,
+        private wkName,
+        private sbUnitID,
+        private ntType,
+        private ntJoinStat,
+        private WrUniName){}
         
 }
