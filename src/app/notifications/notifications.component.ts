@@ -204,7 +204,15 @@ export class NotificationsComponent implements OnInit {
                     (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlVisLgID']),
                     item['asAssnID'],
                     (item['visitorlog'].length == 0 ? '' :item['visitorlog'][0]['vlfName']),
-                    (item['visitorlog'].length == 0 ? '' :item['visitorlog'][0]['vlExitT'])
+                    (item['visitorlog'].length == 0 ? '' :item['visitorlog'][0]['vlExitT']),
+                    (item['approvedBy'] == ''? '' : item['approvedBy']),
+                    (item['ntDesc'] == ''? '' : item['ntDesc']),
+                    (item['wkDesgn'] == ''? '' : item['wkDesgn']),
+                    (item['wkName'] == ''? '' : item['wkName']),
+                    (item['sbUnitID'] == ''? '' : item['sbUnitID']),
+                    (item['ntType'] == ''? '' : item['ntType']),
+                    (item['ntJoinStat'] == ''? '' : item['ntJoinStat']),
+                    (item['unUniName'] == ''? '' : item['unUniName'])
                   ));
                   this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                   this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
@@ -578,5 +586,24 @@ export class NotificationsComponent implements OnInit {
     }).catch(error => {
     console.log("Error:", error);
     })
+    }
+
+    staffRegistration(NTID,Status){
+      let ipAddress1 = this.utilsService.getIPaddress();
+      let input = {    
+        "NTID"       : NTID,    
+        "NTJoinStat" : Status,
+       "ApprovedBy" :this.DashBoardService.acfName
+       }
+       console.log('staffRegistration',input);
+       return this.http.post(`${ipAddress1}oye247/api/v1/UpdateWorkerRegistrationApprovalStatus`,input,
+       { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
+       .subscribe(data=>{
+         console.log(data);
+       },
+       err=>{
+         console.log(err);
+       })
+
     }
 }

@@ -118,10 +118,12 @@
                     </h4>
                     <div class="alfl bg-grey">
                       <span><a class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>
-                      <span>Visiting <a class="green">{{item['unUniName']}}</a></span>
+                      <span *ngIf="item['unUniName']">Visiting <a class="green">{{item['unUniName']}}</a></span>
+                      <span *ngIf="item['WrUniName']">Registration <a class="green">{{item['WrUniName']}}</a></span>
                       <span class="not-img">
                         <img [src]="item['visitorEntryImg']" width="70px" height="70px"/>
-                        <p>{{item['vlfName']}}</p>
+                        <p *ngIf="item['vlfName']">{{item['vlfName']}}</p>
+                        <p *ngIf="item['wkName']">{{item['wkName']}}</p>
 
                       </span>
                     </div>
@@ -149,6 +151,16 @@
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                     </div>
                                                   <!-- "Staff Voisentry" template -->
+
+                                                  <!-- "Staff registration approve/reject" template -->
+                                                    <div *ngIf="item['NtType']=='Staff Registration'">
+                                                    <div *ngIf="item['ntDesc']"><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntDesc']}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> </div>
+                                                    <!-- <div *ngIf="item['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div> -->
+                                                    <!-- <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div> -->
+                                                    <!-- <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div> -->
+                                                    <!-- <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div> -->
+                                                    </div>
+                                                  <!-- "Staff registration approve/reject" template -->
                                                   
                                                   <!-- "Staff Missed call Entry" template -->
                                                   <div *ngIf="item['vlVisType']=='Staff Missed call Entry'">
@@ -206,6 +218,20 @@
                         <div>
                            <span (click)="acceptgateVisitor(item['vlVisLgID'], item['asAssnID'], 'Exit Approved', item['vlApprdBy'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Deny</span>
                         </div> -->
+
+                        
+                        <!-- "Staff registration approve/reject"  -->
+                          <div *ngIf="item['NtType']=='Staff Registration'">
+                            <span (click)="staffRegistration(item['residentNtid'],Approved)"
+                              class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approv</span>
+                          </div>
+                          <div *ngIf="item['NtType']=='Staff Registration'">
+                            <span (click)="staffRegistration(item['residentNtid'],Rejected)"
+                              class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
+                          </div>
+                        <!-- "Staff registration approve/reject"  -->
+
+
                         <div *ngIf="item['vlVisType']!='Staff Voisentry'">
                         <div *ngIf="item['vlVisType']!='Guest with Invitation'">
 
