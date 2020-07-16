@@ -54,6 +54,8 @@ export class EnrollassociationComponent implements OnInit {
   toggleEmptyBlockarray;
   unitrecordDuplicateUnitnameModified;
   disableElement:boolean;
+  blockTabId:any;
+  increasingBlockArrLength:any;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -61,6 +63,8 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService:ViewBlockService) {
+      this.blockTabId=0;
+      this.increasingBlockArrLength=0;
       this.iindex=0;
       this.blockdetailInvalid=true;
       this.url='';
@@ -978,9 +982,30 @@ imgfilename;
             document.getElementById('unitsmanualnew').style.display = 'none';
             document.getElementById('unitsbulkold').style.display = 'block';
             this.demo2TabIndex = this.demo2TabIndex + 1;
+            console.log(this.increasingBlockArrLength);
+            console.log(this.blockTabId);
+            let blockId = `mat-tab-label-${this.increasingBlockArrLength}-${this.blockTabId}`
+            //console.log(`[aria-controls='mat-tab-content-1-${this.blockTabId}']`);
+            console.log(document.querySelectorAll("[aria-controls='mat-tab-content-1-0']"));
+            let queryselectorvalue = "[aria-controls='mat-tab-content-1-"+this.blockTabId+"']";
+            console.log(queryselectorvalue);
+            console.log(queryselectorvalue[0]);
+            console.log(document.querySelectorAll("[aria-controls='mat-tab-content-1-0']"));
+            console.log(document.querySelectorAll(queryselectorvalue));
+            console.log(document.querySelectorAll(queryselectorvalue)[0].innerHTML);
+            document.querySelectorAll(queryselectorvalue)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+
+            //document.querySelectorAll(`#${blockId} .mat-tab-label-content`)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+            //document.querySelectorAll(`[aria-controls='mat-tab-content-1-${this.blockTabId}']`)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+            //console.log(document.querySelectorAll(`#${blockId} .mat-tab-label-content`));
+            document.addEventListener("DOMContentLoaded", function (event) {
+              console.log('DOMContentLoaded');
+              document.querySelectorAll(`#${blockId} .mat-tab-label-content`)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+          });
           }
         }
-
+        this.increasingBlockArrLength += 1;
+        this.blockTabId += 1;
 
       }, Number(this.unitlistjson[name].length) * 2000)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
@@ -2065,6 +2090,7 @@ validateUnitDetailsField(name){
                 }
               })
               setTimeout(()=>{
+                this.increasingBlockArrLength=this.blocksArray.length+1;
                 this.createblocksdetails('');
               },1000)
             //}
