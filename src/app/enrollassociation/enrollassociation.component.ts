@@ -1930,9 +1930,10 @@ validateUnitDetailsField(name){
       title: "Are you sure?",
       text: "Do you really want to reset?",
       type: "warning",
-      confirmButtonColor: "#f69321",
-      confirmButtonText: "OK",
-      cancelButtonText:"NO"
+      confirmButtonColor: '#f69321',
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -1941,7 +1942,7 @@ validateUnitDetailsField(name){
             if(elemnt.Id==objId){
               console.log('elemnt.Id==objId');
               elemnt.blockname='';
-              elemnt.blocktype='';
+              // elemnt.blocktype='';
               elemnt.units='';
               elemnt.managername='';
               elemnt.managermobileno='';
