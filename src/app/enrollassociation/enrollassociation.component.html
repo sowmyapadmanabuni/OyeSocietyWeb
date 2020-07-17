@@ -58,8 +58,8 @@
                 <form [formGroup]="form" class="association-formcountry">
                     <mat-form-field>
                         <mat-label>COUNTRY<span class="red">*</span></mat-label>
-                        <mat-select formControlName="cntryname">
-                            <mat-option *ngFor="let country of countrieslist" (onSelectionChange)="selectedcountry(country)"class = "text"[value]="country">{{country.coName}}
+                        <mat-select (selectionChange)="selectedcountry($event)" formControlName="cntryname">
+                            <mat-option *ngFor="let country of countrieslist" class = "text" [value]="country">{{country.coName}}
                             </mat-option>
                         </mat-select>
                         <mat-error [displayError]="isFieldValid('cntryname')">
