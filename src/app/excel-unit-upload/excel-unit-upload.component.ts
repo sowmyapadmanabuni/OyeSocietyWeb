@@ -97,7 +97,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     console.log('Current selected BlockID', this.currentSelectedBlockID)
     this.getblockcount();
   }
-  onFileChange(ev) {
+  onFileChange(ev,UpdateBlockUnitCountTemplate) {
     let workBook = null;
     let jsonData = null;
     const reader = new FileReader();
@@ -116,7 +116,7 @@ export class ExcelUnitUploadComponent implements OnInit {
       this.ShowExcelUploadDiscription = false;
       this.ShowExcelDataList = true;
       //this.createExpense(jsonData['Sheet1']);
-      this.excelunitsuploaddata(this.excelUnitList)
+      this.excelunitsuploaddata(this.excelUnitList,UpdateBlockUnitCountTemplate)
 
     }
     reader.readAsBinaryString(file);
@@ -130,8 +130,8 @@ export class ExcelUnitUploadComponent implements OnInit {
   unitlistjson = {}
 
   blockidtmp={};
-
-  excelunitsuploaddata(exceldata) {
+  isExcelDataExceed:boolean;
+  excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
@@ -151,6 +151,7 @@ export class ExcelUnitUploadComponent implements OnInit {
       console.log(this.unitlistjson);
       let _blkname = '';
       this.isValidUnitRecord=false;
+      this.isExcelDataExceed=false;
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
      /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
@@ -212,6 +213,8 @@ export class ExcelUnitUploadComponent implements OnInit {
                     
                         unitonce.isnotvalidtenantmobilenumber=false,
                         unitonce.isnotvalidtenantemaiid=false
+                        unitonce.isUnitCreated=false;	
+                        unitonce.isUnitNotCreated=true;
                         if (!this.unitlistjson[this.blBlkName]) {
                           this.unitlistjson[this.blBlkName] = []
                         }
@@ -232,6 +235,8 @@ export class ExcelUnitUploadComponent implements OnInit {
 
                       }
                       else{
+                        this.isExcelDataExceed=true;	
+                        console.log('this.isExcelDataExceed=true');
                         Swal.fire({
                           title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                           text: "",
@@ -266,6 +271,14 @@ export class ExcelUnitUploadComponent implements OnInit {
     //if (this.isunitdetailsempty) {
       this.submitunitdetails1(name);
     //}
+  }
+  getUnittype(Id,unittype,name){
+    console.log(Id,unittype,name);
+    this.validateUnitDetailsField(name);
+  }
+  getOwnerShipStatus(Id,unittype,name){
+    console.log(Id,unittype,name);
+    this.validateUnitDetailsField(name);
   }
   exceptionMessage1='';
   SubmitOrSaveAndContinue1='SAVE AND CONTINUE';
