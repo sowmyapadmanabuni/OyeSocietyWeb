@@ -23,9 +23,9 @@
                     <div class="row">
                         <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
                             <div class="upload_excel">
-                                <a> <img style="width: 60px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
+                                <a id="blocksuploadid2"> <img style="width: 60px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
                                         tooltip="Have more num of Blocks?"></a>
-                                <a href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 60px;" class="excel"
+                                <a id="blocksuploadid3" href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 60px;" class="excel"
                                         src="../../assets/images/download.png"
                                         tooltip="click to download demo excel format"></a>
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"

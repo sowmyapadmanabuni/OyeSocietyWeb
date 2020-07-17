@@ -343,21 +343,44 @@ export class UnitsComponent implements OnInit {
      
   }
 
-  getAllUnitDetailsByBlockID(blBlockID,blBlkName) {
-    this.blBlkName=blBlkName;
+  commonunit: boolean;
+  getAllUnitDetailsByBlockID(blBlockID, blBlkName) {
+    this.blBlkName = blBlkName;
     this.blockID = blBlockID;
-    this.blBlkName=blBlkName;
-    this.allUnitBYBlockID=[]
+    this.blBlkName = blBlkName;
+    this.allUnitBYBlockID = []
+    let Commonarray = []
     //this.blBlockID=blBlockID;
-
+    let array = []
     /*-------------------Get Unit List By Block ID ------------------*/
     this.viewUniService.GetUnitListByBlockID(blBlockID)
       .subscribe(data => {
-        console.log('allUnitBYBlockID',data);
-        this.allUnitBYBlockID = data['data'].unitsByBlockID;
-            //
+        console.log('allUnitBYBlockID', data);
+
+        Commonarray = data['data'].unitsByBlockID;
+
+        Commonarray.forEach((ele: any) => {
+          this.commonunit = ele.unUniName.endsWith("-Common");
+          if (this.commonunit) {
+            array.push(ele)
+          }
+          else {
+            this.allUnitBYBlockID.push(ele)
             this.sortedCollection = this.orderpipe.transform(this.allUnitBYBlockID, 'unUniName');
-            console.log(this.sortedCollection);
+          }
+          // if (ele.unUniName==) {
+          //   this.allUnitBYBlockID.push(ele)
+          //   this.sortedCollection = this.orderpipe.transform(this.allUnitBYBlockID, 'unUniName');
+          //   console.log(this.sortedCollection);
+
+          // }
+          // else {
+          //   this.allUnitBYBlockID = []
+
+
+          // }
+        })
+        //
       });
   }
 
