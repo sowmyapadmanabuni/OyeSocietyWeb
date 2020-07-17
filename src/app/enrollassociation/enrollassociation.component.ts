@@ -670,6 +670,7 @@ imgfilename;
   totalUnitcount;
   message;
   submitunitdetails1(name,index) {
+    $(".se-pre-con").show();
     this.unitsuccessarray = [];
     if(this.finalblocknameTmp.length==(this.iindex+2)){
       console.log('iFinsideLTab');
@@ -840,6 +841,7 @@ imgfilename;
     });
       
       setTimeout(() => {
+        $(".se-pre-con").fadeOut("slow");
         if (this.unitsuccessarray.length == 1) {
           this.message = 'Unit Created Successfully'
         }
@@ -1635,6 +1637,7 @@ validateUnitDetailsField(name){
   sameBlocknameExist;
   duplicateBlocknameExist;
   blockdetailsfinalcreation(){
+    $(".se-pre-con").show();
     this.duplicateBlocknameExist=false;
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
@@ -1742,6 +1745,7 @@ validateUnitDetailsField(name){
       })(index)
       })
       setTimeout(() => {
+        $(".se-pre-con").fadeOut("slow");
         document.getElementById('upload_excel').style.display = 'none'
         document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
