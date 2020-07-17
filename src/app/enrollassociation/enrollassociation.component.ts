@@ -829,6 +829,7 @@ imgfilename;
             this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
               .subscribe((res: any) => {
                 console.log(res)
+                unit.hasNoDuplicateUnitname=true;
                 this.totalUnitcount += 1;
               }, error => {
                 console.log(error);
