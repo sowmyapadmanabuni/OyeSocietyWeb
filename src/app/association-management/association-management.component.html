@@ -910,7 +910,7 @@
             <div class="dropdown" style="margin: 0px 0px;">
               <form [formGroup]="form"class="association-form">
                 <mat-form-field>
-                    <mat-select formControlName="assnlist" (selectionChange)="loadAssociation($event.value)" placeholder="Associations">
+                    <mat-select formControlName="assnlist" (selectionChange)="loadAssociation($event.value)" placeholder="{{_associations.length==0?'No Association for this city':'Associations'}}">
                         <mat-option *ngFor="let association of _associations" [value]="association">{{association['asAsnName']}}
                         </mat-option>
                     </mat-select>
@@ -1468,7 +1468,7 @@
 	<div class="modal-body">
 		<div class="container-fluid citypa">
       <div *ngFor="let city of cities" (click)="fliterCity(city['cityName'])" class="cityui">{{city['cityName']}}</div>
-      <div  (click)="fliterCity('ecity')" class="cityui">Other Cities</div>
+      <div (click)="fliterotherCity('Others')"class="cityui">Other Cities</div>
 
 		</div>
 	</div>

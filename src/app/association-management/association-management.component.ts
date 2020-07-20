@@ -1361,6 +1361,15 @@ cities=[];
       Object.assign({}, { class: 'gray modal-lg' }));
   }
   filteredAssociationCityWise=[];
+
+  fliterotherCity(Others){
+    this._associations=this.filteredAssociationCityWise;
+    this.modalRef.hide()
+
+    console.log(Others);
+    console.log(this._associations);
+    console.log(this.filteredAssociationCityWise);
+  }
   fliterCity(cityName){
     console.log(cityName);
     this._associations=this.filteredAssociationCityWise;
