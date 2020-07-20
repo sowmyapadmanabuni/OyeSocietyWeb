@@ -158,6 +158,11 @@ input,label {
     margin: 10px;
     color: #ffffff !important;
 }
+.resetmanualunits{
+    margin: 10px;
+    color: #ffffff !important;
+    right: 150px;
+}
 .continueforresetpan{
     margin-top: 38px;;
     color: #ffffff !important;
@@ -210,8 +215,19 @@ p.panextext{
 #unitssubmit{
     display: inline-block;
     margin-top: 0px;
-    top: 213px;
-    margin-left: 1200px;
+    top: 45px;
+    margin-left: 984px;
+}
+.resetforbulkunits{
+    margin: 10px;
+    right: 192px;
+    color: #ffffff !important;
+}
+#manualunitssubmit{
+    display: inline-block;
+    /* margin-top: 0px; */
+    top: 46px;
+    margin-left: 913px;
 }
 .tab-selected
 {

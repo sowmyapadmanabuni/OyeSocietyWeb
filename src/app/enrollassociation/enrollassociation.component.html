@@ -946,11 +946,11 @@
                                             </div>
                                            
                                             <div>
-                                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
+                                                <button id="manualunitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
                                                     (click)="gotonexttab($event,blocknameforIteration,obj3.Id,i)">{{obj3.displayText}}</button>
                                             </div>
                                             <div class="save">
-                                                <a class="continue" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
+                                                <a class="resetmanualunits" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
                                             </div>
     
                                         </div>
@@ -1139,7 +1139,7 @@
                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,item.name,i)">{{item.displaytext}}</button>
                            </div>
                            <div class="save">
-                               <a class="continue" (click)="resetStep5bulk($event,item.name)"mat-raised-button color="primary">RESET</a>
+                               <a class="resetforbulkunits" (click)="resetStep5bulk($event,item.name)"mat-raised-button color="primary">RESET</a>
                            </div>    
                         
                        </mat-tab>
