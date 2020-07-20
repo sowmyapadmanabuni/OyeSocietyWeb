@@ -168,9 +168,10 @@ export class NotificationsComponent implements OnInit {
                     item['acAccntID'],
                     item['ntJoinStat'],
                     '',
-                    ''
+                    '',
+                    item['ntUsrImg']
                   ));
-                  //console.log(this.notificationListArray);
+                  console.log(this.notificationListArray);
                   this.notificationListArray = _.sortBy(this.notificationListArray, 'adminReadStatus').reverse();
                   this.notificationListArrayTemp = this.notificationListArray;
                 }

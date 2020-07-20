@@ -39,7 +39,7 @@
                       <span class="uni_name"><a class="green">Unit</a> {{itm['unUniName']}}</span>
                       <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                       <span class="not-img">
-                        <img [src]="itm['adminEntryImg']" width="70px" height="70px">
+                        <img [src]="'data:image/png;base64,'+itm['ntUsrImg']" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
                         <p>{{itm['ufName']}}</p>
 
                       </span>
@@ -121,10 +121,9 @@
                       <span *ngIf="item['unUniName']">Visiting <a class="green">{{item['unUniName']}}</a></span>
                       <span *ngIf="item['WrUniName']">Registration <a class="green">{{item['WrUniName']}}</a></span>
                       <span class="not-img">
-                        <img [src]="item['visitorEntryImg']" width="70px" height="70px"/>
+                        <img [src]="item['visitorEntryImg']" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
                         <p *ngIf="item['vlfName']">{{item['vlfName']}}</p>
                         <p *ngIf="item['wkName']">{{item['wkName']}}</p>
-
                       </span>
                     </div>
                   </div>
@@ -177,7 +176,7 @@
                                                   <div *ngIf="item['vlVisType']=='Delivery'">
                                                     <div *ngIf="item['residentNtdCreated']"><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
                                                     <div *ngIf="item['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
-                                                    <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
+                                                    <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['residentNtdCreated'] | date:'mediumDate'}}&nbsp; {{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
                                                     <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                     </div>
@@ -186,7 +185,6 @@
                                                   <!-- Guest with Invitation template -->
                                                 <div *ngIf="item['vlVisType']=='Guest with Invitation'">
                                                   <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
-                                                  <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                   <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                 </div>
                                                 <!-- Guest with Invitation template -->
@@ -205,7 +203,7 @@
                                                     <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
                                                     <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
                                                     <!-- <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div> -->
-                                                    <div *ngIf="item['vlExAprdBy']"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
+                                                    <div><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
                                                     <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                   </div>

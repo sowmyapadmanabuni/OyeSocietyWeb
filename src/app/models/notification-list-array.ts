@@ -26,6 +26,7 @@ export class NotificationListArray {
         private acAccntID,
         private ntJoinStat,
         private ntJoinStatTmp,
-        private ntJoinStatTmp1
+        private ntJoinStatTmp1,
+        private ntUsrImg
         ){}
 }
