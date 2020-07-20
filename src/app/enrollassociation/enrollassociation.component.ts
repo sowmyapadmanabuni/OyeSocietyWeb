@@ -54,6 +54,8 @@ export class EnrollassociationComponent implements OnInit {
   toggleEmptyBlockarray;
   unitrecordDuplicateUnitnameModified;
   disableElement:boolean;
+  blockTabId:any;
+  increasingBlockArrLength:any;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -61,6 +63,8 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService:ViewBlockService) {
+      this.blockTabId=0;
+      this.increasingBlockArrLength=0;
       this.iindex=0;
       this.blockdetailInvalid=true;
       this.url='';
@@ -302,8 +306,10 @@ this.countrieslist = res.data.country;
   }
 
   selectedcountry(country) {
-    let countryid = country.coid;
-    this.countryname =country.coName;
+    console.log(country);
+    console.log(country.value);
+    let countryid = country.value.coid;
+    this.countryname =country.value.coName;
     console.log(countryid)
     
     let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
@@ -664,6 +670,7 @@ imgfilename;
   totalUnitcount;
   message;
   submitunitdetails1(name,index) {
+    $(".se-pre-con").show();
     this.unitsuccessarray = [];
     if(this.finalblocknameTmp.length==(this.iindex+2)){
       console.log('iFinsideLTab');
@@ -822,6 +829,7 @@ imgfilename;
             this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
               .subscribe((res: any) => {
                 console.log(res)
+                unit.hasNoDuplicateUnitname=true;
                 this.totalUnitcount += 1;
               }, error => {
                 console.log(error);
@@ -834,6 +842,7 @@ imgfilename;
     });
       
       setTimeout(() => {
+        $(".se-pre-con").fadeOut("slow");
         if (this.unitsuccessarray.length == 1) {
           this.message = 'Unit Created Successfully'
         }
@@ -978,10 +987,30 @@ imgfilename;
             document.getElementById('unitsmanualnew').style.display = 'none';
             document.getElementById('unitsbulkold').style.display = 'block';
             this.demo2TabIndex = this.demo2TabIndex + 1;
+            console.log(this.increasingBlockArrLength);
+            console.log(this.blockTabId);
+            let blockId = `mat-tab-label-${this.increasingBlockArrLength}-${this.blockTabId}`
+            //console.log(`[aria-controls='mat-tab-content-1-${this.blockTabId}']`);
+            //console.log(document.querySelectorAll("[aria-controls='mat-tab-content-1-0']"));
+            let queryselectorvalue = "[aria-controls='mat-tab-content-1-"+this.blockTabId+"']";
+            //console.log(queryselectorvalue);
+            //console.log(queryselectorvalue[0]);
+            //console.log(document.querySelectorAll("[aria-controls='mat-tab-content-1-0']"));
+            //console.log(document.querySelectorAll(queryselectorvalue));
+            //console.log(document.querySelectorAll(queryselectorvalue)[0].innerHTML);
+            //document.querySelectorAll(queryselectorvalue)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+            console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+            let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+            console.log(arr);
+            console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
+            (<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+            //document.querySelectorAll(`#${blockId} .mat-tab-label-content`)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+            //document.querySelectorAll(`[aria-controls='mat-tab-content-1-${this.blockTabId}']`)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+            //console.log(document.querySelectorAll(`#${blockId} .mat-tab-label-content`));
+            this.blockTabId += 1;
           }
         }
-
-
+        //this.increasingBlockArrLength += 1;
       }, Number(this.unitlistjson[name].length) * 2000)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
       
@@ -1609,6 +1638,7 @@ validateUnitDetailsField(name){
   sameBlocknameExist;
   duplicateBlocknameExist;
   blockdetailsfinalcreation(){
+    $(".se-pre-con").show();
     this.duplicateBlocknameExist=false;
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
@@ -1716,6 +1746,7 @@ validateUnitDetailsField(name){
       })(index)
       })
       setTimeout(() => {
+        $(".se-pre-con").fadeOut("slow");
         document.getElementById('upload_excel').style.display = 'none'
         document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
@@ -1905,9 +1936,10 @@ validateUnitDetailsField(name){
       title: "Are you sure?",
       text: "Do you really want to reset?",
       type: "warning",
-      confirmButtonColor: "#f69321",
-      confirmButtonText: "OK",
-      cancelButtonText:"NO"
+      confirmButtonColor: '#f69321',
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
     }).then(
       (result) => {
         console.log(result)
@@ -1916,7 +1948,7 @@ validateUnitDetailsField(name){
             if(elemnt.Id==objId){
               console.log('elemnt.Id==objId');
               elemnt.blockname='';
-              elemnt.blocktype='';
+              // elemnt.blocktype='';
               elemnt.units='';
               elemnt.managername='';
               elemnt.managermobileno='';
@@ -2065,6 +2097,7 @@ validateUnitDetailsField(name){
                 }
               })
               setTimeout(()=>{
+                this.increasingBlockArrLength=this.blocksArray.length+1;
                 this.createblocksdetails('');
               },1000)
             //}

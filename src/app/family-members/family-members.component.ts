@@ -58,7 +58,7 @@ export class FamilyMembersComponent implements OnInit {
     this.asAssnID='';
     this.loadchangedforassociation = false;
     this.ToggleGurdian = 'xyz';
-    this.RelationsArray=['Parent', 'Childern', 'Siblings', 'Relatives', 'Spouse', 'Cousin'];
+    this.RelationsArray=['Parents', 'Childern', 'Siblings', 'Relatives', 'Spouse', 'Cousin'];
     this.Relation='Select Relation';
     this.getFamilyMemberSubscription = this.globalService.SetgetFamilyMember()
     .subscribe(data=>{

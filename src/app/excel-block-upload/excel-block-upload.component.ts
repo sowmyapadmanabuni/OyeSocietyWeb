@@ -32,6 +32,8 @@ export class ExcelBlockUploadComponent implements OnInit {
   ShowExcelDataList:boolean;
   blockdetailInvalid:boolean;
   condition = true;
+  increasingBlockArrLength:any;
+
   constructor(
     public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
@@ -358,6 +360,7 @@ export class ExcelBlockUploadComponent implements OnInit {
                 }
               })
               setTimeout(()=>{
+                this.increasingBlockArrLength=this.blocksArray.length+1;
                 this.createblocksdetails('');
               },1000)
             //}
@@ -496,6 +499,7 @@ export class ExcelBlockUploadComponent implements OnInit {
   finalblocknameTmp = [];
   jsondata;
   blockdetailsfinalcreation(){
+    $(".se-pre-con").show();
     this.duplicateBlocknameExist=false;
     if(!this.isblockdetailsempty){
       this.isblockdetailsempty=true;
@@ -632,7 +636,7 @@ export class ExcelBlockUploadComponent implements OnInit {
               }) */
               let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
               this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
-              this.finalblocknameTmp.push(this.jsondata.blocks[0].BLBlkName);
+              this.finalblocknameTmp.push({'name':this.jsondata.blocks[0].BLBlkName,'displaytext':'Save And Continue'});
               for (var i = 0; i < blockArraylength; i++) {
                 let data = JSON.parse(JSON.stringify(this.unitsrowjson))
 
@@ -640,6 +644,8 @@ export class ExcelBlockUploadComponent implements OnInit {
                 data.unitTmpid='';
                 //data.blockid = res['data']['data']['blockID'];
                 data.blockid = res.data.blockID;
+                data.isUnitCreated=false;
+                data.isUnitNotCreated=true;
                 console.log(data.Id)
 
                 if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
@@ -668,12 +674,15 @@ export class ExcelBlockUploadComponent implements OnInit {
       })(index)
       })
       setTimeout(() => {
+        $(".se-pre-con").fadeOut("slow");
         // document.getElementById('upload_excel').style.display = 'none'
         // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         // document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
         // document.getElementById('showmanual').style.display = 'block';
         // document.getElementById('blockdetailsbuttons').style.display = 'block';
-
+        this.commonblockarray.forEach(element => {
+          element.hasNoDuplicateBlockname=true;
+        })
 
         if (!this.sameBlocknameExist) {
           var message;
@@ -681,7 +690,13 @@ export class ExcelBlockUploadComponent implements OnInit {
             message = 'Block Created Successfully'
           }
           else if (this.blockssuccessarray > 1) {
-            message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+            if (this.duplicateBlockArr.length > 0) {
+              message = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.duplicateBlockArr.length} Duplicate`;
+            }
+            else {
+              message = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+            }
           }
           Swal.fire({
             title: message,

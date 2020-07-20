@@ -210,10 +210,10 @@ p.panextext{
 
 }
 #unitssubmit{
-    display: inline-block;
-    margin-top: 0px;
-    top: 213px;
-    margin-left: 1200px;
+        display: inline-block;
+        margin-top: 0px;
+        top: 45px;
+        margin-left: 1116px;
 }
 .tab-selected
 {
@@ -261,7 +261,11 @@ input#file_upload_id {
     top: 124px;
     margin-left: 1179px;
 }
-
+.resetforunitsbulk1{
+    margin: 10px;
+    color: #ffffff !important;
+    right: 192px;
+}
 img.excel{
     margin: 44px;
 }

@@ -58,8 +58,8 @@
                 <form [formGroup]="form" class="association-formcountry">
                     <mat-form-field>
                         <mat-label>COUNTRY<span class="red">*</span></mat-label>
-                        <mat-select formControlName="cntryname">
-                            <mat-option *ngFor="let country of countrieslist" (onSelectionChange)="selectedcountry(country)"class = "text"[value]="country">{{country.coName}}
+                        <mat-select (selectionChange)="selectedcountry($event)" formControlName="cntryname">
+                            <mat-option *ngFor="let country of countrieslist" class = "text" [value]="country">{{country.coName}}
                             </mat-option>
                         </mat-select>
                         <mat-error [displayError]="isFieldValid('cntryname')">
@@ -341,9 +341,9 @@
             </div> -->
 
             <div id="upload_excel" style="display:none">
-                <a> <img style="width: 100px;" class="excel" (click)="uploadblocks()" src="../../assets/images/upload.png"
+                <a id="blocksuploadid1"> <img style="width: 100px;" class="excel" (click)="uploadblocks()" src="../../assets/images/upload.png"
                     matTooltip="UPLOAD"></a>
-                <a href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
+                <a id="blocksuploadid" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                         src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
                 <input #fileInput1 type="file" id="file_upload_id" (click)="fileInput1.value = null"
                     (change)="onFileChange($event)"
@@ -725,9 +725,9 @@
                  <button id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
             </div> -->
                 <div id="unitupload_excel" style="display:none">
-                    <a> <img style="width: 100px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
+                    <a id="unitsuploadid1"> <img style="width: 100px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
                         matTooltip="UPLOAD" ></a>
-                    <a href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
+                    <a id="unitsuploadid" href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                             src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
                     <input #fileInput type="file" id="file_unitupload_id" (click)="fileInput.value = null"
                         (change)="onFileunitdetailschange($event,UpdateBlockUnitCountTemplate)"
@@ -946,11 +946,11 @@
                                             </div>
                                            
                                             <div>
-                                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
+                                                <button id="manualunitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
                                                     (click)="gotonexttab($event,blocknameforIteration,obj3.Id,i)">{{obj3.displayText}}</button>
                                             </div>
                                             <div class="save">
-                                                <a class="continue" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
+                                                <a class="resetmanualunits" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
                                             </div>
     
                                         </div>
@@ -1139,7 +1139,7 @@
                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,item.name,i)">{{item.displaytext}}</button>
                            </div>
                            <div class="save">
-                               <a class="continue" (click)="resetStep5bulk($event,item.name)"mat-raised-button color="primary">RESET</a>
+                               <a class="resetforbulkunits" (click)="resetStep5bulk($event,item.name)"mat-raised-button color="primary">RESET</a>
                            </div>    
                         
                        </mat-tab>
