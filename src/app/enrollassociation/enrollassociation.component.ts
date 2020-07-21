@@ -745,6 +745,7 @@ imgfilename;
         else {
           this.unitlistuniquejson.push(iitm);
           iitm.hasNoDuplicateUnitname = true;
+          iitm.disableField=true;
           console.log(this.unitlistuniquejson);
         }
       })
@@ -830,6 +831,7 @@ imgfilename;
               .subscribe((res: any) => {
                 console.log(res)
                 unit.hasNoDuplicateUnitname=true;
+                unit.disableField=true;
                 this.totalUnitcount += 1;
               }, error => {
                 console.log(error);
@@ -881,7 +883,7 @@ imgfilename;
                   })
                 }
                 this.unitlistjson[name]=[];
-                this.unitlistjson[name]=tmpArr;
+                this.unitlistjson[name]=tmpArr.reverse();
                 console.log(this.unitlistjson[name]);
                 this.unitrecordDuplicateUnitnameModified=true;
               }
@@ -956,7 +958,7 @@ imgfilename;
                     })
                   }
                   this.unitlistjson[name]=[];
-                  this.unitlistjson[name]=tmpArr;
+                  this.unitlistjson[name]=tmpArr.reverse();
                   console.log(this.unitlistjson[name]);
                   this.unitrecordDuplicateUnitnameModified=true;
                 }
@@ -1299,6 +1301,7 @@ validateUnitDetailsField(name){
         console.log(name);
         if (name.toLowerCase() == headername.toLowerCase()) {
           console.log(unit);
+          console.log(this.unitlistjson[element]);
           if(this.isunitdetailsempty){
             if (unit.ownershipstatus == "Sold Owner Occupied Unit"||unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
@@ -1394,6 +1397,21 @@ validateUnitDetailsField(name){
                 unit.isSingleUnitDataEmpty = false;
               }
             }
+        //
+        let valueExcelUnitArr = this.unitlistjson[element].map(item => { return item.flatno.toLowerCase() });
+        console.log(valueExcelUnitArr);
+        let isExcelUnitNameDuplicate = valueExcelUnitArr.some((item, idx) => {
+          return valueExcelUnitArr.indexOf(item) != idx
+        });
+        if (isExcelUnitNameDuplicate) {
+          unit.hasNoDuplicateUnitname = false;
+          console.log('hasNoDuplicateUnitname = false');
+        }
+        else {
+            unit.hasNoDuplicateUnitname = true;
+            console.log('hasNoDuplicateUnitname = true');
+        }
+        //
         }
       }
       })
@@ -1754,6 +1772,7 @@ validateUnitDetailsField(name){
         document.getElementById('blockdetailsbuttons').style.display = 'block';
         this.commonblockarray.forEach(element => {
           element.hasNoDuplicateBlockname=true;
+          element.disableField=true;
         })
         if (!this.sameBlocknameExist) {
           var message;
@@ -1781,13 +1800,16 @@ validateUnitDetailsField(name){
                 if(this.duplicateBlockArr.length > 0){
                   this.duplicateBlocknameExist=true;
                   this.blocksArray=[];
-                  this.uniqueBlockArr.forEach(itm=>{
-                    itm.hasNoDuplicateBlockname=true;
-                    this.blocksArray.push(itm);
-                  })
                   this.duplicateBlockArr.forEach(itm1=>{
                     this.blocksArray.push(itm1);
                   })
+                  this.uniqueBlockArr.forEach(itm=>{
+                    itm.hasNoDuplicateBlockname=true;
+                    itm.disableField=true;
+                    this.blocksArray.push(itm);
+                  })
+                  console.log(this.blocksArray.reverse());
+                  this.blocksArray.reverse();
                   console.log(this.blocksArray.length);
                   console.log(this.blocksArray);
                 }
@@ -2079,6 +2101,7 @@ validateUnitDetailsField(name){
                   list.isUnitsCreatedUnderBlock1 = true;
                 list.isnotvalidmanagername = false,
                   list.hasNoDuplicateBlockname = false;
+                  list.disableField=false;
                 list.isnotvalidunits = false,
                   list.blocktype = this.residentialorcommercialtype;
                   list.isblockdetailsempty1=true;
@@ -2337,15 +2360,30 @@ validateUnitDetailsField(name){
           element['isnotvalidblockname'] = false;
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-          element.isblockdetailsempty1=true;  
+          element.isblockdetailsempty1 = true;
         }
-        else{
-          element.isblockdetailsempty1=false;  
+        else {
+          element.isblockdetailsempty1 = false;
+        }
+        //
+        let valueExcelBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
+        console.log(valueExcelBlckArr);
+        let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
+          return valueExcelBlckArr.indexOf(item) != idx
+        });
+        if (isExcelBlkNameDuplicate) {
+          element.hasNoDuplicateBlockname = false;
+          this.isblockdetailsempty=true;
+          console.log('hasNoDuplicateBlockname = false');
+        }
+        else {
+            element.hasNoDuplicateBlockname = true;
+            this.isblockdetailsempty=false;
+            console.log('hasNoDuplicateBlockname = true');
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
-
       }
     })
   }
@@ -2531,6 +2569,7 @@ validateUnitDetailsField(name){
                         unitonce.unitTmpid='';
                         unitonce.isSingleUnitDataEmpty=true;
                         unitonce.hasNoDuplicateUnitname=false;
+                        unitonce.disableField=false;
                         unitonce.isnotvalidflatno =false,
                         unitonce.isnotvalidunittype=false,
                         unitonce.isnotvalidownershipstatus=false,
