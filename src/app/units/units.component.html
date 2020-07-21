@@ -82,8 +82,11 @@
                                 <th>
                                     <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
-                                <th>
+                                <!-- <th>
                                     <mfDefaultSorter (click)="removeColumnSort('UnitType')" by="unUniType">Unit Type&nbsp;<i [hidden]="columnName=='UnitType'" class="fa fa-sort"></i></mfDefaultSorter>
+                                </th> -->
+                                <th>
+                                    <mfDefaultSorter (click)="removeColumnSort('OcStat')" by="unOcStat">Occupancy & Ownership Status&nbsp;<i [hidden]="columnName=='UnitType'" class="fa fa-sort"></i></mfDefaultSorter>
                                 </th>
                                 <!-- <th>
                                     <mfDefaultSorter (click)="removeColumnSort('UnitDimension')" by="unDimens">Unit Dimension&nbsp;<i [hidden]="columnName=='UnitDimension'" class="fa fa-sort"></i></mfDefaultSorter>
@@ -105,7 +108,9 @@
                                 <ng-container *ngIf="item!=-1">
                                     <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
                                     <td>{{item.unUniName}}</td>
-                                    <td>{{item.unUniType}}</td>
+                                    <!-- <td>{{item.unUniType}}</td> -->
+                                    <td>{{item.unOcStat}}</td>
+
                                     <!-- <td>{{item.unDimens}} SqFt</td> -->
                                     <td>{{(item.owner.length > 0 ? item.owner[0].uofName : ((item.tenant.length > 0) ? item.tenant[0].utfName :''))}}
                                     </td>
@@ -263,7 +268,7 @@
                                     </div>
                                 </div>
                             </div>
-<!-- 
+
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group"
                                     [ngClass]="{'was-validated' : UNDimensControl.invalid && UNDimensControl.touched}">
@@ -288,7 +293,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div> 
                         </div>
 
                         <div class="from-group">
