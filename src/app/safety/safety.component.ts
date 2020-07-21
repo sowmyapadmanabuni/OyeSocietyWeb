@@ -1,4 +1,4 @@
-import { Component, ViewChild,OnInit , EventEmitter, Output,TemplateRef } from '@angular/core';
+import { Component, ViewChild, OnInit, EventEmitter, Output,TemplateRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { ContactformService } from '../../contactform.service';

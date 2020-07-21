@@ -2753,10 +2753,19 @@ cancelbulkupload(ev){
   //this.blocksArray=[];
 }
 cancelunitsbulkupload(ev){
-  document.getElementById('unitupload_excel').style.display ='none';
-  document.getElementById('unitshowmanual').style.display ='block';
-  // document.getElementById('unitsbulkold').style.display ='block';
-  document.getElementById('unitsmanualnew').style.display ='block';
+  console.log(this.demo2TabIndex)
+  if(this.demo2TabIndex==0){
+    document.getElementById('unitupload_excel').style.display ='none';
+    document.getElementById('unitshowmanual').style.display ='block';
+    document.getElementById('unitsbulkold').style.display ='none';
+    document.getElementById('unitsmanualnew').style.display ='block';
+  }else{
+    document.getElementById('unitupload_excel').style.display ='none';
+    document.getElementById('unitshowmanual').style.display ='block';
+    document.getElementById('unitsbulkold').style.display ='block';
+    document.getElementById('unitsmanualnew').style.display ='none';
+  }
+
 
 }
   detailsdata ={}
