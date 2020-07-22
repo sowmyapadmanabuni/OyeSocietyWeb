@@ -103,6 +103,7 @@ import { CareersComponent } from './careers/careers.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 //export const firebaseConfig = environment.firebaseConfig;
 import { GoogleChartsModule } from 'angular-google-charts';
+import { StarRatingModule } from 'angular-star-rating';
 
 import { HttpModule } from '@angular/http';
 
@@ -231,6 +232,7 @@ import { GoogleChartComponent } from './google-chart/google-chart.component';
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey,
       libraries: ['geometry']
+      
     }),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
@@ -240,7 +242,8 @@ import { GoogleChartComponent } from './google-chart/google-chart.component';
     NgxQRCodeModule,
     TooltipModule.forRoot(),
     JwSocialButtonsModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    StarRatingModule.forRoot()
   ],
   providers: [AudioRecordingService],
   schemas: [

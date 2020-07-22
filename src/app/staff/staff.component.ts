@@ -20,6 +20,7 @@ export class StaffComponent implements OnInit {
   StartDate: any;
   EndDate: any;
   wkid: any;
+  wkrating:any;
   wkimage: any;
   staffReports:any[];
   wkstaf: any;
@@ -31,10 +32,13 @@ export class StaffComponent implements OnInit {
   reportlists: any[];
   WorkerID: any;
   staffs: any[];
+  wkidtype:any;
+  wkidimage:any;
   otherStaff: any[];
   searchTxt: any;
   addGuest: any;
   baseUrl: any;
+  enableviewDocuments:any;
   currentAssociationIdForStaffList: Subscription
 
   constructor(private router: Router, private domSanitizer: DomSanitizer,
@@ -44,7 +48,7 @@ export class StaffComponent implements OnInit {
     this.WorkerNameList = [];
     this.workerImg = [];
     this.otherStaff = [];
-
+this.enableviewDocuments=false;
     this.displayStaff = "Select Staff"
     this.reportlists = [];
     this.WorkerID = '';
@@ -87,13 +91,21 @@ export class StaffComponent implements OnInit {
   }
 
 
-  selectStaff(param, wkstaf, wkimage, wkstatus, wkid) {
+  selectStaff(param, wkstaf, wkimage, wkstatus, wkid,wkidtype,wkidimage,wkrating) {
+    this.enableviewDocuments=false;
+    this.wkidtype=wkidtype;
+    this.wkidimage=wkidimage;
+    this.wkrating=wkrating;
+    console.log(wkidtype);
+    console.log(wkidimage);
     if (wkimage != "") {
       this.stafimage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + wkimage);
 
-    } else {
+    } 
+    else {
       this.stafimage = "";
     }
+    
     this.wkstaf = wkstaf;
     console.log(this.stafimage);
     console.log(this.staffs);
@@ -104,6 +116,22 @@ export class StaffComponent implements OnInit {
 
   }
 
+  getDoc(){
+   
+    this.enableviewDocuments=true;
+    if(this.wkidimage!=""){
+      console.log(this.wkidimage);
+      this.wkidimage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + this.wkidimage);
+
+    }
+    else{
+        this.wkidimage="";
+
+    }
+    this.wkidtype=this.wkidtype;
+    console.log(this.wkidimage);
+    console.log(this.wkidtype);
+  }
   //Get Staff Report start
     getReports(id) {
     console.log(id);

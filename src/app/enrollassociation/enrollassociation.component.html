@@ -40,10 +40,10 @@
             class="fa fa-question-circle" aria-hidden="true"></i> -->
             <form [formGroup]="uploadForm" (ngSubmit)="processFile()" class="association-form">
                 <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
-<div style="width: 130px;">
- <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
-<img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
-</div>
+                <div style="width: 130px;">
+                <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
+                <img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
+                </div>
                 <!-- <input type="file" id="img" name="profile" (change)="onFileSelect($event)" /> -->
                  <!-- <img *ngIf="thumbnailASAsnLogo==undefined" class="Upload1" src="../../assets/images/map_placeholder.png" width="50px" height="50px"/> -->
             </form>
