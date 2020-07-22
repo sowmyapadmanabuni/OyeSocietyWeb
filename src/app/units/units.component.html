@@ -119,7 +119,7 @@
                                     <td class="txt-middle">
                                         <i style="cursor: pointer;" data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
                                             class="fa fa-eye" tooltip="View Unit"></i>&nbsp;|&nbsp; <i style="cursor: pointer;" data-toggle="modal"
-                                            (click)="OpenModal(editUnits,item['unUnitID'],item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'],item['undCreated'])" class="fa fa-pencil" tooltip="Edit Unit"></i>
+                                            (click)="OpenModal(editUnits,item['unUnitID'],item,item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'],item['undCreated'])" class="fa fa-pencil" tooltip="Edit Unit"></i>
                                         <!-- <i data-toggle="modal"
                                             data-target="#editBlockDetails"
                                             (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
@@ -240,7 +240,8 @@
                                 <div class="form-group">
                                     <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
                                     <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="occupencyInEditUnit" name="occupencyInEditUnit"
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                            [(ngModel)]="occupencyInEditUnit" name="occupencyInEditUnit"
                                             data-toggle="dropdown">{{SelectOccupancyOwnershipStatus==''?'Select Occupancy Ownership Status':occupencyInEditUnit}}
                                             <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                         <ul class="dropdown-menu fullw">
@@ -248,7 +249,8 @@
                                             <li (click)="SelectOccupencyStatus('Sold Tenant Occupied Unit')"><a>Sold Tenant Occupied Unit</a></li>
                                             <li (click)="SelectOccupencyStatus('Sold Vacant Unit')"><a>Sold Vacant Unit</a></li>
                                             <li (click)="SelectOccupencyStatus('UnSold Vacant Unit')"><a>UnSold Vacant Unit</a></li>
-                                            <li (click)="SelectOccupencyStatus('UnSold Tenant Occupied Unit')"><a>UnSold Tenant Occupied Unit</a></li>
+                                            <li (click)="SelectOccupencyStatus('UnSold Tenant Occupied Unit')"><a>UnSold Tenant Occupied Unit</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -257,7 +259,8 @@
                                 <div class="form-group">
                                     <label class="control-label">Unit Type<span class="red">*</span></label>
                                     <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="unitTypeForEdit" name="unitTypeForEdit"
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                                            [(ngModel)]="unitTypeForEdit" name="unitTypeForEdit"
                                             data-toggle="dropdown">{{SelectUnitType==''?'Select Unit Type':unitTypeForEdit}}
                                             <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
                                         <ul class="dropdown-menu fullw">
@@ -268,7 +271,108 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div
+                                *ngIf="occupencyInEditUnit=='Sold Owner Occupied Unit'||occupencyInEditUnit=='Sold Tenant Occupied Unit'||occupencyInEditUnit=='Sold Vacant Unit'">
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : OwnerFirstnameControl.invalid && OwnerFirstnameControl.touched}">
+                                        <label id=label3>Owner Firstname<span class="red">*</span></label>
+                                        <input type="text" name="ownerFirtname" id="input3" autocomplete='ownerFirtname' [(ngModel)]="ownerFirtname"
+                                            #OwnerFirstnameControl="ngModel" class="form-control" placeholder="Owner Firstname" required />
+                                        <p class="alerts" *ngIf="OwnerFirstnameControl.invalid && OwnerFirstnameControl.touched">Owner Firstname
+                                            required
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : OwnerLastnameControl.invalid && OwnerLastnameControl.touched}">
+                                        <label id=label3>Owner Lastname<span class="red">*</span></label>
+                                        <input type="text" name="ownerLastname" id="input3" autocomplete='ownerLastname' [(ngModel)]="ownerLastname"
+                                            #OwnerLastnameControl="ngModel" class="form-control" placeholder="Owner Lastname" required />
+                                        <p class="alerts" *ngIf="OwnerLastnameControl.invalid && OwnerLastnameControl.touched">Owner Lastname
+                                            required
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : OwnermobilenumberControl.invalid && OwnermobilenumberControl.touched}">
+                                        <label id=label3>Owner Mobilenumber<span class="red">*</span></label>
+                                        <input type="text" name="ownerMobnumber" id="input3" autocomplete='ownerMobnumber'
+                                            [(ngModel)]="ownerMobnumber" #OwnermobilenumberControl="ngModel" class="form-control"
+                                            placeholder="Owner Mobilenumber" required />
+                                        <p class="alerts" *ngIf="OwnermobilenumberControl.invalid && OwnermobilenumberControl.touched">Owner
+                                            Mobilenumber required
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group" [ngClass]="{'was-validated' : OwnerEmailControl.invalid && OwnerEmailControl.touched}">
+                                        <label id=label3>Owner EmailId<span class="red">*</span></label>
+                                        <input type="text" name="ownerEmail" id="input3" autocomplete='ownerEmail' [(ngModel)]="ownerEmail"
+                                            #OwnerEmailControl="ngModel" class="form-control" placeholder="Owner EmailId" required />
+                                        <p class="alerts" *ngIf="OwnerEmailControl.invalid && OwnerEmailControl.touched">Owner EmailId required
+                                        </p>
+                                    </div>
+                                </div>
+                            
+                            
+                            </div>
+                            
+                            
+                            
+                            
+                            <div *ngIf="occupencyInEditUnit=='Sold Tenant Occupied Unit'||occupencyInEditUnit=='UnSold Tenant Occupied Unit'">
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : TenantFirstnameControl.invalid && TenantFirstnameControl.touched}">
+                                        <label id=label3>Tenant Firstname<span class="red">*</span></label>
+                                        <input type="text" name="tenantFirtname" id="input3" autocomplete='tenantFirtname'
+                                            [(ngModel)]="tenantFirtname" #TenantFirstnameControl="ngModel" class="form-control"
+                                            placeholder="Tenant Firstname" required />
+                                        <p class="alerts" *ngIf="TenantFirstnameControl.invalid && TenantFirstnameControl.touched">Tenant Firstname
+                                            required
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : TenantLastnameControl.invalid && TenantLastnameControl.touched}">
+                                        <label id=label3>Tenant Lastname<span class="red">*</span></label>
+                                        <input type="text" name="tenantLastname" id="input3" autocomplete='tenantLastname'
+                                            [(ngModel)]="tenantLastname" #TenantLastnameControl="ngModel" class="form-control"
+                                            placeholder="Tenant Lastname" required />
+                                        <p class="alerts" *ngIf="TenantLastnameControl.invalid && TenantLastnameControl.touched">Tenant Lastname
+                                            required
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : TenantMobilenumberControl.invalid && TenantMobilenumberControl.touched}">
+                                        <label id=label3>Tenant Mobilenumber<span class="red">*</span></label>
+                                        <input type="text" name="tenantMobnumber" id="input3" autocomplete='tenantMobnumber'
+                                            [(ngModel)]="tenantMobnumber" #TenantMobilenumberControl="ngModel" class="form-control"
+                                            placeholder="Tenant Mobilenumber" required />
+                                        <p class="alerts" *ngIf="TenantMobilenumberControl.invalid && TenantMobilenumberControl.touched">Tenant
+                                            Mobilenumber required
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group"
+                                        [ngClass]="{'was-validated' : TenantEmailIdControl.invalid && TenantEmailIdControl.touched}">
+                                        <label id=label3>Tenant EmailId<span class="red">*</span></label>
+                                        <input type="text" name="tenantEmail" id="input3" autocomplete='tenantEmail' [(ngModel)]="tenantEmail"
+                                            #TenantEmailIdControl="ngModel" class="form-control" placeholder="Tenant EmailId" required />
+                                        <p class="alerts" *ngIf="TenantEmailIdControl.invalid && TenantEmailIdControl.touched">Tenant EmailId
+                                            required
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+<!-- 
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group"
                                     [ngClass]="{'was-validated' : UNDimensControl.invalid && UNDimensControl.touched}">
@@ -293,7 +397,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>  -->
                         </div>
 
                         <div class="from-group">
