@@ -61,7 +61,7 @@ export class ViewUnitService {
               UpdateUnitInfo(updateUnitData:any){
                 //console.log('updateUnitData *',JSON.stringify(updateUnitData));
                 let scopeIP=this.utilsService.createUnit();
-                return this.http.post(scopeIP + 'oyeliving/api/v1/Unit/UpdateUnitDetails' ,  updateUnitData, {headers:this.headers});
+                return this.http.post(scopeIP + 'oyeliving/api/v1/Unit/UpdateUnitOwnerTenantDetails' ,  updateUnitData, {headers:this.headers});
               }
               AssociationCompletionStatusUpdate(AssociationId){
                 //http://localhost:54400/oyeliving/api/v1/AssociationCompletionStatusUpdate/%7BAssociationID%7D

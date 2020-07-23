@@ -22,7 +22,7 @@
                                             data-toggle="dropdown">{{displayStaff}}
                                             <span class="caret"></span></button>
                                     <ul class="dropdown-menu fullw fdrop" style="height: auto !important;">
-                                            <li *ngFor="let item of staffs" (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['idPrfImg'],item['wkStatus'],item['wkWorkID'])"><a>{{item['wkfName']}}</a></li>
+                                            <li *ngFor="let item of staffs" (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'])"><a>{{item['wkfName']}}</a></li>
                                             
                                     </ul>
                                 </div>
@@ -35,17 +35,16 @@
                                 <div>Status:<strong>{{wkStatus}}</strong></div>
                                      
                             </div>
+                            <div style="    display: flex;justify-content: start;align-items: center;padding-top: 8px;">
+                                    <!-- <strong>{{wkrating}} </strong> -->
+                                    <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>
                             
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>&nbsp;
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
 
 
                             <span style="float: right;">
-                                <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <i (click)="getDoc()" class="fa fa-file-text" aria-hidden="true" style="color: orange"></i>&nbsp;&nbsp;
                                 <i class="fa fa-share-alt" aria-hidden="true"></i>
                             </span>
                         </div>
@@ -142,9 +141,12 @@
                         </div>
 
                         </div>
-                        <div class="col-sm-12">
-                                <h3 class="staff_head">View Documents</h3>
-                            <p>Document1</p>
+                        <div class="col-sm-12" *ngIf="enableviewDocuments">
+                            <h3 class="staff_head">View Documents</h3>
+                            <p>{{wkidtype}}</p>
+                            <img *ngIf="wkidimage!=''" class="idcard" [src]="wkidimage">
+                            <img *ngIf="wkidimage==''" src="../../assets/images/doc.png"/>
+
 
                         </div>
                     

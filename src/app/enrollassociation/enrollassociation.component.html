@@ -40,10 +40,10 @@
             class="fa fa-question-circle" aria-hidden="true"></i> -->
             <form [formGroup]="uploadForm" (ngSubmit)="processFile()" class="association-form">
                 <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
-<div style="width: 130px;">
- <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
-<img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
-</div>
+                <div style="width: 130px;">
+                <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
+                <img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
+                </div>
                 <!-- <input type="file" id="img" name="profile" (change)="onFileSelect($event)" /> -->
                  <!-- <img *ngIf="thumbnailASAsnLogo==undefined" class="Upload1" src="../../assets/images/map_placeholder.png" width="50px" height="50px"/> -->
             </form>
@@ -287,7 +287,7 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>TOTAL NO OF BLOCKS<span class="red">*</span></mat-label>
                     <input matInput placeholder="NO OF BLOCKS" 
-                    (keypress)="keyPress3($event)"  
+                    pattern="[1-9]{1}[0-9]*" 
                     formControlName="blockno" [(ngModel)]="noofblocks"
                         value="">
                     <mat-error [displayError]="isFieldValidblockandunitdetails('blockno')">
@@ -299,7 +299,7 @@
                 <mat-form-field class="association-full-width">
                     <mat-label>TOTAL NO OF UNITS<span class="red">*</span></mat-label>
                     <input matInput placeholder="NO OF UNITS"
-                    (keypress)="keyPress3($event)" 
+                    pattern="[1-9]{1}[0-9]*" 
                     matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="noofunits" value="">
                     <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
                         {{ titleAlert }}

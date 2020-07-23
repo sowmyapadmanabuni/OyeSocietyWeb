@@ -117,7 +117,7 @@
                       <span>{{item['residentNtdCreated'] | dateAgo}}</span>
                     </h4>
                     <div class="alfl bg-grey">
-                      <span><a class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>
+                      <span><a *ngIf="item['vlComName']!='Kid Exit'" class="green">{{item['vlComName']}}</a> {{item['vlVisType']}}</span>
                       <span *ngIf="item['unUniName']">Visiting <a class="green">{{item['unUniName']}}</a></span>
                       <span *ngIf="item['WrUniName']">Registration <a class="green">{{item['WrUniName']}}</a></span>
                       <span class="not-img">
@@ -184,8 +184,9 @@
                         
                                                   <!-- Guest with Invitation template -->
                                                 <div *ngIf="item['vlVisType']=='Guest with Invitation'">
-                                                  <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
-                                                  <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
+                                                  <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'mediumDate'}}&nbsp;{{item['visitorlog'] | date:'shortTime'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
+                                                  <div><span class="exitnot-title">Exit on :&nbsp;</span>{{item['residentNtdCreated'] | date:'mediumDate'}}&nbsp;{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> </div>
+                                                  <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>    
                                                 </div>
                                                 <!-- Guest with Invitation template -->
                         
@@ -203,7 +204,7 @@
                                                     <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['residentNtdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['vlengName']}}</span></div>
                                                     <div><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['vlApprdBy']}}</div>
                                                     <!-- <div><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}}</div> -->
-                                                    <div><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['vlExAprdBy']}}</div>
+                                                    <div><span class="exitnot-title">Exit on :&nbsp;</span>{{item['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['vlexgName']}} &nbsp;&nbsp;</div>
                                                     <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['vlApprStat']}}</div>
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['vlMobile']}}</div>
                                                   </div>
@@ -220,11 +221,11 @@
                         
                         <!-- "Staff registration approve/reject"  -->
                           <div *ngIf="item['NtType']=='Staff Registration'">
-                            <span (click)="staffRegistration(item['residentNtid'],Approved)"
+                            <span (click)="staffRegistration(item['residentNtid'],'Approved')"
                               class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approv</span>
                           </div>
                           <div *ngIf="item['NtType']=='Staff Registration'">
-                            <span (click)="staffRegistration(item['residentNtid'],Rejected)"
+                            <span (click)="staffRegistration(item['residentNtid'],'Rejected')"
                               class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
                           </div>
                         <!-- "Staff registration approve/reject"  -->
@@ -266,7 +267,7 @@
                 <div *ngIf="item['NtType']=='Announcement'" class="panel panel-default">
                   <div class="panel-heading">
                     <h4 class="panel-title alfl">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}"> <img
+                      <a data-toggle="collapse" data-parent="#accordion" href="#{{item['collapse']}}" (click)="announcementData(item['asAssnID'],item['acNotifyID'])"> <img
                           src="../../assets/images/icons/speaker.png">
                       </a>
                     </h4>
@@ -277,9 +278,13 @@
                       <div class="not-detail">
                         <div class="col-sm-12">
                           <div style="height: 100px;background-color: aliceblue;">
+                              <img *ngIf="image1" src="image1" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                              <!-- <img [src]="image2" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                              <img [src]="image3" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                              <img [src]="image4" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" /> -->
                           </div>
                           message
-                          <input style="width: 800px;height: 50px;border-color: red;" type="text" />
+                          <input style="width: 800px;height: 50px;border-color: red;" type="text" [(ngModel)]="item['ntDesc']" disabled/>
                         </div>
                       </div>
                     </div>
