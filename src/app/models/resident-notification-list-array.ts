@@ -28,6 +28,8 @@ export class ResidentNotificationListArray {
         private sbUnitID,
         private ntType,
         private ntJoinStat,
-        private WrUniName){}
+        private WrUniName,
+        private acNotifyID,
+        private visitorlog){}
         
 }

@@ -44,6 +44,11 @@ export class NotificationsComponent implements OnInit {
   ResidentActiveNotification: number;
   ntJoinStatTmp2: any;
   changeViewOfActionButton: boolean;
+  image1:any;
+  image2:any;
+  image3:any;
+  image4:any;
+  image5:any;
 
   constructor(private utilsService: UtilsService,public router:Router,
     public globalService: GlobalServiceService,
@@ -62,6 +67,11 @@ export class NotificationsComponent implements OnInit {
     this.ResidentNotificationListArray = [];
     this.ResidentNotificationListArrayTemp = [];
     this.notificationListArrayTemp = [];
+    this.image1 = "";
+    this.image2 = "";
+    this.image3 = "";
+    this.image4 = "";
+    this.image5 = "";
     if (this.globalService.mrmroleId != 1) {
       this.AdminsUnitShow('resident');
     }
@@ -213,12 +223,15 @@ export class NotificationsComponent implements OnInit {
                     (item['sbUnitID'] == ''? '' : item['sbUnitID']),
                     (item['ntType'] == ''? '' : item['ntType']),
                     (item['ntJoinStat'] == ''? '' : item['ntJoinStat']),
-                    (item['unUniName'] == ''? '' : item['unUniName'])
+                    (item['unUniName'] == ''? '' : item['unUniName']),
+                    (item['acNotifyID'] == ''? '' : item['acNotifyID']),
+                    (item['visitorlog'].length == 0 ? '' : item['visitorlog'][0]['vlEntryT'])
                   ));
                   this.ResidentNotificationListArray = _.sortBy(this.ResidentNotificationListArray, 'residentReadStatus').reverse();
                   this.ResidentNotificationListArrayTemp = this.ResidentNotificationListArray;
                   //
-                  console.log(this.ResidentNotificationListArray);
+
+                  console.log('ResidentNotification',this.ResidentNotificationListArray);
                 }
               }, 600 * index)
             })(index)
@@ -572,6 +585,36 @@ export class NotificationsComponent implements OnInit {
           // alert(err)
         })
   }
+
+
+  // *-*-*-*-*-*-*-*-*-*-Announcement Start Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+  announcementData(asAssnID,acNotifyID){
+    let ipAddress = this.utilsService.getIPaddress();
+    console.log('Announcement data', asAssnID, acNotifyID);
+    return this.http.get(`${ipAddress}oyesafe/api/v1/Announcement/GetAnnouncementDetailsByAssocAndAnnouncementID/${asAssnID}/${acNotifyID}`,
+      { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
+      .subscribe(data=>{
+        console.log(data);
+        console.log(data['data']['announcements']);
+        console.log(data['data']['announcements'][0]);
+        console.log(data['data']['announcements'][0]['anImages']);
+        // this.image1='data:image/png;base64,'+ data['data']['announcements'][0]['anImages'];
+        this.image1=this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data['data']['announcements'][0]['anImages'])
+        console.log('image1',this.image1);
+        // this.image2='data:image/png;base64,'+data['data']['announcements'][1]['anImages'];
+        // this.image3='data:image/png;base64,'+data['data']['announcements'][2]['anImages'];
+        // this.image4='data:image/png;base64,'+data['data']['announcements'][3]['anImages'];
+        // this.image5='data:image/png;base64,'+data['data']['announcements'][4]['anImages'];
+      },
+      err=>{
+        console.log(err);
+      })
+
+  }
+  // *-*-*-*-*-*-*-*-*-*-Announcement End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+
+  
   // *-*-*-*-*-*-*-*-*-*-Accept gate Visitors End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
   updateFirebase(assId){
     let self = this;
