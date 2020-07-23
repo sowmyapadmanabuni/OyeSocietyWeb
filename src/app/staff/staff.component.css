@@ -1,8 +1,27 @@
 .bg{padding: 50px 0px !important;}
+a, a:hover, li a:hover {border-radius: 30px !important;}
 .bg-grey{background: #f8f8f8;padding: 20px;}
 .enroll{display: flex;justify-content: flex-start;align-items: center; margin-bottom: 30px;}
 /* .bg-grey{background: #f1eded26;} */
 a{cursor: pointer;}
+.idcard{width: 100px;
+    height: 100px;
+    box-shadow: 1px 1px 9px 0px #464545;}
+.staff_head{    background: #f8f8f8;
+    color: #5a51aa;
+    font-size: 15px;
+    padding: 8px;
+    font-weight: 500;
+    text-transform: uppercase;}
+    .prof{width: 50px;
+        height: 50px;
+        border-radius: 33px;}
+.staff{padding: 10px;
+    border: 1px solid #5a51aa;
+    margin: 4px;
+    border-radius: 6px;
+    color: #5a51aa;
+    font-weight: 600;}
 .f-des{padding-left: 10px;font-weight: 500;}
 .m-top{margin-top: 20px;font-weight: 500;}
 .search-dropd{    border: none !important;

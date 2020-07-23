@@ -185,12 +185,43 @@ export class UnitsComponent implements OnInit {
       this.config.currentPage = event;
     }
 
-  OpenModal(editUnits: TemplateRef<any>, unUnitID, unUniType, unOcStat, unDimens, unCalType, blBlockID, asAssnID, acAccntID, unUniName, undCreated) {
+  OpenModal(editUnits: TemplateRef<any>, unUnitID,item,unUniType, unOcStat, unDimens, unCalType, blBlockID, asAssnID, acAccntID, unUniName, undCreated) {
     this.SelectOccupancyOwnershipStatus = 'Select Occupancy Ownership Status';
     this.SelectUnitType = 'Select Unit Type';
     this.unUniName = unUniName,
       this.unitTypeForEdit = unUniType,
-      this.occupencyInEditUnit = unOcStat,
+      this.occupencyInEditUnit = unOcStat;
+
+      if(this.occupencyInEditUnit=="Sold Owner Occupied Unit"||this.occupencyInEditUnit=="Sold Vacant Unit"){
+        this.ownerFirtname=item.owner[0].uofName;
+        this.ownerLastname=item.owner[0].uolName;
+        this.ownerMobnumber=item.owner[0].uoMobile;
+        this.ownerEmail=item.owner[0].uoEmail;
+  
+      }
+      else if(this.occupencyInEditUnit=="Sold Tenant Occupied Unit"){
+        this.ownerFirtname=item.owner[0].uofName;
+        this.ownerLastname=item.owner[0].uolName;
+        this.ownerMobnumber=item.owner[0].uoMobile;
+        this.ownerEmail=item.owner[0].uoEmail;
+
+        this.tenantFirtname=item.tenant[0].utfName;
+        this.tenantLastname=item.tenant[0].utlName;
+        this.tenantMobnumber=item.tenant[0].utMobile;
+        this.tenantEmail=item.tenant[0].utEmail;
+
+      }
+      else if(this.occupencyInEditUnit=="UnSold Tenant Occupied Unit"){
+        this.tenantFirtname=item.tenant[0].utfName;
+        this.tenantLastname=item.tenant[0].utlName;
+        this.tenantMobnumber=item.tenant[0].utMobile;
+        this.tenantEmail=item.tenant[0].utEmail;
+      }
+     else{
+       console.log(this.occupencyInEditUnit)
+     }
+
+     
       console.log(this.occupencyInEditUnit);
       this.UNDimens = unDimens,
       this.UNCalType = unCalType,
@@ -628,23 +659,62 @@ export class UnitsComponent implements OnInit {
 
   // UPDATE UNIT FUNCTION STARTS HERE
   UpdateUnit(){
-    let updateUnitData={
-      "UNUniType" : this.unUniName,
-      "UNOpenBal"    : "12.3",
-      "UNCurrBal"    : "25.12",
-      "UNOcStat"    : this.occupencyInEditUnit,
-      "UNOcSDate" : "2018-02-25",
-      "UNOwnStat" : "Active",
-      "UNSldDate"    : "2018-02-02",
-      "UNDimens"  : "",
-      "UNCalType"    : "",
-      "FLFloorID" : 1,
-      "BLBlockID" : this.blockID,
-      "UNUnitID"  : this.UNUnitID
-    }
+    // let updateUnitData={
+    //   "UNUniType" : this.unUniName,
+    //   "UNOpenBal"    : "12.3",
+    //   "UNCurrBal"    : "25.12",
+    //   "UNOcStat"    : this.occupencyInEditUnit,
+    //   "UNOcSDate" : "2018-02-25",
+    //   "UNOwnStat" : "Active",
+    //   "UNSldDate"    : "2018-02-02",
+    //   "UNDimens"  : "",
+    //   "UNCalType"    : "",
+    //   "FLFloorID" : 1,
+    //   "BLBlockID" : this.blockID,
+    //   "UNUnitID"  : this.UNUnitID
+    // }
+ 
+    let updateUnitData = {
+ 
+      "UNUniName":this.unUniName,
+      "UNUniType":this.unitTypeForEdit,
+      "UNOpenBal":"12.3",
+      "UNCurrBal":"25.12",
+      "UNOcStat":this.occupencyInEditUnit,
+      "UNOcSDate":"2018-02-25",
+      "UNOwnStat":"dsf",
+      "UNSldDate":"2018-02-02",
+      "UNDimens":"2",
+      "UNCalType":"df",
+      "FLFloorID":1,
+      "BLBlockID":this.blockID,
+      "UNUnitID":this.UNUnitID,
+      "UNIsActive":true,
+      "Owner": [{
+      "UOFName":(this.ownerFirtname == undefined ? '' : this.ownerFirtname),
+      "UOLName":(this.ownerLastname == undefined ? '' : this.ownerLastname),
+      "UOMobile":(this.ownerMobnumber == undefined ? '' : this.ownerMobnumber),
+      "UOMobile1":"+88453234224",
+      "UOEmail":(this.ownerEmail == undefined ? '' : this.ownerEmail),
+      "UOEmail1":"upa@gmail.com",
+      "UODCreated":"2019-02-20",
+      "UOIsActive":true
+       }],
+      "tenant": [{
+      "UTFName":(this.tenantFirtname == undefined ? '' : this.tenantFirtname),
+      "UTLName":(this.tenantLastname == undefined ? '' : this.tenantLastname),
+      "UTMobile":(this.tenantMobnumber == undefined ? '' : this.tenantMobnumber),
+      "UTMobile1":"+91996714335",
+      "UTEmail":(this.tenantEmail == undefined ? '' : this.tenantEmail),
+      "UTEmail1":"basavaraj@gmail.com",
+      "UTDCreated":"2019-02-20",
+      "UTIsActive":true
+       }]
+       
+       };
     this.viewUniService.UpdateUnitInfo(updateUnitData)
     .subscribe(data=>{
-      //console.log(data);
+      console.log(data);
       this.modalRef.hide();
       Swal.fire({
         title: 'Unit Updated Successfuly',

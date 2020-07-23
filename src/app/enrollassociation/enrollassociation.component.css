@@ -152,7 +152,7 @@ input,label {
 }
 .save{
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 .continue{
     margin: 10px;

@@ -245,58 +245,61 @@
                 </div>
               </div> -->
               <div class="page1">
-
-                <form [formGroup]="form" class="association-form">
-                  <mat-form-field class="association-full-width">
-                    <mat-label>ASSOCIATION NAME</mat-label>
-                    <input matInput placeholder="Association Name" pattern="[A-Za-z\s]+" autocomplete="viewAssnService.EditAssociationData['ASAsnName']"
-                      matTooltip="This name should match as given in the Association Pan Card" class="text"
-                      formControlName="asnname"
-                      [(ngModel)]="viewAssnService.EditAssociationData['ASAsnName']" value="{{viewAssnService.EditAssociationData['ASAsnName']}}">
-                    <mat-error [displayError]="isFieldValid('asnname')">
-                      {{ titleAlert }}
-                    </mat-error>
-                  </mat-form-field>
-                </form>
+                 <div>
+                  <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                      <mat-label>ASSOCIATION NAME</mat-label>
+                      <input matInput placeholder="Association Name" pattern="[A-Za-z\s]+" autocomplete="viewAssnService.EditAssociationData['ASAsnName']"
+                        matTooltip="This name should match as given in the Association Pan Card" class="text"
+                        formControlName="asnname"
+                        [(ngModel)]="viewAssnService.EditAssociationData['ASAsnName']" value="{{viewAssnService.EditAssociationData['ASAsnName']}}">
+                      <mat-error [displayError]="isFieldValid('asnname')">
+                        {{ titleAlert }}
+                      </mat-error>
+                    </mat-form-field>
+                  </form>
+                  
+                 
+                  <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
+                      <mat-label class="logoassociation">Upload logo</mat-label>
+                      <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
+                        class="fa fa-question-circle" aria-hidden="true"></i>
+                    <input type="file" id="img" name="profile" (change)="onFileSelect($event)" />
+                    <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
+                    <img class="Upload1" (mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')"
+                      src="{{thumbnailASAsnLogo}}" width="50px" height="50px" />
+                  </form>
+  
                 
-                <mat-label class="logoassociation">Upload logo</mat-label>
-                <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
-                  class="fa fa-question-circle" aria-hidden="true"></i>
-                <form [formGroup]="uploadForm" (ngSubmit)="processFile()">
-                  <input type="file" id="img" name="profile" (change)="onFileSelect($event)" />
-                  <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
-                  <img class="Upload1" (mouseover)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')"
-                    src="{{thumbnailASAsnLogo}}" width="50px" height="50px" />
+  
+                <form [formGroup]="form"class="association-form">
+                    <mat-form-field>
+                      <mat-label class = "text">{{viewAssnService.EditAssociationData['ASCountry']}}</mat-label>
+                        <mat-select [(value)]="viewAssnService.EditAssociationData['ASCountry']" formControlName="cntryname" placeholder="COUNTRY">
+                            <mat-option *ngFor="let country of countrieslist" class = "text"[value]="country">{{country}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [displayError]="isFieldValid('cntryname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
                 </form>
+                <form [formGroup]="form" class="association-form">
+                    <mat-form-field>
+                      <mat-label class = "text">{{viewAssnService.EditAssociationData['ASState']}}</mat-label>
+                        <mat-select [(value)]="viewAssnService.EditAssociationData['ASState']" formControlName="statename" placeholder="STATE">
+                            <mat-option *ngFor="let state of states" [value]="state">{{state}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [displayError]="isFieldValid('statename')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                 </div>
 
-              <br>
-
-              <form [formGroup]="form"class="association-form">
-                  <mat-form-field>
-                    <mat-label class = "text">{{viewAssnService.EditAssociationData['ASCountry']}}</mat-label>
-                      <mat-select [(value)]="viewAssnService.EditAssociationData['ASCountry']" formControlName="cntryname" placeholder="COUNTRY">
-                          <mat-option *ngFor="let country of countrieslist" class = "text"[value]="country">{{country}}
-                          </mat-option>
-                      </mat-select>
-                      <mat-error [displayError]="isFieldValid('cntryname')">
-                          {{ titleAlert }}
-                      </mat-error>
-                  </mat-form-field>
-              </form>
-              <form [formGroup]="form" class="association-form">
-                  <mat-form-field>
-                    <mat-label class = "text">{{viewAssnService.EditAssociationData['ASState']}}</mat-label>
-                      <mat-select [(value)]="viewAssnService.EditAssociationData['ASState']" formControlName="statename" placeholder="STATE">
-                          <mat-option *ngFor="let state of states" [value]="state">{{state}}
-                          </mat-option>
-                      </mat-select>
-                      <mat-error [displayError]="isFieldValid('statename')">
-                          {{ titleAlert }}
-                      </mat-error>
-                  </mat-form-field>
-              </form>
-
-              <form [formGroup]="form" class="association-form">
+               <div>
+                <form [formGroup]="form" class="association-form">
                   <mat-form-field class="association-full-width">
                       <mat-label>CITY</mat-label>
                       <input matInput placeholder="CITY" pattern="[a-zA-Z\s]*"formControlName="cityname" 
@@ -306,7 +309,7 @@
                       </mat-error>
                   </mat-form-field>
               </form>
-              <br>
+              
               <form [formGroup]="form" class="association-form">
                   <mat-form-field class="association-full-width">
                       <mat-label>PIN/ZIP/POSTAL CODE</mat-label>
@@ -335,19 +338,20 @@
                   </mat-form-field>
               </form>
               <form [formGroup]="form" class="association-form">
-                  <mat-form-field class="association-full-width">
-                      <mat-label>PROPERTY NAME</mat-label>
-                      <input matInput placeholder="PROPERTY NAME"
-                      pattern="[a-zA-Z\s]*"
-                       class = "text"formControlName="prtyname"
-                          [(ngModel)]="viewAssnService.EditAssociationData['ASPrpName']" value="{{viewAssnService.EditAssociationData['ASPrpName']}}">
-                      <mat-error [displayError]="isFieldValid('prtyname')">
-                          {{ titleAlert }}
-                      </mat-error>
-                  </mat-form-field>
-              </form>
-              <br>
-              <form [formGroup]="form" class="association-form">
+                <mat-form-field class="association-full-width">
+                    <mat-label>PROPERTY NAME</mat-label>
+                    <input matInput placeholder="PROPERTY NAME"
+                    pattern="[a-zA-Z\s]*"
+                     class = "text"formControlName="prtyname"
+                        [(ngModel)]="viewAssnService.EditAssociationData['ASPrpName']" value="{{viewAssnService.EditAssociationData['ASPrpName']}}">
+                    <mat-error [displayError]="isFieldValid('prtyname')">
+                        {{ titleAlert }}
+                    </mat-error>
+                </mat-form-field>
+            </form>
+               </div>
+              <div>
+                <form [formGroup]="form" class="association-form">
                   <mat-form-field class="association-full-width">
                       <mat-label>LOCALITY</mat-label>
                       <input matInput placeholder="LOCALITY"class = "text" 
@@ -383,6 +387,11 @@
                       </mat-error>
                   </mat-form-field>
               </form>
+              </div>
+              
+             
+              
+              
                </div>
                <div class="col-sm-12 pull-right">
                 <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)="resetfields($event)">RESET</button>

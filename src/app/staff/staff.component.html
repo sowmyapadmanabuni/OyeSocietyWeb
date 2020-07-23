@@ -10,7 +10,7 @@
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li class="active"><a (click)="goToStaff()">My Staff</a></li>
-                        <li><a>Other Staffs</a></li>
+                        <li><a (click)="getOtherStaffs()">Other Staffs</a></li>
                     </ul>
                 </div>
                 <div>
@@ -19,29 +19,32 @@
                             <!-- <input type="text" id="mySearch" placeholder="Select Staff.." title="Type in a category"> -->
                             <div class="dropdown search-dropd sha" style="margin-top:0px">
                                     <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm br overh" type="button"
-                                            data-toggle="dropdown">Select Staff
+                                            data-toggle="dropdown">{{displayStaff}}
                                             <span class="caret"></span></button>
                                     <ul class="dropdown-menu fullw fdrop" style="height: auto !important;">
-                                            <li><a>Vinay</a></li>
-                                            <li><a>Aneesh</a></li>
-                                            <li><a>Raghavendra</a></li>
-                                            <li><a>Satya</a></li>
+                                            <li *ngFor="let item of staffs" (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'])"><a>{{item['wkfName']}}</a></li>
+                                            
                                     </ul>
                                 </div>
                         </div>
 
                         <div class="m-t-30">
-                            <img src="../../assets/images/icons/profile.png"> Maid <br> 
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>&nbsp;
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <div style="display: flex;align-items: center;justify-content: space-between;">
+                                <div *ngIf="stafimage!=''"><img [src]="stafimage" class="prof"> &nbsp;&nbsp;<strong>{{displayStaff}}</strong>&nbsp;&nbsp;{{wkstaf}}</div>
+                                <div *ngIf="stafimage==''"><img src="../../assets/images/family.png" width="50px" height="50px"/>&nbsp;&nbsp; <strong>{{displayStaff}}</strong> &nbsp;&nbsp;{{wkstaf}}</div>
+                                <div>Status:<strong>{{wkStatus}}</strong></div>
+                                     
+                            </div>
+                            <div style="    display: flex;justify-content: start;align-items: center;padding-top: 8px;">
+                                    <!-- <strong>{{wkrating}} </strong> -->
+                                    <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>
+                            
 
 
                             <span style="float: right;">
-                                <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <i (click)="getDoc()" class="fa fa-file-text" aria-hidden="true" style="color: orange"></i>&nbsp;&nbsp;
                                 <i class="fa fa-share-alt" aria-hidden="true"></i>
                             </span>
                         </div>
@@ -69,65 +72,64 @@
                         </div>
 
                         <div class="report-bt">
-                            <button class="btn btn-primary-purple nextBtn" style="width:100%">Get Report</button><br>
+                            <button class="btn btn-primary-purple nextBtn" style="width:100%" (click)="getReports(wkid)">Get Report</button><br>
                             <!-- <button class="btn btn-primary-purple nextBtn" style="width:100%" type="button">Leave with vendor</button> -->
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <div class="col-sm-12">
-                                <h3>View Reports</h3>
-                            <p>testing...</p>
+                            <div class="col-sm-12" *ngIf="workerImg">
+                                    <h3 class="staff_head">Other Staffs</h3>
+                                    <div class="col-sm-12">
+                                        <div style="display: flex;flex-wrap: wrap;">
+                                                <div *ngFor="let worker of workerImg" class="staff">
+                                                    <img style="border-radius: 40px;" *ngIf="worker['image']!=''" [src]="worker['image']" width="50px" height="50px"/> <img style="border-radius: 40px;" *ngIf="worker['image']=='Somu.jpeg'" src="../../assets/images/family.png" width="50px" height="50px"/> {{worker['name']}}</div>
 
-                        </div>
-                        <div class="col-sm-12">
-                                <h3>View Documents</h3>
-                            <p>Document1</p>
-
-                        </div>
-                    
-
-                        <!-- <div class="dash-row table-responsive">
-                            <table class="table table-bordered" [mfData]="WorkerNameList | search:['wkfName', 'wkDesgn', 'wkMobile']:searchTxt"
-                            #mf="mfDataTable" [mfRowsOnPage]="10">
+                                        </div>
+                                    </div>
+                                   
+                                <p></p>
+    
+                            </div>
+                        <div class="col-sm-12" *ngIf="staffReports">
+                                <h3 class="staff_head">View Reports</h3>
+                            <div class="dash-row table-responsive">
+                            <table class="table table-bordered" >
                             <thead>
                                 <tr>
+                                   
                                     <th>
-                                        S.No.
+                                       Staff Name
                                     </th>
                                     <th>
-                                        Image
+                                       Entry Point
                                     </th>
                                     <th>
-                                        <mfDefaultSorter by="wkfName">Worker Name</mfDefaultSorter>
+                                       Entry Time
                                     </th>
                                     <th>
-                                        <mfDefaultSorter by="wkDesgn">Worker Designation</mfDefaultSorter>
+                                            Exit Point
                                     </th>
                                     <th>
-                                        <mfDefaultSorter by="wkMobile">Mobile number</mfDefaultSorter>
-                                    </th>
-                                    <th>
-                                       Action
+                                            Exit Time
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr *ngFor="let item of mf.data;let i=index">
-                                    <ng-container *ngIf="item == -1">
-                                        <td colspan="6" align="center">No Data Found</td>
+                            <tbody >
+                                <tr *ngFor="let item of staffReports">
+                                   
+                                    <ng-container>
+                                        <!-- <td>{{(i+1)}}</td>                            -->
+                                        <td>{{item['vlfName']}}</td>
+                                        <td>{{item['vlEntryT']}}</td>
+                                        <td>{{item['vlEntryT']}}</td>
+                                        <td>{{item['vlExitT']}}</td>
+                                        <td>{{item['vlExitT']}} </td>
                                     </ng-container>
-                                    <ng-container *ngIf="item!=-1">
-                                        <td>{{(i+1)}}</td>
-                                        <td><img src="http://mediauploaduat.oyespace.com/Images/{{item['wkEntryImg']}}" width="50px" height="50px"/></td>
-                                        <td>{{item['wkfName']}}</td>
-                                        <td>{{item['wkDesgn']}}</td>
-                                        <td>{{item['wkMobile']}}</td>
-                                        <td> <i data-toggle="modal"
-                                            (click)="OpenModalForReport(Reporttemplate,   
-                                            item['wkWorkID'] )" class="fa fa-flag-checkered" aria-hidden="true"></i></td>
-                                    </ng-container>
+                                    
                                 </tr>
+                                
                             </tbody>
+                           
                             <tfoot>
                                 <tr>
                                     <td colspan="6">
@@ -136,7 +138,20 @@
                                 </tr>
                             </tfoot>
                             </table>
-                        </div> -->
+                        </div>
+
+                        </div>
+                        <div class="col-sm-12" *ngIf="enableviewDocuments">
+                            <h3 class="staff_head">View Documents</h3>
+                            <p>{{wkidtype}}</p>
+                            <img *ngIf="wkidimage!=''" class="idcard" [src]="wkidimage">
+                            <img *ngIf="wkidimage==''" src="../../assets/images/doc.png"/>
+
+
+                        </div>
+                    
+
+                        
                     </div>
 
 

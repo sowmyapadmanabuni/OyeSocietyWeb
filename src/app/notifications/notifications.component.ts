@@ -49,12 +49,14 @@ export class NotificationsComponent implements OnInit {
   image3:any;
   image4:any;
   image5:any;
+  notificationListByAcctID:any[];
 
   constructor(private utilsService: UtilsService,public router:Router,
     public globalService: GlobalServiceService,
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
     private DashBoardService: DashBoardService) {
+      this.notificationListByAcctID=[];
       this.changeViewOfActionButton=true;
     this.ntJoinStatTmp2 = '';
     this.AdminActiveNotification = 0;
@@ -137,6 +139,8 @@ export class NotificationsComponent implements OnInit {
       this.http.get(url, { headers: headers })
         .subscribe(data => {
           console.log(data);
+          this.notificationListByAcctID = data['data']['notificationListByAcctID'];
+          console.log(this.notificationListByAcctID);
           Array.from(data['data']['notificationListByAcctID']).forEach((item, index) => {
             ((index) => {
               setTimeout(() => {
@@ -144,6 +148,7 @@ export class NotificationsComponent implements OnInit {
                 console.log(item['ntIsActive']);
                 if (item['ntType'] == "Join") {
                   console.log(item['unit']['unOcStat']);
+                  console.log(item['ntid']);
                   //console.log(item['unit']['owner'].length);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utfName'] : item['unit']['owner'][0]['uofName']);
                   //console.log(item['unit']['owner'].length == 0 ? item['unit']['tenant'][0]['utMobile'] : item['unit']['owner'][0]['uoMobile']);
