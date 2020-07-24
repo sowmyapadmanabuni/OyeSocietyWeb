@@ -1365,7 +1365,7 @@ cities=[];
   fliterotherCity(Others){
     this._associations=this.filteredAssociationCityWise;
     this.modalRef.hide()
-
+    this.enblJoinAsnVew()
     console.log(Others);
     console.log(this._associations);
     console.log(this.filteredAssociationCityWise);

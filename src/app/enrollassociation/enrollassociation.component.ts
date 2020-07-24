@@ -886,6 +886,8 @@ imgfilename;
                 this.unitlistjson[name]=tmpArr.reverse();
                 this.unitlistjson[name]=tmpArr;
                 console.log(this.unitlistjson[name]);
+                this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
+                console.log(this.unitlistjson[name][0]['unitTmpid']);
                 this.unitrecordDuplicateUnitnameModified=true;
               }
             })
@@ -962,6 +964,7 @@ imgfilename;
                   this.unitlistjson[name]=tmpArr.reverse();
                   this.unitlistjson[name]=tmpArr;
                   console.log(this.unitlistjson[name]);
+                  
                   this.unitrecordDuplicateUnitnameModified=true;
                 }
               })
@@ -999,6 +1002,18 @@ imgfilename;
             //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
             //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
             this.blockTabId += 1;
+            this.blocksArray.forEach((itm,indx)=>{
+              if(itm.blockname.toLowerCase() == name.toLowerCase()){
+                if(this.blocksArray[indx+1]!=undefined){
+                  console.log(this.blocksArray[indx+1]['blockname']);
+                  this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
+                  this.nextBlckId=this.blocksArray[indx+1]['Id'];
+                  console.log(this.blocknameforIteration);
+                  console.log(this.nextBlckId);
+                }
+              }
+            })
+            this.assignTmpid(this.nextBlckId,this.blocknameforIteration);
           }
         }
         //this.increasingBlockArrLength += 1;
