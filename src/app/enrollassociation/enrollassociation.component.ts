@@ -964,7 +964,8 @@ imgfilename;
                   this.unitlistjson[name]=tmpArr.reverse();
                   this.unitlistjson[name]=tmpArr;
                   console.log(this.unitlistjson[name]);
-                  
+                  this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
+                  console.log(this.unitlistjson[name][0]['unitTmpid']);
                   this.unitrecordDuplicateUnitnameModified=true;
                 }
               })
