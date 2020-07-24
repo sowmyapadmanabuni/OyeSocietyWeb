@@ -20,6 +20,8 @@ export class StaffComponent implements OnInit {
   StartDate: any;
   EndDate: any;
   wkid: any;
+  filterStaff:any;
+  staffs1:any[];
   wkrating:any;
   wkimage: any;
   staffReports:any[];
@@ -220,7 +222,6 @@ this.enableviewDocuments=false;
 
         this.WorkerNameList = data['data']['worker'];
         // console.log(this.WorkerNameList);
-
         this.WorkerNameList = _.sortBy(this.WorkerNameList, e => e['wkfName']);
         console.log(this.WorkerNameList);
       },
@@ -229,23 +230,19 @@ this.enableviewDocuments=false;
         })
   }
 
-  OpenModalForReport(Reporttemplate: TemplateRef<any>, wkWorkID) {
-    //console.log(wkWorkID);
-    let Data = {
-      "StartDate": this.StartDate,
-      "EndDate": this.EndDate,
-      "wkWorkID": wkWorkID
-    }
-    this.viewStaffService.getStaffReport(Data)
-      .subscribe(data => {
-        //console.log(data);
-        this.reportlists = data['data']['worker'];
-        //console.log(this.reportlists);
-      },
-        err => {
-          //console.log(err);
-        })
-    this.modalRef = this.modalService.show(Reporttemplate, Object.assign({}, { class: 'gray modal-lg' }));
+  
+  OpeneditReview(editReview: TemplateRef<any>,wid){
+    console.log(this.wkid);
+    this.modalRef = this.modalService.show(editReview, Object.assign({}, { class: 'gray modal-md' }));
+    this.staffs1=this.staffs;
+    this.staffs1=this.staffs1.filter(item=>{
+      return item['wkWorkID']==this.wkid;
+    })
+    console.log(this.staffs1);
+
+    // this.wkidimage;
+    // this.wkrating;
+   
   }
   goToStaffs() {
     this.router.navigate(['staffs']);
