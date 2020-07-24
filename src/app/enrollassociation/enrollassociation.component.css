@@ -218,6 +218,25 @@ p.panextext{
     top: 45px;
     margin-left: 984px;
 }
+i#panuploadicon {
+    position: relative;
+    left: 192px;
+    bottom: 20px;
+}
+img#pancardimg {
+    position: relative;
+    left: 200px;
+    bottom: 22px;
+}
+i#assnuploadicon {
+    position: relative;
+    right: 70px;
+    top: 2px;
+}
+img.Upload1 {
+    position: relative;
+    right: 48px;
+}
 .resetforbulkunits{
     margin: 10px;
     right: 192px;
