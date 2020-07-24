@@ -38,10 +38,12 @@
             <!-- <mat-label class="logoassociation">Upload logo</mat-label>
             <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
             class="fa fa-question-circle" aria-hidden="true"></i> -->
-            <form [formGroup]="uploadForm" (ngSubmit)="processFile()" class="association-form">
+            <form [formGroup]="uploadForm" class="association-form">
                 <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
                 <div style="width: 130px;">
-                <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button>
+                    <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="assnuploadicon"aria-hidden="true" type="submit" (click)="processFile()"></i>
+
+                <!-- <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button> -->
                 <img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
                 </div>
                 <!-- <input type="file" id="img" name="profile" (change)="onFileSelect($event)" /> -->
@@ -237,12 +239,13 @@
                           (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
                           pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
                           <div>
-                            <form [formGroup]="uploadPanForm" (ngSubmit)="processPanFile()">
+                            <form [formGroup]="uploadPanForm">
                 <input #fileInput3 type="file" id="uploadCaptureInputFile" name="panProfile" (change)="onPanFileSelect($event)" (click)="fileopen1($event,fileInput3)">
 
                             <!-- <input type="file" name="panProfile" id="uploadCaptureInputFile" (change)="onPanFileSelect($event)" /> -->
-                            <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button> <img
-                              [hidden]="uploadPANCardThumbnail == undefined"  (click)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
+                            <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="panuploadicon" aria-hidden="true" type="submit" (click)="processPanFile()"></i>
+                            <!-- <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>  -->
+                            <img [hidden]="uploadPANCardThumbnail == undefined" id="pancardimg" (click)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
                                 src="{{uploadPANCardThumbnail}}" width="50px" height="50px" />
                             </form>
                           </div>
