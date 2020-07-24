@@ -287,7 +287,7 @@
         </button>
         </div>
         <div class="modal-body">
-        
+        <form>
             <div class="row" *ngFor="let item of staffs1">
                 <div style="display: flex">
                     <div>
@@ -295,20 +295,22 @@
                             <img  src="../../assets/images/doc.png"/>
                     </div>
                       <div>
-                            <p>Name:{{item['wkfName']}}<br><span>{{item['wkDesgn']}}</span></p>
+                            <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
                             <p>Status:{{item['wkStatus']}}</p>
-                            <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>{{wkrating}}&nbsp;&nbsp;
+                           <p><star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating" (onClick)="onClick($event)" 
+                            (onRatingChange)="onRatingChange($event)"></star-rating-comp>{{wkrating}}&nbsp;&nbsp;</p> 
 
                       </div>
-                      <div>
-                          <textarea rows="5" cols="5">{{item['wkStatus']}}</textarea>
-                      </div>
+                     
 
                 </div>
-                
+                <div>
+                        <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment">{{item['wkStatus']}}</textarea>
+                    </div>
+                <button (click)="updateReview(item['wkWorkID'],comment)">Update</button>
 
             </div>
       
-      
+        </form>
         </div>
    </ng-template>
