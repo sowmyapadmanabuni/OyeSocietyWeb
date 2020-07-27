@@ -14,14 +14,26 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 let config = {
-  databaseURL: "https://jabm-fd8d9.firebaseio.com",
   apiKey: "AIzaSyBaS0nRRwB5wU1D3C6CjR9b6CVOC3aHay4",
   authDomain: "jabm-fd8d9.firebaseapp.com",
+  databaseURL: "https://jabm-fd8d9-7adc4.firebaseio.com/",
   projectId: "jabm-fd8d9",
   storageBucket: "jabm-fd8d9.appspot.com",
   messagingSenderId: "1054539821176",
   appId: "1:1054539821176:web:5f6e4b2a4db6e64e9c3d8d",
   measurementId: "G-1K6Q5VL6WZ"
+
+
+// Below is the firebase config for PROD
+
+  // databaseURL: "https://jabm-fd8d9.firebaseio.com",
+  // apiKey: "AIzaSyBaS0nRRwB5wU1D3C6CjR9b6CVOC3aHay4",
+  // authDomain: "jabm-fd8d9.firebaseapp.com",
+  // projectId: "jabm-fd8d9",
+  // storageBucket: "jabm-fd8d9.appspot.com",
+  // messagingSenderId: "1054539821176",
+  // appId: "1:1054539821176:web:5f6e4b2a4db6e64e9c3d8d",
+  // measurementId: "G-1K6Q5VL6WZ"
 };
 gateFirebase.initializeApp(config);
 
@@ -50,6 +62,7 @@ export class NotificationsComponent implements OnInit {
   image4:any;
   image5:any;
   notificationListByAcctID:any[];
+  DateCurrent: any;
 
   constructor(private utilsService: UtilsService,public router:Router,
     public globalService: GlobalServiceService,
@@ -96,7 +109,7 @@ export class NotificationsComponent implements OnInit {
     //
     this.GetNotificationListByAccntID();
   }
-  
+ 
   AdminsUnitShow(resident) {
     this.role = resident;
   }
@@ -312,7 +325,7 @@ export class NotificationsComponent implements OnInit {
           }
         }
         //this.getNotification('');
-        //this.ntJoinStatTmp2 =  data['data']['notification']['ntJoinStat']; 
+        //this.ntJoinStatTmp2 =  data['data']['notification']['ntJoinStat'];
       },
         err => {
           console.log(err);
@@ -459,7 +472,7 @@ export class NotificationsComponent implements OnInit {
   }
   // Accept the join request stop here
 
-  // 
+  //
   rejectJoinRequest(ntid, sbRoleID, sbSubID, asAssnID, mrRolName, asAsnName, sbUnitID, sbMemID, ntdCreated, unOcSDate, acAccntID, ACNotifyID) {
     console.log(ntid);
     let ipAddress = this.utilsService.getIPaddress();
@@ -549,6 +562,7 @@ export class NotificationsComponent implements OnInit {
       .subscribe(data => {
         console.log('GetCurrentDateTime', data);
         let DateOfApproval = data['data']['currentDateTime'];
+        this.DateCurrent=DateOfApproval;
         let UpdateApprovalStatus = {
           VLApprStat: visitorStatus,
           VLVisLgID: visitorId,
@@ -561,20 +575,61 @@ export class NotificationsComponent implements OnInit {
           { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
           .subscribe(data => {
             console.log(data);
-            gateFirebase
-              .database()
-              .ref(`NotificationSync/A_${associationid}/${visitorId}/`)
-              .set({
-                buttonColor: visitorStatus == "Entry Approved" || visitorStatus == "Exit Approved" ? '#75be6f' : '#ff0000',
-                opened: true,
-                newAttachment: false,
-                visitorlogId: visitorId,
-                updatedTime: DateOfApproval,
-                // updatedTime: res.data.data.currentDateTime,
-                status: visitorStatus,
-              });
+
+
+            setTimeout(()=>{    //<<<---    using ()=> syntax
+              if(visitorStatus == "Entry Approved" || visitorStatus == "Exit Approved"){
+                console.log('Inside Entry Approved');
+                gateFirebase
+                .database()
+                .ref(`NotificationSync/A_${associationid}/${visitorId}`)
+                .set({
+                  buttonColor: "#75be6f",
+                  opened: true,
+                  newAttachment: false,
+                  visitorlogId: visitorId,
+                  updatedTime: new Date(),
+                  status: "Entry Approved",
+                });
+              }
+              else{
+                console.log('Inside Exit Approved');
+                gateFirebase
+                .database()
+                .ref(`NotificationSync/A_${associationid}/${visitorId}`)
+                .set({
+                  buttonColor: "#ff0000",
+                  opened: true,
+                  newAttachment: false,
+                  visitorlogId: visitorId,
+                  updatedTime: new Date(),
+                  status: "Exit Approved",
+                });
+              }
+              
+         }, 2000);
+
+
+
+
+            
+
+
+            // gateFirebase
+            //   .database()
+            //   .ref(`NotificationSync/A_${associationid}/${visitorId}`)
+            //   .set({
+            //     buttonColor: visitorStatus == "Entry Approved" || visitorStatus == "Exit Approved" ? '#75be6f' : '#ff0000',
+            //     opened: true,
+            //     newAttachment: false,
+            //     visitorlogId: visitorId,
+            //     updatedTime: DateOfApproval,
+            //     status: visitorStatus,
+            //   });
+
+              
             console.log(`NotificationSync/A_${associationid}/${visitorId}`);
-            console.log(associationid, visitorId, DateOfApproval);
+            console.log(associationid, visitorId, DateOfApproval, visitorStatus);
             this.changeViewOfActionButton=false;
             this.updateFirebase(associationid);
             alert('Success');
@@ -590,43 +645,43 @@ export class NotificationsComponent implements OnInit {
           // alert(err)
         })
   }
-
-
-  // *-*-*-*-*-*-*-*-*-*-Announcement Start Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-  announcementData(asAssnID,acNotifyID){
-    let ipAddress = this.utilsService.getIPaddress();
-    console.log('Announcement data', asAssnID, acNotifyID);
-    return this.http.get(`${ipAddress}oyesafe/api/v1/Announcement/GetAnnouncementDetailsByAssocAndAnnouncementID/${asAssnID}/${acNotifyID}`,
-      { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
-      .subscribe(data=>{
-        console.log(data);
-        console.log(data['data']['announcements']);
-        console.log(data['data']['announcements'][0]);
-        console.log(data['data']['announcements'][0]['anImages']);
-        // this.image1='data:image/png;base64,'+ data['data']['announcements'][0]['anImages'];
-        this.image1=this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data['data']['announcements'][0]['anImages'])
-        console.log('image1',this.image1);
-        // this.image2='data:image/png;base64,'+data['data']['announcements'][1]['anImages'];
-        // this.image3='data:image/png;base64,'+data['data']['announcements'][2]['anImages'];
-        // this.image4='data:image/png;base64,'+data['data']['announcements'][3]['anImages'];
-        // this.image5='data:image/png;base64,'+data['data']['announcements'][4]['anImages'];
-      },
-      err=>{
-        console.log(err);
-      })
-
-  }
-  // *-*-*-*-*-*-*-*-*-*-Announcement End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-
-
-  
+ 
   // *-*-*-*-*-*-*-*-*-*-Accept gate Visitors End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+ // *-*-*-*-*-*-*-*-*-*-Announcement Start Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+ announcementData(asAssnID,acNotifyID){
+  let ipAddress = this.utilsService.getIPaddress();
+  console.log('Announcement data', asAssnID, acNotifyID);
+  return this.http.get(`${ipAddress}oyesafe/api/v1/Announcement/GetAnnouncementDetailsByAssocAndAnnouncementID/${asAssnID}/${acNotifyID}`,
+    { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
+    .subscribe(data=>{
+      console.log(data);
+      console.log(data['data']['announcements']);
+      console.log(data['data']['announcements'][0]);
+      console.log(data['data']['announcements'][0]['anImages']);
+      this.image1='data:image/png;base64,'+ data['data']['announcements'][0]['anImages'];
+      // this.image1=this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data['data']['announcements'][0]['anImages'])
+      console.log('image1',this.image1);
+      this.image2='data:image/png;base64,'+data['data']['announcements'][1]['anImages'];
+      this.image3='data:image/png;base64,'+data['data']['announcements'][2]['anImages'];
+      this.image4='data:image/png;base64,'+data['data']['announcements'][3]['anImages'];
+      this.image5='data:image/png;base64,'+data['data']['announcements'][4]['anImages'];
+    },
+    err=>{
+      console.log(err);
+    })
+
+}
+// *-*-*-*-*-*-*-*-*-*-Announcement End Here*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+
+
   updateFirebase(assId){
     let self = this;
     let refPath = `syncdashboard/notificationPopUpRefresh/${assId}`;
     console.log('GETTHEDETAILS',refPath,assId)
     let accountId = this.globalService.getacAccntID();
-    
+   
     gateFirebase.database()
     .ref(refPath)
     .set({
@@ -654,5 +709,21 @@ export class NotificationsComponent implements OnInit {
          console.log(err);
        })
 
+    }
+
+
+
+    buttonPress(){
+      gateFirebase
+      .database()
+      .ref(`NotificationSync/A_2/929`)
+      .set({
+        buttonColor:'#75be6f',
+        opened: true,
+        newAttachment: false,
+        visitorlogId: 929,
+        updatedTime: new Date(),
+        status: 'Entry Approved',
+      });
     }
 }

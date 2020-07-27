@@ -278,12 +278,13 @@
                       <div class="not-detail">
                         <div class="col-sm-12">
                           <div style="height: 100px;background-color: aliceblue;">
-                              <img *ngIf="image1" src="image1" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                              <!-- <img [src]="image2" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                              <img [src]="image3" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                              <img [src]="image4" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" /> -->
+                              <img *ngIf="image1" [src]="image1" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                              <img *ngIf="image1" [src]="image1" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                              <img *ngIf="image1" [src]="image1" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                              <img *ngIf="image1" [src]="image1" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
                           </div>
                           message
+                          <button (click)="buttonPress()">PressMe</button>
                           <input style="width: 800px;height: 50px;border-color: red;" type="text" [(ngModel)]="item['ntDesc']" disabled/>
                         </div>
                       </div>
