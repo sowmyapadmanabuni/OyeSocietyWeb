@@ -25,6 +25,8 @@ export class StaffComponent implements OnInit {
   filterStaff:any;
   staffs1:any[];
   wkrating:any;
+  condition:any;
+  condition1:any;
   wkimage: any;
   staffReports:any[];
   wkstaf: any;
@@ -52,6 +54,8 @@ export class StaffComponent implements OnInit {
     this.WorkerNameList = [];
     this.workerImg = [];
     this.otherStaff = [];
+    this.condition=true;
+    this.condition1=false;
 this.enableviewDocuments=false;
     this.displayStaff = "Select Staff"
     this.reportlists = [];
@@ -71,10 +75,14 @@ this.enableviewDocuments=false;
     this.StaffList();
     this.getStaffList();
     this.workerImg = [];
+    this.condition=true;
+    this.condition1=false;
 
   }
 
   getStaffList() {
+    this.condition=true;
+    this.condition1=false;
     // alert("hai");
     let ipAddress = this.UtilsService.getIPaddress()
     const headers = new HttpHeaders()
@@ -121,7 +129,8 @@ this.enableviewDocuments=false;
   }
 
   getDoc(){
-   
+    this.condition=true;
+    this.condition1=false;
     this.enableviewDocuments=true;
     if(this.wkidimage!=""){
       console.log(this.wkidimage);
@@ -172,6 +181,9 @@ this.enableviewDocuments=false;
 
 
   getOtherStaffs() {
+    this.condition1=true;
+    this.condition=false;
+
     this.workerImg = [];
     //alert("hai");
     let ipAddress = this.UtilsService.getIPaddress()
@@ -179,17 +191,17 @@ this.enableviewDocuments=false;
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
       .set('Content-Type', 'application/json');
-    this.http.get('https://uatapi.scuarex.com/oye247/api/v1/GetWorkerListByAssocID/108', { headers: headers })
+    this.http.get('http://devapi.scuarex.com/oye247/api/v1/WorkerTypes/GetWorkerTypes', { headers: headers })
       .subscribe(
         (response) => {
           console.log(response);
-          this.otherStaff = response['data']['worker'];
-          this.otherStaff.forEach(item => {
+          this.otherStaff = response['data']['workerTypes'];
+         // this.otherStaff.forEach(item => {
             // console.log(item['wkEntryImg']);
             // console.log(typeof item['wkEntryImg']);
 
-            this.workerImg.push({ name: item['wkfName'], image: this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['wkEntryImg']) })
-          })
+            //this.workerImg.push({ name: item['wkfName'], image: this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['wkEntryImg']) })
+         // })
           // console.log(this.staffs);
         },
         (error) => {
@@ -296,6 +308,8 @@ this.enableviewDocuments=false;
    
   }
   goToStaffs() {
+    this.condition=true;
+    this.condition1=false;
     this.router.navigate(['staffs']);
   }
   goToGuests() {
