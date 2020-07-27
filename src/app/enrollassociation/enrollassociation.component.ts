@@ -594,16 +594,16 @@ imgfilename;
         }
     }
  
-  }
-  keyPress3(event:any){
-     const pattern = /^[1-9][0-9]*$/;
-    let inputChar = String.fromCharCode(event.charCode);
-    // console.log(inputChar, e.charCode);
-       if (!pattern.test(inputChar)) {
-       // invalid character, prevent input
-           event.preventDefault();
-      }
-  }
+   }
+  // keyPress3(event:any){
+  //    const pattern = /^[1-9][0-9]*$/;
+  //   let inputChar = String.fromCharCode(event.charCode);
+  //   // console.log(inputChar, e.charCode);
+  //      if (!pattern.test(inputChar)) {
+  //      // invalid character, prevent input
+  //          event.preventDefault();
+  //     }
+  // }
   _keyPress2(event:any,Id) {
     var ch = String.fromCharCode(event.keyCode);
      var filter = /[a-zA-Z]/;
@@ -886,6 +886,8 @@ imgfilename;
                 this.unitlistjson[name]=tmpArr.reverse();
                 this.unitlistjson[name]=tmpArr;
                 console.log(this.unitlistjson[name]);
+                this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
+                console.log(this.unitlistjson[name][0]['unitTmpid']);
                 this.unitrecordDuplicateUnitnameModified=true;
               }
             })
@@ -962,6 +964,8 @@ imgfilename;
                   this.unitlistjson[name]=tmpArr.reverse();
                   this.unitlistjson[name]=tmpArr;
                   console.log(this.unitlistjson[name]);
+                  this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
+                  console.log(this.unitlistjson[name][0]['unitTmpid']);
                   this.unitrecordDuplicateUnitnameModified=true;
                 }
               })
@@ -990,34 +994,31 @@ imgfilename;
             document.getElementById('unitshowmanual').style.display = 'block';
             document.getElementById('unitsmanualnew').style.display = 'none';
             document.getElementById('unitsbulkold').style.display = 'block';
-            this.demo2TabIndex = this.demo2TabIndex + 1;
+            //this.demo2TabIndex = this.demo2TabIndex + 1;
             console.log(this.increasingBlockArrLength);
             console.log(this.blockTabId);
-            let blockId = `mat-tab-label-${this.increasingBlockArrLength}-${this.blockTabId}`
-            //console.log(`[aria-controls='mat-tab-content-1-${this.blockTabId}']`);
-            //console.log(document.querySelectorAll("[aria-controls='mat-tab-content-1-0']"));
-            let queryselectorvalue = "[aria-controls='mat-tab-content-1-"+this.blockTabId+"']";
-            //console.log(queryselectorvalue);
-            //console.log(queryselectorvalue[0]);
-            //console.log(document.querySelectorAll("[aria-controls='mat-tab-content-1-0']"));
-            //console.log(document.querySelectorAll(queryselectorvalue));
-            //console.log(document.querySelectorAll(queryselectorvalue)[0].innerHTML);
-            //document.querySelectorAll(queryselectorvalue)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
-            console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-            let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-            console.log(arr);
-            console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
-            (<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
-            //document.querySelectorAll(`#${blockId} .mat-tab-label-content`)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
-            //document.querySelectorAll(`[aria-controls='mat-tab-content-1-${this.blockTabId}']`)[0].innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
-            //console.log(document.querySelectorAll(`#${blockId} .mat-tab-label-content`));
+            //console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+            //let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+            //console.log(arr);
+            //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
+            //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
             this.blockTabId += 1;
+            this.blocksArray.forEach((itm,indx)=>{
+              if(itm.blockname.toLowerCase() == name.toLowerCase()){
+                if(this.blocksArray[indx+1]!=undefined){
+                  console.log(this.blocksArray[indx+1]['blockname']);
+                  this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
+                  this.nextBlckId=this.blocksArray[indx+1]['Id'];
+                  console.log(this.blocknameforIteration);
+                  console.log(this.nextBlckId);
+                }
+              }
+            })
+            this.assignTmpid(this.nextBlckId,this.blocknameforIteration);
           }
         }
         //this.increasingBlockArrLength += 1;
-      }, Number(this.unitlistjson[name].length) * 2000)
-          //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
-      
+      }, Number(this.unitlistjson[name].length) * 2000)      
         //}
   }
   exceptionMessage='';

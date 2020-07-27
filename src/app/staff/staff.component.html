@@ -28,17 +28,17 @@
                                 </div>
                         </div>
 
-                        <div class="m-t-30">
+                        <div class="m-t-30" *ngIf="displayStaff!='Select Staff'">
                             <div style="display: flex;align-items: center;justify-content: space-between;">
                                 <div *ngIf="stafimage!=''"><img [src]="stafimage" class="prof"> &nbsp;&nbsp;<strong>{{displayStaff}}</strong>&nbsp;&nbsp;{{wkstaf}}</div>
                                 <div *ngIf="stafimage==''"><img src="../../assets/images/family.png" width="50px" height="50px"/>&nbsp;&nbsp; <strong>{{displayStaff}}</strong> &nbsp;&nbsp;{{wkstaf}}</div>
                                 <div>Status:<strong>{{wkStatus}}</strong></div>
                                      
                             </div>
-                            <div style="    display: flex;justify-content: start;align-items: center;padding-top: 8px;">
+                            <div style="display: flex;justify-content: start;align-items: center;padding-top: 8px;">
                                     <!-- <strong>{{wkrating}} </strong> -->
-                                    <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>{{wkrating}}&nbsp;&nbsp;
+                                    <i (click)="OpeneditReview(editReview,wkid)" class="fa fa-pencil" aria-hidden="true"></i>
                                 </div>
                             
 
@@ -48,13 +48,13 @@
                                 <i class="fa fa-share-alt" aria-hidden="true"></i>
                             </span>
                         </div>
-                       <div class="date-row">
+                       <div class="date-row" *ngIf="displayStaff!='Select Staff'">
                             <div class="del-date cal"><input type="text" placeholder="From Date" class="date" bsDatepicker></div>
                             <div class="del-date cal"><input type="text" class="date" placeholder="To Date" bsDatepicker></div>
                        </div>
                        
 
-                        <div class="radio-bt">
+                        <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
                             <div class="invite-radio">
                                 <div class="radio-item">
                                     <input type="radio" id="ritema" name="ritem" value="ropt1">
@@ -71,7 +71,7 @@
                             </div>
                         </div>
 
-                        <div class="report-bt">
+                        <div class="report-bt" *ngIf="displayStaff!='Select Staff'">
                             <button class="btn btn-primary-purple nextBtn" style="width:100%" (click)="getReports(wkid)">Get Report</button><br>
                             <!-- <button class="btn btn-primary-purple nextBtn" style="width:100%" type="button">Leave with vendor</button> -->
                         </div>
@@ -279,44 +279,38 @@
     <!--rightBar end-->
 </div>
 
-<ng-template #Reporttemplate>
+<ng-template #editReview>
     <div class="modal-header">
-        <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;position: absolute;left: 269px;">Staff Report</h4>
+        <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;left: 269px;">Edit Reviews</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
         </button>
         </div>
         <div class="modal-body">
-        
-            <div class="row">
-                <!---->
-                <div class="table-responsive hidden-xs" style="margin-top: 40px;">
-                    <table class="table">
-                        <thead>
-                            <tr style="color:#e59400;">
-                                <th>Date</th>
-                                <th>Entry Point</th>
-                                <th>Entry Time</th>
-                                <th>Exit Point</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of reportlists">
-                        
-                                <td data-toggle="modal">{{item['vlsActTm']}}
-                                </td>
-                                <td data-toggle="modal">{{item['vlengName']}}
-                                </td>
-                                <td data-toggle="modal">{{item['vldUpdated'] | date:'shortTime'}} 
-                                </td>
-                                <td data-toggle="modal">{{item['vlexgName']}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <form>
+            <div class="row" *ngFor="let item of staffs1">
+                <div style="display: flex">
+                    <div>
+                            <!-- <img *ngIf="wkEntryImg!=''" class="idcard" [src]="wkEntryImg"> -->
+                            <img  src="../../assets/images/doc.png"/>
+                    </div>
+                      <div>
+                            <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
+                            <p>Status:{{item['wkStatus']}}</p>
+                           <p><star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating" (onClick)="onClick($event)" 
+                            (onRatingChange)="onRatingChange($event)"></star-rating-comp>{{wkrating}}&nbsp;&nbsp;</p> 
+
+                      </div>
+                     
+
                 </div>
+                <div>
+                        <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment">{{item['wkStatus']}}</textarea>
+                    </div>
+                <button (click)="updateReview(item['wkWorkID'],comment)">Update</button>
+
             </div>
       
-      
+        </form>
         </div>
    </ng-template>

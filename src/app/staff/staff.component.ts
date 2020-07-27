@@ -9,6 +9,7 @@ import * as _ from 'underscore';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UtilsService } from '../utils/utils.service';
 import swal from 'sweetalert2';
+import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
 
 @Component({
   selector: 'app-staff',
@@ -20,6 +21,9 @@ export class StaffComponent implements OnInit {
   StartDate: any;
   EndDate: any;
   wkid: any;
+  comment:any;
+  filterStaff:any;
+  staffs1:any[];
   wkrating:any;
   wkimage: any;
   staffReports:any[];
@@ -220,7 +224,6 @@ this.enableviewDocuments=false;
 
         this.WorkerNameList = data['data']['worker'];
         // console.log(this.WorkerNameList);
-
         this.WorkerNameList = _.sortBy(this.WorkerNameList, e => e['wkfName']);
         console.log(this.WorkerNameList);
       },
@@ -228,24 +231,69 @@ this.enableviewDocuments=false;
           console.log(err);
         })
   }
+  onClickResult:IStarRatingOnClickEvent;
+   
+    onRatingChangeResult:IStarRatingOnRatingChangeEven;
 
-  OpenModalForReport(Reporttemplate: TemplateRef<any>, wkWorkID) {
-    //console.log(wkWorkID);
-    let Data = {
-      "StartDate": this.StartDate,
-      "EndDate": this.EndDate,
-      "wkWorkID": wkWorkID
+    onClick = ($event:IStarRatingOnClickEvent) => {
+        console.log('onClick $event: ', $event);
+        this.onClickResult = $event;
+        this.wkrating=this.onClickResult.rating
+    };
+
+    onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
+        console.log('onRatingUpdated $event: ', $event);
+        this.onRatingChangeResult = $event;
+    };
+
+   
+  updateReview(param,coment){
+    this.wkrating
+     console.log(param);
+    console.log(this.wkrating);
+     console.log(coment);
+
+     let ipAddress = this.UtilsService.getIPaddress()
+    const headers = new HttpHeaders()
+      .set('Authorization', 'my-auth-token')
+      .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+      .set('Content-Type', 'application/json');
+      let upreview =
+      {
+        "ASAssnID"  : 108,
+        "UNUnitID"  : 156,
+        "WKWorkID"  : param,
+        "ACAccntID" : 72,
+        "WKRating"  : this.wkrating,
+        "WKReview"  : coment,
+        "WKSmlyCnt" : "4"
     }
-    this.viewStaffService.getStaffReport(Data)
-      .subscribe(data => {
-        //console.log(data);
-        this.reportlists = data['data']['worker'];
-        //console.log(this.reportlists);
-      },
-        err => {
-          //console.log(err);
-        })
-    this.modalRef = this.modalService.show(Reporttemplate, Object.assign({}, { class: 'gray modal-lg' }));
+    console.log(upreview);
+    this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
+      .subscribe(
+        (response) => {
+          console.log(response);
+        
+
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+  
+  OpeneditReview(editReview: TemplateRef<any>,wid){
+    console.log(this.wkid);
+    this.modalRef = this.modalService.show(editReview, Object.assign({}, { class: 'gray modal-md' }));
+    this.staffs1=this.staffs;
+    this.staffs1=this.staffs1.filter(item=>{
+      return item['wkWorkID']==this.wkid;
+    })
+    console.log(this.staffs1);
+
+    // this.wkidimage;
+    // this.wkrating;
+   
   }
   goToStaffs() {
     this.router.navigate(['staffs']);
