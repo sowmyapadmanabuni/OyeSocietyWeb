@@ -177,23 +177,54 @@
                     <div class="col-sm-4">
                         <p><strong>Unit Type : </strong><span>{{viewUnitRow.unitType}}</span></p>
                     </div>
-                    <div class="col-sm-4">
+                    <!-- <div class="col-sm-4">
                         <p><strong>Unit Dimension : </strong><span>{{viewUnitRow.unitDimen}}</span></p>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-12">
+                    <!-- <div class="col-sm-12">
                          <hr>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-4">
+                    <!-- <div class="col-sm-4">
                         <p><strong>Unit Rate : </strong><span>{{viewUnitRow.rate}}</span></p>
                     </div>
                     <div class="col-sm-4">
-                        <p><strong>Calculation Type : </strong><span>{{viewUnitRow.calculationType}}</span></p><!---->
-                    </div>
+                        <p><strong>Calculation Type : </strong><span>{{viewUnitRow.calculationType}}</span></p>
+                    </div> -->
                     <div class="col-sm-4">
                         <p><strong>Occupancy Status : </strong><span>{{viewUnitRow.occupencyStatus}}</span></p>
                     </div>
+
+                    <div *ngIf="viewUnitRow.occupencyStatus=='Sold Owner Occupied Unit'||viewUnitRow.occupencyStatus=='Sold Tenant Occupied Unit'||viewUnitRow.occupencyStatus=='Sold Vacant Unit'">
+                       <div class="col-sm-4">
+                        <p><strong>Owner FirstName : </strong><span>{{viewUnitRow.ownerfirstname}}</span></p>
+                       </div>
+                       <div class="col-sm-4">
+                        <p><strong>Owner LastName : </strong><span>{{viewUnitRow.ownerlastname}}</span></p>
+                       </div>
+                       <div class="col-sm-4">
+                        <p><strong>Owner MobileNumber : </strong><span>{{viewUnitRow.ownermobilenumber}}</span></p>
+                       </div>
+                       <div class="col-sm-4">
+                        <p><strong>Owner EmailId : </strong><span>{{viewUnitRow.owneremail}}</span></p>
+                       </div>
+
+                    </div>
+                    <div *ngIf="viewUnitRow.occupencyStatus=='Sold Tenant Occupied Unit'||viewUnitRow.occupencyStatus=='UnSold Tenant Occupied Unit'">
+                        <div class="col-sm-4">
+                         <p><strong>Tenant FirstName : </strong><span>{{viewUnitRow.tenantFirtname}}</span></p>
+                        </div>
+                        <div class="col-sm-4">
+                         <p><strong>Tenant LastName : </strong><span>{{viewUnitRow.tenantLastname}}</span></p>
+                        </div>
+                        <div class="col-sm-4">
+                         <p><strong>Tenant MobileNumber : </strong><span>{{viewUnitRow.tenantMobnumber}}</span></p>
+                        </div>
+                        <div class="col-sm-4">
+                         <p><strong>Tenant EmailId : </strong><span>{{viewUnitRow.tenantEmail}}</span></p>
+                        </div>
+ 
+                     </div>
                 </div>
             </div> <!---------Modal Body close----------> 
         </div>
