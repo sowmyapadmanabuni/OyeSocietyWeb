@@ -1458,7 +1458,6 @@
 
 <!--Request a Demo pop up box-->
 <ng-template #reqdemo>
-
 	<div class="modal-header" style="background: #82808026;display: flex;justify-content: space-between;">
 		<h4 class="modal-title" style="width: 100%;">Select your city</h4>
 		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -1467,9 +1466,10 @@
 	</div>
 	<div class="modal-body">
 		<div class="container-fluid citypa">
-      <div *ngFor="let city of cities" (click)="fliterCity(city['cityName'])" class="cityui">{{city['cityName']}}</div>
+      <div *ngFor="let city of cities" (click)="fliterCity(city['name'])" class="cityui">
+        <img style="width: 50%;" src="{{'data:image/png;base64,'+city['image']}}">{{city['name']}}</div>
       <div (click)="fliterotherCity('Others')"class="cityui">Other Cities</div>
-
+      <div style="padding: 30px 0px;font-weight: 500;">Want OyeSpace? <a hrfe="https://www.oyespace.com/" target="_blank">Click here</a></div>
 		</div>
 	</div>
 </ng-template>

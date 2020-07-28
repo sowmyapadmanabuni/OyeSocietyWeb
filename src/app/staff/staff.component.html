@@ -9,8 +9,8 @@
                     <span class="black">Staffs</span>
                 <div class="switch">
                     <ul class="nav nav-pills">
-                        <li class="active"><a (click)="goToStaff()">My Staff</a></li>
-                        <li><a (click)="getOtherStaffs()">Other Staffs</a></li>
+                        <li [ngClass]="{'active' : condition}"><a (click)="goToStaff()">My Staff</a></li>
+                        <li [ngClass]="{'active' : condition1}"><a (click)="getOtherStaffs()">Other Staffs</a></li>
                     </ul>
                 </div>
                 <div>
@@ -77,12 +77,12 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                            <div class="col-sm-12" *ngIf="workerImg">
+                            <div class="col-sm-12">
                                     <h3 class="staff_head">Other Staffs</h3>
                                     <div class="col-sm-12">
                                         <div style="display: flex;flex-wrap: wrap;">
-                                                <div *ngFor="let worker of workerImg" class="staff">
-                                                    <img style="border-radius: 40px;" *ngIf="worker['image']!=''" [src]="worker['image']" width="50px" height="50px"/> <img style="border-radius: 40px;" *ngIf="worker['image']=='Somu.jpeg'" src="../../assets/images/family.png" width="50px" height="50px"/> {{worker['name']}}</div>
+                                                <div *ngFor="let item of otherStaff" class="staff">
+                                                    <img style="border-radius: 40px;" src="../../assets/images/family.png" width="50px" height="50px"/>  {{item['wtDesgn']}}</div>
 
                                         </div>
                                     </div>
@@ -288,24 +288,28 @@
         </div>
         <div class="modal-body">
         <form>
-            <div class="row" *ngFor="let item of staffs1">
-                <div style="display: flex">
-                    <div>
-                            <!-- <img *ngIf="wkEntryImg!=''" class="idcard" [src]="wkEntryImg"> -->
-                            <img  src="../../assets/images/doc.png"/>
-                    </div>
-                      <div>
-                            <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
-                            <p>Status:{{item['wkStatus']}}</p>
-                           <p><star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating" (onClick)="onClick($event)" 
-                            (onRatingChange)="onRatingChange($event)"></star-rating-comp>{{wkrating}}&nbsp;&nbsp;</p> 
+            <div class="row" *ngFor="let item of staffs1" style="margin:0px 30px">
+                <div style="display: flex;">
+                    <h5>Staff Details</h5>
+                    
+                      <div style="display: flex;">
+                        <div><img  src="../../assets/images/doc.png"/></div>
+                        <div>
+                                <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
+                                <p>Status:{{item['wkStatus']}}</p>
+                               <p><star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating" (onClick)="onClick($event)" 
+                                (onRatingChange)="onRatingChange($event)"></star-rating-comp></p>
+                                <p>{{wkrating}}</p>
+                        </div>
+                            
 
                       </div>
                      
 
                 </div>
                 <div>
-                        <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment">{{item['wkStatus']}}</textarea>
+                    <label>Comments:</label>
+                        <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment" style="width: 100%">{{item['wkStatus']}}</textarea>
                     </div>
                 <button (click)="updateReview(item['wkWorkID'],comment)">Update</button>
 

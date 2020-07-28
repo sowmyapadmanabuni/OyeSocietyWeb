@@ -1765,10 +1765,10 @@ validateUnitDetailsField(name){
       setTimeout(() => {
         $(".se-pre-con").fadeOut("slow");
         document.getElementById('upload_excel').style.display = 'none'
-        document.getElementById('blockdetailscancelbutton').style.display = 'none';
+        // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
         document.getElementById('showmanual').style.display = 'block';
-        document.getElementById('blockdetailsbuttons').style.display = 'block';
+        // document.getElementById('blockdetailsbuttons').style.display = 'block';
         this.commonblockarray.forEach(element => {
           element.hasNoDuplicateBlockname=true;
           element.disableField=true;

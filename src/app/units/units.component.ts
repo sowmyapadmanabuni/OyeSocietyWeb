@@ -360,18 +360,59 @@ export class UnitsComponent implements OnInit {
 
 
 
-  viewUnit(repUnit:any){
+  viewUnit(repUnit: any) {
     //console.log('repUnit',JSON.stringify(repUnit));
-      this.currentAssociationName=this.globalService.getCurrentAssociationName();
-      this.viewUnitRow={
-        unitNo : repUnit.unUniName,
+    this.currentAssociationName = this.globalService.getCurrentAssociationName();
+
+
+    if (repUnit.unOcStat == "Sold Owner Occupied Unit" || repUnit.unOcStat == "Sold Vacant Unit") {
+      this.viewUnitRow = {
+        unitNo: repUnit.unUniName,
         unitType: repUnit.unUniType,
-        unitDimen: repUnit.unDimens,
-        rate: repUnit.unRate,
-        calculationType: repUnit.unCalType,
-        occupencyStatus: repUnit.unOcStat
+        occupencyStatus: repUnit.unOcStat,
+
+        ownerfirstname: repUnit.owner[0].uofName,
+        ownerlastname: repUnit.owner[0].uolName,
+        ownermobilenumber: repUnit.owner[0].uoMobile,
+        owneremail: repUnit.owner[0].uoEmail,
       };
-     
+    }
+    else if (repUnit.unOcStat == "Sold Tenant Occupied Unit") {
+      this.viewUnitRow = {
+        unitNo: repUnit.unUniName,
+        unitType: repUnit.unUniType,
+        occupencyStatus: repUnit.unOcStat,
+
+        ownerfirstname: repUnit.owner[0].uofName,
+        ownerlastname: repUnit.owner[0].uolName,
+        ownermobilenumber: repUnit.owner[0].uoMobile,
+        owneremail: repUnit.owner[0].uoEmail,
+
+        tenantFirtname: repUnit.tenant[0].utfName,
+        tenantLastname: repUnit.tenant[0].utlName,
+        tenantMobnumber: repUnit.tenant[0].utMobile,
+        tenantEmail: repUnit.tenant[0].utEmail
+
+      };
+    }
+    else if (repUnit.unOcStat == "UnSold Tenant Occupied Unit") {
+      this.viewUnitRow = {
+        unitNo: repUnit.unUniName,
+        unitType: repUnit.unUniType,
+        occupencyStatus: repUnit.unOcStat,
+
+        tenantFirtname: repUnit.tenant[0].utfName,
+        tenantLastname: repUnit.tenant[0].utlName,
+        tenantMobnumber: repUnit.tenant[0].utMobile,
+        tenantEmail: repUnit.tenant[0].utEmail
+      };
+    } else {
+      this.viewUnitRow = {
+        unitNo: repUnit.unUniName,
+        unitType: repUnit.unUniType,
+        occupencyStatus: repUnit.unOcStat,
+      };
+    }
   }
 
   commonunit: boolean;
