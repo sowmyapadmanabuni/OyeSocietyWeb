@@ -154,5 +154,10 @@
         margin-bottom: 0px;
         margin-top: -18px;
     }
-    
-    
+    .form-groupblocks{
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+    ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+        background-color: #B51414 !important;
+    }

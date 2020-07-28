@@ -493,7 +493,7 @@ this.state = state.stName;
     "isnotvalidtenantmobilenumber":false,
     "isnotvalidtenantemaiid":false,
     "isSingleUnitDataEmpty":true,
-    "displayText":"SaveAndContinue",
+    "displayText":"Save & Continue",
     "isUnitNameModifiedForDuplicateRecord":'No'
   }
   onFileSelect(event) {

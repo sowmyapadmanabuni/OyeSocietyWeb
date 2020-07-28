@@ -38,17 +38,7 @@
             <!-- <mat-label class="logoassociation">Upload logo</mat-label>
             <i matTooltip="Upload Logo of Max 2MB of Formats allowed are:PNG,JPG and Resolution of 128*128"
             class="fa fa-question-circle" aria-hidden="true"></i> -->
-            <form [formGroup]="uploadForm" class="association-form">
-                <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
-                <div style="width: 130px;">
-                    <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="assnuploadicon"aria-hidden="true" type="submit" (click)="processFile()"></i>
-
-                <!-- <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button> -->
-                <img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
-                </div>
-                <!-- <input type="file" id="img" name="profile" (change)="onFileSelect($event)" /> -->
-                 <!-- <img *ngIf="thumbnailASAsnLogo==undefined" class="Upload1" src="../../assets/images/map_placeholder.png" width="50px" height="50px"/> -->
-            </form>
+         
 
                 <!-- <form class="association-form">
                     <p>Upload Logo of Max 2MB of Formats allowed</p>
@@ -69,7 +59,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <br>
+                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-label>STATE<span class="red">*</span></mat-label>
@@ -82,6 +72,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field>
                         <mat-label>CITY<span class="red">*</span></mat-label>
@@ -94,6 +85,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <br>
                 <!-- <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>CITY</mat-label>
@@ -132,7 +124,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <br>
+                
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>PROPERTY NAME<span class="red">*</span></mat-label>
@@ -161,7 +153,7 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                
+                <br>
                 <form [formGroup]="form" class="association-form">
                     <mat-form-field class="association-full-width">
                         <mat-label>ASSOCIATION EMAIL<span class="red">*</span></mat-label>
@@ -185,6 +177,21 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <form [formGroup]="uploadForm" class="association-form">
+                        <label class="control-label" style="width: 100%;">Upload Association logo</label>
+
+                       <div style="width: 130px;">
+                            <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
+                       </div> 
+                        <div style="width: 130px;">
+                            <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="assnuploadicon"aria-hidden="true" type="submit" (click)="processFile()"></i>
+        
+                        <!-- <button mat-raised-button color="primary" class="Upload" type="submit">Upload</button> -->
+                        <img [hidden]="thumbnailASAsnLogo==undefined" class="Upload1" (click)="showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')" src="{{thumbnailASAsnLogo}}" width="50px" height="50px"/>
+                        </div>
+                        <!-- <input type="file" id="img" name="profile" (change)="onFileSelect($event)" /> -->
+                         <!-- <img *ngIf="thumbnailASAsnLogo==undefined" class="Upload1" src="../../assets/images/map_placeholder.png" width="50px" height="50px"/> -->
+                    </form>
                 <br>
                 <div class="save">
                     <a class="continue" (click)="resetStep1($event)"mat-raised-button color="primary">RESET</a>
@@ -949,12 +956,10 @@
                                                 </form>
                                             </div>
                                            
-                                            <div>
-                                                <button id="manualunitssubmit" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
-                                                    (click)="gotonexttab($event,blocknameforIteration,obj3.Id,i)">{{obj3.displayText}}</button>
-                                            </div>
                                             <div class="save">
                                                 <a class="resetmanualunits" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
+                                                <button id="manualunitssubmit" class="resetmanualunits mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
+                                                    (click)="gotonexttab($event,blocknameforIteration,obj3.Id,i)">{{obj3.displayText}}</button>
                                             </div>
     
                                         </div>

@@ -6,7 +6,7 @@ import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import {ViewAssociationService} from '../../services/view-association.service'
 import { ViewUnitService } from '../../services/view-unit.service';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-add-blocks',
   templateUrl: './add-blocks.component.html',
@@ -20,7 +20,7 @@ export class AddBlocksComponent implements OnInit {
   latePymtChrgTypes: object[];
   addRate: string;
   addRate1: string;
-
+  condition = true;
   blockname: string;
   blocktype: string;
   noofunits: any;
@@ -69,6 +69,7 @@ rate1:any;
   constructor(private addblockservice: AddBlockService,
     private globalservice: GlobalServiceService,
     private router:Router,
+    private http: HttpClient,
     private viewassn: ViewAssociationService,
     private viewUniService: ViewUnitService) {
       this.EnableBlockListView=new EventEmitter<string>();
@@ -124,6 +125,7 @@ rate1:any;
   }
 
   ngOnInit() {
+    this.getassociationlist();
     this.getMeasurement();
     this.check="true";
    this.check1="true";
@@ -134,6 +136,25 @@ rate1:any;
   getBlockType(param){
     this.blocktype=param;
     
+  }
+  exceptionMessage='';
+  blockarray=[]
+  singleblocktype;
+  getassociationlist(){
+    let assnid=this.globalservice.getCurrentAssociationId()
+
+    let asslistapi = "https://uatapi.scuarex.com/oyeliving/api/v1/association/getAssociationList/" + assnid;
+
+    this.http.get(asslistapi, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+
+    this.singleblocktype = res.data.association.asPrpType;
+    console.log(this.singleblocktype)
+    }, error => {
+      console.log(error);
+     this.exceptionMessage = error['error']['exceptionMessage'];
+     console.log(this.exceptionMessage);
+    }
+    );
   }
   getMeasurement(){
     this.viewassn.getAssociationDetailsByAssociationid(this.currentAssociationID).subscribe((res)=>{
@@ -361,11 +382,12 @@ rate1:any;
   passvalue(frequency) {
     //console.log(frequency);
   }
-  blockType = [
-    "RESIDENTIAL",
-    "COMMERCIAL",
-    "RESIDENTIAL AND COMMERCIAL"
-  ]
+  // blockType = [
+  //   "RESIDENTIAL",
+  //   "COMMERCIAL",
+  //   "RESIDENTIAL AND COMMERCIAL"
+  // ]
+  blockType = ['Residential','Commercial','Residential and Commercial']
   createBlock() {
     //frm.classList.add('was-validated');
     // if (this.ctrateBlockform.valid) {
@@ -376,7 +398,7 @@ rate1:any;
           {
             "ASAssnID": this.currentAssociationID,
             "BLBlkName": this.blockname,
-            "BLBlkType": this.blocktype,
+            "BLBlkType": this.singleblocktype,
             "BLNofUnit": this.noofunits,
             "BLMgrName": this.mngName,
             "BLMgrMobile": this.mobile,
@@ -516,13 +538,30 @@ rate1:any;
     this.enableduedatevalidation = false;
     frm.classList.remove('was-validated');
   }
+
   resetStep1(){
-    this.blockname='';
-    this.blocktype = '';
-    this.noofunits='';
-    this.mngName='';
-    this.mobile='';
-    this.manageremail='';
+    swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+    
+          this.blockname='';
+          this.noofunits='';
+          this.mngName='';
+          this.mobile='';
+          this.manageremail='';
+        }
+      })
+
   }
   resetStep2(){
     this.mngName='';

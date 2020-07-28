@@ -1,234 +1,214 @@
 <div class="row">
-    <div class="stepwizard">
+    <!-- <div class="stepwizard">
         <div class="stepwizard-row setup-panel">
             <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12 step-active">
                 <a class="active" href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Blocks
                     Details</span>
             </div>
-            <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a class="disabled" href="#step-2" type="button" class="btn btn-circle-o"></a><span>Manager
-                    Details</span>
-            </div> -->
-            <!-- <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a class="disabled" href="#step-3" type="button" class="btn btn-circle-o"></a><span>Maitainance
-                    Details</span>
-            </div>
-            <div class="stepwizard-step col-lg-3 col-sm-6 col-xs-12">
-                <a class="disabled" href="#step-4" type="button" class="btn btn-circle-o"></a><span>Bank
-                    Details</span>
-            </div> -->
+  
         </div>
-    </div>
+    </div> -->
         <div>
-    <form role="form" (ngSubmit)='createBlock()'>
-        <div class="panel panel-primary setup-content" id="step-1">
-            <!-- <div class="panel-heading">
-             <h3 class="panel-title">Association Details</h3>
-        </div> -->
-
-            <div class="panel-body">
-                <div class="form-group">
-
-                    <!-- <label id=label1>Block Name <span class="red">*</span></label>
-                    <input type="text" name="blockname" id="input1" autocomplete='blockname' [(ngModel)]="blockname"
-                      #blocknameControl="ngModel" class="form-control" placeholder="Block Name" pattern="[a-zA-Z0-9 _]*"
-                      required />
-                    <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid name is required</p>
-                  -->
-                  <mat-form-field class="blockdetails-form">
-                    <mat-label>BLOCK NAME/NUMBER</mat-label>
-                    <input matInput placeholder="BLOCK NAME/NUMBER" 
-                    pattern="[a-zA-Z0-9 _]*" 
-                    (keyup)="validateblockname($event,blockname)"
-
-                    #blocknameControl="ngModel"
-                    autocomplete='blockname'
-                    class = "text" id="label" [(ngModel)]="blockname" [ngModelOptions]="{standalone: true}" value="">
-                  </mat-form-field>
-                  <p class="validation" *ngIf="blockdetailsvalid">Valid name is required</p>
-
-            <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidblockname']">Valid name is required</p> -->
-            <!-- <p class="validation" *ngIf="blocksArray[i]['blockname']==undefined">Valid name is required</p> -->
-
-                </div>
-                  <div class="form-group">
-                    <!-- <label>Block Type</label>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle sdm br form-control"
-                            type="button" data-toggle="dropdown">{{blocktype}}
-                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                        <ul class="dropdown-menu fullw">
-                        <li (click)="getBlockType('Residential')"><a>Residential</a></li>
-                        <li (click)="getBlockType('Commercial')"><a>Commercial</a></li>
-                        <li (click)="getBlockType('Residential and Commercial')"><a>Residential and Commercial</a></li>
-                        </ul>
-                    </div> -->
-                    <mat-form-field class="blockdetails-form">
-                        <mat-select [(value)]="blocktype" 
-                        (change)="getblocktypevalid($event.value)"  
-                        placeholder="BLOCK TYPE">
-                            <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                     <p class="validation" *ngIf="blocktypevalid">Valid block Type is required</p> 
-                    <!-- <p class="validation" *ngIf="blocksArray[i]['blocktype']==undefined">Valid block Type is required</p> -->
+            <mat-tab-group class="mainpage" [(selectedIndex)]="demo1TabIndex">
+                <mat-tab label="BLOCKS DETAILS">
+                            <div class="panel-body">
+                                <div class="form-groupblocks">
+                                  <mat-form-field class="blockdetails-form">
+                                    <mat-label>BLOCK NAME/NUMBER<span class="red">*</span></mat-label>
+                                    <input matInput placeholder="BLOCK NAME/NUMBER" 
+                                    pattern="[a-zA-Z0-9 _]*" 
+                                    (keyup)="validateblockname($event,blockname)"
                 
-
-                </div>
-                <div class="form-group">
-                    <!-- <label id=label3>No of Units <span class="red">*</span></label>
-                    <input type="text" name="noofunits" id="input3" autocomplete='noofunits' [(ngModel)]="noofunits"
-                        #noofunitsControl="ngModel" class="form-control" placeholder="No Of Units" pattern="[0-9]*" required />
-                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of units are required</p> -->
-                    <mat-form-field class="blockdetails-form">
-                        <mat-label>NO OF UNITS</mat-label>
-                        <input matInput placeholder="NO OF UNITS" 
-                        pattern="[0-9]*" 
-                        (keyup)="validatenoofunits($event,noofunits)"
-                        [(ngModel)]="noofunits"[ngModelOptions]="{standalone:
-                            true}" value="">
-                    </mat-form-field>
-                    <p class="validation" *ngIf="noofunitsvallid">No of units are required</p> 
-                    <!-- <p class="validation" *ngIf="blocksArray[i]['units']==undefined">No of units are required</p> -->
-                </div>
+                                    #blocknameControl="ngModel"
+                                    autocomplete='blockname'
+                                    class = "text" id="label" [(ngModel)]="blockname" [ngModelOptions]="{standalone: true}" value="">
+                                  </mat-form-field>
+                                  <p class="validation" *ngIf="blockdetailsvalid">Valid name is required</p>
                 
+                            <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidblockname']">Valid name is required</p> -->
+                            <!-- <p class="validation" *ngIf="blocksArray[i]['blockname']==undefined">Valid name is required</p> -->
                 
-            </div> 
-            <div class="panel-body">
-               
-                <div class="form-group">
-                    <!-- <label id=label4>Manager Name <span class="red">*</span></label>
-                    <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="mngName"
-                        #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z _]*" required (keypress)="_keyPress2($event)"/>
-                    <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>-->
-               
-                    <mat-form-field class="blockdetails-form">
-                        <mat-label>MANAGER NAME</mat-label>
-                        <input class = "text" 
-                        (keypress)="_keyPress2($event)"
-                        (keyup)="validatemanagername($event,mngName)"
-                        autocomplete='mngName'
-                        matInput placeholder="MANAGER NAME" 
-                        [(ngModel)]="mngName" 
-                        [ngModelOptions]="{standalone:true}"
-                        value=""pattern="[a-zA-Z _]*">
-                    </mat-form-field>
-                    <p class="validation" *ngIf="managernamevalid">Manager name is required</p>
-
-                <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagername']">Manager name is required</p> -->
-                <!-- <p class="validation" *ngIf="blocksArray[i]['managername']==undefined">Manager name is required</p> -->
-               
-                </div> 
-                <div class="form-group">
-<!-- 
-                    <label id=label5>Manager Mobile Number <span class="red">*</span></label>
-                    <input type="text" name="mobile" id="input5" autocomplete='mobile' [(ngModel)]="mobile"
-                        #managernumberControl="ngModel" class="form-control" placeholder="Manager Mobile Number" minlength="10"
-                        maxlength="10" pattern="[0-9]*" required (keypress)=_keyPress($event) />
-                    <p class="alerts" *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager mobile number is required</p>
-               -->
-               <mat-form-field class="blockdetails-form">
-                <mat-label>MANAGER MOBILE NUMBER</mat-label>
-                <input matInput placeholder="MANAGER MOBILE NUMBER"
-                pattern="[0-9]*" 
-                (keypress)=_keyPress($event)
-                minlength="10"
-                maxlength="10"
-                (keyup)="validatemanagermobilenumber($event,mobile)"
-                [ngModelOptions]="{standalone:true}"
-                    [(ngModel)]="mobile" value="">
-            </mat-form-field>
-            <p class="validation" *ngIf="managermobilevalid">Manager mobile is required</p>
-           <!-- <p class="validation" *ngIf="blocksArray[i]['managermobileno']==undefined">Manager mobile number is required</p> -->
-                </div>
+                                </div>
+                                  <div class="form-groupblocks">
+                                    <!-- <label>Block Type</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control"
+                                            type="button" data-toggle="dropdown">{{blocktype}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                        <li (click)="getBlockType('Residential')"><a>Residential</a></li>
+                                        <li (click)="getBlockType('Commercial')"><a>Commercial</a></li>
+                                        <li (click)="getBlockType('Residential and Commercial')"><a>Residential and Commercial</a></li>
+                                        </ul>
+                                    </div> -->
+                                    <mat-form-field class="blockdetails-form">
+                                    <mat-label>BLOCK TYPE<span class="red">*</span></mat-label>
+                                        <mat-select [disabled]="condition" [(value)]="singleblocktype" 
+                                        (change)="getblocktypevalid($event.value)">
+                                            <mat-option *ngFor="let property of blockType" [value]="property">{{property}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                     <p class="validation" *ngIf="blocktypevalid">Valid block Type is required</p> 
+                                    <!-- <p class="validation" *ngIf="blocksArray[i]['blocktype']==undefined">Valid block Type is required</p> -->
                 
-                <div class="form-group">
-
-                    <!-- <label id=label6>Manager Email Id <span class="red">*</span></label>
-                    <input type="text" name="manageremail" id="input6" autocomplete='manageremail'
-                      [(ngModel)]="manageremail" #manageremailControl="ngModel" class="form-control"
-                      placeholder="Manager Email Id"
-                      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                      required />
-                    <p class="alerts" *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager email-id is required</p>
-                   -->
-
-                   <mat-form-field class="blockdetails-form">
-                    <mat-label>MANAGER EMAIL ID</mat-label>
-                    <input matInput placeholder="MANAGER EMAIL ID" 
-                    pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-                    [(ngModel)]="manageremail"[ngModelOptions]="{standalone:true}"
-                    (keyup)="validatemanageremail($event,manageremail)"
-                    value="">
-                </mat-form-field>
-                <p class="validation" *ngIf="manageremailvalid">Manager email-id is required</p> 
-               <!-- <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p> -->
-                </div>
-            </div> 
-           
-            <div class="col-sm-12 pull-right">
-                <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep1()'>Reset</button>
-                <button [disabled]="blockname == '' || blocktype == '' || noofunits == ''|| mngName == '' || mobile == '' || manageremail == ''"  class="btn btn-primary-purple nextBtn m-r" type="submit">Add Block</button>
-            </div>
-        </div>
-
-        <!-- <div class="panel panel-primary setup-content" id="step-2">
-          
-            <div class="panel-body">
-                <div class="form-group">
+                                </div>
+                                <div class="form-groupblocks">
+                                    <!-- <label id=label3>No of Units <span class="red">*</span></label>
+                                    <input type="text" name="noofunits" id="input3" autocomplete='noofunits' [(ngModel)]="noofunits"
+                                        #noofunitsControl="ngModel" class="form-control" placeholder="No Of Units" pattern="[0-9]*" required />
+                                    <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of units are required</p> -->
+                                    <mat-form-field class="blockdetails-form">
+                                        <mat-label>NO OF UNITS<span class="red">*</span></mat-label>
+                                        <input matInput placeholder="NO OF UNITS" 
+                                        pattern="[0-9]*" 
+                                        (keyup)="validatenoofunits($event,noofunits)"
+                                        [(ngModel)]="noofunits"[ngModelOptions]="{standalone:
+                                            true}" value="">
+                                    </mat-form-field>
+                                    <p class="validation" *ngIf="noofunitsvallid">No of units are required</p> 
+                                    <!-- <p class="validation" *ngIf="blocksArray[i]['units']==undefined">No of units are required</p> -->
+                                </div>
+                                
+                                
+                            </div> 
+                            <div class="panel-body">
+                               
+                                <div class="form-groupblocks">
+                                    <!-- <label id=label4>Manager Name <span class="red">*</span></label>
+                                    <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="mngName"
+                                        #managernameControl="ngModel" class="form-control" placeholder="Manager Name" pattern="[a-zA-Z _]*" required (keypress)="_keyPress2($event)"/>
+                                    <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>-->
+                               
+                                    <mat-form-field class="blockdetails-form">
+                                        <mat-label>MANAGER NAME<span class="red">*</span></mat-label>
+                                        <input class = "text" 
+                                        (keypress)="_keyPress2($event)"
+                                        (keyup)="validatemanagername($event,mngName)"
+                                        autocomplete='mngName'
+                                        matInput placeholder="MANAGER NAME" 
+                                        [(ngModel)]="mngName" 
+                                        [ngModelOptions]="{standalone:true}"
+                                        value=""pattern="[a-zA-Z _]*">
+                                    </mat-form-field>
+                                    <p class="validation" *ngIf="managernamevalid">Manager name is required</p>
                 
-                    <mat-form-field class="blockdetails-form">
-                        <mat-label>MANAGER NAME</mat-label>
-                        <input class = "text" 
-                        #managernameControl="ngModel"
-                        (keypress)="_keyPress2($event)"
-                        (keyup)="validatemanagername($event,mngName)"
-                        autocomplete='mngName'
-                        matInput placeholder="MANAGER NAME" 
-                        [(ngModel)]="mngName" 
-                        [ngModelOptions]="{standalone:true}"
-                        value=""pattern="[a-zA-Z _]*">
-                    </mat-form-field>
-                    <p class="validation" *ngIf="managernamevalid">Manager name is required</p>
-
-                </div> 
-                <div class="form-group">
-
-               <mat-form-field class="blockdetails-form">
-                <mat-label>MANAGER MOBILE NUMBER</mat-label>
-                <input matInput placeholder="MANAGER MOBILE NUMBER"
-                pattern="[0-9]*" 
-                (keypress)=_keyPress($event)
-                minlength="10"
-                maxlength="10"
-                (keyup)="validatemanagermobilenumber($event,mobile)"
-                [ngModelOptions]="{standalone:true}"
-                    [(ngModel)]="mobile" value="">
-            </mat-form-field>
-            <p class="validation" *ngIf="managermobilevalid">Manager mobile is required</p>
-                </div>
+                                <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagername']">Manager name is required</p> -->
+                                <!-- <p class="validation" *ngIf="blocksArray[i]['managername']==undefined">Manager name is required</p> -->
+                               
+                                </div> 
+                                <div class="form-groupblocks">
+                <!-- 
+                                    <label id=label5>Manager Mobile Number <span class="red">*</span></label>
+                                    <input type="text" name="mobile" id="input5" autocomplete='mobile' [(ngModel)]="mobile"
+                                        #managernumberControl="ngModel" class="form-control" placeholder="Manager Mobile Number" minlength="10"
+                                        maxlength="10" pattern="[0-9]*" required (keypress)=_keyPress($event) />
+                                    <p class="alerts" *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager mobile number is required</p>
+                               -->
+                               <mat-form-field class="blockdetails-form">
+                                <mat-label>MANAGER MOBILE NUMBER<span class="red">*</span></mat-label>
+                                <input matInput placeholder="MANAGER MOBILE NUMBER"
+                                pattern="[0-9]*" 
+                                (keypress)=_keyPress($event)
+                                minlength="10"
+                                maxlength="10"
+                                (keyup)="validatemanagermobilenumber($event,mobile)"
+                                [ngModelOptions]="{standalone:true}"
+                                    [(ngModel)]="mobile" value="">
+                            </mat-form-field>
+                            <p class="validation" *ngIf="managermobilevalid">Manager mobile is required</p>
+                           <!-- <p class="validation" *ngIf="blocksArray[i]['managermobileno']==undefined">Manager mobile number is required</p> -->
+                                </div>
+                                
+                                <div class="form-groupblocks">
                 
-                <div class="form-group">
-
-                   <mat-form-field class="blockdetails-form">
-                    <mat-label>MANAGER EMAIL ID</mat-label>
-                    <input matInput placeholder="MANAGER EMAIL ID" 
-                    pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-                    [(ngModel)]="manageremail"[ngModelOptions]="{standalone:true}"
-                    (keyup)="validatemanageremail($event,manageremail)"
-                    value="">
-                </mat-form-field>
-                <p class="validation" *ngIf="manageremailvalid">Manager email-id is required</p> 
-                </div>
-            </div>
-            <div class="col-sm-12 pull-right">
-                <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep2()'>Reset</button>
-                <button [disabled]="mngName == '' || mobile == '' || manageremail == ''"class="btn btn-primary-purple nextBtn m-r" type="submit">Add Block</button>
-            </div>
-
-        </div> -->
-
-     
-    </form>
+                                    <!-- <label id=label6>Manager Email Id <span class="red">*</span></label>
+                                    <input type="text" name="manageremail" id="input6" autocomplete='manageremail'
+                                      [(ngModel)]="manageremail" #manageremailControl="ngModel" class="form-control"
+                                      placeholder="Manager Email Id"
+                                      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                      required />
+                                    <p class="alerts" *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager email-id is required</p>
+                                   -->
+                
+                                   <mat-form-field class="blockdetails-form">
+                                    <mat-label>MANAGER EMAIL ID<span class="red">*</span></mat-label>
+                                    <input matInput placeholder="MANAGER EMAIL ID" 
+                                    pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+                                    [(ngModel)]="manageremail"[ngModelOptions]="{standalone:true}"
+                                    (keyup)="validatemanageremail($event,manageremail)"
+                                    value="">
+                                </mat-form-field>
+                                <p class="validation" *ngIf="manageremailvalid">Manager email-id is required</p> 
+                               <!-- <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p> -->
+                                </div>
+                            </div> 
+                           
+                            <div class="col-sm-12 pull-right">
+                                <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep1()'>RESET</button>
+                                <button [disabled]="blockname == '' || blocktype == '' || noofunits == ''|| mngName == '' || mobile == '' || manageremail == ''" (click)='createBlock()' class="btn btn-primary-purple nextBtn m-r" type="submit">ADD BLOCK</button>
+                            </div>
+                       
+                
+                        <!-- <div class="panel panel-primary setup-content" id="step-2">
+                          
+                            <div class="panel-body">
+                                <div class="form-groupblocks">
+                                
+                                    <mat-form-field class="blockdetails-form">
+                                        <mat-label>MANAGER NAME</mat-label>
+                                        <input class = "text" 
+                                        #managernameControl="ngModel"
+                                        (keypress)="_keyPress2($event)"
+                                        (keyup)="validatemanagername($event,mngName)"
+                                        autocomplete='mngName'
+                                        matInput placeholder="MANAGER NAME" 
+                                        [(ngModel)]="mngName" 
+                                        [ngModelOptions]="{standalone:true}"
+                                        value=""pattern="[a-zA-Z _]*">
+                                    </mat-form-field>
+                                    <p class="validation" *ngIf="managernamevalid">Manager name is required</p>
+                
+                                </div> 
+                                <div class="form-groupblocks">
+                
+                               <mat-form-field class="blockdetails-form">
+                                <mat-label>MANAGER MOBILE NUMBER</mat-label>
+                                <input matInput placeholder="MANAGER MOBILE NUMBER"
+                                pattern="[0-9]*" 
+                                (keypress)=_keyPress($event)
+                                minlength="10"
+                                maxlength="10"
+                                (keyup)="validatemanagermobilenumber($event,mobile)"
+                                [ngModelOptions]="{standalone:true}"
+                                    [(ngModel)]="mobile" value="">
+                            </mat-form-field>
+                            <p class="validation" *ngIf="managermobilevalid">Manager mobile is required</p>
+                                </div>
+                                
+                                <div class="form-groupblocks">
+                
+                                   <mat-form-field class="blockdetails-form">
+                                    <mat-label>MANAGER EMAIL ID</mat-label>
+                                    <input matInput placeholder="MANAGER EMAIL ID" 
+                                    pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+                                    [(ngModel)]="manageremail"[ngModelOptions]="{standalone:true}"
+                                    (keyup)="validatemanageremail($event,manageremail)"
+                                    value="">
+                                </mat-form-field>
+                                <p class="validation" *ngIf="manageremailvalid">Manager email-id is required</p> 
+                                </div>
+                            </div>
+                            <div class="col-sm-12 pull-right">
+                                <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep2()'>Reset</button>
+                                <button [disabled]="mngName == '' || mobile == '' || manageremail == ''"class="btn btn-primary-purple nextBtn m-r" type="submit">Add Block</button>
+                            </div>
+                
+                        </div> -->
+                
+                     
+                    
+                </mat-tab>
+            </mat-tab-group>
+   
 </div>
