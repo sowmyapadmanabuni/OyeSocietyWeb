@@ -155,4 +155,10 @@
         margin-top: -18px;
         width: 260px;
     }
-    
+    .form-groupunits{
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+    ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+        background-color: #B51414 !important;
+    }

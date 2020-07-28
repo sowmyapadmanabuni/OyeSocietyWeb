@@ -236,7 +236,7 @@
                                     <label id=label3>No of Units<span class="red">*</span></label>
                                     <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
                                         [(ngModel)]="BLNofUnit" #noofunitsControl="ngModel" class="form-control"
-                                        placeholder="No Of Units" pattern="[0-9]*" disabled />
+                                        placeholder="No Of Units" pattern="[0-9]*"/>
                                     <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
                                         units are required
                                     </p>

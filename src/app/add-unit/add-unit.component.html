@@ -1,37 +1,30 @@
 <div class="row">
-  <div class="stepwizard" style="width:100%">
+  <!-- <div class="stepwizard" style="width:100%">
       <div class="stepwizard-row setup-panel">
           <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12 step-active">
               <a class="active" href="#step-1" type="button" class="btn btn-success btn-default btn-circle-o"></a><span>Unit
                   Information</span>
           </div>
-          <!-- <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
-              <a class="disabled" href="#step-2" type="button" class="btn btn-circle-o"></a><span>Unit
-                  Owner/Tenent Information</span>
-          </div> -->
-          <!-- <div style="cursor: pointer;" class="stepwizard-step col-lg-4 col-sm-6 col-xs-12">
-              <a class="disabled" href="#step-3" type="button" class="btn btn-circle-o"></a><span>Unit
-                  Vehicle
-                  Information</span>
-          </div> -->
+     
 
       </div>
-  </div>
-      <div class="panel panel-primary setup-content" id="step-1">
-          <form #createunitFormOne='ngForm'>
+  </div> -->
+  <mat-tab-group class="mainpage" [(selectedIndex)]="demo1TabIndex">
+    <mat-tab label="UNITS DETAILS">
+       
           <!-- <div class="panel-heading">
                                    <h3 class="panel-title">Association Details</h3>
                               </div> -->
 
           <div class="panel-body">
-              <div class="form-group">
+              <div class="form-groupunits">
 
                   <!-- <label class="control-label">Unit No/Flat No<span class="red">*</span></label>
                   <input maxlength="100" name="unitno" id="unitno" type="text" required [(ngModel)]="unitno" #unitnoControl="ngModel" class="form-control" placeholder="Unit No/Flat No" required />
                   <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
                -->
             <mat-form-field class="blockdetails-form">
-                <mat-label>UNIT NO/FLAT NO</mat-label>
+                <mat-label>UNIT NO/FLAT NO<span class="red">*</span></mat-label>
                 <input class="text" matInput placeholder="UNIT NO/FLAT NO" (keyup)="validateflatno($event,unitno)"
                     [(ngModel)]="unitno" [ngModelOptions]="{standalone:
                                 true}" value="">
@@ -39,7 +32,7 @@
             <p class="validation" *ngIf="flatnovalid">Valid unit no is required</p>
                 </div>
 
-              <div class="form-group">
+              <div class="form-groupunits">
                 <!-- <label class="control-label">Unit Type<span class="red">*</span></label>
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -53,8 +46,8 @@
 
 
                 <mat-form-field class="blockdetails-form">
-                    <mat-select [(value)]="unitType" 
-                    placeholder="UNIT TYPE">
+                    <mat-label>UNIT TYPE<span class="red">*</span></mat-label>
+                    <mat-select [(value)]="unitType">
                         <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                         </mat-option>
                     </mat-select>
@@ -64,7 +57,7 @@
              
             </div>
 
-            <div class="form-group">
+            <div class="form-groupunits">
                 <!-- <label class="control-label">Occupancy & Ownership Status<span class="red">*</span></label>
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -76,8 +69,8 @@
                     </ul>
                 </div> -->
                 <mat-form-field class="blockdetails-form">
-                  <mat-select [(value)]="occupency" (selectionChange)="tenantOwnerdiv($event.value)" 
-                      placeholder="OCCUPANCY & OWNERSHIP STATUS">
+                <mat-label>OCCUPANCY & OWNERSHIP STATUS<span class="red">*</span></mat-label>
+                  <mat-select [(value)]="occupency" (selectionChange)="tenantOwnerdiv($event.value)">
                       <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                       </mat-option>
                   </mat-select>
@@ -86,7 +79,7 @@
               <p class="validation" *ngIf="unitlistjson[name][i]['ownershipstatus']==undefined">Valid ownershipstatus is required</p>
       -->
             </div>
-              <!-- <div class="form-group">
+              <!-- <div class="form-groupunits">
                   <label class="control-label">Unit Dimension<span class="red">*</span></label>
                   <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" (keyup)="ValidateLessThanZeroValue()" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" (keypress)="_keyPress($event)" pattern="[0-9]*" required/>
                   <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched || InvalidUnitDimension"> Valid Unit dimension is required</p>
@@ -96,7 +89,7 @@
         <div *ngIf="ownerDetails">
             <div class="panel-body">
   
-                <div class="form-group">
+                <div class="form-groupunits">
   
                     <!-- <label class="control-label">Owner First Name<span class="red">*</span></label>
                     <input type="text" name="ownerFirtname" id="ownerFirtname" [(ngModel)]="ownerFirtname"
@@ -105,7 +98,7 @@
                       <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
                   -->
                   <mat-form-field class="blockdetails-form">
-                      <mat-label>OWNER FIRST NAME</mat-label>
+                      <mat-label>OWNER FIRST NAME<span class="red">*</span></mat-label>
                       <input  class = "text" matInput placeholder="OWNER FIRSTNAME" 
                       pattern="[a-zA-Z _]*"
                       (keyup)="validateownerfirtname($event,ownerFirtname)"
@@ -114,7 +107,7 @@
                   </mat-form-field> 
                    <p class="validation" *ngIf="ownerfirstnamevalid">Valid owner firstname is required</p>
                   </div>
-                <div class="form-group">
+                <div class="form-groupunits">
   
                     <!-- <label class="control-label">Owner Last Name<span class="red">*</span></label>
                     <input type="text" name="ownerLastname" id="ownerLastname" [(ngModel)]="ownerLastname"
@@ -124,7 +117,7 @@
                    -->
   
                       <mat-form-field class="blockdetails-form">
-                          <mat-label>OWNER LAST NAME</mat-label>
+                          <mat-label>OWNER LAST NAME<span class="red">*</span></mat-label>
                           <input class = "text" matInput placeholder="OWNER LASTNAME" 
                           (keyup)="validateownerlastname($event,ownerLastname)"
                           pattern="[a-zA-Z _]*"
@@ -134,7 +127,7 @@
                     <p class="validation" *ngIf="ownerlastnamevalid">Valid owner lastname is required</p>
                   </div>
           
-                <div class="form-group">
+                <div class="form-groupunits">
   
                     <!-- <label class="control-label">Owner Mobile Number<span class="red">*</span></label>
                     <input type="text" name="ownerMobnumber" id="ownerMobnumber" [(ngModel)]="ownerMobnumber"
@@ -143,7 +136,7 @@
                       <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
                   -->
                       <mat-form-field class="blockdetails-form">
-                          <mat-label>OWNER MOBILE NUMBER</mat-label>
+                          <mat-label>OWNER MOBILE NUMBER<span class="red">*</span></mat-label>
                           <input matInput placeholder="OWNER MOBILE NUMBER"
                           pattern="[0-9]*" 
                           (keyup)="validateownermobile($event,ownerMobnumber)"
@@ -154,7 +147,7 @@
                       </mat-form-field>
                       <p class="validation" *ngIf="ownermobilevalid">Valid 10 digit mobile number is required</p>
                   </div>
-                  <div class="form-group">
+                  <div class="form-groupunits">
   
                       <!-- <label class="control-label">Owner Email Id<span class="red">*</span></label>
                       <input type="text" name="ownerEmail" id="ownerEmail" [(ngModel)]="ownerEmail"
@@ -164,7 +157,7 @@
                    -->
   
                   <mat-form-field class="blockdetails-form">
-                      <mat-label>OWNER EMAIL ID</mat-label>
+                      <mat-label>OWNER EMAIL ID<span class="red">*</span></mat-label>
                       <input matInput placeholder="OWNER EMAIL-ID" (keyup)="validateowneremail($event,ownerEmail)"
                           pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="ownerEmail"
                           [ngModelOptions]="{standalone:true}" value="">
@@ -178,7 +171,7 @@
           <div *ngIf="tenantDetails">
               <div class="panel-body">
                 
-                  <div class="form-group">
+                  <div class="form-groupunits">
   
                       <!-- <label class="control-label">Tenant First Name<span class="red">*</span></label>
                       <input type="text" name="tenantFirtname" id="tenantFirtname" [(ngModel)]="tenantFirtname"
@@ -187,7 +180,7 @@
                         <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
                    -->
                    <mat-form-field class="blockdetails-form">
-                      <mat-label>TENANT FIRST NAME</mat-label>
+                      <mat-label>TENANT FIRST NAME<span class="red">*</span></mat-label>
                       <input class="text" matInput placeholder="TENANT FIRSTNAME" 
                       pattern="[a-zA-Z _]*"
                       (keyup)="validatetenantfirstname($event,tenantFirtname)"
@@ -198,7 +191,7 @@
                       required</p>
                       </div>
                   
-                  <div class="form-group">
+                  <div class="form-groupunits">
                       <!-- <label class="control-label">Tenant Last Name<span class="red">*</span></label>
                       <input type="text" name="tenantLastname" id="tenantLastname" [(ngModel)]="tenantLastname"
                         #tenantLastnameControl="ngModel" class="form-control" placeholder="Tenant lastname"
@@ -207,7 +200,7 @@
                      -->
                     
                         <mat-form-field class="blockdetails-form">
-                          <mat-label>TENANT LAST NAME</mat-label>
+                          <mat-label>TENANT LAST NAME<span class="red">*</span></mat-label>
                           <input class = "text" matInput placeholder="TENANT LASTNAME" 
                           pattern="[a-zA-Z _]*"
                           (keyup)="validatetenantlastname($event,tenantLastname)"
@@ -217,7 +210,7 @@
                      <p class="validation" *ngIf="tenantLastnamevalid"> Valid lastname is required</p>
                       </div>
      
-                  <div class="form-group">
+                  <div class="form-groupunits">
                       
                       <!-- <label class="control-label">Tenant Mobile Number<span class="red">*</span></label>
                       <input type="text" name="tenantMobnumber" id="tenantMobnumber" [(ngModel)]="tenantMobnumber"
@@ -228,7 +221,7 @@
                     -->
   
                         <mat-form-field class="blockdetails-form">
-                        <mat-label>TENANT MOBILE NUMBER</mat-label>
+                        <mat-label>TENANT MOBILE NUMBER<span class="red">*</span></mat-label>
                         <input matInput placeholder="TENANT MOBILE NUMBER" 
                         pattern="[0-9]*"
                         (keyup)="validatetenantmobile($event,tenantMobnumber)"
@@ -241,7 +234,7 @@
                      <p class="validation" *ngIf="tenantmobilevalid">Valid mobile number is
                         required</p>
                       </div>
-                    <div class="form-group">
+                    <div class="form-groupunits">
   <!-- 
                       <label class="control-label">Tenant Email Id<span class="red">*</span></label>
                       <input type="text" name="tenantEmail" id="tenantEmail" [(ngModel)]="tenantEmail"
@@ -252,7 +245,7 @@
                    
   
                   <mat-form-field class="blockdetails-form">
-                      <mat-label>TENANT EMAIL ID</mat-label>
+                      <mat-label>TENANT EMAIL ID<span class="red">*</span></mat-label>
                       <input matInput placeholder="TENANT EMAIL-ID" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                           (keyup)="validatetenantemail($event,tenantEmail)" [(ngModel)]="tenantEmail" [ngModelOptions]="{standalone:true}"
                           value="">
@@ -264,10 +257,11 @@
           <div class="col-sm-12 pull-right">
               <button type="button" (click)="ResetCreateUnitFormOne($event,occupency)" class="btn btn-primary-purple m-r">Reset</button>
               <!-- <button [disabled]="unitno == ''|| unitType=='' || occupency==''" class="btn btn-primary-purple nextBtn" type="button m-r">Next</button> -->
-              <button class="btn btn-primary-purple nextBtn m-r" type="button" [disabled]="unitno == ''|| unitType=='' || occupency==''|| createunitFormOne.invalid" (click)="createUnit()">Create</button>
+              <button class="btn btn-primary-purple nextBtn m-r" type="button" [disabled]="unitno == ''|| unitType=='' || occupency==''" (click)="createUnit()">Create</button>
             </div>
-          </form>
-      </div>
+        
+        </mat-tab>
+    </mat-tab-group>
 
       <!-- <div class="panel panel-primary setup-content" id="step-2">
         <form role="form" #createunitFormTwo='ngForm'>
@@ -283,30 +277,30 @@
 
       <!-- <div class="panel panel-primary setup-content" id="step-3"> -->
           <!-- <div class="panel-body" *ngFor="let item of parkingDetails">
-              <div class="form-group">
+              <div class="form-groupunits">
                   <label class="control-label">Parking lot Number</label>
                   <input type="text" name="pkngLotNumber" id="pkngLotNumber" [(ngModel)]="item['ParkingLotNumber']" #parkingNoControl="ngModel" class="form-control" placeholder="Parking Lot number" style="font-family: Quicksand" pattern="A-Za-z0-9]*" />
               </div>
-              <div class="form-group">
+              <div class="form-groupunits">
                   <label class="control-label">Vehicle Number</label>
                   <input type="text" name="newVehicleNo" id="newVehicleNo" [(ngModel)]="item['VehicleNumber']" #vehicleNoControl="ngModel" class="form-control" placeholder="Vehicle number" style="font-family: Quicksand; text-transform: uppercase" pattern="[A-Z0-9]*" />
               </div>
-              <div class="form-group">
+              <div class="form-groupunits">
                   <label class="control-label">Action</label>
                   <i class="fa fa-trash" (click)="deleteAmenity(item['ParkingLotNumber'])" aria-hidden="true"></i>
               </div>
 
           </div> -->
           <!-- <div class="panel-body">
-              <div class="form-group">
+              <div class="form-groupunits">
                   <input maxlength="200" type="text" name="ParkingLotNumber" [(ngModel)]="newParkingDetail.ParkingLotNumber" class="form-control"
                       placeholder="Parking Lot number" />
               </div>
-              <div class="form-group">
+              <div class="form-groupunits">
                   <input maxlength="200" type="text" name="VehicleNumber" [(ngModel)]="newParkingDetail.VehicleNumber" class="form-control"
                       placeholder="Vehicle number" />
               </div>
-              <div class="form-group">
+              <div class="form-groupunits">
                   <label class="control-label"></label>
                   <i style="cursor: pointer;" class="fa fa-plus-square" (click)="addParking()" aria-hidden="true"></i>
               </div>
