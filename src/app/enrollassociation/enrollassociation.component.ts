@@ -479,7 +479,7 @@ this.state = state.stName;
     "isnotvalidtenantmobilenumber":false,
     "isnotvalidtenantemaiid":false,
     "isSingleUnitDataEmpty":true,
-    "displayText":"SaveAndContinue"
+    "displayText":"Save & Continue"
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {

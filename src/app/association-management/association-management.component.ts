@@ -631,6 +631,7 @@ cities=[];
       .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
       .set('Content-Type', 'application/json');
     this.http.get('https://devapi.scuarex.com/oyeliving/api/v1/GetJoinAssociationCitiesList', { headers: headers })
+    //this.http.get('https://devapi.scuarex.com/oyeliving/api/v1/GetJoinAssociationCitiesList', { headers: headers })
        .subscribe(
          (response) => {
            console.log(response);

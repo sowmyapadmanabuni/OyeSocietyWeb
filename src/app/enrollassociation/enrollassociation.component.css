@@ -47,7 +47,7 @@
     display: inline-flex;
 }
 .association-formcountry{
-    padding:16px 91px;
+    padding:16px 42px;
     display: inline-flex;
 }
 .blockdetails-form{
@@ -230,8 +230,8 @@ img#pancardimg {
 }
 i#assnuploadicon {
     position: relative;
-    right: 70px;
-    top: 2px;
+    right: 131px;
+    top: 27px;
 }
 img.Upload1 {
     position: relative;
@@ -245,8 +245,8 @@ img.Upload1 {
 #manualunitssubmit{
     display: inline-block;
     /* margin-top: 0px; */
-    top: 46px;
-    margin-left: 913px;
+    /* top: 46px;
+    margin-left: 913px; */
 }
 .tab-selected
 {
