@@ -6,7 +6,9 @@
     justify-content: inherit;
     justify-content: end;
     text-align: center;}
-.cityui{border: 1px solid grey;padding: 22px;width: 178px;}
+.cityui{border: 1px solid grey;padding: 11px;width: 178px;display: flex;
+    flex-direction: column;
+    align-items: center;}
 .cityui:hover{background:#5a51aa;color: #fff;cursor: pointer;}
 .black{color: #333333;}
 .enroll{display: flex;justify-content: flex-end;align-items: center;}
