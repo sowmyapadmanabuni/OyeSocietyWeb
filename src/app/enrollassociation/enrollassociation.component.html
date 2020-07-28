@@ -995,7 +995,7 @@
                                     <li  *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj.Id==obj.unitTmpid}">
                                         <a href="#{{obj.Id}}" (click)="assignUnitTmpid(obj.Id,blocknameforIteration)" data-toggle="tab">{{obj.flatno==''?'Unit':obj.flatno}}
                                             &nbsp;&nbsp;<span></span>
-                                    <i [hidden]="obj.isUnitCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
+                                    <i [hidden]="obj.isUnitCreated" class="fa fa-circle-thin" [ngStyle]="{'color':obj.isUnitNameModifiedForDuplicateRecord=='No'?'#41ca41':'#ff0505'}" aria-hidden="true"></i>&nbsp;
                                     <i [hidden]="obj.isUnitNotCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
                                         </a></li>
                                 </ul>

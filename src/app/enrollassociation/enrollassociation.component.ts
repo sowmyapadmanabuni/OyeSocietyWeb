@@ -59,6 +59,10 @@ export class EnrollassociationComponent implements OnInit {
   ExcelBlkNameDuplicateList:any[];
   ExcelBlkNameDuplicateList1:any[];
   valueExcelBlckArr:any[];
+  numberofexistence:any;
+  duplicatemarked:any;
+  valueExcelUnitArr:any[];
+  numberofunitexistence:any;
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -66,6 +70,10 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService:ViewBlockService) {
+      this.numberofunitexistence=0;
+      this.valueExcelUnitArr=[];
+      this.duplicatemarked=false;
+      this.numberofexistence=0;
       this.valueExcelBlckArr=[];
       this.ExcelBlkNameDuplicateList=[];
       this.ExcelBlkNameDuplicateList1=[];
@@ -485,7 +493,8 @@ this.state = state.stName;
     "isnotvalidtenantmobilenumber":false,
     "isnotvalidtenantemaiid":false,
     "isSingleUnitDataEmpty":true,
-    "displayText":"SaveAndContinue"
+    "displayText":"SaveAndContinue",
+    "isUnitNameModifiedForDuplicateRecord":'No'
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {
@@ -838,6 +847,8 @@ imgfilename;
                 console.log(res)
                 unit.hasNoDuplicateUnitname=true;
                 unit.disableField=true;
+                unit.isUnitCreated=true;
+                unit.isUnitNotCreated=false;
                 this.totalUnitcount += 1;
               }, error => {
                 console.log(error);
@@ -885,6 +896,10 @@ imgfilename;
                 }
                 if(this.unitlistduplicatejson.length>0){
                   this.unitlistduplicatejson.forEach(itm1 => {
+                    if(itm1.isUnitNameModifiedForDuplicateRecord=='No'){
+                      itm1.isUnitNameModifiedForDuplicateRecord='Yes';
+                      console.log('isUnitNameModifiedForDuplicateRecord==Yes');
+                    }
                     tmpArr.push(itm1);
                   })
                 }
@@ -963,6 +978,10 @@ imgfilename;
                   }
                   if(this.unitlistduplicatejson.length>0){
                     this.unitlistduplicatejson.forEach(itm1 => {
+                      if(itm1.isUnitNameModifiedForDuplicateRecord=='No'){
+                        itm1.isUnitNameModifiedForDuplicateRecord='Yes';
+                        console.log('isUnitNameModifiedForDuplicateRecord==Yes');
+                      }
                       tmpArr.push(itm1);
                     })
                   }
@@ -1011,6 +1030,8 @@ imgfilename;
             this.blockTabId += 1;
             this.blocksArray.forEach((itm,indx)=>{
               if(itm.blockname.toLowerCase() == name.toLowerCase()){
+                itm.isUnitsCreatedUnderBlock=true;
+                itm.isUnitsCreatedUnderBlock1=false;
                 if(this.blocksArray[indx+1]!=undefined){
                   console.log(this.blocksArray[indx+1]['blockname']);
                   this.blocknameforIteration = this.blocksArray[indx+1]['blockname'];
@@ -1811,7 +1832,11 @@ validateUnitDetailsField(name){
                   //console.log(this.blocksArray.reverse());
                   this.blocksArray.forEach(iitm=>{
                     if(iitm.markedasduplicate==0){
-                      iitm.blockTmpid=iitm.Id;
+                      if(!this.duplicatemarked){
+                        this.duplicatemarked=true;
+                        console.log(iitm);
+                        iitm.blockTmpid=iitm.Id;
+                      }
                     }
                     else{
                       iitm.blockTmpid='';
@@ -2158,6 +2183,8 @@ validateUnitDetailsField(name){
 
   unitmatching: boolean;
   getUnitName(Id, flatno,name) {
+    this.numberofunitexistence =0;
+    this.valueExcelUnitArr=[];
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2171,19 +2198,20 @@ validateUnitDetailsField(name){
             unit['isnotvalidflatno']=false;
           }
            //
-        let valueExcelUnitArr = this.unitlistjson[element].map(item => { return item.flatno.toLowerCase() });
-        console.log(valueExcelUnitArr);
-        let isExcelUnitNameDuplicate = valueExcelUnitArr.some((item, idx) => {
-          return valueExcelUnitArr.indexOf(item) != idx
-        });
-        if (isExcelUnitNameDuplicate) {
-          unit.hasNoDuplicateUnitname = false;
-          console.log('hasNoDuplicateUnitname = false');
-        }
-        else {
-            unit.hasNoDuplicateUnitname = true;
-            console.log('hasNoDuplicateUnitname = true');
-        }
+        console.log(this.unitlistjson[element]);
+        this.unitlistjson[element].forEach(itm=>{
+          if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+            this.numberofunitexistence += 1;
+            if(this.numberofunitexistence == 1){
+              unit.hasNoDuplicateUnitname=true;
+              unit.isUnitNameModifiedForDuplicateRecord='No';
+            }
+            else{
+              unit.hasNoDuplicateUnitname=false;
+              unit.isUnitNameModifiedForDuplicateRecord='Yes';
+            }
+          }
+        })
         //
         }
       })
@@ -2380,6 +2408,8 @@ validateUnitDetailsField(name){
     this.ExcelBlkNameDuplicateList=[];
     this.ExcelBlkNameDuplicateList1=[];
     this.isblockdetailsempty=false;
+    this.numberofexistence=0;
+
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
         element.blockname = blockname;
@@ -2404,38 +2434,16 @@ validateUnitDetailsField(name){
         });
         console.log(this.valueExcelBlckArr);
         this.valueExcelBlckArr.forEach(item => {
-          console.log(item.blockname.toLowerCase());
-          let found = this.ExcelBlkNameDuplicateList.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
-          console.log(found);
-          console.log(this.ExcelBlkNameDuplicateList);
-          if (found) {
-            this.ExcelBlkNameDuplicateList1.push(item);
-            console.log(this.ExcelBlkNameDuplicateList1);
+          if (item.blockname.toLowerCase() == blockname.toLowerCase()) {
+            this.numberofexistence += 1;
+            if(this.numberofexistence == 1){
+              element.hasNoDuplicateBlockname=true;
+            }
+            else{
+              element.hasNoDuplicateBlockname=false;
+            }
           }
-          else {
-            this.ExcelBlkNameDuplicateList.push(item);
-            console.log(this.ExcelBlkNameDuplicateList);
-          }
-        })
-          if (this.ExcelBlkNameDuplicateList.length == 0) {
-            //element.hasNoDuplicateBlockname = false;
-            this.isblockdetailsempty=false;
-            console.log('hasNoDuplicateBlockname = false');
-          }
-          else {
-            this.ExcelBlkNameDuplicateList.forEach(iitm=>{
-              this.blocksArray.forEach(iiitm=>{
-                console.log('outside',iitm.Id,iiitm.Id);
-                if(iitm.Id == iiitm.Id){
-                  console.log('inside',iitm.Id,iiitm.Id);
-                  iiitm.hasNoDuplicateBlockname = true;
-                }
-              })
-            })
-              //element.hasNoDuplicateBlockname = true;
-              this.isblockdetailsempty=true;
-              console.log('hasNoDuplicateBlockname = true');
-          } 
+        }) 
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
@@ -2644,6 +2652,7 @@ validateUnitDetailsField(name){
                         unitonce.isnotvalidtenantemaiid=false;
                         unitonce.isUnitCreated=false;
                         unitonce.isUnitNotCreated=true;
+                        unitonce.isUnitNameModifiedForDuplicateRecord='No';
                         if (!this.unitlistjson[blkname]) {
                           this.unitlistjson[blkname] = []
                         }
