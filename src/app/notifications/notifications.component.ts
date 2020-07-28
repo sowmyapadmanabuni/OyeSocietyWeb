@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { NotificationListArray } from '../../app/models/notification-list-array';
 import { ResidentNotificationListArray } from '../../app/models/resident-notification-list-array';
@@ -44,6 +45,7 @@ gateFirebase.initializeApp(config);
   styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent implements OnInit {
+  modalRef: BsModalRef;
   role: any;
   paginatedvalue: number;
   notificationListArray: NotificationListArray[];
@@ -66,6 +68,7 @@ export class NotificationsComponent implements OnInit {
 
   constructor(private utilsService: UtilsService,public router:Router,
     public globalService: GlobalServiceService,
+    private modalService: BsModalService,
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
     private DashBoardService: DashBoardService) {
@@ -108,6 +111,11 @@ export class NotificationsComponent implements OnInit {
     });
     //
     this.GetNotificationListByAccntID();
+  }
+
+
+  openModal3(privacy: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(privacy, { class: 'modal-lg' });
   }
  
   AdminsUnitShow(resident) {
@@ -577,37 +585,11 @@ export class NotificationsComponent implements OnInit {
             console.log(data);
 
 
-            setTimeout(()=>{    //<<<---    using ()=> syntax
-              if(visitorStatus == "Entry Approved" || visitorStatus == "Exit Approved"){
-                console.log('Inside Entry Approved');
-                gateFirebase
-                .database()
-                .ref(`NotificationSync/A_${associationid}/${visitorId}`)
-                .set({
-                  buttonColor: "#75be6f",
-                  opened: true,
-                  newAttachment: false,
-                  visitorlogId: visitorId,
-                  updatedTime: new Date(),
-                  status: "Entry Approved",
-                });
-              }
-              else{
-                console.log('Inside Exit Approved');
-                gateFirebase
-                .database()
-                .ref(`NotificationSync/A_${associationid}/${visitorId}`)
-                .set({
-                  buttonColor: "#ff0000",
-                  opened: true,
-                  newAttachment: false,
-                  visitorlogId: visitorId,
-                  updatedTime: new Date(),
-                  status: "Exit Approved",
-                });
-              }
-              
-         }, 2000);
+            // setTimeout(()=>{  
+
+              this.fireBaseUpdate(associationid, visitorId, visitorStatus, DateOfApproval);
+
+            //  }, 2000);
 
 
 
@@ -629,7 +611,7 @@ export class NotificationsComponent implements OnInit {
 
               
             console.log(`NotificationSync/A_${associationid}/${visitorId}`);
-            console.log(associationid, visitorId, DateOfApproval, visitorStatus);
+            console.log(associationid, visitorId, DateOfApproval, visitorStatus,);
             this.changeViewOfActionButton=false;
             this.updateFirebase(associationid);
             alert('Success');
@@ -713,10 +695,28 @@ export class NotificationsComponent implements OnInit {
 
 
 
+    fireBaseUpdate(associationid, visitorId, visitorStatus, DateOfApproval){
+              gateFirebase
+              .database()
+              .ref(`NotificationSync/A_${associationid}/${visitorId}`)
+              .set({
+                buttonColor: visitorStatus == "Entry Approved" || visitorStatus == "Exit Approved" ? '#75be6f' : '#ff0000',
+                opened: true,
+                newAttachment: false,
+                visitorlogId: visitorId,
+                updatedTime: DateOfApproval,
+                status: visitorStatus,
+              });
+              alert("updated");
+    }
+
+
+
+
     buttonPress(){
       gateFirebase
       .database()
-      .ref(`NotificationSync/A_2/929`)
+      .ref(`NotificationSync/A_1018/1014`)
       .set({
         buttonColor:'#75be6f',
         opened: true,
@@ -725,5 +725,6 @@ export class NotificationsComponent implements OnInit {
         updatedTime: new Date(),
         status: 'Entry Approved',
       });
+      console.log(new Date());
     }
 }

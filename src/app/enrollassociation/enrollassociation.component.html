@@ -389,8 +389,10 @@
                                     href="#{{objct.Id}}" (click)="assignBlkarrTmpid(objct.Id)"
                                     data-toggle="tab">{{objct.blockname|uppercase}}
                                     &nbsp;&nbsp;<span></span>
-                                    <i [hidden]="objct.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
+                                    <!-- <i [hidden]="objct.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i> -->
+                                    &nbsp;
                                     <i [hidden]="objct.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
+                                    <i [hidden]="objct['hasNoDuplicateBlockname']==true" class="fa fa-circle-thin" style="color: #ff0505" aria-hidden="true"></i>
                                 </a></li>
                         </ul>
                         <div class="tab-content">
@@ -576,9 +578,8 @@
                         </div>
                         
                         </div> -->
-                       <div id="blockdetailscancelbutton">
-                        </div>
-                    <div id="blockdetailsbuttons"class="save">
+                     
+                    <div id="blockdetailsbuttons1"class="save">
                         <a class="continue" (click)="resetStep4($event)" mat-raised-button color="primary" >RESET</a>
                         <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
                     </div>

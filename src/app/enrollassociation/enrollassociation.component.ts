@@ -56,6 +56,9 @@ export class EnrollassociationComponent implements OnInit {
   disableElement:boolean;
   blockTabId:any;
   increasingBlockArrLength:any;
+  ExcelBlkNameDuplicateList:any[];
+  ExcelBlkNameDuplicateList1:any[];
+  valueExcelBlckArr:any[];
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -63,6 +66,9 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService:ViewBlockService) {
+      this.valueExcelBlckArr=[];
+      this.ExcelBlkNameDuplicateList=[];
+      this.ExcelBlkNameDuplicateList1=[];
       this.blockTabId=0;
       this.increasingBlockArrLength=0;
       this.iindex=0;
@@ -1696,6 +1702,8 @@ validateUnitDetailsField(name){
               console.log(res.data.blockID);
               this.blockidtmp[element.blockname]=res.data.blockID;
               console.log(this.blockidtmp);
+              element.isNotBlockCreated=false;
+              element.isBlockCreated=true;
               //console.log(res['data']['data']['blockID']);
               //console.log(this.unitlistjson[element.blockname]);
              /* this.unitlistjson[element.blockname].forEach(obj => {
@@ -1757,10 +1765,10 @@ validateUnitDetailsField(name){
       setTimeout(() => {
         $(".se-pre-con").fadeOut("slow");
         document.getElementById('upload_excel').style.display = 'none'
-        document.getElementById('blockdetailscancelbutton').style.display = 'none';
+        // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
         document.getElementById('showmanual').style.display = 'block';
-        document.getElementById('blockdetailsbuttons').style.display = 'block';
+        // document.getElementById('blockdetailsbuttons').style.display = 'block';
         this.commonblockarray.forEach(element => {
           element.hasNoDuplicateBlockname=true;
           element.disableField=true;
@@ -1801,6 +1809,14 @@ validateUnitDetailsField(name){
                     this.blocksArray.push(itm);
                   })
                   //console.log(this.blocksArray.reverse());
+                  this.blocksArray.forEach(iitm=>{
+                    if(iitm.markedasduplicate==0){
+                      iitm.blockTmpid=iitm.Id;
+                    }
+                    else{
+                      iitm.blockTmpid='';
+                    }
+                  })
                   this.blocksArray = _.sortBy(this.blocksArray, "markedasduplicate");
                   //this.blocksArray.reverse();
                   console.log(this.blocksArray.length);
@@ -2360,6 +2376,9 @@ validateUnitDetailsField(name){
     this.validateUnitDetailsField(name);
   }
   getblocknameornumber(Id,blockname){
+    this.valueExcelBlckArr=[];
+    this.ExcelBlkNameDuplicateList=[];
+    this.ExcelBlkNameDuplicateList1=[];
     this.isblockdetailsempty=false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
@@ -2378,21 +2397,45 @@ validateUnitDetailsField(name){
           element.isblockdetailsempty1 = false;
         }
         //
-        let valueExcelBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
-        console.log(valueExcelBlckArr);
-        let isExcelBlkNameDuplicate = valueExcelBlckArr.some((item, idx) => {
-          return valueExcelBlckArr.indexOf(item) != idx
+        this.blocksArray.forEach(item => { 
+          if(item.isBlockCreated == false){
+            this.valueExcelBlckArr.push(item);
+          }
         });
-        if (isExcelBlkNameDuplicate) {
-          element.hasNoDuplicateBlockname = false;
-          this.isblockdetailsempty=true;
-          console.log('hasNoDuplicateBlockname = false');
-        }
-        else {
-            element.hasNoDuplicateBlockname = true;
+        console.log(this.valueExcelBlckArr);
+        this.valueExcelBlckArr.forEach(item => {
+          console.log(item.blockname.toLowerCase());
+          let found = this.ExcelBlkNameDuplicateList.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
+          console.log(found);
+          console.log(this.ExcelBlkNameDuplicateList);
+          if (found) {
+            this.ExcelBlkNameDuplicateList1.push(item);
+            console.log(this.ExcelBlkNameDuplicateList1);
+          }
+          else {
+            this.ExcelBlkNameDuplicateList.push(item);
+            console.log(this.ExcelBlkNameDuplicateList);
+          }
+        })
+          if (this.ExcelBlkNameDuplicateList.length == 0) {
+            //element.hasNoDuplicateBlockname = false;
             this.isblockdetailsempty=false;
-            console.log('hasNoDuplicateBlockname = true');
-        } 
+            console.log('hasNoDuplicateBlockname = false');
+          }
+          else {
+            this.ExcelBlkNameDuplicateList.forEach(iitm=>{
+              this.blocksArray.forEach(iiitm=>{
+                console.log('outside',iitm.Id,iiitm.Id);
+                if(iitm.Id == iiitm.Id){
+                  console.log('inside',iitm.Id,iiitm.Id);
+                  iiitm.hasNoDuplicateBlockname = true;
+                }
+              })
+            })
+              //element.hasNoDuplicateBlockname = true;
+              this.isblockdetailsempty=true;
+              console.log('hasNoDuplicateBlockname = true');
+          } 
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true

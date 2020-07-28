@@ -215,8 +215,8 @@ p.panextext{
 #unitssubmit{
     display: inline-block;
     margin-top: 0px;
-    top: 45px;
-    margin-left: 984px;
+    top: 46px;
+    margin-left: 449px;
 }
 i#panuploadicon {
     position: relative;
@@ -239,14 +239,19 @@ img.Upload1 {
 }
 .resetforbulkunits{
     margin: 10px;
-    right: 192px;
     color: #ffffff !important;
+    right: 150px;
 }
 #manualunitssubmit{
     display: inline-block;
     /* margin-top: 0px; */
+<<<<<<< HEAD
     /* top: 46px;
     margin-left: 913px; */
+=======
+    top: 46px;
+    margin-left: 434px;
+>>>>>>> 60365d0033c87f4874858a569104683ed435ffe2
 }
 .tab-selected
 {
