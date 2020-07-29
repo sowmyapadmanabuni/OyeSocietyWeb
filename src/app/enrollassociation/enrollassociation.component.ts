@@ -142,6 +142,7 @@ export class EnrollassociationComponent implements OnInit {
   ngOnInit() {
     // this.getAssociationList()
     this.createForm();
+    
     //this.createForm1();
     this.blockandunitdetails();
      this.pandetalis();

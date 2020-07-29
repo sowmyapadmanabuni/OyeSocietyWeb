@@ -383,7 +383,9 @@
 
                         <!--BlockBulkupload-->
                 <div id="showmanual" style="margin-top: 30px;" style="display:none">
+
                     <div class="tab-pane">
+                        
                         <ul class="nav nav-tabs">
                             <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}"><a
                                     href="#{{objct.Id}}" (click)="assignBlkarrTmpid(objct.Id)"
@@ -770,7 +772,7 @@
                         <div *ngFor="let obj1 of blocksArray">
                             <div class="tab-pane" [ngClass]="{'active':obj1.Id==obj1.blockTmpid}" id="{{obj1.Id}}">
                                 
-                                <ul class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }">
+                                <ul id="tabSet"  class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }">
                                     <li  *ngFor="let obj2 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj2.Id==obj2.unitTmpid}">
                                         <a href="#{{obj2.Id}}" (click)="assignUnitTmpid(obj2.Id,blocknameforIteration)" data-toggle="tab">{{obj2.flatno==''?'Unit':obj2.flatno}}
                                             &nbsp;&nbsp;<span></span>
@@ -1008,7 +1010,7 @@
                                     <div *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index"
                                         [ngClass]="{'active':obj.Id==obj.unitTmpid}" class="tab-pane">
                                         <div id="{{obj.Id}}">
-                                            <form class="blockdetails-form1" style="margin-top: 30px;">
+                                            <form class="blockdetails-form1" style="margin-top: 30px;display: flex;flex-direction: column">
                                                 <div class="col-sm-12" style="display: flex">
                                                     <div>
                                                         <mat-form-field class="blockdetails-form1">
