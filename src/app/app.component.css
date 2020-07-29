@@ -1,5 +1,10 @@
 .sha{box-shadow: 1px 3px 1px -2px #8e8f905e;width: 200px !important;}
 .sha1{box-shadow: 1px 3px 1px -2px #8e8f905e;width: 130px !important;}
+
+
+#scrol-hori:hover span {
+    transform: translateX(calc(200px - 100%));
+  }
 .badgeAlert{display: inline-block;
     min-width: 10px;
     padding: 3px 4px;
