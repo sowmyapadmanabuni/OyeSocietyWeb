@@ -47,7 +47,7 @@
                       <mat-form-field>
                         <mat-label>{{globalService.getCurrentAssociationName()}}<span class="caret"></span></mat-label>
                           <mat-select (selectionChange)="loadAssociation($event.value.asAsnName,'')">
-                              <mat-option *ngFor="let association of uniqueAssociations" [value]="association">{{association['asAsnName']}}
+                              <mat-option id="scrol-hori" *ngFor="let association of uniqueAssociations" [value]="association">{{association['asAsnName']}}
                               </mat-option>
                           </mat-select>
                       </mat-form-field>
