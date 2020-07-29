@@ -1008,7 +1008,7 @@
                                     <div *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index"
                                         [ngClass]="{'active':obj.Id==obj.unitTmpid}" class="tab-pane">
                                         <div id="{{obj.Id}}">
-                                            <form class="blockdetails-form1" style="margin-top: 30px;">
+                                            <form class="blockdetails-form1" style="margin-top: 30px;display: flex;flex-direction: column;">
                                                 <div class="col-sm-12" style="display: flex">
                                                     <div>
                                                         <mat-form-field class="blockdetails-form1">
