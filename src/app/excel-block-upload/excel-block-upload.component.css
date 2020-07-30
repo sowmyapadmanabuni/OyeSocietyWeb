@@ -149,12 +149,56 @@
         /* .mainpage{
             padding-top: 42px;
         } */
+        #leftTabs li a{margin: 1px}
+        .nav>li>a:hover{
+            color: #000 !important;
+            background: none !important;
+            -webkit-transition: all 900ms;
+            transition: all 900ms;
+            border-radius: 9px;}
+            .nav-tabs>li {
+                float: left;
+                margin-bottom: -1px;
+                background: #cdc9ee;
+                color: #5a51aa;
+                margin: 0px 1px;
+                border-radius: 8px 8px 0px 0px;
+            }
+            .nav-tabs>li>a {
+                margin-right: 2px;
+                line-height: 1.42857143;
+                border: 1px solid transparent;
+                border-radius: 4px 4px 0 0;
+                color: #5a51aa !important;
+                text-transform: capitalize;
+            }
+            .nav-tabs>li>a:hover {
+                margin-right: 2px;
+                line-height: 1.42857143;
+                border: 1px solid transparent;
+                border-radius: 4px 4px 0 0;
+                color: #5a51aa !important;
+                text-transform: capitalize;
+            }
+            .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+                color: #fff !important;
+                cursor: default;
+                background-color: #5a51aa !important;
+                border: 1px solid #ddd;
+                border-bottom-color: transparent;
+            }
+        .page1{
+            padding: 42px;
+        }
+        /* .mainpage{
+            padding-top: 42px;
+        } */
         .association-form{
             padding:16px 42px;
             display: inline-flex;
         }
         .association-formcountry{
-            padding:16px 91px;
+            padding:16px 42px;
             display: inline-flex;
         }
         .blockdetails-form{
@@ -259,11 +303,16 @@
         }
         .save{
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
         }
         .continue{
             margin: 10px;
             color: #ffffff !important;
+        }
+        .resetmanualunits{
+            margin: 10px;
+            color: #ffffff !important;
+            right: 150px;
         }
         .continueforresetpan{
             margin-top: 38px;;
@@ -317,8 +366,38 @@
         #unitssubmit{
             display: inline-block;
             margin-top: 0px;
-            top: 213px;
-            margin-left: 1200px;
+            top: 46px;
+            margin-left: 449px;
+        }
+        i#panuploadicon {
+            position: relative;
+            left: 192px;
+            bottom: 20px;
+        }
+        img#pancardimg {
+            position: relative;
+            left: 200px;
+            bottom: 22px;
+        }
+        i#assnuploadicon {
+            position: relative;
+            right: 131px;
+            top: 27px;
+        }
+        img.Upload1 {
+            position: relative;
+            right: 48px;
+        }
+        .resetforbulkunits{
+            margin: 10px;
+            color: #ffffff !important;
+            right: 150px;
+        }
+        #manualunitssubmit{
+            display: inline-block;
+            /* margin-top: 0px; */
+            /* top: 46px;
+            margin-left: 913px; */
         }
         .tab-selected
         {
