@@ -87,7 +87,7 @@ div .stepwizard-step li{
     padding-top: 42px;
 } */
 .association-form{
-    padding:42px;
+    padding:16px 42px;
     display: inline-flex;
 }
 .blockdetails-form{
@@ -110,11 +110,11 @@ div .stepwizard-step li{
 .fa-question-circle:before {
     font-size: 20px !important;
 }
-.fa {
+/* .fa {
     position: absolute;
     margin-left: 126px;
     margin-top: 32px;
-}
+} */
 .tooltipicon{
     font-size: 20px !important;
 
@@ -172,9 +172,18 @@ input,label {
         /* width: 183px;
         margin-left: 47px; */
 }
-img.Upload1 {
+/* img.Upload1 {
     margin-left: 330px;
+} */
+img.Upload1 {
+    position: relative;
+    right: 48px;
 }
+.continue{
+    margin: 10px;
+    color: #ffffff !important;
+}
+
 /* small#examplepanno{
     margin-top: 53px;
     margin-left: -177px;
@@ -185,8 +194,8 @@ img.Upload1 {
     color: #ffffff !important;
 }
 .save{
-    float:right;
-    margin-top: 120px;
+    display: flex;
+    justify-content: center;
 }
 .continue{
     /* margin: 10px; */
@@ -195,7 +204,11 @@ img.Upload1 {
 }
 #assdetailssave{
     color: #ffffff !important;
-
+    margin: 9px;
+}
+.save{
+    display: flex;
+    justify-content: center;
 }
 span.mat-button-wrapper {
     color: #ffffff;
@@ -284,6 +297,15 @@ a.MANUAL{
 }
 .text{
     text-transform: uppercase;
+}
+.association-formcountry{
+    padding:16px 42px;
+    display: inline-flex;
+}
+i#assnuploadicon {
+    position: relative;
+    right: 131px;
+    top: 27px;
 }
 .fields{
     position: fixed;
