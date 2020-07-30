@@ -63,6 +63,7 @@ export class EnrollassociationComponent implements OnInit {
   duplicatemarked:any;
   valueExcelUnitArr:any[];
   numberofunitexistence:any;
+  notValidBlockArr:any[];
 
   constructor(private http: HttpClient,private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -70,6 +71,7 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService:UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService:ViewBlockService) {
+      this.notValidBlockArr=[];
       this.numberofunitexistence=0;
       this.valueExcelUnitArr=[];
       this.duplicatemarked=false;
@@ -142,6 +144,7 @@ export class EnrollassociationComponent implements OnInit {
   ngOnInit() {
     // this.getAssociationList()
     this.createForm();
+    
     //this.createForm1();
     this.blockandunitdetails();
      this.pandetalis();
@@ -1591,6 +1594,7 @@ validateUnitDetailsField(name){
   duplicateBlockArr=[];
   commonblockarray1=[];
   createblocksdetails(event) {
+    this.notValidBlockArr=[];
     this.uniqueBlockArr=[];
     this.duplicateBlockArr=[];
     this.toggleEmptyBlockarray=false;
@@ -1645,8 +1649,23 @@ validateUnitDetailsField(name){
                 this.uniqueBlockArr.push(item);
               }
             })
+           this.notValidBlockArr = this.uniqueBlockArr.filter((element) => {
+              return (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined);
+            })
+            if(this.notValidBlockArr.length>0){
+              this.notValidBlockArr.forEach(item=>{
+                this.duplicateBlockArr.push(item);
+              })
+            }
+            this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
+              if(element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined){
+               console.log(element);
+              }
+              return (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined);
+            })
             console.log(this.uniqueBlockArr);
             console.log(this.duplicateBlockArr);
+            console.log(this.notValidBlockArr);
             
             if (this.uniqueBlockArr.length > 0) {
               console.log('No duplicates');
@@ -1832,11 +1851,14 @@ validateUnitDetailsField(name){
                   //console.log(this.blocksArray.reverse());
                   this.blocksArray.forEach(iitm=>{
                     if(iitm.markedasduplicate==0){
+                      console.log(iitm);
+                      iitm.blockTmpid='';
                       if(!this.duplicatemarked){
                         this.duplicatemarked=true;
                         console.log(iitm);
                         iitm.blockTmpid=iitm.Id;
                       }
+                      console.log(iitm.blockTmpid);
                     }
                     else{
                       iitm.blockTmpid='';
@@ -2074,6 +2096,7 @@ validateUnitDetailsField(name){
   filelist1:any;
 
     onFileChange(ev){
+      this.isblockdetailsempty = false;
       this.blocksArray=[];
       this.file= ev.target.files[0];     
       let fileReader = new FileReader();    
@@ -2151,9 +2174,6 @@ validateUnitDetailsField(name){
               this.blocksArray.forEach((element) => {
                 if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
                   this.isblockdetailsempty = true;
-                }
-                else {
-                  this.isblockdetailsempty = false;
                 }
               })
               setTimeout(()=>{
@@ -2427,13 +2447,7 @@ validateUnitDetailsField(name){
           element.isblockdetailsempty1 = false;
         }
         //
-        this.blocksArray.forEach(item => { 
-          if(item.isBlockCreated == false){
-            this.valueExcelBlckArr.push(item);
-          }
-        });
-        console.log(this.valueExcelBlckArr);
-        this.valueExcelBlckArr.forEach(item => {
+        this.blocksArray.forEach(item => {
           if (item.blockname.toLowerCase() == blockname.toLowerCase()) {
             this.numberofexistence += 1;
             if(this.numberofexistence == 1){
