@@ -25,7 +25,9 @@ export class EditAssociationComponent implements OnInit {
   countrieslist=[];
   stateslist=[];
   citylist=[];
-  city;
+  editedCountryname;
+  editedStetename;
+  editedcityname;
   toSelect;
   countryname;
   constructor(public viewAssnService: ViewAssociationService,private http: HttpClient,private formBuilder: FormBuilder,private modalService: BsModalService,
@@ -250,6 +252,7 @@ export class EditAssociationComponent implements OnInit {
   statename;
      selectedcountry(countryid) {
       console.log(countryid)
+
       let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
       console.log(stateurl)
       this.http.get(stateurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
@@ -269,19 +272,49 @@ export class EditAssociationComponent implements OnInit {
       );
   
     }
-    // selectedstateeditassn(Stateid){
-    //   let cityurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetCityListByState/" + Stateid;
-    //   console.log(cityurl)
-    //   this.http.get(cityurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
-    //     console.log(res)
-    //     this.citylist = res.data.country;
-    //   }, error => {
-    //     console.log(error);
-    //     this.exceptionMessage = error['error']['exceptionMessage'];
-    //     console.log(this.exceptionMessage);
-    //   }
-    //   );
-    // }
+  selectedcountryedit(country) {
+
+    console.log(country.value.coid)
+    let countryid = country.value.coid;
+    console.log(countryid)
+    this.editedCountryname = country.value.coName;
+    this.viewAssnService.EditAssociationData['ASCountry']= this.editedCountryname;
+    console.log(this.editedCountryname)
+
+    let stateurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetStateListByID/" + countryid;
+    console.log(stateurl)
+    this.http.get(stateurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+      console.log(res)
+      this.stateslist = res.data.states;
+
+    }, error => {
+      console.log(error);
+      this.exceptionMessage = error['error']['exceptionMessage'];
+      console.log(this.exceptionMessage);
+    }
+    );
+
+  }
+    selectedstateeditassn(State){
+
+      console.log(State)
+      let Stateid = State.value.stid;
+      console.log(Stateid)
+      this.editedStetename = State.value.stName;
+      this.viewAssnService.EditAssociationData['ASState']=this.editedStetename;
+      console.log(this.editedStetename)
+      let cityurl = "http://devapi.scuarex.com/oyeliving/api/v1/Country/GetCityListByState/" + Stateid;
+      console.log(cityurl)
+      this.http.get(cityurl, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } }).subscribe((res: any) => {
+        console.log(res)
+        this.citylist = res.data.country;
+      }, error => {
+        console.log(error);
+        this.exceptionMessage = error['error']['exceptionMessage'];
+        console.log(this.exceptionMessage);
+      }
+      );
+    }
     cityname;
     selectedstate(Stateid) {
       console.log(Stateid)
@@ -300,8 +333,10 @@ export class EditAssociationComponent implements OnInit {
       }
       );
     }
-    selectedcityeditassn(cityname){
-      this.city = cityname.ctName;
+    selectedcityeditassn(city){
+      this.editedcityname = city.value.ctName;
+      this.viewAssnService.EditAssociationData['ASCity']=this.editedcityname; 
+      console.log(this.editedcityname)
     }
     // selectedcity(cityname){
     //   this.city = cityname.ctName;
@@ -512,7 +547,7 @@ export class EditAssociationComponent implements OnInit {
         //console.log(JSON.stringify(res));
         //alert("Association Created Successfully")
         Swal.fire({
-          title: 'Association Updated Successfuly',
+          title: 'Association Updated Successfully',
           text: "",
           type: "success",
           confirmButtonColor: "#f69321",

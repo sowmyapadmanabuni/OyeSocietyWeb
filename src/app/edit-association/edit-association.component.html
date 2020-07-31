@@ -374,7 +374,7 @@
                   <form [formGroup]="form" class="association-formcountry">
                     <mat-form-field>
                       <mat-label>COUNTRY<span class="red">*</span></mat-label>
-                        <mat-select (selectionChange)="selectedcountry($event)" [(value)]="viewAssnService.EditAssociationData['ASCountry']" formControlName="cntryname" placeholder="COUNTRY">
+                        <mat-select (selectionChange)="selectedcountryedit($event)" formControlName="cntryname" placeholder="COUNTRY">
                             <mat-option *ngFor="let country of countrieslist" [value]="country">{{country['coName']}}
                             </mat-option>
                         </mat-select>
@@ -398,8 +398,8 @@
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field>
                           <mat-label>STATE<span class="red">*</span></mat-label>
-                          <mat-select formControlName="statename" [(value)]="viewAssnService.EditAssociationData['ASState']">
-                              <mat-option *ngFor="let state of stateslist" (onSelectionChange)="selectedstateeditassn(state.stid)" [value]="state">{{state.stName}}
+                          <mat-select formControlName="statename" (selectionChange)="selectedstateeditassn($event)">
+                              <mat-option *ngFor="let state of stateslist" [value]="state">{{state.stName}}
                               </mat-option>
                           </mat-select>
                           <mat-error [displayError]="isFieldValid('statename')">
@@ -411,8 +411,8 @@
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field>
                           <mat-label>CITY<span class="red">*</span></mat-label>
-                          <mat-select formControlName="cityname" [(value)]="viewAssnService.EditAssociationData['ASCity']">
-                              <mat-option *ngFor="let city of citylist" (onSelectionChange)="selectedcityeditassn(city)" [value]="city">{{city.ctName}}
+                          <mat-select formControlName="cityname" (selectionChange)="selectedcityeditassn($event)">
+                              <mat-option *ngFor="let city of citylist" [value]="city">{{city.ctName}}
                               </mat-option>
                           </mat-select>
                           <mat-error [displayError]="isFieldValid('cityname')">
