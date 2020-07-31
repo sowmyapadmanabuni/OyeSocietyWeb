@@ -65,6 +65,7 @@ export class NotificationsComponent implements OnInit {
   image5:any;
   notificationListByAcctID:any[];
   DateCurrent: any;
+  allAdminAndResidentNotification:any[];
 
   constructor(private utilsService: UtilsService,public router:Router,
     public globalService: GlobalServiceService,
@@ -72,6 +73,7 @@ export class NotificationsComponent implements OnInit {
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
     private DashBoardService: DashBoardService) {
+      this.allAdminAndResidentNotification=[];
       this.notificationListByAcctID=[];
       this.changeViewOfActionButton=true;
     this.ntJoinStatTmp2 = '';
@@ -139,6 +141,10 @@ export class NotificationsComponent implements OnInit {
         else {
           this.paginatedvalue += 1;
           this.GetNotificationListByAccntID();
+          /*vinay*/
+          this.allAdminAndResidentNotification = data['data']['notificationListByAcctID'];
+          console.log(this.allAdminAndResidentNotification);
+          /*vinay*/
           console.log(data);
         }
       })
