@@ -28,6 +28,12 @@ export class ExcelUnitUploadComponent implements OnInit {
   totalUnitcount;
   unitdetailscreatejson;
   isunitdetailsempty:boolean;
+
+
+  numberofunitexistence:any;
+  valueExcelUnitArr:any[];
+  blockTabId:any;
+
   occupancy = [
     "Sold Owner Occupied Unit",
     "Sold Tenant Occupied Unit",
@@ -40,6 +46,38 @@ export class ExcelUnitUploadComponent implements OnInit {
     "VILLA",
     "VACCANT PLOT"
   ]
+  rowjson = {
+    "blockid":"",
+    "blockTmpid":"",
+    "blockname": "",
+    "blocktype": "",
+    "duedate": "",
+    "invoicedate": "",
+    "invoicefrequency": "",
+    "latepaymentcharge": "",
+    "maintenancevalue": "",
+    "manageremailid": "",
+    "managermobileno": "",
+    "managername": "",
+    "measurementtype": "Sqft",
+    "paymentcharge": "",
+    "ratevalue": "",
+    "startdate": "",
+    "units": "",
+
+    "isnotvalidblockname":false,
+    "isnotvalidblocktype":false,
+    "isnotvalidmanageremailid":false,
+    "isnotvalidmanagermobileno":false,
+    "isnotvalidmanagername":false,
+    "isnotvalidunits":false,
+    "isUnitsCreatedUnderBlock":false,
+    "isUnitsCreatedUnderBlock1":true,
+    "isblockdetailsempty1":true,
+    "isNotBlockCreated":false,
+    "isBlockCreated":true
+
+  }
   constructor(private router: Router, private viewUniService: ViewUnitService,private http: HttpClient,
     private globalService: GlobalServiceService) {
     this.excelUnitList = [];
@@ -48,6 +86,14 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.blBlkName = 'Select Block Name';
     this.ACAccntID = this.globalService.getacAccntID();
     //units bulkupload
+ 
+
+    this.numberofunitexistence=0;
+    this.valueExcelUnitArr=[];
+ 
+    this.blockTabId=0;
+    this.iindex=0;
+ 
     this.duplicateUnitrecordexist=false;
     this.unitrecordDuplicateUnitnameModified=false;
     this.totalUnitcount=0;
@@ -128,10 +174,11 @@ export class ExcelUnitUploadComponent implements OnInit {
 
   blocksArray = []
   unitlistjson = {}
-
   blockidtmp={};
   isExcelDataExceed:boolean;
+  iindex:any;
   excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
+    this.unitlistuniquejsonagainfiltered=[];
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
@@ -145,13 +192,21 @@ export class ExcelUnitUploadComponent implements OnInit {
       })
     }
     else{
+      console.log(this.blocksArray)
       // console.log(this.finalblockname);
       console.log(exceldata);
+      var data = JSON.parse(JSON.stringify(this.rowjson))
+      data.Id =1;
+      data.blockname=this.blBlkName;
+      data.blockTmpid=1;
+      data.blocktype= "Residential";
+      this.blocksArray.push(data);
       // console.log(this.blocksArray);
       console.log(this.unitlistjson);
       let _blkname = '';
       this.isValidUnitRecord=false;
       this.isExcelDataExceed=false;
+      
       //
       //console.log(new Set(exceldata).size !== exceldata.length);
      /* let valueArr = exceldata.map(item => { return item.flatno.toLowerCase() });
@@ -190,12 +245,13 @@ export class ExcelUnitUploadComponent implements OnInit {
         
                       if(exceldata.length<=unitslength){
 
-                        console.log(this.blockidtmp);
-                        unitonce.blockid = this.blockidtmp[this.blBlkName];
+                        console.log(this.currentSelectedBlockID);
+                        unitonce.blockid = this.currentSelectedBlockID;
                         unitonce.Id = this.blBlkName+i+1;
                         unitonce.unitTmpid='';
                         unitonce.isSingleUnitDataEmpty=true;
                         unitonce.hasNoDuplicateUnitname=false;
+                        unitonce.disableField=false;
                         unitonce.isnotvalidflatno =false,
                         unitonce.isnotvalidunittype=false,
                         unitonce.isnotvalidownershipstatus=false,
@@ -215,6 +271,7 @@ export class ExcelUnitUploadComponent implements OnInit {
                         unitonce.isnotvalidtenantemaiid=false
                         unitonce.isUnitCreated=false;	
                         unitonce.isUnitNotCreated=true;
+                        unitonce.isUnitNameModifiedForDuplicateRecord='No';
                         if (!this.unitlistjson[this.blBlkName]) {
                           this.unitlistjson[this.blBlkName] = []
                         }
@@ -252,44 +309,47 @@ export class ExcelUnitUploadComponent implements OnInit {
               });
         
           //}
-      this.validateUnitDetailsField(_blkname);
+      // this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains",this.unitlistjson);
       setTimeout(()=>{
         if(this.isValidUnitRecord){
-          this.gotonexttab1('',_blkname);
+          this.gotonexttab1('',_blkname,this.iindex);
         }
       },2000)
     }
   }
-  gotonexttab1(ev, name) {
+  gotonexttab1(ev, name,index) {
     console.log(name);
      
-    this.unitmovingnexttab1(name);
+    this.unitmovingnexttab1(name,index);
 
   }
-  unitmovingnexttab1(name) {
+  unitmovingnexttab1(name,index) {
     //if (this.isunitdetailsempty) {
-      this.submitunitdetails1(name);
+      this.submitunitdetails1(name,index);
     //}
   }
-  getUnittype(Id,unittype,name){
-    console.log(Id,unittype,name);
-    this.validateUnitDetailsField(name);
-  }
-  getOwnerShipStatus(Id,unittype,name){
-    console.log(Id,unittype,name);
-    this.validateUnitDetailsField(name);
-  }
+  // getUnittype(Id,unittype,name){
+  //   console.log(Id,unittype,name);
+  //   this.validateUnitDetailsField(name);
+  // }
+  // getOwnerShipStatus(Id,unittype,name){
+  //   console.log(Id,unittype,name);
+  //   this.validateUnitDetailsField(name);
+  // }
   exceptionMessage1='';
   SubmitOrSaveAndContinue1='SAVE AND CONTINUE';
   // nextObjId1='';
   // isNextIetrationEnabled1;
   // nextBlckId1='';
+  unitlistuniquejsonagainfiltered=[];
   unitlistuniquejson=[];
   unitlistduplicatejson=[];
   unitsuccessarray =[]
   message;
-  submitunitdetails1(name) {
+  submitunitdetails1(name,index) {
+    $(".se-pre-con").show();
+
     this.unitsuccessarray = [];
    /* let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
     let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
@@ -340,7 +400,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     if (this.unitrecordDuplicateUnitnameModified) {
       let tempArr = [];
       this.unitlistjson[this.blBlkName].forEach(iitm => {
-        if (iitm.hasNoDuplicateUnitname == false) {
+        if (iitm.disableField == false) {
           tempArr.push(iitm);
         }
       })
@@ -350,20 +410,150 @@ export class ExcelUnitUploadComponent implements OnInit {
       this.duplicateUnitrecordexist=false;
     }
     else{
-      this.unitlistjson[this.blBlkName].forEach(iitm => {
-        console.log(iitm.flatno.toLowerCase());
-        let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
-        console.log(found);
-        console.log(this.unitlistuniquejson);
-        if (found) {
-          this.unitlistduplicatejson.push(iitm);
-          console.log(this.unitlistduplicatejson);
-          this.duplicateUnitrecordexist = true;
+      // this.unitlistjson[this.blBlkName].forEach(iitm => {
+      //   console.log(iitm.flatno.toLowerCase());
+      //   let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
+      //   console.log(found);
+      //   console.log(this.unitlistuniquejson);
+      //   if (found) {
+      //     this.unitlistduplicatejson.push(iitm);
+      //     console.log(this.unitlistduplicatejson);
+      //     this.duplicateUnitrecordexist = true;
+      //   }
+      //   else {
+      //     this.unitlistuniquejson.push(iitm);
+      //     iitm.hasNoDuplicateUnitname = true;
+      //     console.log(this.unitlistuniquejson);
+      //   }
+      // })
+      this.unitlistjson[this.blBlkName].forEach(item=>{
+        if (item.ownershipstatus == "Sold Owner Occupied Unit" || item.ownershipstatus == "Sold Vacant Unit") {
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.owneremaiid == "" || item.owneremaiid == undefined ||
+            item.ownerfirstname == "" || item.ownerfirstname == undefined ||
+            item.ownerlastname == "" || item.ownerlastname == undefined ||
+            item.ownermobilenumber == "" || item.ownermobilenumber == undefined
+          ) {
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.unittype != "" && item.unittype != undefined &&
+            item.owneremaiid != "" && item.owneremaiid != undefined &&
+            item.ownerfirstname != "" && item.ownerfirstname != undefined &&
+            item.ownerlastname != "" && item.ownerlastname != undefined &&
+            item.ownermobilenumber != "" && item.ownermobilenumber != undefined
+          ) {
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField=true;
+            }
+          }
         }
-        else {
-          this.unitlistuniquejson.push(iitm);
-          iitm.hasNoDuplicateUnitname = true;
-          console.log(this.unitlistuniquejson);
+        else if (item.ownershipstatus == "Sold Tenant Occupied Unit") {
+          console.log(item);
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.owneremaiid == "" || item.owneremaiid == undefined ||
+            item.ownerfirstname == "" || item.ownerfirstname == undefined ||
+            item.ownermobilenumber == "" || item.ownermobilenumber == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.ownerlastname == "" || item.ownerlastname == undefined ||
+            item.tenantfirstname == "" || item.tenantfirstname == undefined ||
+            item.tenantlastname == "" || item.tenantlastname == undefined ||
+            item.tenantmobilenumber == "" || item.tenantmobilenumber == undefined ||
+            item.tenantemaiid == "" || item.tenantemaiid == undefined) {
+            console.log('Sold Tenant Occupied Unit-duplicate')
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.owneremaiid != "" && item.owneremaiid != undefined &&
+            item.ownerfirstname != "" && item.ownerfirstname != undefined &&
+            item.ownermobilenumber != "" && item.ownermobilenumber != undefined &&
+            item.unittype != "" && item.unittype != undefined &&
+            item.ownerlastname != "" && item.ownerlastname != undefined &&
+            item.tenantfirstname != "" && item.tenantfirstname != undefined &&
+            item.tenantlastname != "" && item.tenantlastname != undefined &&
+            item.tenantmobilenumber != "" && item.tenantmobilenumber != undefined &&
+            item.tenantemaiid != "" && item.tenantemaiid != undefined) {
+            console.log('Sold Tenant Occupied Unit-unique')
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+            }
+          }
+        } 
+        else if (item.ownershipstatus == "UnSold Tenant Occupied Unit") {
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.tenantfirstname == "" || item.tenantfirstname == undefined ||
+            item.tenantlastname == "" || item.tenantlastname == undefined ||
+            item.tenantmobilenumber == "" || item.tenantmobilenumber == undefined ||
+            item.tenantemaiid == "" || item.tenantemaiid == undefined) {
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.unittype != "" && item.unittype != undefined &&
+            item.tenantfirstname != "" && item.tenantfirstname != undefined &&
+            item.tenantlastname != "" && item.tenantlastname != undefined &&
+            item.tenantmobilenumber != "" && item.tenantmobilenumber != undefined &&
+            item.tenantemaiid != "" && item.tenantemaiid != undefined) {
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+            }
+          }
+        }
+        else if (item.ownershipstatus == "UnSold Vacant Unit") {
+          if (item.flatno == "" || item.flatno == undefined ||
+          item.unittype == "" || item.unittype == undefined) {
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.unittype != "" && item.unittype != undefined) {
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+            }
+          }
+        }
+        else if (item.ownershipstatus == "" || item.ownershipstatus == undefined) {
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.ownershipstatus == "" || item.ownershipstatus == undefined) {
+              this.unitlistduplicatejson.push(item);
+          }
         }
       })
       this.unitlistjson[this.blBlkName] = [];
@@ -448,6 +638,10 @@ export class ExcelUnitUploadComponent implements OnInit {
             // this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
               .subscribe((res: any) => {
                 console.log(res)
+                unit.hasNoDuplicateUnitname=true;
+                unit.disableField=true;
+                unit.isUnitCreated=true;
+                unit.isUnitNotCreated=false;
                 this.totalUnitcount += 1;
               }, error => {
                 console.log(error);
@@ -460,11 +654,18 @@ export class ExcelUnitUploadComponent implements OnInit {
     });
       
       setTimeout(() => {
+        $(".se-pre-con").fadeOut("slow");
         if (this.unitsuccessarray.length == 1) {
           this.message = 'Unit Created Successfully'
         }
         else if (this.unitsuccessarray.length > 1) {
-          this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          if(this.unitlistduplicatejson.length>0){
+            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                            ${this.unitlistduplicatejson.length} Duplicate`
+          }
+          else{
+            this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          }
         }
         if (this.duplicateUnitrecordexist) {
           // document.getElementById('unitupload_excel').style.display = 'none'
@@ -488,13 +689,21 @@ export class ExcelUnitUploadComponent implements OnInit {
                 }
                 if(this.unitlistduplicatejson.length>0){
                   this.unitlistduplicatejson.forEach(itm1 => {
+                    if(itm1.isUnitNameModifiedForDuplicateRecord=='No'){
+                      itm1.isUnitNameModifiedForDuplicateRecord='Yes';
+                      console.log('isUnitNameModifiedForDuplicateRecord==Yes');
+                    }
                     tmpArr.push(itm1);
                   })
                 }
                 this.unitlistjson[this.blBlkName]=[];
+                this.unitlistjson[this.blBlkName]=tmpArr.reverse();
                 this.unitlistjson[this.blBlkName]=tmpArr;
                 console.log(this.unitlistjson[this.blBlkName]);
+                this.unitlistjson[this.blBlkName][0]['unitTmpid'] = this.unitlistjson[this.blBlkName][0]['Id'];
+                console.log(this.unitlistjson[name][0]['unitTmpid']);
                 this.unitrecordDuplicateUnitnameModified=true;
+              
               }
             })
         }
@@ -521,7 +730,7 @@ export class ExcelUnitUploadComponent implements OnInit {
                   //let abc1 = Object.keys(this.unitlistjson);
                   //if(Object.keys(this.unitlistjson)[abc1.length-1]==name){
                   console.log('test block');
-          this.router.navigate(['units']);
+                 this.router.navigate(['units']);
 
                   // this.viewAssnService.dashboardredirect.next(result)
                   // this.viewAssnService.enrlAsnEnbled = false;
@@ -541,8 +750,15 @@ export class ExcelUnitUploadComponent implements OnInit {
             // document.getElementById('unitshowmanual').style.display = 'block';
             // document.getElementById('unitsmanualnew').style.display = 'none';
             // document.getElementById('unitsbulkold').style.display = 'block';
+            if(this.unitlistduplicatejson.length>0){
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                              ${this.unitlistduplicatejson.length} Duplicate`
+            }
+            else{
+              this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+            }
             Swal.fire({
-              title: this.unitsuccessarray.length + '-' + 'Units Created Successfully',
+              title: this.message,
               text: "",
               type: "success",
               confirmButtonColor: "#f69321",
@@ -558,13 +774,21 @@ export class ExcelUnitUploadComponent implements OnInit {
                   }
                   if(this.unitlistduplicatejson.length>0){
                     this.unitlistduplicatejson.forEach(itm1 => {
+                      if(itm1.isUnitNameModifiedForDuplicateRecord=='No'){
+                        itm1.isUnitNameModifiedForDuplicateRecord='Yes';
+                        console.log('isUnitNameModifiedForDuplicateRecord==Yes');
+                      }
                       tmpArr.push(itm1);
                     })
                   }
                   this.unitlistjson[this.blBlkName]=[];
+                  this.unitlistjson[this.blBlkName]=tmpArr.reverse();
                   this.unitlistjson[this.blBlkName]=tmpArr;
                   console.log(this.unitlistjson[this.blBlkName]);
+                  this.unitlistjson[this.blBlkName][0]['unitTmpid'] = this.unitlistjson[this.blBlkName][0]['Id'];
+                  console.log(this.unitlistjson[this.blBlkName][0]['unitTmpid']);
                   this.unitrecordDuplicateUnitnameModified=true;
+              
                 }
               })
           }
@@ -592,7 +816,22 @@ export class ExcelUnitUploadComponent implements OnInit {
             // document.getElementById('unitshowmanual').style.display = 'block';
             // document.getElementById('unitsmanualnew').style.display = 'none';
             // document.getElementById('unitsbulkold').style.display = 'block';
-            this.router.navigate(['units']);
+            this.blockTabId += 1;
+            this.blocksArray.forEach((itm,indx)=>{
+              if(itm.blockname.toLowerCase() == this.blBlkName.toLowerCase()){
+                itm.isUnitsCreatedUnderBlock=true;
+                // itm.isUnitsCreatedUnderBlock1=false;
+                if(this.blocksArray[indx+1]!=undefined){
+                  console.log(this.blocksArray[indx+1]['blockname']);
+                  this.blBlkName = this.blocksArray[indx+1]['blockname'];
+                  this.nextBlckId=this.blocksArray[indx+1]['Id'];
+                  console.log(this.blBlkName);
+                  console.log(this.nextBlckId);
+                }
+              }
+            })
+            this.assignTmpid(this.nextBlckId,this.blBlkName);
+            // this.router.navigate(['units']);
 
             // this.demo2TabIndex = this.demo2TabIndex + 1;
           }
@@ -604,7 +843,38 @@ export class ExcelUnitUploadComponent implements OnInit {
       
         //}
   }
-  validateUnitDetailsField(name){
+  nextBlckId='';
+  assignTmpid(objId,blockname){
+    console.log(objId);
+    // this.blocknameforIteration=blockname;
+    // console.log(this.blocknameforIteration);
+    this.blocksArray.forEach(elemnt=>{
+      if(elemnt.Id==objId){
+        console.log('test',objId);
+        elemnt.blockTmpid=objId;
+        console.log(elemnt.blockTmpid);
+      }
+      else{
+        elemnt.blockTmpid='';
+      }
+    })
+    console.log(this.unitlistjson[blockname][0]['Id'],blockname);
+    this.assignUnitTmpid(this.unitlistjson[blockname][0]['Id'],blockname);
+  }
+  assignUnitTmpid(obj2Id,blockname){
+    console.log(obj2Id);
+    this.unitlistjson[blockname].forEach(elemnt=>{
+      if(elemnt.Id==obj2Id){
+        console.log('test',obj2Id);
+        elemnt.unitTmpid=obj2Id;
+        console.log(elemnt.unitTmpid);
+      }
+      else{
+        elemnt.unitTmpid='';
+      }
+    })
+  }
+  validateUnitDetailsField(name,Id){
     this.isunitdetailsempty = true;
       Object.keys(this.unitlistjson).forEach(element => {
         console.log(this.unitlistjson[element])
@@ -802,12 +1072,212 @@ export class ExcelUnitUploadComponent implements OnInit {
      event.preventDefault();
    }
  }
+  // unitmatching: boolean;
+  // getUnitName(Id, flatno,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['flatno'] = flatno;
+  //         if(unit['flatno']==""||unit['flatno']==undefined){
+  //           unit['isnotvalidflatno']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidflatno']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // getunittype(Id, unittype,name){
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['unittype'] = unittype;
+  //         if(unit['unittype']==""){
+  //           unit['isnotvalidunittype']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidunittype']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // getUnittypeOnChange(event,blocknameforIteration){
+  //   console.log(event,blocknameforIteration);
+  //   this.validateUnitDetailsField(blocknameforIteration);
+  // }
+  // getOwnershipstatusOnChange(event,blocknameforIteration){
+  //   this.validateUnitDetailsField(blocknameforIteration);
+  // }
+  // getownershipstatus(Id, ownershipstatus,name){
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['ownershipstatus'] = ownershipstatus;
+  //         if(unit['ownershipstatus']==""){
+  //           unit['isnotvalidownershipstatus']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidownershipstatus']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // getownerfirstname(Id, ownerfirstname,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['ownerfirstname'] = ownerfirstname;
+  //         if(unit['ownerfirstname']==""){
+  //           unit['isnotvalidownerfirstname']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidownerfirstname']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // getownerlastname(Id, ownerlastname,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['ownerlastname'] = ownerlastname;
+  //         if(unit['ownerlastname']==""){
+  //           unit['isnotvalidownerlastname']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidownerlastname']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // getownermobilenumber(Id, ownermobilenumber,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['ownermobilenumber'] = ownermobilenumber;
+  //         if(unit['ownermobilenumber']==""){
+  //           unit['isnotvalidownermobilenumber']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidownermobilenumber']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // getowneremaiid(Id, owneremaiid,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['owneremaiid'] = owneremaiid;
+  //         if(unit['owneremaiid']==""){
+  //           unit['isnotvalidowneremaiid']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidowneremaiid']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // gettenantfirstname(Id, tenantfirstname,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['tenantfirstname'] = tenantfirstname;
+  //         if(unit['tenantfirstname']==""){
+  //           unit['isnotvalidtenantfirstname']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidtenantfirstname']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // gettenantlastname(Id, tenantlastname,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['tenantlastname'] = tenantlastname;
+  //         if(unit['tenantlastname']==""){
+  //           unit['isnotvalidtenantlastname']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidtenantlastname']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // gettenantmobilenumber(Id, tenantmobilenumber,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['tenantmobilenumber'] = tenantmobilenumber;
+  //         if(unit['tenantmobilenumber']==""){
+  //           unit['isnotvalidtenantmobilenumber']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidtenantmobilenumber']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+  // gettenantemaiid(Id, tenantemaiid,name) {
+  //   Object.keys(this.unitlistjson).forEach(element=>{
+  //     this.unitlistjson[element].forEach(unit => {
+  //       console.log(unit)
+  //       if (unit['Id'] == Id) {
+  //         unit['tenantemaiid'] = tenantemaiid;
+  //         if(unit['tenantemaiid']==""){
+  //           unit['isnotvalidtenantemaiid']=true;
+  //         }
+  //         else{
+  //           unit['isnotvalidtenantemaiid']=false;
+  //         }
+  //       }
+  //     })
+  //   })
+  //   this.validateUnitDetailsField(name);
+  // }
+
+  
   unitmatching: boolean;
   getUnitName(Id, flatno,name) {
+    this.numberofunitexistence =0;
+    this.valueExcelUnitArr=[];
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
         if (unit['Id'] == Id) {
+          console.log(unit);
           unit['flatno'] = flatno;
           if(unit['flatno']==""||unit['flatno']==undefined){
             unit['isnotvalidflatno']=true;
@@ -815,12 +1285,36 @@ export class ExcelUnitUploadComponent implements OnInit {
           else{
             unit['isnotvalidflatno']=false;
           }
+           //
+        console.log(this.unitlistjson[element]);
+        this.unitlistjson[element].forEach(itm=>{
+          if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+            this.numberofunitexistence += 1;
+            if(this.numberofunitexistence == 1){
+              unit.hasNoDuplicateUnitname=true;
+              unit.isUnitNameModifiedForDuplicateRecord='No';
+            }
+            else{
+              unit.hasNoDuplicateUnitname=false;
+              unit.isUnitNameModifiedForDuplicateRecord='Yes';
+            }
+          }
+        })
+        //
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
-  getunittype(Id, unittype,name){
+  getUnittype(Id,unittype,name){
+    console.log(Id,unittype,name);
+    this.validateUnitDetailsField(name,Id);
+  }
+  getOwnerShipStatus(Id,unittype,name){
+    console.log(Id,unittype,name);
+    this.validateUnitDetailsField(name,Id);
+  }
+ /* getunittype(Id, unittype,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -836,15 +1330,15 @@ export class ExcelUnitUploadComponent implements OnInit {
       })
     })
     this.validateUnitDetailsField(name);
-  }
-  getUnittypeOnChange(event,blocknameforIteration){
+  } */
+ /* getUnittypeOnChange(event,blocknameforIteration){
     console.log(event,blocknameforIteration);
     this.validateUnitDetailsField(blocknameforIteration);
   }
   getOwnershipstatusOnChange(event,blocknameforIteration){
     this.validateUnitDetailsField(blocknameforIteration);
-  }
-  getownershipstatus(Id, ownershipstatus,name){
+  } */
+ /* getownershipstatus(Id, ownershipstatus,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -860,7 +1354,7 @@ export class ExcelUnitUploadComponent implements OnInit {
       })
     })
     this.validateUnitDetailsField(name);
-  }
+  } */
   getownerfirstname(Id, ownerfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
@@ -876,7 +1370,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getownerlastname(Id, ownerlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -893,7 +1387,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getownermobilenumber(Id, ownermobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -910,7 +1404,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getowneremaiid(Id, owneremaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -927,7 +1421,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantfirstname(Id, tenantfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -944,7 +1438,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantlastname(Id, tenantlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -961,7 +1455,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantmobilenumber(Id, tenantmobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -978,7 +1472,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantemaiid(Id, tenantemaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -995,7 +1489,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   //CREATE UNIT FROM EXCEL
   createUnitFromExcel() {
