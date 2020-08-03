@@ -1053,6 +1053,7 @@ imgfilename;
                 this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
                 console.log(this.unitlistjson[name][0]['unitTmpid']);
                 this.unitrecordDuplicateUnitnameModified=true;
+                this.isunitdetailsempty = false;
               }
             })
         }
@@ -1135,6 +1136,7 @@ imgfilename;
                   this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
                   console.log(this.unitlistjson[name][0]['unitTmpid']);
                   this.unitrecordDuplicateUnitnameModified=true;
+                  this.isunitdetailsempty = false;
                 }
               })
           }
@@ -1184,6 +1186,7 @@ imgfilename;
                 }
               }
             })
+            this.isunitdetailsempty = false;
             this.assignTmpid(this.nextBlckId,this.blocknameforIteration);
           }
         }
@@ -1565,6 +1568,89 @@ validateUnitDetailsField(name,Id){
             }
         }
       }
+        /**/
+        if (name.toLowerCase() == headername.toLowerCase()) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          if (this.isunitdetailsempty) {
+            if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
+              ) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined ||
+
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined
+              ) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                  this.isunitdetailsempty = false;
+                }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+          }
+        }
+      /**/
       })
     })
 }
@@ -2095,6 +2181,9 @@ validateUnitDetailsField(name,Id){
                 }
                 this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
                 console.log(this.unitlistjson);
+                /**/
+
+                /**/
               }
               this.blocksArray.forEach(elemnt=>{
                 if(elemnt.Id==objId){
@@ -2716,6 +2805,7 @@ validateUnitDetailsField(name,Id){
   iindex:any;
   excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
     this.unitlistuniquejsonagainfiltered=[];
+    this.isunitdetailsempty = false;
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
