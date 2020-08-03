@@ -525,6 +525,73 @@
   
               </div>
           </mat-tab>
+          <mat-tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
+            <form [formGroup]="gstpanform" class="association-form3" style="padding-left: 125px;">
+                <mat-form-field class="association-full-width">
+                    <mat-label>GST NUMBER(OPTIONAL)</mat-label>
+                     <input matInput placeholder="GST NUMBER"
+                     matTooltip="Please enter registered GST number of the association"
+                    formControlName="gst"
+                    (blur)="fillPANValue()"
+                    [(ngModel)]="gstnumber" 
+                    autocomplete='gstnumber'
+                    pattern="^([0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" minlegth=15 maxlength=15 
+                    value="">
+                    <mat-error [displayError]="isFieldValidPanDetails('gst')">
+                        {{ titleAlert }}
+                    </mat-error>
+                </mat-form-field>
+                <p class="panextext">Ex: 22AAAAA0000A1Z5</p> 
+            </form>
+            <form [formGroup]="gstpanform" class="association-form3" style="padding-left:239px">
+                <mat-form-field class="association-full-width">
+                    <mat-label>PAN NUMBER<span class="red">*</span></mat-label>
+                    <input matInput placeholder="PAN NUMBER"
+                        matTooltip="Please enter registered pan number of the association" class="text"
+                        [(ngModel)]="viewAssnService.EditAssociationData['ASPANNum']" value="{{viewAssnService.EditAssociationData['ASPANNum']}}"
+                        formControlName="originalpan"
+                        autocomplete='pannumber' 
+                        (keyup)="pan_validate($event)"
+                        pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"
+                        minlength=10 maxlength=10>
+                    <mat-error [displayError]="isFieldValidPanDetails('originalpan')">
+                        Please Enter Valid Pan Number
+                    </mat-error>
+                </mat-form-field>
+                <p class="panextext">Ex: PAAAA1234A</p> 
+
+            </form>
+            <div id="pancardupload">
+                <!-- <mat-label class="control-label">Upload Scanned Pan Card</mat-label> -->
+            
+                <label class="control-label">Upload Scanned Pan Card</label>
+                <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
+                          [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
+                          (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
+                          pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
+                          <div>
+                            <form [formGroup]="uploadPanForm">
+                <input #fileInput3 type="file" id="uploadCaptureInputFile" name="panProfile" (change)="onPanFileSelect($event)" (click)="fileopen1($event,fileInput3)">
+
+                            <!-- <input type="file" name="panProfile" id="uploadCaptureInputFile" (change)="onPanFileSelect($event)" /> -->
+                            <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="panuploadicon" aria-hidden="true" type="submit" (click)="processPanFile()"></i>
+                            <!-- <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>  -->
+                            <img [hidden]="uploadPANCardThumbnail == undefined" id="pancardimg" (click)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
+                                src="{{uploadPANCardThumbnail}}" width="50px" height="50px" />
+                            </form>
+                          </div>
+                
+                <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
+                    Resolution of 128*128</span>
+            
+            </div>
+
+            <div class="save">
+                <a class="previous" (click)="previouspage($event)"mat-raised-button color="primary">PREVIOUS</a>
+                <a class="continueforresetpan" (click)="resetStep2($event)"mat-raised-button color="primary">RESET</a>
+                <a id="pansubmit"mat-raised-button color="primary" [disabled]="!gstpanform.valid"(click)="submitpandetails($event)">SAVE & CONTINUE</a>
+            </div>
+        </mat-tab>
           <mat-tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">

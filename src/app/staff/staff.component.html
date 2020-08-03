@@ -6,7 +6,7 @@
         <div class="col-xs-12 col-sm-12 col-md-11 b-l">
             <!--Dashboard icons start-->
             <div class="col-md-12 m-t-30 dash">
-                    <span class="black">Staffs</span>
+                <span class="black">Staffs</span>
                 <div class="switch">
                     <ul class="nav nav-pills">
                         <li [ngClass]="{'active' : condition}"><a (click)="goToStaff()">My Staff</a></li>
@@ -18,41 +18,54 @@
                         <div>
                             <!-- <input type="text" id="mySearch" placeholder="Select Staff.." title="Type in a category"> -->
                             <div class="dropdown search-dropd sha" style="margin-top:0px">
-                                    <button style="background: #fafafa !important;" class="btn btn-primary dropdown-toggle sdm br overh" type="button"
-                                            data-toggle="dropdown">{{displayStaff}}
-                                            <span class="caret"></span></button>
-                                    <ul class="dropdown-menu fullw fdrop" style="height: auto !important;">
-                                            <li *ngFor="let item of staffs" (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'])"><a>{{item['wkfName']}}</a></li>
-                                            
-                                    </ul>
-                                </div>
+                                <button style="background: #fafafa !important;"
+                                    class="btn btn-primary dropdown-toggle sdm br overh" type="button"
+                                    data-toggle="dropdown">{{displayStaff}}
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu fullw fdrop"
+                                    style="height: 200px !important;  overflow-x: scroll;">
+                                    <li *ngFor="let item of staffs"
+                                        (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'])">
+                                        <a>{{item['wkfName']}}</a></li>
+
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="m-t-30" *ngIf="displayStaff!='Select Staff'">
                             <div style="display: flex;align-items: center;justify-content: space-between;">
-                                <div *ngIf="stafimage!=''"><img [src]="stafimage" class="prof"> &nbsp;&nbsp;<strong>{{displayStaff}}</strong>&nbsp;&nbsp;{{wkstaf}}</div>
-                                <div *ngIf="stafimage==''"><img src="../../assets/images/family.png" width="50px" height="50px"/>&nbsp;&nbsp; <strong>{{displayStaff}}</strong> &nbsp;&nbsp;{{wkstaf}}</div>
+                                <div *ngIf="stafimage!=''"><img [src]="stafimage" class="prof">
+                                    &nbsp;&nbsp;<strong>{{displayStaff}}</strong>&nbsp;&nbsp;{{wkstaf}}</div>
+                                <div *ngIf="stafimage==''"><img src="../../assets/images/family.png" width="50px"
+                                        height="50px" />&nbsp;&nbsp; <strong>{{displayStaff}}</strong>
+                                    &nbsp;&nbsp;{{wkstaf}}</div>
                                 <div>Status:<strong>{{wkStatus}}</strong></div>
-                                     
+
                             </div>
                             <div style="display: flex;justify-content: start;align-items: center;padding-top: 8px;">
-                                    <!-- <strong>{{wkrating}} </strong> -->
-                                    <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>{{wkrating}}&nbsp;&nbsp;
-                                    <i (click)="OpeneditReview(editReview,wkid)" class="fa fa-pencil" aria-hidden="true"></i>
-                                </div>
-                            
+                                <!-- <strong>{{wkrating}} </strong> -->
+                                <star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
+                                    [size]="'medium'" [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>
+                                {{wkrating}}&nbsp;&nbsp;
+                                <i (click)="OpeneditReview(editReview,wkid)" class="fa fa-pencil"
+                                    aria-hidden="true"></i>
+                            </div>
+
 
 
                             <span style="float: right;">
-                                <i (click)="getDoc()" class="fa fa-file-text" aria-hidden="true" style="color: orange"></i>&nbsp;&nbsp;
+                                <i (click)="getDoc()" class="fa fa-file-text" aria-hidden="true"
+                                    style="color: orange"></i>&nbsp;&nbsp;
                                 <i class="fa fa-share-alt" aria-hidden="true"></i>
                             </span>
                         </div>
-                       <div class="date-row" *ngIf="displayStaff!='Select Staff'">
-                            <div class="del-date cal"><input type="text" placeholder="From Date" class="date" bsDatepicker></div>
-                            <div class="del-date cal"><input type="text" class="date" placeholder="To Date" bsDatepicker></div>
-                       </div>
-                       
+                        <div class="date-row" *ngIf="displayStaff!='Select Staff'">
+                            <div class="del-date cal"><input type="text" placeholder="From Date" class="date"
+                                    bsDatepicker></div>
+                            <div class="del-date cal"><input type="text" class="date" placeholder="To Date"
+                                    bsDatepicker></div>
+                        </div>
+
 
                         <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
                             <div class="invite-radio">
@@ -72,86 +85,134 @@
                         </div>
 
                         <div class="report-bt" *ngIf="displayStaff!='Select Staff'">
-                            <button class="btn btn-primary-purple nextBtn" style="width:100%" (click)="getReports(wkid)">Get Report</button><br>
+                            <button class="btn btn-primary-purple nextBtn" style="width:100%"
+                                (click)="getReports(wkid)">Get Report</button><br>
                             <!-- <button class="btn btn-primary-purple nextBtn" style="width:100%" type="button">Leave with vendor</button> -->
                         </div>
                     </div>
                     <div class="col-sm-8">
-                            <div class="col-sm-12">
-                                    <h3 class="staff_head">Other Staffs</h3>
-                                    <div class="col-sm-12">
-                                        <div style="display: flex;flex-wrap: wrap;">
-                                                <div *ngFor="let item of otherStaff" class="staff">
-                                                    <img style="border-radius: 40px;" src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px" height="50px"/>  {{item['wtDesgn']}}</div>
-
-                                        </div>
+                        <div class="col-sm-12">
+                            <h3 class="staff_head">Other Staffs</h3>
+                            <div class="col-sm-12" *ngIf="showOtherstaff">
+                                <div style="display: flex;flex-wrap: wrap;">
+                                    <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff" (click)="getotherStaffbyDesignation(item['wtid'])" >
+                                        <img style="border-radius: 40px;"
+                                            src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px"
+                                            height="50px" /> 
+                                            {{item['wtDesgn']}}
                                     </div>
                                    
-                                <p></p>
-    
+                                </div>
                             </div>
-                        <div class="col-sm-12" *ngIf="staffReports">
-                                <h3 class="staff_head">View Reports</h3>
-                            <div class="dash-row table-responsive">
-                            <table class="table table-bordered" >
-                            <thead>
-                                <tr>
-                                   
-                                    <th>
-                                       Staff Name
-                                    </th>
-                                    <th>
-                                       Entry Point
-                                    </th>
-                                    <th>
-                                       Entry Time
-                                    </th>
-                                    <th>
-                                            Exit Point
-                                    </th>
-                                    <th>
-                                            Exit Time
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody >
-                                <tr *ngFor="let item of staffReports">
-                                   
-                                    <ng-container>
-                                        <!-- <td>{{(i+1)}}</td>                            -->
-                                        <td>{{item['vlfName']}}</td>
-                                        <td>{{item['vlEntryT']}}</td>
-                                        <td>{{item['vlEntryT']}}</td>
-                                        <td>{{item['vlExitT']}}</td>
-                                        <td>{{item['vlExitT']}} </td>
-                                    </ng-container>
-                                    
-                                </tr>
-                                
-                            </tbody>
+                            <div class="col-sm-12" *ngIf="showstaffBydesignation">
+                                    <div class="dash-row table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Staff Image</th>
+                                                        <th>Staff Name</th>
+                                                        <th>Designation</th>
+                                                        <th>Status</th>
+                                                        <th>Rating</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of staffByDesignation" >
+            
+                                                        <ng-container>
+                                                            <!-- <td>{{(i+1)}}</td>                            -->
+                                                            <td> <img style="border-radius: 40px;"
+                                                                src="{{'data:image/png;base64,'+item['idPrfImg']}}" width="50px"
+                                                                height="50px" /> </td>
+                                                            <td>{{item['wkfName']}}</td>
+                                                            <td>{{item['wkDesgn']}}</td>   
+                                                            <td>{{item['wkStatus']}}</td>                                                       
+                                                            <td><star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
+                                                                [size]="'medium'" [staticColor]="'ok'" [rating]="item['wkAvgRating']"></star-rating-comp>
+                                                            </td> 
+                                                        </ng-container>
+            
+                                                    </tr>
+            
+                                                </tbody>
+            
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div> 
+                            </div>
+
                            
-                            <tfoot>
-                                <tr>
-                                    <td colspan="6">
-                                        <mfBootstrapPaginator></mfBootstrapPaginator>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                            </table>
+
                         </div>
+                        <div class="col-sm-12" *ngIf="staffReports">
+                            <h3 class="staff_head">View Reports</h3>
+                            <div class="dash-row table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+
+                                            <th>
+                                                Staff Name
+                                            </th>
+                                            <th>
+                                                Entry Point
+                                            </th>
+                                            <th>
+                                                Entry Time
+                                            </th>
+                                            <th>
+                                                Exit Point
+                                            </th>
+                                            <th>
+                                                Exit Time
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of staffReports">
+
+                                            <ng-container>
+                                                <!-- <td>{{(i+1)}}</td>                            -->
+                                                <td>{{item['vlfName']}}</td>
+                                                <td>{{item['vlEntryT']}}</td>
+                                                <td>{{item['vlEntryT']}}</td>
+                                                <td>{{item['vlExitT']}}</td>
+                                                <td>{{item['vlExitT']}} </td>
+                                            </ng-container>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6">
+                                                <mfBootstrapPaginator></mfBootstrapPaginator>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
 
                         </div>
                         <div class="col-sm-12" *ngIf="enableviewDocuments">
                             <h3 class="staff_head">View Documents</h3>
                             <p>{{wkidtype}}</p>
                             <img *ngIf="wkidimage!=''" class="idcard" [src]="wkidimage">
-                            <img *ngIf="wkidimage==''" src="../../assets/images/doc.png"/>
+                            <img *ngIf="wkidimage==''" src="../../assets/images/doc.png" />
 
 
                         </div>
-                    
 
-                        
+
+
                     </div>
 
 
@@ -283,38 +344,48 @@
     <div class="modal-header">
         <h4 class="modal-title pull-left" style="color: #e59400;font-size: 20px;left: 269px;">Edit Reviews</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
-        </div>
-        <div class="modal-body">
+    </div>
+    <div class="modal-body">
         <form>
             <div class="row" *ngFor="let item of staffs1" style="margin:0px 30px">
-                <div style="display: flex;">
-                    <h5>Staff Details</h5>
-                    
-                      <div style="display: flex;">
-                        <div><img  src="../../assets/images/doc.png"/></div>
-                        <div>
-                                <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
-                                <p>Status:{{item['wkStatus']}}</p>
-                               <p><star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"  [staticColor]="'ok'" [rating]="wkrating" (onClick)="onClick($event)" 
-                                (onRatingChange)="onRatingChange($event)"></star-rating-comp></p>
-                                <p>{{wkrating}}</p>
-                        </div>
-                            
+                <h5>Staff Details</h5>
 
-                      </div>
-                     
+                <div style="display: flex;">
+
+                    <div style="display: flex;">
+                        <!-- <div><img  src="{{'data:image/png;base64,'+item['wkEntryImg']}}"/></div> -->
+                        <div style="margin-left: 17px;">
+                            <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
+                            <p>Status:{{item['wkStatus']}}</p>
+
+                        </div>
+                        <div style="margin-left: 17px;">
+
+                            <p>
+                                <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"
+                                    [staticColor]="'ok'" [rating]="wkrating" (onClick)="onClick($event)"
+                                    (onRatingChange)="onRatingChange($event)"></star-rating-comp>
+                            </p>
+                            <p>{{wkrating}}</p>
+                        </div>
+
+
+                    </div>
+
 
                 </div>
                 <div>
                     <label>Comments:</label>
-                        <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment" style="width: 100%">{{item['wkStatus']}}</textarea>
-                    </div>
-                <button (click)="updateReview(item['wkWorkID'],comment)">Update</button>
+                    <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment"
+                        style="width: 100%">{{item['wkStatus']}}</textarea>
+                </div>
+                <button (click)="updateReview(item['wkWorkID'],comment)"
+                    class="btn btn-primary-purple nextBtn">Update</button>
 
             </div>
-      
+
         </form>
-        </div>
-   </ng-template>
+    </div>
+</ng-template>

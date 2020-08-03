@@ -97,7 +97,15 @@ div .stepwizard-step li{
 
 }
 #pancardupload{
-    margin-left: 50px;
+    position: absolute;
+    /* position: relative; */
+    top: 31px;
+    left: 861px;
+}
+img#pancardimg {
+    position: relative;
+    left: 200px;
+    bottom: 22px;
 }
 #unitbulkbutton{
     display: inline-block;
@@ -202,6 +210,22 @@ img.Upload1 {
     color: #ffffff !important;
 
 }
+a.previous{
+    margin-top: 38px;
+    color: #ffffff !important;
+    right: 11px;
+}
+.continueforresetpan{
+    margin-top: 38px;;
+    color: #ffffff !important;
+}
+a#pansubmit{
+    position: relative;
+    height: 35px;
+    top: 29px;
+    color: #ffffff !important;
+    margin: 9px;
+}
 #assdetailssave{
     color: #ffffff !important;
     margin: 9px;
@@ -222,6 +246,14 @@ span.mat-button-wrapper {
     padding-left: 207px;
     display: inline-flex;
 
+}
+p.panextext{
+    color: grey;
+    font-size: 12px;
+    margin-top: 54px;
+    /* margin-left: 40px; */
+    /* margin-right: -4px; */
+    margin-left: -177px;
 }
 .blockdetailsdata{
     overflow-x: auto;
