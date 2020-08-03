@@ -9,7 +9,7 @@ import * as _ from 'underscore';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UtilsService } from '../utils/utils.service';
 import swal from 'sweetalert2';
-// import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
+ import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
 
 @Component({
   selector: 'app-staff',
@@ -25,6 +25,9 @@ export class StaffComponent implements OnInit {
   filterStaff:any;
   staffs1:any[];
   wkrating:any;
+  staffByDesignation:any;
+  showOtherstaff:any;
+  showstaffBydesignation:any;
   condition:any;
   condition1:any;
   wkimage: any;
@@ -56,6 +59,8 @@ export class StaffComponent implements OnInit {
     this.otherStaff = [];
     this.condition=true;
     this.condition1=false;
+    this.showOtherstaff=false;
+  this.showstaffBydesignation=false;
 this.enableviewDocuments=false;
     this.displayStaff = "Select Staff"
     this.reportlists = [];
@@ -176,11 +181,39 @@ this.enableviewDocuments=false;
   }
   //Get Staff Report start
 
+//get staff details based on designation
+getotherStaffbyDesignation(desgid){
+  this.showOtherstaff=false;
+  this.showstaffBydesignation=true;
+  console.log(desgid);
+  let ipAddress = this.UtilsService.getIPaddress()
+  const headers = new HttpHeaders()
+    .set('Authorization', 'my-auth-token')
+    .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+    .set('Content-Type', 'application/json');
+        this.http.get('https://devapi.scuarex.com/oye247/api/v1/GetWorkersListByDesignationAndAssocID/8/Cook', { headers: headers })
+        .subscribe(
+          (response) => {
+            console.log(response);
+            this.staffByDesignation=response['data']['workers'];
+           // this.staffByDesignation=this.staffByDesignation.filter(item=>{
+            //  return item['wkWorkID']==desgid;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+ 
+  
 
+}
 
 
 
   getOtherStaffs() {
+    this.showOtherstaff=true;
+    this.showstaffBydesignation=false;
+
     this.condition1=true;
     this.condition=false;
 
@@ -243,20 +276,20 @@ this.enableviewDocuments=false;
           console.log(err);
         })
   }
-  // onClickResult:IStarRatingOnClickEvent;
+  onClickResult:IStarRatingOnClickEvent;
    
-    // onRatingChangeResult:IStarRatingOnRatingChangeEven;
+    onRatingChangeResult:IStarRatingOnRatingChangeEven;
 
-    // onClick = ($event:IStarRatingOnClickEvent) => {
-    //     console.log('onClick $event: ', $event);
-    //     this.onClickResult = $event;
-    //     this.wkrating=this.onClickResult.rating
-    // };
+    onClick = ($event:IStarRatingOnClickEvent) => {
+        console.log('onClick $event: ', $event);
+        this.onClickResult = $event;
+        this.wkrating=this.onClickResult.rating
+    };
 
-    // onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
-    //     console.log('onRatingUpdated $event: ', $event);
-    //     this.onRatingChangeResult = $event;
-    // };
+    onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
+        console.log('onRatingUpdated $event: ', $event);
+        this.onRatingChangeResult = $event;
+    };
 
    
   updateReview(param,coment){
