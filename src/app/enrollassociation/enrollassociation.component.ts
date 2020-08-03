@@ -683,6 +683,7 @@ imgfilename;
   // isNextIetrationEnabled1;
   // nextBlckId1='';
   unitlistuniquejson=[];
+  unitlistuniquejsonagainfiltered=[];
   unitlistduplicatejson=[];
   duplicateUnitrecordexist;
   totalUnitcount;
@@ -750,24 +751,163 @@ imgfilename;
       this.duplicateUnitrecordexist=false;
     }
     else{
-      this.unitlistjson[name].forEach(iitm => {
-        console.log(iitm.flatno.toLowerCase());
-        let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
-        console.log(found);
-        console.log(this.unitlistuniquejson);
-        if (found) {
-          this.unitlistduplicatejson.push(iitm);
-          console.log(this.unitlistduplicatejson);
-          this.duplicateUnitrecordexist = true;
-        }
-        else {
-          this.unitlistuniquejson.push(iitm);
-          iitm.hasNoDuplicateUnitname = true;
-          iitm.disableField=true;
+     /* this.unitlistjson[name].forEach(iitm => {
+        if(iitm.flatno != undefined){
+          console.log(iitm.flatno.toLowerCase());
+          let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == iitm.flatno.toLowerCase());
+          console.log(found);
           console.log(this.unitlistuniquejson);
+          if (found) {
+            this.unitlistduplicatejson.push(iitm);
+            console.log(this.unitlistduplicatejson);
+            this.duplicateUnitrecordexist = true;
+          }
+          else {
+            this.unitlistuniquejson.push(iitm);
+            iitm.hasNoDuplicateUnitname = true;
+            iitm.disableField=true;
+            console.log(this.unitlistuniquejson);
+          }
+        }
+        if(iitm.flatno == undefined){
+          this.unitlistduplicatejson.push(iitm);
+        }
+      }) */
+      /***/
+      this.unitlistjson[name].forEach(item=>{
+        if (item.ownershipstatus == "Sold Owner Occupied Unit" || item.ownershipstatus == "Sold Vacant Unit") {
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.owneremaiid == "" || item.owneremaiid == undefined ||
+            item.ownerfirstname == "" || item.ownerfirstname == undefined ||
+            item.ownerlastname == "" || item.ownerlastname == undefined ||
+            item.ownermobilenumber == "" || item.ownermobilenumber == undefined
+          ) {
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.unittype != "" && item.unittype != undefined &&
+            item.owneremaiid != "" && item.owneremaiid != undefined &&
+            item.ownerfirstname != "" && item.ownerfirstname != undefined &&
+            item.ownerlastname != "" && item.ownerlastname != undefined &&
+            item.ownermobilenumber != "" && item.ownermobilenumber != undefined
+          ) {
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField=true;
+            }
+          }
+        }
+        else if (item.ownershipstatus == "Sold Tenant Occupied Unit") {
+          console.log(item);
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.owneremaiid == "" || item.owneremaiid == undefined ||
+            item.ownerfirstname == "" || item.ownerfirstname == undefined ||
+            item.ownermobilenumber == "" || item.ownermobilenumber == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.ownerlastname == "" || item.ownerlastname == undefined ||
+            item.tenantfirstname == "" || item.tenantfirstname == undefined ||
+            item.tenantlastname == "" || item.tenantlastname == undefined ||
+            item.tenantmobilenumber == "" || item.tenantmobilenumber == undefined ||
+            item.tenantemaiid == "" || item.tenantemaiid == undefined) {
+            console.log('Sold Tenant Occupied Unit-duplicate')
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.owneremaiid != "" && item.owneremaiid != undefined &&
+            item.ownerfirstname != "" && item.ownerfirstname != undefined &&
+            item.ownermobilenumber != "" && item.ownermobilenumber != undefined &&
+            item.unittype != "" && item.unittype != undefined &&
+            item.ownerlastname != "" && item.ownerlastname != undefined &&
+            item.tenantfirstname != "" && item.tenantfirstname != undefined &&
+            item.tenantlastname != "" && item.tenantlastname != undefined &&
+            item.tenantmobilenumber != "" && item.tenantmobilenumber != undefined &&
+            item.tenantemaiid != "" && item.tenantemaiid != undefined) {
+            console.log('Sold Tenant Occupied Unit-unique')
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+            }
+          }
+        } 
+        else if (item.ownershipstatus == "UnSold Tenant Occupied Unit") {
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.tenantfirstname == "" || item.tenantfirstname == undefined ||
+            item.tenantlastname == "" || item.tenantlastname == undefined ||
+            item.tenantmobilenumber == "" || item.tenantmobilenumber == undefined ||
+            item.tenantemaiid == "" || item.tenantemaiid == undefined) {
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.unittype != "" && item.unittype != undefined &&
+            item.tenantfirstname != "" && item.tenantfirstname != undefined &&
+            item.tenantlastname != "" && item.tenantlastname != undefined &&
+            item.tenantmobilenumber != "" && item.tenantmobilenumber != undefined &&
+            item.tenantemaiid != "" && item.tenantemaiid != undefined) {
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+            }
+          }
+        }
+        else if (item.ownershipstatus == "UnSold Vacant Unit") {
+          if (item.flatno == "" || item.flatno == undefined ||
+          item.unittype == "" || item.unittype == undefined) {
+            this.unitlistduplicatejson.push(item);
+            this.duplicateUnitrecordexist = true;
+          }
+          else if (item.flatno != "" && item.flatno != undefined &&
+            item.unittype != "" && item.unittype != undefined) {
+            let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
+            console.log(found);
+            if (found) {
+              this.unitlistduplicatejson.push(item);
+              this.duplicateUnitrecordexist = true;
+            }
+            else {
+              this.unitlistuniquejson.push(item);
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+            }
+          }
+        }
+        else if (item.ownershipstatus == "" || item.ownershipstatus == undefined) {
+          if (item.flatno == "" || item.flatno == undefined ||
+            item.unittype == "" || item.unittype == undefined ||
+            item.ownershipstatus == "" || item.ownershipstatus == undefined) {
+              this.unitlistduplicatejson.push(item);
+          }
         }
       })
+      /***/
       this.unitlistjson[name] = [];
+      console.log(this.unitlistduplicatejson);
+      console.log(this.unitlistuniquejson);
       this.unitlistjson[name] = this.unitlistuniquejson;
       console.log(this.unitlistjson[name]);
     }
@@ -913,6 +1053,7 @@ imgfilename;
                 this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
                 console.log(this.unitlistjson[name][0]['unitTmpid']);
                 this.unitrecordDuplicateUnitnameModified=true;
+                this.isunitdetailsempty = false;
               }
             })
         }
@@ -995,6 +1136,7 @@ imgfilename;
                   this.unitlistjson[name][0]['unitTmpid'] = this.unitlistjson[name][0]['Id'];
                   console.log(this.unitlistjson[name][0]['unitTmpid']);
                   this.unitrecordDuplicateUnitnameModified=true;
+                  this.isunitdetailsempty = false;
                 }
               })
           }
@@ -1044,6 +1186,7 @@ imgfilename;
                 }
               }
             })
+            this.isunitdetailsempty = false;
             this.assignTmpid(this.nextBlckId,this.blocknameforIteration);
           }
         }
@@ -1323,7 +1466,7 @@ imgfilename;
       
         }
   }
-validateUnitDetailsField(name){
+validateUnitDetailsField(name,Id){
   this.isunitdetailsempty = true;
     Object.keys(this.unitlistjson).forEach(element => {
       console.log(this.unitlistjson[element])
@@ -1332,7 +1475,7 @@ validateUnitDetailsField(name){
         let headername = unit.Id.slice(0, -2);
         console.log(headername);
         console.log(name);
-        if (name.toLowerCase() == headername.toLowerCase()) {
+        if (unit.Id == Id) {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           if(this.isunitdetailsempty){
@@ -1347,23 +1490,13 @@ validateUnitDetailsField(name){
               ) {
                 this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
+                unit.hasNoDuplicateUnitname=false;
               }
               else{
                 unit.isSingleUnitDataEmpty = false;
+                unit.hasNoDuplicateUnitname=true;
               }
             }
-            // else if (unit.ownershipstatus == "SOLD VACANT UNIT") {
-            //   if (unit.flatno == "" || unit.flatno == undefined ||
-            //     unit.unittype == "" || unit.unittype == undefined ||
-            //     unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-            //     unit.owneremaiid == "" || unit.owneremaiid == undefined ||
-            //     unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
-            //     unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-            //     unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined) {
-            //     this.isunitdetailsempty = true
-  
-            //   }
-            // }
             else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
@@ -1381,9 +1514,11 @@ validateUnitDetailsField(name){
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                 this.isunitdetailsempty = false
                 unit.isSingleUnitDataEmpty = true;
+                unit.hasNoDuplicateUnitname=false;
               }
               else{
                 unit.isSingleUnitDataEmpty = false;
+                unit.hasNoDuplicateUnitname=true;
               }
             } 
             else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
@@ -1399,25 +1534,26 @@ validateUnitDetailsField(name){
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                 this.isunitdetailsempty = false
                 unit.isSingleUnitDataEmpty = true;
-  
+                unit.hasNoDuplicateUnitname=false;
               }
               else{
                 unit.isSingleUnitDataEmpty = false;
+                unit.hasNoDuplicateUnitname=true;
               }
             }
             else if (unit.ownershipstatus == "UnSold Vacant Unit"||unit.ownershipstatus==""||unit.ownershipstatus==undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
               unit.unittype == "" || unit.unittype == undefined ||
-  
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined
               ) {
                 this.isunitdetailsempty = false
                 unit.isSingleUnitDataEmpty = true;
-  
+                unit.hasNoDuplicateUnitname=false;
               }
               else{
                 unit.isSingleUnitDataEmpty = false;
+                unit.hasNoDuplicateUnitname=true;
               }
             }
             else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
@@ -1432,6 +1568,89 @@ validateUnitDetailsField(name){
             }
         }
       }
+        /**/
+        if (name.toLowerCase() == headername.toLowerCase()) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          if (this.isunitdetailsempty) {
+            if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
+              ) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined ||
+
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+
+                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                // unit.blockname == "" || unit.blockname == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined
+              ) {
+                this.isunitdetailsempty = false;
+              }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+            else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+              if (unit.flatno == "" || unit.flatno == undefined ||
+                unit.unittype == "" || unit.unittype == undefined ||
+                unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                  this.isunitdetailsempty = false;
+                }
+              else {
+                this.isunitdetailsempty = true;
+              }
+            }
+          }
+        }
+      /**/
       })
     })
 }
@@ -1962,6 +2181,9 @@ validateUnitDetailsField(name){
                 }
                 this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
                 console.log(this.unitlistjson);
+                /**/
+
+                /**/
               }
               this.blocksArray.forEach(elemnt=>{
                 if(elemnt.Id==objId){
@@ -2236,17 +2458,17 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getUnittype(Id,unittype,name){
     console.log(Id,unittype,name);
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getOwnerShipStatus(Id,unittype,name){
     console.log(Id,unittype,name);
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
-  getunittype(Id, unittype,name){
+ /* getunittype(Id, unittype,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2262,15 +2484,15 @@ validateUnitDetailsField(name){
       })
     })
     this.validateUnitDetailsField(name);
-  }
-  getUnittypeOnChange(event,blocknameforIteration){
+  } */
+ /* getUnittypeOnChange(event,blocknameforIteration){
     console.log(event,blocknameforIteration);
     this.validateUnitDetailsField(blocknameforIteration);
   }
   getOwnershipstatusOnChange(event,blocknameforIteration){
     this.validateUnitDetailsField(blocknameforIteration);
-  }
-  getownershipstatus(Id, ownershipstatus,name){
+  } */
+ /* getownershipstatus(Id, ownershipstatus,name){
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2286,7 +2508,7 @@ validateUnitDetailsField(name){
       })
     })
     this.validateUnitDetailsField(name);
-  }
+  } */
   getownerfirstname(Id, ownerfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
@@ -2302,7 +2524,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getownerlastname(Id, ownerlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2319,7 +2541,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getownermobilenumber(Id, ownermobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2336,7 +2558,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getowneremaiid(Id, owneremaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2353,7 +2575,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantfirstname(Id, tenantfirstname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2370,7 +2592,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantlastname(Id, tenantlastname,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2387,7 +2609,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantmobilenumber(Id, tenantmobilenumber,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2404,7 +2626,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   gettenantemaiid(Id, tenantemaiid,name) {
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2421,7 +2643,7 @@ validateUnitDetailsField(name){
         }
       })
     })
-    this.validateUnitDetailsField(name);
+    this.validateUnitDetailsField(name,Id);
   }
   getblocknameornumber(Id,blockname){
     this.valueExcelBlckArr=[];
@@ -2582,6 +2804,8 @@ validateUnitDetailsField(name){
   isExcelDataExceed:boolean;
   iindex:any;
   excelunitsuploaddata(exceldata,UpdateBlockUnitCountTemplate) {
+    this.unitlistuniquejsonagainfiltered=[];
+    this.isunitdetailsempty = false;
     this.unitrecordDuplicateUnitnameModified=false;  
     this.duplicateUnitrecordexist=false; 
     console.log(exceldata.length);
@@ -2701,7 +2925,7 @@ validateUnitDetailsField(name){
               });
             })
           //}
-      this.validateUnitDetailsField(_blkname);
+      //this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains",this.unitlistjson);
       setTimeout(()=>{
         if(this.isExcelDataExceed){
