@@ -386,10 +386,10 @@
 
                     <div class="tab-pane">
                         
-                        <ul class="nav nav-tabs">
-                            <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}"><a
+                        <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;    height: 42px;">
+                            <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
                                     href="#{{objct.Id}}" (click)="assignBlkarrTmpid(objct.Id)"
-                                    data-toggle="tab">{{objct.blockname|uppercase}}
+                                    data-toggle="tab" style="display: flex;width: auto;">{{objct.blockname|uppercase}}
                                     &nbsp;&nbsp;<span></span>
                                     <!-- <i [hidden]="objct.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i> -->
                                     &nbsp;
@@ -592,10 +592,10 @@
                 <div id="showmanualblockwithhorizantalview" style="margin-top: 30px;">
                     <div class="tab-pane">
                 
-                        <ul class="nav nav-tabs">
-                            <li *ngFor="let blkarr of blocksArray;let i= index" [ngClass]="{'active':blkarr.Id==blkarr.blockTmpid}"><a
+                        <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;    height: 42px;">
+                            <li *ngFor="let blkarr of blocksArray;let i= index" [ngClass]="{'active':blkarr.Id==blkarr.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
                                     href="#{{blkarr.Id}}" (click)="assignBlkarrTmpid(blkarr.Id)"
-                                    data-toggle="tab">{{blkarr.blockname==''?'Block'+(i+1):blkarr.blockname|uppercase}}
+                                    data-toggle="tab" style="width: auto;display: flex;">{{blkarr.blockname==''?'Block'+(i+1):blkarr.blockname|uppercase}}
                                     &nbsp;&nbsp;<span></span>
                                     <i [hidden]="blkarr.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
                                     <i [hidden]="blkarr.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
@@ -1010,11 +1010,7 @@
                                     <div *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index"
                                         [ngClass]="{'active':obj.Id==obj.unitTmpid}" class="tab-pane">
                                         <div id="{{obj.Id}}">
-<<<<<<< HEAD
-                                            <form class="blockdetails-form1" style="margin-top: 30px;display: flex;flex-direction: column;">
-=======
                                             <form class="blockdetails-form1" style="margin-top: 30px;display: flex;flex-direction: column">
->>>>>>> 3157b9bd8569f10b740ec06ff3db38bc6392786e
                                                 <div class="col-sm-12" style="display: flex">
                                                     <div>
                                                         <mat-form-field class="blockdetails-form1">
