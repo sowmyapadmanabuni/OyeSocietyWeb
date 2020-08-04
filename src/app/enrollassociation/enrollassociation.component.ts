@@ -1466,7 +1466,8 @@ imgfilename;
       
         }
   }
-validateUnitDetailsField(name,Id){
+validateUnitDetailsField(name,Id,flatno){
+  this.numberofunitexistence = 0;
   this.isunitdetailsempty = true;
     Object.keys(this.unitlistjson).forEach(element => {
       console.log(this.unitlistjson[element])
@@ -2447,10 +2448,12 @@ validateUnitDetailsField(name,Id){
             if(this.numberofunitexistence == 1){
               unit.hasNoDuplicateUnitname=true;
               unit.isUnitNameModifiedForDuplicateRecord='No';
+              this.isunitdetailsempty = true;
             }
             else{
               unit.hasNoDuplicateUnitname=false;
               unit.isUnitNameModifiedForDuplicateRecord='Yes';
+              this.isunitdetailsempty = false;
             }
           }
         })
@@ -2458,15 +2461,65 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  getUnittype(Id,unittype,name){
-    console.log(Id,unittype,name);
-    this.validateUnitDetailsField(name,Id);
+  getUnittype(Id,unittype,name,flatno){
+    console.log(Id, unittype, name, flatno);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  getOwnerShipStatus(Id,unittype,name){
+  getOwnerShipStatus(Id,unittype,name,flatno){
     console.log(Id,unittype,name);
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
  /* getunittype(Id, unittype,name){
     Object.keys(this.unitlistjson).forEach(element=>{
@@ -2509,7 +2562,7 @@ validateUnitDetailsField(name,Id){
     })
     this.validateUnitDetailsField(name);
   } */
-  getownerfirstname(Id, ownerfirstname,name) {
+  getownerfirstname(Id, ownerfirstname,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2524,9 +2577,34 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  getownerlastname(Id, ownerlastname,name) {
+  getownerlastname(Id, ownerlastname,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2541,9 +2619,34 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  getownermobilenumber(Id, ownermobilenumber,name) {
+  getownermobilenumber(Id, ownermobilenumber,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2558,9 +2661,34 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  getowneremaiid(Id, owneremaiid,name) {
+  getowneremaiid(Id, owneremaiid,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2575,9 +2703,34 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  gettenantfirstname(Id, tenantfirstname,name) {
+  gettenantfirstname(Id, tenantfirstname,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2592,9 +2745,34 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  gettenantlastname(Id, tenantlastname,name) {
+  gettenantlastname(Id, tenantlastname,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2609,9 +2787,34 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  gettenantmobilenumber(Id, tenantmobilenumber,name) {
+  gettenantmobilenumber(Id, tenantmobilenumber,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2626,9 +2829,34 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
-  gettenantemaiid(Id, tenantemaiid,name) {
+  gettenantemaiid(Id, tenantemaiid,name,flatno) {
     Object.keys(this.unitlistjson).forEach(element=>{
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2643,7 +2871,32 @@ validateUnitDetailsField(name,Id){
         }
       })
     })
-    this.validateUnitDetailsField(name,Id);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+              this.numberofunitexistence += 1;
+              if (this.numberofunitexistence == 1) {
+                unit.hasNoDuplicateUnitname = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                this.isunitdetailsempty = true;
+              }
+              else {
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                this.isunitdetailsempty = false;
+              }
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name,Id,flatno);
   }
   getblocknameornumber(Id,blockname){
     this.valueExcelBlckArr=[];

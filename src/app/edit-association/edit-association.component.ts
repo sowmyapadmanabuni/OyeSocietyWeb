@@ -20,6 +20,9 @@ export class EditAssociationComponent implements OnInit {
   newamenities:any[];
   form: FormGroup;
   blockform: FormGroup;
+  gstpanform:FormGroup;
+  uploadPanForm: FormGroup;
+
   uploadForm: FormGroup;
   titleAlert: string = 'This field is required';
   countrieslist=[];
@@ -30,6 +33,8 @@ export class EditAssociationComponent implements OnInit {
   editedcityname;
   toSelect;
   countryname;
+  pannumber;
+
   constructor(public viewAssnService: ViewAssociationService,private http: HttpClient,private formBuilder: FormBuilder,private modalService: BsModalService,
     private router: Router) {
     this.newamenities = [];
@@ -152,9 +157,15 @@ export class EditAssociationComponent implements OnInit {
   }
   ngOnInit() {
     this.createForm();
+    this.pandetalis();
     this.blockandunitdetails();
     this.countrylist();
     this.getPropertytype();
+    this.uploadPanForm = this.formBuilder.group({
+      panProfile: [''],
+      gstnumber:[''],
+      pannumber:['']
+    });
     this.uploadForm = this.formBuilder.group({
       profile: ['']
     });
@@ -534,6 +545,114 @@ export class EditAssociationComponent implements OnInit {
   }
   previouspage(ev){
     this.demo1TabIndex = this.demo1TabIndex - 1;
+  }
+  submitpandetails(event) {
+    if (this.gstpanform.valid) {
+      this.demo1TabIndex = this.demo1TabIndex + 1;
+      //document.getElementById("mat-tab-label-0-1").style.backgroundColor = "lightblue";
+  }
+  else{
+    this.validateAllPanFormFields(this.gstpanform)
+  }
+  }
+  validateAllPanFormFields(formGroup: FormGroup) {
+    Object.keys(this.gstpanform.controls).forEach(field => {
+      const control = this.gstpanform.get(field);
+      control.markAsTouched({ onlySelf: true });
+    });
+  }
+  isFieldValidPanDetails(field: string) {
+    return !this.gstpanform.get(field).valid && this.gstpanform.get(field).touched;
+
+  }
+  pandetalis() {
+    this.gstpanform = this.formBuilder.group({
+      'gst':[null],
+      'originalpan': [null, Validators.required]
+    });
+  }
+  firstLetter;
+  fifthLetter
+  pan_validate(ev){
+    var regpan = /^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/;
+    this.pannumber = this.viewAssnService.EditAssociationData['ASPANNum'].toUpperCase()
+    this.firstLetter = this.viewAssnService.EditAssociationData['ASAsnName'].charAt(0).toUpperCase();
+    this.fifthLetter = this.pannumber.charAt(4).toUpperCase();
+    if(this.firstLetter == this.fifthLetter){
+      if (regpan.test(this.pannumber) == false) {
+        console.log("PAN Number Not Valid.");
+        } else {
+          console.log("PAN Number is Valid.");
+    
+        }
+    }
+ 
+   }
+  resetStep2(ev){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+
+        if (result.value) {
+         
+    this.gstpanform.reset();
+    this.uploadPANCardThumbnail= undefined;
+    if(this.fileInputfinal1){
+      this.fileopen1(ev,this.fileInputfinal1);
+    }
+    // this.pancardnameoriginal=false
+    this.uploadPanForm.reset();
+    this.imgfilename ='';
+    this.showImgOnPopUp(ev,undefined,'')
+        }
+      })
+
+
+  }
+  fileInputfinal1;
+  fileopen1(ev,fileInput3){
+    fileInput3.value = null
+    this.fileInputfinal1 =fileInput3;
+  }
+  
+  imgfilename;
+  onPanFileSelect(event) {
+    if (event.target.files.length > 0) {
+
+      const file = event.target.files[0];
+      console.log(file);
+      this.imgfilename = file.name;
+      this.uploadPanForm.get('panProfile').setValue(file);
+    }
+  }
+  uploadPANCard:any;
+  uploadPANCardThumbnail:any;
+  processPanFile(){
+    console.log(this.uploadPanForm.get('panProfile').value);
+    var reader = new FileReader();
+    if(this.uploadPanForm.get('panProfile').value!=null){
+    reader.readAsDataURL(this.uploadPanForm.get('panProfile').value);
+    reader.onload = () => {
+      console.log(reader.result);
+      this.uploadPANCard = reader.result;
+      this.uploadPANCardThumbnail = reader.result;
+      this.uploadPANCard = this.uploadPANCard.substring(this.uploadPANCard.indexOf('64') + 3);
+      //console.log(this.ASAsnLogo.indexOf('64')+1);
+      //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
+      console.log(this.uploadPANCard);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
   }
   UpdateAssociation(ev){
     if (this.blockform.valid) {
