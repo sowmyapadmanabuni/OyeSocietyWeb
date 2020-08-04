@@ -71,7 +71,8 @@ this.enableviewDocuments=false;
         console.log(data);
         //console.log(localStorage.getItem('StaffListCalledOnce'))
         //if(localStorage.getItem('StaffListCalledOnce')=='false'){
-        this.StaffList();
+        //this.StaffList();
+        this.getStaffList();
         //}
       })
   }
@@ -94,7 +95,7 @@ this.enableviewDocuments=false;
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
       .set('Content-Type', 'application/json');
-    this.http.get('https://uatapi.scuarex.com/oye247/api/v1/GetWorkerListByAssocIDAccountIDAndUnitID/108/72/156', { headers: headers })
+    this.http.get(`https://uatapi.scuarex.com/oye247/api/v1/GetWorkerListByAssocIDAccountIDAndUnitID/${this.globalServiceService.getCurrentAssociationId()}/${this.globalServiceService.getacAccntID()}/${this.globalServiceService.getCurrentUnitId()}`, { headers: headers })
       .subscribe(
         (response) => {
           console.log(response);
@@ -154,12 +155,12 @@ this.enableviewDocuments=false;
     getReports(id) {
     console.log(id);
         let input = {
-          "ASAssnID": 108,
+          "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
           "WKWorkID": id,
           "FromDate": "07-01-2020",
           "ToDate": "07-21-2020",
-          "ACAccntID": 72,
-          "UNUnitID": 156
+          "ACAccntID": this.globalServiceService.getacAccntID(),
+          "UNUnitID": this.globalServiceService.getCurrentUnitId()
           };
           let ipAddress = this.UtilsService.getIPaddress()
     const headers = new HttpHeaders()
@@ -191,7 +192,7 @@ getotherStaffbyDesignation(desgid){
     .set('Authorization', 'my-auth-token')
     .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
     .set('Content-Type', 'application/json');
-        this.http.get('https://devapi.scuarex.com/oye247/api/v1/GetWorkersListByDesignationAndAssocID/8/Cook', { headers: headers })
+        this.http.get(`https://devapi.scuarex.com/oye247/api/v1/GetWorkersListByDesignationAndAssocID/${this.globalServiceService.getCurrentAssociationId()}/Cook`, { headers: headers })
         .subscribe(
           (response) => {
             console.log(response);
@@ -209,7 +210,12 @@ getotherStaffbyDesignation(desgid){
 }
 
 
-
+goToStaff(){
+  this.showOtherstaff=false;
+    this.showstaffBydesignation=false;
+    this.condition1=false;
+    this.condition=true;    
+}
   getOtherStaffs() {
     this.showOtherstaff=true;
     this.showstaffBydesignation=false;
@@ -305,10 +311,10 @@ getotherStaffbyDesignation(desgid){
       .set('Content-Type', 'application/json');
       let upreview =
       {
-        "ASAssnID"  : 108,
-        "UNUnitID"  : 156,
+        "ASAssnID"  :Number(this.globalServiceService.getCurrentAssociationId()),
+        "UNUnitID"  :Number(this.globalServiceService.getCurrentUnitId()),
         "WKWorkID"  : param,
-        "ACAccntID" : 72,
+        "ACAccntID" : this.globalServiceService.getacAccntID(),
         "WKRating"  : this.wkrating,
         "WKReview"  : coment,
         "WKSmlyCnt" : "4"
