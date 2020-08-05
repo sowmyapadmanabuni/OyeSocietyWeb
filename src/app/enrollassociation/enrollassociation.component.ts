@@ -1854,9 +1854,31 @@ validateUnitDetailsField(name,Id,flatno){
             this.blockssuccessarray = this.commonblockarray.length;
             this.blockdetailsfinalcreation();
           }
-          else{
+          else {
+            //
+            let group =  this.blocksArray.reduce((r, a) => {
+              r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+              return r;
+            }, {});
+            console.log("block_group", group);
+            Object.keys(group).forEach(element => {
+              console.log(group[element]);
+              if(group[element].length > 1){
+                group[element].forEach(item => {
+                  console.log(item);
+                      this.duplicateBlockArr.push(item);
+                })
+              }
+              else if(group[element].length == 1){
+                console.log(group[element][0]);
+                this.uniqueBlockArr.push(group[element][0]);
+              }
+            })
+            console.log(this.uniqueBlockArr);
+            console.log(this.duplicateBlockArr);
+            //
             this.blockssuccessarray =[];
-            this.blocksArray.forEach(item => {
+           /* this.blocksArray.forEach(item => {
               console.log(item.blockname.toLowerCase());
               let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
               console.log(found);
@@ -1868,7 +1890,7 @@ validateUnitDetailsField(name,Id,flatno){
               else {
                 this.uniqueBlockArr.push(item);
               }
-            })
+            }) */
            this.notValidBlockArr = this.uniqueBlockArr.filter((element) => {
               return (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined);
             })
