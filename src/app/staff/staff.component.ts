@@ -10,6 +10,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UtilsService } from '../utils/utils.service';
 import swal from 'sweetalert2';
  import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-staff',
@@ -48,10 +49,28 @@ export class StaffComponent implements OnInit {
   addGuest: any;
   baseUrl: any;
   enableviewDocuments:any;
-  currentAssociationIdForStaffList: Subscription
+  currentAssociationIdForStaffList: Subscription;
+  p: number=1;
+  ShowRecords: string;
+  PaginatedValue: number;
+  setnoofrows: any;
+  showStaffReports: boolean;
+  bsConfig: {dateInputFormat: string; showWeekNumbers: boolean; isAnimated: boolean;};
+  StaffStartDate:any;
+  StaffEndDate:any;
 
   constructor(private router: Router, private domSanitizer: DomSanitizer,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
+      this.StaffStartDate='';
+      this.StaffEndDate='';
+      this.bsConfig = Object.assign({}, {
+        dateInputFormat: 'DD-MM-YYYY',
+        showWeekNumbers: false,
+        isAnimated: true
+      });
+      this.ShowRecords='Show Records';
+      this.setnoofrows=10;
+      this.PaginatedValue=10;
     this.EndDate = '';
     this.StartDate = '';
     this.WorkerNameList = [];
@@ -109,11 +128,19 @@ this.enableviewDocuments=false;
   }
 
 
-  selectStaff(param, wkstaf, wkimage, wkstatus, wkid,wkidtype,wkidimage,wkrating) {
+  selectStaff(param, wkstaf, wkimage, wkstatus, wkid,wkidtype,wkidimage,wkrating,workerstatuses) {
+    console.log(workerstatuses);
+    if(workerstatuses.length > 0){
+      workerstatuses.forEach(item=>{
+        console.log(item.unUniName,this.globalServiceService.getCurrentUnitId());
+        if(item.unUniName == this.globalServiceService.getCurrentUnitName()){
+          this.wkrating=item.wkRating;
+        }
+      })
+    }
     this.enableviewDocuments=false;
     this.wkidtype=wkidtype;
     this.wkidimage=wkidimage;
-    this.wkrating=wkrating;
     console.log(wkidtype);
     console.log(wkidimage);
     if (wkimage != "") {
@@ -153,16 +180,23 @@ this.enableviewDocuments=false;
   }
   //Get Staff Report start
     getReports(id) {
+      this.showOtherstaff=false;
+      this.condition=true;
+      this.condition1=false;
+      this.showStaffReports=true;
     console.log(id);
+    let todayDate = formatDate(new Date(),'MM-dd-yyyy','en');
         let input = {
           "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
           "WKWorkID": id,
-          "FromDate": "07-01-2020",
-          "ToDate": "07-21-2020",
+          "FromDate": this.StaffStartDate==''?'07-01-2020':formatDate(this.StaffStartDate,'MM/dd/yyyy','en'),
+          "ToDate": this.StaffEndDate==''?todayDate:formatDate(this.StaffEndDate,'MM/dd/yyyy','en'),
           "ACAccntID": this.globalServiceService.getacAccntID(),
           "UNUnitID": this.globalServiceService.getCurrentUnitId()
           };
           let ipAddress = this.UtilsService.getIPaddress()
+          console.log(input);
+          console.log(todayDate);
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
@@ -183,16 +217,17 @@ this.enableviewDocuments=false;
   //Get Staff Report start
 
 //get staff details based on designation
-getotherStaffbyDesignation(desgid){
+getotherStaffbyDesignation(desgid,wtDesgn){
   this.showOtherstaff=false;
   this.showstaffBydesignation=true;
   console.log(desgid);
+  console.log(wtDesgn);
   let ipAddress = this.UtilsService.getIPaddress()
   const headers = new HttpHeaders()
     .set('Authorization', 'my-auth-token')
     .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
     .set('Content-Type', 'application/json');
-        this.http.get(`https://devapi.scuarex.com/oye247/api/v1/GetWorkersListByDesignationAndAssocID/${this.globalServiceService.getCurrentAssociationId()}/Cook`, { headers: headers })
+        this.http.get(`https://uatapi.scuarex.com/oye247/api/v1/GetWorkersListByDesignationAndAssocID/${this.globalServiceService.getCurrentAssociationId()}/${wtDesgn}`, { headers: headers })
         .subscribe(
           (response) => {
             console.log(response);
@@ -211,6 +246,7 @@ getotherStaffbyDesignation(desgid){
 
 
 goToStaff(){
+  this.showStaffReports=true;
   this.showOtherstaff=false;
     this.showstaffBydesignation=false;
     this.condition1=false;
@@ -219,7 +255,7 @@ goToStaff(){
   getOtherStaffs() {
     this.showOtherstaff=true;
     this.showstaffBydesignation=false;
-
+this.showStaffReports=false;
     this.condition1=true;
     this.condition=false;
 
@@ -230,7 +266,8 @@ goToStaff(){
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
       .set('Content-Type', 'application/json');
-    this.http.get('http://devapi.scuarex.com/oye247/api/v1/WorkerTypes/GetWorkerTypes', { headers: headers })
+    //this.http.get('http://devapi.scuarex.com/oye247/api/v1/WorkerTypes/GetWorkerTypes', { headers: headers })
+    this.http.get(`${ipAddress}oye247/api/v1/WorkerTypes/GetWorkerTypes`, { headers: headers })
       .subscribe(
         (response) => {
           console.log(response);
@@ -320,12 +357,20 @@ goToStaff(){
         "WKSmlyCnt" : "4"
     }
     console.log(upreview);
-    this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
+    //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
+    this.http.post(`${ipAddress}oye247/api/v1/WorkerReviewRatingUpdate`,upreview, { headers: headers })
       .subscribe(
         (response) => {
           console.log(response);
-        
+          this.modalRef.hide();
 
+          swal.fire({
+            title: "Review Updated Successfully",
+            text: "",
+            type: "success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          })
         },
         (error) => {
           console.log(error);
@@ -356,5 +401,39 @@ goToStaff(){
   }
   goToDelivery() {
     this.router.navigate(['deliveries']);
+  }
+  onPageChange(event) {
+    //console.log(event);
+    //console.log(this.p);
+    //console.log(event['srcElement']['text']);
+    if (event['srcElement']['text'] == '1') {
+      this.p = 1;
+    }
+    if ((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)) {
+      //console.log('test');
+      //console.log(Number(event['srcElement']['text']) == NaN);
+      //console.log(Number(event['srcElement']['text']));
+      let element = document.querySelector('.page-item.active');
+      //console.log(element.children[0]['text']);
+      this.p = Number(element.children[0]['text']);
+      //console.log(this.p);
+    }
+    if (event['srcElement']['text'] == '«') {
+      //console.log(this.p);
+      this.p = 1;
+    }
+    //console.log(this.p);
+    let element = document.querySelector('.page-item.active');
+    //console.log(element.children[0]['text']);
+    if (element != null) {
+      this.p = Number(element.children[0]['text']);
+      console.log(this.p);
+      if (this.ShowRecords != 'Show Records') {
+        console.log('testtt');
+        console.log(this.p);
+        this.PaginatedValue = (this.setnoofrows == 'All Records' ? this.staffByDesignation.length : this.setnoofrows);
+        console.log(this.PaginatedValue);
+      }
+    }
   }
 }

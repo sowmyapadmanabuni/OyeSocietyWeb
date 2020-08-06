@@ -25,7 +25,7 @@
                                 <ul class="dropdown-menu fullw fdrop"
                                     style="height: 200px !important;  overflow-x: scroll;">
                                     <li *ngFor="let item of staffs"
-                                        (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'])">
+                                        (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'],item['workerstatuses'])">
                                         <a>{{item['wkfName']}}</a></li>
 
                                 </ul>
@@ -60,10 +60,14 @@
                             </span>
                         </div>
                         <div class="date-row" *ngIf="displayStaff!='Select Staff'">
-                            <div class="del-date cal"><input type="text" placeholder="From Date" class="date"
-                                    bsDatepicker></div>
-                            <div class="del-date cal"><input type="text" class="date" placeholder="To Date"
-                                    bsDatepicker></div>
+                            <div class="del-date cal">
+                                    <input type="text" #StaffStartDatee name="StaffStartDate" #StaffStartDateControl='ngModel' 
+                                    [(ngModel)]="StaffStartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig">
+                                </div>
+                            <div class="del-date cal">
+                                    <input type="text" #StaffEndDatee name="StaffEndDate" #StaffEndDateControl='ngModel' [minDate]="StaffStartDate"
+                                    [(ngModel)]="StaffEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig">
+                                </div>
                         </div>
                         <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
                             <div class="invite-radio">
@@ -89,11 +93,11 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" *ngIf="condition1">
                             <h3 class="staff_head">Other Staffs</h3>
                             <div class="col-sm-12" *ngIf="showOtherstaff">
                                 <div style="display: flex;flex-wrap: wrap;">
-                                    <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff" (click)="getotherStaffbyDesignation(item['wtid'])" >
+                                    <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff" (click)="getotherStaffbyDesignation(item['wtid'],item['wtDesgn'])" >
                                         <img style="border-radius: 40px;" src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px" height="50px" /> 
                                             {{item['wtDesgn']}}
                                     </div>
@@ -102,7 +106,7 @@
                             </div>
                             <div class="col-sm-12" *ngIf="showstaffBydesignation">
                                     <div class="dash-row table-responsive">
-                                            <table class="table table-bordered">
+                                            <!-- <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>Staff Image</th>
@@ -117,7 +121,6 @@
                                                     <tr *ngFor="let item of staffByDesignation" >
             
                                                         <ng-container>
-                                                            <!-- <td>{{(i+1)}}</td>                            -->
                                                             <td> <img style="border-radius: 40px;"
                                                                 src="{{'data:image/png;base64,'+item['idPrfImg']}}" width="50px"
                                                                 height="50px" /> </td>
@@ -140,14 +143,73 @@
                                                         </td>
                                                     </tr>
                                                 </tfoot>
-                                            </table>
+                                            </table> -->
+                                            <!---->
+                                            <table class="table table-bordered"
+                                            [mfData]="staffByDesignation"
+                                            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?staffByDesignation.length:setnoofrows">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        S.No.
+                                                    </th>
+                                                    <th>
+                                                        <mfDefaultSorter>Staff Image&nbsp;</mfDefaultSorter>
+                                                    </th>
+                                                    <th>
+                                                        <mfDefaultSorter>Staff Name&nbsp;</mfDefaultSorter>
+                                                    </th>
+                                                    <th>
+                                                        <mfDefaultSorter>Designation&nbsp;</mfDefaultSorter>
+                                                    </th>
+                                                    <th>
+                                                        <mfDefaultSorter>Status&nbsp;</mfDefaultSorter>
+                                                    </th>
+                                                    <th>
+                                                        <mfDefaultSorter>Rating&nbsp;</mfDefaultSorter>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of mf.data;let i=index">
+                                                    <ng-container *ngIf="item == -1">
+                                                        <td colspan="7" align="center">No Data Found</td>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="item!=-1">
+                                                        <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
+                                                        <td> <img style="border-radius: 40px;"
+                                                            src="{{'data:image/png;base64,'+item['idPrfImg']}}" width="50px"
+                                                            height="50px" /> </td>
+                                                        <td>{{item['wkfName']}}</td>
+                                                        <td>{{item['wkDesgn']}}</td>   
+                                                        <td>{{item['wkStatus']}}</td>                                                       
+                                                        <td><star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
+                                                            [size]="'medium'" [staticColor]="'ok'" [rating]="item['wkAvgRating']"></star-rating-comp>
+                                                        </td> 
+                                                    </ng-container>
+                                                </tr>
+                                                <tr *ngIf="staffByDesignation.length == 0">
+                                                    <ng-container>
+                                                        <td colspan="7" align="center">No Data Found</td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="7">
+                                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                            <!---->
                                         </div> 
                             </div>
 
                            
 
                         </div>
-                        <div class="col-sm-12" *ngIf="staffReports">
+                        <div class="col-sm-12" *ngIf="showStaffReports">
                             <h3 class="staff_head">View Reports</h3>
                             <div class="dash-row table-responsive">
                                 <table class="table table-bordered">
@@ -177,10 +239,10 @@
                                             <ng-container>
                                                 <!-- <td>{{(i+1)}}</td>                            -->
                                                 <td>{{item['vlfName']}}</td>
-                                                <td>{{item['vlEntryT']}}</td>
-                                                <td>{{item['vlEntryT']}}</td>
-                                                <td>{{item['vlExitT']}}</td>
-                                                <td>{{item['vlExitT']}} </td>
+                                                <td>{{item['vlVisLgID']}}</td>
+                                                <td>{{item['vlEntryT']| date :'shortTime'}}</td>
+                                                <td>{{item['vlVisLgID']}}</td>
+                                                <td>{{item['vlExitT']| date :'shortTime'}} </td>
                                             </ng-container>
 
                                         </tr>
