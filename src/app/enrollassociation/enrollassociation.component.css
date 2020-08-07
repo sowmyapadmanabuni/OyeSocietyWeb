@@ -203,7 +203,11 @@ p.panextext{
 }
 .association-form3{
     padding-top: 40px;
+<<<<<<< HEAD
     padding-left: 270px;
+=======
+    padding-left: 317px;
+>>>>>>> c850962d232f641bb1e4096e20dd587c4dbff75a
     display: inline-flex;
 
 }

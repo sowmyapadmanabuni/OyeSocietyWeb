@@ -121,7 +121,7 @@ export class NotificationsComponent implements OnInit {
     this.refreshNotificationArray();
     this.id = setInterval(() => {
       this.refreshNotificationArray();
-    }, 5000);
+    }, 7000);
   }
 
   ngOnDestroy() {
@@ -135,8 +135,9 @@ export class NotificationsComponent implements OnInit {
     { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
     .subscribe(data=>{
       console.log('NotiRefreshData',data);
+      this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
-        this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
+        // this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       }
     },
     err=>{
@@ -763,3 +764,4 @@ export class NotificationsComponent implements OnInit {
       console.log(new Date());
     }
 }
+
