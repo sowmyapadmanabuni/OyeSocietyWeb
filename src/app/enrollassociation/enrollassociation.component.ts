@@ -64,6 +64,8 @@ export class EnrollassociationComponent implements OnInit {
   valueExcelUnitArr: any[];
   numberofunitexistence: any;
   notValidBlockArr: any[];
+  duplicateBlockCount:number;
+  invalidBlockCount:number;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -71,6 +73,8 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.duplicateBlockCount=0;
+      this.invalidBlockCount=0;
     this.notValidBlockArr = [];
     this.numberofunitexistence = 0;
     this.valueExcelUnitArr = [];
@@ -1901,6 +1905,8 @@ export class EnrollassociationComponent implements OnInit {
     this.notValidBlockArr = [];
     this.uniqueBlockArr = [];
     this.duplicateBlockArr = [];
+    this.duplicateBlockCount=0;
+    this.invalidBlockCount=0;
     this.toggleEmptyBlockarray = false;
     /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
      console.log(valueBlckArr);
@@ -1949,6 +1955,7 @@ export class EnrollassociationComponent implements OnInit {
         if (group[element].length > 1) {
           group[element].forEach(item => {
             this.duplicateBlockArr.push(item);
+            this.duplicateBlockCount += 1;
           })
         }
         else if (group[element].length == 1) {
@@ -1976,6 +1983,7 @@ export class EnrollassociationComponent implements OnInit {
       if (this.notValidBlockArr.length > 0) {
         this.notValidBlockArr.forEach(item => {
           this.duplicateBlockArr.push(item);
+          this.invalidBlockCount += 1;
         })
       }
       this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
@@ -2140,9 +2148,18 @@ export class EnrollassociationComponent implements OnInit {
             displaymessage = 'Block Created Successfully'
           }
           else if (this.blockssuccessarray > 1) {
-            if (this.duplicateBlockArr.length > 0) {
+             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.duplicateBlockArr.length} Duplicate`;
+                         ${this.invalidBlockCount} Invalid
+                         ${this.duplicateBlockCount} Duplicate`;
+            }
+            else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.invalidBlockCount} Invalid`;
+            }
+            else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.duplicateBlockCount} Duplicate`;
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
