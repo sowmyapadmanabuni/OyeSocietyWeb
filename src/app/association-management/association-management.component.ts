@@ -36,6 +36,9 @@ declare var $: any;
 
 export class AssociationManagementComponent implements OnInit {
   modalRef: BsModalRef;
+  modalRef1: BsModalRef;
+  modalRef2: BsModalRef;
+
   assnID: any;
   @Input() amenityType: string;
   @Input() amenityNo: string;
@@ -267,6 +270,7 @@ export class AssociationManagementComponent implements OnInit {
   occupencys: object[];
   occupency: any;
   tenantDetails: boolean;
+  availableNoOfBlocks: number;
   ownerDetails: boolean;
   toggleunitvehicleinformation: boolean;
   groupedArray: any;
@@ -296,7 +300,7 @@ export class AssociationManagementComponent implements OnInit {
   displayOwnerType: string;
   UniNameForJoinAssn: any;
   BlocksList:any[];
-
+  UnitsList:any[];
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
     public viewAssnService: ViewAssociationService,
@@ -344,6 +348,7 @@ export class AssociationManagementComponent implements OnInit {
     { 'Display': '100', 'Row': 100 },
     { 'Display': 'Show All Records', 'Row': 'All' }];
     this.setnoofrows = 10;
+    this.BlocksList=null;
     this.ShowRecords = 'Show Records';
     this.enableCreateUnitWithAssociation = false;
     this.meter = 'sqft';
@@ -1098,6 +1103,31 @@ cities=[];
     }, 600 * (this.BlockHrefDetail.length + this.unitArray.length));
 
   }
+
+  // onPageChangeforblocks(event) {
+   
+  //   if (event['srcElement']['text'] == '1') {
+  //     this.p1 = 1;
+  //   }
+  //   if ((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)) {
+  //   let element = document.querySelector('.page-item.active');
+  //     this.p1 = Number(element.children[0]['text']);
+  //   }
+  //   if (event['srcElement']['text'] == '«') {
+  //     this.p1 = 1;
+  //   }
+  //   let element = document.querySelector('.page-item.active');
+  //   if(element != null){
+  //     this.p1=Number(element.children[0]['text']);
+  //     console.log(this.p1);
+  //     if (this.ShowRecords1 != 'Show Records') {
+  //       console.log('testtt');
+  // console.log(this.p1);
+  //       this.PaginatedValue1=(this.setnoofrows1=='All Records'?this.BlocksList.length:this.setnoofrows1);
+  //       console.log(this.PaginatedValue1);
+  //     }
+  //   }
+  // }
   onPageChange(event) {
     //console.log(event);
     //console.log(this.p);
@@ -1480,7 +1510,7 @@ this.enblJoinAsnVew()
   }
 
   ngOnInit() {
-    //this.getBlockDetails();
+    // this.getBlockDetails();
     this.createForm();
     if(this.globalService.gotojoinassociation=='id'){
       this.enblJoinAsnVew();
@@ -1517,7 +1547,6 @@ this.enblJoinAsnVew()
     // } else {
     //   this.matching = true;
     // }
-
     this.association = "";
     this.association = "";
     this.crtAssn.country = 'SELECT COUNTRY';
@@ -1695,8 +1724,23 @@ this.enblJoinAsnVew()
     err=>{
       console.log(err);
     });
-    this.modalRef = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
+    this.modalRef1 = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
+
+  openunitModaltemplate(unitModaltemplate: TemplateRef<any>,blBlockID){
+    console.log(blBlockID);
+    this.viewUniService.GetUnitListByBlockID(blBlockID).subscribe(data => {
+      console.log('UnitList', data);
+
+       this.UnitsList = data['data'].unitsByBlockID;
+       console.log(this.UnitsList)
+    },
+    err=>{
+      console.log(err);
+    });
+    this.modalRef2 = this.modalService.show(unitModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
+  }
+
   checkMobileNumberValidity(Id, BlockManagermobile) {
     console.log('blur');
     console.log(Id);
