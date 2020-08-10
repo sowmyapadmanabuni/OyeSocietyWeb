@@ -84,7 +84,7 @@
 
                     <td class="txt-middle">{{item['inIsUsed']==true?'Visited':'Not Visited'}}</td>
 
-                    <td>{{item['inMobile']==''?'':item['inMobile']}}</td>
+                    <td>{{item['inMobile']==''?'':item['inMobile'].includes("+91") ? item['inMobile'] : '+91'+ item['inMobile']}}</td>
                     <td class="txt-middle"> 
                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                         (click)="OpenModalForQRcode(QRtemplate,   
