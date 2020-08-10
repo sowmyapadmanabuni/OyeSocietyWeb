@@ -348,8 +348,8 @@ this.showStaffReports=false;
       .set('Content-Type', 'application/json');
       let upreview =
       {
-        "ASAssnID"  :Number(this.globalServiceService.getCurrentAssociationId()),
-        "UNUnitID"  :Number(this.globalServiceService.getCurrentUnitId()),
+        "ASAssnID"  : Number(this.globalServiceService.getCurrentAssociationId()),
+        "UNUnitID"  : Number(this.globalServiceService.getCurrentUnitId()),
         "WKWorkID"  : param,
         "ACAccntID" : this.globalServiceService.getacAccntID(),
         "WKRating"  : this.wkrating,
