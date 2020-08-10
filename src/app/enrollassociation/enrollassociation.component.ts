@@ -66,6 +66,8 @@ export class EnrollassociationComponent implements OnInit {
   notValidBlockArr: any[];
   duplicateBlockCount:number;
   invalidBlockCount:number;
+  duplicateUnitCount:number;
+  invalidUnitCount:number;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -75,6 +77,8 @@ export class EnrollassociationComponent implements OnInit {
     private ViewBlockService: ViewBlockService) {
       this.duplicateBlockCount=0;
       this.invalidBlockCount=0;
+      this.duplicateUnitCount=0;
+      this.invalidUnitCount=0;
     this.notValidBlockArr = [];
     this.numberofunitexistence = 0;
     this.valueExcelUnitArr = [];
@@ -695,6 +699,8 @@ export class EnrollassociationComponent implements OnInit {
   message;
   submitunitdetails1(name, index) {
     $(".se-pre-con").show();
+    this.duplicateUnitCount=0;
+    this.invalidUnitCount=0;
     this.unitsuccessarray = [];
     if (this.finalblocknameTmp.length == (this.iindex + 2)) {
       console.log('iFinsideLTab');
@@ -790,6 +796,8 @@ export class EnrollassociationComponent implements OnInit {
           ) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
@@ -827,6 +835,8 @@ export class EnrollassociationComponent implements OnInit {
             console.log('Sold Tenant Occupied Unit-duplicate')
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.owneremaiid != "" && item.owneremaiid != undefined &&
@@ -862,6 +872,8 @@ export class EnrollassociationComponent implements OnInit {
             item.tenantemaiid == "" || item.tenantemaiid == undefined) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
@@ -888,6 +900,8 @@ export class EnrollassociationComponent implements OnInit {
             item.unittype == "" || item.unittype == undefined) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined) {
@@ -910,6 +924,8 @@ export class EnrollassociationComponent implements OnInit {
             item.unittype == "" || item.unittype == undefined ||
             item.ownershipstatus == "" || item.ownershipstatus == undefined) {
             this.unitlistduplicatejson.push(item);
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
         }
       })
@@ -920,6 +936,8 @@ export class EnrollassociationComponent implements OnInit {
       console.log("unit_group", unitgroup);
       Object.keys(unitgroup).forEach(element => {
         if (unitgroup[element].length > 1) {
+          this.duplicateUnitCount += 1;
+          console.log(this.duplicateUnitCount);
           unitgroup[element].forEach(item => {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
@@ -927,6 +945,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else if (unitgroup[element].length == 1) {
           unitgroup[element].forEach(item => {
+            console.log(item);
             item.hasNoDuplicateUnitname = true;
             item.disableField = true;
             this.unitlistuniquejson1.push(item);
@@ -1038,9 +1057,18 @@ export class EnrollassociationComponent implements OnInit {
         this.message = 'Unit Created Successfully'
       }
       else if (this.unitsuccessarray.length > 1) {
-        if (this.unitlistduplicatejson.length > 0) {
+        if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
           this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.unitlistduplicatejson.length} Duplicate`
+                            ${this.invalidUnitCount} Invalid
+                            ${this.duplicateUnitCount} Duplicate`
+        }
+        else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
+          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                            ${this.invalidUnitCount} Invalid`
+        }
+        else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
+          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                            ${this.duplicateUnitCount} Duplicate`
         }
         else {
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -1128,8 +1156,19 @@ export class EnrollassociationComponent implements OnInit {
           document.getElementById('unitsmanualnew').style.display = 'none';
           document.getElementById('unitsbulkold').style.display = 'block';
           if (this.unitlistduplicatejson.length > 0) {
-            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                              ${this.unitlistduplicatejson.length} Duplicate`
+            if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                                                  ${this.invalidUnitCount} Invalid
+                                                  ${this.duplicateUnitCount} Duplicate`
+            }
+            else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                                                  ${this.invalidUnitCount} Invalid`
+            }
+            else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                                                  ${this.duplicateUnitCount} Duplicate`
+            }
           }
           else {
             this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -3231,6 +3270,8 @@ export class EnrollassociationComponent implements OnInit {
   isExcelDataExceed: boolean;
   iindex: any;
   excelunitsuploaddata(exceldata, UpdateBlockUnitCountTemplate) {
+    this.duplicateUnitCount=0;
+    this.invalidUnitCount=0;
     this.unitlistuniquejsonagainfiltered = [];
     this.isunitdetailsempty = false;
     this.unitrecordDuplicateUnitnameModified = false;
