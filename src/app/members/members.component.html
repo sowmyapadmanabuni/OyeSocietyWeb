@@ -76,7 +76,7 @@
                                 <td>{{item['block'] == null || item['block'] == undefined ? '' : item['block']['blBlkName']}}</td>
                                 <td>{{item['unUniName']}}</td>
                                 <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : item['tenant'][0]['utfName'] : item['owner'][0]['uofName']}}</td>
-                                <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91", 3)) ? item['tenant'][0]['utMobile'].slice(3) : item['tenant'][0]['utMobile'] : (item['owner'][0]['uoMobile'].includes("+91", 3)) ? item['owner'][0]['uoMobile'].slice(3) : item['owner'][0]['uoMobile']}}</td>
+                                <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91")) ? item['tenant'][0]['utMobile'] : '+91'+item['tenant'][0]['utMobile'] : (item['owner'][0]['uoMobile'].includes("+91")) ? item['owner'][0]['uoMobile'] : '+91'+ item['owner'][0]['uoMobile']}}</td>
                                 <td>{{item['unOcStat']}}</td>
                                 <!-- <td class="txt-middle">{{item['vehcleCount']}}</td> -->
                                 <td>{{item['owner'].length == 0 ? '' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td>
