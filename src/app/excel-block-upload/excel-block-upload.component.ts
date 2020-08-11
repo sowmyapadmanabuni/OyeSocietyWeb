@@ -43,6 +43,9 @@ export class ExcelBlockUploadComponent implements OnInit {
   valueExcelUnitArr:any[];
   numberofunitexistence:any;
   notValidBlockArr:any[];
+ 
+  duplicateBlockCount:number;
+  invalidBlockCount:number;
 
   constructor(
     public globalService: GlobalServiceService,
@@ -83,7 +86,7 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.getassociationlist();
   }
   ngAfterViewInit(){
-    $(".se-pre-con").fadeOut("slow");
+    // $(".se-pre-con").fadeOut("slow");
   }
   upLoad() {
     document.getElementById("file_upload_id").click();
@@ -481,6 +484,8 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.notValidBlockArr=[];
     this.uniqueBlockArr=[];
     this.duplicateBlockArr=[];
+    this.duplicateBlockCount=0;
+    this.invalidBlockCount=0;
     this.toggleEmptyBlockarray=false;
     /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
      console.log(valueBlckArr);
@@ -518,27 +523,47 @@ export class ExcelBlockUploadComponent implements OnInit {
           }
           else{
             this.blockssuccessarray =[];
-            this.blocksArray.forEach(item => {
-              console.log(item.blockname.toLowerCase());
-              let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
-              console.log(found);
-              console.log(this.uniqueBlockArr);
-              if (found) {
-                this.duplicateBlockArr.push(item);
-                console.log(this.duplicateBlockArr);
+            let group = this.blocksArray.reduce((r, a) => {
+              r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+              return r;
+            }, {});
+            console.log("block_group", group);
+            Object.keys(group).forEach(element => {
+              if (group[element].length > 1) {
+                group[element].forEach(item => {
+                  this.duplicateBlockArr.push(item);
+                  this.duplicateBlockCount += 1;
+                })
               }
-              else {
-                this.uniqueBlockArr.push(item);
+              else if (group[element].length == 1) {
+                group[element].forEach(item => {
+                  this.uniqueBlockArr.push(item);
+                })
               }
             })
-            console.log(this.uniqueBlockArr);
-            console.log(this.duplicateBlockArr);
+            // this.blocksArray.forEach(item => {
+            //   console.log(item.blockname.toLowerCase());
+            //   let found = this.uniqueBlockArr.some(el => el.blockname.toLowerCase() == item.blockname.toLowerCase());
+            //   console.log(found);
+            //   console.log(this.uniqueBlockArr);
+            //   if (found) {
+            //     this.duplicateBlockArr.push(item);
+            //     console.log(this.duplicateBlockArr);
+            //   }
+            //   else {
+            //     this.uniqueBlockArr.push(item);
+            //   }
+            // })
+            // console.log(this.uniqueBlockArr);
+            // console.log(this.duplicateBlockArr);
             this.notValidBlockArr = this.uniqueBlockArr.filter((element) => {
               return (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined);
             })
             if(this.notValidBlockArr.length>0){
               this.notValidBlockArr.forEach(item=>{
                 this.duplicateBlockArr.push(item);
+               this.invalidBlockCount += 1;
+
               })
             }
             this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
@@ -771,17 +796,39 @@ export class ExcelBlockUploadComponent implements OnInit {
         if (!this.sameBlocknameExist) {
           let displaymessage;
           if (this.blockssuccessarray == 1) {
-            displaymessage = 'Block Created Successfully'
+            displaymessage = 'Block Created Successfully';
+            if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.invalidBlockCount} Invalid
+                         ${this.duplicateBlockCount} Duplicate`;
+            }
+            else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.invalidBlockCount} Invalid`;
+            }
+            else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.duplicateBlockCount} Duplicate`;
+            }
           }
           else if (this.blockssuccessarray > 1) {
-            if (this.duplicateBlockArr.length > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.duplicateBlockArr.length} Duplicate`;
-            }
-            else {
-              displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
-            }
-          }
+            if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
+             displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                        ${this.invalidBlockCount} Invalid
+                        ${this.duplicateBlockCount} Duplicate`;
+           }
+           else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+             displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                        ${this.invalidBlockCount} Invalid`;
+           }
+           else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+             displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                        ${this.duplicateBlockCount} Duplicate`;
+           }
+           else {
+             displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+           }
+         }
           Swal.fire({
             title: displaymessage,
             text: "",
