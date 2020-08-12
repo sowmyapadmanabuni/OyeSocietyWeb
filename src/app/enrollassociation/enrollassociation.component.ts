@@ -702,12 +702,15 @@ export class EnrollassociationComponent implements OnInit {
     this.duplicateUnitCount=0;
     this.invalidUnitCount=0;
     this.unitsuccessarray = [];
+    console.log(this.iindex);
     if (this.finalblocknameTmp.length == (this.iindex + 2)) {
+      console.log(this.finalblocknameTmp.length,(this.iindex + 2));
       console.log('iFinsideLTab');
       this.finalblocknameTmp[this.iindex + 1]['displaytext'] = "Submit";
       console.log(this.finalblocknameTmp);
     }
     this.iindex += 1;
+    console.log(this.iindex);
     /* let valueManualUnitnameArr = this.unitlistjson[name].map(item => { return item.flatno.toLowerCase() });
      let isManualUnitnameDuplicate = valueManualUnitnameArr.some((item, idx) => {
        return valueManualUnitnameArr.indexOf(item) != idx
@@ -1054,7 +1057,20 @@ export class EnrollassociationComponent implements OnInit {
     setTimeout(() => {
       $(".se-pre-con").fadeOut("slow");
       if (this.unitsuccessarray.length == 1) {
-        this.message = 'Unit Created Successfully'
+        this.message = 'Unit Created Successfully';
+        if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
+          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
+                            ${this.invalidUnitCount} Invalid
+                            ${this.duplicateUnitCount} Duplicate`
+        }
+        else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
+          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
+                            ${this.invalidUnitCount} Invalid`
+        }
+        else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
+          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
+                            ${this.duplicateUnitCount} Duplicate`
+        }
       }
       else if (this.unitsuccessarray.length > 1) {
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
@@ -1114,8 +1130,9 @@ export class EnrollassociationComponent implements OnInit {
             }
           })
       }
-      let abc0 = Object.keys(this.unitlistjson);
-      if (Object.keys(this.unitlistjson)[abc0.length - 1] == name) {
+      let abc0 = _.sortBy(Object.keys(this.unitlistjson));
+      console.log(abc0);
+      if (_.sortBy(Object.keys(this.unitlistjson))[abc0.length - 1] == name) {
         console.log('insidelasttab');
         if (!this.duplicateUnitrecordexist) {
           console.log('inlasttabNoduplicaterecordexist');
@@ -2186,16 +2203,16 @@ export class EnrollassociationComponent implements OnInit {
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.invalidBlockCount} Invalid
                          ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.duplicateBlockCount} Duplicate`;
             }
           }
