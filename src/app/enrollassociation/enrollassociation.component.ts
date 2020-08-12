@@ -64,6 +64,10 @@ export class EnrollassociationComponent implements OnInit {
   valueExcelUnitArr: any[];
   numberofunitexistence: any;
   notValidBlockArr: any[];
+  duplicateBlockCount:number;
+  invalidBlockCount:number;
+  duplicateUnitCount:number;
+  invalidUnitCount:number;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -71,6 +75,10 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.duplicateBlockCount=0;
+      this.invalidBlockCount=0;
+      this.duplicateUnitCount=0;
+      this.invalidUnitCount=0;
     this.notValidBlockArr = [];
     this.numberofunitexistence = 0;
     this.valueExcelUnitArr = [];
@@ -691,6 +699,8 @@ export class EnrollassociationComponent implements OnInit {
   message;
   submitunitdetails1(name, index) {
     $(".se-pre-con").show();
+    this.duplicateUnitCount=0;
+    this.invalidUnitCount=0;
     this.unitsuccessarray = [];
     if (this.finalblocknameTmp.length == (this.iindex + 2)) {
       console.log('iFinsideLTab');
@@ -786,6 +796,8 @@ export class EnrollassociationComponent implements OnInit {
           ) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
@@ -823,6 +835,8 @@ export class EnrollassociationComponent implements OnInit {
             console.log('Sold Tenant Occupied Unit-duplicate')
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.owneremaiid != "" && item.owneremaiid != undefined &&
@@ -858,6 +872,8 @@ export class EnrollassociationComponent implements OnInit {
             item.tenantemaiid == "" || item.tenantemaiid == undefined) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
@@ -884,6 +900,8 @@ export class EnrollassociationComponent implements OnInit {
             item.unittype == "" || item.unittype == undefined) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined) {
@@ -906,6 +924,8 @@ export class EnrollassociationComponent implements OnInit {
             item.unittype == "" || item.unittype == undefined ||
             item.ownershipstatus == "" || item.ownershipstatus == undefined) {
             this.unitlistduplicatejson.push(item);
+            this.invalidUnitCount += 1;
+            console.log(this.invalidUnitCount);
           }
         }
       })
@@ -916,6 +936,8 @@ export class EnrollassociationComponent implements OnInit {
       console.log("unit_group", unitgroup);
       Object.keys(unitgroup).forEach(element => {
         if (unitgroup[element].length > 1) {
+          this.duplicateUnitCount += 1;
+          console.log(this.duplicateUnitCount);
           unitgroup[element].forEach(item => {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
@@ -923,6 +945,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else if (unitgroup[element].length == 1) {
           unitgroup[element].forEach(item => {
+            console.log(item);
             item.hasNoDuplicateUnitname = true;
             item.disableField = true;
             this.unitlistuniquejson1.push(item);
@@ -1034,9 +1057,18 @@ export class EnrollassociationComponent implements OnInit {
         this.message = 'Unit Created Successfully'
       }
       else if (this.unitsuccessarray.length > 1) {
-        if (this.unitlistduplicatejson.length > 0) {
+        if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
           this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.unitlistduplicatejson.length} Duplicate`
+                            ${this.invalidUnitCount} Invalid
+                            ${this.duplicateUnitCount} Duplicate`
+        }
+        else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
+          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                            ${this.invalidUnitCount} Invalid`
+        }
+        else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
+          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                            ${this.duplicateUnitCount} Duplicate`
         }
         else {
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -1124,8 +1156,19 @@ export class EnrollassociationComponent implements OnInit {
           document.getElementById('unitsmanualnew').style.display = 'none';
           document.getElementById('unitsbulkold').style.display = 'block';
           if (this.unitlistduplicatejson.length > 0) {
-            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                              ${this.unitlistduplicatejson.length} Duplicate`
+            if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                                                  ${this.invalidUnitCount} Invalid
+                                                  ${this.duplicateUnitCount} Duplicate`
+            }
+            else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                                                  ${this.invalidUnitCount} Invalid`
+            }
+            else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
+              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
+                                                  ${this.duplicateUnitCount} Duplicate`
+            }
           }
           else {
             this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -1502,6 +1545,7 @@ export class EnrollassociationComponent implements OnInit {
         let headername = unit.Id.slice(0, -2);
         console.log(headername);
         console.log(name);
+        console.log(unit.Id,Id);
         if (unit.Id == Id) {
           console.log(unit);
           console.log(this.unitlistjson[element]);
@@ -1522,6 +1566,7 @@ export class EnrollassociationComponent implements OnInit {
               else {
                 unit.isSingleUnitDataEmpty = false;
                 unit.hasNoDuplicateUnitname = true;
+                
               }
             }
             else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
@@ -1609,10 +1654,24 @@ export class EnrollassociationComponent implements OnInit {
                 unit.ownerlastname == "" || unit.ownerlastname == undefined ||
                 unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
               ) {
+                console.log('test0-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = false;
               }
               else {
+                console.log('test1-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = true;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if(a.flatno != undefined){
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    this.isunitdetailsempty = false;
+                  }
+                })
               }
             }
             else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
@@ -1630,10 +1689,24 @@ export class EnrollassociationComponent implements OnInit {
                 unit.tenantlastname == "" || unit.tenantlastname == undefined ||
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                  console.log('test0-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
               }
               else {
+                console.log('test1-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if(a.flatno != undefined){
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    this.isunitdetailsempty = false;
+                  }
+                })
               }
             }
             else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
@@ -1647,10 +1720,24 @@ export class EnrollassociationComponent implements OnInit {
                 unit.tenantlastname == "" || unit.tenantlastname == undefined ||
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                  console.log('test0-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
               }
               else {
+                console.log('test1-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if(a.flatno != undefined){
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    this.isunitdetailsempty = false;
+                  }
+                })
               }
             }
             else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
@@ -1659,10 +1746,24 @@ export class EnrollassociationComponent implements OnInit {
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined
               ) {
+                console.log('test0-UnSold Vacant Unit')
                 this.isunitdetailsempty = false;
               }
               else {
+                console.log('test1-UnSold Vacant Unit')
                 this.isunitdetailsempty = true;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if(a.flatno != undefined){
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    this.isunitdetailsempty = false;
+                  }
+                })
               }
             }
             else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
@@ -1843,6 +1944,8 @@ export class EnrollassociationComponent implements OnInit {
     this.notValidBlockArr = [];
     this.uniqueBlockArr = [];
     this.duplicateBlockArr = [];
+    this.duplicateBlockCount=0;
+    this.invalidBlockCount=0;
     this.toggleEmptyBlockarray = false;
     /* let valueBlckArr = this.blocksArray.map(item => { return item.blockname.toLowerCase() });
      console.log(valueBlckArr);
@@ -1891,6 +1994,7 @@ export class EnrollassociationComponent implements OnInit {
         if (group[element].length > 1) {
           group[element].forEach(item => {
             this.duplicateBlockArr.push(item);
+            this.duplicateBlockCount += 1;
           })
         }
         else if (group[element].length == 1) {
@@ -1918,6 +2022,7 @@ export class EnrollassociationComponent implements OnInit {
       if (this.notValidBlockArr.length > 0) {
         this.notValidBlockArr.forEach(item => {
           this.duplicateBlockArr.push(item);
+          this.invalidBlockCount += 1;
         })
       }
       this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
@@ -2079,12 +2184,34 @@ export class EnrollassociationComponent implements OnInit {
         if (!this.sameBlocknameExist) {
           let displaymessage;
           if (this.blockssuccessarray == 1) {
-            displaymessage = 'Block Created Successfully'
+            displaymessage = 'Block Created Successfully';
+            if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.invalidBlockCount} Invalid
+                         ${this.duplicateBlockCount} Duplicate`;
+            }
+            else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.invalidBlockCount} Invalid`;
+            }
+            else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.duplicateBlockCount} Duplicate`;
+            }
           }
           else if (this.blockssuccessarray > 1) {
-            if (this.duplicateBlockArr.length > 0) {
+             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.duplicateBlockArr.length} Duplicate`;
+                         ${this.invalidBlockCount} Invalid
+                         ${this.duplicateBlockCount} Duplicate`;
+            }
+            else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.invalidBlockCount} Invalid`;
+            }
+            else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+                         ${this.duplicateBlockCount} Duplicate`;
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
@@ -2487,18 +2614,23 @@ export class EnrollassociationComponent implements OnInit {
           //
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
           //
@@ -2517,18 +2649,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2546,18 +2683,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2629,18 +2771,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2671,18 +2818,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2713,18 +2865,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2755,18 +2912,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2797,18 +2959,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2839,18 +3006,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2881,18 +3053,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -2923,18 +3100,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
-              this.numberofunitexistence += 1;
-              if (this.numberofunitexistence == 1) {
-                unit.hasNoDuplicateUnitname = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                this.isunitdetailsempty = true;
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
               }
-              else {
-                unit.hasNoDuplicateUnitname = false;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-                this.isunitdetailsempty = false;
-              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
             }
           })
         }
@@ -3101,6 +3283,8 @@ export class EnrollassociationComponent implements OnInit {
   isExcelDataExceed: boolean;
   iindex: any;
   excelunitsuploaddata(exceldata, UpdateBlockUnitCountTemplate) {
+    this.duplicateUnitCount=0;
+    this.invalidUnitCount=0;
     this.unitlistuniquejsonagainfiltered = [];
     this.isunitdetailsempty = false;
     this.unitrecordDuplicateUnitnameModified = false;
