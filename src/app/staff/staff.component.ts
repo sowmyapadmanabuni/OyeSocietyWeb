@@ -26,6 +26,7 @@ export class StaffComponent implements OnInit {
   filterStaff:any;
   staffs1:any[];
   wkrating:any;
+  wkrating1:any;
   staffByDesignation:any;
   showOtherstaff:any;
   showstaffBydesignation:any;
@@ -134,7 +135,8 @@ this.enableviewDocuments=false;
       workerstatuses.forEach(item=>{
         console.log(item.unUniName,this.globalServiceService.getCurrentUnitId());
         if(item.unUniName == this.globalServiceService.getCurrentUnitName()){
-          this.wkrating=item.wkRating;
+          this.wkrating1=item.wkRating;
+          console.log(this.wkrating1);
         }
       })
     }

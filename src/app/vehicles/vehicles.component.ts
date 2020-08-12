@@ -247,6 +247,12 @@ export class VehiclesComponent implements OnInit {
     console.log(veStickNo);
     console.log(uplNum);
     console.log(veid);
+    this.veMakeMdl = '';
+    this.veRegNo = '';
+    this.veStickNo = '';
+    this.uplNum = '';
+    console.log(this.uplNum);
+    this.veType = '';
     this.vehiclename = veMakeMdl;
     this.vehiclenumber = veRegNo;
     this.makemodel = veType;

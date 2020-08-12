@@ -14,7 +14,7 @@
                     </ul>
                 </div>
                 <div>
-                    <div class="col-sm-4 bg-grey">
+                    <div class="col-sm-4 bg-grey" *ngIf="condition">
                         <div>
                             <!-- <input type="text" id="mySearch" placeholder="Select Staff.." title="Type in a category"> -->
                             <div class="dropdown search-dropd sha" style="margin-top:0px">
@@ -437,7 +437,7 @@
                 <div>
                     <label>Comments:</label>
                     <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment"
-                        style="width: 100%">{{item['wkStatus']}}</textarea>
+                        style="width: 100%">{{item['WKReview']}}</textarea>
                 </div>
                 <button (click)="updateReview(item['wkWorkID'],comment)"
                     class="btn btn-primary-purple nextBtn">Update</button>
