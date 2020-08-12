@@ -77,7 +77,8 @@ export class ExcelBlockUploadComponent implements OnInit {
    
     this.blockdetailInvalid=true;
  
-   
+    this.duplicateBlockCount=0;
+    this.invalidBlockCount=0;
   
 
    }
