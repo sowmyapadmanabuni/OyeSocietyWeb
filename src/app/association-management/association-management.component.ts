@@ -36,9 +36,6 @@ declare var $: any;
 
 export class AssociationManagementComponent implements OnInit {
   modalRef: BsModalRef;
-  modalRef1: BsModalRef;
-  modalRef2: BsModalRef;
-
   assnID: any;
   @Input() amenityType: string;
   @Input() amenityNo: string;
@@ -270,7 +267,6 @@ export class AssociationManagementComponent implements OnInit {
   occupencys: object[];
   occupency: any;
   tenantDetails: boolean;
-  availableNoOfBlocks: number;
   ownerDetails: boolean;
   toggleunitvehicleinformation: boolean;
   groupedArray: any;
@@ -300,7 +296,8 @@ export class AssociationManagementComponent implements OnInit {
   displayOwnerType: string;
   UniNameForJoinAssn: any;
   BlocksList:any[];
-  UnitsList:any[] = [];
+  id: any;
+
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
     public viewAssnService: ViewAssociationService,
@@ -348,7 +345,6 @@ export class AssociationManagementComponent implements OnInit {
     { 'Display': '100', 'Row': 100 },
     { 'Display': 'Show All Records', 'Row': 'All' }];
     this.setnoofrows = 10;
-    this.BlocksList=null;
     this.ShowRecords = 'Show Records';
     this.enableCreateUnitWithAssociation = false;
     this.meter = 'sqft';
@@ -635,9 +631,7 @@ cities=[];
       .set('Authorization', 'my-auth-token')
       .set('X-Champ-APIKey', '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1')
       .set('Content-Type', 'application/json');
-    this.http.get('http://devapi.scuarex.com/oyeliving/api/v1/GetJoinAssociationCitiesList', { headers: headers })
-    
-    //this.http.get('https://devapi.scuarex.com/oyeliving/api/v1/GetJoinAssociationCitiesList', { headers: headers })
+    this.http.get('https://devapi.scuarex.com/oyeliving/api/v1/GetJoinAssociationCitiesList', { headers: headers })
        .subscribe(
          (response) => {
            console.log(response);
@@ -1103,31 +1097,6 @@ cities=[];
     }, 600 * (this.BlockHrefDetail.length + this.unitArray.length));
 
   }
-
-  // onPageChangeforblocks(event) {
-   
-  //   if (event['srcElement']['text'] == '1') {
-  //     this.p1 = 1;
-  //   }
-  //   if ((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)) {
-  //   let element = document.querySelector('.page-item.active');
-  //     this.p1 = Number(element.children[0]['text']);
-  //   }
-  //   if (event['srcElement']['text'] == '«') {
-  //     this.p1 = 1;
-  //   }
-  //   let element = document.querySelector('.page-item.active');
-  //   if(element != null){
-  //     this.p1=Number(element.children[0]['text']);
-  //     console.log(this.p1);
-  //     if (this.ShowRecords1 != 'Show Records') {
-  //       console.log('testtt');
-  // console.log(this.p1);
-  //       this.PaginatedValue1=(this.setnoofrows1=='All Records'?this.BlocksList.length:this.setnoofrows1);
-  //       console.log(this.PaginatedValue1);
-  //     }
-  //   }
-  // }
   onPageChange(event) {
     //console.log(event);
     //console.log(this.p);
@@ -1510,7 +1479,7 @@ this.enblJoinAsnVew()
   }
 
   ngOnInit() {
-    // this.getBlockDetails();
+    //this.getBlockDetails();
     this.createForm();
     if(this.globalService.gotojoinassociation=='id'){
       this.enblJoinAsnVew();
@@ -1547,6 +1516,7 @@ this.enblJoinAsnVew()
     // } else {
     //   this.matching = true;
     // }
+
     this.association = "";
     this.association = "";
     this.crtAssn.country = 'SELECT COUNTRY';
@@ -1563,7 +1533,24 @@ this.enblJoinAsnVew()
         console.log('associations', this.associations);  
 
       })
+
+      this.getAssociationDetails();
+      this.id = setInterval(() => {
+        this.getAssociationDetails(); 
+      }, 7000)
+
+
+
   }
+  ngOnDestroy() {
+    if (this.id) {
+      clearInterval(this.id);
+    }
+  }
+
+
+
+
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -1724,33 +1711,7 @@ this.enblJoinAsnVew()
     err=>{
       console.log(err);
     });
-    this.modalRef1 = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
-  }
-  commonunit: boolean;
-  openunitModaltemplate(unitModaltemplate: TemplateRef<any>,blBlockID){
-    console.log(blBlockID);
-    let Commonarray = [];
-    this.UnitsList = [];
-    this.viewUniService.GetUnitListByBlockID(blBlockID).subscribe(data => {
-      console.log('UnitList', data);
-      let removecommonunit = [];
-      Commonarray = data['data'].unitsByBlockID;
-        
-        Commonarray.forEach((ele: any) => {
-          this.commonunit = ele.unUniName.endsWith("-Common");
-          if (this.commonunit) {
-            removecommonunit.push(ele);
-          }
-          else {
-            this.UnitsList.push(ele);
-          }
-        })
-       console.log(this.UnitsList)
-    },
-    err=>{
-      console.log(err);
-    });
-    this.modalRef2 = this.modalService.show(unitModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
+    this.modalRef = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
   checkMobileNumberValidity(Id, BlockManagermobile) {
     console.log('blur');
@@ -1924,11 +1885,12 @@ this.enblJoinAsnVew()
       //console.log(JSON.stringify(res));
       var data: any = res;
       //console.log(data.data.associationByAccount);
-      this.associations = data.data.associationByAccount;
+      if(data.data.associationByAccount.length > this.associations.length){
+        this.associations = data.data.associationByAccount;
+      }
+      
       console.log(this.associations);
-      //
-      this.sortedCollection = this.orderpipe.transform(this.associations, 'asAsnName');
-      //console.log(this.sortedCollection);
+
     });
   }
 
@@ -2795,7 +2757,7 @@ this.enblJoinAsnVew()
     else{
       this.OnSendButton(this.OwnerType);
     }
-    //console.log(this.OwnerType);
+    console.log(this.OwnerType);
     }
     else{
       this.OnSendButton(7);
@@ -2910,7 +2872,7 @@ this.enblJoinAsnVew()
 
 
 
-  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType,asAsnLogo, asPrpName,aspanNum,aspanDoc,asgstNo,asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID,asWebURL,asAsnEmail) {
+  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID,asWebURL,asAsnEmail) {
     //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
     let EditAssociationData = {};
     this.ASAsnName = asAsnName;
@@ -2923,15 +2885,15 @@ this.enblJoinAsnVew()
     this.ASPrpName = asPrpName;
     this.ASNofBlks = asNofBlks;
     this.ASNofUnit = asNofUnit;
-    this.BABName = "";
-    this.BAIFSC = "";
-    this.BAActNo = "";
-    this.BAActType = "";
+    this.BABName = baBName;
+    this.BAIFSC = baIFSC;
+    this.BAActNo = baActNo;
+    this.BAActType = baActType;
     this.asAssnID = asAssnID;
     this.BAActID = BAActID;
     this.AMID = AMID;
-    this.amType = "";
-    this.noofAmenities = "";
+    this.amType = amType;
+    this.noofAmenities = noofAmenities;
     //console.log(asAsnName);
     //console.log(asPrpName);
     //console.log(asAddress);
@@ -2939,8 +2901,8 @@ this.enblJoinAsnVew()
     //console.log(asCountry);
     //console.log(asPinCode);
     //console.log(asState);
-    // console.log(asPrpType);
-    // console.log(this.BAActType);
+    console.log(asPrpType);
+    console.log(this.BAActType);
     //console.log(asCity);
     //console.log(asAssnID);
     //console.log(amType);
@@ -3005,12 +2967,11 @@ this.enblJoinAsnVew()
         "ASAddress": asAddress,
         "ASCountry": asCountry,
         "ASAsnName": asAsnName,
-        "ASPANNum": aspanNum,
+        "ASPANNum": "",
         "ASRegrNum": "",
         "ASCity": asCity,
         "ASState": asState,
         "ASPinCode": asPinCode,
-        "ASAsnLogo":  (asAsnLogo == undefined ? '' : asAsnLogo),
         "ASPrpName": asPrpName,
         "ASPrpType": asPrpType,
         "ASNofBlks": asNofBlks,
@@ -3018,7 +2979,6 @@ this.enblJoinAsnVew()
         "ASAssnID": asAssnID,
         "asWebURL": asWebURL,
         "asAsnEmail": asAsnEmail,
-        "ASPANDoc": (aspanDoc == undefined ? '' : aspanDoc),
         "Amenities":
           [{
             "AMType": "Club",

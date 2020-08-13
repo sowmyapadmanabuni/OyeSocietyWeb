@@ -96,6 +96,7 @@ export class BlocksComponent implements OnInit {
   columnName: any;
   formatDate: string;
   PaginatedValue: number;
+  id: NodeJS.Timer;
 
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
@@ -183,6 +184,10 @@ export class BlocksComponent implements OnInit {
     //console.log('this.currentAssociationName',this.currentAssociationName);
     //console.log('this.currentAssociationID',this.currentAssociationID);
     this.getBlockDetails();
+    this.id = setInterval(() => {
+      this.getBlockDetails();
+    },5000);
+
     this.viewBlkService.getassociationlist(this.currentAssociationID)
       .subscribe(data => {
         this.assnName = data['data'].association.asAsnName;
@@ -190,6 +195,13 @@ export class BlocksComponent implements OnInit {
       });
     this.allBlocksLists = '';
   }
+
+  ngOnDestroy() {
+    if (this.id) {
+      clearInterval(this.id);
+    }
+  }
+
   ngAfterViewInit() {
     $(document).ready(function () {
       $("#myInputallBlocksLists").on("keyup", function () {
@@ -205,8 +217,10 @@ export class BlocksComponent implements OnInit {
 
   getBlockDetails() {
     this.viewBlkService.getBlockDetails(this.currentAssociationID).subscribe(data => {
-      this.allBlocksLists = data['data'].blocksByAssoc;
-      //console.log('allBlocksLists', this.allBlocksLists);
+      if(data['data']['blocksByAssoc'].length > this.allBlocksLists.length){
+        this.allBlocksLists = data['data'].blocksByAssoc;
+      }
+      console.log('allBlocksLists', this.allBlocksLists);
       this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
       //asbGnDate
     });

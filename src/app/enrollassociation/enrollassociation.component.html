@@ -771,11 +771,11 @@
                     <div class="tab-content col-md-10">
                         <div *ngFor="let obj1 of blocksArray">
                             <div class="tab-pane" [ngClass]="{'active':obj1.Id==obj1.blockTmpid}" id="{{obj1.Id}}">
-                                <ul id="tabSet"  class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }" style="display: flex;overflow-x: scroll;height: 42px;">
+                                <ul id="tabSet"  class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'flex' : 'none' }" style="display: flex !important;overflow-x: scroll;height: 42px;">
                                     <li  *ngFor="let obj2 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj2.Id==obj2.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
                                         <a href="#{{obj2.Id}}" (click)="assignUnitTmpid(obj2.Id,blocknameforIteration)" data-toggle="tab" style="display: flex;width: auto;">{{obj2.flatno==''?'Unit':obj2.flatno}}
-                                            &nbsp;&nbsp;<span></span>
-                                    <i [hidden]="obj2.isUnitCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
+                                            &nbsp;&nbsp;<span></span>&nbsp;&nbsp;
+                                    <i [hidden]="obj2.isUnitCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;&nbsp;
                                     <i [hidden]="obj2.isUnitNotCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
                                         </a></li>
                                 </ul>
@@ -997,7 +997,7 @@
                     <div class="tab-content col-md-10">
                         <div *ngFor="let iitem of blocksArray;let i=index">
                             <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
-                                <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'block' : 'none' }" style="display: flex;overflow-x: scroll;    height: 42px;">
+                                <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll;    height: 42px;">
                                     <li  *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj.Id==obj.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
                                         <a href="#{{obj.Id}}" (click)="assignUnitTmpid(obj.Id,blocknameforIteration)" data-toggle="tab" style="display: flex;width: auto;">{{obj.flatno==''?'Unit':obj.flatno}}
                                             &nbsp;&nbsp;<span></span>

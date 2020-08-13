@@ -24,6 +24,7 @@ export class VehiclesComponent implements OnInit {
   veStickNo: string;
   uplNum: string;
   veType: string;
+  VehicleDataForRealtimeReload:any[];
   j: any;
   vehiclename: any;
   vehiclenumber: any;
@@ -34,12 +35,13 @@ export class VehiclesComponent implements OnInit {
   VehicleDataNew: VehicleDataNew[];
   getUnitID: Subscription;
   deleteVehicleData:boolean;
+  id: any;
 
   constructor(private modalService: BsModalService,
     private globalserviceservice: GlobalServiceService,
     private bsModalService: BsModalService,
     private addvehicleservice: AddVehicleService) {
-   // this.veType="TwoWheeler";
+      this.VehicleDataForRealtimeReload = [];
       this.deleteVehicleData=false;
     this.vehicledatalength = false;
     this.VehicleData = [];
@@ -90,7 +92,14 @@ export class VehiclesComponent implements OnInit {
     this.CurrentUnitID = this.globalserviceservice.getCurrentUnitId();
     console.log(this.CurrentUnitID);
     this.getVehicles();
+
+    this.id = setInterval(() => {
+      if(this.id){
+        this.getVehicles();
+      }
+    },5000)
   }
+  
 
   ngAfterViewInit(){
     $(".se-pre-con").fadeOut("slow");
@@ -124,6 +133,9 @@ export class VehiclesComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.VehicleData = data['data']['vehicleListByUnitID'];
+        this.VehicleDataForRealtimeReload = data['data']['vehicleListByUnitID'];
+
+
         console.log(this.VehicleData);
         this.VehicleData.forEach(item => {
           if (this.VehicleData.length > 0) {
@@ -247,12 +259,6 @@ export class VehiclesComponent implements OnInit {
     console.log(veStickNo);
     console.log(uplNum);
     console.log(veid);
-    this.veMakeMdl = '';
-    this.veRegNo = '';
-    this.veStickNo = '';
-    this.uplNum = '';
-    console.log(this.uplNum);
-    this.veType = '';
     this.vehiclename = veMakeMdl;
     this.vehiclenumber = veRegNo;
     this.makemodel = veType;
@@ -300,5 +306,8 @@ export class VehiclesComponent implements OnInit {
   }
   ngOnDestroy() {
     this.getUnitID.unsubscribe();
+    if(this.id){
+      clearInterval(this.id);
+    }
   }
 }

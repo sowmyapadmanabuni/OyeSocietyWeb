@@ -120,7 +120,7 @@ export class NotificationsComponent implements OnInit {
 
     this.refreshNotificationArray();
     this.id = setInterval(() => {
-      this.refreshNotificationArray();
+      this.refreshNotificationArray(); 
     }, 7000);
   }
 
