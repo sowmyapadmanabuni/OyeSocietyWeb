@@ -296,6 +296,7 @@ export class AssociationManagementComponent implements OnInit {
   displayOwnerType: string;
   UniNameForJoinAssn: any;
   BlocksList:any[];
+  id: any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -1532,7 +1533,24 @@ this.enblJoinAsnVew()
         console.log('associations', this.associations);  
 
       })
+
+      this.getAssociationDetails();
+      this.id = setInterval(() => {
+        this.getAssociationDetails(); 
+      }, 7000)
+
+
+
   }
+  ngOnDestroy() {
+    if (this.id) {
+      clearInterval(this.id);
+    }
+  }
+
+
+
+
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -1867,11 +1885,12 @@ this.enblJoinAsnVew()
       //console.log(JSON.stringify(res));
       var data: any = res;
       //console.log(data.data.associationByAccount);
-      this.associations = data.data.associationByAccount;
+      if(data.data.associationByAccount.length > this.associations.length){
+        this.associations = data.data.associationByAccount;
+      }
+      
       console.log(this.associations);
-      //
-      this.sortedCollection = this.orderpipe.transform(this.associations, 'asAsnName');
-      //console.log(this.sortedCollection);
+
     });
   }
 

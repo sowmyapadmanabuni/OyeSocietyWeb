@@ -1,5 +1,6 @@
 export class ResidentNotificationListArray {
-    constructor(private vlComName,
+    constructor(
+        private vlComName,
         private vlVisType,
         private asAsnName,
         private vlApprdBy,
@@ -30,6 +31,7 @@ export class ResidentNotificationListArray {
         private ntJoinStat,
         private WrUniName,
         private acNotifyID,
-        private visitorlog){}
+        private visitorlog
+        ){}
         
 }

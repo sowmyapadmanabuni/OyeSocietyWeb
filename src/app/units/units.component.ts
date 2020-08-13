@@ -96,6 +96,7 @@ export class UnitsComponent implements OnInit {
   blBlkName:any;
   searchTxt:any;
   unOcSDate:any;
+  ids:any;
   currentAssociationIdForUnit:Subscription;
   setnoofrows:any;
   rowsToDisplay:any[];
@@ -105,6 +106,7 @@ export class UnitsComponent implements OnInit {
   SelectOccupancyOwnershipStatus: string;
   SelectUnitType: string;
   PaginatedValue: number;
+  id: number;
 
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
@@ -247,7 +249,20 @@ export class UnitsComponent implements OnInit {
         //console.log('allBlocksLists',this.allBlocksLists);
       });
       this.SnackBar();
+      this.ids = setInterval(() => {
+        if(this.blockID){
+          this.getAllUnitDetailsByBlockID(this.blockID,this.blBlkName);
+        }
+      },5000)
   }
+  ngOnDestroy(){
+    if(this.ids){
+      clearInterval(this.ids);
+    }
+  }
+
+
+
   GetIsUnitCreated(event) {
     console.log(event);
     if (event == 'true') {
@@ -427,10 +442,12 @@ export class UnitsComponent implements OnInit {
     /*-------------------Get Unit List By Block ID ------------------*/
     this.viewUniService.GetUnitListByBlockID(blBlockID)
       .subscribe(data => {
-        console.log('allUnitBYBlockID', data);
-
-        Commonarray = data['data'].unitsByBlockID;
-
+        if(data['data']['unitsByBlockID'].length > this.allUnitBYBlockID.length){
+          Commonarray = data['data'].unitsByBlockID;
+          console.log(Commonarray);
+          console.log(this.allUnitBYBlockID.length, data['data']['unitsByBlockID'].length);
+     
+        
         Commonarray.forEach((ele: any) => {
           this.commonunit = ele.unUniName.endsWith("-Common");
           if (this.commonunit) {
@@ -440,18 +457,8 @@ export class UnitsComponent implements OnInit {
             this.allUnitBYBlockID.push(ele)
             this.sortedCollection = this.orderpipe.transform(this.allUnitBYBlockID, 'unUniName');
           }
-          // if (ele.unUniName==) {
-          //   this.allUnitBYBlockID.push(ele)
-          //   this.sortedCollection = this.orderpipe.transform(this.allUnitBYBlockID, 'unUniName');
-          //   console.log(this.sortedCollection);
-
-          // }
-          // else {
-          //   this.allUnitBYBlockID = []
-
-
-          // }
         })
+      }
         //
       });
   }
