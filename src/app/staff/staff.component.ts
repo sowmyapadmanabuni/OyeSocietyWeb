@@ -136,6 +136,8 @@ this.enableviewDocuments=false;
         console.log(item.unUniName,this.globalServiceService.getCurrentUnitId());
         if(item.unUniName == this.globalServiceService.getCurrentUnitName()){
           this.wkrating1=item.wkRating;
+          this.wkrating=item.wkRating;
+          console.log(this.wkrating);
           console.log(this.wkrating1);
         }
       })
@@ -328,7 +330,7 @@ this.showStaffReports=false;
     onClick = ($event:IStarRatingOnClickEvent) => {
         console.log('onClick $event: ', $event);
         this.onClickResult = $event;
-        this.wkrating=this.onClickResult.rating
+        this.wkrating1=this.onClickResult.rating
     };
 
     onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
@@ -338,9 +340,9 @@ this.showStaffReports=false;
 
    
   updateReview(param,coment){
-    this.wkrating
+    this.wkrating1;
      console.log(param);
-    console.log(this.wkrating);
+    console.log(this.wkrating1);
      console.log(coment);
 
      let ipAddress = this.UtilsService.getIPaddress()
@@ -354,7 +356,7 @@ this.showStaffReports=false;
         "UNUnitID"  : Number(this.globalServiceService.getCurrentUnitId()),
         "WKWorkID"  : param,
         "ACAccntID" : this.globalServiceService.getacAccntID(),
-        "WKRating"  : this.wkrating,
+        "WKRating"  : this.wkrating1,
         "WKReview"  : coment,
         "WKSmlyCnt" : "4"
     }
