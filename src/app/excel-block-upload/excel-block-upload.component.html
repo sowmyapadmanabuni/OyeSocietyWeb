@@ -211,11 +211,10 @@
                     <div id="showmanual" style="margin-top: 30px;">
 
                         <div class="tab-pane">
-                            
-                            <ul class="nav nav-tabs">
-                                <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}"><a
+                            <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;height:54px;">
+                                <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
                                         href="#{{objct.Id}}" (click)="assignBlkarrTmpid(objct.Id)"
-                                        data-toggle="tab">{{objct.blockname|uppercase}}
+                                        data-toggle="tab" style="display: flex;width: auto;">{{objct.blockname|uppercase}}
                                         &nbsp;&nbsp;<span></span>
                                         <!-- <i [hidden]="objct.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i> -->
                                         &nbsp;
@@ -223,6 +222,16 @@
                                         <i [hidden]="objct['hasNoDuplicateBlockname']==true" class="fa fa-circle-thin" style="color: #ff0505" aria-hidden="true"></i>
                                     </a></li>
                             </ul>
+                            <!-- <ul class="nav nav-tabs">
+                                <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}"><a
+                                        href="#{{objct.Id}}" (click)="assignBlkarrTmpid(objct.Id)"
+                                        data-toggle="tab">{{objct.blockname|uppercase}}
+                                        &nbsp;&nbsp;<span></span>
+                                        &nbsp;
+                                        <i [hidden]="objct.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
+                                        <i [hidden]="objct['hasNoDuplicateBlockname']==true" class="fa fa-circle-thin" style="color: #ff0505" aria-hidden="true"></i>
+                                    </a></li>
+                            </ul> -->
                             <div class="tab-content">
                                 <div [ngStyle]="{'display':obj.Id==obj.blockTmpid ? 'block' : 'none' }" *ngFor="let obj of blocksArray;let i= index" class="tab-pane">
                                     <div id="{{obj.Id}}" class="blockdetailsdata" style="display: flex;flex-direction: column;align-items: stretch;justify-content: space-evenly;margin-top: 20px;">
