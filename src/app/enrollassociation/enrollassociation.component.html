@@ -997,7 +997,7 @@
                     <div class="tab-content col-md-10">
                         <div *ngFor="let iitem of blocksArray;let i=index">
                             <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
-                                <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'block' : 'none' }" style="display: flex;overflow-x: scroll;    height: 42px;">
+                                <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll;    height: 42px;">
                                     <li  *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj.Id==obj.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
                                         <a href="#{{obj.Id}}" (click)="assignUnitTmpid(obj.Id,blocknameforIteration)" data-toggle="tab" style="display: flex;width: auto;">{{obj.flatno==''?'Unit':obj.flatno}}
                                             &nbsp;&nbsp;<span></span>
