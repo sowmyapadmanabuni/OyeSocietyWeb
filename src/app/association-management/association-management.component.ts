@@ -1889,7 +1889,7 @@ this.enblJoinAsnVew()
         this.associations = data.data.associationByAccount;
       }
       
-      console.log(this.associations);
+      //console.log(this.associations);
 
     });
   }
