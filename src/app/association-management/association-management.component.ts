@@ -300,7 +300,7 @@ export class AssociationManagementComponent implements OnInit {
   displayOwnerType: string;
   UniNameForJoinAssn: any;
   BlocksList:any[];
-  UnitsList:any[];
+  UnitsList:any[] = [];
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
     public viewAssnService: ViewAssociationService,
@@ -1726,13 +1726,25 @@ this.enblJoinAsnVew()
     });
     this.modalRef1 = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
-
+  commonunit: boolean;
   openunitModaltemplate(unitModaltemplate: TemplateRef<any>,blBlockID){
     console.log(blBlockID);
+    let Commonarray = [];
+    this.UnitsList = [];
     this.viewUniService.GetUnitListByBlockID(blBlockID).subscribe(data => {
       console.log('UnitList', data);
-
-       this.UnitsList = data['data'].unitsByBlockID;
+      let removecommonunit = [];
+      Commonarray = data['data'].unitsByBlockID;
+        
+        Commonarray.forEach((ele: any) => {
+          this.commonunit = ele.unUniName.endsWith("-Common");
+          if (this.commonunit) {
+            removecommonunit.push(ele);
+          }
+          else {
+            this.UnitsList.push(ele);
+          }
+        })
        console.log(this.UnitsList)
     },
     err=>{
@@ -1740,7 +1752,6 @@ this.enblJoinAsnVew()
     });
     this.modalRef2 = this.modalService.show(unitModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
-
   checkMobileNumberValidity(Id, BlockManagermobile) {
     console.log('blur');
     console.log(Id);
