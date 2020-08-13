@@ -87,7 +87,7 @@ div .stepwizard-step li{
     padding-top: 42px;
 } */
 .association-form{
-    padding:42px;
+    padding:16px 42px;
     display: inline-flex;
 }
 .blockdetails-form{
@@ -97,7 +97,15 @@ div .stepwizard-step li{
 
 }
 #pancardupload{
-    margin-left: 50px;
+    position: absolute;
+    /* position: relative; */
+    top: 31px;
+    left: 861px;
+}
+img#pancardimg {
+    position: relative;
+    left: 200px;
+    bottom: 22px;
 }
 #unitbulkbutton{
     display: inline-block;
@@ -110,11 +118,11 @@ div .stepwizard-step li{
 .fa-question-circle:before {
     font-size: 20px !important;
 }
-.fa {
+/* .fa {
     position: absolute;
     margin-left: 126px;
     margin-top: 32px;
-}
+} */
 .tooltipicon{
     font-size: 20px !important;
 
@@ -172,9 +180,18 @@ input,label {
         /* width: 183px;
         margin-left: 47px; */
 }
-img.Upload1 {
+/* img.Upload1 {
     margin-left: 330px;
+} */
+img.Upload1 {
+    position: relative;
+    right: 48px;
 }
+.continue{
+    margin: 10px;
+    color: #ffffff !important;
+}
+
 /* small#examplepanno{
     margin-top: 53px;
     margin-left: -177px;
@@ -185,17 +202,37 @@ img.Upload1 {
     color: #ffffff !important;
 }
 .save{
-    float:right;
-    margin-top: 120px;
+    display: flex;
+    justify-content: center;
 }
 .continue{
     /* margin: 10px; */
     color: #ffffff !important;
 
 }
+a.previous{
+    margin-top: 38px;
+    color: #ffffff !important;
+    right: 11px;
+}
+.continueforresetpan{
+    margin-top: 38px;;
+    color: #ffffff !important;
+}
+a#pansubmit{
+    position: relative;
+    height: 35px;
+    top: 29px;
+    color: #ffffff !important;
+    margin: 9px;
+}
 #assdetailssave{
     color: #ffffff !important;
-
+    margin: 9px;
+}
+.save{
+    display: flex;
+    justify-content: center;
 }
 span.mat-button-wrapper {
     color: #ffffff;
@@ -206,9 +243,17 @@ span.mat-button-wrapper {
 }
 .association-form3{
     padding-top: 40px;
-    padding-left: 207px;
+    padding-left: 317px;
     display: inline-flex;
 
+}
+p.panextext{
+    color: grey;
+    font-size: 12px;
+    margin-top: 54px;
+    /* margin-left: 40px; */
+    /* margin-right: -4px; */
+    margin-left: -177px;
 }
 .blockdetailsdata{
     overflow-x: auto;
@@ -284,6 +329,15 @@ a.MANUAL{
 }
 .text{
     text-transform: uppercase;
+}
+.association-formcountry{
+    padding:16px 42px;
+    display: inline-flex;
+}
+i#assnuploadicon {
+    position: relative;
+    right: 131px;
+    top: 27px;
 }
 .fields{
     position: fixed;

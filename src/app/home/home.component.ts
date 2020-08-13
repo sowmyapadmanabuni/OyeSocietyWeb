@@ -743,6 +743,7 @@ export class HomeComponent implements OnInit {
     this.GetWorkersListByUnitID(unUnitID);
     this.GetFamilyMemberVehicleCountByAssocAcntUnitID(this.globalService.getacAccntID(),this.globalService.getCurrentAssociationId(),unUnitID);
     this.globalService.setResidentLevelInvoice('');
+    this.globalService.setCurrentAssociationIdForStaffList('');
   }
   AdminsUnitShow() {
     this.localMrmRoleId = 2;

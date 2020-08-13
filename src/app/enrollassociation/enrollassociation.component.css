@@ -47,7 +47,7 @@
     display: inline-flex;
 }
 .association-formcountry{
-    padding:16px 91px;
+    padding:16px 42px;
     display: inline-flex;
 }
 .blockdetails-form{
@@ -203,7 +203,11 @@ p.panextext{
 }
 .association-form3{
     padding-top: 40px;
-    padding-left: 207px;
+<<<<<<< HEAD
+    padding-left: 270px;
+=======
+    padding-left: 317px;
+>>>>>>> 9fafbd382e6595a243eb63a736a84def1baf750f
     display: inline-flex;
 
 }
@@ -230,12 +234,12 @@ img#pancardimg {
 }
 i#assnuploadicon {
     position: relative;
-    right: 70px;
-    top: 2px;
+    right: 131px;
+    top: 27px;
 }
 img.Upload1 {
     position: relative;
-    right: 48px;
+    right: 94px;
 }
 .resetforbulkunits{
     margin: 10px;
@@ -245,8 +249,8 @@ img.Upload1 {
 #manualunitssubmit{
     display: inline-block;
     /* margin-top: 0px; */
-    top: 46px;
-    margin-left: 434px;
+    /* top: 46px;
+    margin-left: 913px; */
 }
 .tab-selected
 {

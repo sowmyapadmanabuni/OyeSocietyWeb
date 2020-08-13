@@ -75,7 +75,7 @@
                                             <td>{{item['vldCreated'] | date:'d/M/y'}}</td>
                                             <td>{{item['vlEntryT'] | date:'shortTime'}}</td>
                                             <td>{{item['vlExitT'] | date:'shortTime'}}</td>
-                                            <td>{{item['vlMobile']}}</td>
+                                            <td>{{item['vlMobile'].includes("+91") ? item['inMobile'] : '+91'+ item['vlMobile']}}</td>
                                         </ng-container>
                                     </tr>
                                 </tbody>

@@ -273,9 +273,10 @@ public setMrmRoleID(MrmRoleID){
   setCurrentAssociationIdForStaffList(message:any){
    //localStorage.setItem('StaffListCalledOnce','false');
     console.log("setCurrentAssociationIdForStaffList", message)
-    this.CurrentAssociationIdForStaffList.next({ msg: message });
+    let assnid_accntid_unitid={assnid:localStorage.getItem("currentAssociationId"),accntid:Number(localStorage.getItem("login-status")),unitid:localStorage.getItem("currentUnitId")}
+    this.CurrentAssociationIdForStaffList.next(assnid_accntid_unitid);
   }
-  getCurrentAssociationIdForStaffList(): Observable<any>{
+  getCurrentAssociationIdForStaffList(){
     console.log("setCurrentAssociationIdForStaffList")
    return this.CurrentAssociationIdForStaffList.asObservable();
   }

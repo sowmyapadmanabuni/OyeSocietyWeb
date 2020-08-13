@@ -628,7 +628,7 @@ export class NotificationsComponent implements OnInit {
 
 
 
-            
+           
 
 
             // gateFirebase
@@ -643,7 +643,7 @@ export class NotificationsComponent implements OnInit {
             //     status: visitorStatus,
             //   });
 
-              
+             
             console.log(`NotificationSync/A_${associationid}/${visitorId}`);
             console.log(associationid, visitorId, DateOfApproval, visitorStatus,);
             this.changeViewOfActionButton=false;
@@ -764,3 +764,4 @@ export class NotificationsComponent implements OnInit {
       console.log(new Date());
     }
 }
+

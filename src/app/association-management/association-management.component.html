@@ -82,7 +82,7 @@
                   <td class="txt-middle">
                     <i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewAssociation"
                       (click)="openViewAssociation(viewreceiptmodal,item.asAsnName,item.asPrpName,item.asAddress,item.asNofUnit,item.asCountry,item.asPinCode,item.asState,item.asPrpType,item.asNofBlks,item.asRegrNum,item.asAsnLogo,item.asCity,item.aspanNum,item.aspanDoc,item.asAssnID,item.asgstNo)"></i>
-                    | <i (click)="OpenModal(template,item.asAsnName,item.asCountry,item.asAddress,item.asCity,item.asState,item.asPinCode,item.asPrpType,item.asPrpName,item.asNofBlks,item.asNofUnit,item.amType,item.noofAmenities,item.baBName,item.baIFSC,item.baActNo,item.baActType,item.asAssnID,'BAACID','AMID',item['asWebURL'],item['asAsnEmail'])"
+                    | <i (click)="OpenModal(template,item.asAsnName,item.asCountry,item.asAddress,item.asCity,item.asState,item.asPinCode,item.asPrpType,item.asAsnLogo,item.asPrpName,item.aspanNum,item.aspanDoc,item.asgstNo,item.asNofBlks,item.asNofUnit,item.amType,item.noofAmenities,item.baBName,item.baIFSC,item.baActNo,item.baActType,item.asAssnID,'BAACID','AMID',item['asWebURL'],item['asAsnEmail'])"
                       class="fa fa-pencil" style="cursor: pointer;" tooltip="EditAssociation"></i>
                   </td>
                 </ng-container>
@@ -1081,7 +1081,7 @@
             <h5 style="color:#5a51aa">PAN and GST Details</h5>
             <div class="col-sm-3 np">
                 <p class="view-head"><b>Pan no</b></p>
-                <p>{{panno}}</p>
+                <p>{{panno.toUpperCase()}}</p>
               </div>
               <div class="col-sm-3 np">
                 <p class="view-head" *ngIf="gstno!=''"><b>GSTNumber</b></p>
@@ -1404,7 +1404,7 @@
     <div class="modal-header">
       
       <h4 class="modal-title">Blocks</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -1412,7 +1412,7 @@
       <div class="dash-row">
         <table class="table table-bordered"
             [mfData]="BlocksList"
-            #mf="mfDataTable" (click)="onPageChange($event)">
+            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?BlocksList.length:setnoofrows">
             <thead>
                 <tr>
                     <th>
@@ -1435,10 +1435,11 @@
                         <td colspan="5" align="center">No Data Found</td>
                     </ng-container>
                     <ng-container *ngIf="item!=-1">
-                        <td class="txt-middle">{{  i+1 }}</td>
+                      <td class="txt-middle">{{  i+1 }}</td>
+                        <!-- <td class="txt-middle">{{  i+1 }}</td> -->
                         <td>{{item['blBlkName']}}</td>
                         <td>{{item['blBlkType']}}</td>
-                        <td class="txt-middle">{{item['blNofUnit']}}</td>
+                        <td class="txt-middle" style="cursor: pointer;" (click)="openunitModaltemplate(unitModaltemplate,item['blBlockID'])" tooltip="ViewUnits">{{item['blNofUnit']}}</td>
                     </ng-container>
                 </tr>
             </tbody>
@@ -1454,7 +1455,99 @@
     </div>
   </div>
 </ng-template>
+<ng-template #unitModaltemplate>
+  <div class="modal-content">
 
+    <div class="modal-header">
+      
+      <h4 class="modal-title">Units</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="dash-row">
+        <table class="table table-bordered"
+            [mfData]="UnitsList"
+            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?UnitsList.length:setnoofrows">
+            <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>
+                      <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
+                  </th>
+                  <!-- <th>
+                      <mfDefaultSorter (click)="removeColumnSort('UnitType')" by="unUniType">Unit Type&nbsp;<i [hidden]="columnName=='UnitType'" class="fa fa-sort"></i></mfDefaultSorter>
+                  </th> -->
+                  <th>
+                      <mfDefaultSorter (click)="removeColumnSort('OcStat')" by="unOcStat">Occupancy & Ownership Status&nbsp;<i [hidden]="columnName=='UnitType'" class="fa fa-sort"></i></mfDefaultSorter>
+                  </th>
+                  <!-- <th>
+                      <mfDefaultSorter (click)="removeColumnSort('UnitDimension')" by="unDimens">Unit Dimension&nbsp;<i [hidden]="columnName=='UnitDimension'" class="fa fa-sort"></i></mfDefaultSorter>
+                  </th> -->
+                  <th>
+                      <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name&nbsp;<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
+                  </th>
+                  <th>
+                      <mfDefaultSorter (click)="removeColumnSort('Email')" by="uoEmail">Email&nbsp;<i [hidden]="columnName=='Email'" class="fa fa-sort"></i></mfDefaultSorter>
+                  </th>
+                 
+                    <!-- <th>
+                      <mfDefaultSorter (click)="removeColumnSort('OwnerFirstname')" by="blNofUnit">Owner Firstname&nbsp;<i [hidden]="columnName=='OwnerFirstname'" class="fa fa-sort"></i></mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter (click)="removeColumnSort('OwnerLastname')" by="blNofUnit">Owner Lastname&nbsp;<i [hidden]="columnName=='OwnerLastname'" class="fa fa-sort"></i></mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter (click)="removeColumnSort('OwnerMobilenumber')" by="blNofUnit">Owner Mobilenumber&nbsp;<i [hidden]="columnName=='OwnerMobilenumber'" class="fa fa-sort"></i></mfDefaultSorter>
+              </th>
+              <th>
+                <mfDefaultSorter (click)="removeColumnSort('OwnerEmailId')" by="blNofUnit">Owner EmailId&nbsp;<i [hidden]="columnName=='OwnerEmailId'" class="fa fa-sort"></i></mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter (click)="removeColumnSort('TenantFirstname')" by="blNofUnit">Tenant Firstname&nbsp;<i [hidden]="columnName=='TenantFirstname'" class="fa fa-sort"></i></mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter (click)="removeColumnSort('TenantLastname')" by="blNofUnit">Tenant Lastname&nbsp;<i [hidden]="columnName=='TenantLastname'" class="fa fa-sort"></i></mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter (click)="removeColumnSort('TenantMobilenumber')" by="blNofUnit">Tenant Mobilenumber&nbsp;<i [hidden]="columnName=='TenantMobilenumber'" class="fa fa-sort"></i></mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter (click)="removeColumnSort('TenantEmailId')" by="blNofUnit">Tenant EmailId&nbsp;<i [hidden]="columnName=='TenantEmailId'" class="fa fa-sort"></i></mfDefaultSorter>
+    </th> -->
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mf.data;let i=index">
+                    <ng-container *ngIf="item == -1">
+                        <td colspan="5" align="center">No Data Found</td>
+                    </ng-container>
+                    <ng-container *ngIf="item!=-1">
+                        <td class="txt-middle">{{  i+1 }}</td>
+                        <td>{{item['unUniName']}}</td>
+                        <td>{{item['unOcStat']}}</td>
+                        <td>{{(item.owner.length > 0 ? item.owner[0].uofName : ((item.tenant.length > 0) ? item.tenant[0].utfName :''))}}
+                        </td>
+                        <td>{{(item.owner.length > 0 ? item.owner[0].uoEmail : ((item.tenant.length > 0) ? item.tenant[0].utEmail :''))}}
+                        </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    </div>
+  </div>
+</ng-template>
 
 <!--Request a Demo pop up box-->
 <ng-template #reqdemo>
@@ -1469,7 +1562,7 @@
       <div *ngFor="let city of cities" (click)="fliterCity(city['name'])" class="cityui">
         <img style="width: 50%;" src="{{'data:image/png;base64,'+city['image']}}">{{city['name']}}</div>
       <div (click)="fliterotherCity('Others')"class="cityui">Other Cities</div>
-      <div style="padding: 30px 0px;font-weight: 500;">Want OyeSpace? <a hrfe="https://www.oyespace.com/" target="_blank">Click here</a></div>
+      <div style="padding: 30px 0px;font-weight: 500;">Want ScuareX gate? <a href="http://scuarex.com/" target="_blank">Click here</a></div>
 		</div>
 	</div>
 </ng-template>

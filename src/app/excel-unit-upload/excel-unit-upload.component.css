@@ -49,7 +49,7 @@
     display: inline-flex;
 }
 .association-formcountry{
-    padding:16px 91px;
+    padding:16px 42px;
     display: inline-flex;
 }
 .blockdetails-form{
@@ -154,11 +154,16 @@ input,label {
 }
 .save{
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 .continue{
     margin: 10px;
     color: #ffffff !important;
+}
+.resetmanualunits{
+    margin: 10px;
+    color: #ffffff !important;
+    right: 150px;
 }
 .continueforresetpan{
     margin-top: 38px;;
@@ -210,10 +215,22 @@ p.panextext{
 
 }
 #unitssubmit{
-        display: inline-block;
-        margin-top: 0px;
-        top: 45px;
-        margin-left: 1116px;
+    display: inline-block;
+    margin-top: 0px;
+    top: 46px;
+    margin-left: 449px;
+}
+
+.resetforbulkunits{
+    margin: 10px;
+    color: #ffffff !important;
+    right: 150px;
+}
+#manualunitssubmit{
+    display: inline-block;
+    /* margin-top: 0px; */
+    /* top: 46px;
+    margin-left: 913px; */
 }
 .tab-selected
 {
@@ -261,11 +278,7 @@ input#file_upload_id {
     top: 124px;
     margin-left: 1179px;
 }
-.resetforunitsbulk1{
-    margin: 10px;
-    color: #ffffff !important;
-    right: 192px;
-}
+
 img.excel{
     margin: 44px;
 }
@@ -330,7 +343,7 @@ a.MANUAL{
     border-radius: 6px;
     font-weight: 500;}
 .green-lbl{
-    color: green;;
+    color: green;
 }
 .red-lbl{
     color: red;

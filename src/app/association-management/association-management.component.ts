@@ -2757,7 +2757,7 @@ this.enblJoinAsnVew()
     else{
       this.OnSendButton(this.OwnerType);
     }
-    //console.log(this.OwnerType);
+    console.log(this.OwnerType);
     }
     else{
       this.OnSendButton(7);

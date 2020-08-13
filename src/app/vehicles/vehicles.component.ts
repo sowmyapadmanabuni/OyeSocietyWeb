@@ -136,7 +136,6 @@ export class VehiclesComponent implements OnInit {
         this.VehicleDataForRealtimeReload = data['data']['vehicleListByUnitID'];
 
 
-        // if(data['data']['vehicleListByUnitID'].length > this.VehicleDataForRealtimeReload.length){
         console.log(this.VehicleData);
         this.VehicleData.forEach(item => {
           if (this.VehicleData.length > 0) {
@@ -163,7 +162,6 @@ export class VehiclesComponent implements OnInit {
         }
         console.log(this.VehicleCarousel);
         console.log(this.VehicleCarousel1);
-      // }
       },
         err => {
           //console.log(err);
