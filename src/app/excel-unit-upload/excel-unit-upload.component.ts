@@ -707,6 +707,19 @@ export class ExcelUnitUploadComponent implements OnInit {
         $(".se-pre-con").fadeOut("slow");
         if (this.unitsuccessarray.length == 1) {
           this.message = 'Unit Created Successfully'
+          if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
+            this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
+                              ${this.invalidUnitCount} Invalid
+                              ${this.duplicateUnitCount} Duplicate`
+          }
+          else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
+            this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
+                              ${this.invalidUnitCount} Invalid`
+          }
+          else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
+            this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
+                              ${this.duplicateUnitCount} Duplicate`
+          }
         }
         else if (this.unitsuccessarray.length > 1) {
           if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
