@@ -24,7 +24,7 @@
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu fullw fdrop"
                                     style="height: 200px !important;  overflow-x: scroll;">
-                                    <li *ngFor="let item of staffs"
+                                    <li *ngFor="let item of staffs3"
                                         (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'],item['workerstatuses'])">
                                         <a>{{item['wkfName']}}</a></li>
 
@@ -436,8 +436,8 @@
                 </div>
                 <div>
                     <label>Comments:</label>
-                    <textarea rows="5" cols="5" name="comment" [(ngModel)]="comment"
-                        style="width: 100%">{{item['WKReview']}}</textarea>
+                    <textarea rows="5" cols="5" name="comment" [(ngModel)]="wkReview"
+                        style="width: 100%"></textarea>
                 </div>
                 <button (click)="updateReview(item['wkWorkID'],comment)"
                     class="btn btn-primary-purple nextBtn">Update</button>

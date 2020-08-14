@@ -43,6 +43,7 @@ export class StaffComponent implements OnInit {
   reportlists: any[];
   WorkerID: any;
   staffs: any[];
+  staffs3:any[];
   wkidtype:any;
   wkidimage:any;
   otherStaff: any[];
@@ -59,9 +60,12 @@ export class StaffComponent implements OnInit {
   bsConfig: {dateInputFormat: string; showWeekNumbers: boolean; isAnimated: boolean;};
   StaffStartDate:any;
   StaffEndDate:any;
+  wkReview: any;
 
   constructor(private router: Router, private domSanitizer: DomSanitizer,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
+      this.staffs3=[];
+      this.wkReview='';
       this.StaffStartDate='';
       this.StaffEndDate='';
       this.bsConfig = Object.assign({}, {
@@ -115,12 +119,23 @@ this.enableviewDocuments=false;
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
       .set('Content-Type', 'application/json');
-    this.http.get(`https://uatapi.scuarex.com/oye247/api/v1/GetWorkerListByAssocIDAccountIDAndUnitID/${this.globalServiceService.getCurrentAssociationId()}/${this.globalServiceService.getacAccntID()}/${this.globalServiceService.getCurrentUnitId()}`, { headers: headers })
+    this.http.get(`${ipAddress}oye247/api/v1/GetWorkerListByAssocIDAccountIDAndUnitID/${this.globalServiceService.getCurrentAssociationId()}/${this.globalServiceService.getacAccntID()}/${this.globalServiceService.getCurrentUnitId()}`, { headers: headers })
       .subscribe(
         (response) => {
           console.log(response);
           this.staffs = response['data']['worker'];
-          //console.log(this.staffs);
+          this.staffs.forEach(item=>{
+            if(item['workerstatuses'].length > 0){
+              item['workerstatuses'].forEach(itm=>{
+                if(itm['unUniName']==this.globalServiceService.getCurrentUnitName()){
+                  if(itm['wkAprStat']=="Approved"){
+                    this.staffs3.push(item);
+                  }
+                }
+              })
+            }
+          })
+          console.log(this.staffs3);
         },
         (error) => {
           console.log(error);
@@ -137,8 +152,10 @@ this.enableviewDocuments=false;
         if(item.unUniName == this.globalServiceService.getCurrentUnitName()){
           this.wkrating1=item.wkRating;
           this.wkrating=item.wkRating;
+          this.wkReview=item['wkReview'];
           console.log(this.wkrating);
           console.log(this.wkrating1);
+          console.log(this.wkReview);
         }
       })
     }
@@ -205,7 +222,7 @@ this.enableviewDocuments=false;
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
       .set('Content-Type', 'application/json');
-          this.http.post('https://uatapi.scuarex.com/oye247/api/v1/Worker/GetWorkerListByDatesAssocAndUnitID',input, { headers: headers })
+          this.http.post(`${ipAddress}oye247/api/v1/Worker/GetWorkerListByDatesAssocAndUnitID`,input, { headers: headers })
           .subscribe(
             (response) => {
               console.log(response);
@@ -231,7 +248,7 @@ getotherStaffbyDesignation(desgid,wtDesgn){
     .set('Authorization', 'my-auth-token')
     .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
     .set('Content-Type', 'application/json');
-        this.http.get(`https://uatapi.scuarex.com/oye247/api/v1/GetWorkersListByDesignationAndAssocID/${this.globalServiceService.getCurrentAssociationId()}/${wtDesgn}`, { headers: headers })
+        this.http.get(`${ipAddress}oye247/api/v1/GetWorkersListByDesignationAndAssocID/${this.globalServiceService.getCurrentAssociationId()}/${wtDesgn}`, { headers: headers })
         .subscribe(
           (response) => {
             console.log(response);
