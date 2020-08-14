@@ -799,16 +799,16 @@ export class ExcelBlockUploadComponent implements OnInit {
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.invalidBlockCount} Invalid
                          ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.duplicateBlockCount} Duplicate`;
             }
           }

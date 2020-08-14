@@ -2068,6 +2068,57 @@ export class EnrollassociationComponent implements OnInit {
         }, 1000)
         console.log(this.commonblockarray);
       }
+      else if(this.duplicateBlockArr.length > 0){
+        document.getElementById('upload_excel').style.display = 'none'
+        document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
+        document.getElementById('showmanual').style.display = 'block';
+        let displaymessage='';
+        if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
+          displaymessage = `${this.invalidBlockCount} Invalid
+                            ${this.duplicateBlockCount} Duplicate`;
+        }
+        else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+          displaymessage = `${this.invalidBlockCount} Invalid`;
+        }
+        else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+          displaymessage = `${this.duplicateBlockCount} Duplicate`;
+        }
+        Swal.fire({
+          title: displaymessage,
+          text: "",
+          type: "success",
+          confirmButtonColor: "#f69321",
+          confirmButtonText: "OK"
+        }).then(
+          (result) => {
+            if (result.value) {
+              this.duplicateBlocknameExist = true;
+              this.blocksArray = [];
+              this.duplicateBlockArr.forEach(itm1 => {
+                itm1.markedasduplicate = 0;
+                this.blocksArray.push(itm1);
+              })
+              this.blocksArray.forEach(iitm => {
+                if (iitm.markedasduplicate == 0) {
+                  console.log(iitm);
+                  iitm.blockTmpid = '';
+                  if (!this.duplicatemarked) {
+                    this.duplicatemarked = true;
+                    console.log(iitm);
+                    iitm.blockTmpid = iitm.Id;
+                  }
+                  console.log(iitm.blockTmpid);
+                }
+                else {
+                  iitm.blockTmpid = '';
+                }
+              })
+              this.blocksArray = _.sortBy(this.blocksArray, "markedasduplicate");
+              console.log(this.blocksArray.length);
+              console.log(this.blocksArray);
+            }
+          })
+      }
     }
     //}
   }

@@ -71,7 +71,7 @@
                             <ng-container *ngIf="item == -1">
                                 <td colspan="5" align="center">No Data Found</td>
                             </ng-container>
-                            <ng-container *ngIf="item!=-1">
+                            <ng-container *ngIf="item['unOcStat']!='UnSold Vacant Unit'">
                                 <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
                                 <td>{{item['block'] == null || item['block'] == undefined ? '' : item['block']['blBlkName']}}</td>
                                 <td>{{item['unUniName']}}</td>
@@ -81,7 +81,7 @@
                                 <!-- <td class="txt-middle">{{item['vehcleCount']}}</td> -->
                                 <td>{{item['owner'].length == 0 ? '' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td>
                                 <td class="txt-middle">
-                                    <div *ngIf="item['uoRoleID']!=''" class="dropdown search-dropd" style="margin-top:0px">
+                                    <div *ngIf="item['unOcStat']=='Sold Owner Occupied Unit'" class="dropdown search-dropd" style="margin-top:0px">
                                         <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"
                                                 data-toggle="dropdown">{{(SelectedUnitID==item['unUnitID']?ChangeRole:'SelectRole')}}
                                                 <span class="caret"></span></button>
