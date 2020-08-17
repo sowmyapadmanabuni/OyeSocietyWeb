@@ -954,6 +954,7 @@ export class EnrollassociationComponent implements OnInit {
             } 
           })
           if (found) {
+            this.duplicateUnitCount += 1;
             this.unitlistduplicatejson.push(unitgroup[element][0]);
           }
           else {
@@ -1054,6 +1055,7 @@ export class EnrollassociationComponent implements OnInit {
               unit.isUnitCreated = true;
               unit.isUnitNotCreated = false;
               this.totalUnitcount += 1;
+              console.log('totalUnitcount',this.totalUnitcount);
             }, error => {
               console.log(error);
               this.exceptionMessage1 = error['error']['exceptionMessage'];
@@ -1287,7 +1289,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       //this.increasingBlockArrLength += 1;
-    }, Number(this.unitlistjson[name].length) * 2000)
+    }, Number(this.unitlistjson[name].length) * 3000)
     //}
   }
   exceptionMessage = '';
