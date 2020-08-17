@@ -947,12 +947,22 @@ export class EnrollassociationComponent implements OnInit {
           })
         }
         else if (unitgroup[element].length == 1) {
-          unitgroup[element].forEach(item => {
-            console.log(item);
-            item.hasNoDuplicateUnitname = true;
-            item.disableField = true;
-            this.unitlistuniquejson1.push(item);
+          let found = this.unitlistduplicatejson.some(el => {
+            console.log(el.flatno);
+            if(el.flatno != undefined){
+             return el.flatno.toLowerCase() == unitgroup[element][0].flatno.toLowerCase();
+            } 
           })
+          if (found) {
+            this.unitlistduplicatejson.push(unitgroup[element][0]);
+          }
+          else {
+            unitgroup[element].forEach(item => {
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+              this.unitlistuniquejson1.push(item);
+            })
+          }
         }
       })
       /***/
