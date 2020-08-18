@@ -267,6 +267,7 @@ getotherStaffbyDesignation(desgid,wtDesgn){
 
 
 goToStaff(){
+  this.staffReports=[];
   this.showStaffReports=true;
   this.showOtherstaff=false;
     this.showstaffBydesignation=false;
@@ -416,6 +417,7 @@ this.showStaffReports=false;
     this.condition=true;
     this.condition1=false;
     this.router.navigate(['staffs']);
+  // this.staffReports=[];
   }
   goToGuests() {
     this.router.navigate(['visitors']);

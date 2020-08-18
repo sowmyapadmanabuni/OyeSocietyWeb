@@ -178,7 +178,7 @@
                                                     <ng-container *ngIf="item!=-1">
                                                         <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
                                                         <td> <img style="border-radius: 40px;"
-                                                            src="{{'data:image/png;base64,'+item['idPrfImg']}}" width="50px"
+                                                            src="{{'data:image/jpeg;base64,'+item['idPrfImg']}}" width="50px"
                                                             height="50px" /> </td>
                                                         <td>{{item['wkfName']}}</td>
                                                         <td>{{item['wkDesgn']}}</td>   
@@ -246,6 +246,7 @@
                                             </ng-container>
 
                                         </tr>
+                                        
 
                                     </tbody>
 
@@ -437,7 +438,7 @@
                 <div>
                     <label>Comments:</label>
                     <textarea rows="5" cols="5" name="comment" [(ngModel)]="wkReview"
-                        style="width: 100%"></textarea>
+                        style="width: 100%">{{wkReview}} </textarea>
                 </div>
                 <button (click)="updateReview(item['wkWorkID'],comment)"
                     class="btn btn-primary-purple nextBtn">Update</button>
