@@ -3243,6 +3243,36 @@ export class EnrollassociationComponent implements OnInit {
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
       }
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+        let blockgroup = this.blocksArray.reduce((r, a) => {
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
+        }, {});
+        console.log("block_group", blockgroup);
+        Object.keys(blockgroup).forEach(key => {
+           if (blockgroup[key].length == 1) {
+            blockgroup[key].forEach(itm1=>{
+              this.blocksArray.forEach(itm2=>{
+                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                    itm2.hasNoDuplicateBlockname = true;
+                    console.log('blockgroup[key].length == 1 this.isblockdetailsempty = false');
+                  }
+                  else{
+                    itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
+                    console.log('blockgroup[key].length == 1 this.isblockdetailsempty = true');
+                  }
+                }
+              })
+            })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
+            console.log('blockgroup[key].length > 1');
+          }
+        })
+      }
     })
   }
   getnoofunits(Id, units) {
@@ -3284,10 +3314,14 @@ export class EnrollassociationComponent implements OnInit {
                   }
                   else{
                     itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
                   }
                 }
               })
             })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
           }
         })
       }
@@ -3331,10 +3365,14 @@ export class EnrollassociationComponent implements OnInit {
                   }
                   else{
                     itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
                   }
                 }
               })
             })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
           }
         })
       }
@@ -3378,10 +3416,14 @@ export class EnrollassociationComponent implements OnInit {
                   }
                   else{
                     itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
                   }
                 }
               })
             })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
           }
         })
       }
@@ -3425,10 +3467,14 @@ export class EnrollassociationComponent implements OnInit {
                   }
                   else{
                     itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
                   }
                 }
               })
             })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
           }
         })
       }
