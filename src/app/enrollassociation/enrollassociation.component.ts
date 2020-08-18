@@ -947,12 +947,23 @@ export class EnrollassociationComponent implements OnInit {
           })
         }
         else if (unitgroup[element].length == 1) {
-          unitgroup[element].forEach(item => {
-            console.log(item);
-            item.hasNoDuplicateUnitname = true;
-            item.disableField = true;
-            this.unitlistuniquejson1.push(item);
+          let found = this.unitlistduplicatejson.some(el => {
+            console.log(el.flatno);
+            if(el.flatno != undefined){
+             return el.flatno.toLowerCase() == unitgroup[element][0].flatno.toLowerCase();
+            } 
           })
+          if (found) {
+            this.duplicateUnitCount += 1;
+            this.unitlistduplicatejson.push(unitgroup[element][0]);
+          }
+          else {
+            unitgroup[element].forEach(item => {
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+              this.unitlistuniquejson1.push(item);
+            })
+          }
         }
       })
       /***/
@@ -1044,6 +1055,7 @@ export class EnrollassociationComponent implements OnInit {
               unit.isUnitCreated = true;
               unit.isUnitNotCreated = false;
               this.totalUnitcount += 1;
+              console.log('totalUnitcount',this.totalUnitcount);
             }, error => {
               console.log(error);
               this.exceptionMessage1 = error['error']['exceptionMessage'];
@@ -1277,7 +1289,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       //this.increasingBlockArrLength += 1;
-    }, Number(this.unitlistjson[name].length) * 2000)
+    }, Number(this.unitlistjson[name].length) * 3000)
     //}
   }
   exceptionMessage = '';
