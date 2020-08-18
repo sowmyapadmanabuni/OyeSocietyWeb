@@ -1707,7 +1707,6 @@ this.enblJoinAsnVew()
     });
   }
   openblockModaltemplate(blockModaltemplate: TemplateRef<any>,asAssnID){
-    console.log(this.assnID);
     this.ViewBlockService.getBlockDetails(asAssnID).subscribe(data => {
       this.BlocksList = data['data'].blocksByAssoc;
       console.log('BlocksList', this.BlocksList);

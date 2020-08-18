@@ -579,7 +579,7 @@ export class BlocksComponent implements OnInit {
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
     this.BLMgrName = blMgrName;
-    this.BLMgrMobile = blMgrMobile;
+    this.BLMgrMobile = blMgrMobile.includes("+91") ? blMgrMobile : '+91'+ blMgrMobile
     this.BLMgrEmail = blMgrEmail;
     this.ASMtType = asMtType;
     this.ASMtFRate = asMtFRate;
