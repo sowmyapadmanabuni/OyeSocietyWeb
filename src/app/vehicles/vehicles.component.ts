@@ -176,6 +176,7 @@ export class VehiclesComponent implements OnInit {
 
   // ADD VEHICLE FUNCTION
   AddVehicle() {
+   
     let vehiclesData = {
       'veMakeMdl': this.veMakeMdl,
       'veRegNo': this.veRegNo,
@@ -253,6 +254,12 @@ export class VehiclesComponent implements OnInit {
     this.modalRef.hide();
   }
   openModal(editVehicle: TemplateRef<any>, veType, veRegNo, veMakeMdl, veStickNo, uplNum, veid) {
+    this.veMakeMdl = '';
+    this.veRegNo = '';
+    this.veStickNo = '';
+    this.uplNum = '';
+   // console.log(this.uplNum);
+    this.veType = '';
     console.log(veType);
     console.log(veRegNo);
     console.log(veMakeMdl);

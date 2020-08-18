@@ -197,19 +197,19 @@ export class UnitsComponent implements OnInit {
       if(this.occupencyInEditUnit=="Sold Owner Occupied Unit"||this.occupencyInEditUnit=="Sold Vacant Unit"){
         this.ownerFirtname=item.owner[0].uofName;
         this.ownerLastname=item.owner[0].uolName;
-        this.ownerMobnumber=item.owner[0].uoMobile.includes("+91") ? item.owner[0].uoMobile.slice(3) : item.owner[0].uoMobile;
+        this.ownerMobnumber=item.owner[0].uoMobile.includes("+91") ? item.owner[0].uoMobile : '+91'+ item.owner[0].uoMobile;
         this.ownerEmail=item.owner[0].uoEmail;
   
       }
       else if(this.occupencyInEditUnit=="Sold Tenant Occupied Unit"){
         this.ownerFirtname=item.owner[0].uofName;
         this.ownerLastname=item.owner[0].uolName;
-        this.ownerMobnumber=item.owner[0].uoMobile.includes("+91") ? item.owner[0].uoMobile.slice(3) : item.owner[0].uoMobile;
+        this.ownerMobnumber=item.owner[0].uoMobile.includes("+91") ? item.owner[0].uoMobile : '+91'+ item.owner[0].uoMobile;
         this.ownerEmail=item.owner[0].uoEmail;
 
         this.tenantFirtname=item.tenant[0].utfName;
         this.tenantLastname=item.tenant[0].utlName;
-        this.tenantMobnumber= item.tenant[0].utMobile.includes("+91") ? item.tenant[0].utMobile.slice(3) : item.tenant[0].utMobile;
+        this.tenantMobnumber= item.tenant[0].utMobile.includes("+91") ? item.tenant[0].utMobile : '+91'+ item.tenant[0].utMobile;
         this.tenantEmail=item.tenant[0].utEmail;
 
        
@@ -217,7 +217,7 @@ export class UnitsComponent implements OnInit {
       else if(this.occupencyInEditUnit=="UnSold Tenant Occupied Unit"){
         this.tenantFirtname=item.tenant[0].utfName;
         this.tenantLastname=item.tenant[0].utlName;
-        this.tenantMobnumber= item.tenant[0].utMobile.includes("+91") ? item.tenant[0].utMobile.slice(3) : item.tenant[0].utMobile;
+        this.tenantMobnumber= item.tenant[0].utMobile.includes("+91") ? item.tenant[0].utMobile : '+91'+ item.tenant[0].utMobile;
         this.tenantEmail=item.tenant[0].utEmail;
       }
      else{
