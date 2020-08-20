@@ -1208,7 +1208,7 @@ export class ExcelUnitUploadComponent implements OnInit {
       })
     })
   }
-  resetStep5bulk(ev,blknamecommon){
+  resetStep5bulk(ev, blknamecommon, Id) {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to reset?",
@@ -1222,55 +1222,140 @@ export class ExcelUnitUploadComponent implements OnInit {
         console.log(result)
 
         if (result.value) {
-          Object.keys(this.unitlistjson).forEach(element=>{
-            console.log(this.unitlistjson[element])
+
+          Object.keys(this.unitlistjson).forEach(element => {
             this.unitlistjson[element].forEach(unit => {
-      if(blknamecommon.toUpperCase() == unit.blockname.toUpperCase()&&unit.blockname!=undefined){
-      
-            unit.flatno="",
-            unit.blockname ="",
-            unit.owneremaiid="",
-            unit.ownerfirstname="",
-            unit.ownermobilenumber="",
-            unit.ownershipstatus="",
-            unit.unittype="",
-            unit.ownerlastname="",
-            unit.ownermobilenumber= "",
-            unit.owneremaiid="",
-            unit.tenantfirstname="",
-            unit.tenantlastname="",
-            unit.tenantmobilenumber="",
-            unit.tenantemaiid=""
-          }else{
-            let blname = unit.Id.slice(0, -2);
-            if(blknamecommon == blname){
-              unit.flatno="",
-              unit.blockname ="",
-              unit.owneremaiid="",
-              unit.ownerfirstname="",
-              unit.ownermobilenumber="",
-              unit.ownershipstatus="",
-              unit.unittype="",
-              unit.ownerlastname="",
-              unit.ownermobilenumber= "",
-              unit.owneremaiid="",
-              unit.tenantfirstname="",
-              unit.tenantlastname="",
-              unit.tenantmobilenumber="",
-              unit.tenantemaiid=""
-            }
-         
-          }
-      
+              if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
+                console.log(Id);
+                unit.flatno = "",
+                  unit.blockname = "",
+                  unit.owneremaiid = "",
+                  unit.ownerfirstname = "",
+                  unit.ownermobilenumber = "",
+                  unit.ownershipstatus = "",
+                  unit.unittype = "",
+                  unit.ownerlastname = "",
+                  unit.ownermobilenumber = "",
+                  unit.owneremaiid = "",
+                  unit.tenantfirstname = "",
+                  unit.tenantlastname = "",
+                  unit.tenantmobilenumber = "",
+                  unit.tenantemaiid = ""
+              }
             })
           })
         }
       })
 
 
-  
+
+    /* Object.keys(this.unitlistjson).forEach(element=>{
+       console.log(this.unitlistjson[element])
+       this.unitlistjson[element].forEach(unit => {
+ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
+ 
+       unit.flatno="",
+       unit.blockname ="",
+       unit.owneremaiid="",
+       unit.ownerfirstname="",
+       unit.ownermobilenumber="",
+       unit.ownershipstatus="",
+       unit.unittype="",
+       unit.ownerlastname="",
+       unit.ownermobilenumber= "",
+       unit.owneremaiid="",
+       unit.tenantfirstname="",
+       unit.tenantlastname="",
+       unit.tenantmobilenumber="",
+       unit.tenantemaiid=""
+     }else{
+       let blname = unit.Id.slice(0, -2);
+       if(blknamecommon == blname){
+         unit.flatno="",
+         unit.blockname ="",
+         unit.owneremaiid="",
+         unit.ownerfirstname="",
+         unit.ownermobilenumber="",
+         unit.ownershipstatus="",
+         unit.unittype="",
+         unit.ownerlastname="",
+         unit.ownermobilenumber= "",
+         unit.owneremaiid="",
+         unit.tenantfirstname="",
+         unit.tenantlastname="",
+         unit.tenantmobilenumber="",
+         unit.tenantemaiid=""
+       }
+    
+     }
+ 
+       })
+     }) */
 
   }
+  // resetStep5bulk(ev,blknamecommon){
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "Do you really want to reset?",
+  //     type: "warning",
+  //     confirmButtonColor: "#f69321",
+  //     confirmButtonText: "OK",
+  //     showCancelButton: true,
+  //     cancelButtonText: "CANCEL"
+  //   }).then(
+  //     (result) => {
+  //       console.log(result)
+
+  //       if (result.value) {
+  //         Object.keys(this.unitlistjson).forEach(element=>{
+  //           console.log(this.unitlistjson[element])
+  //           this.unitlistjson[element].forEach(unit => {
+  //     if(blknamecommon.toUpperCase() == unit.blockname.toUpperCase()&&unit.blockname!=undefined){
+      
+  //           unit.flatno="",
+  //           unit.blockname ="",
+  //           unit.owneremaiid="",
+  //           unit.ownerfirstname="",
+  //           unit.ownermobilenumber="",
+  //           unit.ownershipstatus="",
+  //           unit.unittype="",
+  //           unit.ownerlastname="",
+  //           unit.ownermobilenumber= "",
+  //           unit.owneremaiid="",
+  //           unit.tenantfirstname="",
+  //           unit.tenantlastname="",
+  //           unit.tenantmobilenumber="",
+  //           unit.tenantemaiid=""
+  //         }else{
+  //           let blname = unit.Id.slice(0, -2);
+  //           if(blknamecommon == blname){
+  //             unit.flatno="",
+  //             unit.blockname ="",
+  //             unit.owneremaiid="",
+  //             unit.ownerfirstname="",
+  //             unit.ownermobilenumber="",
+  //             unit.ownershipstatus="",
+  //             unit.unittype="",
+  //             unit.ownerlastname="",
+  //             unit.ownermobilenumber= "",
+  //             unit.owneremaiid="",
+  //             unit.tenantfirstname="",
+  //             unit.tenantlastname="",
+  //             unit.tenantmobilenumber="",
+  //             unit.tenantemaiid=""
+  //           }
+         
+  //         }
+      
+  //           })
+  //         })
+  //       }
+  //     })
+
+
+  
+
+  // }
   keyPress3(event:any){
     const pattern = /^[1-9][0-9]*$/;
    let inputChar = String.fromCharCode(event.charCode);

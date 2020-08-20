@@ -133,6 +133,37 @@ export class ExcelBlockUploadComponent implements OnInit {
      event.preventDefault();
    }
  }
+ 
+ resetforduplicatesorinvalidblocks(ev,objId) {
+  console.log('ev');
+  console.log(this.blocksArray);
+  console.log(objId);
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you really want to reset?",
+    type: "warning",
+    confirmButtonColor: '#f69321',
+    confirmButtonText: 'OK',
+    showCancelButton: true,
+    cancelButtonText: "CANCEL"
+  }).then(
+    (result) => {
+      console.log(result)
+      if (result.value) {
+        this.blocksArray.forEach(elemnt => {
+          if (elemnt.Id == objId) {
+            console.log('elemnt.Id==objId');
+            elemnt.blockname = '';
+            // elemnt.blocktype='';
+            elemnt.units = '';
+            elemnt.managername = '';
+            elemnt.managermobileno = '';
+            elemnt.manageremailid = '';
+          }
+        })
+      }
+    })
+}
   resetStep4(ev){
     Swal.fire({
       title: "Are you sure?",
