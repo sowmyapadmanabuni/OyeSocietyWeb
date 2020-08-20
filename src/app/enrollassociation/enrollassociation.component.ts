@@ -68,6 +68,8 @@ export class EnrollassociationComponent implements OnInit {
   invalidBlockCount:number;
   duplicateUnitCount:number;
   invalidUnitCount:number;
+  canDoBlockLogicalOrder:boolean;
+
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -75,6 +77,7 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.canDoBlockLogicalOrder=true;
       this.duplicateBlockCount=0;
       this.invalidBlockCount=0;
       this.duplicateUnitCount=0;
@@ -3363,6 +3366,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getblocknameornumber(Id, blockname) {
+    this.canDoBlockLogicalOrder=true;
     this.valueExcelBlckArr = [];
     this.ExcelBlkNameDuplicateList = [];
     this.ExcelBlkNameDuplicateList1 = [];
@@ -3432,6 +3436,24 @@ export class EnrollassociationComponent implements OnInit {
         })
       }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
   getnoofunits(Id, units) {
     this.isblockdetailsempty = false;
