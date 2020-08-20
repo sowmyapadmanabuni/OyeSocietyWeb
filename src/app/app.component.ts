@@ -202,7 +202,8 @@ export class AppComponent {
       alert("Your session has expired Kindly Login Again");
     }); 
     //
-    this.GetNotificationListCountByAccntID();
+    //this.GetNotificationListCountByAccntID();
+    this.GetFamilyMemberVehicleCountByAssocAcntUnitID();
   }
   ngAfterViewInit(){
   
@@ -375,6 +376,22 @@ export class AppComponent {
       err=>{
         console.log(err);
       })
+  }
+  GetFamilyMemberVehicleCountByAssocAcntUnitID() {
+    console.log(this.globalService.getCurrentAssociationId(),this.globalService.getacAccntID(),this.globalService.getCurrentUnitId());
+    let scopeIP = this.utilsService.getIPaddress();
+    let headers = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
+    this.http.get(scopeIP + `oyesafe/api/v1/GetFamilyMemberVehicleCountByAssocAcntUnitID/${Number(this.globalService.getCurrentAssociationId())}/${this.globalService.getacAccntID()}/${this.globalService.getCurrentUnitId()}`, { headers: headers })
+    .subscribe(data=>{
+      console.log(data);
+      this.globalService.AdminResidentActiveNotification=data['data']['notificationCount'];
+      console.log(this.globalService.AdminResidentActiveNotification);
+    },
+    err=>{
+      console.log(err);
+    })
   }
   UpdateApprovalStatus(sbMemID){
     console.log(sbMemID);
