@@ -68,6 +68,9 @@ export class EnrollassociationComponent implements OnInit {
   invalidBlockCount:number;
   duplicateUnitCount:number;
   invalidUnitCount:number;
+  canDoBlockLogicalOrder:boolean;
+  canDoUnitLogicalOrder:boolean;
+
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -75,6 +78,8 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.canDoBlockLogicalOrder=true;
+      this.canDoUnitLogicalOrder = true;
       this.duplicateBlockCount=0;
       this.invalidBlockCount=0;
       this.duplicateUnitCount=0;
@@ -1241,51 +1246,63 @@ export class EnrollassociationComponent implements OnInit {
       else {
         console.log('demo2TabIndex');
         if (!this.duplicateUnitrecordexist) {
-          let tmpArr = [];
-          if (this.unitlistuniquejson1.length > 0) {
-            this.unitlistuniquejson1.forEach(itm1 => {
-              tmpArr.push(itm1);
-            })
-          }
-          if (this.unitlistduplicatejson.length > 0) {
-            this.unitlistduplicatejson.forEach(itm1 => {
-              tmpArr.push(itm1);
-            })
-          }
-          this.unitlistjson[name] = [];
-          this.unitlistjson[name] = tmpArr;
-          console.log(this.unitlistjson[name]);
-          this.unitlistuniquejson = [];
-          this.unitlistuniquejson1 = [];
-          this.unitlistduplicatejson = [];
-          document.getElementById('unitupload_excel').style.display = 'none'
-          document.getElementById('unitshowmanual').style.display = 'block';
-          document.getElementById('unitsmanualnew').style.display = 'none';
-          document.getElementById('unitsbulkold').style.display = 'block';
-          //this.demo2TabIndex = this.demo2TabIndex + 1;
-          console.log(this.increasingBlockArrLength);
-          console.log(this.blockTabId);
-          //console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-          //let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-          //console.log(arr);
-          //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
-          //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
-          this.blockTabId += 1;
-          this.blocksArray.forEach((itm, indx) => {
-            if (itm.blockname.toLowerCase() == name.toLowerCase()) {
-              itm.isUnitsCreatedUnderBlock = true;
-              itm.isUnitsCreatedUnderBlock1 = false;
-              if (this.blocksArray[indx + 1] != undefined) {
-                console.log(this.blocksArray[indx + 1]['blockname']);
-                this.blocknameforIteration = this.blocksArray[indx + 1]['blockname'];
-                this.nextBlckId = this.blocksArray[indx + 1]['Id'];
-                console.log(this.blocknameforIteration);
-                console.log(this.nextBlckId);
+          let mesg = `${this.unitsuccessarray.length}-Unit Created Successfully`;
+          Swal.fire({
+            title: mesg,
+            text: "",
+            type: "success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          }).then(
+            (result) => {
+              if (result.value) {
+                let tmpArr = [];
+                if (this.unitlistuniquejson1.length > 0) {
+                  this.unitlistuniquejson1.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                if (this.unitlistduplicatejson.length > 0) {
+                  this.unitlistduplicatejson.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                this.unitlistjson[name] = [];
+                this.unitlistjson[name] = tmpArr;
+                console.log(this.unitlistjson[name]);
+                this.unitlistuniquejson = [];
+                this.unitlistuniquejson1 = [];
+                this.unitlistduplicatejson = [];
+                document.getElementById('unitupload_excel').style.display = 'none'
+                document.getElementById('unitshowmanual').style.display = 'block';
+                document.getElementById('unitsmanualnew').style.display = 'none';
+                document.getElementById('unitsbulkold').style.display = 'block';
+                //this.demo2TabIndex = this.demo2TabIndex + 1;
+                console.log(this.increasingBlockArrLength);
+                console.log(this.blockTabId);
+                //console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+                //let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+                //console.log(arr);
+                //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
+                //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+                this.blockTabId += 1;
+                this.blocksArray.forEach((itm, indx) => {
+                  if (itm.blockname.toLowerCase() == name.toLowerCase()) {
+                    itm.isUnitsCreatedUnderBlock = true;
+                    itm.isUnitsCreatedUnderBlock1 = false;
+                    if (this.blocksArray[indx + 1] != undefined) {
+                      console.log(this.blocksArray[indx + 1]['blockname']);
+                      this.blocknameforIteration = this.blocksArray[indx + 1]['blockname'];
+                      this.nextBlckId = this.blocksArray[indx + 1]['Id'];
+                      console.log(this.blocknameforIteration);
+                      console.log(this.nextBlckId);
+                    }
+                  }
+                })
+                this.isunitdetailsempty = false;
+                this.assignTmpid(this.nextBlckId, this.blocknameforIteration);
               }
-            }
-          })
-          this.isunitdetailsempty = false;
-          this.assignTmpid(this.nextBlckId, this.blocknameforIteration);
+            })
         }
       }
       //this.increasingBlockArrLength += 1;
@@ -1966,6 +1983,75 @@ export class EnrollassociationComponent implements OnInit {
         /**/
       })
     })
+    console.log(this.unitlistjson[name]);
+    let unitgroup_for_logicalorder = this.unitlistjson[name].reduce((r, a) => {
+      if(a.flatno != undefined){
+        r[a.flatno.toLowerCase()] = [...r[a.flatno.toLowerCase()] || [], a];
+        return r;
+      }
+    }, {});
+    if (Object.keys(unitgroup_for_logicalorder).length == this.unitlistjson[name].length) {
+      console.log(Object.keys(unitgroup_for_logicalorder).length, this.unitlistjson[name].length);
+      Object.keys(unitgroup_for_logicalorder).forEach(itm1=>{
+        unitgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.ownershipstatus == "Sold Owner Occupied Unit" || itm2.ownershipstatus == "Sold Vacant Unit") {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
+              itm2.owneremaiid == "" || itm2.owneremaiid == undefined ||
+              itm2.ownerfirstname == "" || itm2.ownerfirstname == undefined ||
+              itm2.ownerlastname == "" || itm2.ownerlastname == undefined ||
+              itm2.ownermobilenumber == "" || itm2.ownermobilenumber == undefined
+            ) {
+              this.canDoUnitLogicalOrder = false;
+            }
+          }
+          else if (itm2.ownershipstatus == "Sold Tenant Occupied Unit") {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.owneremaiid == "" || itm2.owneremaiid == undefined ||
+              itm2.ownerfirstname == "" || itm2.ownerfirstname == undefined ||
+              itm2.ownermobilenumber == "" || itm2.ownermobilenumber == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownerlastname == "" || itm2.ownerlastname == undefined ||
+              itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
+              itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
+              itm2.tenantmobilenumber == "" || itm2.tenantmobilenumber == undefined ||
+              itm2.tenantemaiid == "" || itm2.tenantemaiid == undefined) {
+                this.canDoUnitLogicalOrder = false;
+  
+            }
+          }
+          else if (itm2.ownershipstatus == "UnSold Tenant Occupied Unit") {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
+              itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
+              itm2.tenantmobilenumber == "" || itm2.tenantmobilenumber == undefined ||
+              itm2.tenantemaiid == "" || itm2.tenantemaiid == undefined) {
+                this.canDoUnitLogicalOrder = false;
+            }
+          }
+          else if (itm2.ownershipstatus == "UnSold Vacant Unit" || itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined
+            ) {
+              this.canDoUnitLogicalOrder = false;
+            }
+          }
+        })
+      })
+      if(this.canDoUnitLogicalOrder == true){
+        let tempUnitArr = _.sortBy(this.unitlistjson[name], "flatno");
+        console.log(tempUnitArr);
+        this.unitlistjson[name]=[];
+        console.log(this.unitlistjson[name]);
+        this.unitlistjson[name]=tempUnitArr;
+        console.log(this.unitlistjson[name]);
+      }
+    }
   }
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(this.form.controls).forEach(field => {
@@ -2833,6 +2919,7 @@ export class EnrollassociationComponent implements OnInit {
 
   unitmatching: boolean;
   getUnitName(Id, flatno, name) {
+    this.canDoUnitLogicalOrder = true;
     this.numberofunitexistence = 0;
     this.valueExcelUnitArr = [];
     Object.keys(this.unitlistjson).forEach(element => {
@@ -2875,9 +2962,10 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name, Id, flatno);
+    this.validateUnitDetailsField(name, Id, flatno); 
   }
   getUnittype(Id, unittype, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     console.log(Id, unittype, name, flatno);
     this.numberofunitexistence = 0;
     Object.keys(this.unitlistjson).forEach(element => {
@@ -2912,6 +3000,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getOwnerShipStatus(Id, unittype, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     console.log(Id, unittype, name);
     this.numberofunitexistence = 0;
     Object.keys(this.unitlistjson).forEach(element => {
@@ -2987,6 +3076,7 @@ export class EnrollassociationComponent implements OnInit {
      this.validateUnitDetailsField(name);
    } */
   getownerfirstname(Id, ownerfirstname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3034,6 +3124,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getownerlastname(Id, ownerlastname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3081,6 +3172,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getownermobilenumber(Id, ownermobilenumber, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3128,6 +3220,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getowneremaiid(Id, owneremaiid, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3175,6 +3268,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantfirstname(Id, tenantfirstname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3222,6 +3316,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantlastname(Id, tenantlastname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3269,6 +3364,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantmobilenumber(Id, tenantmobilenumber, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3316,6 +3412,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantemaiid(Id, tenantemaiid, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -3363,6 +3460,7 @@ export class EnrollassociationComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getblocknameornumber(Id, blockname) {
+    this.canDoBlockLogicalOrder=true;
     this.valueExcelBlckArr = [];
     this.ExcelBlkNameDuplicateList = [];
     this.ExcelBlkNameDuplicateList1 = [];
@@ -3432,8 +3530,27 @@ export class EnrollassociationComponent implements OnInit {
         })
       }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
   getnoofunits(Id, units) {
+    this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
@@ -3484,8 +3601,27 @@ export class EnrollassociationComponent implements OnInit {
         })
       }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
   getmanagername(Id, managername) {
+    this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
@@ -3535,8 +3671,27 @@ export class EnrollassociationComponent implements OnInit {
         })
       }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
   getmanagermobileno(Id, managermobileno) {
+    this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
@@ -3586,8 +3741,27 @@ export class EnrollassociationComponent implements OnInit {
         })
       }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
   getmanageremailid(Id, manageremailid) {
+    this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
@@ -3637,6 +3811,24 @@ export class EnrollassociationComponent implements OnInit {
         })
       }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
   getblocktype(Id, blocktype) {
     this.isblockdetailsempty = false;
