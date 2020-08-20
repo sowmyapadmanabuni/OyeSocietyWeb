@@ -1246,51 +1246,63 @@ export class EnrollassociationComponent implements OnInit {
       else {
         console.log('demo2TabIndex');
         if (!this.duplicateUnitrecordexist) {
-          let tmpArr = [];
-          if (this.unitlistuniquejson1.length > 0) {
-            this.unitlistuniquejson1.forEach(itm1 => {
-              tmpArr.push(itm1);
-            })
-          }
-          if (this.unitlistduplicatejson.length > 0) {
-            this.unitlistduplicatejson.forEach(itm1 => {
-              tmpArr.push(itm1);
-            })
-          }
-          this.unitlistjson[name] = [];
-          this.unitlistjson[name] = tmpArr;
-          console.log(this.unitlistjson[name]);
-          this.unitlistuniquejson = [];
-          this.unitlistuniquejson1 = [];
-          this.unitlistduplicatejson = [];
-          document.getElementById('unitupload_excel').style.display = 'none'
-          document.getElementById('unitshowmanual').style.display = 'block';
-          document.getElementById('unitsmanualnew').style.display = 'none';
-          document.getElementById('unitsbulkold').style.display = 'block';
-          //this.demo2TabIndex = this.demo2TabIndex + 1;
-          console.log(this.increasingBlockArrLength);
-          console.log(this.blockTabId);
-          //console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-          //let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-          //console.log(arr);
-          //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
-          //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
-          this.blockTabId += 1;
-          this.blocksArray.forEach((itm, indx) => {
-            if (itm.blockname.toLowerCase() == name.toLowerCase()) {
-              itm.isUnitsCreatedUnderBlock = true;
-              itm.isUnitsCreatedUnderBlock1 = false;
-              if (this.blocksArray[indx + 1] != undefined) {
-                console.log(this.blocksArray[indx + 1]['blockname']);
-                this.blocknameforIteration = this.blocksArray[indx + 1]['blockname'];
-                this.nextBlckId = this.blocksArray[indx + 1]['Id'];
-                console.log(this.blocknameforIteration);
-                console.log(this.nextBlckId);
+          let mesg = `${this.unitsuccessarray.length}-Unit Created Successfully`;
+          Swal.fire({
+            title: mesg,
+            text: "",
+            type: "success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
+          }).then(
+            (result) => {
+              if (result.value) {
+                let tmpArr = [];
+                if (this.unitlistuniquejson1.length > 0) {
+                  this.unitlistuniquejson1.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                if (this.unitlistduplicatejson.length > 0) {
+                  this.unitlistduplicatejson.forEach(itm1 => {
+                    tmpArr.push(itm1);
+                  })
+                }
+                this.unitlistjson[name] = [];
+                this.unitlistjson[name] = tmpArr;
+                console.log(this.unitlistjson[name]);
+                this.unitlistuniquejson = [];
+                this.unitlistuniquejson1 = [];
+                this.unitlistduplicatejson = [];
+                document.getElementById('unitupload_excel').style.display = 'none'
+                document.getElementById('unitshowmanual').style.display = 'block';
+                document.getElementById('unitsmanualnew').style.display = 'none';
+                document.getElementById('unitsbulkold').style.display = 'block';
+                //this.demo2TabIndex = this.demo2TabIndex + 1;
+                console.log(this.increasingBlockArrLength);
+                console.log(this.blockTabId);
+                //console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+                //let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+                //console.log(arr);
+                //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
+                //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+                this.blockTabId += 1;
+                this.blocksArray.forEach((itm, indx) => {
+                  if (itm.blockname.toLowerCase() == name.toLowerCase()) {
+                    itm.isUnitsCreatedUnderBlock = true;
+                    itm.isUnitsCreatedUnderBlock1 = false;
+                    if (this.blocksArray[indx + 1] != undefined) {
+                      console.log(this.blocksArray[indx + 1]['blockname']);
+                      this.blocknameforIteration = this.blocksArray[indx + 1]['blockname'];
+                      this.nextBlckId = this.blocksArray[indx + 1]['Id'];
+                      console.log(this.blocknameforIteration);
+                      console.log(this.nextBlckId);
+                    }
+                  }
+                })
+                this.isunitdetailsempty = false;
+                this.assignTmpid(this.nextBlckId, this.blocknameforIteration);
               }
-            }
-          })
-          this.isunitdetailsempty = false;
-          this.assignTmpid(this.nextBlckId, this.blocknameforIteration);
+            })
         }
       }
       //this.increasingBlockArrLength += 1;
