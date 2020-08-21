@@ -67,6 +67,7 @@ export class NotificationsComponent implements OnInit {
   allAdminAndResidentNotification:any[];
   DateCurrent: any;
   id: any;
+  storeNTIDforCollapsableDiv: any;
   imagesArray: any[];
 
   constructor(private utilsService: UtilsService,public router:Router,
@@ -75,6 +76,7 @@ export class NotificationsComponent implements OnInit {
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
     private DashBoardService: DashBoardService) {
+      // this.storeNTIDforCollapsableDiv='';
       this.notificationListByAcctID=[];
       this.allAdminAndResidentNotification=[];
       this.imagesArray=[];
@@ -334,6 +336,7 @@ export class NotificationsComponent implements OnInit {
   NotificationActiveStatusUpdate(event, ntid, param, vlApprdBy) {
     event.preventDefault();
     console.log(ntid);
+    this.storeNTIDforCollapsableDiv = ntid;
     console.log(vlApprdBy);
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();

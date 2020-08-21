@@ -24,53 +24,56 @@
                 <div class="panel-group" id="accordion">
                   <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
                   <div class="panel panel-default" *ngFor="let itm of allAdminAndResidentNotification">
-                      <a (click)="NotificationActiveStatusUpdate($event,itm['adminNtid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}"> 
+                      <div *ngIf="itm['ntType']=='Join'">
+                      <a (click)="NotificationActiveStatusUpdate($event,itm['ntid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['ntid']}}"> 
                     <div class="panel-heading">
                       <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
-                        <a (click)="NotificationActiveStatusUpdate($event,itm['adminNtid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['admincollapse']}}" class="read"> 
-                          <img *ngIf="itm['adminReadStatus']=='Unread'" src="../../assets/images/notification_icons/mail.png"> 
-                          <img *ngIf="itm['adminReadStatus']=='Read'" src="../../assets/images/notification_icons/mailopen.png"> 
-                          {{itm['adminReadStatus']}}
+                        <a (click)="NotificationActiveStatusUpdate($event,itm['ntid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['ntid']}}" class="read"> 
+                          <img *ngIf="itm['ntIsActive']==true" src="../../assets/images/notification_icons/mail.png"> 
+                          <img *ngIf="itm['ntIsActive']==false" src="../../assets/images/notification_icons/mailopen.png"> 
+                          {{itm['ntIsActive']}}
                         </a>
                         <span class="uni_name">{{itm['asAsnName']}}</span>
-                        <span class="days">{{itm['adminNtdCreated'] | dateAgo}}</span>
+                        <span class="days">{{itm['ntdCreated'] | dateAgo}}</span>
                       </h4>
                       <div class="alfl bg-grey">
-                        <span class="uni_name"><a class="green">Unit</a> {{itm['unUniName']}}</span>
+                        <!-- <span *ngIf="itm['unit']['unUniName']!=''" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span> -->
+                        <span *ngIf="itm['unit']!=null" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span>
                         <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
-                        <span class="not-img">
+                        <span *ngIf="itm['unit']!=null" class="not-img">
                           <img [src]="'data:image/png;base64,'+itm['ntUsrImg']" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                          <p>{{itm['ufName']}}</p>
+                          <p>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</p>
   
                         </span>
                       </div>
   
                     </div>
                   </a>
-                    <div id="{{itm['admincollapse']}}" class="panel-collapse collapse">
+                    <div id="{{itm['ntid']}}" class="panel-collapse collapse">
                       <div class="panel-body pb">
                         <div class="not-detail">
                           <div>
                             <h4 style="color: red;">Current Status</h4>
-                            <p>Occupancy: <strong>{{itm['unOcStat']}}</strong></p>
-                            <p>Occupied By: <strong>{{itm['occupiedBy']}}</strong></p>
-                            <p>Owner Name: <strong>{{itm['ownername']}}</strong></p>
-                            <p>Mobile: <strong>{{itm['uMobile']}}</strong></p>
+                            <p>Occupancy: <strong>{{itm['unit']['unOcStat']}}</strong></p>
+                            <p>Occupied By: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? 'UnSold Vacant Unit' : 'Tenant') : 'Owner'}}</strong></p>
+                            <p>Owner Name: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</strong></p>
+                            <p>Mobile: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utMobile']) : itm['unit']['owner'][0]['uoMobile']}}</strong></p>
                           </div>
-                          <div *ngIf="itm['ntJoinStatTmp']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Accepted'">
-                            <span (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['adminNtid'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approve</span>
+                          <div *ngIf="itm['ntJoinStat']==''">
+                            <span (click)="approve(itm['sbRoleID'], itm['sbMemID'], itm['sbUnitID'], itm['sbSubID'], itm['mrRolName'], itm['asAsnName'], itm['asAssnID'], itm['unSldDate'], itm['unOcSDate'], itm['acNotifyID'], itm['ntType'], itm['ntMobile'],itm['ntid'])" class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approve</span>
                           </div>
-                          <div *ngIf="itm['ntJoinStatTmp1']=='' && itm['ntJoinStat']=='' || ntJoinStatTmp2=='Rejected'">
-                             <span (click)="rejectJoinRequest(itm['adminNtid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
+                          <div *ngIf="itm['ntJoinStat']==''">
+                             <span (click)="rejectJoinRequest(itm['ntid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
                           </div>
-                          <div *ngIf="itm['ntJoinStatTmp']=='id' || itm['ntJoinStat']=='Accepted'">
+                          <div *ngIf="itm['ntJoinStat']=='Accepted'">
                             <span class="approve">Request Approved</span>
                           </div>
-                          <div *ngIf="itm['ntJoinStatTmp1']=='id' || itm['ntJoinStat']=='Rejected'">
+                          <div *ngIf="itm['ntJoinStat']=='Rejected'">
                             <span class="reject">Request Rejected</span>
                           </div>
                         </div>
                       </div>
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -104,8 +107,8 @@
               <div class="panel-group" id="accordion">
                 <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" class="search" placeholder="search unit">
                 <div class="panel-default" *ngFor="let item of allAdminAndResidentNotification">
-                 <a style="color: black !important;" (click)="NotificationActiveStatusUpdate($event,item['ntid'],'',item['visitorlog'][0]['vlApprdBy'])" data-toggle="collapse" data-parent="#accordion" href="#{{item['ntid']}}">
-                  <div *ngIf="item['visitorlog'].length>0">
+                 <a style="color: black !important;" (click)="NotificationActiveStatusUpdate($event,item['ntid'],'', item['visitorlog'].length>0? item['visitorlog'][0]['vlApprdBy']:'Vinay')" data-toggle="collapse" data-parent="#accordion" href="#{{item['ntid']}}">
+                  <div *ngIf="item['ntType']=='Staff Registration' || item['visitorlog'].length>0">
                   <div class="panel panel-default" *ngIf="item['ntType']!='Announcement'">
                   <div class="panel-heading">
                     <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
@@ -122,7 +125,8 @@
                       <span *ngIf="item['visitorlog'].length>0">Visiting <a class="green">{{item['visitorlog'][0]['unUniName']}}</a></span>
                       <span *ngIf="item['unUniName']">Registration <a class="green">{{item['unUniName']}}</a></span>
                       <span class="not-img">
-                        <img [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                        <img *ngIf="item['visitorlog'].length>0" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                        <img *ngIf="item['ntUsrImg']" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['ntUsrImg'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
                         <p *ngIf="item['visitorlog'].length>0">{{item['visitorlog'][0]['vlfName']}}</p>
                         <p *ngIf="item['wkName']">{{item['wkName']}}</p>
                       </span>
@@ -134,22 +138,28 @@
 
 
                                                   <!-- "Staff Voisentry" template -->
-                                                
+                                                  <div *ngIf="item['ntType']!='Staff Registration'">
                                                     <div *ngIf="item['visitorlog'][0]['vlVisType']=='Staff Voisentry'">
                                                       <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                       <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
                                                     </div>
+                                                  </div>
                                            
                                                   <!-- "Staff Voisentry" template -->
 
                                                   <!-- "Staff registration approve/reject" template -->
-                                                    <div *ngIf="item['NtType']=='Staff Registration'">
-                                                    <div *ngIf="item['ntDesc']"><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntDesc']}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span>&nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span> </div>
+                                                    <div *ngIf="item['ntType']=='Staff Registration'">
+                                                    <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntDesc']}}</span> &nbsp;&nbsp;<br><span class="exitnot-title">Registration date:&nbsp;</span>&nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> </div>
+                                                    
+                                                    <div *ngIf="item['ntJoinStat']!='Registration Pending'"><span class="exitnot-title">Registration Date:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span></div>
+                                                    <div *ngIf="item['ntJoinStat']!='Registration Pending'"><span class="exitnot-title">Registration Approved:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span></div>
+                                                    <div *ngIf="item['ntJoinStat']!='Registration Pending'"><span class="exitnot-title">Status:&nbsp;</span> &nbsp;<span>{{item['ntJoinStat']}}</span></div>
+
                                                     </div>
                                                   <!-- "Staff registration approve/reject" template -->
                                                   
                                                   <!-- "Staff Missed call Entry" template -->
-                                                  
+                                                  <div *ngIf="item['ntType']!='Staff Registration'">
                                                     <div *ngIf="item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
                                                       <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                       <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']}}</div>
@@ -157,11 +167,28 @@
                                                       <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']}}</div>
                                                       <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
                                                     </div>
-                                   
+                                                  </div>
                                                   <!-- "Staff Missed call Entry" template -->
+
+
+
+                                                 <!-- "Staff Manual Entry" template -->
+                                                  <div *ngIf="item['ntType']!='Staff Registration'">
+                                                    <div *ngIf="item['visitorlog'][0]['vlVisType']=='Staff Manual'">
+                                                      <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
+                                                      <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']}}</div>
+                                                      <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']}}</div>
+                                                      <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']}}</div>
+                                                      <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
+                                                    </div>
+                                                  </div>
+                                                  <!-- "Staff Manual Entry" template -->
                         
+
+                                                  
                         
                                                   <!-- "Delivery" template -->
+                                                  <div *ngIf="item['ntType']!='Staff Registration'">
                                                     <div *ngIf="item['visitorlog'][0]['vlVisType']=='Delivery'">
                                                       <div *ngIf="item['ntdCreated']"><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']==''?'':item['visitorlog'][0]['vlengName']}}</span></div>
                                                       <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']==''?'':item['visitorlog'][0]['vlApprdBy']}}</div>
@@ -169,19 +196,23 @@
                                                       <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']==''?'':item['visitorlog'][0]['vlApprStat']}}</div>
                                                       <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>
                                                     </div>
+                                                  </div>
 
                                                   <!-- "Delivery" template -->
                         
                                                   <!-- Guest with Invitation template -->
+                                                  <div *ngIf="item['ntType']!='Staff Registration'">
                                                   <div *ngIf="item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
                                                     <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                     <div *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'mediumDate'}}&nbsp;{{item['visitorlog'][0]['vlExitT']==''?'':item['visitorlog'][0]['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']==''?'':item['visitorlog'][0]['vlexgName']}} &nbsp;&nbsp;<br> </div>
                                                     <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>    
                                                   </div>
+                                                  </div>
 
                                                 <!-- Guest with Invitation template -->
                         
                                                   <!-- KID EXIT template -->
+                                                  <div *ngIf="item['ntType']!='Staff Registration'">
                                                 <div *ngIf="item['visitorlog'][0]['vlVisType']=='Kid Exit'">
                                                     <div><span class="exitnot-title">Descreptiion:&nbsp;</span>&nbsp;{{item['ntDesc']}}</div>
                                                   <div *ngIf="item['ntdCreated']"><span class="exitnot-title">Exit triggered on:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
@@ -189,9 +220,11 @@
                                                   <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}</div>
                                                   <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''}}</div>
                                                 </div>
+                                                </div>
                                                   <!-- KID EXIT template -->
 
                                                   <!-- Guest without Invitation template -->
+                                                  <div *ngIf="item['ntType']!='Staff Registration'">
                                                     <div *ngIf="item['visitorlog'][0]['vlVisType']=='Guest without Invitation'">
                                                       <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                       <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']}}</div>
@@ -199,20 +232,24 @@
                                                       <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']}}</div>
                                                       <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
                                                     </div>
+                                                    </div>
                                                   <!-- Guest without Invitation template -->
 
 
                         <!-- "Staff registration approve/reject"  -->
-                          <div *ngIf="item['NtType']=='Staff Registration'">
+                        <div *ngIf="item['ntType']=='Staff Registration'">
+                          <div *ngIf="item['ntJoinStat']=='Registration Pending'">
                             <span (click)="staffRegistration(item['ntid'],'Approved')"
                               class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approv</span>
                           </div>
-                          <div *ngIf="item['NtType']=='Staff Registration'">
+                          <div *ngIf="item['ntJoinStat']=='Registration Pending'">
                             <span (click)="staffRegistration(item['ntid'],'Rejected')"
                               class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
                           </div>
-                        <!-- "Staff registration approve/reject"  -->
+                        </div>
 
+                        <!-- "Staff registration approve/reject"  -->
+                        <div *ngIf="item['ntType']!='Staff Registration'">
                         <div *ngIf="item['visitorlog'][0]['vlVisType']!='Staff Voisentry'">
                         <div *ngIf="item['visitorlog'][0]['vlVisType']!='Guest with Invitation'">
 
@@ -239,6 +276,7 @@
                           </div>
                         </div>
                         </div>
+                      </div>
                       </div>
                       </div>
                     </div>
