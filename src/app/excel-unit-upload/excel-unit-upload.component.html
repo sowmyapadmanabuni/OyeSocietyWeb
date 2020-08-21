@@ -423,9 +423,10 @@
                                 </li>
                             </ul>
                             <div class="tab-content col-md-10">
+                                <p *ngIf="unitlistjson[blBlkName].length > 10">scroll right to view more units</p>
                                 <div *ngFor="let iitem of blocksArray;let i=index">
                                     <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
-                                        <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'block' : 'none' }" style="display: flex;overflow-x: scroll;    height: 42px;">
+                                        <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll;    height: 54px;">
                                             <li  *ngFor="let obj of unitlistjson[blBlkName];let i= index" [ngClass]="{'active':obj.Id==obj.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
                                                 <a href="#{{obj.Id}}" (click)="assignUnitTmpid(obj.Id,blBlkName)" data-toggle="tab" style="display: flex;width: auto;">{{obj.flatno==''?'Unit':obj.flatno}}
                                                     &nbsp;&nbsp;<span></span>
@@ -636,13 +637,14 @@
                                                         </div>
                                                     </form>
                                                 </div>
+                                                <div>
+                                                    <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blBlkName,i)">Save & Continue</button>
+                                                </div>
+                                                <div class="save">
+                                                    <a class="resetforbulkunits" (click)="resetStep5bulk($event,blBlkName,obj.Id)" [disabled]="obj.isUnitCreated" [ngStyle]="{'opacity':obj.isUnitCreated ? '0.5' : '1' }" mat-raised-button color="primary">RESET</a>
+                                                </div> 
                                             </div>
-                                            <div>
-                                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blBlkName,i)">Save & Continue</button>
-                                            </div>
-                                            <div class="save">
-                                                <a class="resetforbulkunits" (click)="resetStep5bulk($event,blBlkName)"mat-raised-button color="primary">RESET</a>
-                                            </div> 
+                                          
                                         </div>
         
                                     </div>

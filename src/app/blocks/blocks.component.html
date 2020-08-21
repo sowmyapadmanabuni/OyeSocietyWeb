@@ -268,7 +268,7 @@
                                     <label id=label5>Manager Mobile Number<span class="red">*</span></label>
                                     <input type="text" name="BLMgrMobile" id="input5" autocomplete='BLMgrMobile'
                                         [(ngModel)]="BLMgrMobile" #managernumberControl="ngModel" class="form-control"
-                                        placeholder="Manager Mobile Number" minlength=10 maxlength=10 pattern="[0-9]*"
+                                        placeholder="Manager Mobile Number" minlength=10 maxlength=13 pattern="^((0091)|(\+91)|0?)[0-9]{1}\d{9}$"
                                         required (keypress)=_keyPress($event) />
                                     <p class="alerts"
                                         *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager
@@ -464,12 +464,12 @@
                                         [class.classForInvalid]="enablestartfromdatevalidation"
                                         (bsValueChange)="onStartsFromDateValueChange($event)" [(ngModel)]="ASLPSDate"
                                         #startsFromDateCtrl='bsDatepicker' bsDatepicker placement="top" />
-                                    <!-- <p class="invalid-feedback">Select Date</p> -->
-                                    <!-- <ng-container *ngIf='enablestartfromdatevalidation'>
+                                     <p class="invalid-feedback">Select Date</p> 
+                                     <ng-container *ngIf='enablestartfromdatevalidation'>
                                         <p class="invalidFeedback">Starts from date should be greater than or equal to
                                             due date</p>
-                                    </ng-container> -->
-                                <!-- </div>
+                                    </ng-container> 
+                                </div>
 
                             </div>
 

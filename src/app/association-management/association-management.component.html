@@ -77,7 +77,7 @@
                   <td>{{item['asAsnName']}}</td>
                   <td>{{item['asPrpName']}}</td>
                   <td>{{item['asAddress']}}</td>
-                  <td class="txt-middle" (click)="openblockModaltemplate(blockModaltemplate,item['asAssnID'])" style="cursor: pointer;" tooltip="ViewBlocks">{{item['asNofBlks']}}</td>
+                  <td class="txt-middle"  style="cursor: pointer;" tooltip="ViewBlocks"> <a (click)="openblockModaltemplate(blockModaltemplate,item['asAssnID'])">{{item['asNofBlks']}}</a></td>
                   <td class="txt-middle">{{item['asNofUnit']}}</td>
                   <td class="txt-middle">
                     <i class="fa fa-eye" style="cursor: pointer;" tooltip="ViewAssociation"
@@ -1404,7 +1404,7 @@
     <div class="modal-header">
       
       <h4 class="modal-title">Blocks</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -1439,7 +1439,7 @@
                         <!-- <td class="txt-middle">{{  i+1 }}</td> -->
                         <td>{{item['blBlkName']}}</td>
                         <td>{{item['blBlkType']}}</td>
-                        <td class="txt-middle" style="cursor: pointer;" (click)="openunitModaltemplate(unitModaltemplate,item['blBlockID'])" tooltip="ViewUnits">{{item['blNofUnit']}}</td>
+                        <td class="txt-middle" style="cursor: pointer;" tooltip="ViewUnits"><a (click)="openunitModaltemplate(unitModaltemplate,item['blBlockID'])">{{item['blNofUnit']}}</a></td>
                     </ng-container>
                 </tr>
             </tbody>

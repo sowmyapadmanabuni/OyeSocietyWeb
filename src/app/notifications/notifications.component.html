@@ -16,7 +16,7 @@
                 <li *ngIf="globalService.mrmroleId==1" style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
                   <a class="act-b tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
                 </li>
-  
+ 
               </ul>
             </div>
             <div class="col-md-12 dash dash-bg-1" style="border-radius: 24px 0px 24px 26px;height: 400px; overflow: scroll;">
@@ -46,7 +46,7 @@
   
                         </span>
                       </div>
-  
+ 
                     </div>
                   </a>
                     <div id="{{itm['ntid']}}" class="panel-collapse collapse">
@@ -81,7 +81,7 @@
               <button (click)="openModal3(privacy)">NotificationPOPUP</button>
             </div>
           </div>
-  
+ 
           <!---->
         </div>
         <!--Dashboard icons for ADMIN end-->
@@ -157,7 +157,7 @@
 
                                                     </div>
                                                   <!-- "Staff registration approve/reject" template -->
-                                                  
+                                                 
                                                   <!-- "Staff Missed call Entry" template -->
                                                   <div *ngIf="item['ntType']!='Staff Registration'">
                                                     <div *ngIf="item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
@@ -199,18 +199,19 @@
                                                   </div>
 
                                                   <!-- "Delivery" template -->
-                        
+                       
                                                   <!-- Guest with Invitation template -->
                                                   <div *ngIf="item['ntType']!='Staff Registration'">
                                                   <div *ngIf="item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
                                                     <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                     <div *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'mediumDate'}}&nbsp;{{item['visitorlog'][0]['vlExitT']==''?'':item['visitorlog'][0]['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']==''?'':item['visitorlog'][0]['vlexgName']}} &nbsp;&nbsp;<br> </div>
-                                                    <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>    
+                                                    <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>   
+                                                  </div>
                                                   </div>
                                                   </div>
 
                                                 <!-- Guest with Invitation template -->
-                        
+                       
                                                   <!-- KID EXIT template -->
                                                   <div *ngIf="item['ntType']!='Staff Registration'">
                                                 <div *ngIf="item['visitorlog'][0]['vlVisType']=='Kid Exit'">
@@ -301,7 +302,7 @@
 
                               <img *ngIf="item['anImages']" src="{{'data:image/png;base64,' + item['anImages']}}" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
                               <!-- <img *ngIf="item['anImages']" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['anImages'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" /> -->
-                        
+                       
                           </div>
                           message
                           <button (click)="buttonPress()">PressMe</button>

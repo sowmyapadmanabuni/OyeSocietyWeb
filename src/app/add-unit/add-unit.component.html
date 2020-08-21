@@ -254,7 +254,7 @@
                   </div>
               </div>           
             </div>
-          <div class="col-sm-12 pull-right">
+          <div class="col-sm-12 pull-right" style="display: flex;justify-content: center;"> 
               <button type="button" (click)="ResetCreateUnitFormOne($event,occupency)" class="btn btn-primary-purple m-r">Reset</button>
               <!-- <button [disabled]="unitno == ''|| unitType=='' || occupency==''" class="btn btn-primary-purple nextBtn" type="button m-r">Next</button> -->
               <button class="btn btn-primary-purple nextBtn m-r" type="button" [disabled]="unitno == ''|| unitType=='' || occupency==''" (click)="createUnit()">Create</button>

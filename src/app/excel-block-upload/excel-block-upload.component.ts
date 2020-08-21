@@ -133,6 +133,37 @@ export class ExcelBlockUploadComponent implements OnInit {
      event.preventDefault();
    }
  }
+ 
+ resetforduplicatesorinvalidblocks(ev,objId) {
+  console.log('ev');
+  console.log(this.blocksArray);
+  console.log(objId);
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you really want to reset?",
+    type: "warning",
+    confirmButtonColor: '#f69321',
+    confirmButtonText: 'OK',
+    showCancelButton: true,
+    cancelButtonText: "CANCEL"
+  }).then(
+    (result) => {
+      console.log(result)
+      if (result.value) {
+        this.blocksArray.forEach(elemnt => {
+          if (elemnt.Id == objId) {
+            console.log('elemnt.Id==objId');
+            elemnt.blockname = '';
+            // elemnt.blocktype='';
+            elemnt.units = '';
+            elemnt.managername = '';
+            elemnt.managermobileno = '';
+            elemnt.manageremailid = '';
+          }
+        })
+      }
+    })
+}
   resetStep4(ev){
     Swal.fire({
       title: "Are you sure?",
@@ -799,16 +830,16 @@ export class ExcelBlockUploadComponent implements OnInit {
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.invalidBlockCount} Invalid
                          ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
+              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
                          ${this.duplicateBlockCount} Duplicate`;
             }
           }

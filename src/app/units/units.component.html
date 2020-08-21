@@ -141,7 +141,7 @@
             <!--Dashboard icons end-->
             <!--Add Units form Starts-->
             <div class="col-sm-12" *ngIf="viewUniService.addUnits">
-                <app-add-unit></app-add-unit>
+                <app-add-unit (EnableUnitListView)="EnableUnitListView($event)"></app-add-unit>
             </div>
             <!--Add Units form Ends-->
         </div>
@@ -332,7 +332,7 @@
                                         <label id=label3>Owner Mobilenumber<span class="red">*</span></label>
                                         <input type="text" name="ownerMobnumber" id="input3" autocomplete='ownerMobnumber'
                                             [(ngModel)]="ownerMobnumber" #OwnermobilenumberControl="ngModel" class="form-control"
-                                            placeholder="Owner Mobilenumber" required />
+                                            placeholder="Owner Mobilenumber" minlength=10 maxlength=13 pattern="^((0091)|(\+91)|0?)[0-9]{1}\d{9}$" required />
                                         <p class="alerts" *ngIf="OwnermobilenumberControl.invalid && OwnermobilenumberControl.touched">Owner
                                             Mobilenumber required
                                         </p>
@@ -385,7 +385,7 @@
                                         <label id=label3>Tenant Mobilenumber<span class="red">*</span></label>
                                         <input type="text" name="tenantMobnumber" id="input3" autocomplete='tenantMobnumber'
                                             [(ngModel)]="tenantMobnumber" #TenantMobilenumberControl="ngModel" class="form-control"
-                                            placeholder="Tenant Mobilenumber" required />
+                                            placeholder="Tenant Mobilenumber" minlength=10 maxlength=13 pattern="^((0091)|(\+91)|0?)[0-9]{1}\d{9}$" required />
                                         <p class="alerts" *ngIf="TenantMobilenumberControl.invalid && TenantMobilenumberControl.touched">Tenant
                                             Mobilenumber required
                                         </p>

@@ -51,13 +51,18 @@ export class ViewUnitService {
                 return this.http.get(scopeIP + 'oyeliving/api/v1/Block/GetBlockListByAssocID/'+ currentAssociationID , {headers:this.headers});
               }
               
+              // GetUnitListByBlockID(blockId){
+              //   //console.log('blockId',blockId);
+              //   this.blockIDforUnitCreation = blockId;
+              //   let scopeIP=this.utilsService.GetUnitListByBlockID();
+              //   return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId , {headers:this.headers});
+              // }
               GetUnitListByBlockID(blockId){
                 //console.log('blockId',blockId);
                 this.blockIDforUnitCreation = blockId;
                 let scopeIP=this.utilsService.GetUnitListByBlockID();
-                return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId , {headers:this.headers});
+                return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId +"/"+"resident", {headers:this.headers});
               }
-
               UpdateUnitInfo(updateUnitData:any){
                 //console.log('updateUnitData *',JSON.stringify(updateUnitData));
                 let scopeIP=this.utilsService.createUnit();

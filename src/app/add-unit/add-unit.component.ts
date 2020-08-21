@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input ,EventEmitter} from '@angular/core';
+import { Component, OnInit, ViewChild, Input , Output, EventEmitter} from '@angular/core';
 import { ViewUnitService } from '../../services/view-unit.service';
 import Swal from 'sweetalert2';
 import {GlobalServiceService} from '../global-service.service';
@@ -56,6 +56,7 @@ export class AddUnitComponent implements OnInit {
   @Input() checkIsUnitCreated:EventEmitter<string>;
   InvalidUnitDimension:boolean;
   InvalidUnitRate:boolean;
+  @Output() EnableUnitListView:EventEmitter<string>;
 
   constructor(private viewUniService: ViewUnitService,
     private globalservice:GlobalServiceService,
@@ -67,6 +68,7 @@ export class AddUnitComponent implements OnInit {
       this.currentAssociationName=this.globalservice.getCurrentAssociationName();
       this.accountID=this.globalservice.getacAccntID();
       this.toggleunitvehicleinformation=true;
+      this.EnableUnitListView=new EventEmitter<string>();
 
     this.blBlockID = '';
     this.occupency='Select Occupancy';
@@ -502,9 +504,11 @@ export class AddUnitComponent implements OnInit {
            //this.checkIsUnitCreated.emit('true');
            this.viewUniService.addUnits=false;
            this.viewUniService.unitList=true;
+           this.EnableUnitListView.emit('EnableUnitList');
 
          } else if (result.dismiss === Swal.DismissReason.cancel) {
-           this.router.navigate(['home/viewunit']);
+            this.router.navigate(['home/viewunit']);
+
          }
        }
      )

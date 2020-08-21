@@ -36,6 +36,8 @@ declare var $: any;
 
 export class AssociationManagementComponent implements OnInit {
   modalRef: BsModalRef;
+  unitmodalRef: BsModalRef;
+  modalRef2:BsModalRef;
   assnID: any;
   @Input() amenityType: string;
   @Input() amenityNo: string;
@@ -297,6 +299,7 @@ export class AssociationManagementComponent implements OnInit {
   UniNameForJoinAssn: any;
   BlocksList:any[];
   id: any;
+  UnitsList:any[]=[];
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -314,6 +317,7 @@ export class AssociationManagementComponent implements OnInit {
     private location: LocationStrategy,
     private UtilsService:UtilsService,
     private ViewBlockService:ViewBlockService) {
+      this.UnitsList=[];
       this.BlocksList=[];
       this.UniNameForJoinAssn='Select Unit';
       this.alreadyJoined=false;
@@ -1703,7 +1707,6 @@ this.enblJoinAsnVew()
     });
   }
   openblockModaltemplate(blockModaltemplate: TemplateRef<any>,asAssnID){
-    console.log(this.assnID);
     this.ViewBlockService.getBlockDetails(asAssnID).subscribe(data => {
       this.BlocksList = data['data'].blocksByAssoc;
       console.log('BlocksList', this.BlocksList);
@@ -1712,6 +1715,38 @@ this.enblJoinAsnVew()
       console.log(err);
     });
     this.modalRef = this.modalService.show(blockModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  commonunit: boolean;
+  openunitModaltemplate(unitModaltemplate: TemplateRef<any>,blBlockID){
+    console.log(blBlockID);
+    let Commonarray = [];
+    this.UnitsList = [];
+    this.viewUniService.GetUnitListByBlockID(blBlockID).subscribe(data => {
+      console.log('UnitList', data);
+
+ 
+
+       this.UnitsList = data['data'].unitsByBlockID;
+      let removecommonunit = [];
+      Commonarray = data['data'].unitsByBlockID;
+
+ 
+
+        Commonarray.forEach((ele: any) => {
+          this.commonunit = ele.unUniName.endsWith("-Common");
+          if (this.commonunit) {
+            removecommonunit.push(ele);
+          }
+          else {
+            this.UnitsList.push(ele);
+          }
+        })
+       console.log(this.UnitsList)
+    },
+    err=>{
+      console.log(err);
+    });
+    this.modalRef2 = this.modalService.show(unitModaltemplate,Object.assign({}, { class: 'gray modal-lg' }));
   }
   checkMobileNumberValidity(Id, BlockManagermobile) {
     console.log('blur');
@@ -1889,7 +1924,7 @@ this.enblJoinAsnVew()
         this.associations = data.data.associationByAccount;
       }
       
-      console.log(this.associations);
+      //console.log(this.associations);
 
     });
   }
