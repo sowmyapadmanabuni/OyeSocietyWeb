@@ -70,6 +70,9 @@ export class EnrollassociationComponent implements OnInit {
   invalidUnitCount:number;
   canDoBlockLogicalOrder:boolean;
   canDoUnitLogicalOrder:boolean;
+  indexToCheckValidBlockName:number;
+  ValidBlockName:any;
+  InvalidBlocknamePresent:boolean;
 
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
@@ -78,6 +81,9 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.InvalidBlocknamePresent = false;
+      this.ValidBlockName='';
+      this.indexToCheckValidBlockName=0;
       this.canDoBlockLogicalOrder=true;
       this.canDoUnitLogicalOrder = true;
       this.duplicateBlockCount=0;
@@ -1301,6 +1307,7 @@ export class EnrollassociationComponent implements OnInit {
                 })
                 this.isunitdetailsempty = false;
                 this.assignTmpid(this.nextBlckId, this.blocknameforIteration);
+                this.indexToCheckValidBlockName += 1;
               }
             })
         }
@@ -3859,6 +3866,12 @@ export class EnrollassociationComponent implements OnInit {
     this.unitrecordDuplicateUnitnameModified = false;
     this.duplicateUnitrecordexist = false;
     console.log(exceldata.length);
+    exceldata.forEach(item => {
+      if (item.blockname.toLowerCase() != this.ValidBlockName['name'].toLowerCase()) {
+        console.log(item.blockname);
+        this.InvalidBlocknamePresent = true;
+      }
+    })
     if (exceldata.length == 0) {
       Swal.fire({
         title: 'Please fill all the fields',
@@ -3866,6 +3879,20 @@ export class EnrollassociationComponent implements OnInit {
         type: "error",
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK"
+      })
+    }
+    else if(this.InvalidBlocknamePresent){
+      Swal.fire({
+        title: 'Please Check Blockname',
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+            this.InvalidBlocknamePresent = false;
+          }
       })
     }
     else {
@@ -4030,6 +4057,9 @@ export class EnrollassociationComponent implements OnInit {
   blockunitcountmodalRef: BsModalRef;
 
   onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+    console.log(this.finalblocknameTmp);
+    this.ValidBlockName = this.finalblocknameTmp[this.indexToCheckValidBlockName];
+    console.log('ValidBlockName ',this.ValidBlockName);
     this.file = ev.target.files[0];
     let fileReader = new FileReader();
     fileReader.readAsArrayBuffer(this.file);
