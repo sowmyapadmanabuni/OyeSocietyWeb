@@ -4079,7 +4079,121 @@ export class EnrollassociationComponent implements OnInit {
       this.excelunitsuploaddata(arraylist1, UpdateBlockUnitCountTemplate)
     }
   }
+  resetforduplicatesorinvalidblocks(ev,objId) {
+    console.log('ev');
+    console.log(this.blocksArray);
+    console.log(objId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: '#f69321',
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+        if (result.value) {
+          this.blocksArray.forEach(elemnt => {
+            if (elemnt.Id == objId) {
+              console.log('elemnt.Id==objId');
+              elemnt.blockname = '';
+              // elemnt.blocktype='';
+              elemnt.units = '';
+              elemnt.managername = '';
+              elemnt.managermobileno = '';
+              elemnt.manageremailid = '';
+            }
+          })
+        }
+      })
+  }
+  resetStep5bulk(ev, blknamecommon, Id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+ 
+        if (result.value) {
+ 
+          Object.keys(this.unitlistjson).forEach(element => {
+            this.unitlistjson[element].forEach(unit => {
+              if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
+                console.log(Id);
+                unit.flatno = "",
+                  unit.blockname = "",
+                  unit.owneremaiid = "",
+                  unit.ownerfirstname = "",
+                  unit.ownermobilenumber = "",
+                  unit.ownershipstatus = "",
+                  unit.unittype = "",
+                  unit.ownerlastname = "",
+                  unit.ownermobilenumber = "",
+                  unit.owneremaiid = "",
+                  unit.tenantfirstname = "",
+                  unit.tenantlastname = "",
+                  unit.tenantmobilenumber = "",
+                  unit.tenantemaiid = ""
+              }
+            })
+          })
+        }
+      })
 
+
+ 
+    /* Object.keys(this.unitlistjson).forEach(element=>{
+       console.log(this.unitlistjson[element])
+       this.unitlistjson[element].forEach(unit => {
+ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
+ 
+       unit.flatno="",
+       unit.blockname ="",
+       unit.owneremaiid="",
+       unit.ownerfirstname="",
+       unit.ownermobilenumber="",
+       unit.ownershipstatus="",
+       unit.unittype="",
+       unit.ownerlastname="",
+       unit.ownermobilenumber= "",
+       unit.owneremaiid="",
+       unit.tenantfirstname="",
+       unit.tenantlastname="",
+       unit.tenantmobilenumber="",
+       unit.tenantemaiid=""
+     }else{
+       let blname = unit.Id.slice(0, -2);
+       if(blknamecommon == blname){
+         unit.flatno="",
+         unit.blockname ="",
+         unit.owneremaiid="",
+         unit.ownerfirstname="",
+         unit.ownermobilenumber="",
+         unit.ownershipstatus="",
+         unit.unittype="",
+         unit.ownerlastname="",
+         unit.ownermobilenumber= "",
+         unit.owneremaiid="",
+         unit.tenantfirstname="",
+         unit.tenantlastname="",
+         unit.tenantmobilenumber="",
+         unit.tenantemaiid=""
+       }
+    
+     }
+ 
+       })
+     }) */
+ 
+  }
   // onFileunitdetailschange(ev) {
   //   console.log(ev)
   //   let workBook = null;
@@ -4417,69 +4531,69 @@ export class EnrollassociationComponent implements OnInit {
       })
 
   }
-  resetStep5bulk(ev, blknamecommon) {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you really want to reset?",
-      type: "warning",
-      confirmButtonColor: "#f69321",
-      confirmButtonText: "OK",
-      showCancelButton: true,
-      cancelButtonText: "CANCEL"
-    }).then(
-      (result) => {
-        console.log(result)
+  // resetStep5bulk(ev, blknamecommon) {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "Do you really want to reset?",
+  //     type: "warning",
+  //     confirmButtonColor: "#f69321",
+  //     confirmButtonText: "OK",
+  //     showCancelButton: true,
+  //     cancelButtonText: "CANCEL"
+  //   }).then(
+  //     (result) => {
+  //       console.log(result)
 
-        if (result.value) {
-          Object.keys(this.unitlistjson).forEach(element => {
-            console.log(this.unitlistjson[element])
-            this.unitlistjson[element].forEach(unit => {
-              if (blknamecommon == unit.blockname && unit.blockname != undefined) {
+  //       if (result.value) {
+  //         Object.keys(this.unitlistjson).forEach(element => {
+  //           console.log(this.unitlistjson[element])
+  //           this.unitlistjson[element].forEach(unit => {
+  //             if (blknamecommon == unit.blockname && unit.blockname != undefined) {
 
-                unit.flatno = "",
-                  unit.blockname = "",
-                  unit.owneremaiid = "",
-                  unit.ownerfirstname = "",
-                  unit.ownermobilenumber = "",
-                  unit.ownershipstatus = "",
-                  unit.unittype = "",
-                  unit.ownerlastname = "",
-                  unit.ownermobilenumber = "",
-                  unit.owneremaiid = "",
-                  unit.tenantfirstname = "",
-                  unit.tenantlastname = "",
-                  unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = ""
-              } else {
-                let blname = unit.Id.slice(0, -2);
-                if (blknamecommon == blname) {
-                  unit.flatno = "",
-                    unit.blockname = "",
-                    unit.owneremaiid = "",
-                    unit.ownerfirstname = "",
-                    unit.ownermobilenumber = "",
-                    unit.ownershipstatus = "",
-                    unit.unittype = "",
-                    unit.ownerlastname = "",
-                    unit.ownermobilenumber = "",
-                    unit.owneremaiid = "",
-                    unit.tenantfirstname = "",
-                    unit.tenantlastname = "",
-                    unit.tenantmobilenumber = "",
-                    unit.tenantemaiid = ""
-                }
+  //               unit.flatno = "",
+  //                 unit.blockname = "",
+  //                 unit.owneremaiid = "",
+  //                 unit.ownerfirstname = "",
+  //                 unit.ownermobilenumber = "",
+  //                 unit.ownershipstatus = "",
+  //                 unit.unittype = "",
+  //                 unit.ownerlastname = "",
+  //                 unit.ownermobilenumber = "",
+  //                 unit.owneremaiid = "",
+  //                 unit.tenantfirstname = "",
+  //                 unit.tenantlastname = "",
+  //                 unit.tenantmobilenumber = "",
+  //                 unit.tenantemaiid = ""
+  //             } else {
+  //               let blname = unit.Id.slice(0, -2);
+  //               if (blknamecommon == blname) {
+  //                 unit.flatno = "",
+  //                   unit.blockname = "",
+  //                   unit.owneremaiid = "",
+  //                   unit.ownerfirstname = "",
+  //                   unit.ownermobilenumber = "",
+  //                   unit.ownershipstatus = "",
+  //                   unit.unittype = "",
+  //                   unit.ownerlastname = "",
+  //                   unit.ownermobilenumber = "",
+  //                   unit.owneremaiid = "",
+  //                   unit.tenantfirstname = "",
+  //                   unit.tenantlastname = "",
+  //                   unit.tenantmobilenumber = "",
+  //                   unit.tenantemaiid = ""
+  //               }
 
-              }
+  //             }
 
-            })
-          })
-        }
-      })
-
-
+  //           })
+  //         })
+  //       }
+  //     })
 
 
-  }
+
+
+  // }
   previouspage(ev) {
     this.demo1TabIndex = this.demo1TabIndex - 1;
 

@@ -492,6 +492,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="blockdetailsbuttons1" class="save">
+                                    <button class="continue" (click)="resetforduplicatesorinvalidblocks($event,obj.Id)" [disabled]="obj.hasNoDuplicateBlockname" [ngStyle]="{'opacity':obj.hasNoDuplicateBlockname ? '0.5' : '1' }" mat-raised-button color="primary" >RESET</button>
+                                    <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -581,10 +585,10 @@
                         
                         </div> -->
                      
-                    <div id="blockdetailsbuttons1"class="save">
+                    <!-- <div id="blockdetailsbuttons1"class="save">
                         <a class="continue" (click)="resetStep4($event)" mat-raised-button color="primary" >RESET</a>
                         <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
-                    </div>
+                    </div> -->
                 </div>
                 <!--BlockBulkupload-->
 
@@ -1208,13 +1212,19 @@
                                                 </div>
                                             </form>
                                         </div>
+                                        <div>
+                                            <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blocknameforIteration,i)">Save & Continue</button>
+                                        </div>
+                                        <div class="save">
+                                            <button class="resetforbulkunits" (click)="resetStep5bulk($event,blocknameforIteration,obj.Id)" [disabled]="obj.isUnitCreated" [ngStyle]="{'opacity':obj.isUnitCreated ? '0.5' : '1' }" mat-raised-button color="primary">RESET</button>
+                                        </div>
                                     </div>
-                                    <div>
+                                    <!-- <div>
                                         <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blocknameforIteration,i)">Save & Continue</button>
                                     </div>
                                     <div class="save">
                                         <a class="resetforbulkunits" (click)="resetStep5bulk($event,blocknameforIteration)"mat-raised-button color="primary">RESET</a>
-                                    </div> 
+                                    </div>  -->
                                 </div>
 
                             </div>
