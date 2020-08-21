@@ -343,7 +343,6 @@ this.showStaffReports=false;
   }
   // onClickResult:IStarRatingOnClickEvent;
    
-<<<<<<< HEAD
     // onRatingChangeResult:IStarRatingOnRatingChangeEven;
 
     // onClick = ($event:IStarRatingOnClickEvent) => {
@@ -356,20 +355,6 @@ this.showStaffReports=false;
     //     console.log('onRatingUpdated $event: ', $event);
     //     this.onRatingChangeResult = $event;
     // };
-=======
-    onRatingChangeResult:IStarRatingOnRatingChangeEven;
-
-    onClick = ($event:IStarRatingOnClickEvent) => {
-        console.log('onClick $event: ', $event);
-        this.onClickResult = $event;
-        this.wkrating1=this.onClickResult.rating
-    };
-
-    onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
-        console.log('onRatingUpdated $event: ', $event);
-        this.onRatingChangeResult = $event;
-    };
->>>>>>> 985bf74ec26194f8e9ad173499d7d11e3db47619
 
    
   updateReview(param,coment){
