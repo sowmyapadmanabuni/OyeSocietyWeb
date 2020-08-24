@@ -201,7 +201,7 @@
             </div>
         </mat-tab>
 
-        <mat-tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
             <form [formGroup]="gstpanform" class="association-form3" style="padding-left: 125px;">
                 <mat-form-field class="association-full-width">
                     <mat-label>GST NUMBER(OPTIONAL)</mat-label>
@@ -292,7 +292,7 @@
                 <a mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitamenity($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab> -->
-        <mat-tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">
                     <mat-label>TOTAL NO OF BLOCKS<span class="red">*</span></mat-label>
@@ -343,7 +343,7 @@
                       
            
         </mat-tab> -->
-        <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
             <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             <!-- <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
@@ -730,7 +730,7 @@
 
 
         </mat-tab> -->
-        <mat-tab [disabled]='!tab.isActive' label="UNITS DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="UNITS DETAILS">
                 <div>
                         <!-- <button style="float: right;margin-top:12px" id="unitbulkbutton" mat-raised-button color="primary"
                                             (click)="submitforbulkupload($event)">Bulk Upload</button> -->
@@ -1404,10 +1404,10 @@
                 </mat-tab-group>  -->
                </div>
         </mat-tab>
-        <mat-tab  [disabled]='!tab.isActive' label="SUBSCRIPTION">
+        <mat-tab #tab [disabled]='!tab.isActive' label="SUBSCRIPTION">
 
         </mat-tab>
-        <mat-tab  [disabled]='!tab.isActive' label="PAYMENT">
+        <mat-tab #tab [disabled]='!tab.isActive' label="PAYMENT">
 
         </mat-tab>
     </div>
