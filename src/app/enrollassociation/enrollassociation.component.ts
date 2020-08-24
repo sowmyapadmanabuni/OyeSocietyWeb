@@ -2279,10 +2279,28 @@ export class EnrollassociationComponent implements OnInit {
       this.blockdetailsfinalcreation();
     }
     else {
+      let blockArrWithoutBlocknameUndefined=[];
       this.blockssuccessarray = [];
+      this.blocksArray.forEach(item=>{
+        if(item.blockname != undefined){
+          blockArrWithoutBlocknameUndefined.push(item);
+        }
+      })
+      console.log(this.blocksArray);
+      this.blocksArray.forEach(item=>{
+        if(item.blockname == undefined){
+          console.log(item);
+          this.duplicateBlockArr.push(item);
+          this.invalidBlockCount += 1;
+          console.log(this.invalidBlockCount)
+        }
+      })
+      this.blocksArray=[];
+      this.blocksArray=blockArrWithoutBlocknameUndefined;
+      console.log(this.blocksArray);
       let group = this.blocksArray.reduce((r, a) => {
-        r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
-        return r;
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
       }, {});
       console.log("block_group", group);
       Object.keys(group).forEach(element => {
@@ -2318,6 +2336,7 @@ export class EnrollassociationComponent implements OnInit {
         this.notValidBlockArr.forEach(item => {
           this.duplicateBlockArr.push(item);
           this.invalidBlockCount += 1;
+          console.log(this.invalidBlockCount);
         })
       }
       this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
@@ -4074,6 +4093,12 @@ export class EnrollassociationComponent implements OnInit {
   blockunitcountmodalRef: BsModalRef;
 
   onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+    console.log(this.finalblocknameTmp);
+    let orderBlockinLogically=[];
+    orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
+    console.log(orderBlockinLogically);
+    this.finalblocknameTmp = [];
+    this.finalblocknameTmp = orderBlockinLogically;
     console.log(this.finalblocknameTmp);
     this.ValidBlockName = this.finalblocknameTmp[this.indexToCheckValidBlockName];
     console.log('ValidBlockName ',this.ValidBlockName);
