@@ -1811,6 +1811,7 @@ export class EnrollassociationComponent implements OnInit {
         /**/
         if (name.toLowerCase() == headername.toLowerCase()) {
           console.log(unit);
+          console.log(flatno);
           console.log(this.unitlistjson[element]);
           if (this.isunitdetailsempty) {
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
@@ -1824,11 +1825,13 @@ export class EnrollassociationComponent implements OnInit {
               ) {
                 console.log('test0-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1844,9 +1847,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -1870,11 +1875,13 @@ export class EnrollassociationComponent implements OnInit {
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                   console.log('test0-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1889,9 +1896,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -1911,11 +1920,13 @@ export class EnrollassociationComponent implements OnInit {
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                   console.log('test0-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1930,9 +1941,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -1947,11 +1960,13 @@ export class EnrollassociationComponent implements OnInit {
               ) {
                 console.log('test0-UnSold Vacant Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-UnSold Vacant Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1966,9 +1981,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -2262,10 +2279,28 @@ export class EnrollassociationComponent implements OnInit {
       this.blockdetailsfinalcreation();
     }
     else {
+      let blockArrWithoutBlocknameUndefined=[];
       this.blockssuccessarray = [];
+      this.blocksArray.forEach(item=>{
+        if(item.blockname != undefined){
+          blockArrWithoutBlocknameUndefined.push(item);
+        }
+      })
+      console.log(this.blocksArray);
+      this.blocksArray.forEach(item=>{
+        if(item.blockname == undefined){
+          console.log(item);
+          this.duplicateBlockArr.push(item);
+          this.invalidBlockCount += 1;
+          console.log(this.invalidBlockCount)
+        }
+      })
+      this.blocksArray=[];
+      this.blocksArray=blockArrWithoutBlocknameUndefined;
+      console.log(this.blocksArray);
       let group = this.blocksArray.reduce((r, a) => {
-        r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
-        return r;
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
       }, {});
       console.log("block_group", group);
       Object.keys(group).forEach(element => {
@@ -2301,6 +2336,7 @@ export class EnrollassociationComponent implements OnInit {
         this.notValidBlockArr.forEach(item => {
           this.duplicateBlockArr.push(item);
           this.invalidBlockCount += 1;
+          console.log(this.invalidBlockCount);
         })
       }
       this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
@@ -2982,7 +3018,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3017,7 +3053,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3106,7 +3142,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3154,7 +3190,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3202,7 +3238,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3250,7 +3286,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3298,7 +3334,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3346,7 +3382,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3394,7 +3430,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3442,7 +3478,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -4057,6 +4093,12 @@ export class EnrollassociationComponent implements OnInit {
   blockunitcountmodalRef: BsModalRef;
 
   onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+    console.log(this.finalblocknameTmp);
+    let orderBlockinLogically=[];
+    orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
+    console.log(orderBlockinLogically);
+    this.finalblocknameTmp = [];
+    this.finalblocknameTmp = orderBlockinLogically;
     console.log(this.finalblocknameTmp);
     this.ValidBlockName = this.finalblocknameTmp[this.indexToCheckValidBlockName];
     console.log('ValidBlockName ',this.ValidBlockName);
