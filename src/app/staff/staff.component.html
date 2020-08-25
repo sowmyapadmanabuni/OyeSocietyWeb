@@ -97,7 +97,7 @@
                             <h3 class="staff_head">Other Staffs</h3>
                             <div class="col-sm-12" *ngIf="showOtherstaff">
                                 <div style="display: flex;flex-wrap: wrap;">
-                                    <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff" (click)="getotherStaffbyDesignation(item['wtid'],item['wtDesgn'])" >
+                                    <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff" (click)="getotherStaffbyDesignation(item['wtid'],item['wtDesgn'],item['workerstatuses'])" >
                                         <img style="border-radius: 40px;" src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px" height="50px" /> 
                                             {{item['wtDesgn']}}
                                     </div>
@@ -177,8 +177,7 @@
                                                     </ng-container>
                                                     <ng-container *ngIf="item!=-1">
                                                         <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
-                                                        <td> <img style="border-radius: 40px;"
-                                                            src="{{'data:image/jpeg;base64,'+item['idPrfImg']}}" width="50px"
+                                                        <td> <img style="border-radius: 40px;" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['idPrfImg'])" width="50px"
                                                             height="50px" /> </td>
                                                         <td>{{item['wkfName']}}</td>
                                                         <td>{{item['wkDesgn']}}</td>   
@@ -215,7 +214,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-
+                                            <th>Date</th>
                                             <th>
                                                 Staff Name
                                             </th>
@@ -238,11 +237,19 @@
 
                                             <ng-container>
                                                 <!-- <td>{{(i+1)}}</td>                            -->
+                                                <td>{{item['vldCreated']| date :'d-M-y'}}</td>
                                                 <td>{{item['vlfName']}}</td>
-                                                <td>{{item['vlVisLgID']}}</td>
+                                                <td>{{item['vlengName']}}</td>
                                                 <td>{{item['vlEntryT']| date :'shortTime'}}</td>
-                                                <td>{{item['vlVisLgID']}}</td>
+                                                <td>{{item['vlexgName']}}</td>
                                                 <td>{{item['vlExitT']| date :'shortTime'}} </td>
+                                            </ng-container>
+
+                                        </tr>
+                                        <tr *ngIf="staffReports.length==0">
+
+                                            <ng-container>
+                                                <td colspan="6"> no reports found</td>
                                             </ng-container>
 
                                         </tr>

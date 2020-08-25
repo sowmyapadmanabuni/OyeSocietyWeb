@@ -27,6 +27,7 @@ export class StaffComponent implements OnInit {
   staffs1:any[];
   wkrating:any;
   wkrating1:any;
+  ratingotherstaff:any;
   staffByDesignation:any;
   showOtherstaff:any;
   showstaffBydesignation:any;
@@ -78,6 +79,7 @@ export class StaffComponent implements OnInit {
       this.PaginatedValue=10;
     this.EndDate = '';
     this.StartDate = '';
+    this.ratingotherstaff='';
     this.WorkerNameList = [];
     this.workerImg = [];
     this.otherStaff = [];
@@ -210,8 +212,8 @@ this.enableviewDocuments=false;
         let input = {
           "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
           "WKWorkID": id,
-          "FromDate": this.StaffStartDate==''?'07-01-2020':formatDate(this.StaffStartDate,'MM/dd/yyyy','en'),
-          "ToDate": this.StaffEndDate==''?todayDate:formatDate(this.StaffEndDate,'MM/dd/yyyy','en'),
+          "FromDate": this.StaffStartDate==''?'07-01-2020':formatDate(this.StaffStartDate,'MM-dd-yyyy','en'),
+          "ToDate": this.StaffEndDate==''?todayDate:formatDate(this.StaffEndDate,'MM-dd-yyyy','en'),
           "ACAccntID": this.globalServiceService.getacAccntID(),
           "UNUnitID": this.globalServiceService.getCurrentUnitId()
           };
@@ -238,7 +240,8 @@ this.enableviewDocuments=false;
   //Get Staff Report start
 
 //get staff details based on designation
-getotherStaffbyDesignation(desgid,wtDesgn){
+getotherStaffbyDesignation(desgid,wtDesgn,workerstatuses1){
+  console.log(workerstatuses1);
   this.showOtherstaff=false;
   this.showstaffBydesignation=true;
   console.log(desgid);
@@ -255,6 +258,9 @@ getotherStaffbyDesignation(desgid,wtDesgn){
             this.staffByDesignation=response['data']['workers'];
            // this.staffByDesignation=this.staffByDesignation.filter(item=>{
             //  return item['wkWorkID']==desgid;
+          
+//console.log(this.ratingotherstaff);
+
           },
           (error) => {
             console.log(error);
