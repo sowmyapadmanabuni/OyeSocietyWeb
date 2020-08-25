@@ -258,7 +258,6 @@ export class VehiclesComponent implements OnInit {
     this.veRegNo = '';
     this.veStickNo = '';
     this.uplNum = '';
-   // console.log(this.uplNum);
     this.veType = '';
     console.log(veType);
     console.log(veRegNo);
