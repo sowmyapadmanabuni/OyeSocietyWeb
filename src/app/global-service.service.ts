@@ -62,6 +62,8 @@ export class GlobalServiceService {
    gotojoinassociation:any;
   public assnIdForUnitTotalOccupancyVacantCountDetails = new Subject();
   AdminResidentActiveNotification:number;
+  AdminActiveNotification:number;
+  ResidentActiveNotification:number;
   noofblockscount;
  
   constructor() {

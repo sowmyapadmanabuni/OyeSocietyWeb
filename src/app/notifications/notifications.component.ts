@@ -13,6 +13,7 @@ declare var $: any;
 import * as gateFirebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
+import {NotificationService} from '../../services/notification.service';
 
 let config = {
   apiKey: "AIzaSyBaS0nRRwB5wU1D3C6CjR9b6CVOC3aHay4",
@@ -73,6 +74,7 @@ export class NotificationsComponent implements OnInit {
   constructor(private utilsService: UtilsService,public router:Router,
     public globalService: GlobalServiceService,
     private modalService: BsModalService,
+    public notificationService: NotificationService,
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
     private DashBoardService: DashBoardService) {
@@ -123,7 +125,7 @@ export class NotificationsComponent implements OnInit {
     this.refreshNotificationArray();
     this.id = setInterval(() => {
       this.refreshNotificationArray(); 
-    }, 7000);
+    }, 10000);
   }
 
   ngOnDestroy() {
@@ -132,19 +134,21 @@ export class NotificationsComponent implements OnInit {
     }
   }
   refreshNotificationArray() {
+    this.notificationService.NotificationDataRefresh();
     let ipAddress = this.utilsService.getIPaddress();
     return this.http.get(`${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/1`,
     { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
     .subscribe(data=>{
       console.log('NotiRefreshData',data);
-      this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
+      //this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
-        // this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
+         this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       }
     },
     err=>{
       console.log(err);
     })
+   
   }
 
   openModal3(privacy: TemplateRef<any>) {
@@ -344,37 +348,11 @@ export class NotificationsComponent implements OnInit {
     this.http.get(url, { headers: headers })
       .subscribe(data => {
         console.log(data);
-        if (param == 'Join') {
-          for (let i = 0; i < this.notificationListArray.length; i++) {
-            if (this.notificationListArray[i]['adminNtid'] == ntid) {
-              console.log(this.notificationListArray[i]['adminReadStatus']);
-              if (this.notificationListArray[i]['adminReadStatus'] == 'Unread') {
-                this.AdminActiveNotification -= 1;
-                this.globalService.AdminResidentActiveNotification -= 1;
-                console.log(this.AdminActiveNotification);
-              }
-              this.notificationListArray[i]['adminReadStatus'] = 'Read';
-            }
-          }
-        }
-        else {
-          for (let j = 0; j < this.ResidentNotificationListArray.length; j++) {
-            if (this.ResidentNotificationListArray[j]['residentNtid'] == ntid) {
-              console.log(this.ResidentNotificationListArray[j]['residentReadStatus']);
-              if (this.ResidentNotificationListArray[j]['residentReadStatus'] == 'Unread') {
-                this.ResidentActiveNotification -= 1;
-                this.globalService.AdminResidentActiveNotification -= 1;
-              }
-              this.ResidentNotificationListArray[j]['residentReadStatus'] = 'Read';
-            }
-          }
-        }
-        //this.getNotification('');
-        //this.ntJoinStatTmp2 =  data['data']['notification']['ntJoinStat'];
       },
         err => {
           console.log(err);
         })
+        this.notificationService.NotificationDataRefresh();
   }
   //
   // Accept the join request start here
@@ -651,8 +629,8 @@ export class NotificationsComponent implements OnInit {
             console.log(associationid, visitorId, DateOfApproval, visitorStatus,);
             this.changeViewOfActionButton=false;
             this.updateFirebase(associationid);
-            // alert('Success');
-            this.router.navigate(['home']);
+            alert('Success');
+            // this.router.navigate(['home']);
           },
             err => {
               console.log(err);
@@ -725,6 +703,7 @@ export class NotificationsComponent implements OnInit {
        { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
        .subscribe(data=>{
          console.log(data);
+         alert('Registered')
        },
        err=>{
          console.log(err);

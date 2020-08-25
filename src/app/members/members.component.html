@@ -78,8 +78,8 @@
                                 <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : item['tenant'][0]['utfName'] : item['owner'][0]['uofName']}}</td>
                                 <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91")) ? item['tenant'][0]['utMobile'] : '+91'+item['tenant'][0]['utMobile'] : (item['owner'][0]['uoMobile'].includes("+91")) ? item['owner'][0]['uoMobile'] : '+91'+ item['owner'][0]['uoMobile']}}</td>
                                 <td>{{item['unOcStat']}}</td>
-                                <!-- <td class="txt-middle">{{item['vehcleCount']}}</td> -->
-                                <td>{{item['owner'].length == 0 ? '' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td>
+                                <!-- <td>{{item['owner'].length == 0 ? '' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td> -->
+                                <td>{{item['owner'].length == 0 ? 'Tenant' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td>
                                 <td class="txt-middle">
                                     <div *ngIf="item['unOcStat']=='Sold Owner Occupied Unit'" class="dropdown search-dropd" style="margin-top:0px">
                                         <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"

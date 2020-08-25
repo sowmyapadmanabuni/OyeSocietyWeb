@@ -201,7 +201,7 @@
             </div>
         </mat-tab>
 
-        <mat-tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
             <form [formGroup]="gstpanform" class="association-form3" style="padding-left: 125px;">
                 <mat-form-field class="association-full-width">
                     <mat-label>GST NUMBER(OPTIONAL)</mat-label>
@@ -292,7 +292,7 @@
                 <a mat-raised-button color="primary" [disabled]="!form.valid"(click)="submitamenity($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab> -->
-        <mat-tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">
                     <mat-label>TOTAL NO OF BLOCKS<span class="red">*</span></mat-label>
@@ -343,7 +343,7 @@
                       
            
         </mat-tab> -->
-        <mat-tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
             <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             <!-- <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
@@ -492,6 +492,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="blockdetailsbuttons1" class="save">
+                                    <button class="continue" (click)="resetforduplicatesorinvalidblocks($event,obj.Id)" [disabled]="obj.hasNoDuplicateBlockname" [ngStyle]="{'opacity':obj.hasNoDuplicateBlockname ? '0.5' : '1' }" mat-raised-button color="primary" >RESET</button>
+                                    <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -581,10 +585,10 @@
                         
                         </div> -->
                      
-                    <div id="blockdetailsbuttons1"class="save">
+                    <!-- <div id="blockdetailsbuttons1"class="save">
                         <a class="continue" (click)="resetStep4($event)" mat-raised-button color="primary" >RESET</a>
                         <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
-                    </div>
+                    </div> -->
                 </div>
                 <!--BlockBulkupload-->
 
@@ -726,7 +730,7 @@
 
 
         </mat-tab> -->
-        <mat-tab [disabled]='!tab.isActive' label="UNITS DETAILS">
+        <mat-tab #tab [disabled]='!tab.isActive' label="UNITS DETAILS">
                 <div>
                         <!-- <button style="float: right;margin-top:12px" id="unitbulkbutton" mat-raised-button color="primary"
                                             (click)="submitforbulkupload($event)">Bulk Upload</button> -->
@@ -1208,13 +1212,19 @@
                                                 </div>
                                             </form>
                                         </div>
+                                        <div>
+                                            <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blocknameforIteration,i)">Save & Continue</button>
+                                        </div>
+                                        <div class="save">
+                                            <button class="resetforbulkunits" (click)="resetStep5bulk($event,blocknameforIteration,obj.Id)" [disabled]="obj.isUnitCreated" [ngStyle]="{'opacity':obj.isUnitCreated ? '0.5' : '1' }" mat-raised-button color="primary">RESET</button>
+                                        </div>
                                     </div>
-                                    <div>
+                                    <!-- <div>
                                         <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blocknameforIteration,i)">Save & Continue</button>
                                     </div>
                                     <div class="save">
                                         <a class="resetforbulkunits" (click)="resetStep5bulk($event,blocknameforIteration)"mat-raised-button color="primary">RESET</a>
-                                    </div> 
+                                    </div>  -->
                                 </div>
 
                             </div>
@@ -1394,10 +1404,10 @@
                 </mat-tab-group>  -->
                </div>
         </mat-tab>
-        <mat-tab  [disabled]='!tab.isActive' label="SUBSCRIPTION">
+        <mat-tab #tab [disabled]='!tab.isActive' label="SUBSCRIPTION">
 
         </mat-tab>
-        <mat-tab  [disabled]='!tab.isActive' label="PAYMENT">
+        <mat-tab #tab [disabled]='!tab.isActive' label="PAYMENT">
 
         </mat-tab>
     </div>

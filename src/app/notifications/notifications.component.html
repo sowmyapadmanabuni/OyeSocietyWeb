@@ -11,10 +11,10 @@
               <span class="l-top">&nbsp;</span>
               <ul class="tabs group">
                 <li (click)="AdminsUnitShow('resident')">
-                  <a data-toggle="tab" class="tab-ti">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
+                  <a data-toggle="tab" class="tab-ti">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{globalService.ResidentActiveNotification}}</span></a> 
                 </li>
                 <li *ngIf="globalService.mrmroleId==1" style="float: right;" (click)="AdminsButtonShow('admin')" class="active right-tab">
-                  <a class="act-b tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
+                  <a class="act-b tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{globalService.AdminActiveNotification}}</span></a> 
                 </li>
   
               </ul>
@@ -94,10 +94,10 @@
             <span class="r-top">&nbsp;</span>
             <ul class="tabs group">
               <li (click)="AdminsUnitShow('resident')" class="active left-tab">
-                <a class="act-a tab-ti" ata-toggle="tab">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{ResidentActiveNotification}}</span></a> 
+                <a class="act-a tab-ti" ata-toggle="tab">MY UNITS <img src="../../assets/images/notification_bell.png"><span class="not-count">{{globalService.ResidentActiveNotification}}</span></a> 
               </li>
               <li *ngIf="globalService.mrmroleId==1" (click)="AdminsButtonShow('admin')">
-                <a class="tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{AdminActiveNotification}}</span></a> 
+                <a class="tab-ti" data-toggle="tab">ADMIN <img src="../../assets/images/notification_bell.png"><span class="not-count">{{globalService.AdminActiveNotification}}</span></a> 
               </li>
             </ul>
           </div>
@@ -219,7 +219,7 @@
                                                   <div *ngIf="item['ntdCreated']"><span class="exitnot-title">Exit triggered on:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                   <div  *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated'] | date:'mediumDate'}}&nbsp;&nbsp;{{item['visitorlog'][0]['vlExitT'] | date:'shortTime'}} </div>
                                                   <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}</div>
-                                                  <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''}}</div>
+                                                  <div *ngIf="item['visitorlog'][0]['vlMobile'] "><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
                                                 </div>
                                                 </div>
                                                   <!-- KID EXIT template -->
@@ -241,15 +241,17 @@
                         <div *ngIf="item['ntType']=='Staff Registration'">
                           <div *ngIf="item['ntJoinStat']=='Registration Pending'">
                             <span (click)="staffRegistration(item['ntid'],'Approved')"
-                              class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Approv</span>
+                              class="approve app-rej"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Allow</span>
                           </div>
                           <div *ngIf="item['ntJoinStat']=='Registration Pending'">
                             <span (click)="staffRegistration(item['ntid'],'Rejected')"
-                              class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
+                              class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Denay</span>
                           </div>
                         </div>
-
                         <!-- "Staff registration approve/reject"  -->
+
+
+
                         <div *ngIf="item['ntType']!='Staff Registration'">
                         <div *ngIf="item['visitorlog'][0]['vlVisType']!='Staff Voisentry'">
                         <div *ngIf="item['visitorlog'][0]['vlVisType']!='Guest with Invitation'">

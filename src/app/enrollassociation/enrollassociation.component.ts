@@ -70,6 +70,9 @@ export class EnrollassociationComponent implements OnInit {
   invalidUnitCount:number;
   canDoBlockLogicalOrder:boolean;
   canDoUnitLogicalOrder:boolean;
+  indexToCheckValidBlockName:number;
+  ValidBlockName:any;
+  InvalidBlocknamePresent:boolean;
 
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
@@ -78,6 +81,9 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.InvalidBlocknamePresent = false;
+      this.ValidBlockName='';
+      this.indexToCheckValidBlockName=0;
       this.canDoBlockLogicalOrder=true;
       this.canDoUnitLogicalOrder = true;
       this.duplicateBlockCount=0;
@@ -1301,6 +1307,7 @@ export class EnrollassociationComponent implements OnInit {
                 })
                 this.isunitdetailsempty = false;
                 this.assignTmpid(this.nextBlckId, this.blocknameforIteration);
+                this.indexToCheckValidBlockName += 1;
               }
             })
         }
@@ -1804,6 +1811,7 @@ export class EnrollassociationComponent implements OnInit {
         /**/
         if (name.toLowerCase() == headername.toLowerCase()) {
           console.log(unit);
+          console.log(flatno);
           console.log(this.unitlistjson[element]);
           if (this.isunitdetailsempty) {
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
@@ -1817,11 +1825,13 @@ export class EnrollassociationComponent implements OnInit {
               ) {
                 console.log('test0-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1837,9 +1847,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -1863,11 +1875,13 @@ export class EnrollassociationComponent implements OnInit {
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                   console.log('test0-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1882,9 +1896,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -1904,11 +1920,13 @@ export class EnrollassociationComponent implements OnInit {
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                   console.log('test0-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1923,9 +1941,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -1940,11 +1960,13 @@ export class EnrollassociationComponent implements OnInit {
               ) {
                 console.log('test0-UnSold Vacant Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-UnSold Vacant Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1959,9 +1981,11 @@ export class EnrollassociationComponent implements OnInit {
                   else if (unit_group[element].length == 1) {
                     console.log(unit)
                     unit_group[element].forEach(itm1=>{
-                      if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                        unit.hasNoDuplicateUnitname = true;
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
                       }
                     })
                   }
@@ -2255,10 +2279,28 @@ export class EnrollassociationComponent implements OnInit {
       this.blockdetailsfinalcreation();
     }
     else {
+      let blockArrWithoutBlocknameUndefined=[];
       this.blockssuccessarray = [];
+      this.blocksArray.forEach(item=>{
+        if(item.blockname != undefined){
+          blockArrWithoutBlocknameUndefined.push(item);
+        }
+      })
+      console.log(this.blocksArray);
+      this.blocksArray.forEach(item=>{
+        if(item.blockname == undefined){
+          console.log(item);
+          this.duplicateBlockArr.push(item);
+          this.invalidBlockCount += 1;
+          console.log(this.invalidBlockCount)
+        }
+      })
+      this.blocksArray=[];
+      this.blocksArray=blockArrWithoutBlocknameUndefined;
+      console.log(this.blocksArray);
       let group = this.blocksArray.reduce((r, a) => {
-        r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
-        return r;
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
       }, {});
       console.log("block_group", group);
       Object.keys(group).forEach(element => {
@@ -2294,6 +2336,7 @@ export class EnrollassociationComponent implements OnInit {
         this.notValidBlockArr.forEach(item => {
           this.duplicateBlockArr.push(item);
           this.invalidBlockCount += 1;
+          console.log(this.invalidBlockCount);
         })
       }
       this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
@@ -2975,7 +3018,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3010,7 +3053,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3099,7 +3142,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3147,7 +3190,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3195,7 +3238,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3243,7 +3286,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3291,7 +3334,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3339,7 +3382,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3387,7 +3430,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3435,7 +3478,7 @@ export class EnrollassociationComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -3859,6 +3902,12 @@ export class EnrollassociationComponent implements OnInit {
     this.unitrecordDuplicateUnitnameModified = false;
     this.duplicateUnitrecordexist = false;
     console.log(exceldata.length);
+    exceldata.forEach(item => {
+      if (item.blockname.toLowerCase() != this.ValidBlockName['name'].toLowerCase()) {
+        console.log(item.blockname);
+        this.InvalidBlocknamePresent = true;
+      }
+    })
     if (exceldata.length == 0) {
       Swal.fire({
         title: 'Please fill all the fields',
@@ -3866,6 +3915,20 @@ export class EnrollassociationComponent implements OnInit {
         type: "error",
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK"
+      })
+    }
+    else if(this.InvalidBlocknamePresent){
+      Swal.fire({
+        title: 'Please Check Blockname',
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+            this.InvalidBlocknamePresent = false;
+          }
       })
     }
     else {
@@ -4030,6 +4093,15 @@ export class EnrollassociationComponent implements OnInit {
   blockunitcountmodalRef: BsModalRef;
 
   onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+    console.log(this.finalblocknameTmp);
+    let orderBlockinLogically=[];
+    orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
+    console.log(orderBlockinLogically);
+    this.finalblocknameTmp = [];
+    this.finalblocknameTmp = orderBlockinLogically;
+    console.log(this.finalblocknameTmp);
+    this.ValidBlockName = this.finalblocknameTmp[this.indexToCheckValidBlockName];
+    console.log('ValidBlockName ',this.ValidBlockName);
     this.file = ev.target.files[0];
     let fileReader = new FileReader();
     fileReader.readAsArrayBuffer(this.file);
@@ -4049,7 +4121,121 @@ export class EnrollassociationComponent implements OnInit {
       this.excelunitsuploaddata(arraylist1, UpdateBlockUnitCountTemplate)
     }
   }
+  resetforduplicatesorinvalidblocks(ev,objId) {
+    console.log('ev');
+    console.log(this.blocksArray);
+    console.log(objId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: '#f69321',
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+        if (result.value) {
+          this.blocksArray.forEach(elemnt => {
+            if (elemnt.Id == objId) {
+              console.log('elemnt.Id==objId');
+              elemnt.blockname = '';
+              // elemnt.blocktype='';
+              elemnt.units = '';
+              elemnt.managername = '';
+              elemnt.managermobileno = '';
+              elemnt.manageremailid = '';
+            }
+          })
+        }
+      })
+  }
+  resetStep5bulk(ev, blknamecommon, Id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+ 
+        if (result.value) {
+ 
+          Object.keys(this.unitlistjson).forEach(element => {
+            this.unitlistjson[element].forEach(unit => {
+              if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
+                console.log(Id);
+                unit.flatno = "",
+                  unit.blockname = "",
+                  unit.owneremaiid = "",
+                  unit.ownerfirstname = "",
+                  unit.ownermobilenumber = "",
+                  unit.ownershipstatus = "",
+                  unit.unittype = "",
+                  unit.ownerlastname = "",
+                  unit.ownermobilenumber = "",
+                  unit.owneremaiid = "",
+                  unit.tenantfirstname = "",
+                  unit.tenantlastname = "",
+                  unit.tenantmobilenumber = "",
+                  unit.tenantemaiid = ""
+              }
+            })
+          })
+        }
+      })
 
+
+ 
+    /* Object.keys(this.unitlistjson).forEach(element=>{
+       console.log(this.unitlistjson[element])
+       this.unitlistjson[element].forEach(unit => {
+ if(blknamecommon == unit.blockname&&unit.blockname!=undefined){
+ 
+       unit.flatno="",
+       unit.blockname ="",
+       unit.owneremaiid="",
+       unit.ownerfirstname="",
+       unit.ownermobilenumber="",
+       unit.ownershipstatus="",
+       unit.unittype="",
+       unit.ownerlastname="",
+       unit.ownermobilenumber= "",
+       unit.owneremaiid="",
+       unit.tenantfirstname="",
+       unit.tenantlastname="",
+       unit.tenantmobilenumber="",
+       unit.tenantemaiid=""
+     }else{
+       let blname = unit.Id.slice(0, -2);
+       if(blknamecommon == blname){
+         unit.flatno="",
+         unit.blockname ="",
+         unit.owneremaiid="",
+         unit.ownerfirstname="",
+         unit.ownermobilenumber="",
+         unit.ownershipstatus="",
+         unit.unittype="",
+         unit.ownerlastname="",
+         unit.ownermobilenumber= "",
+         unit.owneremaiid="",
+         unit.tenantfirstname="",
+         unit.tenantlastname="",
+         unit.tenantmobilenumber="",
+         unit.tenantemaiid=""
+       }
+    
+     }
+ 
+       })
+     }) */
+ 
+  }
   // onFileunitdetailschange(ev) {
   //   console.log(ev)
   //   let workBook = null;
@@ -4387,69 +4573,69 @@ export class EnrollassociationComponent implements OnInit {
       })
 
   }
-  resetStep5bulk(ev, blknamecommon) {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you really want to reset?",
-      type: "warning",
-      confirmButtonColor: "#f69321",
-      confirmButtonText: "OK",
-      showCancelButton: true,
-      cancelButtonText: "CANCEL"
-    }).then(
-      (result) => {
-        console.log(result)
+  // resetStep5bulk(ev, blknamecommon) {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "Do you really want to reset?",
+  //     type: "warning",
+  //     confirmButtonColor: "#f69321",
+  //     confirmButtonText: "OK",
+  //     showCancelButton: true,
+  //     cancelButtonText: "CANCEL"
+  //   }).then(
+  //     (result) => {
+  //       console.log(result)
 
-        if (result.value) {
-          Object.keys(this.unitlistjson).forEach(element => {
-            console.log(this.unitlistjson[element])
-            this.unitlistjson[element].forEach(unit => {
-              if (blknamecommon == unit.blockname && unit.blockname != undefined) {
+  //       if (result.value) {
+  //         Object.keys(this.unitlistjson).forEach(element => {
+  //           console.log(this.unitlistjson[element])
+  //           this.unitlistjson[element].forEach(unit => {
+  //             if (blknamecommon == unit.blockname && unit.blockname != undefined) {
 
-                unit.flatno = "",
-                  unit.blockname = "",
-                  unit.owneremaiid = "",
-                  unit.ownerfirstname = "",
-                  unit.ownermobilenumber = "",
-                  unit.ownershipstatus = "",
-                  unit.unittype = "",
-                  unit.ownerlastname = "",
-                  unit.ownermobilenumber = "",
-                  unit.owneremaiid = "",
-                  unit.tenantfirstname = "",
-                  unit.tenantlastname = "",
-                  unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = ""
-              } else {
-                let blname = unit.Id.slice(0, -2);
-                if (blknamecommon == blname) {
-                  unit.flatno = "",
-                    unit.blockname = "",
-                    unit.owneremaiid = "",
-                    unit.ownerfirstname = "",
-                    unit.ownermobilenumber = "",
-                    unit.ownershipstatus = "",
-                    unit.unittype = "",
-                    unit.ownerlastname = "",
-                    unit.ownermobilenumber = "",
-                    unit.owneremaiid = "",
-                    unit.tenantfirstname = "",
-                    unit.tenantlastname = "",
-                    unit.tenantmobilenumber = "",
-                    unit.tenantemaiid = ""
-                }
+  //               unit.flatno = "",
+  //                 unit.blockname = "",
+  //                 unit.owneremaiid = "",
+  //                 unit.ownerfirstname = "",
+  //                 unit.ownermobilenumber = "",
+  //                 unit.ownershipstatus = "",
+  //                 unit.unittype = "",
+  //                 unit.ownerlastname = "",
+  //                 unit.ownermobilenumber = "",
+  //                 unit.owneremaiid = "",
+  //                 unit.tenantfirstname = "",
+  //                 unit.tenantlastname = "",
+  //                 unit.tenantmobilenumber = "",
+  //                 unit.tenantemaiid = ""
+  //             } else {
+  //               let blname = unit.Id.slice(0, -2);
+  //               if (blknamecommon == blname) {
+  //                 unit.flatno = "",
+  //                   unit.blockname = "",
+  //                   unit.owneremaiid = "",
+  //                   unit.ownerfirstname = "",
+  //                   unit.ownermobilenumber = "",
+  //                   unit.ownershipstatus = "",
+  //                   unit.unittype = "",
+  //                   unit.ownerlastname = "",
+  //                   unit.ownermobilenumber = "",
+  //                   unit.owneremaiid = "",
+  //                   unit.tenantfirstname = "",
+  //                   unit.tenantlastname = "",
+  //                   unit.tenantmobilenumber = "",
+  //                   unit.tenantemaiid = ""
+  //               }
 
-              }
+  //             }
 
-            })
-          })
-        }
-      })
-
-
+  //           })
+  //         })
+  //       }
+  //     })
 
 
-  }
+
+
+  // }
   previouspage(ev) {
     this.demo1TabIndex = this.demo1TabIndex - 1;
 
