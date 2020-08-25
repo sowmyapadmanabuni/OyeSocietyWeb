@@ -2907,7 +2907,7 @@ this.enblJoinAsnVew()
 
 
 
-  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType, asPrpName, asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID,asWebURL,asAsnEmail) {
+  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType,asAsnLogo, asPrpName, aspanNum,aspanDoc,asgstNo,asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID,asWebURL,asAsnEmail) {
     //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
     let EditAssociationData = {};
     this.ASAsnName = asAsnName;
@@ -3002,7 +3002,7 @@ this.enblJoinAsnVew()
         "ASAddress": asAddress,
         "ASCountry": asCountry,
         "ASAsnName": asAsnName,
-        "ASPANNum": "",
+        "ASPANNum": aspanNum,
         "ASRegrNum": "",
         "ASCity": asCity,
         "ASState": asState,

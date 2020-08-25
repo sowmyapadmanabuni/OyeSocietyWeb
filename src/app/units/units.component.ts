@@ -64,6 +64,7 @@ export class UnitsComponent implements OnInit {
   parkings: any = [];
   newParking: any = {};
   allUnitBYBlockID: any[];
+  allUnitBYBlockID1: any[];
   accountTypes:object[];
   unitTypes:object[];
   calculationTypes:object[];
@@ -89,7 +90,6 @@ export class UnitsComponent implements OnInit {
   tenantMobnumber:string;
   tenantEmail:string;
   p: number=1;
-
   order: string = 'unUniName';
   reverse: boolean = false;
   sortedCollection: any[];
@@ -128,7 +128,7 @@ export class UnitsComponent implements OnInit {
       itemsPerPage: 10,
       currentPage: 1
     };
-
+    this.allUnitBYBlockID1=[]
     this.p=1;
     this.blBlockID = '';
     this.unitType='';
@@ -250,10 +250,12 @@ export class UnitsComponent implements OnInit {
         //console.log('allBlocksLists',this.allBlocksLists);
       });
       this.SnackBar();
-      this.ids = setInterval(() => {
-        if(this.blockID){
-          this.getAllUnitDetailsByBlockID(this.blockID,this.blBlkName);
-        }
+      this.ids = setInterval(async () => {
+         if(this.blockID){
+           if(this.allUnitBYBlockID.length!=this.allUnitBYBlockID1.length){
+           this.getAllUnitDetailsByBlockIDfinallist(this.blockID,this.blBlkName);
+          }
+         }
       },5000)
   }
   ngOnDestroy(){
@@ -285,6 +287,18 @@ export class UnitsComponent implements OnInit {
         this.allBlocksLists = data['data'].blocksByAssoc;
         console.log('allBlocksLists',this.allBlocksLists);
       });
+  }
+  EnableUnitListView(event) {
+    console.log(event);
+    if(event == 'EnableUnitList'){
+      this.getAllUnitDetailsByBlockID(this.blockID,this.blBlkName);
+      this.viewUniService.unitList = true;
+      this.viewUniService.addUnits = false;
+
+
+      // this.enableBlockListView=true;
+      // this.enableAddBlocksView=false;
+    }
   }
   getUnitDetails() {
     // console.log(this.associationID);
@@ -432,7 +446,7 @@ export class UnitsComponent implements OnInit {
   }
 
   commonunit: boolean;
-  getAllUnitDetailsByBlockID(blBlockID, blBlkName) {
+   getAllUnitDetailsByBlockID(blBlockID, blBlkName) {
     this.blBlkName = blBlkName;
     this.blockID = blBlockID;
     this.blBlkName = blBlkName;
@@ -460,7 +474,57 @@ export class UnitsComponent implements OnInit {
           }
         })
       }
-        //
+
+      //asbGnDate
+
+         if(data['data']['unitsByBlockID'].length > this.allUnitBYBlockID.length){
+        
+          this.allUnitBYBlockID = data['data']['unitsByBlockID']
+
+   
+      }
+        
+      });
+  }
+  
+  getAllUnitDetailsByBlockIDfinallist(blBlockID, blBlkName){
+    this.blBlkName = blBlkName;
+    this.blockID = blBlockID;
+    this.blBlkName = blBlkName;
+    let Commonarray = []
+    //this.blBlockID=blBlockID;
+    let array = []
+    /*-------------------Get Unit List By Block ID ------------------*/
+    this.viewUniService.GetUnitListByBlockID(blBlockID)
+      .subscribe(data => {
+        if(data['data']['unitsByBlockID'].length > this.allUnitBYBlockID.length){
+          Commonarray = data['data'].unitsByBlockID;
+          console.log(Commonarray);
+          console.log(this.allUnitBYBlockID.length, data['data']['unitsByBlockID'].length);
+     
+        
+        Commonarray.forEach((ele: any) => {
+          this.commonunit = ele.unUniName.endsWith("-Common");
+          if (this.commonunit) {
+            array.push(ele)
+          }
+          else {
+            this.allUnitBYBlockID1.push(ele)
+            // this.unitslistcount = this.allUnitBYBlockID;
+            this.sortedCollection = this.orderpipe.transform(this.allUnitBYBlockID, 'unUniName');
+          }
+        })
+      }
+
+      //asbGnDate
+
+         if(data['data']['unitsByBlockID'].length > this.allUnitBYBlockID.length){
+        
+          this.allUnitBYBlockID = data['data']['unitsByBlockID']
+
+   
+      }
+        
       });
   }
 

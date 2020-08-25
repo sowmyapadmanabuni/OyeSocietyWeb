@@ -103,7 +103,7 @@ import { CareersComponent } from './careers/careers.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 //export const firebaseConfig = environment.firebaseConfig;
 import { GoogleChartsModule } from 'angular-google-charts';
-import { StarRatingModule } from 'angular-star-rating';
+// import { StarRatingModule } from 'angular-star-rating';
 
 import { HttpModule } from '@angular/http';
 
@@ -242,8 +242,8 @@ import { GoogleChartComponent } from './google-chart/google-chart.component';
     NgxQRCodeModule,
     TooltipModule.forRoot(),
     JwSocialButtonsModule,
-    TimepickerModule.forRoot(),
-    StarRatingModule.forRoot()
+    TimepickerModule.forRoot()
+    // StarRatingModule.forRoot()
   ],
   providers: [AudioRecordingService],
   schemas: [

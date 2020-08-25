@@ -9,7 +9,7 @@ import * as _ from 'underscore';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UtilsService } from '../utils/utils.service';
 import swal from 'sweetalert2';
- import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
+//  import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -347,20 +347,20 @@ this.showStaffReports=false;
           console.log(err);
         })
   }
-  onClickResult:IStarRatingOnClickEvent;
+  // onClickResult:IStarRatingOnClickEvent;
    
-    onRatingChangeResult:IStarRatingOnRatingChangeEven;
+    // onRatingChangeResult:IStarRatingOnRatingChangeEven;
 
-    onClick = ($event:IStarRatingOnClickEvent) => {
-        console.log('onClick $event: ', $event);
-        this.onClickResult = $event;
-        this.wkrating1=this.onClickResult.rating
-    };
+    // onClick = ($event:IStarRatingOnClickEvent) => {
+    //     console.log('onClick $event: ', $event);
+    //     this.onClickResult = $event;
+    //     this.wkrating=this.onClickResult.rating
+    // };
 
-    onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
-        console.log('onRatingUpdated $event: ', $event);
-        this.onRatingChangeResult = $event;
-    };
+    // onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
+    //     console.log('onRatingUpdated $event: ', $event);
+    //     this.onRatingChangeResult = $event;
+    // };
 
    
   updateReview(param,coment){

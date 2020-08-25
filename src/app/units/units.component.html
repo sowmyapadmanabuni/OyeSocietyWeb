@@ -141,7 +141,7 @@
             <!--Dashboard icons end-->
             <!--Add Units form Starts-->
             <div class="col-sm-12" *ngIf="viewUniService.addUnits">
-                <app-add-unit></app-add-unit>
+                <app-add-unit (EnableUnitListView)="EnableUnitListView($event)"></app-add-unit>
             </div>
             <!--Add Units form Ends-->
         </div>

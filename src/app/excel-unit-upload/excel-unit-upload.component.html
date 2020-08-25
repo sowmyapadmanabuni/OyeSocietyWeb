@@ -637,13 +637,14 @@
                                                         </div>
                                                     </form>
                                                 </div>
+                                                <div>
+                                                    <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blBlkName,i)">Save & Continue</button>
+                                                </div>
+                                                <div class="save">
+                                                    <a class="resetforbulkunits" (click)="resetStep5bulk($event,blBlkName,obj.Id)" [disabled]="obj.isUnitCreated" [ngStyle]="{'opacity':obj.isUnitCreated ? '0.5' : '1' }" mat-raised-button color="primary">RESET</a>
+                                                </div> 
                                             </div>
-                                            <div>
-                                                <button id="unitssubmit" mat-raised-button color="primary" disabled={{!isunitdetailsempty}} (click)="gotonexttab1($event,blBlkName,i)">Save & Continue</button>
-                                            </div>
-                                            <div class="save">
-                                                <a class="resetforbulkunits" (click)="resetStep5bulk($event,blBlkName)"mat-raised-button color="primary">RESET</a>
-                                            </div> 
+                                          
                                         </div>
         
                                     </div>

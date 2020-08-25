@@ -46,7 +46,7 @@ export class ExcelBlockUploadComponent implements OnInit {
  
   duplicateBlockCount:number;
   invalidBlockCount:number;
-
+  canDoBlockLogicalOrder:boolean;
   constructor(
     public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
@@ -79,7 +79,7 @@ export class ExcelBlockUploadComponent implements OnInit {
  
     this.duplicateBlockCount=0;
     this.invalidBlockCount=0;
-  
+    this.canDoBlockLogicalOrder=true;
 
    }
 
@@ -133,6 +133,37 @@ export class ExcelBlockUploadComponent implements OnInit {
      event.preventDefault();
    }
  }
+ 
+ resetforduplicatesorinvalidblocks(ev,objId) {
+  console.log('ev');
+  console.log(this.blocksArray);
+  console.log(objId);
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you really want to reset?",
+    type: "warning",
+    confirmButtonColor: '#f69321',
+    confirmButtonText: 'OK',
+    showCancelButton: true,
+    cancelButtonText: "CANCEL"
+  }).then(
+    (result) => {
+      console.log(result)
+      if (result.value) {
+        this.blocksArray.forEach(elemnt => {
+          if (elemnt.Id == objId) {
+            console.log('elemnt.Id==objId');
+            elemnt.blockname = '';
+            // elemnt.blocktype='';
+            elemnt.units = '';
+            elemnt.managername = '';
+            elemnt.managermobileno = '';
+            elemnt.manageremailid = '';
+          }
+        })
+      }
+    })
+}
   resetStep4(ev){
     Swal.fire({
       title: "Are you sure?",
@@ -161,12 +192,13 @@ export class ExcelBlockUploadComponent implements OnInit {
 
   }
 
-  getblocknameornumber(Id,blockname){
-    this.valueExcelBlckArr=[];
-    this.ExcelBlkNameDuplicateList=[];
-    this.ExcelBlkNameDuplicateList1=[];
-    this.isblockdetailsempty=false;
-    this.numberofexistence=0;
+  getblocknameornumber(Id, blockname) {
+    this.canDoBlockLogicalOrder=true;
+    this.valueExcelBlckArr = [];
+    this.ExcelBlkNameDuplicateList = [];
+    this.ExcelBlkNameDuplicateList1 = [];
+    this.isblockdetailsempty = false;
+    this.numberofexistence = 0;
 
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
@@ -188,131 +220,351 @@ export class ExcelBlockUploadComponent implements OnInit {
         this.blocksArray.forEach(item => {
           if (item.blockname.toLowerCase() == blockname.toLowerCase()) {
             this.numberofexistence += 1;
-            if(this.numberofexistence == 1){
-              element.hasNoDuplicateBlockname=true;
+            if (this.numberofexistence == 1) {
+              element.hasNoDuplicateBlockname = true;
             }
-            else{
-              element.hasNoDuplicateBlockname=false;
+            else {
+              element.hasNoDuplicateBlockname = false;
             }
           }
-        }) 
+        })
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
       }
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+        let blockgroup = this.blocksArray.reduce((r, a) => {
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
+        }, {});
+        console.log("block_group", blockgroup);
+        Object.keys(blockgroup).forEach(key => {
+           if (blockgroup[key].length == 1) {
+            blockgroup[key].forEach(itm1=>{
+              this.blocksArray.forEach(itm2=>{
+                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                    itm2.hasNoDuplicateBlockname = true;
+                    console.log('blockgroup[key].length == 1 this.isblockdetailsempty = false');
+                  }
+                  else{
+                    itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
+                    console.log('blockgroup[key].length == 1 this.isblockdetailsempty = true');
+                  }
+                }
+              })
+            })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
+            console.log('blockgroup[key].length > 1');
+          }
+        })
+      }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
-  getnoofunits(Id,units){
-    this.isblockdetailsempty=false;
-    this.blocksArray.forEach(element=>{
-      if(element.Id== Id){
+  getnoofunits(Id, units) {
+    this.canDoBlockLogicalOrder=true;
+    this.isblockdetailsempty = false;
+    this.blocksArray.forEach(element => {
+      if (element.Id == Id) {
         element.units = units;
-        if(element.units ==""){
-          element['isnotvalidunits']=true;
-          this.blockdetailInvalid=true;
+        if (element.units == "") {
+          element['isnotvalidunits'] = true;
+          this.blockdetailInvalid = true;
         }
-        else{
-          element['isnotvalidunits']=false;
+        else {
+          element['isnotvalidunits'] = false;
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-          element.isblockdetailsempty1=true;  
+          element.isblockdetailsempty1 = true;
         }
-        else{
-          element.isblockdetailsempty1=false;  
+        else {
+          element.isblockdetailsempty1 = false;
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        element.hasNoDuplicateBlockname = false;
         this.isblockdetailsempty = true
       }
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+        let blockgroup = this.blocksArray.reduce((r, a) => {
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
+        }, {});
+        console.log("block_group", blockgroup);
+        Object.keys(blockgroup).forEach(key => {
+           if (blockgroup[key].length == 1) {
+            blockgroup[key].forEach(itm1=>{
+              this.blocksArray.forEach(itm2=>{
+                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                    itm2.hasNoDuplicateBlockname = true;
+                  }
+                  else{
+                    itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
+                  }
+                }
+              })
+            })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
+          }
+        })
+      }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
-  getmanagername(Id,managername){
-    this.isblockdetailsempty=false;
-    this.blocksArray.forEach(element=>{
-      if(element.Id== Id){
+  getmanagername(Id, managername) {
+    this.canDoBlockLogicalOrder=true;
+    this.isblockdetailsempty = false;
+    this.blocksArray.forEach(element => {
+      if (element.Id == Id) {
         element.managername = managername;
-        if(element.managername ==""){
-          element['isnotvalidmanagername']=true;
-          this.blockdetailInvalid=true;
+        if (element.managername == "") {
+          element['isnotvalidmanagername'] = true;
+          this.blockdetailInvalid = true;
         }
-        else{
-          element['isnotvalidmanagername']=false;
+        else {
+          element['isnotvalidmanagername'] = false;
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-          element.isblockdetailsempty1=true;  
+          element.isblockdetailsempty1 = true;
         }
-        else{
-          element.isblockdetailsempty1=false;  
+        else {
+          element.isblockdetailsempty1 = false;
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
       }
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+        let blockgroup = this.blocksArray.reduce((r, a) => {
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
+        }, {});
+        console.log("block_group", blockgroup);
+        Object.keys(blockgroup).forEach(key => {
+           if (blockgroup[key].length == 1) {
+            blockgroup[key].forEach(itm1=>{
+              this.blocksArray.forEach(itm2=>{
+                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                    itm2.hasNoDuplicateBlockname = true;
+                  }
+                  else{
+                    itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
+                  }
+                }
+              })
+            })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
+          }
+        })
+      }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
-  getmanagermobileno(Id,managermobileno){
-    this.isblockdetailsempty=false;
-    this.blocksArray.forEach(element=>{
-      if(element.Id== Id){
+  getmanagermobileno(Id, managermobileno) {
+    this.canDoBlockLogicalOrder=true;
+    this.isblockdetailsempty = false;
+    this.blocksArray.forEach(element => {
+      if (element.Id == Id) {
         element.managermobileno = managermobileno;
-        if(element.managermobileno ==""){
-          element['isnotvalidmanagermobileno']=true;
-          this.blockdetailInvalid=true;
+        if (element.managermobileno == "") {
+          element['isnotvalidmanagermobileno'] = true;
+          this.blockdetailInvalid = true;
         }
-        else{
-          element['isnotvalidmanagermobileno']=false;
+        else {
+          element['isnotvalidmanagermobileno'] = false;
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-          element.isblockdetailsempty1=true;  
+          element.isblockdetailsempty1 = true;
         }
-        else{
-          element.isblockdetailsempty1=false;  
+        else {
+          element.isblockdetailsempty1 = false;
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
       }
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+        let blockgroup = this.blocksArray.reduce((r, a) => {
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
+        }, {});
+        console.log("block_group", blockgroup);
+        Object.keys(blockgroup).forEach(key => {
+           if (blockgroup[key].length == 1) {
+            blockgroup[key].forEach(itm1=>{
+              this.blocksArray.forEach(itm2=>{
+                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                    itm2.hasNoDuplicateBlockname = true;
+                  }
+                  else{
+                    itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
+                  }
+                }
+              })
+            })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
+          }
+        })
+      }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
-  getmanageremailid(Id,manageremailid){
-    this.isblockdetailsempty=false;
-    this.blocksArray.forEach(element=>{
-      if(element.Id== Id){
+  getmanageremailid(Id, manageremailid) {
+    this.canDoBlockLogicalOrder=true;
+    this.isblockdetailsempty = false;
+    this.blocksArray.forEach(element => {
+      if (element.Id == Id) {
         element.manageremailid = manageremailid;
-        if(element.manageremailid ==""){
-          element['isnotvalidmanageremailid']=true;
-          this.blockdetailInvalid=true;
+        if (element.manageremailid == "") {
+          element['isnotvalidmanageremailid'] = true;
+          this.blockdetailInvalid = true;
         }
-        else{
-          element['isnotvalidmanageremailid']=false;
+        else {
+          element['isnotvalidmanageremailid'] = false;
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
-          element.isblockdetailsempty1=true;  
+          element.isblockdetailsempty1 = true;
         }
-        else{
-          element.isblockdetailsempty1=false;  
+        else {
+          element.isblockdetailsempty1 = false;
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         this.isblockdetailsempty = true
       }
-    })
-  }
-  assignBlkarrTmpid(blkarrId){
-    console.log(blkarrId);
-    this.blocksArray.forEach(elemnt=>{
-      if(elemnt.Id==blkarrId){
-          console.log('test',blkarrId);
-          elemnt.blockTmpid=blkarrId;
-          console.log(elemnt.blockTmpid);
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+        let blockgroup = this.blocksArray.reduce((r, a) => {
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
+        }, {});
+        console.log("block_group", blockgroup);
+        Object.keys(blockgroup).forEach(key => {
+           if (blockgroup[key].length == 1) {
+            blockgroup[key].forEach(itm1=>{
+              this.blocksArray.forEach(itm2=>{
+                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                    itm2.hasNoDuplicateBlockname = true;
+                  }
+                  else{
+                    itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
+                  }
+                }
+              })
+            })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
+          }
+        })
       }
-      else{
-        elemnt.blockTmpid='';
-      }
     })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
   }
-  getblocktype(Id,blocktype){
-    this.isblockdetailsempty=false;
+  getblocktype(Id, blocktype) {
+    this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
         element.blocktype = blocktype;
@@ -329,6 +581,21 @@ export class ExcelBlockUploadComponent implements OnInit {
       }
     })
   }
+
+  assignBlkarrTmpid(blkarrId){
+    console.log(blkarrId);
+    this.blocksArray.forEach(elemnt=>{
+      if(elemnt.Id==blkarrId){
+          console.log('test',blkarrId);
+          elemnt.blockTmpid=blkarrId;
+          console.log(elemnt.blockTmpid);
+      }
+      else{
+        elemnt.blockTmpid='';
+      }
+    })
+  }
+ 
   blocksArray = []
   isblockdetailsempty: boolean;
 
@@ -420,9 +687,6 @@ export class ExcelBlockUploadComponent implements OnInit {
               this.blocksArray.forEach((element) => {
                 if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
                   this.isblockdetailsempty = true;
-                }
-                else {
-                  this.isblockdetailsempty = false;
                 }
               })
               setTimeout(()=>{
@@ -592,6 +856,57 @@ export class ExcelBlockUploadComponent implements OnInit {
                 this.blockdetailsfinalcreation();
               }, 1000)
               console.log(this.commonblockarray);
+            }
+            else if(this.duplicateBlockArr.length > 0){
+              // document.getElementById('upload_excel').style.display = 'none'
+              // document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
+              // document.getElementById('showmanual').style.display = 'block';
+              let displaymessage='';
+              if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
+                displaymessage = `${this.invalidBlockCount} Invalid
+                                  ${this.duplicateBlockCount} Duplicate`;
+              }
+              else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+                displaymessage = `${this.invalidBlockCount} Invalid`;
+              }
+              else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+                displaymessage = `${this.duplicateBlockCount} Duplicate`;
+              }
+              Swal.fire({
+                title: displaymessage,
+                text: "",
+                type: "success",
+                confirmButtonColor: "#f69321",
+                confirmButtonText: "OK"
+              }).then(
+                (result) => {
+                  if (result.value) {
+                    this.duplicateBlocknameExist = true;
+                    this.blocksArray = [];
+                    this.duplicateBlockArr.forEach(itm1 => {
+                      itm1.markedasduplicate = 0;
+                      this.blocksArray.push(itm1);
+                    })
+                    this.blocksArray.forEach(iitm => {
+                      if (iitm.markedasduplicate == 0) {
+                        console.log(iitm);
+                        iitm.blockTmpid = '';
+                        if (!this.duplicatemarked) {
+                          this.duplicatemarked = true;
+                          console.log(iitm);
+                          iitm.blockTmpid = iitm.Id;
+                        }
+                        console.log(iitm.blockTmpid);
+                      }
+                      else {
+                        iitm.blockTmpid = '';
+                      }
+                    })
+                    this.blocksArray = _.sortBy(this.blocksArray, "markedasduplicate");
+                    console.log(this.blocksArray.length);
+                    console.log(this.blocksArray);
+                  }
+                })
             }
           }
     //}

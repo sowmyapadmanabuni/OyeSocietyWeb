@@ -117,7 +117,7 @@ GetUnitListByBlockID(blockId:string){
   //this.blockId=4206;
   //console.log('blockId',blockId);
   let scopeIP=this.utilsService.GetUnitListByBlockID();
-  return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId , {headers:this.headers});
+  return this.http.get(scopeIP + 'oyeliving/api/v1/Unit/GetUnitListByBlockID/'+ blockId+'/resident' , {headers:this.headers});
 }
 // http://localhost:54400/oyeliving/api/v1/Unit/GetUnitListByUnitID/{UnitID}
 GetUnitListByUnitID(unUnitID:string){
