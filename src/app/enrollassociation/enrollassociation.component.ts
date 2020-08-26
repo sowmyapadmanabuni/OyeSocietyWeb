@@ -3512,7 +3512,9 @@ export class EnrollassociationComponent implements OnInit {
 
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.blockname = blockname;
+        console.log(blockname);
+        element.blockname = blockname.toUpperCase();
+        console.log(element.blockname);
         if (element.blockname == "") {
           element['isnotvalidblockname'] = true;
           this.blockdetailInvalid = true;
@@ -3597,6 +3599,7 @@ export class EnrollassociationComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
+        console.log(units);
         element.units = units;
         if (element.units == "") {
           element['isnotvalidunits'] = true;
@@ -3738,6 +3741,7 @@ export class EnrollassociationComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
+        console.log(managermobileno);
         element.managermobileno = managermobileno;
         if (element.managermobileno == "") {
           element['isnotvalidmanagermobileno'] = true;
@@ -4140,14 +4144,20 @@ export class EnrollassociationComponent implements OnInit {
           this.blocksArray.forEach(elemnt => {
             if (elemnt.Id == objId) {
               console.log('elemnt.Id==objId');
+              console.log(elemnt);
               elemnt.blockname = '';
-              // elemnt.blocktype='';
-              elemnt.units = '';
-              elemnt.managername = '';
-              elemnt.managermobileno = '';
-              elemnt.manageremailid = '';
+              elemnt.hasNoDuplicateBlockname=false;
+              // elemnt.units = '';
+              // elemnt.managername = '';
+              // elemnt.managermobileno = '';
+              // elemnt.manageremailid = '';
+              delete elemnt.units;
+              delete elemnt.managername;
+              delete elemnt.managermobileno;
+              delete elemnt.manageremailid;
             }
           })
+          console.log(this.blocksArray);
         }
       })
   }
