@@ -387,6 +387,7 @@ export class AppComponent {
     .subscribe(data=>{
       console.log(data);
       this.globalService.AdminResidentActiveNotification=data['data']['totalBellCount'];
+      this.globalService.BellNotification=data['data']['totalBellCount'];
       this.globalService.AdminActiveNotification=data['data']['adminNotificationCount'];
       this.globalService.ResidentActiveNotification=data['data']['myUnitNotificationCount'];
       console.log(this.globalService.AdminResidentActiveNotification, this.globalService.AdminActiveNotification, this.globalService.ResidentActiveNotification);

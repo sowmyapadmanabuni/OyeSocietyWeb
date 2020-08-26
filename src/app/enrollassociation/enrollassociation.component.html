@@ -493,7 +493,7 @@
                                     </div>
                                 </div>
                                 <div id="blockdetailsbuttons1" class="save">
-                                    <button class="continue" (click)="resetforduplicatesorinvalidblocks($event,obj.Id)" [disabled]="obj.hasNoDuplicateBlockname" [ngStyle]="{'opacity':obj.hasNoDuplicateBlockname ? '0.5' : '1' }" mat-raised-button color="primary" >RESET</button>
+                                    <button class="continue" (click)="resetforduplicatesorinvalidblocks($event,obj.Id)" [disabled]="obj.isBlockCreated" mat-raised-button color="primary" >RESET</button>
                                     <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
                                 </div>
                             </div>
