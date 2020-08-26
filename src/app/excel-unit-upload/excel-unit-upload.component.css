@@ -348,3 +348,7 @@ a.MANUAL{
 .red-lbl{
     color: red;
 }
+p#seperateunits{
+    text-align: right;
+    font-weight: 600;
+}
