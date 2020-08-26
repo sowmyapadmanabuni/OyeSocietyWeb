@@ -69,7 +69,7 @@
                                     [(ngModel)]="StaffEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig">
                                 </div>
                         </div>
-                        <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
+                        <!-- <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
                             <div class="invite-radio">
                                 <div class="radio-item">
                                     <input type="radio" id="ritema" name="ritem" value="ropt1">
@@ -84,7 +84,7 @@
                                     <label for="ritemc">Month Till Date</label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="report-bt" *ngIf="displayStaff!='Select Staff'">
                             <button class="btn btn-primary-purple nextBtn" style="width:100%"
@@ -146,8 +146,8 @@
                                             </table> -->
                                             <!---->
                                             <table class="table table-bordered"
-                                            [mfData]="staffByDesignation"
-                                            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?staffByDesignation.length:setnoofrows">
+                                            [mfData]="Staffbydesigantion"
+                                            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?Staffbydesigantion.length:setnoofrows">
                                             <thead>
                                                 <tr>
                                                     <th>
@@ -177,17 +177,17 @@
                                                     </ng-container>
                                                     <ng-container *ngIf="item!=-1">
                                                         <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
-                                                        <td> <img style="border-radius: 40px;" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['idPrfImg'])" width="50px"
+                                                        <td> <img style="border-radius: 40px;" [src]="item['idPrfImg']" width="50px"
                                                             height="50px" /> </td>
                                                         <td>{{item['wkfName']}}</td>
                                                         <td>{{item['wkDesgn']}}</td>   
                                                         <td>{{item['wkStatus']}}</td>                                                       
                                                         <td><star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
-                                                            [size]="'medium'" [staticColor]="'ok'" [rating]="item['wkAvgRating']"></star-rating-comp>
+                                                            [size]="'medium'" [staticColor]="'ok'" [rating]="item['wkRating']"></star-rating-comp>
                                                         </td> 
                                                     </ng-container>
                                                 </tr>
-                                                <tr *ngIf="staffByDesignation.length == 0">
+                                                <tr *ngIf="Staffbydesigantion.length == 0">
                                                     <ng-container>
                                                         <td colspan="7" align="center">No Data Found</td>
                                                     </ng-container>

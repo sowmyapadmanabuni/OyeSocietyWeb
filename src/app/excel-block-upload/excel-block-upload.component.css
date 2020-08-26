@@ -515,4 +515,7 @@
         .red-lbl{
             color: red;
         }
-        
+        p#seperateblocks{
+            text-align: right;
+            font-weight: 600;
+        }    

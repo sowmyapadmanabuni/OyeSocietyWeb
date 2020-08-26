@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-excel-unit-upload',
@@ -28,12 +29,13 @@ export class ExcelUnitUploadComponent implements OnInit {
   totalUnitcount;
   unitdetailscreatejson;
   isunitdetailsempty:boolean;
-
-
+  canDoUnitLogicalOrder:boolean;
+  InvalidBlocknamePresent:boolean;
+  indexToCheckValidBlockName:number;
   numberofunitexistence:any;
   valueExcelUnitArr:any[];
   blockTabId:any;
-
+  ValidBlockName:any;
   duplicateUnitCount:number;
   invalidUnitCount:number;
   occupancy = [
@@ -90,13 +92,13 @@ export class ExcelUnitUploadComponent implements OnInit {
     //units bulkupload
     this.duplicateUnitCount=0;
       this.invalidUnitCount=0;
-
+    this.InvalidBlocknamePresent = false;
     this.numberofunitexistence=0;
     this.valueExcelUnitArr=[];
- 
+    this.canDoUnitLogicalOrder = true;
     this.blockTabId=0;
     this.iindex=0;
- 
+    this.ValidBlockName='';
     this.duplicateUnitrecordexist=false;
     this.unitrecordDuplicateUnitnameModified=false;
     this.totalUnitcount=0;
@@ -147,6 +149,17 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.getblockcount();
   }
   onFileChange(ev,UpdateBlockUnitCountTemplate) {
+    console.log(this.finalblocknameTmp);
+    let orderBlockinLogically=[];
+    orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
+    console.log(orderBlockinLogically);
+    this.finalblocknameTmp = [];
+    this.finalblocknameTmp = orderBlockinLogically;
+    console.log(this.finalblocknameTmp);
+    this.ValidBlockName = this.finalblocknameTmp[this.indexToCheckValidBlockName];
+    console.log('ValidBlockName ',this.ValidBlockName);
+
+
     let workBook = null;
     let jsonData = null;
     const reader = new FileReader();
@@ -188,6 +201,12 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.unitrecordDuplicateUnitnameModified = false;
     this.duplicateUnitrecordexist = false;
     console.log(exceldata.length);
+    // exceldata.forEach(item => {
+    //   if (item.blockname.toLowerCase() != this.ValidBlockName['name'].toLowerCase()) {
+    //     console.log(item.blockname);
+    //     this.InvalidBlocknamePresent = true;
+    //   }
+    // })
     if(exceldata.length==0){
       Swal.fire({
         title: 'Please fill all the fields',
@@ -195,6 +214,20 @@ export class ExcelUnitUploadComponent implements OnInit {
         type: "error",
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK"
+      })
+    }
+    else if(this.InvalidBlocknamePresent){
+      Swal.fire({
+        title: 'Please Check Blockname',
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      }).then(
+        (result) => {
+          if (result.value) {
+            this.InvalidBlocknamePresent = false;
+          }
       })
     }
     else{
@@ -595,12 +628,23 @@ export class ExcelUnitUploadComponent implements OnInit {
           })
         }
         else if (unitgroup[element].length == 1) {
-          unitgroup[element].forEach(item => {
-            console.log(item);
-            item.hasNoDuplicateUnitname = true;
-            item.disableField = true;
-            this.unitlistuniquejson1.push(item);
+          let found = this.unitlistduplicatejson.some(el => {
+            console.log(el.flatno);
+            if(el.flatno != undefined){
+             return el.flatno.toLowerCase() == unitgroup[element][0].flatno.toLowerCase();
+            } 
           })
+          if (found) {
+            this.duplicateUnitCount += 1;
+            this.unitlistduplicatejson.push(unitgroup[element][0]);
+          }
+          else {
+            unitgroup[element].forEach(item => {
+              item.hasNoDuplicateUnitname = true;
+              item.disableField = true;
+              this.unitlistuniquejson1.push(item);
+            })
+          }
         }
       })
       /***/
@@ -706,7 +750,7 @@ export class ExcelUnitUploadComponent implements OnInit {
       setTimeout(() => {
         $(".se-pre-con").fadeOut("slow");
         if (this.unitsuccessarray.length == 1) {
-          this.message = 'Unit Created Successfully'
+          this.message = 'Unit Created Successfully';
           if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
             this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
                               ${this.invalidUnitCount} Invalid
@@ -881,49 +925,66 @@ export class ExcelUnitUploadComponent implements OnInit {
         else {
           console.log('demo2TabIndex');
           if (!this.duplicateUnitrecordexist) {
-            let tmpArr = [];
-            if (this.unitlistuniquejson1.length > 0) {
-              this.unitlistuniquejson1.forEach(itm1 => {
-                tmpArr.push(itm1);
-              })
-            }
-            if (this.unitlistduplicatejson.length > 0) {
-              this.unitlistduplicatejson.forEach(itm1 => {
-                tmpArr.push(itm1);
-              })
-            }
-            this.unitlistjson[this.blBlkName] = [];
-            this.unitlistjson[this.blBlkName] = tmpArr;
-            console.log(this.unitlistjson[this.blBlkName]);
-            this.unitlistuniquejson = [];
-            this.unitlistuniquejson1 = [];
-            this.unitlistduplicatejson = [];
-            // document.getElementById('unitupload_excel').style.display = 'none'
-            // document.getElementById('unitshowmanual').style.display = 'block';
-            // document.getElementById('unitsmanualnew').style.display = 'none';
-            // document.getElementById('unitsbulkold').style.display = 'block';
-            this.blockTabId += 1;
-            this.blocksArray.forEach((itm,indx)=>{
-              if(itm.blockname.toLowerCase() == this.blBlkName.toLowerCase()){
-                itm.isUnitsCreatedUnderBlock=true;
-                // itm.isUnitsCreatedUnderBlock1=false;
-                if(this.blocksArray[indx+1]!=undefined){
-                  console.log(this.blocksArray[indx+1]['blockname']);
-                  this.blBlkName = this.blocksArray[indx+1]['blockname'];
-                  this.nextBlckId=this.blocksArray[indx+1]['Id'];
-                  console.log(this.blBlkName);
-                  console.log(this.nextBlckId);
+            let mesg = `${this.unitsuccessarray.length}-Unit Created Successfully`;
+            Swal.fire({
+              title: mesg,
+              text: "",
+              type: "success",
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            }).then(
+              (result) => {
+                if (result.value) {
+                  let tmpArr = [];
+                  if (this.unitlistuniquejson1.length > 0) {
+                    this.unitlistuniquejson1.forEach(itm1 => {
+                      tmpArr.push(itm1);
+                    })
+                  }
+                  if (this.unitlistduplicatejson.length > 0) {
+                    this.unitlistduplicatejson.forEach(itm1 => {
+                      tmpArr.push(itm1);
+                    })
+                  }
+                  this.unitlistjson[this.blBlkName] = [];
+                  this.unitlistjson[this.blBlkName] = tmpArr;
+                  console.log(this.unitlistjson[this.blBlkName]);
+                  this.unitlistuniquejson = [];
+                  this.unitlistuniquejson1 = [];
+                  this.unitlistduplicatejson = [];
+                  // document.getElementById('unitupload_excel').style.display = 'none'
+                  // document.getElementById('unitshowmanual').style.display = 'block';
+                  // document.getElementById('unitsmanualnew').style.display = 'none';
+                  // document.getElementById('unitsbulkold').style.display = 'block';
+                  //this.demo2TabIndex = this.demo2TabIndex + 1;
+                  // console.log(this.increasingBlockArrLength);
+                  console.log(this.blockTabId);
+                  //console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+                  //let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
+                  //console.log(arr);
+                  //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
+                  //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
+                  this.blockTabId += 1;
+                  this.blocksArray.forEach((itm, indx) => {
+                    if (itm.blockname.toLowerCase() == this.blBlkName.toLowerCase()) {
+                      itm.isUnitsCreatedUnderBlock = true;
+                      itm.isUnitsCreatedUnderBlock1 = false;
+                      if (this.blocksArray[indx + 1] != undefined) {
+                        console.log(this.blocksArray[indx + 1]['blockname']);
+                        this.blBlkName = this.blocksArray[indx + 1]['blockname'];
+                        this.nextBlckId = this.blocksArray[indx + 1]['Id'];
+                        console.log(this.blBlkName);
+                        console.log(this.nextBlckId);
+                      }
+                    }
+                  })
+                  this.isunitdetailsempty = false;
+                  this.assignTmpid(this.nextBlckId, this.blBlkName);
+                  this.indexToCheckValidBlockName += 1;
                 }
-              }
-            })
-            this.isunitdetailsempty = false;
-            this.assignTmpid(this.nextBlckId,this.blBlkName);
-            // this.router.navigate(['units']);
-
-            // this.demo2TabIndex = this.demo2TabIndex + 1;
-          }
+              })
+          }  
         }
-
 
       }, Number(this.unitlistjson[this.blBlkName].length) * 2000)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
@@ -988,11 +1049,39 @@ export class ExcelUnitUploadComponent implements OnInit {
                 this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
                 unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 unit.isSingleUnitDataEmpty = false;
-                unit.hasNoDuplicateUnitname = true;
-                
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if(a.flatno != undefined){
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    unit_group[element].forEach(itm1=>{
+                      if(itm1.flatno.toLowerCase()==unit.flatno.toLowerCase()){
+                        unit.hasNoDuplicateUnitname = false;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                        console.log(unit.flatno);
+                        console.log(unit.Id,Id);
+                      }
+                    })
+                  }
+                  else if (unit_group[element].length == 1) {
+                    unit_group[element].forEach(itm2=>{
+                      if(itm2.flatno.toLowerCase()==unit.flatno.toLowerCase()){
+                        unit.hasNoDuplicateUnitname = true;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                        console.log(unit.flatno);
+                        console.log(unit.Id,Id);
+                      }
+                    })
+                  }
+                })                
               }
             }
             else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
@@ -1013,10 +1102,39 @@ export class ExcelUnitUploadComponent implements OnInit {
                 this.isunitdetailsempty = false
                 unit.isSingleUnitDataEmpty = true;
                 unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 unit.isSingleUnitDataEmpty = false;
-                unit.hasNoDuplicateUnitname = true;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if (a.flatno != undefined) {
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    unit_group[element].forEach(itm1 => {
+                      if (itm1.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = false;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                  else if (unit_group[element].length == 1) {
+                    unit_group[element].forEach(itm2 => {
+                      if (itm2.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = true;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                })
               }
             }
             else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
@@ -1033,10 +1151,39 @@ export class ExcelUnitUploadComponent implements OnInit {
                 this.isunitdetailsempty = false
                 unit.isSingleUnitDataEmpty = true;
                 unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 unit.isSingleUnitDataEmpty = false;
-                unit.hasNoDuplicateUnitname = true;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if (a.flatno != undefined) {
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    unit_group[element].forEach(itm1 => {
+                      if (itm1.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = false;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                  else if (unit_group[element].length == 1) {
+                    unit_group[element].forEach(itm2 => {
+                      if (itm2.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = true;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                })
               }
             }
             else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
@@ -1048,10 +1195,39 @@ export class ExcelUnitUploadComponent implements OnInit {
                 this.isunitdetailsempty = false
                 unit.isSingleUnitDataEmpty = true;
                 unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 unit.isSingleUnitDataEmpty = false;
-                unit.hasNoDuplicateUnitname = true;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if (a.flatno != undefined) {
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    unit_group[element].forEach(itm1 => {
+                      if (itm1.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = false;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                  else if (unit_group[element].length == 1) {
+                    unit_group[element].forEach(itm2 => {
+                      if (itm2.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = true;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                })
               }
             }
             else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
@@ -1069,6 +1245,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         /**/
         if (name.toLowerCase() == headername.toLowerCase()) {
           console.log(unit);
+          console.log(flatno);
           console.log(this.unitlistjson[element]);
           if (this.isunitdetailsempty) {
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
@@ -1082,10 +1259,13 @@ export class ExcelUnitUploadComponent implements OnInit {
               ) {
                 console.log('test0-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-Sold Owner Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1096,6 +1276,18 @@ export class ExcelUnitUploadComponent implements OnInit {
                 Object.keys(unit_group).forEach(element => {
                   if (unit_group[element].length > 1) {
                     this.isunitdetailsempty = false;
+                    console.log(unit)
+                  }
+                  else if (unit_group[element].length == 1) {
+                    console.log(unit)
+                    unit_group[element].forEach(itm1=>{
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
+                      }
+                    })
                   }
                 })
               }
@@ -1117,10 +1309,13 @@ export class ExcelUnitUploadComponent implements OnInit {
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                   console.log('test0-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-Sold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1131,6 +1326,17 @@ export class ExcelUnitUploadComponent implements OnInit {
                 Object.keys(unit_group).forEach(element => {
                   if (unit_group[element].length > 1) {
                     this.isunitdetailsempty = false;
+                  }
+                  else if (unit_group[element].length == 1) {
+                    console.log(unit)
+                    unit_group[element].forEach(itm1=>{
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
+                      }
+                    })
                   }
                 })
               }
@@ -1148,10 +1354,13 @@ export class ExcelUnitUploadComponent implements OnInit {
                 unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
                   console.log('test0-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-UnSold Tenant Occupied Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1162,6 +1371,17 @@ export class ExcelUnitUploadComponent implements OnInit {
                 Object.keys(unit_group).forEach(element => {
                   if (unit_group[element].length > 1) {
                     this.isunitdetailsempty = false;
+                  }
+                  else if (unit_group[element].length == 1) {
+                    console.log(unit)
+                    unit_group[element].forEach(itm1=>{
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
+                      }
+                    })
                   }
                 })
               }
@@ -1174,10 +1394,13 @@ export class ExcelUnitUploadComponent implements OnInit {
               ) {
                 console.log('test0-UnSold Vacant Unit')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 console.log('test1-UnSold Vacant Unit')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
                 let unit_group = this.unitlistjson[element].reduce((r, a) => {
                   if(a.flatno != undefined){
                     r[a.flatno] = [...r[a.flatno] || [], a];
@@ -1188,6 +1411,17 @@ export class ExcelUnitUploadComponent implements OnInit {
                 Object.keys(unit_group).forEach(element => {
                   if (unit_group[element].length > 1) {
                     this.isunitdetailsempty = false;
+                  }
+                  else if (unit_group[element].length == 1) {
+                    console.log(unit)
+                    unit_group[element].forEach(itm1=>{
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
+                      }
+                    })
                   }
                 })
               }
@@ -1207,7 +1441,77 @@ export class ExcelUnitUploadComponent implements OnInit {
         /**/
       })
     })
+    console.log(this.unitlistjson[name]);
+    let unitgroup_for_logicalorder = this.unitlistjson[name].reduce((r, a) => {
+      if(a.flatno != undefined){
+        r[a.flatno.toLowerCase()] = [...r[a.flatno.toLowerCase()] || [], a];
+        return r;
+      }
+    }, {});
+    if (Object.keys(unitgroup_for_logicalorder).length == this.unitlistjson[name].length) {
+      console.log(Object.keys(unitgroup_for_logicalorder).length, this.unitlistjson[name].length);
+      Object.keys(unitgroup_for_logicalorder).forEach(itm1=>{
+        unitgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.ownershipstatus == "Sold Owner Occupied Unit" || itm2.ownershipstatus == "Sold Vacant Unit") {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
+              itm2.owneremaiid == "" || itm2.owneremaiid == undefined ||
+              itm2.ownerfirstname == "" || itm2.ownerfirstname == undefined ||
+              itm2.ownerlastname == "" || itm2.ownerlastname == undefined ||
+              itm2.ownermobilenumber == "" || itm2.ownermobilenumber == undefined
+            ) {
+              this.canDoUnitLogicalOrder = false;
+            }
+          }
+          else if (itm2.ownershipstatus == "Sold Tenant Occupied Unit") {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.owneremaiid == "" || itm2.owneremaiid == undefined ||
+              itm2.ownerfirstname == "" || itm2.ownerfirstname == undefined ||
+              itm2.ownermobilenumber == "" || itm2.ownermobilenumber == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownerlastname == "" || itm2.ownerlastname == undefined ||
+              itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
+              itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
+              itm2.tenantmobilenumber == "" || itm2.tenantmobilenumber == undefined ||
+              itm2.tenantemaiid == "" || itm2.tenantemaiid == undefined) {
+                this.canDoUnitLogicalOrder = false;
+  
+            }
+          }
+          else if (itm2.ownershipstatus == "UnSold Tenant Occupied Unit") {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
+              itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
+              itm2.tenantmobilenumber == "" || itm2.tenantmobilenumber == undefined ||
+              itm2.tenantemaiid == "" || itm2.tenantemaiid == undefined) {
+                this.canDoUnitLogicalOrder = false;
+            }
+          }
+          else if (itm2.ownershipstatus == "UnSold Vacant Unit" || itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined
+            ) {
+              this.canDoUnitLogicalOrder = false;
+            }
+          }
+        })
+      })
+      if(this.canDoUnitLogicalOrder == true){
+        let tempUnitArr = _.sortBy(this.unitlistjson[name], "flatno");
+        console.log(tempUnitArr);
+        this.unitlistjson[name]=[];
+        console.log(this.unitlistjson[name]);
+        this.unitlistjson[name]=tempUnitArr;
+        console.log(this.unitlistjson[name]);
+      }
+    }
   }
+
   resetStep5bulk(ev, blknamecommon, Id) {
     Swal.fire({
       title: "Are you sure?",
@@ -1581,6 +1885,7 @@ export class ExcelUnitUploadComponent implements OnInit {
 
   unitmatching: boolean;
   getUnitName(Id, flatno, name) {
+    this.canDoUnitLogicalOrder = true;
     this.numberofunitexistence = 0;
     this.valueExcelUnitArr = [];
     Object.keys(this.unitlistjson).forEach(element => {
@@ -1605,10 +1910,12 @@ export class ExcelUnitUploadComponent implements OnInit {
                   unit.hasNoDuplicateUnitname = true;
                   unit.isUnitNameModifiedForDuplicateRecord = 'No';
                   this.isunitdetailsempty = true;
+                  console.log('this.numberofunitexistence == 1');
                 }
                 else {
                   unit.hasNoDuplicateUnitname = false;
                   unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                  console.log('this.numberofunitexistence > 1');
                 }
               }
             }
@@ -1621,9 +1928,10 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
       })
     })
-    this.validateUnitDetailsField(name, Id, flatno);
+    this.validateUnitDetailsField(name, Id, flatno); 
   }
   getUnittype(Id, unittype, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     console.log(Id, unittype, name, flatno);
     this.numberofunitexistence = 0;
     Object.keys(this.unitlistjson).forEach(element => {
@@ -1633,7 +1941,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -1658,6 +1966,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getOwnerShipStatus(Id, unittype, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     console.log(Id, unittype, name);
     this.numberofunitexistence = 0;
     Object.keys(this.unitlistjson).forEach(element => {
@@ -1667,7 +1976,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -1733,6 +2042,7 @@ export class ExcelUnitUploadComponent implements OnInit {
      this.validateUnitDetailsField(name);
    } */
   getownerfirstname(Id, ownerfirstname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1755,7 +2065,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -1780,6 +2090,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getownerlastname(Id, ownerlastname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1802,7 +2113,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -1827,6 +2138,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getownermobilenumber(Id, ownermobilenumber, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1849,7 +2161,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -1874,6 +2186,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   getowneremaiid(Id, owneremaiid, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1896,7 +2209,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -1921,6 +2234,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantfirstname(Id, tenantfirstname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1943,7 +2257,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -1968,6 +2282,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantlastname(Id, tenantlastname, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -1990,7 +2305,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -2015,6 +2330,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantmobilenumber(Id, tenantmobilenumber, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2037,7 +2353,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
@@ -2062,6 +2378,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.validateUnitDetailsField(name, Id, flatno);
   }
   gettenantemaiid(Id, tenantemaiid, name, flatno) {
+    this.canDoUnitLogicalOrder = true;
     Object.keys(this.unitlistjson).forEach(element => {
       this.unitlistjson[element].forEach(unit => {
         console.log(unit)
@@ -2084,7 +2401,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log(unit);
           console.log(this.unitlistjson[element]);
           this.unitlistjson[element].forEach(itm => {
-            if(itm.flatno != undefined){
+            if(itm.flatno != undefined && flatno != undefined){
               if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
                 this.numberofunitexistence += 1;
                 if (this.numberofunitexistence == 1) {
