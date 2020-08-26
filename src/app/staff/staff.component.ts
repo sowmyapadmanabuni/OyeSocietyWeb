@@ -1,3 +1,4 @@
+
 import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
@@ -9,9 +10,9 @@ import * as _ from 'underscore';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UtilsService } from '../utils/utils.service';
 import swal from 'sweetalert2';
-//  import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
+import {Staffbydesigantion } from '../models/staffbydesigantion';
+ import {IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven} from "angular-star-rating/src/star-rating-struct";
 import { formatDate } from '@angular/common';
-
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
@@ -27,8 +28,8 @@ export class StaffComponent implements OnInit {
   staffs1:any[];
   wkrating:any;
   wkrating1:any;
-  ratingotherstaff:any;
   staffByDesignation:any;
+  Staffbydesigantion:any[];
   showOtherstaff:any;
   showstaffBydesignation:any;
   condition:any;
@@ -62,10 +63,10 @@ export class StaffComponent implements OnInit {
   StaffStartDate:any;
   StaffEndDate:any;
   wkReview: any;
-
   constructor(private router: Router, private domSanitizer: DomSanitizer,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
       this.staffs3=[];
+      this.Staffbydesigantion=[];
       this.wkReview='';
       this.StaffStartDate='';
       this.StaffEndDate='';
@@ -79,7 +80,6 @@ export class StaffComponent implements OnInit {
       this.PaginatedValue=10;
     this.EndDate = '';
     this.StartDate = '';
-    this.ratingotherstaff='';
     this.WorkerNameList = [];
     this.workerImg = [];
     this.otherStaff = [];
@@ -102,17 +102,16 @@ this.enableviewDocuments=false;
         //}
       })
   }
-
   ngOnInit() {
+    //this.staffs3=[];
     this.StaffList();
     this.getStaffList();
     this.workerImg = [];
     this.condition=true;
     this.condition1=false;
-
   }
-
   getStaffList() {
+    this.staffs3=[];
     this.condition=true;
     this.condition1=false;
     // alert("hai");
@@ -144,8 +143,6 @@ this.enableviewDocuments=false;
         }
       );
   }
-
-
   selectStaff(param, wkstaf, wkimage, wkstatus, wkid,wkidtype,wkidimage,wkrating,workerstatuses) {
     console.log(workerstatuses);
     if(workerstatuses.length > 0){
@@ -168,22 +165,18 @@ this.enableviewDocuments=false;
     console.log(wkidimage);
     if (wkimage != "") {
       this.stafimage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + wkimage);
-
     } 
     else {
       this.stafimage = "";
     }
-    
+   
     this.wkstaf = wkstaf;
     console.log(this.stafimage);
     console.log(this.staffs);
     this.displayStaff = param;
     this.wkStatus = wkstatus;
     this.wkid = wkid;
-
-
   }
-
   getDoc(){
     this.condition=true;
     this.condition1=false;
@@ -191,11 +184,9 @@ this.enableviewDocuments=false;
     if(this.wkidimage!=""){
       console.log(this.wkidimage);
       this.wkidimage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + this.wkidimage);
-
     }
     else{
         this.wkidimage="";
-
     }
     this.wkidtype=this.wkidtype;
     console.log(this.wkidimage);
@@ -235,13 +226,11 @@ this.enableviewDocuments=false;
               console.log(error);
             }
           );
-
   }
   //Get Staff Report start
-
 //get staff details based on designation
-getotherStaffbyDesignation(desgid,wtDesgn,workerstatuses1){
-  console.log(workerstatuses1);
+getotherStaffbyDesignation(desgid,wtDesgn){
+  this.Staffbydesigantion=[];
   this.showOtherstaff=false;
   this.showstaffBydesignation=true;
   console.log(desgid);
@@ -256,29 +245,37 @@ getotherStaffbyDesignation(desgid,wtDesgn,workerstatuses1){
           (response) => {
             console.log(response);
             this.staffByDesignation=response['data']['workers'];
+            console.log(this.staffByDesignation);
+
+            this.staffByDesignation.forEach(item=>{
+              if(item['workerstatuses'].length>0){
+                console.log("in");
+                item['workerstatuses'].forEach(item1=>{
+                  if(this.globalServiceService.getCurrentUnitName()==item1['unUniName']){
+                    this.Staffbydesigantion.push(new Staffbydesigantion(this.domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['idPrfImg']),item['wkfName'],item['wkDesgn'],item['wkStatus'],item1['wkRating']))
+                  }
+                })
+                
+              }
+            })
+            console.log(this.Staffbydesigantion);
            // this.staffByDesignation=this.staffByDesignation.filter(item=>{
             //  return item['wkWorkID']==desgid;
-          
-//console.log(this.ratingotherstaff);
-
           },
           (error) => {
             console.log(error);
           }
         );
  
-  
-
+ 
 }
-
-
 goToStaff(){
   this.staffReports=[];
   this.showStaffReports=true;
   this.showOtherstaff=false;
     this.showstaffBydesignation=false;
     this.condition1=false;
-    this.condition=true;    
+    this.condition=true;   
 }
   getOtherStaffs() {
     this.showOtherstaff=true;
@@ -286,7 +283,6 @@ goToStaff(){
 this.showStaffReports=false;
     this.condition1=true;
     this.condition=false;
-
     this.workerImg = [];
     //alert("hai");
     let ipAddress = this.UtilsService.getIPaddress()
@@ -303,7 +299,6 @@ this.showStaffReports=false;
          // this.otherStaff.forEach(item => {
             // console.log(item['wkEntryImg']);
             // console.log(typeof item['wkEntryImg']);
-
             //this.workerImg.push({ name: item['wkfName'], image: this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['wkEntryImg']) })
          // })
           // console.log(this.staffs);
@@ -312,16 +307,7 @@ this.showStaffReports=false;
           console.log(error);
         }
       );
-
-
-
-
   }
-
-
-
-
-
   StaffList() {
     //localStorage.setItem('StaffListCalledOnce','true')      
     this.viewStaffService.GetStaffList()
@@ -337,7 +323,6 @@ this.showStaffReports=false;
             })
           }
         }
-
         this.WorkerNameList = data['data']['worker'];
         // console.log(this.WorkerNameList);
         this.WorkerNameList = _.sortBy(this.WorkerNameList, e => e['wkfName']);
@@ -347,28 +332,24 @@ this.showStaffReports=false;
           console.log(err);
         })
   }
-  // onClickResult:IStarRatingOnClickEvent;
+  onClickResult:IStarRatingOnClickEvent;
    
-    // onRatingChangeResult:IStarRatingOnRatingChangeEven;
-
-    // onClick = ($event:IStarRatingOnClickEvent) => {
-    //     console.log('onClick $event: ', $event);
-    //     this.onClickResult = $event;
-    //     this.wkrating=this.onClickResult.rating
-    // };
-
-    // onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
-    //     console.log('onRatingUpdated $event: ', $event);
-    //     this.onRatingChangeResult = $event;
-    // };
-
+    onRatingChangeResult:IStarRatingOnRatingChangeEven;
+    onClick = ($event:IStarRatingOnClickEvent) => {
+        console.log('onClick $event: ', $event);
+        this.onClickResult = $event;
+        this.wkrating1=this.onClickResult.rating
+    };
+    onRatingChange = ($event:IStarRatingOnRatingChangeEven) => {
+        console.log('onRatingUpdated $event: ', $event);
+        this.onRatingChangeResult = $event;
+    };
    
   updateReview(param,coment){
     this.wkrating1;
      console.log(param);
     console.log(this.wkrating1);
      console.log(coment);
-
      let ipAddress = this.UtilsService.getIPaddress()
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')
@@ -391,7 +372,6 @@ this.showStaffReports=false;
         (response) => {
           console.log(response);
           this.modalRef.hide();
-
           swal.fire({
             title: "Review Updated Successfully",
             text: "",
@@ -405,7 +385,7 @@ this.showStaffReports=false;
         }
       );
   }
-  
+ 
   OpeneditReview(editReview: TemplateRef<any>,wid){
     console.log(this.wkid);
     this.modalRef = this.modalService.show(editReview, Object.assign({}, { class: 'gray modal-md' }));
@@ -414,7 +394,6 @@ this.showStaffReports=false;
       return item['wkWorkID']==this.wkid;
     })
     console.log(this.staffs1);
-
     // this.wkidimage;
     // this.wkrating;
    
