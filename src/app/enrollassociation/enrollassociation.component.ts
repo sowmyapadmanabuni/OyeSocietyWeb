@@ -1800,10 +1800,42 @@ export class EnrollassociationComponent implements OnInit {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 unit.isSingleUnitDataEmpty = false;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if (a.flatno != undefined) {
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    unit_group[element].forEach(itm1 => {
+                      if (itm1.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = false;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                  else if (unit_group[element].length == 1) {
+                    unit_group[element].forEach(itm2 => {
+                      if (itm2.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = true;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                })
               }
             }
           }
@@ -1996,10 +2028,38 @@ export class EnrollassociationComponent implements OnInit {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                console.log('test0-ownershipstatus == " "')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
+                console.log('test1-ownershipstatus')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if(a.flatno != undefined){
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    this.isunitdetailsempty = false;
+                  }
+                  else if (unit_group[element].length == 1) {
+                    console.log(unit)
+                    unit_group[element].forEach(itm1=>{
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
+                      }
+                    })
+                  }
+                })
               }
             }
           }
@@ -2008,7 +2068,14 @@ export class EnrollassociationComponent implements OnInit {
       })
     })
     console.log(this.unitlistjson[name]);
-    let unitgroup_for_logicalorder = this.unitlistjson[name].reduce((r, a) => {
+    let unitgroup_for_logicalorder_with_valid_flatnos = [];
+    this.unitlistjson[name].forEach(item => {
+      if (item.flatno != undefined) {
+        unitgroup_for_logicalorder_with_valid_flatnos.push(item);
+      }
+    })
+    console.log(unitgroup_for_logicalorder_with_valid_flatnos);
+    let unitgroup_for_logicalorder = unitgroup_for_logicalorder_with_valid_flatnos.reduce((r, a) => {
       if(a.flatno != undefined){
         r[a.flatno.toLowerCase()] = [...r[a.flatno.toLowerCase()] || [], a];
         return r;
@@ -2063,6 +2130,13 @@ export class EnrollassociationComponent implements OnInit {
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined
             ) {
               this.canDoUnitLogicalOrder = false;
+            }
+          }
+          else if (itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
+                this.canDoUnitLogicalOrder = false;
             }
           }
         })
@@ -3512,7 +3586,9 @@ export class EnrollassociationComponent implements OnInit {
 
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.blockname = blockname;
+        console.log(blockname);
+        element.blockname = blockname.toUpperCase();
+        console.log(element.blockname);
         if (element.blockname == "") {
           element['isnotvalidblockname'] = true;
           this.blockdetailInvalid = true;
@@ -3597,6 +3673,7 @@ export class EnrollassociationComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
+        console.log(units);
         element.units = units;
         if (element.units == "") {
           element['isnotvalidunits'] = true;
@@ -3738,6 +3815,7 @@ export class EnrollassociationComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
+        console.log(managermobileno);
         element.managermobileno = managermobileno;
         if (element.managermobileno == "") {
           element['isnotvalidmanagermobileno'] = true;
@@ -4140,14 +4218,20 @@ export class EnrollassociationComponent implements OnInit {
           this.blocksArray.forEach(elemnt => {
             if (elemnt.Id == objId) {
               console.log('elemnt.Id==objId');
+              console.log(elemnt);
               elemnt.blockname = '';
-              // elemnt.blocktype='';
-              elemnt.units = '';
-              elemnt.managername = '';
-              elemnt.managermobileno = '';
-              elemnt.manageremailid = '';
+              elemnt.hasNoDuplicateBlockname=false;
+              // elemnt.units = '';
+              // elemnt.managername = '';
+              // elemnt.managermobileno = '';
+              // elemnt.manageremailid = '';
+              delete elemnt.units;
+              delete elemnt.managername;
+              delete elemnt.managermobileno;
+              delete elemnt.manageremailid;
             }
           })
+          console.log(this.blocksArray);
         }
       })
   }
@@ -4170,23 +4254,37 @@ export class EnrollassociationComponent implements OnInit {
             this.unitlistjson[element].forEach(unit => {
               if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
                 console.log(Id);
-                unit.flatno = "",
-                  unit.blockname = "",
-                  unit.owneremaiid = "",
-                  unit.ownerfirstname = "",
-                  unit.ownermobilenumber = "",
-                  unit.ownershipstatus = "",
-                  unit.unittype = "",
-                  unit.ownerlastname = "",
-                  unit.ownermobilenumber = "",
-                  unit.owneremaiid = "",
-                  unit.tenantfirstname = "",
-                  unit.tenantlastname = "",
-                  unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = ""
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                unit.hasNoDuplicateUnitname = false;
+                // unit.flatno = "",
+                //   unit.blockname = "",
+                //   unit.owneremaiid = "",
+                //   unit.ownerfirstname = "",
+                //   unit.ownermobilenumber = "",
+                //   unit.ownershipstatus = "",
+                //   unit.unittype = "",
+                //   unit.ownerlastname = "",
+                //   unit.ownermobilenumber = "",
+                //   unit.owneremaiid = "",
+                //   unit.tenantfirstname = "",
+                //   unit.tenantlastname = "",
+                //   unit.tenantmobilenumber = "",
+                //   unit.tenantemaiid = ""
+                delete unit.flatno;
+                delete unit.unittype;
+                delete unit.ownershipstatus;
+                delete unit.ownerfirstname;
+                delete unit.ownerlastname;
+                delete unit.ownermobilenumber;
+                delete unit.owneremaiid;
+                delete unit.tenantfirstname;
+                delete unit.tenantlastname;
+                delete unit.tenantmobilenumber;
+                delete unit.tenantemaiid;
               }
             })
           })
+          console.log(this.unitlistjson);
         }
       })
 

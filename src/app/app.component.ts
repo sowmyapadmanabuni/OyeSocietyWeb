@@ -386,8 +386,11 @@ export class AppComponent {
     this.http.get(scopeIP + `oyesafe/api/v1/GetFamilyMemberVehicleCountByAssocAcntUnitID/${Number(this.globalService.getCurrentAssociationId())}/${this.globalService.getacAccntID()}/${this.globalService.getCurrentUnitId()}`, { headers: headers })
     .subscribe(data=>{
       console.log(data);
-      this.globalService.AdminResidentActiveNotification=data['data']['notificationCount'];
-      console.log(this.globalService.AdminResidentActiveNotification);
+      this.globalService.AdminResidentActiveNotification=data['data']['totalBellCount'];
+      this.globalService.BellNotification=data['data']['totalBellCount'];
+      this.globalService.AdminActiveNotification=data['data']['adminNotificationCount'];
+      this.globalService.ResidentActiveNotification=data['data']['myUnitNotificationCount'];
+      console.log(this.globalService.AdminResidentActiveNotification, this.globalService.AdminActiveNotification, this.globalService.ResidentActiveNotification);
     },
     err=>{
       console.log(err);
