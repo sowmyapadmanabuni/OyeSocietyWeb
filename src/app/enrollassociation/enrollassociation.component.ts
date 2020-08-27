@@ -73,6 +73,7 @@ export class EnrollassociationComponent implements OnInit {
   indexToCheckValidBlockName:number;
   ValidBlockName:any;
   InvalidBlocknamePresent:boolean;
+  arraylist1:unknown[];
 
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
@@ -81,6 +82,7 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.arraylist1=[];
       this.InvalidBlocknamePresent = false;
       this.ValidBlockName='';
       this.indexToCheckValidBlockName=0;
@@ -709,7 +711,6 @@ export class EnrollassociationComponent implements OnInit {
   totalUnitcount;
   message;
   submitunitdetails1(name, index) {
-    $(".se-pre-con").show();
     this.duplicateUnitCount=0;
     this.invalidUnitCount=0;
     this.unitsuccessarray = [];
@@ -1072,7 +1073,7 @@ export class EnrollassociationComponent implements OnInit {
               this.exceptionMessage1 = error['error']['exceptionMessage'];
               console.log(this.exceptionMessage1);
             });
-        }, 2000 * index)
+        }, 2500 * index)
       })(index)
 
     });
@@ -1313,7 +1314,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       //this.increasingBlockArrLength += 1;
-    }, Number(this.unitlistjson[name].length) * 3000)
+    },((this.finalblockname.length + this.arraylist1.length + this.blocksArray.length) * 2500))
     //}
   }
   exceptionMessage = '';
@@ -2332,6 +2333,7 @@ export class EnrollassociationComponent implements OnInit {
          }
          else{ */
     if (this.duplicateBlocknameExist) {
+      $(".se-pre-con").show();
       console.log('duplicateBlocknameExist');
       console.log(this.blocksArray);
       this.toggleEmptyBlockarray = true;
@@ -2436,7 +2438,7 @@ export class EnrollassociationComponent implements OnInit {
             }
           })
           this.blockdetailsfinalcreation();
-        }, 1000)
+        },this.blocksArray.length * 2000)
         console.log(this.commonblockarray);
       }
       else if(this.duplicateBlockArr.length > 0){
@@ -2499,7 +2501,6 @@ export class EnrollassociationComponent implements OnInit {
   sameBlocknameExist;
   duplicateBlocknameExist;
   blockdetailsfinalcreation() {
-    $(".se-pre-con").show();
     this.duplicateBlocknameExist = false;
     console.log(this.isblockdetailsempty);
     if (!this.isblockdetailsempty) {
@@ -2731,7 +2732,7 @@ export class EnrollassociationComponent implements OnInit {
               }
             })
         }
-      }, 3000)
+      },this.blocksArray.length * 3500)
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
     }
@@ -2929,6 +2930,7 @@ export class EnrollassociationComponent implements OnInit {
   filelist1: any;
 
   onFileChange(ev) {
+    $(".se-pre-con").show();
     this.isblockdetailsempty = false;
     this.blocksArray = [];
     this.file = ev.target.files[0];
@@ -2952,6 +2954,7 @@ export class EnrollassociationComponent implements OnInit {
       //for checking purpose blockbulkupload code commenting below
       if (this.excelBlockList.length <= blockslength) {
         if (this.excelBlockList.length == 0) {
+          $(".se-pre-con").fadeOut("slow");
           Swal.fire({
             title: 'Please fill all the fields',
             text: "",
@@ -3009,14 +3012,16 @@ export class EnrollassociationComponent implements OnInit {
               this.isblockdetailsempty = true;
             }
           })
+          console.log(this.excelBlockList.length);
           setTimeout(() => {
             this.increasingBlockArrLength = this.blocksArray.length + 1;
             this.createblocksdetails('');
-          }, 1000)
+          },this.excelBlockList.length * 1500)
           //}
         }
       }
       else {
+        $(".se-pre-con").fadeOut("slow");
         Swal.fire({
           title: "Please Check uploaded no of blocks should not more than given no of blocks",
           text: "",
@@ -3987,6 +3992,7 @@ export class EnrollassociationComponent implements OnInit {
       }
     })
     if (exceldata.length == 0) {
+      $(".se-pre-con").fadeOut("slow");
       Swal.fire({
         title: 'Please fill all the fields',
         text: "",
@@ -3996,6 +4002,7 @@ export class EnrollassociationComponent implements OnInit {
       })
     }
     else if(this.InvalidBlocknamePresent){
+      $(".se-pre-con").fadeOut("slow");
       Swal.fire({
         title: 'Please Check Blockname',
         text: "",
@@ -4100,6 +4107,7 @@ export class EnrollassociationComponent implements OnInit {
                   console.log(this.unitlistjson);
                 }
                 else {
+                  $(".se-pre-con").fadeOut("slow");
                   this.isExcelDataExceed = true;
                   console.log('this.isExcelDataExceed=true');
                   Swal.fire({
@@ -4118,6 +4126,9 @@ export class EnrollassociationComponent implements OnInit {
       //}
       //this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains", this.unitlistjson);
+      console.log(((this.finalblockname.length + this.arraylist1.length + this.blocksArray.length) * 1500));
+      console.log(this.finalblockname.length , this.arraylist1.length , this.blocksArray.length);
+      console.log(this.finalblockname.length + this.arraylist1.length + this.blocksArray.length);
       setTimeout(() => {
         if (this.isExcelDataExceed) {
           //http://devapi.scuarex.com/oyeliving/api/v1/UpdatAssociationUnitBlockLimit 
@@ -4155,14 +4166,14 @@ export class EnrollassociationComponent implements OnInit {
                 err => {
                   console.log(err);
                 })
-          }, 2000)
+          },2000)
           //
           this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate, Object.assign({}, { class: 'gray modal-sm' }));
         }
         if (this.isValidUnitRecord) {
           this.gotonexttab1('', _blkname, this.iindex);
         }
-      }, 2000)
+      },((this.finalblockname.length + this.arraylist1.length + this.blocksArray.length) * 1500))
     }
   }
   file: File
@@ -4171,6 +4182,7 @@ export class EnrollassociationComponent implements OnInit {
   blockunitcountmodalRef: BsModalRef;
 
   onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+    $(".se-pre-con").show();
     console.log(this.finalblocknameTmp);
     let orderBlockinLogically=[];
     orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
@@ -4193,10 +4205,10 @@ export class EnrollassociationComponent implements OnInit {
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
       console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
-      let arraylist1 = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+      this.arraylist1 = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.filelist = [];
       console.log(this.filelist)
-      this.excelunitsuploaddata(arraylist1, UpdateBlockUnitCountTemplate)
+      this.excelunitsuploaddata(this.arraylist1, UpdateBlockUnitCountTemplate)
     }
   }
   resetforduplicatesorinvalidblocks(ev,objId) {
