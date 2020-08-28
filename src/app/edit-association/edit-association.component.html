@@ -525,7 +525,7 @@
   
               </div>
           </mat-tab>
-          <mat-tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
+          <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
             <form [formGroup]="gstpanform" class="association-form3" style="padding-left: 125px;">
                 <mat-form-field class="association-full-width">
                     <mat-label>GST NUMBER(OPTIONAL)</mat-label>
@@ -592,7 +592,7 @@
                 <a id="pansubmit"mat-raised-button color="primary" [disabled]="!gstpanform.valid"(click)="submitpandetails($event)">SAVE & CONTINUE</a>
             </div>
         </mat-tab>
-          <mat-tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
+          <mat-tab #tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">
                     <mat-label>TOTAL NO OF BLOCKS<span class="red">*</span></mat-label>
