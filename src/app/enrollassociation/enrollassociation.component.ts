@@ -765,6 +765,7 @@ export class EnrollassociationComponent implements OnInit {
      }
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
+      $(".se-pre-con").show();
       let tempArr = [];
       this.unitlistjson[name].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -1314,7 +1315,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       //this.increasingBlockArrLength += 1;
-    },((this.finalblockname.length + this.arraylist1.length + this.blocksArray.length) * 2500))
+    },this.arraylist1.length * 3500)
     //}
   }
   exceptionMessage = '';
@@ -4173,7 +4174,7 @@ export class EnrollassociationComponent implements OnInit {
         if (this.isValidUnitRecord) {
           this.gotonexttab1('', _blkname, this.iindex);
         }
-      },((this.finalblockname.length + this.arraylist1.length + this.blocksArray.length) * 1500))
+      },this.arraylist1.length * 1500)
     }
   }
   file: File
