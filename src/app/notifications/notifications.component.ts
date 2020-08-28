@@ -630,6 +630,7 @@ export class NotificationsComponent implements OnInit {
             this.changeViewOfActionButton=false;
             this.updateFirebase(associationid);
             alert('Success');
+            this.GetNotificationListByAccntID();
             // this.router.navigate(['home']);
           },
             err => {
@@ -703,7 +704,8 @@ export class NotificationsComponent implements OnInit {
        { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
        .subscribe(data=>{
          console.log(data);
-         alert('Registered')
+         alert('Registered');
+         this.GetNotificationListByAccntID();
        },
        err=>{
          console.log(err);

@@ -344,7 +344,7 @@
            
         </mat-tab> -->
         <mat-tab #tab [disabled]='!tab.isActive' label="BLOCKS DETAILS">
-            <button style="margin-top:12px;float: right;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
+            <button style="margin-top:12px;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
             <!-- <div id="manualbulk">
                 <button id="button1" mat-raised-button color="primary" (click)="submitforconformblockdetails($event)">Manual Input</button>
                 <button style="position: fixed;top: 55%;right: 2%;" id="button2" mat-raised-button color="primary" (click)="submitforblocksbulkupload($event)">Bulk Upload</button>
@@ -383,8 +383,8 @@
 
                         <!--BlockBulkupload-->
                 <div id="showmanual" style="margin-top: 30px;" style="display:none">
-
-                    <div class="tab-pane">
+                    <p id="seperateblocks" style="text-align: right;font-weight: 700;" *ngIf="blocksArray.length > 11">scroll right to view more blocks</p>
+                    <div class="tab-pane" style="margin-top: 6px;">
                         
                         <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;    height: 42px;">
                             <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
@@ -999,6 +999,7 @@
                         </li>
                     </ul>
                     <div class="tab-content col-md-10">
+                        <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units</p>
                         <div *ngFor="let iitem of blocksArray;let i=index">
                             <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
                                 <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll;    height: 42px;">
