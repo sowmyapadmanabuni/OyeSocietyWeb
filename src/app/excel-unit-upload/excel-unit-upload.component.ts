@@ -38,6 +38,8 @@ export class ExcelUnitUploadComponent implements OnInit {
   ValidBlockName:any;
   duplicateUnitCount:number;
   invalidUnitCount:number;
+  arraylist1:unknown[];
+
   occupancy = [
     "Sold Owner Occupied Unit",
     "Sold Tenant Occupied Unit",
@@ -78,12 +80,13 @@ export class ExcelUnitUploadComponent implements OnInit {
     "isUnitsCreatedUnderBlock":false,
     "isUnitsCreatedUnderBlock1":true,
     "isblockdetailsempty1":true,
-    "isNotBlockCreated":false,
+    "isNotBlockCreated":true,
     "isBlockCreated":true
 
   }
   constructor(private router: Router, private viewUniService: ViewUnitService,private http: HttpClient,
     private globalService: GlobalServiceService) {
+    this.arraylist1=[];
     this.excelUnitList = [];
     this.ShowExcelUploadDiscription = true;
     this.ShowExcelDataList = false;
@@ -150,6 +153,8 @@ export class ExcelUnitUploadComponent implements OnInit {
   }
   onFileChange(ev,UpdateBlockUnitCountTemplate) {
     console.log(this.finalblocknameTmp);
+    $(".se-pre-con").show();
+
     let orderBlockinLogically=[];
     orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
     console.log(orderBlockinLogically);
@@ -174,11 +179,11 @@ export class ExcelUnitUploadComponent implements OnInit {
       }, {});
       //const dataString = JSON.stringify(jsonData);
       console.log(jsonData['Sheet1']);
-      this.excelUnitList = jsonData['Sheet1']
+      this.arraylist1 = jsonData['Sheet1']
       this.ShowExcelUploadDiscription = false;
       this.ShowExcelDataList = true;
       //this.createExpense(jsonData['Sheet1']);
-      this.excelunitsuploaddata(this.excelUnitList,UpdateBlockUnitCountTemplate)
+      this.excelunitsuploaddata(this.arraylist1,UpdateBlockUnitCountTemplate)
 
     }
     reader.readAsBinaryString(file);
@@ -208,6 +213,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     //   }
     // })
     if(exceldata.length==0){
+      $(".se-pre-con").fadeOut("slow");
       Swal.fire({
         title: 'Please fill all the fields',
         text: "",
@@ -217,6 +223,7 @@ export class ExcelUnitUploadComponent implements OnInit {
       })
     }
     else if(this.InvalidBlocknamePresent){
+      $(".se-pre-con").fadeOut("slow");
       Swal.fire({
         title: 'Please Check Blockname',
         text: "",
@@ -333,6 +340,7 @@ export class ExcelUnitUploadComponent implements OnInit {
 
                       }
                       else{
+                     $(".se-pre-con").fadeOut("slow");
                         this.isExcelDataExceed=true;	
                         console.log('this.isExcelDataExceed=true');
                         Swal.fire({
@@ -356,7 +364,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         if(this.isValidUnitRecord){
           this.gotonexttab1('',_blkname,this.iindex);
         }
-      },2000)
+      },this.arraylist1.length * 1500)
     }
   }
   gotonexttab1(ev, name,index) {
@@ -390,7 +398,6 @@ export class ExcelUnitUploadComponent implements OnInit {
   unitlistuniquejson1 = [];
   message;
   submitunitdetails1(name,index) {
-    $(".se-pre-con").show();
     this.duplicateUnitCount=0;
     this.invalidUnitCount=0;
     this.unitsuccessarray = [];
@@ -443,6 +450,7 @@ export class ExcelUnitUploadComponent implements OnInit {
      }
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
+      $(".se-pre-con").show();
       let tempArr = [];
       this.unitlistjson[this.blBlkName].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -742,7 +750,7 @@ export class ExcelUnitUploadComponent implements OnInit {
                 this.exceptionMessage1 = error['error']['exceptionMessage'];
                 console.log(this.exceptionMessage1);
               });
-        }, 2000 * index)
+        }, 2500 * index)
       })(index)
 
     });
@@ -824,8 +832,8 @@ export class ExcelUnitUploadComponent implements OnInit {
               }
             })
         }
-        let abc0 = Object.keys(this.unitlistjson);
-        if (Object.keys(this.unitlistjson)[abc0.length - 1] == this.blBlkName) {
+        let abc0 = _.sortBy(Object.keys(this.unitlistjson));
+        if (_.sortBy(Object.keys(this.unitlistjson))[abc0.length - 1] == this.blBlkName) {
           console.log('insidelasttab');
           if (!this.duplicateUnitrecordexist) {
             console.log('inlasttabNoduplicaterecordexist');
@@ -986,7 +994,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           }  
         }
 
-      }, Number(this.unitlistjson[this.blBlkName].length) * 2000)
+      },this.arraylist1.length * 3500)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
       
         //}
@@ -1234,10 +1242,42 @@ export class ExcelUnitUploadComponent implements OnInit {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
+                unit.hasNoDuplicateUnitname = false;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
                 unit.isSingleUnitDataEmpty = false;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if (a.flatno != undefined) {
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    unit_group[element].forEach(itm1 => {
+                      if (itm1.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = false;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                  else if (unit_group[element].length == 1) {
+                    unit_group[element].forEach(itm2 => {
+                      if (itm2.flatno.toLowerCase() == unit.flatno.toLowerCase()) {
+                        unit.hasNoDuplicateUnitname = true;
+                        unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                        console.log(unit.flatno);
+                        console.log(unit.Id, Id);
+                      }
+                    })
+                  }
+                })
               }
             }
           }
@@ -1430,10 +1470,38 @@ export class ExcelUnitUploadComponent implements OnInit {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                console.log('test0-ownershipstatus == " "')
                 this.isunitdetailsempty = false;
+                unit.isSingleUnitDataEmpty = true;
+                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
               }
               else {
+                console.log('test1-ownershipstatus')
                 this.isunitdetailsempty = true;
+                unit.isSingleUnitDataEmpty = false;
+                let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                  if(a.flatno != undefined){
+                    r[a.flatno] = [...r[a.flatno] || [], a];
+                  }
+                  return r;
+                }, {});
+                console.log("unit_group", unit_group);
+                Object.keys(unit_group).forEach(element => {
+                  if (unit_group[element].length > 1) {
+                    this.isunitdetailsempty = false;
+                  }
+                  else if (unit_group[element].length == 1) {
+                    console.log(unit)
+                    unit_group[element].forEach(itm1=>{
+                      if(flatno != undefined){
+                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                          unit.hasNoDuplicateUnitname = true;
+                        }
+                      }
+                    })
+                  }
+                })
               }
             }
           }
@@ -1442,7 +1510,14 @@ export class ExcelUnitUploadComponent implements OnInit {
       })
     })
     console.log(this.unitlistjson[name]);
-    let unitgroup_for_logicalorder = this.unitlistjson[name].reduce((r, a) => {
+    let unitgroup_for_logicalorder_with_valid_flatnos = [];
+    this.unitlistjson[name].forEach(item => {
+      if (item.flatno != undefined) {
+        unitgroup_for_logicalorder_with_valid_flatnos.push(item);
+      }
+    })
+    console.log(unitgroup_for_logicalorder_with_valid_flatnos);
+    let unitgroup_for_logicalorder = unitgroup_for_logicalorder_with_valid_flatnos.reduce((r, a) => {
       if(a.flatno != undefined){
         r[a.flatno.toLowerCase()] = [...r[a.flatno.toLowerCase()] || [], a];
         return r;
@@ -1499,6 +1574,13 @@ export class ExcelUnitUploadComponent implements OnInit {
               this.canDoUnitLogicalOrder = false;
             }
           }
+          else if (itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
+            if (itm2.flatno == "" || itm2.flatno == undefined ||
+              itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
+                this.canDoUnitLogicalOrder = false;
+            }
+          }
         })
       })
       if(this.canDoUnitLogicalOrder == true){
@@ -1511,7 +1593,6 @@ export class ExcelUnitUploadComponent implements OnInit {
       }
     }
   }
-
   resetStep5bulk(ev, blknamecommon, Id) {
     Swal.fire({
       title: "Are you sure?",
