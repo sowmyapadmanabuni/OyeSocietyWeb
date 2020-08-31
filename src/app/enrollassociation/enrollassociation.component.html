@@ -253,7 +253,7 @@
                             <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="panuploadicon" aria-hidden="true" type="submit" (click)="processPanFile()"></i>
                             <!-- <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>  -->
                             <img [hidden]="uploadPANCardThumbnail == undefined" id="pancardimg" (click)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
-                                src="{{uploadPANCardThumbnail}}" width="50px" height="50px" />
+                                src="{{uploadPANCardThumbnail}}" width="50px" height="50px" style="padding:4px" />
                             </form>
                           </div>
                 
@@ -383,7 +383,7 @@
 
                         <!--BlockBulkupload-->
                 <div id="showmanual" style="margin-top: 30px;" style="display:none">
-                    <p id="seperateblocks" style="text-align: right;font-weight: 700;" *ngIf="blocksArray.length > 11">scroll right to view more blocks</p>
+                    <p id="seperateblocks" style="text-align: right;font-weight: 700;" *ngIf="blocksArray.length > 11">scroll right to view more blocks <i class="fa fa-angle-right" aria-hidden="true"></i></p>
                     <div class="tab-pane" style="margin-top: 6px;">
                         
                         <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;    height: 42px;">
@@ -393,7 +393,8 @@
                                     &nbsp;&nbsp;<span></span>
                                     <!-- <i [hidden]="objct.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i> -->
                                     &nbsp;
-                                    <i [hidden]="objct.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
+                                    <i [hidden]="objct.isNotBlockCreated" [ngClass]="{'fa fa-check-circle-o':objct.isBlockCreated}" style="color: #41ca41" aria-hidden="true"></i>
+                                    <i [hidden]="objct.isBlockCreated" [ngClass]="{'fa fa-circle-thin':objct.isNotBlockCreated_NowValid}" style="color: #41ca41" aria-hidden="true"></i>
                                     <i [hidden]="objct['hasNoDuplicateBlockname']==true" class="fa fa-circle-thin" style="color: #ff0505" aria-hidden="true"></i>
                                 </a></li>
                         </ul>
@@ -999,7 +1000,7 @@
                         </li>
                     </ul>
                     <div class="tab-content col-md-10">
-                        <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units</p>
+                        <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units <i class="fa fa-angle-right" aria-hidden="true"></i></p>
                         <div *ngFor="let iitem of blocksArray;let i=index">
                             <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
                                 <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll;    height: 42px;">

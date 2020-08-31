@@ -3003,6 +3003,7 @@ export class EnrollassociationComponent implements OnInit {
               list.blocktype = this.residentialorcommercialtype;
             list.isblockdetailsempty1 = true;
             list.isNotBlockCreated = true;
+            list.isNotBlockCreated_NowValid=false;
             list.isBlockCreated = false;
 
             this.blocksArray.push(list);
@@ -3612,11 +3613,16 @@ export class EnrollassociationComponent implements OnInit {
         this.blocksArray.forEach(item => {
           if (item.blockname.toLowerCase() == blockname.toLowerCase()) {
             this.numberofexistence += 1;
-            if (this.numberofexistence == 1) {
+            if (this.numberofexistence == 1) {  
               element.hasNoDuplicateBlockname = true;
+              if (item.blockname != "" && item.blockname != undefined && item.blocktype != "" && item.blocktype != undefined && item.units != "" && item.units != undefined && item.fecilitymanagername != "" && item.fecilitymanagername != undefined && item.managermobileno != "" && item.managermobileno != undefined && item.manageremailid != "" && item.manageremailid != undefined) {
+                console.log('isNotBlockCreated_NowValid');
+                element.isNotBlockCreated_NowValid=true;
+              }
             }
             else {
               element.hasNoDuplicateBlockname = false;
+              element.isNotBlockCreated_NowValid=false;
             }
           }
         })
@@ -3694,9 +3700,11 @@ export class EnrollassociationComponent implements OnInit {
         else {
           element.isblockdetailsempty1 = false;
         }
+        
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
         element.hasNoDuplicateBlockname = false;
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
@@ -3717,6 +3725,10 @@ export class EnrollassociationComponent implements OnInit {
                     itm2.hasNoDuplicateBlockname = false;
                     this.isblockdetailsempty = true
                   }
+                }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
                 }
               })
             })
@@ -3767,6 +3779,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
@@ -3787,6 +3800,10 @@ export class EnrollassociationComponent implements OnInit {
                     itm2.hasNoDuplicateBlockname = false;
                     this.isblockdetailsempty = true
                   }
+                }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
                 }
               })
             })
@@ -3838,6 +3855,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
@@ -3859,6 +3877,11 @@ export class EnrollassociationComponent implements OnInit {
                     this.isblockdetailsempty = true
                   }
                 }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
+                }
+               
               })
             })
           }
@@ -3908,6 +3931,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
@@ -3929,6 +3953,11 @@ export class EnrollassociationComponent implements OnInit {
                     this.isblockdetailsempty = true
                   }
                 }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
+                }
+                
               })
             })
           }
