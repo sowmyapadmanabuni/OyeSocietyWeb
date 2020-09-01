@@ -76,9 +76,13 @@ export class EnrollassociationComponent implements OnInit {
   arraylist1:unknown[];
   progressbarmodalRef: BsModalRef;
   blockprogressbartemplate: TemplateRef<any>;
+  unitprogressbartemplate:TemplateRef<any>;
   blockprogressvalue:number;
   blockprogressvaluemax:number;
   blocksuccesscount:number;
+  unitprogressvalue:number;
+  unitprogressvaluemax:number;
+  unitsuccesscount:number;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -89,6 +93,9 @@ export class EnrollassociationComponent implements OnInit {
       this.blockprogressvalue=0;
       this.blockprogressvaluemax=0;
       this.blocksuccesscount=0;
+      this.unitprogressvalue=0;
+      this.unitprogressvaluemax=0;
+      this.unitsuccesscount=0;
       this.arraylist1=[];
       this.InvalidBlocknamePresent = false;
       this.ValidBlockName='';
@@ -773,6 +780,7 @@ export class EnrollassociationComponent implements OnInit {
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
       $(".se-pre-con").show();
+      this.unitsuccesscount = 0;
       let tempArr = [];
       this.unitlistjson[name].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -995,6 +1003,9 @@ export class EnrollassociationComponent implements OnInit {
     }
     //}
     //
+    $(".se-pre-con").fadeOut("slow");
+    this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate);
+    this.unitprogressvaluemax = Number(this.unitlistjson[name].length);
     this.unitlistjson[name].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
@@ -1069,6 +1080,8 @@ export class EnrollassociationComponent implements OnInit {
           console.log(this.unitdetailscreatejson)
           this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
+              this.unitsuccesscount += 1;
+              this.unitprogressvalue = this.unitsuccesscount;
               console.log(res)
               unit.hasNoDuplicateUnitname = true;
               unit.disableField = true;
@@ -1087,7 +1100,7 @@ export class EnrollassociationComponent implements OnInit {
     });
 
     setTimeout(() => {
-      $(".se-pre-con").fadeOut("slow");
+      this.progressbarmodalRef.hide();
       if (this.unitsuccessarray.length == 1) {
         this.message = 'Unit Created Successfully';
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
@@ -4225,8 +4238,10 @@ export class EnrollassociationComponent implements OnInit {
   filelist: any;
   blockunitcountmodalRef: BsModalRef;
 
-  onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+  onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate,unitprogressbartemplate: TemplateRef<any>) {
     $(".se-pre-con").show();
+    this.unitsuccesscount = 0;
+    this.unitprogressbartemplate = unitprogressbartemplate;
     console.log(this.finalblocknameTmp);
     let orderBlockinLogically=[];
     orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
