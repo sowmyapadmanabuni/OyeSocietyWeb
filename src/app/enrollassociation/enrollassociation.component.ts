@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 // import { CommonserviceService } from './../commonservice.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -74,7 +74,11 @@ export class EnrollassociationComponent implements OnInit {
   ValidBlockName:any;
   InvalidBlocknamePresent:boolean;
   arraylist1:unknown[];
-
+  progressbarmodalRef: BsModalRef;
+  blockprogressbartemplate: TemplateRef<any>;
+  blockprogressvalue:number;
+  blockprogressvaluemax:number;
+  blocksuccesscount:number;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -82,6 +86,9 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.blockprogressvalue=0;
+      this.blockprogressvaluemax=0;
+      this.blocksuccesscount=0;
       this.arraylist1=[];
       this.InvalidBlocknamePresent = false;
       this.ValidBlockName='';
@@ -2335,6 +2342,7 @@ export class EnrollassociationComponent implements OnInit {
          else{ */
     if (this.duplicateBlocknameExist) {
       $(".se-pre-con").show();
+      this.blocksuccesscount = 0;
       console.log('duplicateBlocknameExist');
       console.log(this.blocksArray);
       this.toggleEmptyBlockarray = true;
@@ -2502,9 +2510,12 @@ export class EnrollassociationComponent implements OnInit {
   sameBlocknameExist;
   duplicateBlocknameExist;
   blockdetailsfinalcreation() {
+    $(".se-pre-con").fadeOut("slow");
+    this.blockprogressvaluemax = this.commonblockarray.length;
     this.duplicateBlocknameExist = false;
     console.log(this.isblockdetailsempty);
     if (!this.isblockdetailsempty) {
+      this.progressbarmodalRef = this.modalService.show(this.blockprogressbartemplate);
       this.isblockdetailsempty = true;
       this.sameBlocknameExist = false;
       this.commonblockarray1.push(this.commonblockarray);
@@ -2547,6 +2558,8 @@ export class EnrollassociationComponent implements OnInit {
               .subscribe((res: any) => {
                 console.log(res);
                 if (res.data.blockID) {
+                  this.blocksuccesscount += 1;
+                  this.blockprogressvalue = this.blocksuccesscount;
                   console.log(this.unitlistjson);
                   console.log(res.data.blockID);
                   this.blockidtmp[element.blockname] = res.data.blockID;
@@ -2612,7 +2625,7 @@ export class EnrollassociationComponent implements OnInit {
         })(index)
       })
       setTimeout(() => {
-        $(".se-pre-con").fadeOut("slow");
+        this.progressbarmodalRef.hide();
         document.getElementById('upload_excel').style.display = 'none'
         // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
@@ -2930,7 +2943,8 @@ export class EnrollassociationComponent implements OnInit {
   blockarrayBuffer: any;
   filelist1: any;
 
-  onFileChange(ev) {
+  onFileChange(ev,blockprogressbartemplate: TemplateRef<any>) {
+    this.blockprogressbartemplate = blockprogressbartemplate;
     $(".se-pre-con").show();
     this.isblockdetailsempty = false;
     this.blocksArray = [];

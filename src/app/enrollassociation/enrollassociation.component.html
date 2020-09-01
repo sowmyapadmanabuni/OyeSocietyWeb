@@ -356,7 +356,7 @@
                 <a id="blocksuploadid" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                         src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
                 <input #fileInput1 type="file" id="file_upload_id" (click)="fileInput1.value = null"
-                    (change)="onFileChange($event)"
+                    (change)="onFileChange($event,blockprogressbartemplate)"
                     accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                 <div id="cancelbutton">
                     <button mat-raised-button color="primary" (click)="cancelbulkupload($event)">Cancel</button>
@@ -1452,5 +1452,13 @@
                 <button (click)="UpdateBlockUnitCount()">UpdateCount</button>
             </div>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #blockprogressbartemplate>
+    <div class="modal-body">
+        <progressbar [animate]="false" [max]="blockprogressvaluemax" [value]="blockprogressvalue" type="success">
+            <span class="text-nowrap">{{blockprogressvalue}} / {{blockprogressvaluemax}} complete</span>
+        </progressbar>
     </div>
 </ng-template>
