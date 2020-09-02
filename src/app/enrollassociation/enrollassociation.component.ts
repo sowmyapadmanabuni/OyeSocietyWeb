@@ -83,6 +83,9 @@ export class EnrollassociationComponent implements OnInit {
   unitprogressvalue:number;
   unitprogressvaluemax:number;
   unitsuccesscount:number;
+  config = {
+    ignoreBackdropClick: true
+  };
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -1104,32 +1107,26 @@ export class EnrollassociationComponent implements OnInit {
       if (this.unitsuccessarray.length == 1) {
         this.message = 'Unit Created Successfully';
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.invalidUnitCount} Invalid
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.invalidUnitCount} Invalid
+                          ${this.duplicateUnitCount} Duplicate`
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.invalidUnitCount} Invalid`
+          this.message = `${this.invalidUnitCount} Invalid`
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.duplicateUnitCount} Duplicate`
         }
       }
       else if (this.unitsuccessarray.length > 1) {
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.invalidUnitCount} Invalid
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.invalidUnitCount} Invalid
+                          ${this.duplicateUnitCount} Duplicate`
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.invalidUnitCount} Invalid`
+          this.message = `${this.invalidUnitCount} Invalid`
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.duplicateUnitCount} Duplicate`
         }
         else {
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -1181,15 +1178,16 @@ export class EnrollassociationComponent implements OnInit {
         console.log('insidelasttab');
         if (!this.duplicateUnitrecordexist) {
           console.log('inlasttabNoduplicaterecordexist');
-          let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+          let mesg = `Your Association is Created Successfully
+                      Total Unit Created - ${this.totalUnitcount}`
           document.getElementById('unitupload_excel').style.display = 'none'
           document.getElementById('unitshowmanual').style.display = 'block';
           document.getElementById('unitsmanualnew').style.display = 'none';
           document.getElementById('unitsbulkold').style.display = 'block';
           Swal.fire({
-            title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
+            title: mesg,
             text: "",
-            type: (this.exceptionMessage1 == '' ? "success" : "error"),
+            type:"success",
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK"
           }).then(
@@ -1219,17 +1217,14 @@ export class EnrollassociationComponent implements OnInit {
           document.getElementById('unitsbulkold').style.display = 'block';
           if (this.unitlistduplicatejson.length > 0) {
             if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.invalidUnitCount} Invalid
-                                                  ${this.duplicateUnitCount} Duplicate`
+              this.message = `${this.invalidUnitCount} Invalid
+                              ${this.duplicateUnitCount} Duplicate`
             }
             else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.invalidUnitCount} Invalid`
+              this.message = `${this.invalidUnitCount} Invalid`
             }
             else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.duplicateUnitCount} Duplicate`
+              this.message = `${this.duplicateUnitCount} Duplicate`
             }
           }
           else {
@@ -1335,7 +1330,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       //this.increasingBlockArrLength += 1;
-    },this.arraylist1.length * 3500)
+    },Number(this.unitlistjson[name].length) * 3000)
     //}
   }
   exceptionMessage = '';
@@ -2653,32 +2648,26 @@ export class EnrollassociationComponent implements OnInit {
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid`;
+              displaymessage = `${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
             }
           }
           else if (this.blockssuccessarray > 1) {
              if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.invalidBlockCount} Invalid
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.invalidBlockCount} Invalid`;
+              displaymessage = `${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
