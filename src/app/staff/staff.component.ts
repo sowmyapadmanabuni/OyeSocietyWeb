@@ -105,7 +105,6 @@ export class StaffComponent implements OnInit {
     this.workerImg = [];
     this.otherStaff = [];
     this.condition = true;
-
     this.condition1 = false;
     this.showOtherstaff = false;
     this.showstaffBydesignation = false;

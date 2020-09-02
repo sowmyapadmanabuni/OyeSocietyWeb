@@ -62,6 +62,7 @@
                                         <mat-label>NO OF UNITS<span class="red">*</span></mat-label>
                                         <input matInput placeholder="NO OF UNITS" 
                                         pattern="[0-9]*" 
+                                        (keypress)=_keyPress($event)
                                         (keyup)="validatenoofunits($event,noofunits)"
                                         [(ngModel)]="noofunits"[ngModelOptions]="{standalone:
                                             true}" value="">
@@ -81,17 +82,17 @@
                                     <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>-->
                                
                                     <mat-form-field class="blockdetails-form">
-                                        <mat-label>MANAGER NAME<span class="red">*</span></mat-label>
+                                        <mat-label>FECILITY MANAGERNAME<span class="red">*</span></mat-label>
                                         <input class = "text" 
                                         (keypress)="_keyPress2($event)"
                                         (keyup)="validatemanagername($event,mngName)"
                                         autocomplete='mngName'
-                                        matInput placeholder="MANAGER NAME" 
+                                        matInput placeholder="FECILITY MANAGERNAME" 
                                         [(ngModel)]="mngName" 
                                         [ngModelOptions]="{standalone:true}"
                                         value=""pattern="[a-zA-Z _]*">
                                     </mat-form-field>
-                                    <p class="validation" *ngIf="managernamevalid">Manager name is required</p>
+                                    <p class="validation" *ngIf="managernamevalid">Fecility Managername is required</p>
                 
                                 <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagername']">Manager name is required</p> -->
                                 <!-- <p class="validation" *ngIf="blocksArray[i]['managername']==undefined">Manager name is required</p> -->

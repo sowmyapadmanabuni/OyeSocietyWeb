@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 // import { CommonserviceService } from './../commonservice.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -73,7 +73,19 @@ export class EnrollassociationComponent implements OnInit {
   indexToCheckValidBlockName:number;
   ValidBlockName:any;
   InvalidBlocknamePresent:boolean;
-
+  arraylist1:unknown[];
+  progressbarmodalRef: BsModalRef;
+  blockprogressbartemplate: TemplateRef<any>;
+  unitprogressbartemplate:TemplateRef<any>;
+  blockprogressvalue:number;
+  blockprogressvaluemax:number;
+  blocksuccesscount:number;
+  unitprogressvalue:number;
+  unitprogressvaluemax:number;
+  unitsuccesscount:number;
+  config = {
+    ignoreBackdropClick: true
+  };
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -81,6 +93,13 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.blockprogressvalue=0;
+      this.blockprogressvaluemax=0;
+      this.blocksuccesscount=0;
+      this.unitprogressvalue=0;
+      this.unitprogressvaluemax=0;
+      this.unitsuccesscount=0;
+      this.arraylist1=[];
       this.InvalidBlocknamePresent = false;
       this.ValidBlockName='';
       this.indexToCheckValidBlockName=0;
@@ -426,9 +445,9 @@ export class EnrollassociationComponent implements OnInit {
   blockname;
   blocktype;
   units;
-  managername;
-  managermobileno;
-  manageremailid;
+  fecilitymanagername;
+  mobilenumber;
+  emailid;
   ratevalue;
   maintenancevalue;
   measurementtype;
@@ -451,7 +470,7 @@ export class EnrollassociationComponent implements OnInit {
     "maintenancevalue": "",
     "manageremailid": "",
     "managermobileno": "",
-    "managername": "",
+    "fecilitymanagername": "",
     "measurementtype": "Sqft",
     "paymentcharge": "",
     "ratevalue": "",
@@ -462,7 +481,7 @@ export class EnrollassociationComponent implements OnInit {
     "isnotvalidblocktype": false,
     "isnotvalidmanageremailid": false,
     "isnotvalidmanagermobileno": false,
-    "isnotvalidmanagername": false,
+    "isnotvalidfecilitymanagername": false,
     "isnotvalidunits": false,
     "isUnitsCreatedUnderBlock": false,
     "isUnitsCreatedUnderBlock1": true,
@@ -641,6 +660,14 @@ export class EnrollassociationComponent implements OnInit {
   //          event.preventDefault();
   //     }
   // }
+  _keyPress5(event: any, Id) {
+    var ch = String.fromCharCode(event.keyCode);
+    var filter = /^[a-zA-Z_ ]*$/;
+    if (!filter.test(ch)) {
+      event.returnValue = false;
+    }
+
+  }
   _keyPress2(event: any, Id) {
     var ch = String.fromCharCode(event.keyCode);
     var filter = /[a-zA-Z]/;
@@ -709,7 +736,6 @@ export class EnrollassociationComponent implements OnInit {
   totalUnitcount;
   message;
   submitunitdetails1(name, index) {
-    $(".se-pre-con").show();
     this.duplicateUnitCount=0;
     this.invalidUnitCount=0;
     this.unitsuccessarray = [];
@@ -764,6 +790,8 @@ export class EnrollassociationComponent implements OnInit {
      }
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
+      $(".se-pre-con").show();
+      this.unitsuccesscount = 0;
       let tempArr = [];
       this.unitlistjson[name].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -986,6 +1014,9 @@ export class EnrollassociationComponent implements OnInit {
     }
     //}
     //
+    $(".se-pre-con").fadeOut("slow");
+    this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate);
+    this.unitprogressvaluemax = Number(this.unitlistjson[name].length);
     this.unitlistjson[name].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
@@ -1060,6 +1091,8 @@ export class EnrollassociationComponent implements OnInit {
           console.log(this.unitdetailscreatejson)
           this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
+              this.unitsuccesscount += 1;
+              this.unitprogressvalue = this.unitsuccesscount;
               console.log(res)
               unit.hasNoDuplicateUnitname = true;
               unit.disableField = true;
@@ -1072,42 +1105,36 @@ export class EnrollassociationComponent implements OnInit {
               this.exceptionMessage1 = error['error']['exceptionMessage'];
               console.log(this.exceptionMessage1);
             });
-        }, 2000 * index)
+        }, 2500 * index)
       })(index)
 
     });
 
     setTimeout(() => {
-      $(".se-pre-con").fadeOut("slow");
+      this.progressbarmodalRef.hide();
       if (this.unitsuccessarray.length == 1) {
         this.message = 'Unit Created Successfully';
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.invalidUnitCount} Invalid
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.invalidUnitCount} Invalid
+                          ${this.duplicateUnitCount} Duplicate`
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.invalidUnitCount} Invalid`
+          this.message = `${this.invalidUnitCount} Invalid`
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.duplicateUnitCount} Duplicate`
         }
       }
       else if (this.unitsuccessarray.length > 1) {
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.invalidUnitCount} Invalid
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.invalidUnitCount} Invalid
+                          ${this.duplicateUnitCount} Duplicate`
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.invalidUnitCount} Invalid`
+          this.message = `${this.invalidUnitCount} Invalid`
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.duplicateUnitCount} Duplicate`
         }
         else {
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -1123,7 +1150,8 @@ export class EnrollassociationComponent implements OnInit {
           text: "",
           type: "success",
           confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
+          allowOutsideClick:false
         }).then(
           (result) => {
             if (result.value) {
@@ -1159,17 +1187,19 @@ export class EnrollassociationComponent implements OnInit {
         console.log('insidelasttab');
         if (!this.duplicateUnitrecordexist) {
           console.log('inlasttabNoduplicaterecordexist');
-          let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+          let mesg = `Your Association is Created Successfully
+                      Total Unit Created - ${this.totalUnitcount}`
           document.getElementById('unitupload_excel').style.display = 'none'
           document.getElementById('unitshowmanual').style.display = 'block';
           document.getElementById('unitsmanualnew').style.display = 'none';
           document.getElementById('unitsbulkold').style.display = 'block';
           Swal.fire({
-            title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
+            title: mesg,
             text: "",
-            type: (this.exceptionMessage1 == '' ? "success" : "error"),
+            type:"success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -1197,17 +1227,14 @@ export class EnrollassociationComponent implements OnInit {
           document.getElementById('unitsbulkold').style.display = 'block';
           if (this.unitlistduplicatejson.length > 0) {
             if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.invalidUnitCount} Invalid
-                                                  ${this.duplicateUnitCount} Duplicate`
+              this.message = `${this.invalidUnitCount} Invalid
+                              ${this.duplicateUnitCount} Duplicate`
             }
             else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.invalidUnitCount} Invalid`
+              this.message = `${this.invalidUnitCount} Invalid`
             }
             else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.duplicateUnitCount} Duplicate`
+              this.message = `${this.duplicateUnitCount} Duplicate`
             }
           }
           else {
@@ -1218,7 +1245,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -1258,7 +1286,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -1313,7 +1342,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       //this.increasingBlockArrLength += 1;
-    }, Number(this.unitlistjson[name].length) * 3000)
+    },Number(this.unitlistjson[name].length) * 3000)
     //}
   }
   exceptionMessage = '';
@@ -1338,7 +1367,8 @@ export class EnrollassociationComponent implements OnInit {
         text: "",
         type: "error",
         confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
+        allowOutsideClick:false
       })
     }
     else {
@@ -1554,7 +1584,8 @@ export class EnrollassociationComponent implements OnInit {
                   text: "",
                   type: (this.exceptionMessage == '' ? "success" : "error"),
                   confirmButtonColor: "#f69321",
-                  confirmButtonText: "OK"
+                  confirmButtonText: "OK",
+                  allowOutsideClick:false
                 }).then(
                   (result) => {
                     if (result.value) {
@@ -2268,9 +2299,9 @@ export class EnrollassociationComponent implements OnInit {
           "BLBlkName": element.blockname,
           "BLBlkType": element.blocktype,
           "BLNofUnit": element.units,
-          "BLMgrName": element.managername,
-          "BLMgrMobile": element.managermobileno,
-          "BLMgrEmail": element.manageremailid,
+          "BLMgrName": (element['facility manager'] == undefined ? '': element['facility manager']),
+          "BLMgrMobile": (element['mobile number'] == undefined ? '': element['mobile number']),
+          "BLMgrEmail": (element['email id'] == undefined ? '': element['email id']),
           "ASMtType": "",
           "ASMtDimBs": "15",
           "ASMtFRate": "",
@@ -2332,6 +2363,8 @@ export class EnrollassociationComponent implements OnInit {
          }
          else{ */
     if (this.duplicateBlocknameExist) {
+      $(".se-pre-con").show();
+      this.blocksuccesscount = 0;
       console.log('duplicateBlocknameExist');
       console.log(this.blocksArray);
       this.toggleEmptyBlockarray = true;
@@ -2344,7 +2377,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
       this.commonblockarray.forEach((element) => {
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           this.isblockdetailsempty = true;
         }
       })
@@ -2404,7 +2437,7 @@ export class EnrollassociationComponent implements OnInit {
          }
        }) */
       this.notValidBlockArr = this.uniqueBlockArr.filter((element) => {
-        return (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined);
+        return (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined);
       })
       if (this.notValidBlockArr.length > 0) {
         this.notValidBlockArr.forEach(item => {
@@ -2414,10 +2447,10 @@ export class EnrollassociationComponent implements OnInit {
         })
       }
       this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
-        if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+        if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
           console.log(element);
         }
-        return (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined);
+        return (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined);
       })
       console.log(this.uniqueBlockArr);
       console.log(this.duplicateBlockArr);
@@ -2431,12 +2464,12 @@ export class EnrollassociationComponent implements OnInit {
         this.blockssuccessarray = this.uniqueBlockArr.length;
         setTimeout(() => {
           this.commonblockarray.forEach((element) => {
-            if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+            if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
               this.isblockdetailsempty = true;
             }
           })
           this.blockdetailsfinalcreation();
-        }, 1000)
+        },this.blocksArray.length * 2000)
         console.log(this.commonblockarray);
       }
       else if(this.duplicateBlockArr.length > 0){
@@ -2459,7 +2492,8 @@ export class EnrollassociationComponent implements OnInit {
           text: "",
           type: "success",
           confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
+          allowOutsideClick:false
         }).then(
           (result) => {
             if (result.value) {
@@ -2499,10 +2533,12 @@ export class EnrollassociationComponent implements OnInit {
   sameBlocknameExist;
   duplicateBlocknameExist;
   blockdetailsfinalcreation() {
-    $(".se-pre-con").show();
+    $(".se-pre-con").fadeOut("slow");
+    this.blockprogressvaluemax = this.commonblockarray.length;
     this.duplicateBlocknameExist = false;
     console.log(this.isblockdetailsempty);
     if (!this.isblockdetailsempty) {
+      this.progressbarmodalRef = this.modalService.show(this.blockprogressbartemplate);
       this.isblockdetailsempty = true;
       this.sameBlocknameExist = false;
       this.commonblockarray1.push(this.commonblockarray);
@@ -2524,9 +2560,9 @@ export class EnrollassociationComponent implements OnInit {
                   "BLBlkType": element.blocktype,
                   //"BLBlkType": this.residentialorcommercialtype,
                   "BLNofUnit": element.units,
-                  "BLMgrName": element.managername,
-                  "BLMgrMobile": element.managermobileno,
-                  "BLMgrEmail": element.manageremailid,
+                  "BLMgrName": (element['facility manager'] == undefined ? '': element['facility manager']),
+                  "BLMgrMobile": (element['mobile number'] == undefined ? '': element['mobile number']),
+                  "BLMgrEmail":(element['email id'] == undefined ? '': element['email id']),
                   "ASMtType": "",
                   "ASMtDimBs": "15",
                   "ASMtFRate": "",
@@ -2545,6 +2581,8 @@ export class EnrollassociationComponent implements OnInit {
               .subscribe((res: any) => {
                 console.log(res);
                 if (res.data.blockID) {
+                  this.blocksuccesscount += 1;
+                  this.blockprogressvalue = this.blocksuccesscount;
                   console.log(this.unitlistjson);
                   console.log(res.data.blockID);
                   this.blockidtmp[element.blockname] = res.data.blockID;
@@ -2587,7 +2625,8 @@ export class EnrollassociationComponent implements OnInit {
                     title: "Error",
                     text: res['data']['errorResponse']['message'],
                     type: "error",
-                    confirmButtonColor: "#f69321"
+                    confirmButtonColor: "#f69321",
+                    allowOutsideClick:false
                   });
                 }
               }, error => {
@@ -2610,7 +2649,7 @@ export class EnrollassociationComponent implements OnInit {
         })(index)
       })
       setTimeout(() => {
-        $(".se-pre-con").fadeOut("slow");
+        this.progressbarmodalRef.hide();
         document.getElementById('upload_excel').style.display = 'none'
         // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
@@ -2625,32 +2664,26 @@ export class EnrollassociationComponent implements OnInit {
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid`;
+              displaymessage = `${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
             }
           }
           else if (this.blockssuccessarray > 1) {
              if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.invalidBlockCount} Invalid
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.invalidBlockCount} Invalid`;
+              displaymessage = `${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
@@ -2661,7 +2694,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -2731,13 +2765,13 @@ export class EnrollassociationComponent implements OnInit {
               }
             })
         }
-      }, 3000)
+      },this.blocksArray.length * 3500)
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
     }
   }
-  createblocksdetails1(blockname, blocktype, units, managername, managermobileno, manageremailid, objId, index1) {
-    console.log(blockname, blocktype, units, managername, managermobileno, manageremailid, objId, index1);
+  createblocksdetails1(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1) {
+    console.log(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1);
     console.log(this.blocksArray.length);
     let ipAddress = this.utilsService.createBlock();
     let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
@@ -2750,9 +2784,9 @@ export class EnrollassociationComponent implements OnInit {
           "BLBlkName": blockname,
           "BLBlkType": blocktype,
           "BLNofUnit": units,
-          "BLMgrName": managername,
-          "BLMgrMobile": managermobileno,
-          "BLMgrEmail": manageremailid,
+          "BLMgrName": (fecilitymanagername == undefined ? '': fecilitymanagername), 
+          "BLMgrMobile": (managermobileno == undefined ? '': managermobileno), 
+          "BLMgrEmail": (manageremailid == undefined ? '': manageremailid),
           "ASMtType": "",
           "ASMtDimBs": "15",
           "ASMtFRate": "",
@@ -2833,7 +2867,8 @@ export class EnrollassociationComponent implements OnInit {
             title: "Error",
             text: res['data']['errorResponse']['message'],
             type: "error",
-            confirmButtonColor: "#f69321"
+            confirmButtonColor: "#f69321",
+            allowOutsideClick:false
           });
         }
       }, error => {
@@ -2851,7 +2886,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: '#f69321',
       confirmButtonText: 'OK',
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -2862,9 +2898,9 @@ export class EnrollassociationComponent implements OnInit {
               elemnt.blockname = '';
               // elemnt.blocktype='';
               elemnt.units = '';
-              elemnt.managername = '';
-              elemnt.managermobileno = '';
-              elemnt.manageremailid = '';
+              elemnt['facility manager'] = '';
+              elemnt['mobile number'] = '';
+              elemnt['email id'] = '';
             }
           })
         }
@@ -2928,7 +2964,9 @@ export class EnrollassociationComponent implements OnInit {
   blockarrayBuffer: any;
   filelist1: any;
 
-  onFileChange(ev) {
+  onFileChange(ev,blockprogressbartemplate: TemplateRef<any>) {
+    this.blockprogressbartemplate = blockprogressbartemplate;
+    $(".se-pre-con").show();
     this.isblockdetailsempty = false;
     this.blocksArray = [];
     this.file = ev.target.files[0];
@@ -2952,12 +2990,14 @@ export class EnrollassociationComponent implements OnInit {
       //for checking purpose blockbulkupload code commenting below
       if (this.excelBlockList.length <= blockslength) {
         if (this.excelBlockList.length == 0) {
+          $(".se-pre-con").fadeOut("slow");
           Swal.fire({
             title: 'Please fill all the fields',
             text: "",
             type: "error",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           })
         }
         else {
@@ -2991,7 +3031,7 @@ export class EnrollassociationComponent implements OnInit {
               list.isnotvalidmanagermobileno = false,
               list.isUnitsCreatedUnderBlock = false;
             list.isUnitsCreatedUnderBlock1 = true;
-            list.isnotvalidmanagername = false,
+            list.isnotvalidfecilitymanagername = false,
               list.hasNoDuplicateBlockname = false;
             list.disableField = false;
             list.markedasduplicate = 1;
@@ -2999,29 +3039,33 @@ export class EnrollassociationComponent implements OnInit {
               list.blocktype = this.residentialorcommercialtype;
             list.isblockdetailsempty1 = true;
             list.isNotBlockCreated = true;
+            list.isNotBlockCreated_NowValid=false;
             list.isBlockCreated = false;
 
             this.blocksArray.push(list);
             console.log(this.blocksArray)
           });
           this.blocksArray.forEach((element) => {
-            if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+            if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
               this.isblockdetailsempty = true;
             }
           })
+          console.log(this.excelBlockList.length);
           setTimeout(() => {
             this.increasingBlockArrLength = this.blocksArray.length + 1;
             this.createblocksdetails('');
-          }, 1000)
+          },this.excelBlockList.length * 1500)
           //}
         }
       }
       else {
+        $(".se-pre-con").fadeOut("slow");
         Swal.fire({
           title: "Please Check uploaded no of blocks should not more than given no of blocks",
           text: "",
           confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
+          allowOutsideClick:false
         })
         document.getElementById('upload_excel').style.display = 'block';
       }
@@ -3596,7 +3640,7 @@ export class EnrollassociationComponent implements OnInit {
         else {
           element['isnotvalidblockname'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
@@ -3606,19 +3650,24 @@ export class EnrollassociationComponent implements OnInit {
         this.blocksArray.forEach(item => {
           if (item.blockname.toLowerCase() == blockname.toLowerCase()) {
             this.numberofexistence += 1;
-            if (this.numberofexistence == 1) {
+            if (this.numberofexistence == 1) {  
               element.hasNoDuplicateBlockname = true;
+              if (item.blockname != "" && item.blockname != undefined && item.blocktype != "" && item.blocktype != undefined && item.units != "" && item.units != undefined) {
+                console.log('isNotBlockCreated_NowValid');
+                element.isNotBlockCreated_NowValid=true;
+              }
             }
             else {
               element.hasNoDuplicateBlockname = false;
+              element.isNotBlockCreated_NowValid=false;
             }
           }
         })
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -3629,7 +3678,7 @@ export class EnrollassociationComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                     console.log('blockgroup[key].length == 1 this.isblockdetailsempty = false');
                   }
@@ -3657,7 +3706,7 @@ export class EnrollassociationComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -3682,18 +3731,20 @@ export class EnrollassociationComponent implements OnInit {
         else {
           element['isnotvalidunits'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
+        
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         element.hasNoDuplicateBlockname = false;
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -3704,13 +3755,17 @@ export class EnrollassociationComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
                     itm2.hasNoDuplicateBlockname = false;
                     this.isblockdetailsempty = true
                   }
+                }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
                 }
               })
             })
@@ -3729,7 +3784,7 @@ export class EnrollassociationComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -3740,30 +3795,43 @@ export class EnrollassociationComponent implements OnInit {
       }
     }
   }
-  getmanagername(Id, managername) {
+  getfecilitymanagername(Id, fecilitymanagername) {
     this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.managername = managername;
-        if (element.managername == "") {
-          element['isnotvalidmanagername'] = true;
+        element['facility manager'] = fecilitymanagername;
+        if (element['facility manager'] == "") {
+          element['isnotvalidfecilitymanagername'] = true;
           this.blockdetailInvalid = true;
         }
         else {
-          element['isnotvalidmanagername'] = false;
+          element['isnotvalidfecilitymanagername'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
+        }
+        else if(element['facility manager']!=""){
+          if(element['mobile number'] == "" || element['mobile number'] == undefined){
+            element.isblockdetailsempty1 = true;
+          }
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if(element['facility manager']!=""){
+        if(element['mobile number'] == "" || element['mobile number'] == undefined){
+          element.isNotBlockCreated_NowValid=false;
+          this.isblockdetailsempty = true;
+        }
+      }
+
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -3774,13 +3842,17 @@ export class EnrollassociationComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
                     itm2.hasNoDuplicateBlockname = false;
                     this.isblockdetailsempty = true
                   }
+                }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
                 }
               })
             })
@@ -3789,6 +3861,40 @@ export class EnrollassociationComponent implements OnInit {
             this.isblockdetailsempty = true
           }
         })
+      }
+      else if(element['facility manager']!=""){
+        if(element['mobile number'] == "" || element['mobile number'] == undefined){
+            let blockgroup = this.blocksArray.reduce((r, a) => {
+              r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+              return r;
+            }, {});
+            console.log("block_group", blockgroup);
+            Object.keys(blockgroup).forEach(key => {
+               if (blockgroup[key].length == 1) {
+                blockgroup[key].forEach(itm1=>{
+                  this.blocksArray.forEach(itm2=>{
+                    if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                      if (itm2['mobile number'] != "" && itm2['mobile number'] != undefined) {
+                        itm2.hasNoDuplicateBlockname = true;
+                      }
+                      else{
+                        itm2.hasNoDuplicateBlockname = false;
+                        this.isblockdetailsempty = true
+                      }
+                    }
+                    if (element.Id == Id) {
+                      console.log('isNotBlockCreated_NowValid');
+                      element.isNotBlockCreated_NowValid=true;
+                    }
+                  })
+                })
+              }
+              else if (blockgroup[key].length > 1) {
+                this.isblockdetailsempty = true
+              }
+            })
+          
+        }
       }
     })
     let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
@@ -3799,8 +3905,13 @@ export class EnrollassociationComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
+          }
+          else if(itm2['facility manager']!=""){
+            if(itm2['mobile number'] == "" || itm2['mobile number'] == undefined){
+              this.canDoBlockLogicalOrder = false;
+            }
           }
         })
       })
@@ -3809,6 +3920,7 @@ export class EnrollassociationComponent implements OnInit {
         console.log(this.blocksArray);
       }
     }
+    console.log(this.blocksArray);
   }
   getmanagermobileno(Id, managermobileno) {
     this.canDoBlockLogicalOrder=true;
@@ -3816,25 +3928,26 @@ export class EnrollassociationComponent implements OnInit {
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
         console.log(managermobileno);
-        element.managermobileno = managermobileno;
-        if (element.managermobileno == "") {
+        element['mobile number'] = managermobileno;
+        if (element['mobile number'] == "") {
           element['isnotvalidmanagermobileno'] = true;
           this.blockdetailInvalid = true;
         }
         else {
           element['isnotvalidmanagermobileno'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -3845,7 +3958,7 @@ export class EnrollassociationComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -3853,6 +3966,11 @@ export class EnrollassociationComponent implements OnInit {
                     this.isblockdetailsempty = true
                   }
                 }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
+                }
+               
               })
             })
           }
@@ -3870,7 +3988,7 @@ export class EnrollassociationComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -3886,25 +4004,26 @@ export class EnrollassociationComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.manageremailid = manageremailid;
-        if (element.manageremailid == "") {
+        element['email id'] = manageremailid;
+        if (element['email id'] == "") {
           element['isnotvalidmanageremailid'] = true;
           this.blockdetailInvalid = true;
         }
         else {
           element['isnotvalidmanageremailid'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.managername != "" && element.managername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -3915,7 +4034,7 @@ export class EnrollassociationComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.managername != "" && itm2.managername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -3923,6 +4042,11 @@ export class EnrollassociationComponent implements OnInit {
                     this.isblockdetailsempty = true
                   }
                 }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
+                }
+                
               })
             })
           }
@@ -3940,7 +4064,7 @@ export class EnrollassociationComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.managername == "" || itm2.managername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -3964,7 +4088,7 @@ export class EnrollassociationComponent implements OnInit {
           element['isnotvalidblocktype'] = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.managername == "" || element.managername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         this.isblockdetailsempty = true
       }
     })
@@ -3987,21 +4111,25 @@ export class EnrollassociationComponent implements OnInit {
       }
     })
     if (exceldata.length == 0) {
+      $(".se-pre-con").fadeOut("slow");
       Swal.fire({
         title: 'Please fill all the fields',
         text: "",
         type: "error",
         confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
+        allowOutsideClick:false
       })
     }
     else if(this.InvalidBlocknamePresent){
+      $(".se-pre-con").fadeOut("slow");
       Swal.fire({
         title: 'Please Check Blockname',
         text: "",
         type: "error",
         confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
+        allowOutsideClick:false
       }).then(
         (result) => {
           if (result.value) {
@@ -4100,13 +4228,15 @@ export class EnrollassociationComponent implements OnInit {
                   console.log(this.unitlistjson);
                 }
                 else {
+                  $(".se-pre-con").fadeOut("slow");
                   this.isExcelDataExceed = true;
                   console.log('this.isExcelDataExceed=true');
                   Swal.fire({
                     title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                     text: "",
                     confirmButtonColor: "#f69321",
-                    confirmButtonText: "OK"
+                    confirmButtonText: "OK",
+                    allowOutsideClick:false
                   })
                   document.getElementById('unitupload_excel').style.display = 'block';
                 }
@@ -4118,6 +4248,9 @@ export class EnrollassociationComponent implements OnInit {
       //}
       //this.validateUnitDetailsField(_blkname);
       console.log("unit data what contains", this.unitlistjson);
+      console.log(((this.finalblockname.length + this.arraylist1.length + this.blocksArray.length) * 1500));
+      console.log(this.finalblockname.length , this.arraylist1.length , this.blocksArray.length);
+      console.log(this.finalblockname.length + this.arraylist1.length + this.blocksArray.length);
       setTimeout(() => {
         if (this.isExcelDataExceed) {
           //http://devapi.scuarex.com/oyeliving/api/v1/UpdatAssociationUnitBlockLimit 
@@ -4155,14 +4288,14 @@ export class EnrollassociationComponent implements OnInit {
                 err => {
                   console.log(err);
                 })
-          }, 2000)
+          },2000)
           //
           this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate, Object.assign({}, { class: 'gray modal-sm' }));
         }
         if (this.isValidUnitRecord) {
           this.gotonexttab1('', _blkname, this.iindex);
         }
-      }, 2000)
+      },this.arraylist1.length * 1500)
     }
   }
   file: File
@@ -4170,7 +4303,10 @@ export class EnrollassociationComponent implements OnInit {
   filelist: any;
   blockunitcountmodalRef: BsModalRef;
 
-  onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+  onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate,unitprogressbartemplate: TemplateRef<any>) {
+    $(".se-pre-con").show();
+    this.unitsuccesscount = 0;
+    this.unitprogressbartemplate = unitprogressbartemplate;
     console.log(this.finalblocknameTmp);
     let orderBlockinLogically=[];
     orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
@@ -4193,10 +4329,10 @@ export class EnrollassociationComponent implements OnInit {
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
       console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
-      let arraylist1 = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+      this.arraylist1 = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.filelist = [];
       console.log(this.filelist)
-      this.excelunitsuploaddata(arraylist1, UpdateBlockUnitCountTemplate)
+      this.excelunitsuploaddata(this.arraylist1, UpdateBlockUnitCountTemplate)
     }
   }
   resetforduplicatesorinvalidblocks(ev,objId) {
@@ -4210,7 +4346,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: '#f69321',
       confirmButtonText: 'OK',
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4222,13 +4359,13 @@ export class EnrollassociationComponent implements OnInit {
               elemnt.blockname = '';
               elemnt.hasNoDuplicateBlockname=false;
               // elemnt.units = '';
-              // elemnt.managername = '';
+              // elemnt.fecilitymanagername = '';
               // elemnt.managermobileno = '';
               // elemnt.manageremailid = '';
               delete elemnt.units;
-              delete elemnt.managername;
-              delete elemnt.managermobileno;
-              delete elemnt.manageremailid;
+              delete elemnt['facility manager'];
+              delete elemnt['mobile number'];
+              delete elemnt['email id'];
             }
           })
           console.log(this.blocksArray);
@@ -4243,7 +4380,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4511,15 +4649,18 @@ export class EnrollassociationComponent implements OnInit {
         //   confirmButtonText: "OK"
         //  })
 
-
-        this.assid = res.data.association.asAssnID;
-        //  for (var i = 0; i < res.data.association.asNofBlks; i++) {
-        //   var data = JSON.parse(JSON.stringify(this.rowjson))
-        //   this.blocksArray.push(data);
-        //   console.log(this.blocksArray)
-
-        // }
-        console.log(this.blocksArray);
+         Swal.fire({
+          title: "Association Created Please Click on OK to continue Create Blocks And Units",
+          type: "success",
+          confirmButtonColor: '#f69321',
+          confirmButtonText: 'OK',
+        }).then(
+          (result) => {
+            console.log(result)
+    
+            if (result.value) {
+              this.assid = res.data.association.asAssnID;
+              console.log(this.blocksArray);
         this.blocksArray = [];
         for (var i = 0; i < this.associationfinalresult.data.association.asNofBlks; i++) {
           var data = JSON.parse(JSON.stringify(this.rowjson))
@@ -4537,13 +4678,23 @@ export class EnrollassociationComponent implements OnInit {
           console.log(this.blocksArray);
 
         }
+      this.demo1TabIndex = this.demo1TabIndex + 1;
+
+            }
+          })
+        //  for (var i = 0; i < res.data.association.asNofBlks; i++) {
+        //   var data = JSON.parse(JSON.stringify(this.rowjson))
+        //   this.blocksArray.push(data);
+        //   console.log(this.blocksArray)
+
+        // }
+
       }, error => {
         console.log(error);
       }
       );
 
 
-      this.demo1TabIndex = this.demo1TabIndex + 1;
       //document.getElementById("mat-tab-label-0-2").style.backgroundColor = "lightblue";
 
     }
@@ -4574,8 +4725,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: '#f69321',
       confirmButtonText: 'OK',
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
-
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4602,7 +4753,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4631,7 +4783,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4652,7 +4805,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4662,9 +4816,9 @@ export class EnrollassociationComponent implements OnInit {
             Object.blockname = "";
             // Object.blocktype="";
             Object.units = "";
-            Object.managername = "";
-            Object.managermobileno = "";
-            Object.manageremailid = "";
+            Object['facility manager'] = "";
+            Object['mobile number'] = "";
+            Object['email id'] = "";
 
           })
         }
@@ -4746,7 +4900,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)

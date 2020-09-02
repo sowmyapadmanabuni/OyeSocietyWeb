@@ -246,6 +246,53 @@
                                 </div>
 
                             </div>
+                            <div class="col-sm-12 np" *ngIf="showstaffDetails">
+                                <div *ngFor="let item of StaffDetails">
+                                    <div class="m-t-30" style="border: 1px solid #afa8d3;padding: 15px;">
+                                        <div style="display: flex;align-items: center;justify-content: space-between;">
+                                            <div *ngIf="stafimage!=''"><img
+                                                    [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
+                                                    class="prof">
+                                                &nbsp;&nbsp;<strong>{{item['wkfName']}}</strong>
+                                                <br>
+                                                <hr>
+                                                <strong>Working In Houses</strong> &nbsp;&nbsp;<a href="#">Show all</a><br>
+                                                <hr style="padding: 5px !important;">
+
+                                                <span *ngFor="let item of StaffDetailshouse"
+                                                    style="border: 1px solid #5a51aa;padding: 6px;border-radius: 17px;">
+                                                    {{item['unUniName']}}</span>
+                                            </div>
+                                            <div *ngIf="stafimage==''">
+                                                <img style="border-radius: 40px;"
+                                                    [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
+                                                    width="50px" height="50px" />&nbsp;&nbsp;
+                                                <strong>{{item['wkfName']}}</strong>
+                                                &nbsp;&nbsp;</div>
+                                            <div>
+                                                Status: <strong>{{item['wkStatus']}}</strong><br>
+                                                <hr style="padding: 5px !important;">
+                                                {{item['wkDesgn']}}<br>
+                                                <hr style="padding: 5px !important;">
+                                                <star-rating-comp [starType]="'svg'" [readOnly]="true"
+                                                    [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
+                                                    [rating]="item['wkAvgRating']"></star-rating-comp>
+                                                {{item['wkAvgRating']}}
+
+                                            </div>
+
+                                        </div>
+                                        <div
+                                            style="display: flex;justify-content: start;align-items: center;padding-top: 8px;">
+                                            <!-- <strong>{{wkrating}} </strong> -->
+                                            &nbsp;&nbsp;
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
 
 
 

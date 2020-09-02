@@ -25,7 +25,7 @@
                             <div class="upload_excel">
                                 <a id="blocksuploadid2"> <img style="width: 60px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
                                         tooltip="Have more num of Blocks?"></a>
-                                <a id="blocksuploadid3" href="../../assets/Excel/Demo_Block_Detailstemplate.xlsx" download><img style="width: 60px;" class="excel"
+                                <a id="blocksuploadid3" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 60px;" class="excel"
                                         src="../../assets/images/download.png"
                                         tooltip="click to download demo excel format"></a>
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
@@ -286,44 +286,44 @@
                                         <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                             <div>
                                                 <mat-form-field class="blockdetails-form">
-                                                    <mat-label [ngClass]="{'green-lbl':blocksArray[i]['managername']!=undefined,'red-lbl':blocksArray[i]['managername']==undefined}">MANAGER NAME<span [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span></mat-label>
+                                                    <mat-label>FACILITY MANAGER(OPTIONAL)</mat-label>
                                                     <input disabled="{{obj['disableField']==true}}" class = "text" 
                                                     (keypress)="_keyPress2($event)"
-                                                    matInput placeholder="MANAGER NAME" 
-                                                    (keyup)="getmanagername(blocksArray[i]['Id'],blocksArray[i].managername)"
-                                                    [(ngModel)]="blocksArray[i].managername" 
+                                                    matInput placeholder="FACILITY MANAGER" 
+                                                    (keyup)="getfecilitymanagername(blocksArray[i]['Id'],blocksArray[i]['facility manager'])"
+                                                    [(ngModel)]="blocksArray[i]['facility manager']" 
                                                     value=""pattern="[a-zA-Z _]*">
                                                 </mat-form-field>
-                                            <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagername']">Manager name is required</p>
-                                            <p class="validation" *ngIf="blocksArray[i]['managername']==undefined">Manager name is required</p>
+                                            <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidfecilitymanagername']">Fecility Managername is required</p>
+                                            <p class="validation" *ngIf="blocksArray[i]['fecilitymanagername']==undefined">Fecility Managername is required</p> -->
                 
                                              </div>
                                              <div>
                                                 <mat-form-field class="blockdetails-form">
-                                                    <mat-label [ngClass]="{'green-lbl':blocksArray[i]['managermobileno']!=undefined,'red-lbl':blocksArray[i]['managermobileno']==undefined}">MANAGER MOBILE NUMBER<span [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span></mat-label>
-                                                    <input disabled="{{obj['disableField']==true}}" matInput placeholder="MANAGER MOBILE NUMBER"
+                                                    <mat-label>MOBILE NUMBER(OPTIONAL)</mat-label>
+                                                    <input disabled="{{obj['disableField']==true}}" matInput placeholder="MOBILE NUMBER"
                                                     pattern="[0-9]*" 
                                                     (keypress)=_keyPress($event)
                                                     minlength="10"
                                                     maxlength="10"
-                                                    (keyup)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i].managermobileno)"
-                                                        [(ngModel)]="blocksArray[i].managermobileno" value="">
+                                                    (keyup)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i]['mobile number'])"
+                                                        [(ngModel)]="blocksArray[i]['mobile number']" value="">
                                                 </mat-form-field>
-                                               <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">Manager mobile number is required</p>
-                                               <p class="validation" *ngIf="blocksArray[i]['managermobileno']==undefined">Manager mobile number is required</p>
+                                               <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">Manager mobile number is required</p>
+                                               <p class="validation" *ngIf="blocksArray[i]['managermobileno']==undefined">Manager mobile number is required</p> -->
                                             
                                             </div>
                                             <div>
                                                 <mat-form-field class="blockdetails-form">
-                                                    <mat-label [ngClass]="{'green-lbl':blocksArray[i]['manageremailid']!=undefined,'red-lbl':blocksArray[i]['manageremailid']==undefined}">MANAGER EMAIL ID<span [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span></mat-label>
+                                                    <mat-label>EMAIL ID(OPTIONAL)</mat-label>
                                                     <input disabled="{{obj['disableField']==true}}" matInput placeholder="MANAGER EMAIL ID" 
                                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-                                                    [(ngModel)]="blocksArray[i].manageremailid"
-                                                    (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i].manageremailid)"
+                                                    [(ngModel)]="blocksArray[i]['email id']"
+                                                    (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i]['email id'])"
                                                     value="">
                                                 </mat-form-field>
-                                               <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is required</p>
-                                               <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p>
+                                               <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is required</p>
+                                               <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p> -->
                                             </div>
                                         </div>
                                     </div>
