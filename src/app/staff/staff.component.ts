@@ -76,6 +76,7 @@ export class StaffComponent implements OnInit {
   yesterday_date: string;
   todayDate: string;
   wid: any;
+  showAll:boolean;
   currentblockid: any[];
   blkId: any;
   blkId1: any;
@@ -97,6 +98,7 @@ export class StaffComponent implements OnInit {
     this.EndDate = '';
     this.StartDate = '';
     this.ropt1='';
+    this.showAll= false;
     this.ropt2='';
     this.ropt3='';
     this.WorkerNameList = [];
@@ -171,7 +173,7 @@ export class StaffComponent implements OnInit {
         console.log(item.unUniName, this.globalServiceService.getCurrentUnitId());
         if (item.unUniName == this.globalServiceService.getCurrentUnitName()) {
           this.wkrating1 = item.wkRating;
-          this.wkrating = item.wkRating;
+          this.wkrating = item.wkrating;
           this.wkReview = item['wkReview'];
           console.log(this.wkrating);
           console.log(this.wkrating1);
@@ -179,6 +181,7 @@ export class StaffComponent implements OnInit {
         }
       })
     }
+    this.wkrating = wkrating;
     this.enableviewDocuments = false;
     this.wkidtype = wkidtype;
     this.wkidimage = wkidimage;
@@ -213,13 +216,15 @@ export class StaffComponent implements OnInit {
     console.log(this.wkidimage);
     console.log(this.wkidtype);
   }
+
   YesterDate(eve){
+    console.log("Yesterday");
     console.log(eve)
     var yest = new Date();
     // var today =new Date();
     // subtract one day from current time  
     if(eve.target.checked)    {
-      this.ropt1="abccc";
+      this.ropt1="one";
       yest.setDate(yest.getDate() - 1);
       console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
       this.yesterday_date = formatDate(yest, 'dd-MM-yyyy', 'en');
@@ -229,11 +234,12 @@ export class StaffComponent implements OnInit {
 
   }
   TodayDate(eve){
+    console.log("Today");
     console.log(eve)
     // var today =new Date();
     // subtract one day from current time  
     if(eve.target.checked)    {
-      this.ropt2="abccc1"; 
+      this.ropt2="two"; 
      // console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
       this.yesterday_date = formatDate(new Date(), 'dd-MM-yyyy', 'en');
       this.todayDate = formatDate(new Date(), 'dd-MM-yyyy', 'en');
@@ -241,12 +247,14 @@ export class StaffComponent implements OnInit {
     
 
   }
+
   ThisMonth(eve){
+    console.log("month");
     console.log(eve)
     // var today =new Date();
     // subtract one day from current time  
     if(eve.target.checked)    {
-      this.ropt3="abccc2"; 
+      this.ropt3="three"; 
       let date = new Date();
       this.todayDate = formatDate(new Date(date.getFullYear(), date.getMonth(), 1), 'dd-MM-yyyy', 'en');
      // console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
@@ -261,17 +269,27 @@ export class StaffComponent implements OnInit {
 
   //Get Staff Report start
   getReports(id) {
-   if(this.ropt1=="abccc"){
+    let todayDate = formatDate(new Date(), 'MM-dd-yyyy', 'en');
+   if(this.ropt1== "one")
+   {
     this.StaffStartDate=this.yesterday_date;
     this.StaffEndDate=this.todayDate;
+    console.log(this.StaffStartDate);
+    console.log(this.StaffEndDate);
    }
-   else if(this.ropt2=="abccc1"){
+   else if(this.ropt2== "two")
+   {
     this.StaffStartDate=this.yesterday_date;
     this.StaffEndDate=this.todayDate;
+    console.log(this.StaffStartDate);
+    console.log(this.StaffEndDate);
    }
-   else if(this.ropt3=="abccc2"){
+   else if(this.ropt3== "three")
+   {
     this.StaffStartDate=this.yesterday_date;
     this.StaffEndDate=this.todayDate;
+    console.log(this.StaffStartDate);
+    console.log(this.StaffEndDate);
    }
 
 
@@ -281,20 +299,23 @@ export class StaffComponent implements OnInit {
     this.condition1 = false;
     this.showStaffReports = true;
     console.log(id);
-    let todayDate = formatDate(new Date(), 'MM-dd-yyyy', 'en');
+    
+    
+    //this.StaffStartDate= formatDate(this.todayDate, 'MM-dd-yyyy', 'en');
+    //this.StaffEndDate= formatDate(this.todayDate, 'MM-dd-yyyy', 'en');
+   
+   console.log(todayDate);
     let input = {
       "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
       "WKWorkID": id,
-      "FromDate": this.StaffStartDate == '' ? '07-01-2020' : formatDate(this.StaffStartDate, 'MM-dd-yyyy', 'en'),
+      "FromDate": this.StaffStartDate == '' ? todayDate : formatDate(this.StaffStartDate, 'MM-dd-yyyy', 'en'),
       "ToDate": this.StaffEndDate == '' ? todayDate : formatDate(this.StaffEndDate, 'MM-dd-yyyy', 'en'),
       "ACAccntID": this.globalServiceService.getacAccntID(),
       "UNUnitID": this.globalServiceService.getCurrentUnitId()
     };
     let ipAddress = this.UtilsService.getIPaddress()
     console.log(input);
-    console.log(todayDate);
-    this.StaffStartDate=todayDate;
-    this.StaffEndDate=todayDate;
+    
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
@@ -357,6 +378,7 @@ export class StaffComponent implements OnInit {
 
   }
   getStaffFullDetails(wkid1,wdes) {
+    this.showAll=false;
    // this.Staffbydesigantion = [];
     this.StaffDetailshouse=[];
     this.StaffDetails=[];
@@ -400,12 +422,14 @@ export class StaffComponent implements OnInit {
           console.log(error);
         }
       );
-
-
-
-
-
   }
+  showStaffUnitRatings(){
+    this.showAll=true;
+    this.StaffDetailshouse;
+    console.log(this.StaffDetailshouse);
+  }
+
+
   goToStaff() {
     this.staffReports = [];
     this.showStaffReports = true;

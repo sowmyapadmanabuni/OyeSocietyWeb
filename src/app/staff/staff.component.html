@@ -67,22 +67,22 @@
                             </div>
                             <div class="del-date cal">
                                 <input type="text" #StaffEndDatee name="StaffEndDate" #StaffEndDateControl='ngModel'
-                                    [minDate]="StaffStartDate" [(ngModel)]="StaffEndDate" placeholder="To Date"
+                                    [minDate]="StaffEndDate" [(ngModel)]="StaffEndDate" placeholder="To Date"
                                     class="date" bsDatepicker [bsConfig]="bsConfig">
                             </div>
                         </div>
                         <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
                             <div class="invite-radio">
                                 <div class="radio-item">
-                                    <input type="radio" id="ritema" name="ritem" value="true" (change)="YesterDate($event)">
+                                    <input type="radio" id="ritema" name="ritem"  (change)="YesterDate($event)">
                                     <label for="ritema">Yesterday</label>
                                 </div>
                                 <div class="radio-item">
-                                    <input type="radio" id="ritemb" name="ritem" value="true" (change)="TodayDate($event)">
+                                    <input type="radio" id="ritemb" name="ritem" (change)="TodayDate($event)">
                                     <label for="ritemb">Today</label>
                                 </div>
                                 <div class="radio-item">
-                                    <input type="radio" id="ritemc" name="ritem" value="true"  (change)="ThisMonth($event)">
+                                    <input type="radio" id="ritemc" name="ritem"  (change)="ThisMonth($event)">
                                     <label for="ritemc">Month Till Date</label>
                                 </div>
                             </div>
@@ -184,6 +184,67 @@
                                     </table>
                                     <!---->
                                 </div>
+                            </div>
+                            <div class="col-sm-12 np" *ngIf="showstaffDetails">
+                                <div *ngFor="let item of StaffDetails">
+                                    <div class="m-t-30" style="border: 1px solid #afa8d3;padding: 15px;">
+                                        <div style="display: flex;align-items: baseline;justify-content: space-between;">
+                                            <div *ngIf="stafimage!=''"><img
+                                                    [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
+                                                    class="prof">
+                                                &nbsp;&nbsp;<strong>{{item['wkfName']}}</strong>
+                                                <br>
+                                                <hr>
+                                                <strong>Working In Houses</strong> &nbsp;&nbsp;<a (click)="showStaffUnitRatings()">Show all</a><br>
+                                                <hr style="padding: 5px !important;">
+<div *ngIf="!showAll">
+        <span  *ngFor="let item of StaffDetailshouse"
+        style="border: 1px solid #5a51aa;padding: 6px;border-radius: 17px;">
+        {{item['unUniName']}}</span>
+</div>
+<div *ngIf="showAll">
+        <div  *ngFor="let item of StaffDetailshouse"
+        style="border: 1px solid #5a51aa;padding: 6px;border-radius: 4px;display: flex;margin-bottom: 4px;">
+        {{item['unUniName']}} : <star-rating-comp [starType]="'svg'" [readOnly]="true"
+        [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
+        [rating]="item['wkRating']"></star-rating-comp>{{item['wkRating']}}</div>
+</div>
+                                               
+
+                                                
+                                            </div>
+                                            <div *ngIf="stafimage==''">
+                                                <img style="border-radius: 40px;"
+                                                    [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
+                                                    width="50px" height="50px" />&nbsp;&nbsp;
+                                                <strong>{{item['wkfName']}} : {{item['wkDesgn']}}</strong>
+                                                &nbsp;&nbsp;
+                                            </div>
+                                            <div style="text-align: center" >
+                                                <strong>Average Rating</strong>
+                                                    <star-rating-comp [starType]="'svg'" [readOnly]="true"
+                                                    [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
+                                                    [rating]="item['wkAvgRating']"></star-rating-comp>
+                                                {{item['wkAvgRating']}}
+                                                <hr>
+                                                Status: <strong>{{item['wkStatus']}}</strong><br>
+                                               
+                                                
+                                                
+
+                                            </div>
+
+                                        </div>
+                                        <div
+                                            style="display: flex;justify-content: start;align-items: center;padding-top: 8px;">
+                                            <!-- <strong>{{wkrating}} </strong> -->
+                                            &nbsp;&nbsp;
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="col-sm-12 np" *ngIf="showstaffDetails">
                                 <div *ngFor="let item of StaffDetails">
