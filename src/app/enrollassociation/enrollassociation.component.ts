@@ -3808,30 +3808,18 @@ export class EnrollassociationComponent implements OnInit {
         else {
           element['isnotvalidfecilitymanagername'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
           element.isblockdetailsempty1 = true;
-        }
-        else if(element['facility manager']!=""){
-          if(element['mobile number'] == "" || element['mobile number'] == undefined){
-            element.isblockdetailsempty1 = true;
-          }
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
         element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
-      else if(element['facility manager']!=""){
-        if(element['mobile number'] == "" || element['mobile number'] == undefined){
-          element.isNotBlockCreated_NowValid=false;
-          this.isblockdetailsempty = true;
-        }
-      }
-
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element['facility manager'] != "" && element['facility manager'] != undefined && element['mobile number'] != "" && element['mobile number'] != undefined && element['email id'] != "" && element['email id'] != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -3842,7 +3830,7 @@ export class EnrollassociationComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2['facility manager'] != "" && itm2['facility manager'] != undefined && itm2['mobile number'] != "" && itm2['mobile number'] != undefined && itm2['email id'] != "" && itm2['email id'] != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -3862,40 +3850,6 @@ export class EnrollassociationComponent implements OnInit {
           }
         })
       }
-      else if(element['facility manager']!=""){
-        if(element['mobile number'] == "" || element['mobile number'] == undefined){
-            let blockgroup = this.blocksArray.reduce((r, a) => {
-              r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
-              return r;
-            }, {});
-            console.log("block_group", blockgroup);
-            Object.keys(blockgroup).forEach(key => {
-               if (blockgroup[key].length == 1) {
-                blockgroup[key].forEach(itm1=>{
-                  this.blocksArray.forEach(itm2=>{
-                    if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                      if (itm2['mobile number'] != "" && itm2['mobile number'] != undefined) {
-                        itm2.hasNoDuplicateBlockname = true;
-                      }
-                      else{
-                        itm2.hasNoDuplicateBlockname = false;
-                        this.isblockdetailsempty = true
-                      }
-                    }
-                    if (element.Id == Id) {
-                      console.log('isNotBlockCreated_NowValid');
-                      element.isNotBlockCreated_NowValid=true;
-                    }
-                  })
-                })
-              }
-              else if (blockgroup[key].length > 1) {
-                this.isblockdetailsempty = true
-              }
-            })
-          
-        }
-      }
     })
     let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
       r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
@@ -3905,13 +3859,8 @@ export class EnrollassociationComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2['facility manager'] == "" || itm2['facility manager'] == undefined || itm2['mobile number'] == "" || itm2['mobile number'] == undefined || itm2['email id'] == "" || itm2['email id'] == undefined) {
             this.canDoBlockLogicalOrder = false;
-          }
-          else if(itm2['facility manager']!=""){
-            if(itm2['mobile number'] == "" || itm2['mobile number'] == undefined){
-              this.canDoBlockLogicalOrder = false;
-            }
           }
         })
       })
@@ -3920,8 +3869,8 @@ export class EnrollassociationComponent implements OnInit {
         console.log(this.blocksArray);
       }
     }
-    console.log(this.blocksArray);
   }
+
   getmanagermobileno(Id, managermobileno) {
     this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;

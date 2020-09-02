@@ -84,6 +84,11 @@
                   <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" (keyup)="ValidateLessThanZeroValue()" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" (keypress)="_keyPress($event)" pattern="[0-9]*" required/>
                   <p class="alerts" *ngIf="unitdimensionControl.invalid && unitdimensionControl.touched || InvalidUnitDimension"> Valid Unit dimension is required</p>
                 </div> -->
+                <mat-form-field class="blockdetails-form">
+                    <mat-label>Unit Dimension<span class="red">*</span></mat-label>
+                    <input maxlength="100" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput placeholder="Unit Dimension" (keyup)="ValidateLessThanZeroValue()"
+                        [(ngModel)]="unitdimension" [ngModelOptions]="{standalone:true}" value="">
+                </mat-form-field>
           </div>
            <!-- OWNER INFORMATION-->
         <div *ngIf="ownerDetails">
