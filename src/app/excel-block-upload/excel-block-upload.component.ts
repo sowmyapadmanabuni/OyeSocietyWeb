@@ -156,9 +156,9 @@ export class ExcelBlockUploadComponent implements OnInit {
             elemnt.blockname = '';
             // elemnt.blocktype='';
             elemnt.units = '';
-            elemnt.fecilitymanagername = '';
-            elemnt.managermobileno = '';
-            elemnt.manageremailid = '';
+            elemnt['facility manager'] = '';
+            elemnt['mobile number'] = '';
+            elemnt['email id'] = '';
           }
         })
       }
@@ -182,9 +182,9 @@ export class ExcelBlockUploadComponent implements OnInit {
             Object.blockname="";
             // Object.blocktype="";
             Object.units="";
-            Object.fecilitymanagername="";
-            Object.managermobileno="";
-            Object.manageremailid="";
+            Object['facility manager']="";
+            Object['mobile number']="";
+            Object['email id']="";
 
           })
         }
@@ -210,7 +210,7 @@ export class ExcelBlockUploadComponent implements OnInit {
         else {
           element['isnotvalidblockname'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
           element.isblockdetailsempty1 = true;
         }
         else {
@@ -229,10 +229,10 @@ export class ExcelBlockUploadComponent implements OnInit {
           }
         })
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined ) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -243,7 +243,7 @@ export class ExcelBlockUploadComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.fecilitymanagername != "" && itm2.fecilitymanagername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined ) {
                     itm2.hasNoDuplicateBlockname = true;
                     console.log('blockgroup[key].length == 1 this.isblockdetailsempty = false');
                   }
@@ -271,7 +271,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.fecilitymanagername == "" || itm2.fecilitymanagername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined ) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -295,18 +295,18 @@ export class ExcelBlockUploadComponent implements OnInit {
         else {
           element['isnotvalidunits'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
         element.hasNoDuplicateBlockname = false;
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined ) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -317,7 +317,7 @@ export class ExcelBlockUploadComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.fecilitymanagername != "" && itm2.fecilitymanagername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined ) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -342,7 +342,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.fecilitymanagername == "" || itm2.fecilitymanagername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined ) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -358,25 +358,25 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.fecilitymanagername = fecilitymanagername;
-        if (element.fecilitymanagername == "") {
+        element['facility manager'] = fecilitymanagername;
+        if (element['facility manager'] == "") {
           element['isnotvalidfecilitymanagername'] = true;
           this.blockdetailInvalid = true;
         }
         else {
           element['isnotvalidfecilitymanagername'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -387,7 +387,7 @@ export class ExcelBlockUploadComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.fecilitymanagername != "" && itm2.fecilitymanagername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -412,7 +412,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.fecilitymanagername == "" || itm2.fecilitymanagername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -428,25 +428,25 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.managermobileno = managermobileno;
-        if (element.managermobileno == "") {
+        element['mobile number'] = managermobileno;
+        if (element['mobile number'] == "") {
           element['isnotvalidmanagermobileno'] = true;
           this.blockdetailInvalid = true;
         }
         else {
           element['isnotvalidmanagermobileno'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -457,7 +457,7 @@ export class ExcelBlockUploadComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.fecilitymanagername != "" && itm2.fecilitymanagername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -482,7 +482,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.fecilitymanagername == "" || itm2.fecilitymanagername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -498,25 +498,25 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.manageremailid = manageremailid;
-        if (element.manageremailid == "") {
+        element['email id'] = manageremailid;
+        if (element['email id'] == "") {
           element['isnotvalidmanageremailid'] = true;
           this.blockdetailInvalid = true;
         }
         else {
           element['isnotvalidmanageremailid'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -527,7 +527,7 @@ export class ExcelBlockUploadComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2.fecilitymanagername != "" && itm2.fecilitymanagername != undefined && itm2.managermobileno != "" && itm2.managermobileno != undefined && itm2.manageremailid != "" && itm2.manageremailid != undefined) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -552,7 +552,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2.fecilitymanagername == "" || itm2.fecilitymanagername == undefined || itm2.managermobileno == "" || itm2.managermobileno == undefined || itm2.manageremailid == "" || itm2.manageremailid == undefined) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -576,7 +576,7 @@ export class ExcelBlockUploadComponent implements OnInit {
           element['isnotvalidblocktype'] = false;
         }
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         this.isblockdetailsempty = true
       }
     })
@@ -604,8 +604,8 @@ export class ExcelBlockUploadComponent implements OnInit {
   blocktype;
   units;
   fecilitymanagername;
-  managermobileno;
-  manageremailid;
+  mobilenumber;
+  emailid;
 
   onFileChange(ev) {
     let workBook = null;
@@ -685,7 +685,7 @@ export class ExcelBlockUploadComponent implements OnInit {
                 console.log(this.blocksArray)
               });
               this.blocksArray.forEach((element) => {
-                if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
                   this.isblockdetailsempty = true;
                 }
               })
@@ -778,7 +778,7 @@ export class ExcelBlockUploadComponent implements OnInit {
               }
             })
             this.commonblockarray.forEach((element) => {
-              if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+              if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
                 this.isblockdetailsempty = true;
               }
             })
@@ -822,7 +822,7 @@ export class ExcelBlockUploadComponent implements OnInit {
             // console.log(this.uniqueBlockArr);
             // console.log(this.duplicateBlockArr);
             this.notValidBlockArr = this.uniqueBlockArr.filter((element) => {
-              return (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined);
+              return (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined);
             })
             if(this.notValidBlockArr.length>0){
               this.notValidBlockArr.forEach(item=>{
@@ -832,10 +832,10 @@ export class ExcelBlockUploadComponent implements OnInit {
               })
             }
             this.uniqueBlockArr = this.uniqueBlockArr.filter((element) => {
-              if(element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined){
+              if(element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined){
                console.log(element);
               }
-              return (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element.fecilitymanagername != "" && element.fecilitymanagername != undefined && element.managermobileno != "" && element.managermobileno != undefined && element.manageremailid != "" && element.manageremailid != undefined);
+              return (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined);
             })
             console.log(this.uniqueBlockArr);
             console.log(this.duplicateBlockArr);
@@ -849,7 +849,7 @@ export class ExcelBlockUploadComponent implements OnInit {
               this.blockssuccessarray = this.uniqueBlockArr.length;
               setTimeout(() => {
                 this.commonblockarray.forEach((element) => {
-                  if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element.fecilitymanagername == "" || element.fecilitymanagername == undefined || element.managermobileno == "" || element.managermobileno == undefined || element.manageremailid == "" || element.manageremailid == undefined) {
+                  if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
                     this.isblockdetailsempty = true;
                   }
                 })
@@ -947,9 +947,9 @@ export class ExcelBlockUploadComponent implements OnInit {
                   "BLBlkType": element.blocktype,
                   //"BLBlkType": this.residentialorcommercialtype,
                   "BLNofUnit": element.units,
-                  "BLMgrName": element.fecilitymanagername,
-                  "BLMgrMobile": element.managermobileno,
-                  "BLMgrEmail": element.manageremailid,
+                  "BLMgrName": (element['facility manager'] == undefined ? '': element['facility manager']),
+                  "BLMgrMobile": (element['mobile number'] == undefined ? '': element['mobile number']),
+                  "BLMgrEmail": (element['email id'] == undefined ? '': element['email id']),
                   "ASMtType": "",
                   "ASMtDimBs": "15",
                   "ASMtFRate": "",
