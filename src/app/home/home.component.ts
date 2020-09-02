@@ -102,6 +102,7 @@ export class HomeComponent implements OnInit {
   public doughnutChartColors1: any[] = [{ backgroundColor: ['#27AB97','#F3F3F3'] }]
   _occupiedCount: any;
   _vacantCount: any;
+  totalStaffs1: any;
 
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
@@ -463,7 +464,7 @@ export class HomeComponent implements OnInit {
   }
   getStaff() {
     this.dashBrdService.getStaff(this.associationID).subscribe(res => {
-      //console.log('staff',res);
+      console.log('staff',res);
       if (res['data']['errorResponse']) {
         this.totalStaffs = "0";
       }
@@ -843,6 +844,7 @@ export class HomeComponent implements OnInit {
       console.log(data);
       this.totalVehicles= data['data']['vehicleCount'];
       this.familyMemberCount=data['data']['familyMemberCount'];
+      this.totalStaffs1=data['data']['staffCount'];
     },
     err=>{
       console.log(err);

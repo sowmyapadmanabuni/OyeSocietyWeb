@@ -47,44 +47,46 @@
                                 <star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
                                     [size]="'medium'" [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>
                                 {{wkrating}}&nbsp;&nbsp;
-                                <i (click)="OpeneditReview(editReview,wkid)" class="fa fa-pencil"
+                                <i (click)="OpeneditReview(editReview,wkid)" tooltip="Edit staff ratings" class="fa fa-pencil"
                                     aria-hidden="true"></i>
                             </div>
 
 
 
                             <span style="float: right;">
-                                <i (click)="getDoc()" class="fa fa-file-text" aria-hidden="true"
+                                <i (click)="getDoc()" tooltip="View document" class="fa fa-file-text" aria-hidden="true"
                                     style="color: orange"></i>&nbsp;&nbsp;
-                                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                <i tooltip="Delete staff" class="fa fa fa-trash" aria-hidden="true" (click)="DeleteStaff(wkid)"></i>
                             </span>
                         </div>
                         <div class="date-row" *ngIf="displayStaff!='Select Staff'">
                             <div class="del-date cal">
-                                    <input type="text" #StaffStartDatee name="StaffStartDate" #StaffStartDateControl='ngModel' 
-                                    [(ngModel)]="StaffStartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig">
-                                </div>
+                                <input type="text" #StaffStartDatee name="StaffStartDate"
+                                    #StaffStartDateControl='ngModel' [(ngModel)]="StaffStartDate"
+                                    placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig">
+                            </div>
                             <div class="del-date cal">
-                                    <input type="text" #StaffEndDatee name="StaffEndDate" #StaffEndDateControl='ngModel' [minDate]="StaffStartDate"
-                                    [(ngModel)]="StaffEndDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig">
-                                </div>
+                                <input type="text" #StaffEndDatee name="StaffEndDate" #StaffEndDateControl='ngModel'
+                                    [minDate]="StaffEndDate" [(ngModel)]="StaffEndDate" placeholder="To Date"
+                                    class="date" bsDatepicker [bsConfig]="bsConfig">
+                            </div>
                         </div>
-                        <!-- <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
+                        <div class="radio-bt" *ngIf="displayStaff!='Select Staff'">
                             <div class="invite-radio">
                                 <div class="radio-item">
-                                    <input type="radio" id="ritema" name="ritem" value="ropt1">
+                                    <input type="radio" id="ritema" name="ritem"  (change)="YesterDate($event)">
                                     <label for="ritema">Yesterday</label>
                                 </div>
                                 <div class="radio-item">
-                                    <input type="radio" id="ritemb" name="ritem" value="ropt2">
+                                    <input type="radio" id="ritemb" name="ritem" (change)="TodayDate($event)">
                                     <label for="ritemb">Today</label>
                                 </div>
                                 <div class="radio-item">
-                                    <input type="radio" id="ritemc" name="ritem" value="ropt3">
+                                    <input type="radio" id="ritemc" name="ritem"  (change)="ThisMonth($event)">
                                     <label for="ritemc">Month Till Date</label>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="report-bt" *ngIf="displayStaff!='Select Staff'">
                             <button class="btn btn-primary-purple nextBtn" style="width:100%"
@@ -94,118 +96,158 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="col-sm-12" *ngIf="condition1">
-                            <h3 class="staff_head">Other Staffs</h3>
+                            <!-- <h3 class="staff_head">Other Staffs</h3> -->
                             <div class="col-sm-12" *ngIf="showOtherstaff">
                                 <div style="display: flex;flex-wrap: wrap;">
-                                    <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff" (click)="getotherStaffbyDesignation(item['wtid'],item['wtDesgn'],item['workerstatuses'])" >
-                                        <img style="border-radius: 40px;" src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px" height="50px" /> 
-                                            {{item['wtDesgn']}}
+                                    <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff"
+                                        (click)="getotherStaffbyDesignation(item['wtid'],item['wtDesgn'],item['workerstatuses'])">
+                                        <img style="border-radius: 40px;"
+                                            src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px"
+                                            height="50px" />
+                                        {{item['wtDesgn']}}
                                     </div>
-                                   
+
                                 </div>
                             </div>
                             <div class="col-sm-12 np" *ngIf="showstaffBydesignation">
-                                    <div class="dash-row table-responsive">
-                                            <!-- <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Staff Image</th>
-                                                        <th>Staff Name</th>
-                                                        <th>Designation</th>
-                                                        <th>Status</th>
-                                                        <th>Rating</th>
+                                <div class="dash-row table-responsive">
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let item of staffByDesignation" >
-            
-                                                        <ng-container>
-                                                            <td> <img style="border-radius: 40px;"
-                                                                src="{{'data:image/png;base64,'+item['idPrfImg']}}" width="50px"
-                                                                height="50px" /> </td>
-                                                            <td>{{item['wkfName']}}</td>
-                                                            <td>{{item['wkDesgn']}}</td>   
-                                                            <td>{{item['wkStatus']}}</td>                                                       
-                                                            <td><star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
-                                                                [size]="'medium'" [staticColor]="'ok'" [rating]="item['wkAvgRating']"></star-rating-comp>
-                                                            </td> 
-                                                        </ng-container>
-            
-                                                    </tr>
-            
-                                                </tbody>
-            
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            <mfBootstrapPaginator></mfBootstrapPaginator>
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table> -->
-                                            <!---->
-                                            <table class="table table-bordered"
-                                            [mfData]="Staffbydesigantion"
-                                            #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?Staffbydesigantion.length:setnoofrows">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        S.No.
-                                                    </th>
-                                                    <th>
-                                                        <mfDefaultSorter>Staff Image&nbsp;</mfDefaultSorter>
-                                                    </th>
-                                                    <th>
-                                                        <mfDefaultSorter>Staff Name&nbsp;</mfDefaultSorter>
-                                                    </th>
-                                                    <th>
-                                                        <mfDefaultSorter>Designation&nbsp;</mfDefaultSorter>
-                                                    </th>
-                                                    <th>
-                                                        <mfDefaultSorter>Status&nbsp;</mfDefaultSorter>
-                                                    </th>
-                                                    <th>
-                                                        <mfDefaultSorter>Rating&nbsp;</mfDefaultSorter>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of mf.data;let i=index">
-                                                    <ng-container *ngIf="item == -1">
-                                                        <td colspan="7" align="center">No Data Found</td>
-                                                    </ng-container>
-                                                    <ng-container *ngIf="item!=-1">
-                                                        <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
-                                                        <td> <img style="border-radius: 40px;" [src]="item['idPrfImg']" width="50px"
-                                                            height="50px" /> </td>
-                                                        <td>{{item['wkfName']}}</td>
-                                                        <td>{{item['wkDesgn']}}</td>   
-                                                        <td>{{item['wkStatus']}}</td>                                                       
-                                                        <td><star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
-                                                            [size]="'medium'" [staticColor]="'ok'" [rating]="item['wkRating']"></star-rating-comp>
-                                                        </td> 
-                                                    </ng-container>
-                                                </tr>
-                                                <tr *ngIf="Staffbydesigantion.length == 0">
-                                                    <ng-container>
-                                                        <td colspan="7" align="center">No Data Found</td>
-                                                    </ng-container>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="7">
-                                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    <table class="table table-bordered" [mfData]="staffByDesignation" #mf="mfDataTable"
+                                        (click)="onPageChange($event)"
+                                        [mfRowsOnPage]="setnoofrows=='All Records'?staffByDesignation.length:setnoofrows">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    S.No.
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter>Staff Image&nbsp;</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter>Staff Name&nbsp;</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter>Designation&nbsp;</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter>Status&nbsp;</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter>Houses&nbsp;</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter>Rating&nbsp;</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter>Action&nbsp;</mfDefaultSorter>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of mf.data;let i=index">
+                                                <ng-container *ngIf="item == -1">
+                                                    <td colspan="8" align="center">No Data Found</td>
+                                                </ng-container>
+                                                <ng-container *ngIf="item!=-1">
+                                                    <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
+                                                    <td> <img style="border-radius: 40px;"
+                                                            [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
+                                                            width="50px" height="50px" /> </td>
+                                                    <td>{{item['wkfName']}}</td>
+                                                    <td>{{item['wkDesgn']}}</td>
+                                                    <td>{{item['wkStatus']}} </td>
+                                                    <td>{{item['workerstatuses'].length}}</td>
+                                                    <td style="text-align:center">{{item['wkAvgRating']}}
+                                                        <star-rating-comp [starType]="'svg'" [readOnly]="true"
+                                                            [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
+                                                            [rating]="item['wkAvgRating']"></star-rating-comp>
                                                     </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                            <!---->
-                                        </div> 
+                                                    <td>
+                                                        <a (click)="getStaffFullDetails(item['wkWorkID'],item['wkDesgn'])"><i tooltip="View Staff" class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
+                                                        <a (click)="AddStaff(item['wkWorkID'])"><i tooltip="Add Staff" class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                                    </td>
+                                                </ng-container>
+                                            </tr>
+                                            <tr *ngIf="staffByDesignation.length == 0">
+                                                <ng-container>
+                                                    <td colspan="8" align="center">No Data Found</td>
+                                                </ng-container>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="8">
+                                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <!---->
+                                </div>
+                            </div>
+                            <div class="col-sm-12 np" *ngIf="showstaffDetails">
+                                <div *ngFor="let item of StaffDetails">
+                                    <div class="m-t-30" style="border: 1px solid #afa8d3;padding: 15px;">
+                                        <div style="display: flex;align-items: baseline;justify-content: space-between;">
+                                            <div *ngIf="stafimage!=''"><img
+                                                    [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
+                                                    class="prof">
+                                                &nbsp;&nbsp;<strong>{{item['wkfName']}}</strong>
+                                                <br>
+                                                <hr>
+                                                <strong>Working In Houses</strong> &nbsp;&nbsp;<a (click)="showStaffUnitRatings()">Show all</a><br>
+                                                <hr style="padding: 5px !important;">
+<div *ngIf="!showAll">
+        <span  *ngFor="let item of StaffDetailshouse"
+        style="border: 1px solid #5a51aa;padding: 6px;border-radius: 17px;">
+        {{item['unUniName']}}</span>
+</div>
+<div *ngIf="showAll">
+        <div  *ngFor="let item of StaffDetailshouse"
+        style="border: 1px solid #5a51aa;padding: 6px;border-radius: 4px;display: flex;margin-bottom: 4px;">
+        {{item['unUniName']}} : <star-rating-comp [starType]="'svg'" [readOnly]="true"
+        [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
+        [rating]="item['wkRating']"></star-rating-comp>{{item['wkRating']}}</div>
+</div>
+                                               
+
+                                                
+                                            </div>
+                                            <div *ngIf="stafimage==''">
+                                                <img style="border-radius: 40px;"
+                                                    [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
+                                                    width="50px" height="50px" />&nbsp;&nbsp;
+                                                <strong>{{item['wkfName']}} : {{item['wkDesgn']}}</strong>
+                                                &nbsp;&nbsp;
+                                            </div>
+                                            <div style="text-align: center" >
+                                                <strong>Average Rating</strong>
+                                                    <star-rating-comp [starType]="'svg'" [readOnly]="true"
+                                                    [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
+                                                    [rating]="item['wkAvgRating']"></star-rating-comp>
+                                                {{item['wkAvgRating']}}
+                                                <hr>
+                                                Status: <strong>{{item['wkStatus']}}</strong><br>
+                                               
+                                                
+                                                
+
+                                            </div>
+
+                                        </div>
+                                        <div
+                                            style="display: flex;justify-content: start;align-items: center;padding-top: 8px;">
+                                            <!-- <strong>{{wkrating}} </strong> -->
+                                            &nbsp;&nbsp;
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
 
-                           
+
 
                         </div>
                         <div class="col-sm-12" *ngIf="showStaffReports">
@@ -253,7 +295,7 @@
                                             </ng-container>
 
                                         </tr>
-                                        
+
 
                                     </tbody>
 
@@ -421,7 +463,7 @@
                 <div style="display: flex;">
 
                     <div style="display: flex;">
-                        <div><img [src]="stafimage" width="70px" height="70px"/></div>
+                        <div><img [src]="stafimage" width="70px" height="70px" /></div>
                         <div style="margin-left: 17px;">
                             <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
                             <p>Status:{{item['wkStatus']}}</p>
@@ -445,7 +487,7 @@
                 <div>
                     <label>Comments:</label>
                     <textarea rows="5" cols="5" name="comment" [(ngModel)]="wkReview"
-                        style="width: 100%">{{wkReview}} </textarea>
+                        style="width: 100%">{{wkReview}}</textarea>
                 </div>
                 <button (click)="updateReview(item['wkWorkID'],comment)"
                     class="btn btn-primary-purple nextBtn">Update</button>
