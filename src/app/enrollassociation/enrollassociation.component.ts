@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 // import { CommonserviceService } from './../commonservice.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -74,7 +74,18 @@ export class EnrollassociationComponent implements OnInit {
   ValidBlockName:any;
   InvalidBlocknamePresent:boolean;
   arraylist1:unknown[];
-
+  progressbarmodalRef: BsModalRef;
+  blockprogressbartemplate: TemplateRef<any>;
+  unitprogressbartemplate:TemplateRef<any>;
+  blockprogressvalue:number;
+  blockprogressvaluemax:number;
+  blocksuccesscount:number;
+  unitprogressvalue:number;
+  unitprogressvaluemax:number;
+  unitsuccesscount:number;
+  config = {
+    ignoreBackdropClick: true
+  };
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -82,6 +93,12 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.blockprogressvalue=0;
+      this.blockprogressvaluemax=0;
+      this.blocksuccesscount=0;
+      this.unitprogressvalue=0;
+      this.unitprogressvaluemax=0;
+      this.unitsuccesscount=0;
       this.arraylist1=[];
       this.InvalidBlocknamePresent = false;
       this.ValidBlockName='';
@@ -774,6 +791,7 @@ export class EnrollassociationComponent implements OnInit {
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
       $(".se-pre-con").show();
+      this.unitsuccesscount = 0;
       let tempArr = [];
       this.unitlistjson[name].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -996,6 +1014,9 @@ export class EnrollassociationComponent implements OnInit {
     }
     //}
     //
+    $(".se-pre-con").fadeOut("slow");
+    this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate);
+    this.unitprogressvaluemax = Number(this.unitlistjson[name].length);
     this.unitlistjson[name].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
@@ -1070,6 +1091,8 @@ export class EnrollassociationComponent implements OnInit {
           console.log(this.unitdetailscreatejson)
           this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
             .subscribe((res: any) => {
+              this.unitsuccesscount += 1;
+              this.unitprogressvalue = this.unitsuccesscount;
               console.log(res)
               unit.hasNoDuplicateUnitname = true;
               unit.disableField = true;
@@ -1088,36 +1111,30 @@ export class EnrollassociationComponent implements OnInit {
     });
 
     setTimeout(() => {
-      $(".se-pre-con").fadeOut("slow");
+      this.progressbarmodalRef.hide();
       if (this.unitsuccessarray.length == 1) {
         this.message = 'Unit Created Successfully';
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.invalidUnitCount} Invalid
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.invalidUnitCount} Invalid
+                          ${this.duplicateUnitCount} Duplicate`
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.invalidUnitCount} Invalid`
+          this.message = `${this.invalidUnitCount} Invalid`
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-          this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.duplicateUnitCount} Duplicate`
         }
       }
       else if (this.unitsuccessarray.length > 1) {
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.invalidUnitCount} Invalid
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.invalidUnitCount} Invalid
+                          ${this.duplicateUnitCount} Duplicate`
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.invalidUnitCount} Invalid`
+          this.message = `${this.invalidUnitCount} Invalid`
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-          this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                            ${this.duplicateUnitCount} Duplicate`
+          this.message = `${this.duplicateUnitCount} Duplicate`
         }
         else {
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -1169,15 +1186,16 @@ export class EnrollassociationComponent implements OnInit {
         console.log('insidelasttab');
         if (!this.duplicateUnitrecordexist) {
           console.log('inlasttabNoduplicaterecordexist');
-          let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+          let mesg = `Your Association is Created Successfully
+                      Total Unit Created - ${this.totalUnitcount}`
           document.getElementById('unitupload_excel').style.display = 'none'
           document.getElementById('unitshowmanual').style.display = 'block';
           document.getElementById('unitsmanualnew').style.display = 'none';
           document.getElementById('unitsbulkold').style.display = 'block';
           Swal.fire({
-            title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
+            title: mesg,
             text: "",
-            type: (this.exceptionMessage1 == '' ? "success" : "error"),
+            type:"success",
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK"
           }).then(
@@ -1207,17 +1225,14 @@ export class EnrollassociationComponent implements OnInit {
           document.getElementById('unitsbulkold').style.display = 'block';
           if (this.unitlistduplicatejson.length > 0) {
             if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.invalidUnitCount} Invalid
-                                                  ${this.duplicateUnitCount} Duplicate`
+              this.message = `${this.invalidUnitCount} Invalid
+                              ${this.duplicateUnitCount} Duplicate`
             }
             else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.invalidUnitCount} Invalid`
+              this.message = `${this.invalidUnitCount} Invalid`
             }
             else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-              this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                  ${this.duplicateUnitCount} Duplicate`
+              this.message = `${this.duplicateUnitCount} Duplicate`
             }
           }
           else {
@@ -1323,7 +1338,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       }
       //this.increasingBlockArrLength += 1;
-    },this.arraylist1.length * 3500)
+    },Number(this.unitlistjson[name].length) * 3000)
     //}
   }
   exceptionMessage = '';
@@ -2343,6 +2358,7 @@ export class EnrollassociationComponent implements OnInit {
          else{ */
     if (this.duplicateBlocknameExist) {
       $(".se-pre-con").show();
+      this.blocksuccesscount = 0;
       console.log('duplicateBlocknameExist');
       console.log(this.blocksArray);
       this.toggleEmptyBlockarray = true;
@@ -2510,9 +2526,12 @@ export class EnrollassociationComponent implements OnInit {
   sameBlocknameExist;
   duplicateBlocknameExist;
   blockdetailsfinalcreation() {
+    $(".se-pre-con").fadeOut("slow");
+    this.blockprogressvaluemax = this.commonblockarray.length;
     this.duplicateBlocknameExist = false;
     console.log(this.isblockdetailsempty);
     if (!this.isblockdetailsempty) {
+      this.progressbarmodalRef = this.modalService.show(this.blockprogressbartemplate);
       this.isblockdetailsempty = true;
       this.sameBlocknameExist = false;
       this.commonblockarray1.push(this.commonblockarray);
@@ -2555,6 +2574,8 @@ export class EnrollassociationComponent implements OnInit {
               .subscribe((res: any) => {
                 console.log(res);
                 if (res.data.blockID) {
+                  this.blocksuccesscount += 1;
+                  this.blockprogressvalue = this.blocksuccesscount;
                   console.log(this.unitlistjson);
                   console.log(res.data.blockID);
                   this.blockidtmp[element.blockname] = res.data.blockID;
@@ -2620,7 +2641,7 @@ export class EnrollassociationComponent implements OnInit {
         })(index)
       })
       setTimeout(() => {
-        $(".se-pre-con").fadeOut("slow");
+        this.progressbarmodalRef.hide();
         document.getElementById('upload_excel').style.display = 'none'
         // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
@@ -2635,32 +2656,26 @@ export class EnrollassociationComponent implements OnInit {
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid`;
+              displaymessage = `${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
             }
           }
           else if (this.blockssuccessarray > 1) {
              if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.invalidBlockCount} Invalid
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.invalidBlockCount} Invalid`;
+              displaymessage = `${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
@@ -2938,7 +2953,8 @@ export class EnrollassociationComponent implements OnInit {
   blockarrayBuffer: any;
   filelist1: any;
 
-  onFileChange(ev) {
+  onFileChange(ev,blockprogressbartemplate: TemplateRef<any>) {
+    this.blockprogressbartemplate = blockprogressbartemplate;
     $(".se-pre-con").show();
     this.isblockdetailsempty = false;
     this.blocksArray = [];
@@ -4271,8 +4287,10 @@ export class EnrollassociationComponent implements OnInit {
   filelist: any;
   blockunitcountmodalRef: BsModalRef;
 
-  onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate) {
+  onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate,unitprogressbartemplate: TemplateRef<any>) {
     $(".se-pre-con").show();
+    this.unitsuccesscount = 0;
+    this.unitprogressbartemplate = unitprogressbartemplate;
     console.log(this.finalblocknameTmp);
     let orderBlockinLogically=[];
     orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");

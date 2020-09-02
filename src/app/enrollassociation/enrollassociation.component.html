@@ -356,7 +356,7 @@
                 <a id="blocksuploadid" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                         src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
                 <input #fileInput1 type="file" id="file_upload_id" (click)="fileInput1.value = null"
-                    (change)="onFileChange($event)"
+                    (change)="onFileChange($event,blockprogressbartemplate)"
                     accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                 <div id="cancelbutton">
                     <button mat-raised-button color="primary" (click)="cancelbulkupload($event)">Cancel</button>
@@ -600,7 +600,7 @@
                         <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;    height: 42px;">
                             <li *ngFor="let blkarr of blocksArray;let i= index" [ngClass]="{'active':blkarr.Id==blkarr.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
                                     href="#{{blkarr.Id}}" (click)="assignBlkarrTmpid(blkarr.Id)"
-                                    data-toggle="tab" style="width: auto;display: flex;">{{blkarr.blockname==''?'Block'+(i+1):blkarr.blockname|uppercase}}
+                                    data-toggle="tab" style="width: auto;display: flex;">{{blkarr.blockname==''?'Block':blkarr.blockname|uppercase}}
                                     &nbsp;&nbsp;<span></span>
                                     <i [hidden]="blkarr.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
                                     <i [hidden]="blkarr.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
@@ -748,7 +748,7 @@
                     <a id="unitsuploadid" href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                             src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
                     <input #fileInput type="file" id="file_unitupload_id" (click)="fileInput.value = null"
-                        (change)="onFileunitdetailschange($event,UpdateBlockUnitCountTemplate)"
+                        (change)="onFileunitdetailschange($event,UpdateBlockUnitCountTemplate,unitprogressbartemplate)"
                         accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                     <div id="cancelbutton">
                         <button mat-raised-button color="primary" (click)="cancelunitsbulkupload($event)">Cancel</button>
@@ -1452,5 +1452,20 @@
                 <button (click)="UpdateBlockUnitCount()">UpdateCount</button>
             </div>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #blockprogressbartemplate>
+    <div class="modal-body">
+        <progressbar [animate]="false" [max]="blockprogressvaluemax" [value]="blockprogressvalue" type="success">
+            <span class="text-nowrap">{{blockprogressvalue}} / {{blockprogressvaluemax}} complete</span>
+        </progressbar>
+    </div>
+</ng-template>
+<ng-template #unitprogressbartemplate>
+    <div class="modal-body">
+        <progressbar [animate]="false" [max]="unitprogressvaluemax" [value]="unitprogressvalue" type="success">
+            <span class="text-nowrap">{{unitprogressvalue}} / {{unitprogressvaluemax}} complete</span>
+        </progressbar>
     </div>
 </ng-template>
