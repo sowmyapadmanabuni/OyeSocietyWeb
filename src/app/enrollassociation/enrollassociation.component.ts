@@ -1150,7 +1150,8 @@ export class EnrollassociationComponent implements OnInit {
           text: "",
           type: "success",
           confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
+          allowOutsideClick:false
         }).then(
           (result) => {
             if (result.value) {
@@ -1197,7 +1198,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type:"success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -1243,7 +1245,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -1283,7 +1286,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -1363,7 +1367,8 @@ export class EnrollassociationComponent implements OnInit {
         text: "",
         type: "error",
         confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
+        allowOutsideClick:false
       })
     }
     else {
@@ -1579,7 +1584,8 @@ export class EnrollassociationComponent implements OnInit {
                   text: "",
                   type: (this.exceptionMessage == '' ? "success" : "error"),
                   confirmButtonColor: "#f69321",
-                  confirmButtonText: "OK"
+                  confirmButtonText: "OK",
+                  allowOutsideClick:false
                 }).then(
                   (result) => {
                     if (result.value) {
@@ -2486,7 +2492,8 @@ export class EnrollassociationComponent implements OnInit {
           text: "",
           type: "success",
           confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
+          allowOutsideClick:false
         }).then(
           (result) => {
             if (result.value) {
@@ -2618,7 +2625,8 @@ export class EnrollassociationComponent implements OnInit {
                     title: "Error",
                     text: res['data']['errorResponse']['message'],
                     type: "error",
-                    confirmButtonColor: "#f69321"
+                    confirmButtonColor: "#f69321",
+                    allowOutsideClick:false
                   });
                 }
               }, error => {
@@ -2686,7 +2694,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type: "success",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           }).then(
             (result) => {
               if (result.value) {
@@ -2858,7 +2867,8 @@ export class EnrollassociationComponent implements OnInit {
             title: "Error",
             text: res['data']['errorResponse']['message'],
             type: "error",
-            confirmButtonColor: "#f69321"
+            confirmButtonColor: "#f69321",
+            allowOutsideClick:false
           });
         }
       }, error => {
@@ -2876,7 +2886,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: '#f69321',
       confirmButtonText: 'OK',
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -2985,7 +2996,8 @@ export class EnrollassociationComponent implements OnInit {
             text: "",
             type: "error",
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick:false
           })
         }
         else {
@@ -3052,7 +3064,8 @@ export class EnrollassociationComponent implements OnInit {
           title: "Please Check uploaded no of blocks should not more than given no of blocks",
           text: "",
           confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
+          allowOutsideClick:false
         })
         document.getElementById('upload_excel').style.display = 'block';
       }
@@ -4104,7 +4117,8 @@ export class EnrollassociationComponent implements OnInit {
         text: "",
         type: "error",
         confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
+        allowOutsideClick:false
       })
     }
     else if(this.InvalidBlocknamePresent){
@@ -4114,7 +4128,8 @@ export class EnrollassociationComponent implements OnInit {
         text: "",
         type: "error",
         confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
+        allowOutsideClick:false
       }).then(
         (result) => {
           if (result.value) {
@@ -4220,7 +4235,8 @@ export class EnrollassociationComponent implements OnInit {
                     title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
                     text: "",
                     confirmButtonColor: "#f69321",
-                    confirmButtonText: "OK"
+                    confirmButtonText: "OK",
+                    allowOutsideClick:false
                   })
                   document.getElementById('unitupload_excel').style.display = 'block';
                 }
@@ -4330,7 +4346,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: '#f69321',
       confirmButtonText: 'OK',
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4363,7 +4380,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4707,8 +4725,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: '#f69321',
       confirmButtonText: 'OK',
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
-
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4735,7 +4753,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4764,7 +4783,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4785,7 +4805,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
@@ -4879,7 +4900,8 @@ export class EnrollassociationComponent implements OnInit {
       confirmButtonColor: "#f69321",
       confirmButtonText: "OK",
       showCancelButton: true,
-      cancelButtonText: "CANCEL"
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
     }).then(
       (result) => {
         console.log(result)
