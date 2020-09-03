@@ -45,8 +45,8 @@
                             <div style="display: flex;justify-content: start;align-items: center;padding-top: 8px;">
                                 <!-- <strong>{{wkrating}} </strong> -->
                                 <star-rating-comp [starType]="'svg'" [readOnly]="true" [direction]="'ltr'"
-                                    [size]="'medium'" [staticColor]="'ok'" [rating]="wkrating"></star-rating-comp>
-                                {{wkrating}}&nbsp;&nbsp;
+                                    [size]="'medium'" [staticColor]="'ok'" [rating]="wkrating1"></star-rating-comp>
+                                {{wkrating1}}&nbsp;&nbsp;
                                 <i (click)="OpeneditReview(editReview,wkid)" tooltip="Edit staff ratings" class="fa fa-pencil"
                                     aria-hidden="true"></i>
                             </div>
@@ -99,8 +99,7 @@
                                 <div style="display: flex;flex-wrap: wrap;">
                                     <div style="cursor: pointer" *ngFor="let item of otherStaff" class="staff"
                                         (click)="getotherStaffbyDesignation(item['wtid'],item['wtDesgn'],item['workerstatuses'])">
-                                        <img style="border-radius: 40px;"
-                                            src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px"
+                                        <img src="{{'data:image/jpeg;base64,'+item['wtImage']}}" width="50px"
                                             height="50px" />
                                         {{item['wtDesgn']}}
                                     </div>
@@ -148,7 +147,7 @@
                                                 </ng-container>
                                                 <ng-container *ngIf="item!=-1">
                                                     <td>{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
-                                                    <td> <img style="border-radius: 40px;"
+                                                    <td> <img 
                                                             [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
                                                             width="50px" height="50px" /> </td>
                                                     <td>{{item['wkfName']}}</td>
@@ -208,7 +207,7 @@
                                                         </div>                                                
                                             </div>
                                             <div *ngIf="stafimage==''">
-                                                <img style="border-radius: 40px;"
+                                                <img 
                                                     [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
                                                     width="50px" height="50px" />&nbsp;&nbsp;
                                                 <strong>{{item['wkfName']}} : {{item['wkDesgn']}}</strong>
@@ -463,7 +462,7 @@
                         <div style="margin-left: 17px;">
 
                             <p>
-                                <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [size]="'medium'"
+                                <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [step]="0.5" [size]="'medium'"
                                     [staticColor]="'ok'" [rating]="wkrating1" (onClick)="onClick($event)"
                                     (onRatingChange)="onRatingChange($event)"></star-rating-comp>
                             </p>

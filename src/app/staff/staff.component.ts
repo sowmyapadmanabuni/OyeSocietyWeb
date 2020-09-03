@@ -148,17 +148,17 @@ export class StaffComponent implements OnInit {
           console.log(response);
           this.staffs = response['data']['worker'];
           this.staffs3= response['data']['worker'];
-          // this.staffs.forEach(item => {
-          //   if (item['workerstatuses'].length > 0) {
-          //     item['workerstatuses'].forEach(itm => {
-          //       if (itm['unUniName'] == this.globalServiceService.getCurrentUnitName()) {
-          //         if (itm['wkAprStat'] == "Approved") {
-          //           this.staffs3.push(item);
-          //         }
-          //       }
-          //     })
-          //   }
-          // })
+          this.staffs.forEach(item => {
+            if (item['workerstatuses'].length > 0) {
+              item['workerstatuses'].forEach(itm => {
+                if (itm['unUniName'] == this.globalServiceService.getCurrentUnitName()) {
+                  if (itm['wkAprStat'] == "Approved") {
+                    this.staffs3.push(item);
+                  }
+                }
+              })
+            }
+          })
           console.log(this.staffs3);
         },
         (error) => {
@@ -171,7 +171,7 @@ export class StaffComponent implements OnInit {
     if (workerstatuses.length > 0) {
       workerstatuses.forEach(item => {
         console.log(item.unUniName, this.globalServiceService.getCurrentUnitId());
-        if (item.unUniName == this.globalServiceService.getCurrentUnitName()) {
+        if ((item.unUniName.trim()) == this.globalServiceService.getCurrentUnitName()) {
           this.wkrating1 = item.wkRating;
           this.wkrating = item.wkrating;
           this.wkReview = item['wkReview'];
