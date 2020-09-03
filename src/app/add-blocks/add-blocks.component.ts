@@ -67,6 +67,8 @@ rate1:any;
 ASMtFRate:any;
 ASMtDimBs:any;
 ASIcRFreq:any;
+ASMtTypes:any[];
+ASMtType:any;
 
 
   constructor(private addblockservice: AddBlockService,
@@ -75,6 +77,8 @@ ASIcRFreq:any;
     private http: HttpClient,
     private viewassn: ViewAssociationService,
     private viewUniService: ViewUnitService) {
+      this.ASMtTypes=['FlatRate','Dimension'];
+      this.ASMtType = '';
       this.ASMtFRate='';
       this.ASMtDimBs='';
       this.ASIcRFreq='';
@@ -393,6 +397,10 @@ ASIcRFreq:any;
   //   "COMMERCIAL",
   //   "RESIDENTIAL AND COMMERCIAL"
   // ]
+  getASMtType(obj){
+    console.log(obj);
+    this.ASMtType = obj.value
+  }
   blockType = ['Residential','Commercial','Residential and Commercial']
   createBlock() {
     //frm.classList.add('was-validated');
@@ -409,12 +417,13 @@ ASIcRFreq:any;
             "BLMgrName": this.mngName,
             "BLMgrMobile": this.mobile,
             "BLMgrEmail": this.manageremail,
-            "ASMtType": '',
+            "ASMtType": this.ASMtType,
             "ASMtDimBs": this.ASMtDimBs,
             "ASMtFRate": this.ASMtFRate,
             "ASUniMsmt": 'sqft',
             "ASIcRFreq": this.ASIcRFreq,
             "ASBGnDate": formatDate(this.billGenerationDate, 'yyyy/MM/dd', 'en'),
+            "BLMgrISDCode"  : "+91",
             "ASLPCType": this.latePymtChargeType,
             "ASLPChrg": this.latePymtCharge,
             "ASLPSDate": formatDate(this.startsFrom, 'yyyy/MM/dd', 'en'),
