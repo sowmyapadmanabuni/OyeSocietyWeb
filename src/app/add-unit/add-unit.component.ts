@@ -412,7 +412,7 @@ export class AddUnitComponent implements OnInit {
           "UNOcSDate": "2019-03-02",
           "UNOwnStat": "",
           "UNSldDate": "2019-03-02",
-          "UNDimens": "",
+          "UNDimens": this.unitdimension,
           "UNCalType": "",
           "FLFloorID": 14,
           "BLBlockID": this.viewUniService.blockIDforUnitCreation,
