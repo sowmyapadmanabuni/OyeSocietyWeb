@@ -133,7 +133,7 @@ export class AddExpenseService {
 
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.GetUnitListByBlockID();
-    this.url = `${ipAddress}oyeliving/api/v1/Unit/GetUnitListByBlockID/${blockID}`
+    this.url = `${ipAddress}oyeliving/api/v1/Unit/GetUnitListByBlockID/${blockID}/resident`
     return this.http.get(this.url, { headers: headers })
       .pipe(map(data => {
         //console.log(data['data'].unitsByBlockID);

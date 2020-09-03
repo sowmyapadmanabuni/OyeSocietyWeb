@@ -791,6 +791,7 @@ export class ExpenseManagementComponent implements OnInit {
         "EXAddedBy":"",
         "EXPName":item['PayeeName']
       }
+      console.log(expensedata);
       this.addexpenseservice.createExpense(expensedata)
         .subscribe(
           (data) => {
