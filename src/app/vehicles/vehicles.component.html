@@ -19,23 +19,43 @@
                                         </div>
                                 </div>
                                 <div class="row" *ngIf="VehicleDataNew.length!=0">
-                                        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false" data-pause="hover">
+                                                <div class="vehicles-main">
+                                                                <div class="vehicles" *ngFor="let item of VehicleCarousel">
+                                                                        <div class="action">
+                                                                                <p><strong>{{item['veType']==''? "Empty":item['veType']}}</strong></p>
+                                                                                <p><i aria-hidden="true" tooltip="Edit Vehicle" class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
+                                                                                        &nbsp;&nbsp;&nbsp;<i aria-hidden="true" tooltip="Delete Vehicle" (click)="DeleteVehicle(item['veid'])" class="fa fa fa-trash orange"></i></p>
+                                                                                
+                                                                                </div>
+                                                                        <img src="{{(item['veType']=='Two Wheeler'?'../../assets/images/vehicles/motorcycle.png':(item['veType']==''? '../../assets/images/vehicles/dummy.png' :'../../assets/images/vehicles/car.png'))}}">
+                                                                        <div class="veh-desc" >
+                                                                                <!-- *ngIf="item['veType']!=''" -->
+                                                                                <p class="vehicle-name">{{item['veMakeMdl']==''? "Empty":item['veMakeMdl']}}</p>
+                                                                                <p><strong>Vehicle No:</strong> {{item['veRegNo']== ''? "Empty" : item['veRegNo']}}</p>
+                                                                                <p><strong>Vehicle Sticker No:</strong> {{item['veStickNo']== ''? "Empty" : item['veRegNo']}}</p>
+                                                                                <p><strong>Vehicle Slot No:</strong> {{item['uplNum'] == ''? "Empty" :item['uplNum']}}</p>
+                                                                        </div>
+                                                                        
+                                                                </div>
+                                                        </div>
+                                        </div>
+                                <!-- <div class="row" *ngIf="VehicleDataNew.length!=0"> -->
+                                        <!-- <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false" data-pause="hover"> -->
                                                 
                                                 <!-- Indicators -->
-                                                <ol class="carousel-indicators" *ngIf="VehicleDataNew.length>4">
+                                                <!-- <ol class="carousel-indicators" *ngIf="VehicleDataNew.length>4">
                                                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                                                         <li data-target="#myCarousel" data-slide-to="1"></li>
                                                         <li data-target="#myCarousel" data-slide-to="2"></li>
-                                                </ol>
+                                                </ol> -->
                                                 <!-- Wrapper for slides -->
-                                                <div class="carousel-inner">
+                                                <!-- <div class="carousel-inner">
                                                         <div class="item active">
                                                                 <div class="vehicles-main">
                                                                         <div class="vehicles" *ngFor="let item of VehicleCarousel">
                                                                                 <p><strong>{{item['veType']}}</strong></p>
                                                                                 <img src="{{(item['veType']=='TwoWheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
-                                                                                        <!-- *ngIf="item['veType']!=''" -->
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
                                                                                         <p><strong>Vehicle No:</strong> {{item['veRegNo']}}</p>
                                                                                         <p><strong>Vehicle Sticker No:</strong> {{item['veStickNo']}}</p>
@@ -54,7 +74,7 @@
                                                                                 <p><strong>{{item['veType']}}</strong></p>
                                                                                 <img src="{{(item['veType']=='TwoWheeler'?'../../assets/images/vehicles/motorcycle.png':'../../assets/images/vehicles/car (1).png')}}">
                                                                                 <div class="veh-desc" >
-                                                                                        <!-- *ngIf="item['veType']!=''" -->
+                                                                                       
                                                                                         <p class="vehicle-name">{{item['veMakeMdl']}}</p>
                                                                                         <p><strong>Vehicle No:</strong> {{item['veRegNo']}}</p>
                                                                                         <p><strong>Vehicle Sticker No:</strong> {{item['veStickNo']}}</p>
@@ -67,15 +87,15 @@
                                                                         </div>
                                                                 </div>
                                                         </div>
-                                                </div>
+                                                </div> -->
                                                 <!-- Left and right controls -->
-                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev" *ngIf="VehicleDataNew.length>4">
+                                                <!-- <a class="left carousel-control" href="#myCarousel" data-slide="prev" *ngIf="VehicleDataNew.length>4">
                                                 <i aria-hidden="true" class="fa fa-angle-left fa-2x" id="left"></i>
                                                 </a>
                                                 <a style="width: 40px;" class="right carousel-control" href="#myCarousel" data-slide="next" *ngIf="VehicleDataNew.length>4">
                                                 <i aria-hidden="true" class="fa fa-angle-right fa-2x" id="right"></i>
-                                                </a>
-                                        </div>
+                                                </a> -->
+                                        <!-- </div> -->
                                 </div>
                         </div>
                         <!--Dashboard icons end-->
@@ -84,7 +104,7 @@
         <!--rightBar start-->
         <!-- <app-right-bar></app-right-bar> -->
         <!--rightBar end-->
-</div>
+
 <!--Add Vehicles-->
 <ng-template #template>
         <div class="modal-header">

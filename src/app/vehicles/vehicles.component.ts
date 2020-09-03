@@ -93,11 +93,11 @@ export class VehiclesComponent implements OnInit {
     console.log(this.CurrentUnitID);
     this.getVehicles();
 
-    this.id = setInterval(() => {
-      if(this.id){
-        this.getVehicles();
-      }
-    },5000)
+    // this.id = setInterval(() => {
+    //   if(this.id){
+    //     this.getVehicles();
+    //   }
+    // },5000)
   }
   
 
@@ -138,12 +138,13 @@ export class VehiclesComponent implements OnInit {
 
         console.log(this.VehicleData);
         this.VehicleData.forEach(item => {
+          console.log(this.VehicleData.length);
           if (this.VehicleData.length > 0) {
             this.vehicledatalength = true;
-            if (item['veType'] != '' && item['veMakeMdl'] != '' && item['veRegNo'] != '' && item['veStickNo'] != '' && item['uplNum'] != '') {
+           // if (item['veType'] != '' && item['veMakeMdl'] != '' && item['veRegNo'] != '' && item['veStickNo'] != '' && item['uplNum'] != '') {
               this.VehicleDataNew.push(new VehicleDataNew(item['veType'], item['veMakeMdl'], item['veRegNo'], item['veStickNo'], item['veid'], item['uplNum']));
-              //console.log('test',this.VehicleDataNew);
-            }
+              console.log('test',this.VehicleDataNew);
+           // }
           }
         })
 
