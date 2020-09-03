@@ -225,8 +225,9 @@ export class StaffComponent implements OnInit {
     // subtract one day from current time  
     if(eve.target.checked)    {
       this.ropt1="one";
+      console.log(this.ropt1);
       yest.setDate(yest.getDate() - 1);
-      console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
+      console.log(formatDate(yest, 'dd-MM-yyyy', 'en'));
       this.yesterday_date = formatDate(yest, 'dd-MM-yyyy', 'en');
       this.todayDate = formatDate(new Date(), 'dd-MM-yyyy', 'en');
     }                     
@@ -687,7 +688,7 @@ export class StaffComponent implements OnInit {
                   setTimeout(() => {
                     
                     this.getStaffList();
-                  }, 2000);
+                  }, 100);
                  
                 }
               }
