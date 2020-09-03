@@ -435,6 +435,7 @@ export class StaffComponent implements OnInit {
     this.staffReports = [];
     this.showStaffReports = true;
     this.showOtherstaff = false;
+    this.showStaffReports =false;
     this.showstaffBydesignation = false;
     this.condition1 = false;
     this.condition = true;

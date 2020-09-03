@@ -50,10 +50,10 @@
                     <mfDefaultSorter by="inpOfInv">Purpose of Visit</mfDefaultSorter>
                 </th>
                 <th>
-                    <mfDefaultSorter by="insDate">Valid From</mfDefaultSorter>
+                    <mfDefaultSorter by="insDate">Entry Date</mfDefaultSorter>
                 </th>
                 <th>
-                    <mfDefaultSorter by="ineDate">Valid Till</mfDefaultSorter>
+                    <mfDefaultSorter by="ineDate">Exit Date</mfDefaultSorter>
                 </th>
                 <th>
                     <mfDefaultSorter by="inVisCnt">Guest Expected</mfDefaultSorter>
@@ -76,10 +76,10 @@
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
                     <td class="txt-middle">{{(i+1)}}</td>
-                    <td>{{item['infName']}}</td>
+                    <td>{{item['infName']}} &nbsp;{{item['inlName']}}</td>
                     <td>{{item['inpOfInv']}}</td>
-                    <td class="txt-middle">{{item['insDate']|date:'dd/MM/yyyy'}}</td>
-                    <td class="txt-middle">{{item['ineDate']|date:'dd/MM/yyyy'}}</td>
+                    <td class="txt-middle">{{item['insDate']|date:'dd-MM-yyyy'}} | {{item['insDate']| date :'shortTime'}}</td>
+                    <td class="txt-middle">{{item['ineDate']|date:'dd-MM-yyyy'}} | {{item['ineDate']| date :'shortTime'}}</td>
                     <td class="txt-middle">{{item['inVisCnt']}}</td>
 
                     <td class="txt-middle">{{item['inIsUsed']==true?'Visited':'Not Visited'}}</td>
