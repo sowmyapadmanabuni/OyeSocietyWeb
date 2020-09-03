@@ -65,7 +65,7 @@
                             </div>
                             <div class="del-date cal">
                                 <input type="text" #StaffEndDatee name="StaffEndDate" #StaffEndDateControl='ngModel'
-                                    [minDate]="StaffEndDate" [(ngModel)]="StaffEndDate" placeholder="To Date"
+                                    [minDate]="StaffStartDate" [(ngModel)]="StaffEndDate" placeholder="To Date"
                                     class="date" bsDatepicker [bsConfig]="bsConfig">
                             </div>
                         </div>
@@ -187,29 +187,25 @@
                                 <div *ngFor="let item of StaffDetails">
                                     <div class="m-t-30" style="border: 1px solid #afa8d3;padding: 15px;">
                                         <div style="display: flex;align-items: baseline;justify-content: space-between;">
-                                            <div *ngIf="stafimage!=''"><img
-                                                    [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])"
-                                                    class="prof">
+                                            <div *ngIf="stafimage!=''">
+                                                <img [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+item['wkEntryImg'])" class="prof">
                                                 &nbsp;&nbsp;<strong>{{item['wkfName']}}</strong>
                                                 <br>
                                                 <hr>
                                                 <strong>Working In Houses</strong> &nbsp;&nbsp;<a (click)="showStaffUnitRatings()">Show all</a><br>
                                                 <hr style="padding: 5px !important;">
-<div *ngIf="!showAll">
-        <span  *ngFor="let item of StaffDetailshouse"
-        style="border: 1px solid #5a51aa;padding: 6px;border-radius: 17px;">
-        {{item['unUniName']}}</span>
-</div>
-<div *ngIf="showAll">
-        <div  *ngFor="let item of StaffDetailshouse"
-        style="border: 1px solid #5a51aa;padding: 6px;border-radius: 4px;display: flex;margin-bottom: 4px;">
-        {{item['unUniName']}} : <star-rating-comp [starType]="'svg'" [readOnly]="true"
-        [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
-        [rating]="item['wkRating']"></star-rating-comp>{{item['wkRating']}}</div>
-</div>
-                                               
-
-                                                
+                                                        <div *ngIf="!showAll">
+                                                                <span  *ngFor="let item of StaffDetailshouse"
+                                                                style="border: 1px solid #5a51aa;padding: 6px;border-radius: 17px;">
+                                                                {{item['unUniName']}}</span>
+                                                        </div>
+                                                        <div *ngIf="showAll">
+                                                                <div  *ngFor="let item of StaffDetailshouse"
+                                                                style="border: 1px solid #5a51aa;padding: 6px;border-radius: 4px;display: flex;margin-bottom: 4px;">
+                                                                {{item['unUniName']}} : <star-rating-comp [starType]="'svg'" [readOnly]="true"
+                                                                [direction]="'ltr'" [size]="'medium'" [staticColor]="'ok'"
+                                                                [rating]="item['wkRating']"></star-rating-comp>{{item['wkRating']}}</div>
+                                                        </div>                                                
                                             </div>
                                             <div *ngIf="stafimage==''">
                                                 <img style="border-radius: 40px;"
@@ -244,10 +240,6 @@
                                 </div>
 
                             </div>
-                           
-
-
-
                         </div>
                         <div class="col-sm-12" *ngIf="showStaffReports">
                             <h3 class="staff_head">View Reports</h3>
