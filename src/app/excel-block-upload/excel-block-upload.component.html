@@ -28,7 +28,7 @@
                                 <a id="blocksuploadid3" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 60px;" class="excel"
                                         src="../../assets/images/download.png"
                                         tooltip="click to download demo excel format"></a>
-                                <input type="file" id="file_upload_id" (change)="onFileChange($event)" multiple="false"
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event,blockprogressbartemplate)" multiple="false"
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                     style="display:none" #file>
                             </div>
@@ -218,7 +218,8 @@
                                         &nbsp;&nbsp;<span></span>
                                         <!-- <i [hidden]="objct.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i> -->
                                         &nbsp;
-                                        <i [hidden]="objct.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
+                                        <i [hidden]="objct.isNotBlockCreated" [ngClass]="{'fa fa-check-circle-o':objct.isBlockCreated}" style="color: #41ca41" aria-hidden="true"></i>
+                                        <i [hidden]="objct.isBlockCreated" [ngClass]="{'fa fa-circle-thin':objct.isNotBlockCreated_NowValid}" style="color: #41ca41" aria-hidden="true"></i>
                                         <i [hidden]="objct['hasNoDuplicateBlockname']==true" class="fa fa-circle-thin" style="color: #ff0505" aria-hidden="true"></i>
                                     </a></li>
                             </ul>
@@ -328,7 +329,7 @@
                                         </div>
                                     </div>
                                     <div id="blockdetailsbuttons1"class="save">
-                                        <button class="continue" (click)="resetforduplicatesorinvalidblocks($event,obj.Id)" mat-raised-button color="primary" [disabled]="obj.hasNoDuplicateBlockname" [ngStyle]="{'opacity':obj.hasNoDuplicateBlockname ? '0.5' : '1' }" >RESET</button>
+                                        <button class="continue" (click)="resetforduplicatesorinvalidblocks($event,obj.Id)" mat-raised-button color="primary" [disabled]="obj.isBlockCreated">RESET</button>
                                         <button class="continue mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary"  id="assdetailssave" color="primary" [disabled]="isblockdetailsempty" [ngStyle]="{'opacity':isblockdetailsempty ? '0.5' : '1' }" (click)="createblocksdetails('')">NEXT</button>
                                     </div>
                                 </div>
@@ -434,6 +435,12 @@
     </div>
 </div>
 
-
+<ng-template #blockprogressbartemplate>
+    <div class="modal-body">
+        <progressbar [animate]="false" [max]="blockprogressvaluemax" [value]="blockprogressvalue" type="success">
+            <span class="text-nowrap">{{blockprogressvalue}} / {{blockprogressvaluemax}} complete</span>
+        </progressbar>
+    </div>
+</ng-template>
 
 

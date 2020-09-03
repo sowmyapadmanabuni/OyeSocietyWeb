@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Headers } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -47,11 +47,20 @@ export class ExcelBlockUploadComponent implements OnInit {
   duplicateBlockCount:number;
   invalidBlockCount:number;
   canDoBlockLogicalOrder:boolean;
+  blockprogressbartemplate: TemplateRef<any>;
+  progressbarmodalRef: BsModalRef;
+  blockprogressvaluemax:number;
+  blocksuccesscount:number;
+  blockprogressvalue:number;
+  config = {
+    ignoreBackdropClick: true
+  };
   constructor(
     public globalService: GlobalServiceService,
     public viewBlockService: ViewBlockService,
     public addblockservice: AddBlockService,
     public viewUnitService: ViewUnitService,
+    private modalService: BsModalService,
     private http: HttpClient,
     public router:Router
   ) {
@@ -80,7 +89,9 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.duplicateBlockCount=0;
     this.invalidBlockCount=0;
     this.canDoBlockLogicalOrder=true;
-
+    this.blockprogressvaluemax=0;
+    this.blocksuccesscount=0;
+    this.blockprogressvalue=0;
    }
 
   ngOnInit() {
@@ -202,7 +213,9 @@ export class ExcelBlockUploadComponent implements OnInit {
 
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        element.blockname = blockname;
+        console.log(blockname);
+        element.blockname = blockname.toUpperCase();
+        console.log(element.blockname);
         if (element.blockname == "") {
           element['isnotvalidblockname'] = true;
           this.blockdetailInvalid = true;
@@ -210,7 +223,7 @@ export class ExcelBlockUploadComponent implements OnInit {
         else {
           element['isnotvalidblockname'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
@@ -220,19 +233,24 @@ export class ExcelBlockUploadComponent implements OnInit {
         this.blocksArray.forEach(item => {
           if (item.blockname.toLowerCase() == blockname.toLowerCase()) {
             this.numberofexistence += 1;
-            if (this.numberofexistence == 1) {
+            if (this.numberofexistence == 1) {  
               element.hasNoDuplicateBlockname = true;
+              if (item.blockname != "" && item.blockname != undefined && item.blocktype != "" && item.blocktype != undefined && item.units != "" && item.units != undefined) {
+                console.log('isNotBlockCreated_NowValid');
+                element.isNotBlockCreated_NowValid=true;
+              }
             }
             else {
               element.hasNoDuplicateBlockname = false;
+              element.isNotBlockCreated_NowValid=false;
             }
           }
         })
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         this.isblockdetailsempty = true
       }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined ) {
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
         let blockgroup = this.blocksArray.reduce((r, a) => {
           r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
           return r;
@@ -243,7 +261,7 @@ export class ExcelBlockUploadComponent implements OnInit {
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined ) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined) {
                     itm2.hasNoDuplicateBlockname = true;
                     console.log('blockgroup[key].length == 1 this.isblockdetailsempty = false');
                   }
@@ -271,7 +289,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined ) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -287,6 +305,7 @@ export class ExcelBlockUploadComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
+        console.log(units);
         element.units = units;
         if (element.units == "") {
           element['isnotvalidunits'] = true;
@@ -295,85 +314,17 @@ export class ExcelBlockUploadComponent implements OnInit {
         else {
           element['isnotvalidunits'] = false;
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
           element.isblockdetailsempty1 = false;
         }
+        
       }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
         element.hasNoDuplicateBlockname = false;
-        this.isblockdetailsempty = true
-      }
-      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined ) {
-        let blockgroup = this.blocksArray.reduce((r, a) => {
-          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
-          return r;
-        }, {});
-        console.log("block_group", blockgroup);
-        Object.keys(blockgroup).forEach(key => {
-           if (blockgroup[key].length == 1) {
-            blockgroup[key].forEach(itm1=>{
-              this.blocksArray.forEach(itm2=>{
-                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined ) {
-                    itm2.hasNoDuplicateBlockname = true;
-                  }
-                  else{
-                    itm2.hasNoDuplicateBlockname = false;
-                    this.isblockdetailsempty = true
-                  }
-                }
-              })
-            })
-          }
-          else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
-          }
-        })
-      }
-    })
-    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
-      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
-      return r;
-    }, {});
-    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
-      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
-      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
-        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined ) {
-            this.canDoBlockLogicalOrder = false;
-          }
-        })
-      })
-      if(this.canDoBlockLogicalOrder == true){
-        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
-        console.log(this.blocksArray);
-      }
-    }
-  }
-  getfecilitymanagername(Id, fecilitymanagername) {
-    this.canDoBlockLogicalOrder=true;
-    this.isblockdetailsempty = false;
-    this.blocksArray.forEach(element => {
-      if (element.Id == Id) {
-        element['facility manager'] = fecilitymanagername;
-        if (element['facility manager'] == "") {
-          element['isnotvalidfecilitymanagername'] = true;
-          this.blockdetailInvalid = true;
-        }
-        else {
-          element['isnotvalidfecilitymanagername'] = false;
-        }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
-          element.isblockdetailsempty1 = true;
-        }
-        else {
-          element.isblockdetailsempty1 = false;
-        }
-      }
-      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
@@ -394,6 +345,10 @@ export class ExcelBlockUploadComponent implements OnInit {
                     itm2.hasNoDuplicateBlockname = false;
                     this.isblockdetailsempty = true
                   }
+                }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
                 }
               })
             })
@@ -423,11 +378,88 @@ export class ExcelBlockUploadComponent implements OnInit {
       }
     }
   }
+  getfecilitymanagername(Id, fecilitymanagername) {
+    this.canDoBlockLogicalOrder=true;
+    this.isblockdetailsempty = false;
+    this.blocksArray.forEach(element => {
+      if (element.Id == Id) {
+        element['facility manager'] = fecilitymanagername;
+        if (element['facility manager'] == "") {
+          element['isnotvalidfecilitymanagername'] = true;
+          this.blockdetailInvalid = true;
+        }
+        else {
+          element['isnotvalidfecilitymanagername'] = false;
+        }
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
+          element.isblockdetailsempty1 = true;
+        }
+        else {
+          element.isblockdetailsempty1 = false;
+        }
+      }
+      if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
+        element.isNotBlockCreated_NowValid=false;
+        this.isblockdetailsempty = true
+      }
+      else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element['facility manager'] != "" && element['facility manager'] != undefined && element['mobile number'] != "" && element['mobile number'] != undefined && element['email id'] != "" && element['email id'] != undefined) {
+        let blockgroup = this.blocksArray.reduce((r, a) => {
+          r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+          return r;
+        }, {});
+        console.log("block_group", blockgroup);
+        Object.keys(blockgroup).forEach(key => {
+           if (blockgroup[key].length == 1) {
+            blockgroup[key].forEach(itm1=>{
+              this.blocksArray.forEach(itm2=>{
+                if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2['facility manager'] != "" && itm2['facility manager'] != undefined && itm2['mobile number'] != "" && itm2['mobile number'] != undefined && itm2['email id'] != "" && itm2['email id'] != undefined) {
+                    itm2.hasNoDuplicateBlockname = true;
+                  }
+                  else{
+                    itm2.hasNoDuplicateBlockname = false;
+                    this.isblockdetailsempty = true
+                  }
+                }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
+                }
+              })
+            })
+          }
+          else if (blockgroup[key].length > 1) {
+            this.isblockdetailsempty = true
+          }
+        })
+      }
+    })
+    let blockgroup_for_logicalorder = this.blocksArray.reduce((r, a) => {
+      r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
+      return r;
+    }, {});
+    if (Object.keys(blockgroup_for_logicalorder).length == this.blocksArray.length) {
+      console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
+      Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
+        blockgroup_for_logicalorder[itm1].forEach(itm2=>{
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || itm2['facility manager'] == "" || itm2['facility manager'] == undefined || itm2['mobile number'] == "" || itm2['mobile number'] == undefined || itm2['email id'] == "" || itm2['email id'] == undefined) {
+            this.canDoBlockLogicalOrder = false;
+          }
+        })
+      })
+      if(this.canDoBlockLogicalOrder == true){
+        this.blocksArray = _.sortBy(this.blocksArray, "blockname");
+        console.log(this.blocksArray);
+      }
+    }
+  }
+
   getmanagermobileno(Id, managermobileno) {
     this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
+        console.log(managermobileno);
         element['mobile number'] = managermobileno;
         if (element['mobile number'] == "") {
           element['isnotvalidmanagermobileno'] = true;
@@ -444,6 +476,7 @@ export class ExcelBlockUploadComponent implements OnInit {
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
@@ -465,6 +498,11 @@ export class ExcelBlockUploadComponent implements OnInit {
                     this.isblockdetailsempty = true
                   }
                 }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
+                }
+               
               })
             })
           }
@@ -514,6 +552,7 @@ export class ExcelBlockUploadComponent implements OnInit {
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
+        element.isNotBlockCreated_NowValid=false;
         this.isblockdetailsempty = true
       }
       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined) {
@@ -535,6 +574,11 @@ export class ExcelBlockUploadComponent implements OnInit {
                     this.isblockdetailsempty = true
                   }
                 }
+                if (element.Id == Id) {
+                  console.log('isNotBlockCreated_NowValid');
+                  element.isNotBlockCreated_NowValid=true;
+                }
+                
               })
             })
           }
@@ -607,7 +651,12 @@ export class ExcelBlockUploadComponent implements OnInit {
   mobilenumber;
   emailid;
 
-  onFileChange(ev) {
+  onFileChange(ev,blockprogressbartemplate: TemplateRef<any>) {
+    this.blockprogressbartemplate = blockprogressbartemplate;
+    $(".se-pre-con").show();
+    this.isblockdetailsempty = false;
+    this.blocksArray = [];
+   
     let workBook = null;
     let jsonData = null;
     const reader = new FileReader();
@@ -632,6 +681,7 @@ export class ExcelBlockUploadComponent implements OnInit {
 
          if (this.excelBlockList.length <= blockslength) {
           if (this.excelBlockList.length == 0) {
+          $(".se-pre-con").fadeOut("slow");
             Swal.fire({
               title: 'Please fill all the fields',
               text: "",
@@ -679,6 +729,7 @@ export class ExcelBlockUploadComponent implements OnInit {
                   list.blocktype = this.blocktypeaspropertytype;
                   list.isblockdetailsempty1=true;
                   list.isNotBlockCreated=true;
+                  list.isNotBlockCreated_NowValid=false;
                   list.isBlockCreated=false;
 
                 this.blocksArray.push(list);
@@ -692,11 +743,13 @@ export class ExcelBlockUploadComponent implements OnInit {
               setTimeout(()=>{
                 this.increasingBlockArrLength=this.blocksArray.length+1;
                 this.createblocksdetails('');
-              },1000)
+              },this.excelBlockList.length * 1500)
             //}
           }
          }
       else {
+        $(".se-pre-con").fadeOut("slow");
+
         Swal.fire({
           title: "Please Check uploaded no of blocks should not more than given no of blocks",
           text: "",
@@ -768,6 +821,9 @@ export class ExcelBlockUploadComponent implements OnInit {
          }
          else{ */
           if(this.duplicateBlocknameExist){
+            $(".se-pre-con").show();
+            this.blocksuccesscount = 0;
+
             this.toggleEmptyBlockarray=true;
             this.commonblockarray1=[];
             this.commonblockarray=[];
@@ -787,7 +843,25 @@ export class ExcelBlockUploadComponent implements OnInit {
             this.blockdetailsfinalcreation();
           }
           else{
+          let blockArrWithoutBlocknameUndefined=[];
             this.blockssuccessarray =[];
+            this.blocksArray.forEach(item=>{
+              if(item.blockname != undefined){
+                blockArrWithoutBlocknameUndefined.push(item);
+              }
+            })
+            console.log(this.blocksArray);
+            this.blocksArray.forEach(item=>{
+              if(item.blockname == undefined){
+                console.log(item);
+                this.duplicateBlockArr.push(item);
+                this.invalidBlockCount += 1;
+                console.log(this.invalidBlockCount)
+              }
+            })
+            this.blocksArray=[];
+            this.blocksArray=blockArrWithoutBlocknameUndefined;
+            console.log(this.blocksArray);
             let group = this.blocksArray.reduce((r, a) => {
               r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
               return r;
@@ -854,7 +928,7 @@ export class ExcelBlockUploadComponent implements OnInit {
                   }
                 })
                 this.blockdetailsfinalcreation();
-              }, 1000)
+              },this.blocksArray.length * 2000)
               console.log(this.commonblockarray);
             }
             else if(this.duplicateBlockArr.length > 0){
@@ -920,9 +994,11 @@ export class ExcelBlockUploadComponent implements OnInit {
   finalblocknameTmp = [];
   jsondata;
   blockdetailsfinalcreation(){
-    $(".se-pre-con").show();
+    $(".se-pre-con").fadeOut("slow");
+    this.blockprogressvaluemax = this.commonblockarray.length;
     this.duplicateBlocknameExist=false;
     if(!this.isblockdetailsempty){
+      this.progressbarmodalRef = this.modalService.show(this.blockprogressbartemplate);
       this.isblockdetailsempty=true;
       this.sameBlocknameExist=false;
       this.commonblockarray1.push(this.commonblockarray);
@@ -1045,7 +1121,8 @@ export class ExcelBlockUploadComponent implements OnInit {
                   })
               }
               if(res.data.blockID){
-
+                this.blocksuccesscount += 1;
+                this.blockprogressvalue = this.blocksuccesscount;
               this.blockidtmp[element.blockname]=res.data.blockID;
               console.log(this.blockidtmp);
               //console.log(res['data']['data']['blockID']);
@@ -1097,7 +1174,7 @@ export class ExcelBlockUploadComponent implements OnInit {
       })(index)
       })
       setTimeout(() => {
-        $(".se-pre-con").fadeOut("slow");
+        this.progressbarmodalRef.hide();
         // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         // document.getElementById('upload_excel').style.display = 'none'
         // document.getElementById('blockdetailscancelbutton').style.display = 'none';
@@ -1114,37 +1191,31 @@ export class ExcelBlockUploadComponent implements OnInit {
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.invalidBlockCount} Invalid`;
+              displaymessage = `${this.invalidBlockCount} Invalid`;
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-              displaymessage = `${this.blockssuccessarray}'-Block Created Successfully
-                         ${this.duplicateBlockCount} Duplicate`;
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
             }
           }
           else if (this.blockssuccessarray > 1) {
-            if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
-             displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                        ${this.invalidBlockCount} Invalid
-                        ${this.duplicateBlockCount} Duplicate`;
-           }
-           else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
-             displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                        ${this.invalidBlockCount} Invalid`;
-           }
-           else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
-             displaymessage = `${this.blockssuccessarray}'-Blocks Created Successfully
-                        ${this.duplicateBlockCount} Duplicate`;
-           }
-           else {
-             displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
-           }
-         }
+             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.invalidBlockCount} Invalid
+                                ${this.duplicateBlockCount} Duplicate`;
+            }
+            else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
+              displaymessage = `${this.invalidBlockCount} Invalid`;
+            }
+            else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
+              displaymessage = `${this.duplicateBlockCount} Duplicate`;
+            }
+            else {
+              displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+            }
+          }
           Swal.fire({
             title: displaymessage,
             text: "",
@@ -1224,7 +1295,7 @@ export class ExcelBlockUploadComponent implements OnInit {
               }
             })
         }
-      },3000)
+      },this.blocksArray.length * 3500)
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
     }
