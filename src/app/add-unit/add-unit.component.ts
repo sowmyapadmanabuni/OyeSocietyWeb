@@ -57,11 +57,15 @@ export class AddUnitComponent implements OnInit {
   InvalidUnitDimension:boolean;
   InvalidUnitRate:boolean;
   @Output() EnableUnitListView:EventEmitter<string>;
+  UNCalType:any;
+  UNRate:any;
 
   constructor(private viewUniService: ViewUnitService,
     private globalservice:GlobalServiceService,
     private router:Router,
     private http:HttpClient) {
+      this.UNCalType='';
+      this.UNRate='';
       this.InvalidUnitDimension = false;
       this.InvalidUnitRate=false;
       this.scopeIP="https://apidev.oyespace.com/";
@@ -396,7 +400,10 @@ export class AddUnitComponent implements OnInit {
     //console.log('AMType', AMType);
     this.parkingDetails = this.parkingDetails.filter(item =>{return item['ParkingLotNumber'] != ParkingLotNumber});
   }
-
+  getCalculationTypesUpadte(UNCalType){
+    this.UNCalType = UNCalType;
+    // this.UNCalTypeForEdit = UNCalType;
+  }
   createUnit() {
 
     let createUnitData =
@@ -407,13 +414,13 @@ export class AddUnitComponent implements OnInit {
         {
           "UNUniName": this.unitno,
           "UNUniType": this.unitType,
-          "UNRate": "",
+          "UNRate": this.UNRate,
           "UNOcStat": this.occupency,
           "UNOcSDate": "2019-03-02",
           "UNOwnStat": "",
           "UNSldDate": "2019-03-02",
           "UNDimens": this.unitdimension,
-          "UNCalType": "",
+          "UNCalType": this.UNCalType,
           "FLFloorID": 14,
           "BLBlockID": this.viewUniService.blockIDforUnitCreation,
           "Owner":
@@ -470,49 +477,59 @@ export class AddUnitComponent implements OnInit {
 
     this.viewUniService.createUnit(createUnitData).subscribe((response) => {
       console.log(response);
-      Swal.fire({
-        title: 'Unit Created Successfuly',
-        type: 'success',
-        showCancelButton: true,
-        confirmButtonText: 'OK',
-        cancelButtonText: "View Unit"
-      }).then(
-       (result) => {
-        //this.globalservice.IsUnitCreated=true;
-        //this.router.navigate(['units']); 
-
-         if (result.value) {
-           console.log('inside unit test');
-           //this.createunitForm.reset();
-           this.unitno='';
-           this.unitType='';
-           this.calculationtype='';
-           this.unitrate='';
-           this.unitdimension='';
-           this.occupency='';
-       
-           this.ownerFirtname='';
-           this.ownerLastname='';
-           this.ownerMobnumber='';
-           this.ownerAltnumber='';
-           this.ownerEmail='';
-           this.ownerAltemail='';
-           this.tenantFirtname='';
-           this.tenantLastname='';
-           this.tenantMobnumber='';
-           this.tenantEmail='';
-           //this.checkIsUnitCreated.emit('true');
-           this.viewUniService.addUnits=false;
-           this.viewUniService.unitList=true;
-           this.EnableUnitListView.emit('EnableUnitList');
-
-         } else if (result.dismiss === Swal.DismissReason.cancel) {
-            this.router.navigate(['home/viewunit']);
-
+      if(response['error']){
+        Swal.fire({
+          title: response['error']['message'],
+          type: 'error',
+          showCancelButton: true,
+          confirmButtonText: 'OK',
+          cancelButtonText: "View Unit"
+        })
+      }
+      else{
+        Swal.fire({
+          title: 'Unit Created Successfuly',
+          type: 'success',
+          showCancelButton: true,
+          confirmButtonText: 'OK',
+          cancelButtonText: "View Unit"
+        }).then(
+         (result) => {
+          //this.globalservice.IsUnitCreated=true;
+          //this.router.navigate(['units']); 
+  
+           if (result.value) {
+             console.log('inside unit test');
+             //this.createunitForm.reset();
+             this.unitno='';
+             this.unitType='';
+             this.calculationtype='';
+             this.unitrate='';
+             this.unitdimension='';
+             this.occupency='';
+         
+             this.ownerFirtname='';
+             this.ownerLastname='';
+             this.ownerMobnumber='';
+             this.ownerAltnumber='';
+             this.ownerEmail='';
+             this.ownerAltemail='';
+             this.tenantFirtname='';
+             this.tenantLastname='';
+             this.tenantMobnumber='';
+             this.tenantEmail='';
+             //this.checkIsUnitCreated.emit('true');
+             this.viewUniService.addUnits=false;
+             this.viewUniService.unitList=true;
+             this.EnableUnitListView.emit('EnableUnitList');
+  
+           } else if (result.dismiss === Swal.DismissReason.cancel) {
+              this.router.navigate(['home/viewunit']);
+  
+           }
          }
-       }
-     )
-
+       )
+      }
     },
       (response) => {
         console.log(response);

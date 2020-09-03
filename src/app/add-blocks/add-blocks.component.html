@@ -144,6 +144,84 @@
                                <!-- <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p> -->
                                 </div>
                             </div> 
+                            <div>
+                                <div class="form-group">
+                                    <div>
+                                        <label>Flat Rate Value <span class="red">*</span></label>
+                                        <input class="form-control" type="text" name="flatRatevalue" [(ngModel)]="ASMtFRate" placeholder="Value"
+                                            #flatRatevalueControl='ngModel' pattern="^[+-]?((\.\d+)|(\d+(\.\d+)?))$" required>
+                                        <p class="classred">Invalid flat rate
+                                        </p>
+                                        <small>Amount to be charged</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label>Maintenance Value<span class="red">*</span></label>
+                                        <input class="form-control" type="text" name="maintenanceValue" #maintenanceValueControl='ngModel'
+                                            [(ngModel)]="ASMtDimBs" placeholder="Maintenance Value " required
+                                            pattern="^[0-9]+(\.[0-9]{1,2})?$">
+                                        <p class="classred" *ngIf="maintenanceValueControl.invalid && maintenanceValueControl.touched">Invalid
+                                            Maintenance
+                                            Value
+                                        </p>
+                                        <small>Rate (SQFT / SQMTR) </small>
+                                    </div>
+                                </div>
+                  <div class="form-group">
+                    <label>Unit of Measurement <span class="red">*</span></label>
+                    <input class="form-control" type="text" disabled="true" required name="measurements" value="sqft" autocomplete="measurements">
+                  </div>
+                  <div class="form-group">
+                    <label>Invoice Creation Frequency <span class="red">*</span></label>
+                    <input class="form-control" list="frquency" name="frequency" [(ngModel)]="ASIcRFreq"
+                      placeholder="Search or Select Frequency" #frequencyControl='ngModel' required multiple>
+                    <datalist id="frquency">
+                      <option value="">Select Frequency</option>
+                      <option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">
+                        {{frequency['displayName']}}
+                      </option>
+                    </datalist>
+                    <p class="alerts" *ngIf="frequencyControl.invalid && frequencyControl.touched">Invalid Invoice Frequency
+                    </p>
+                  </div>
+                  <div class="form-group">
+                    <label>Invoice Generation Date <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
+                      placeholder="Invoice Generation Date" [bsConfig]="bsConfig" [(ngModel)]="billGenerationDate" bsDatepicker required placement="top" />
+                  </div>
+                  <div class="form-group">
+                    <label>Due Date <span class="red">*</span></label>
+                    <input type="text" class="form-control" name="dueDate" #DueDateControl='ngModel' placeholder="Due Date"
+                      [bsConfig]="bsConfig" [(ngModel)]="dueDate" bsDatepicker required placement="top" />
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Late Payment Charge Type<span class="red">*</span></label>
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                        data-toggle="dropdown">{{latePymtChargeType == ''?'SELECT CHARGE TYPE':latePymtChargeType}}
+                        <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                      <ul class="dropdown-menu fullw">
+                        <li *ngFor='let lpct of latePymtChrgTypes' (click)="getLatePymtChargeType(lpct['name'])"><a>{{lpct['name']}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Late Payment Charge <span class="red">*</span></label>
+                    <input class="form-control" type="text" #latePymtChargeControl='ngModel' name="latePymtCharge"
+                     autocomplete="latePymtCharge" [(ngModel)]="latePymtCharge" placeholder="Late Payment charge"
+                      pattern="[0-9]+(\.[0-9][0-9]?)?" required>
+                    <p class="alerts" *ngIf="latePymtChargeControl.invalid && latePymtChargeControl.touched">Invalid Late Payment Charge
+                    </p>
+                  </div>
+                  <div class="form-group">
+                    <label>Starts From<span class="red">*</span></label>
+                    <input class="form-control" type="text" name="startsFrom" #StartsFromDateControl='ngModel'
+                       placeholder="Starts From Date" [bsConfig]="bsConfig"
+                      [(ngModel)]="startsFrom" bsDatepicker required
+                       placement="bottom" />
+                  </div>
                            
                             <div class="col-sm-12 pull-right">
                                 <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep1()'>RESET</button>

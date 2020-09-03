@@ -89,6 +89,26 @@
                     <input maxlength="100" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput placeholder="Unit Dimension" (keyup)="ValidateLessThanZeroValue()"
                         [(ngModel)]="unitdimension" [ngModelOptions]="{standalone:true}" value="">
                 </mat-form-field>
+
+                <div class="form-group">
+                    <label class="control-label">Calculation Type<span class="red">*</span></label>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="UNCalType" name='UNCalType'
+                            data-toggle="dropdown">{{UNCalType}}
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul class="dropdown-menu fullw">
+                            <li (click)="getCalculationTypesUpadte('Flat Rate Value')"> <a>Flat Rate Value</a></li>
+                            <li (click)="getCalculationTypesUpadte('Dimension Based')"> <a>Dimension Based</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-groupunits">
+                    <div class="form-group">
+                        <label class="control-label lab">Unit Rate<span class="red">*</span></label>
+                        <input maxlength="100" name="unitrate" type="text" required [(ngModel)]="UNRate" #unitrateControl="ngModel" class="form-control" placeholder="Unit Rate" />
+                        <!-- <p class="alerts" *ngIf="itm['_UnitRateNotValid']=='NotValid'"> Valid unit rate is required</p> -->
+                    </div>
+                </div>
           </div>
            <!-- OWNER INFORMATION-->
         <div *ngIf="ownerDetails">

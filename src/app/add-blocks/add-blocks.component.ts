@@ -31,7 +31,7 @@ export class AddBlocksComponent implements OnInit {
   maintenanceValue: number;
   measurements: number;
   billGenerationDate: Date;
-  dueDate: string;
+  dueDate: Date;
   latePymtChargeType: string;
   latePymtCharge: any;
   startsFrom: Date;
@@ -64,6 +64,9 @@ check1:any;
 rate:any;
 rate1:any;
 @Output() EnableBlockListView:EventEmitter<string>;
+ASMtFRate:any;
+ASMtDimBs:any;
+ASIcRFreq:any;
 
 
   constructor(private addblockservice: AddBlockService,
@@ -72,6 +75,9 @@ rate1:any;
     private http: HttpClient,
     private viewassn: ViewAssociationService,
     private viewUniService: ViewUnitService) {
+      this.ASMtFRate='';
+      this.ASMtDimBs='';
+      this.ASIcRFreq='';
       this.EnableBlockListView=new EventEmitter<string>();
     this.currentAssociationID = this.globalservice.getCurrentAssociationId();
     this.currentAssociationName = this.globalservice.getCurrentAssociationName();
@@ -404,15 +410,15 @@ rate1:any;
             "BLMgrMobile": this.mobile,
             "BLMgrEmail": this.manageremail,
             "ASMtType": '',
-            "ASMtDimBs": '',
-            "ASMtFRate": '',
-            "ASUniMsmt": '',
-            "ASIcRFreq": '',
-            "ASBGnDate": '',
-            "ASLPCType": '',
-            "ASLPChrg": '',
-            "ASLPSDate": '',
-            "ASDPyDate": '',
+            "ASMtDimBs": this.ASMtDimBs,
+            "ASMtFRate": this.ASMtFRate,
+            "ASUniMsmt": 'sqft',
+            "ASIcRFreq": this.ASIcRFreq,
+            "ASBGnDate": formatDate(this.billGenerationDate, 'yyyy/MM/dd', 'en'),
+            "ASLPCType": this.latePymtChargeType,
+            "ASLPChrg": this.latePymtCharge,
+            "ASLPSDate": formatDate(this.startsFrom, 'yyyy/MM/dd', 'en'),
+            "ASDPyDate": formatDate(this.dueDate, 'yyyy/MM/dd', 'en'),
             "BankDetails": ''
           }
         ]
@@ -574,7 +580,7 @@ rate1:any;
     this.meter = '';
     this.frequency = '';
     this.billGenerationDate = null;
-    this.dueDate = '';
+    this.dueDate = null;
     this.latePymtChargeType = 'SELECT CHARGE TYPE';
     this.startsFrom = null;
   }
