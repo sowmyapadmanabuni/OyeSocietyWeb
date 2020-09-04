@@ -14,6 +14,7 @@ import { ViewUnitService } from '../../services/view-unit.service'
 import { Staffbydesigantion } from '../models/staffbydesigantion';
 import { IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven } from "angular-star-rating/src/star-rating-struct";
 import { formatDate } from '@angular/common';
+import { DataTable } from 'angular-6-datatable';
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
@@ -24,12 +25,12 @@ export class StaffComponent implements OnInit {
   StartDate: any;
   EndDate: any;
   wkid: any;
-  ropt1:any;
-  ropt2:any;
-  ropt3:any;
+  ropt1: any;
+  ropt2: any;
+  ropt3: any;
   comment: any;
-  wid1:any;
-  wid2:any;
+  wid1: any;
+  wid2: any;
   wkhousecount: any;
   filterStaff: any;
   staffs1: any[];
@@ -43,8 +44,8 @@ export class StaffComponent implements OnInit {
   condition: any;
   condition1: any;
   wkimage: any;
-  StaffDetails:any[];
-  StaffDetailshouse:any[];
+  StaffDetails: any[];
+  StaffDetailshouse: any[];
   staffReports: any[];
   wkstaf: any;
   wkStatus: any;
@@ -76,11 +77,13 @@ export class StaffComponent implements OnInit {
   yesterday_date: string;
   todayDate: string;
   wid: any;
-  showAll:boolean;
+  showAll: boolean;
   currentblockid: any[];
   blkId: any;
   blkId1: any;
-  constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService:ViewUnitService,
+  StaffEndDateyes: Date;
+  StaffStartDateyes: Date;
+  constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService: ViewUnitService,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.staffs3 = [];
     this.Staffbydesigantion = [];
@@ -97,10 +100,10 @@ export class StaffComponent implements OnInit {
     this.PaginatedValue = 10;
     this.EndDate = '';
     this.StartDate = '';
-    this.ropt1='';
-    this.showAll= false;
-    this.ropt2='';
-    this.ropt3='';
+    this.ropt1 = '';
+    this.showAll = false;
+    this.ropt2 = '';
+    this.ropt3 = '';
     this.WorkerNameList = [];
     this.workerImg = [];
     this.otherStaff = [];
@@ -125,7 +128,7 @@ export class StaffComponent implements OnInit {
       })
   }
   ngOnInit() {
-    //this.staffs3=[];
+    this.staffs3=[];
     this.StaffList();
     this.getStaffList();
     this.workerImg = [];
@@ -133,7 +136,7 @@ export class StaffComponent implements OnInit {
     this.condition1 = false;
   }
   getStaffList() {
-    this.staffs3 = [];
+    //this.staffs3 = [];
     this.condition = true;
     this.condition1 = false;
     // alert("hai");
@@ -147,7 +150,7 @@ export class StaffComponent implements OnInit {
         (response) => {
           console.log(response);
           this.staffs = response['data']['worker'];
-          this.staffs3= response['data']['worker'];
+          this.staffs3 = response['data']['worker'];
           this.staffs.forEach(item => {
             if (item['workerstatuses'].length > 0) {
               item['workerstatuses'].forEach(itm => {
@@ -217,95 +220,119 @@ export class StaffComponent implements OnInit {
     console.log(this.wkidtype);
   }
 
-  YesterDate(eve){
-    console.log("Yesterday");
-    console.log(eve)
-    var yest = new Date();
+  YesterDate(eve) {
+
     // var today =new Date();
     // subtract one day from current time  
-    if(eve.target.checked)    {
-      this.ropt1="one";
+    if (eve.target.checked) {
+      console.log("Yesterday");
+      console.log(eve)
+      var yest = new Date();
+      let yest1= new Date();
+      console.log(yest);
+      this.ropt1 = "one";
       console.log(this.ropt1);
       yest.setDate(yest.getDate() - 1);
+      yest1.setDate(yest1.getDate()-1);
+
       console.log(formatDate(yest, 'dd-MM-yyyy', 'en'));
       this.yesterday_date = formatDate(yest, 'dd-MM-yyyy', 'en');
-      this.todayDate = formatDate(new Date(), 'dd-MM-yyyy', 'en');
-    }                     
-    
+      this.todayDate = formatDate(yest, 'dd-MM-yyyy', 'en');
+      console.log(this.yesterday_date);
+      console.log(this.todayDate);
+      this.StaffStartDate = this.yesterday_date;
+      this.StaffEndDate = this.todayDate;
+      this.StaffStartDateyes = yest1;
+      this.StaffEndDateyes = yest1;
+    }
+
 
   }
-  TodayDate(eve){
+  TodayDate(eve) {
     console.log("Today");
     console.log(eve)
     // var today =new Date();
     // subtract one day from current time  
-    if(eve.target.checked)    {
-      this.ropt2="two"; 
-     // console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
+    if (eve.target.checked) {
+      this.ropt2 = "two";
+      var yest = new Date();
+     // yest.setDate(yest.getDate() - 1);
+      // console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
       this.yesterday_date = formatDate(new Date(), 'dd-MM-yyyy', 'en');
-      this.todayDate = formatDate(new Date(), 'dd-MM-yyyy', 'en');
-    }                     
-    
+      this.todayDate = formatDate(new Date(), 'MM-dd-yyyy', 'en');
+      this.StaffStartDate = this.todayDate;
+      this.StaffEndDate = this.todayDate;
+      console.log(this.StaffStartDate);
+      this.StaffStartDateyes = yest;
+      this.StaffEndDateyes = yest;
+    }
+
 
   }
 
-  ThisMonth(eve){
+  ThisMonth(eve) {
     console.log("month");
     console.log(eve)
-    // var today =new Date();
+    var today =new Date();
     // subtract one day from current time  
-    if(eve.target.checked)    {
-      this.ropt3="three"; 
+    if (eve.target.checked) {
+      this.ropt3 = "three";
       let date = new Date();
-      this.todayDate = formatDate(new Date(date.getFullYear(), date.getMonth(), 1), 'dd-MM-yyyy', 'en');
-     // console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
-      this.yesterday_date = formatDate(new Date(), 'dd-MM-yyyy', 'en');
-    }                     
-    
+      var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+      var firstDayfirstDay1 = new Date(date.getFullYear(), date.getMonth(), 1);
+      firstDay.setDate(firstDay.getDate() + 1);
+      //firstDay1.setDate(firstDay.getDate() + 1);
+      var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      this.todayDate = formatDate(new Date(date.getFullYear(), date.getMonth(), 1), 'MM-dd-yyyy', 'en');
+      // console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
+      this.yesterday_date = formatDate(new Date(), 'MM-dd-yyyy', 'en');
+      this.StaffStartDate = firstDay;
+      //console.log(this.yesterday_date);
+      this.StaffEndDate = lastDay;
+      this.StaffStartDateyes = firstDay ;
+     this.StaffEndDateyes = today;
+    }
+
 
   }
 
-  
+
 
 
   //Get Staff Report start
   getReports(id) {
-    let todayDate = formatDate(new Date(), 'MM-dd-yyyy', 'en');
-   if(this.ropt1== "one")
-   {
-    this.StaffStartDate=this.yesterday_date;
-    this.StaffEndDate=this.todayDate;
-    console.log(this.StaffStartDate);
-    console.log(this.StaffEndDate);
-   }
-   else if(this.ropt2== "two")
-   {
-    this.StaffStartDate=this.yesterday_date;
-    this.StaffEndDate=this.todayDate;
-    console.log(this.StaffStartDate);
-    console.log(this.StaffEndDate);
-   }
-   else if(this.ropt3== "three")
-   {
-    this.StaffStartDate=this.yesterday_date;
-    this.StaffEndDate=this.todayDate;
-    console.log(this.StaffStartDate);
-    console.log(this.StaffEndDate);
-   }
+     //console.log(today);
+     this.showOtherstaff = false;
+     this.condition = true;
+     this.condition1 = false;
+     this.showStaffReports = true;
+     console.log(id);
+     console.log(this.ropt1);
+
+   
+    if (this.ropt1 == "one") {   
+      console.log(this.StaffStartDate);
+      console.log(this.StaffEndDate);
+    }
+    else if (this.ropt2 == "two") {
+      
+      console.log(this.StaffStartDate);
+      console.log(this.StaffEndDate);
+    }
+    else if (this.ropt3 == "three") {
+     
+      console.log(this.StaffStartDate);
+      console.log(this.StaffEndDate);
+    }
 
 
-    //console.log(today);
-    this.showOtherstaff = false;
-    this.condition = true;
-    this.condition1 = false;
-    this.showStaffReports = true;
-    console.log(id);
-    
-    
+   
+
+
     //this.StaffStartDate= formatDate(this.todayDate, 'MM-dd-yyyy', 'en');
     //this.StaffEndDate= formatDate(this.todayDate, 'MM-dd-yyyy', 'en');
-   
-   console.log(todayDate);
+    let todayDate = formatDate(new Date(), 'MM-dd-yyyy', 'en');
+    console.log(todayDate);
     let input = {
       "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
       "WKWorkID": id,
@@ -316,7 +343,7 @@ export class StaffComponent implements OnInit {
     };
     let ipAddress = this.UtilsService.getIPaddress()
     console.log(input);
-    
+
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
@@ -334,6 +361,10 @@ export class StaffComponent implements OnInit {
       );
   }
   //Get Staff Report start
+
+
+
+
   //get staff details based on designation
   getotherStaffbyDesignation(desgid, wtDesgn) {
     this.showstaffDetails = false;
@@ -353,7 +384,7 @@ export class StaffComponent implements OnInit {
           console.log(response);
           this.staffByDesignation = response['data']['workers'];
           console.log(this.staffByDesignation);
-          
+
           // this.staffByDesignation.forEach(item => {
           //   if (item['workerstatuses'].length > 0) {
           //    // thihouse
@@ -378,54 +409,54 @@ export class StaffComponent implements OnInit {
 
 
   }
-  getStaffFullDetails(wkid1,wdes) {
-    this.showAll=false;
-   // this.Staffbydesigantion = [];
-    this.StaffDetailshouse=[];
-    this.StaffDetails=[];
+  getStaffFullDetails(wkid1, wdes) {
+    this.showAll = false;
+    // this.Staffbydesigantion = [];
+    this.StaffDetailshouse = [];
+    this.StaffDetails = [];
     this.showstaffDetails = true;
     this.showstaffBydesignation = false;
     console.log(wkid1);
     console.log(wdes);
- 
+
     let ipAddress = this.UtilsService.getIPaddress()
     const headers1 = new HttpHeaders()
-    .set('Authorization', 'my-auth-token')
-    .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
-    .set('Content-Type', 'application/json');
-  this.http.get(`${ipAddress}oye247/api/v1/GetWorkersListByDesignationAndAssocID/${this.globalServiceService.getCurrentAssociationId()}/${wdes}`, { headers: headers1 })
+      .set('Authorization', 'my-auth-token')
+      .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+      .set('Content-Type', 'application/json');
+    this.http.get(`${ipAddress}oye247/api/v1/GetWorkersListByDesignationAndAssocID/${this.globalServiceService.getCurrentAssociationId()}/${wdes}`, { headers: headers1 })
       .subscribe(
         (response) => {
           console.log(response);
           this.Staffbydesigantion = response['data']['workers'];
           //console.log(this.Staffbydesigantion); 
 
-          this.Staffbydesigantion.forEach(item => {           
-            if (item['wkWorkID']== wkid1) {
+          this.Staffbydesigantion.forEach(item => {
+            if (item['wkWorkID'] == wkid1) {
               console.log(item['wkWorkID']);
               console.log(item);
               this.StaffDetails.push(item);
-             // thihouse
+              // thihouse
               //console.log(item['workerstatuses'].length);
               //this.wkhousecount = item['workerstatuses'].length;
-               item['workerstatuses'].forEach(item1 => {
-               this.StaffDetailshouse.push(item1);
-               console.log(this.StaffDetailshouse);
-               })
+              item['workerstatuses'].forEach(item1 => {
+                this.StaffDetailshouse.push(item1);
+                console.log(this.StaffDetailshouse);
+              })
 
             }
           })
-        
-        //   this.staffByDesignation=this.staffByDesignation.filter(item=>{
-        //    return item['wkWorkID']==desgid;
+
+          //   this.staffByDesignation=this.staffByDesignation.filter(item=>{
+          //    return item['wkWorkID']==desgid;
         },
         (error) => {
           console.log(error);
         }
       );
   }
-  showStaffUnitRatings(){
-    this.showAll=true;
+  showStaffUnitRatings() {
+    this.showAll = true;
     this.StaffDetailshouse;
     console.log(this.StaffDetailshouse);
   }
@@ -435,14 +466,14 @@ export class StaffComponent implements OnInit {
     this.staffReports = [];
     this.showStaffReports = true;
     this.showOtherstaff = false;
-    this.showStaffReports =false;
+    this.showStaffReports = false;
     this.showstaffBydesignation = false;
     this.condition1 = false;
     this.condition = true;
   }
   getOtherStaffs() {
     this.showstaffDetails = false;
-    this.enableviewDocuments= false;
+    this.enableviewDocuments = false;
     this.showOtherstaff = true;
     this.showstaffBydesignation = false;
     this.showStaffReports = false;
@@ -550,10 +581,10 @@ export class StaffComponent implements OnInit {
               (result) => {
                 if (result.value) {
                   setTimeout(() => {
-                    
+
                     this.getStaffList();
                   }, 2000);
-                 
+
                 }
               }
             )
@@ -566,150 +597,150 @@ export class StaffComponent implements OnInit {
       );
   }
 
-  AddStaff(wid1){
+  AddStaff(wid1) {
     console.log(wid1);
-    this.ViewUnitService.getUnitDetails(this.globalServiceService.getCurrentAssociationId()).subscribe(data=>{
+    this.ViewUnitService.getUnitDetails(this.globalServiceService.getCurrentAssociationId()).subscribe(data => {
       console.log(data);
-     console.log(this.globalServiceService.getCurrentUnitId()); 
+      console.log(this.globalServiceService.getCurrentUnitId());
       this.currentblockid = data['data']['unit'].filter(item => {
         return item['unUnitID'] == this.globalServiceService.getCurrentUnitId();
         //console.log(this.currentblockid);
       })
       console.log(this.currentblockid);
-      this.blkId=this.currentblockid[0]['blBlockID'];
+      this.blkId = this.currentblockid[0]['blBlockID'];
       console.log(this.blkId);
       let ipAddress = this.UtilsService.getIPaddress()
-    const headers = new HttpHeaders()
-      .set('Authorization', 'my-auth-token')
-      .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
-      .set('Content-Type', 'application/json');
-    let addstaf =
-    {     
-       "ActionType" : "Add",
+      const headers = new HttpHeaders()
+        .set('Authorization', 'my-auth-token')
+        .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+        .set('Content-Type', 'application/json');
+      let addstaf =
+      {
+        "ActionType": "Add",
         "worker":
-        {    
-          "ASAssnID"   : this.globalServiceService.getCurrentAssociationId(),    
-          "BLBlockID"  : this.blkId, 
-          "UNUnitID"   : this.globalServiceService.getCurrentUnitId(), 
-          "WKWorkID"   : wid1 
-         }
-    }
-    console.log(addstaf);
-    //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
-    this.http.post(`${ipAddress}oye247/api/v1/AddORDeleteWorkerToExistingList`, addstaf, { headers: headers })
-      .subscribe(
-        (response) => {
-          console.log(response);
-          // this.ngOnInit();
-
-         // this.modalRef.hide();
-          swal.fire({
-            title: "Staff Added Successfully",
-            text: "",
-            type: "success",
-            confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
-          })
-            .then(
-              (result) => {
-                if (result.value) {
-                  setTimeout(() => {
-                    
-                    this.getStaffList();
-                  }, 2000);
-                 
-                }
-              }
-            )
-
-        },
-        (error) => {
-          console.log(error);
+        {
+          "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
+          "BLBlockID": this.blkId,
+          "UNUnitID": this.globalServiceService.getCurrentUnitId(),
+          "WKWorkID": wid1
         }
+      }
+      console.log(addstaf);
+      //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
+      this.http.post(`${ipAddress}oye247/api/v1/AddORDeleteWorkerToExistingList`, addstaf, { headers: headers })
+        .subscribe(
+          (response) => {
+            console.log(response);
+            // this.ngOnInit();
 
-      );
+            // this.modalRef.hide();
+            swal.fire({
+              title: "Staff Added Successfully",
+              text: "",
+              type: "success",
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            })
+              .then(
+                (result) => {
+                  if (result.value) {
+                    setTimeout(() => {
+
+                      this.getStaffList();
+                    }, 2000);
+
+                  }
+                }
+              )
+
+          },
+          (error) => {
+            console.log(error);
+          }
+
+        );
     },
-    errr=>{
-      console.log(errr);
-    }
-    
+      errr => {
+        console.log(errr);
+      }
+
     )
-    
+
   }
 
   ////Delete Staff part
 
-  DeleteStaff(wid2){
+  DeleteStaff(wid2) {
     console.log(wid2);
-    this.ViewUnitService.getUnitDetails(this.globalServiceService.getCurrentAssociationId()).subscribe(data=>{
+    this.ViewUnitService.getUnitDetails(this.globalServiceService.getCurrentAssociationId()).subscribe(data => {
       console.log(data);
-     console.log(this.globalServiceService.getCurrentUnitId()); 
+      console.log(this.globalServiceService.getCurrentUnitId());
       this.currentblockid = data['data']['unit'].filter(item => {
         return item['unUnitID'] == this.globalServiceService.getCurrentUnitId();
         //console.log(this.currentblockid);
       })
       console.log(this.currentblockid);
-      this.blkId1=this.currentblockid[0]['blBlockID'];
+      this.blkId1 = this.currentblockid[0]['blBlockID'];
       console.log(this.blkId1);
       let ipAddress = this.UtilsService.getIPaddress()
-    const headers = new HttpHeaders()
-      .set('Authorization', 'my-auth-token')
-      .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
-      .set('Content-Type', 'application/json');
-    let deleteStaff =
-    {     
-       "ActionType" : "Delete",
+      const headers = new HttpHeaders()
+        .set('Authorization', 'my-auth-token')
+        .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+        .set('Content-Type', 'application/json');
+      let deleteStaff =
+      {
+        "ActionType": "Delete",
         "worker":
-        {    
-          "ASAssnID"   : this.globalServiceService.getCurrentAssociationId(),    
-          "BLBlockID"  : this.blkId1, 
-          "UNUnitID"   : this.globalServiceService.getCurrentUnitId(), 
-          "WKWorkID"   : wid2 
-         }
-    }
-    console.log(deleteStaff);
-    //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
-    this.http.post(`${ipAddress}oye247/api/v1/AddORDeleteWorkerToExistingList`, deleteStaff, { headers: headers })
-      .subscribe(
-        (response) => {
-          console.log(response);
-          // this.ngOnInit();
-
-         // this.modalRef.hide();
-          swal.fire({
-            title: "Staff Deleted Successfully",
-            text: "",
-            type: "success",
-            confirmButtonColor: "#f69321",
-            confirmButtonText: "OK"
-          })
-            .then(
-              (result) => {
-                if (result.value) {
-                  setTimeout(() => {
-                    
-                    this.getStaffList();
-                  }, 100);
-                 
-                }
-              }
-            )
-
-        },
-        (error) => {
-          console.log(error);
+        {
+          "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
+          "BLBlockID": this.blkId1,
+          "UNUnitID": this.globalServiceService.getCurrentUnitId(),
+          "WKWorkID": wid2
         }
+      }
+      console.log(deleteStaff);
+      //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
+      this.http.post(`${ipAddress}oye247/api/v1/AddORDeleteWorkerToExistingList`, deleteStaff, { headers: headers })
+        .subscribe(
+          (response) => {
+            console.log(response);
+            // this.ngOnInit();
 
-      );
+            // this.modalRef.hide();
+            swal.fire({
+              title: "Staff Deleted Successfully",
+              text: "",
+              type: "success",
+              confirmButtonColor: "#f69321",
+              confirmButtonText: "OK"
+            })
+              .then(
+                (result) => {
+                  if (result.value) {
+                    setTimeout(() => {
+
+                      this.getStaffList();
+                    }, 100);
+
+                  }
+                }
+              )
+
+          },
+          (error) => {
+            console.log(error);
+          }
+
+        );
     },
-    errr=>{
-      console.log(errr);
-    }
-    
+      errr => {
+        console.log(errr);
+      }
+
     )
-    
+
   }
-  
+
 
 
 
