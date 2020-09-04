@@ -14,7 +14,7 @@
                                                 <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                                                     data-toggle="dropdown">{{blBlkName}}
                                                     <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-                                                <ul class="dropdown-menu fullw">
+                                                <ul class="dropdown-menu fullw" style="height: 300px;">
                                                     <li *ngFor='let blck of allBlocksLists'
                                                         (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>
                                                             {{blck.blBlkName}}</a></li>

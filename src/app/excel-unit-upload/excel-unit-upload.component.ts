@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef, SimpleChanges, TemplateRef } from '@angular/core';
 import { ViewUnitService } from '../../services/view-unit.service';
 import Swal from 'sweetalert2';
 //import * as swal from 'sweetalert2';
 import { GlobalServiceService } from '../global-service.service';
 import { OrderPipe } from 'ngx-order-pipe';
 import * as XLSX from 'xlsx';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -39,7 +40,12 @@ export class ExcelUnitUploadComponent implements OnInit {
   duplicateUnitCount:number;
   invalidUnitCount:number;
   arraylist1:unknown[];
-
+ 
+  unitsuccesscount:number;
+  unitprogressbartemplate:TemplateRef<any>;
+  progressbarmodalRef: BsModalRef;
+  unitprogressvaluemax:number;
+  unitprogressvalue:number;
   occupancy = [
     "Sold Owner Occupied Unit",
     "Sold Tenant Occupied Unit",
@@ -84,7 +90,7 @@ export class ExcelUnitUploadComponent implements OnInit {
     "isBlockCreated":true
 
   }
-  constructor(private router: Router, private viewUniService: ViewUnitService,private http: HttpClient,
+  constructor(private router: Router, private modalService: BsModalService,private viewUniService: ViewUnitService,private http: HttpClient,
     private globalService: GlobalServiceService) {
     this.arraylist1=[];
     this.excelUnitList = [];
@@ -105,7 +111,9 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.duplicateUnitrecordexist=false;
     this.unitrecordDuplicateUnitnameModified=false;
     this.totalUnitcount=0;
-
+    this.unitsuccesscount=0;
+    this.unitprogressvaluemax=0;
+    this.unitprogressvalue=0;
     this.currentAssociationID = this.globalService.getCurrentAssociationId();
     //pagination
     this.config = {
@@ -151,10 +159,12 @@ export class ExcelUnitUploadComponent implements OnInit {
     console.log('Current selected BlockID', this.currentSelectedBlockID)
     this.getblockcount();
   }
-  onFileChange(ev,UpdateBlockUnitCountTemplate) {
+  onFileChange(ev,UpdateBlockUnitCountTemplate,unitprogressbartemplate: TemplateRef<any>) {
     console.log(this.finalblocknameTmp);
     $(".se-pre-con").show();
-
+    this.unitsuccesscount = 0;
+    this.unitprogressbartemplate = unitprogressbartemplate;
+    console.log(this.finalblocknameTmp);
     let orderBlockinLogically=[];
     orderBlockinLogically = _.sortBy(this.finalblocknameTmp, "name");
     console.log(orderBlockinLogically);
@@ -451,6 +461,7 @@ export class ExcelUnitUploadComponent implements OnInit {
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
       $(".se-pre-con").show();
+      this.unitsuccesscount = 0;
       let tempArr = [];
       this.unitlistjson[this.blBlkName].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -664,6 +675,9 @@ export class ExcelUnitUploadComponent implements OnInit {
     }
       //}
       //
+      $(".se-pre-con").fadeOut("slow");
+      this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate);
+      this.unitprogressvaluemax = Number(this.unitlistjson[this.blBlkName].length);
     this.unitlistjson[this.blBlkName].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
@@ -739,12 +753,15 @@ export class ExcelUnitUploadComponent implements OnInit {
             this.viewUniService.createUnit(this.unitdetailscreatejson)
             // this.http.post(unitcreateurl, this.unitdetailscreatejson, { headers: { 'X-Champ-APIKey': '1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1', 'Content-Type': 'application/json' } })
               .subscribe((res: any) => {
+                this.unitsuccesscount += 1;
+                this.unitprogressvalue = this.unitsuccesscount;
                 console.log(res)
                 unit.hasNoDuplicateUnitname=true;
                 unit.disableField=true;
                 unit.isUnitCreated=true;
                 unit.isUnitNotCreated=false;
                 this.totalUnitcount += 1;
+                console.log('totalUnitcount',this.totalUnitcount);
               }, error => {
                 console.log(error);
                 this.exceptionMessage1 = error['error']['exceptionMessage'];
@@ -756,36 +773,30 @@ export class ExcelUnitUploadComponent implements OnInit {
     });
       
       setTimeout(() => {
-        $(".se-pre-con").fadeOut("slow");
+        this.progressbarmodalRef.hide();
         if (this.unitsuccessarray.length == 1) {
           this.message = 'Unit Created Successfully';
           if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-            this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                              ${this.invalidUnitCount} Invalid
-                              ${this.duplicateUnitCount} Duplicate`
+            this.message = `${this.invalidUnitCount} Invalid
+                            ${this.duplicateUnitCount} Duplicate`
           }
           else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-            this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                              ${this.invalidUnitCount} Invalid`
+            this.message = `${this.invalidUnitCount} Invalid`
           }
           else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-            this.message = `${this.unitsuccessarray.length} '-Unit Created Successfully
-                              ${this.duplicateUnitCount} Duplicate`
+            this.message = `${this.duplicateUnitCount} Duplicate`
           }
         }
         else if (this.unitsuccessarray.length > 1) {
           if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                              ${this.invalidUnitCount} Invalid
-                              ${this.duplicateUnitCount} Duplicate`
+            this.message = `${this.invalidUnitCount} Invalid
+                            ${this.duplicateUnitCount} Duplicate`
           }
           else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                              ${this.invalidUnitCount} Invalid`
+            this.message = `${this.invalidUnitCount} Invalid`
           }
           else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-            this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                              ${this.duplicateUnitCount} Duplicate`
+            this.message = `${this.duplicateUnitCount} Duplicate`
           }
           else {
             this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
@@ -877,17 +888,14 @@ export class ExcelUnitUploadComponent implements OnInit {
             // document.getElementById('unitsbulkold').style.display = 'block';
             if (this.unitlistduplicatejson.length > 0) {
               if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
-                this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                    ${this.invalidUnitCount} Invalid
-                                                    ${this.duplicateUnitCount} Duplicate`
+                this.message = `${this.invalidUnitCount} Invalid
+                                ${this.duplicateUnitCount} Duplicate`
               }
               else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
-                this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                    ${this.invalidUnitCount} Invalid`
+                this.message = `${this.invalidUnitCount} Invalid`
               }
               else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
-                this.message = `${this.unitsuccessarray.length} '-Units Created Successfully
-                                                    ${this.duplicateUnitCount} Duplicate`
+                this.message = `${this.duplicateUnitCount} Duplicate`
               }
             }
             else {
@@ -994,7 +1002,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           }  
         }
 
-      },this.arraylist1.length * 3500)
+      },Number(this.unitlistjson[this.blBlkName].length) * 3000)
           //document.getElementById("mat-tab-label-0-4").style.backgroundColor = "lightblue";
       
         //}

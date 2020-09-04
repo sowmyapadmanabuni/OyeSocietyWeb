@@ -23,7 +23,7 @@
 
                                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
 
-                            <ul class="dropdown-menu fullw">
+                            <ul class="dropdown-menu fullw" style="height: 300px;">
 
                                 <li *ngFor='let blck of blocks'
                                     (click)="getAllUnitDetailsByBlockID(blck.blBlockID,blck.blBlkName)"><a>{{blck.blBlkName}}</a></li>
@@ -48,7 +48,7 @@
                                 <a id="unitsbulkupload4" href="../../assets/Excel/Demo_Unit_Detailstemplate.xlsx" download><img style="width:60px" class="excel"
                                         src="../../assets/images/download.png" tooltip="click to download demo excel format"></a>
                             
-                                <input type="file" id="file_upload_id" (change)="onFileChange($event,UpdateBlockUnitCountTemplate)" multiple="false"
+                                <input type="file" id="file_upload_id" (change)="onFileChange($event,UpdateBlockUnitCountTemplate,unitprogressbartemplate)" multiple="false"
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                     style="display:none" #file>
                             
@@ -840,3 +840,10 @@
     </div>
 
 </div>
+<ng-template #unitprogressbartemplate>
+    <div class="modal-body">
+        <progressbar [animate]="false" [max]="unitprogressvaluemax" [value]="unitprogressvalue" type="success">
+            <span class="text-nowrap">{{unitprogressvalue}} / {{unitprogressvaluemax}} complete</span>
+        </progressbar>
+    </div>
+</ng-template>
