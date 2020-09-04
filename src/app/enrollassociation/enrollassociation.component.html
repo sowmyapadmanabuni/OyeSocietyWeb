@@ -658,9 +658,9 @@
                                                 (keyup)="getfecilitymanagername(blocksArray[i]['Id'],blocksArray[i]['facility manager'])"
                                                 [(ngModel)]="blocksArray[i]['facility manager']" value="" pattern="[a-zA-Z _]*">
                                         </mat-form-field>
-                                        <p class="validation" *ngIf="blocksArray[i]['isnotvalidfecilitymanagername']">Fecility Managername is required
-                                        </p>
-                                        <p class="validation" *ngIf="blocksArray[i]['facility manager']==undefined">Fecility Managername is required
+                                        <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidfecilitymanagername']">Fecility Managername is required
+                                        </p> -->
+                                        <p class="validation" *ngIf="mobilenumbervalid_but_facilitymanagerempty">Fecility ManagerName is required
                                         </p>
                 
                                     </div>
@@ -673,10 +673,12 @@
                                                 (keyup)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i]['mobile number'])"
                                                 [(ngModel)]="blocksArray[i]['mobile number']" value="">
                                         </mat-form-field>
-                                         <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">Mobile Number
-                                            is required</p>
-                                        <p class="validation" *ngIf="blocksArray[i]['mobile number'] == undefined">Mobile Number
-                                            is required</p> 
+                                         <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">Mobile Number
+                                            is required</p> -->
+                                        <p class="validation" *ngIf="facilitymanagervalid_but_mobilenumberempty">Mobile Number
+                                             required</p> 
+                                        <!-- <p class="validation" *ngIf="blocksArray[i]['facility manager']!='' && blocksArray[i]['mobile number'] == ''">Mobiile Number
+                                             required</p>  -->
                 
                                     </div>
                                     <div>
@@ -688,10 +690,10 @@
                                                 [(ngModel)]="blocksArray[i]['email id']"
                                                 (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i]['email id'])" value="">
                                         </mat-form-field>
-                                        <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is
+                                        <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is
                                             required</p>
-                                        <p class="validation" *ngIf="blocksArray[i]['email id']==undefined">Manager email-id is
-                                            required</p>
+                                        <p class="validation" *ngIf="blocksArray[i]['email id']==undefined">Manager email-id 
+                                            required</p> -->
                                     </div>
                                 </div>
 

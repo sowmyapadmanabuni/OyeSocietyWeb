@@ -86,6 +86,8 @@ export class EnrollassociationComponent implements OnInit {
   config = {
     ignoreBackdropClick: true
   };
+  facilitymanagervalid_but_mobilenumberempty:boolean;
+  mobilenumbervalid_but_facilitymanagerempty:boolean;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -93,6 +95,8 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.facilitymanagervalid_but_mobilenumberempty=false;
+      this.mobilenumbervalid_but_facilitymanagerempty=false;
       this.blockprogressvalue=0;
       this.blockprogressvaluemax=0;
       this.blocksuccesscount=0;
@@ -3800,19 +3804,79 @@ export class EnrollassociationComponent implements OnInit {
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
+        console.log('fecilitymanagername',fecilitymanagername);
         element['facility manager'] = fecilitymanagername;
         if (element['facility manager'] == "") {
           element['isnotvalidfecilitymanagername'] = true;
           this.blockdetailInvalid = true;
+          this.facilitymanagervalid_but_mobilenumberempty = false;
+          if(element['mobile number'] !=''){
+            this.mobilenumbervalid_but_facilitymanagerempty = true;
+            element.isblockdetailsempty1 = true;
+            console.log('4');
+          }
+          else{
+            this.mobilenumbervalid_but_facilitymanagerempty = false;
+            console.log('5');
+          }
         }
         else {
           element['isnotvalidfecilitymanagername'] = false;
+          console.log('mobile number',element['mobile number']);
+          if(element['mobile number'] =='' || element['mobile number'] == undefined){
+            this.facilitymanagervalid_but_mobilenumberempty = true;
+            element.isblockdetailsempty1 = true;
+            this.mobilenumbervalid_but_facilitymanagerempty = false;
+            console.log('6');
+          }
+          else{
+            this.mobilenumbervalid_but_facilitymanagerempty = false;
+            console.log('1');
+            element.isblockdetailsempty1 = false;
+          }
         }
-        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
+        //if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
+        if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined ) {
+          console.log('2');
           element.isblockdetailsempty1 = true;
         }
         else {
-          element.isblockdetailsempty1 = false;
+          if ((element['facility manager'] != undefined && element['mobile number'] != undefined) && (element['facility manager'] != '' && element['mobile number'] != '')) {
+            console.log(element['mobile number']);
+            console.log(typeof element['mobile number']);
+            console.log(element['facility manager'] != undefined);
+            console.log(element['mobile number'] != undefined);
+              element.isblockdetailsempty1 = false;
+              console.log('3-1');
+          }
+          else if ((element['facility manager'] != undefined && element['mobile number'] == '') && (element['facility manager'] != '' && element['mobile number'] == '')) {
+            console.log(element['mobile number']);
+            console.log(typeof element['mobile number']);
+            console.log(element['facility manager'] != undefined);
+            console.log(element['mobile number'] != undefined);
+              element.isblockdetailsempty1 = true;
+              console.log('3-2');
+          }
+          else if (element['facility manager'] == '' && element['mobile number'] == '') {
+            console.log(element['mobile number']);
+            console.log(typeof element['mobile number']);
+            console.log(element['facility manager'] != undefined);
+            console.log(element['mobile number'] != undefined);
+              element.isblockdetailsempty1 = false;
+              console.log('3-3');
+          }
+          else if ((element['facility manager'] == undefined && element['mobile number'] != undefined) && (element['facility manager'] == undefined && element['mobile number'] != '')) {
+              element.isblockdetailsempty1 = true;
+              console.log('3-4');
+          }
+          else if ((element['facility manager'] != undefined && element['mobile number'] == undefined) && (element['facility manager'] != '' && element['mobile number'] == undefined)) {
+              element.isblockdetailsempty1 = true;
+              console.log('3-5');
+          }
+          else if (element['facility manager'] == undefined && element['mobile number'] == undefined) {
+              element.isblockdetailsempty1 = false;
+              console.log('3-6');
+          }
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
@@ -3881,15 +3945,61 @@ export class EnrollassociationComponent implements OnInit {
         if (element['mobile number'] == "") {
           element['isnotvalidmanagermobileno'] = true;
           this.blockdetailInvalid = true;
+          if (element['facility manager'] != "") {
+            this.facilitymanagervalid_but_mobilenumberempty = true;
+            element.isblockdetailsempty1 = true;
+          }
+          else{
+            this.mobilenumbervalid_but_facilitymanagerempty = false;
+          }
         }
         else {
           element['isnotvalidmanagermobileno'] = false;
+          if (element['facility manager'] != "") {
+            this.facilitymanagervalid_but_mobilenumberempty = false;
+          }
+
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
           element.isblockdetailsempty1 = true;
         }
         else {
-          element.isblockdetailsempty1 = false;
+          if ((element['facility manager'] != undefined && element['mobile number'] != undefined) && (element['facility manager'] != '' && element['mobile number'] != '')) {
+            console.log(element['mobile number']);
+            console.log(typeof element['mobile number']);
+            console.log(element['facility manager'] != undefined);
+            console.log(element['mobile number'] != undefined);
+              element.isblockdetailsempty1 = false;
+              console.log('3-7');
+          }
+          else if ((element['facility manager'] != undefined && element['mobile number'] == '') && (element['facility manager'] != '' && element['mobile number'] == '')) {
+            console.log(element['mobile number']);
+            console.log(typeof element['mobile number']);
+            console.log(element['facility manager'] != undefined);
+            console.log(element['mobile number'] != undefined);
+              element.isblockdetailsempty1 = true;
+              console.log('3-8');
+          }
+          else if (element['facility manager'] == '' && element['mobile number'] == '') {
+            console.log(element['mobile number']);
+            console.log(typeof element['mobile number']);
+            console.log(element['facility manager'] != undefined);
+            console.log(element['mobile number'] != undefined);
+              element.isblockdetailsempty1 = false;
+              console.log('3-9');
+          }
+          else if ((element['facility manager'] == undefined && element['mobile number'] != undefined) && (element['facility manager'] == undefined && element['mobile number'] != '')) {
+              element.isblockdetailsempty1 = true;
+              console.log('3-10');
+          }
+          else if ((element['facility manager'] != undefined && element['mobile number'] == undefined) && (element['facility manager'] != '' && element['mobile number'] == undefined)) {
+              element.isblockdetailsempty1 = true;
+              console.log('3-11');
+          }
+          else if (element['facility manager'] == undefined && element['mobile number'] == undefined) {
+              element.isblockdetailsempty1 = false;
+              console.log('3-12');
+          }
         }
       }
       if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined) {
