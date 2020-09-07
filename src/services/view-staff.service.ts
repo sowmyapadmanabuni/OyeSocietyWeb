@@ -38,6 +38,9 @@ export class ViewStaffService {
     console.log(this.globalServiceService.getCurrentAssociationId(),this.globalServiceService.getacAccntID(),this.globalServiceService.getCurrentUnitId())
     let headers = this.getHttpheaders();
     let ipAddress = this.utilsService.getIPaddress();
+    console.log(this.globalServiceService.getCurrentAssociationId());
+    console.log(this.globalServiceService.getacAccntID());
+    console.log(this.globalServiceService.getCurrentUnitId());
     let url = `${ipAddress}oye247/api/v1/GetWorkerListByAssocIDAccountIDAndUnitID/${this.globalServiceService.getCurrentAssociationId()}/${this.globalServiceService.getacAccntID()}/${this.globalServiceService.getCurrentUnitId()}`
     return this.http.get(url,{headers: headers});
   }
