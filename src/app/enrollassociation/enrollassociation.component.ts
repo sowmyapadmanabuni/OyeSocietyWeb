@@ -5,7 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Headers } from '@angular/http';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
-import { element } from 'protractor';
 import { Subject } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { GlobalServiceService } from '../global-service.service';
@@ -3904,7 +3903,7 @@ list.mobilenumbervalid_but_facilitymanagerempty=false;
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && ((element['facility manager'] != undefined && element['mobile number'] != undefined) && (element['facility manager'] != '' && element['mobile number'] != '')) || (element['facility manager'] == '' && element['mobile number'] == '') || (element['facility manager'] == undefined && element['mobile number'] == undefined)) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && ((itm2['facility manager'] != undefined && itm2['mobile number'] != undefined) && (itm2['facility manager'] != '' && itm2['mobile number'] != '')) || (itm2['facility manager'] == '' && itm2['mobile number'] == '') || (itm2['facility manager'] == undefined && itm2['mobile number'] == undefined)) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -3933,7 +3932,7 @@ list.mobilenumbervalid_but_facilitymanagerempty=false;
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || ((element['facility manager'] != undefined && element['mobile number'] == '') && (element['facility manager'] != '' && element['mobile number'] == '')) || ((element['facility manager'] == undefined && element['mobile number'] != undefined) && (element['facility manager'] == undefined && element['mobile number'] != '')) || ((element['facility manager'] != undefined && element['mobile number'] == undefined) && (element['facility manager'] != '' && element['mobile number'] == undefined))) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || ((itm2['facility manager'] != undefined && itm2['mobile number'] == '') && (itm2['facility manager'] != '' && itm2['mobile number'] == '')) || ((itm2['facility manager'] == undefined && itm2['mobile number'] != undefined) && (itm2['facility manager'] == undefined && itm2['mobile number'] != '')) || ((itm2['facility manager'] != undefined && itm2['mobile number'] == undefined) && (itm2['facility manager'] != '' && itm2['mobile number'] == undefined))) {
             this.canDoBlockLogicalOrder = false;
           }
         })
@@ -4031,7 +4030,7 @@ list.mobilenumbervalid_but_facilitymanagerempty=false;
             blockgroup[key].forEach(itm1=>{
               this.blocksArray.forEach(itm2=>{
                 if(itm1.blockname.toLowerCase() == itm2.blockname.toLowerCase()){
-                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && ((element['facility manager'] != undefined && element['mobile number'] != undefined) && (element['facility manager'] != '' && element['mobile number'] != '')) || (element['facility manager'] == '' && element['mobile number'] == '') || (element['facility manager'] == undefined && element['mobile number'] == undefined)) {
+                  if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && ((itm2['facility manager'] != undefined && itm2['mobile number'] != undefined) && (itm2['facility manager'] != '' && itm2['mobile number'] != '')) || (itm2['facility manager'] == '' && itm2['mobile number'] == '') || (itm2['facility manager'] == undefined && itm2['mobile number'] == undefined)) {
                     itm2.hasNoDuplicateBlockname = true;
                   }
                   else{
@@ -4061,7 +4060,7 @@ list.mobilenumbervalid_but_facilitymanagerempty=false;
       console.log(Object.keys(blockgroup_for_logicalorder).length, this.blocksArray.length);
       Object.keys(blockgroup_for_logicalorder).forEach(itm1=>{
         blockgroup_for_logicalorder[itm1].forEach(itm2=>{
-          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || ((element['facility manager'] != undefined && element['mobile number'] == '') && (element['facility manager'] != '' && element['mobile number'] == '')) || ((element['facility manager'] == undefined && element['mobile number'] != undefined) && (element['facility manager'] == undefined && element['mobile number'] != '')) || ((element['facility manager'] != undefined && element['mobile number'] == undefined) && (element['facility manager'] != '' && element['mobile number'] == undefined))) {
+          if (itm2.blockname == "" || itm2.blockname == undefined || itm2.blocktype == "" || itm2.blocktype == undefined || itm2.units == "" || itm2.units == undefined || ((itm2['facility manager'] != undefined && itm2['mobile number'] == '') && (itm2['facility manager'] != '' && itm2['mobile number'] == '')) || ((itm2['facility manager'] == undefined && itm2['mobile number'] != undefined) && (itm2['facility manager'] == undefined && itm2['mobile number'] != '')) || ((itm2['facility manager'] != undefined && itm2['mobile number'] == undefined) && (itm2['facility manager'] != '' && itm2['mobile number'] == undefined))) {
             this.canDoBlockLogicalOrder = false;
           }
         })
