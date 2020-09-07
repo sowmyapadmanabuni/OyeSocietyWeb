@@ -460,8 +460,8 @@
                                                 [(ngModel)]="blocksArray[i]['facility manager']" 
                                                 value=""pattern="[a-zA-Z _]*">
                                             </mat-form-field>
-                                        <p class="validation" *ngIf="blocksArray[i]['isnotvalidfecilitymanagername']">Facility Managername is required</p>
-                                        <p class="validation" *ngIf="blocksArray[i]['facility manager']==undefined">Facility Managername is required</p>
+                                        <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidfecilitymanagername']">Facility Managername is required</p> -->
+                                        <p class="validation" *ngIf="blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty']">Facility Managername is required</p>
             
                                          </div>
                                          <div>
@@ -475,8 +475,8 @@
                                                 (keyup)="getmanagermobileno(blocksArray[i]['Id'],blocksArray[i]['mobile number'])"
                                                     [(ngModel)]="blocksArray[i]['mobile number']" value="">
                                             </mat-form-field>
-                                            <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">mobile number is required</p>
-                                           <p class="validation" *ngIf="blocksArray[i]['mobile number'] == undefined">mobile number is required</p> 
+                                            <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanagermobileno']">mobile number is required</p> -->
+                                           <p class="validation" *ngIf="blocksArray[i]['facilitymanagervalid_but_mobilenumberempty']">mobile number is required</p> 
                                         
                                         </div>
                                         <div>
