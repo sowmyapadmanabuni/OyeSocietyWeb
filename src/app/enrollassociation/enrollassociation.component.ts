@@ -3045,7 +3045,8 @@ export class EnrollassociationComponent implements OnInit {
             list.isNotBlockCreated = true;
             list.isNotBlockCreated_NowValid=false;
             list.isBlockCreated = false;
-
+list.facilitymanagervalid_but_mobilenumberempty=false;
+list.mobilenumbervalid_but_facilitymanagerempty=false;
             this.blocksArray.push(list);
             console.log(this.blocksArray)
           });
@@ -3810,13 +3811,17 @@ export class EnrollassociationComponent implements OnInit {
           element['isnotvalidfecilitymanagername'] = true;
           this.blockdetailInvalid = true;
           this.facilitymanagervalid_but_mobilenumberempty = false;
+          element.facilitymanagervalid_but_mobilenumberempty = false;
           if(element['mobile number'] !=''){
             this.mobilenumbervalid_but_facilitymanagerempty = true;
+            element.mobilenumbervalid_but_facilitymanagerempty = true;
             element.isblockdetailsempty1 = true;
+            this.isblockdetailsempty = true;
             console.log('4');
           }
           else{
             this.mobilenumbervalid_but_facilitymanagerempty = false;
+            element.mobilenumbervalid_but_facilitymanagerempty = false;
             console.log('5');
           }
         }
@@ -3825,14 +3830,19 @@ export class EnrollassociationComponent implements OnInit {
           console.log('mobile number',element['mobile number']);
           if(element['mobile number'] =='' || element['mobile number'] == undefined){
             this.facilitymanagervalid_but_mobilenumberempty = true;
+            element.facilitymanagervalid_but_mobilenumberempty = true;
             element.isblockdetailsempty1 = true;
+            this.isblockdetailsempty = true;
             this.mobilenumbervalid_but_facilitymanagerempty = false;
+            element.mobilenumbervalid_but_facilitymanagerempty = false;
             console.log('6');
           }
           else{
             this.mobilenumbervalid_but_facilitymanagerempty = false;
+            element.mobilenumbervalid_but_facilitymanagerempty = false;
             console.log('1');
             element.isblockdetailsempty1 = false;
+            this.isblockdetailsempty = false;
           }
         }
         //if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['facility manager'] == "" || element['facility manager'] == undefined || element['mobile number'] == "" || element['mobile number'] == undefined || element['email id'] == "" || element['email id'] == undefined) {
