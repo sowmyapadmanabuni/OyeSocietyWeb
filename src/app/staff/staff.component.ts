@@ -20,6 +20,7 @@ import { DataTable } from 'angular-6-datatable';
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.css']
 })
+
 export class StaffComponent implements OnInit {
   modalRef: BsModalRef;
   StartDate: any;
@@ -83,6 +84,8 @@ export class StaffComponent implements OnInit {
   blkId1: any;
   StaffEndDateyes: Date;
   StaffStartDateyes: Date;
+  work_id: any;
+  work_des: any;
   constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService: ViewUnitService,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.staffs3 = [];
@@ -127,6 +130,7 @@ export class StaffComponent implements OnInit {
         //}
       })
   }
+
   ngOnInit() {
     this.staffs3=[];
     this.StaffList();
@@ -135,8 +139,9 @@ export class StaffComponent implements OnInit {
     this.condition = true;
     this.condition1 = false;
   }
+
   getStaffList() {
-    //this.staffs3 = [];
+    this.staffs3 = [];
     this.condition = true;
     this.condition1 = false;
     // alert("hai");
@@ -169,8 +174,11 @@ export class StaffComponent implements OnInit {
         }
       );
   }
+
   selectStaff(param, wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, wkrating, workerstatuses) {
     console.log(workerstatuses);
+    this.work_id=wkid;
+    this.work_des=wkstaf;
     if (workerstatuses.length > 0) {
       workerstatuses.forEach(item => {
         console.log(item.unUniName, this.globalServiceService.getCurrentUnitId());
@@ -184,6 +192,7 @@ export class StaffComponent implements OnInit {
         }
       })
     }
+    
     this.wkrating = wkrating;
     this.enableviewDocuments = false;
     this.wkidtype = wkidtype;
@@ -205,6 +214,7 @@ export class StaffComponent implements OnInit {
     this.wkid = wkid;
   }
   getDoc() {
+    this.showStaffReports=false;
     this.condition = true;
     this.condition1 = false;
     this.enableviewDocuments = true;
@@ -302,6 +312,7 @@ export class StaffComponent implements OnInit {
   //Get Staff Report start
   getReports(id) {
      //console.log(today);
+     this.enableviewDocuments=false;
      this.showOtherstaff = false;
      this.condition = true;
      this.condition1 = false;
@@ -411,6 +422,7 @@ export class StaffComponent implements OnInit {
   }
   getStaffFullDetails(wkid1, wdes) {
     this.showAll = false;
+    //this.showOtherstaff=true;
     // this.Staffbydesigantion = [];
     this.StaffDetailshouse = [];
     this.StaffDetails = [];
