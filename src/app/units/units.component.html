@@ -119,7 +119,7 @@
                                     <td class="txt-middle">
                                         <i style="cursor: pointer;" data-toggle="modal" data-target="#viewUnit1" (click)="viewUnit(item)"
                                             class="fa fa-eye" tooltip="View Unit"></i>&nbsp;|&nbsp; <i style="cursor: pointer;" data-toggle="modal"
-                                            (click)="OpenModal(editUnits,item['unUnitID'],item,item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'],item['undCreated'])" class="fa fa-pencil" tooltip="Edit Unit"></i>
+                                            (click)="OpenModal(editUnits,item['unUnitID'],item,item['unUniType'],item['unOcStat'],item['unDimens'],item['unCalType'],item['unRate'],item['blBlockID'],item['asAssnID'],item['acAccntID'],item['unUniName'],item['undCreated'])" class="fa fa-pencil" tooltip="Edit Unit"></i>
                                         <!-- <i data-toggle="modal"
                                             data-target="#editBlockDetails"
                                             (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item.blMgrName,item.blMgrMobile,item.blMgrEmail,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate)"
@@ -302,6 +302,42 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                    [ngClass]="{'was-validated' : UNDimensControl.invalid && UNDimensControl.touched}">
+                                    <label id=label3>Unit Dimension<span class="red">*</span></label>
+                                    <input type="text" name="UNDimens" id="input3" autocomplete='UNDimens'
+                                        [(ngModel)]="UNDimens" #UNDimensControl="ngModel" class="form-control"
+                                        placeholder="No Of Units" pattern="[0-9]*" required />
+                                    <p class="alerts" *ngIf="UNDimensControl.invalid && UNDimensControl.touched">Unit Dimension required
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">Calculation Type<span class="red">*</span></label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button" [(ngModel)]="UNCalType" name='UNCalType'
+                                            data-toggle="dropdown">{{UNCalType}}
+                                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                                        <ul class="dropdown-menu fullw">
+                                            <li (click)="getCalculationTypesUpadte('Flat Rate Value')"> <a>Flat Rate Value</a></li>
+                                            <li (click)="getCalculationTypesUpadte('Dimension Based')"> <a>Dimension Based</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>  
+                            <!-- <div class="col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                    [ngClass]="{'was-validated' : UNRateControl.invalid && UNRateControl.touched}">
+                                    <label id=label3>Unit Rate<span class="red">*</span></label>
+                                    <input type="text" name="UNRate" id="input3" autocomplete='UNRate'
+                                        [(ngModel)]="UNRate" #UNRateControl="ngModel" class="form-control"
+                                        placeholder="Unit Rate" pattern="[0-9]*" required />
+                                    <p class="alerts" *ngIf="UNRateControl.invalid && UNRateControl.touched">Unit Rate required
+                                    </p>
+                                </div>
+                            </div> -->
                             <div
                                 *ngIf="occupencyInEditUnit=='Sold Owner Occupied Unit'||occupencyInEditUnit=='Sold Tenant Occupied Unit'||occupencyInEditUnit=='Sold Vacant Unit'">
                                 <div class="col-sm-6 col-xs-12">

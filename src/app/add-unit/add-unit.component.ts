@@ -198,6 +198,9 @@ export class AddUnitComponent implements OnInit {
                 this.unitno='';
                 this.occupency='';
                 this.unitType='';
+                this.unitdimension='';
+                this.UNCalType='';
+                this.UNRate='';
                 this.tenantDetails = false;
                 this.ownerDetails = false;
               }
@@ -205,6 +208,9 @@ export class AddUnitComponent implements OnInit {
                 this.unitno='';
                 this.occupency='';
                 this.unitType='';
+                this.unitdimension='';
+                this.UNCalType='';
+                this.UNRate='';
                 this.tenantFirtname='';
                 this.tenantLastname='';
                 this.tenantMobnumber='';
@@ -216,6 +222,9 @@ export class AddUnitComponent implements OnInit {
                 this.unitno='';
                 this.occupency='';
                 this.unitType='';
+                this.unitdimension='';
+                this.UNCalType='';
+                this.UNRate='';
                 this.ownerFirtname = '';
                 this.ownerLastname = '';
                 this.ownerMobnumber = '';
@@ -232,6 +241,9 @@ export class AddUnitComponent implements OnInit {
                 this.unitno='';
                 this.occupency='';
                 this.unitType='';
+                this.unitdimension='';
+                this.UNCalType='';
+                this.UNRate='';
                 this.ownerFirtname = '';
                 this.ownerLastname = '';
                 this.ownerMobnumber = '';
@@ -245,6 +257,9 @@ export class AddUnitComponent implements OnInit {
             this.unitno='';
             this.occupency='';
             this.unitType='';
+            this.unitdimension='';
+            this.UNCalType='';
+            this.UNRate='';
             this.tenantDetails = false;
             this.ownerDetails = false;
           }

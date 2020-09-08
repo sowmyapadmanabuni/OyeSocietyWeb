@@ -45,6 +45,7 @@ export class UnitsComponent implements OnInit {
     UNSldDate : any;
     UNDimens  : any;
     UNCalType : any;
+    UNRate:any;
     FLFloorID : any;
     BLBlockID : any;
     UNUnitID  : any;
@@ -187,7 +188,7 @@ export class UnitsComponent implements OnInit {
       this.config.currentPage = event;
     }
 
-  OpenModal(editUnits: TemplateRef<any>, unUnitID,item,unUniType, unOcStat, unDimens, unCalType, blBlockID, asAssnID, acAccntID, unUniName, undCreated) {
+  OpenModal(editUnits: TemplateRef<any>, unUnitID,item,unUniType, unOcStat, unDimens, unCalType,unRate, blBlockID, asAssnID, acAccntID, unUniName, undCreated) {
     this.SelectOccupancyOwnershipStatus = 'Select Occupancy Ownership Status';
     this.SelectUnitType = 'Select Unit Type';
     this.unUniName = unUniName,
@@ -228,6 +229,8 @@ export class UnitsComponent implements OnInit {
       console.log(this.occupencyInEditUnit);
       this.UNDimens = unDimens,
       this.UNCalType = unCalType,
+
+      this.UNRate = unRate,
       // this.FLFloorID = 1,
       this.BLBlockID = blBlockID,
       this.UNUnitID = unUnitID
@@ -797,8 +800,8 @@ export class UnitsComponent implements OnInit {
       "UNOcSDate":"2018-02-25",
       "UNOwnStat":"dsf",
       "UNSldDate":"2018-02-02",
-      "UNDimens":"2",
-      "UNCalType":"df",
+      "UNDimens":this.UNDimens,
+      "UNCalType":this.UNCalType,
       "FLFloorID":1,
       "BLBlockID":this.blockID,
       "UNUnitID":this.UNUnitID,
