@@ -13,6 +13,7 @@ import { UtilsService } from '../../app/utils/utils.service';
 import { ViewAssociationService } from '../../services/view-association.service';
 import { ViewBlockService } from '../../services/view-block.service';
 import * as _ from 'lodash';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-enrollassociation',
@@ -493,6 +494,16 @@ export class EnrollassociationComponent implements OnInit {
     "blockTmpid": "",
     "blockname": "",
     "blocktype": "",
+    "Flat Rate value": "",
+    "Maintenance value": "",
+    "Maintenance Type": "",
+    "Unit Of Measurement": "",
+    "Invoice Creation Frequency": "",
+    "Invoice Generation Date": "",
+    "Due Date": "",
+    "Late Payment Charge Type": "",
+    "Late Payment Charge": "",
+    "Starts From": "",
     "duedate": "",
     "invoicedate": "",
     "invoicefrequency": "",
@@ -513,6 +524,15 @@ export class EnrollassociationComponent implements OnInit {
     "isnotvalidmanagermobileno": false,
     "isnotvalidfecilitymanagername": false,
     "isnotvalidunits": false,
+    "isNotvalidFlatratevalue": false,
+    "isNotvalidMaintenancevalue": false,
+    "isNotvalidUnitOfMeasurement": false,
+    "isNotvalidInvoiceCreationFrequency": false,
+    "isNotvalidInvoiceGenerationDate": false,
+    "isNotvalidDueDate": false,
+    "isNotvalidLatePaymentChargeType": false,
+    "isNotvalidLatePaymentCharge": false,
+    "isNotvalidStartdate": false,
     "isUnitsCreatedUnderBlock": false,
     "isUnitsCreatedUnderBlock1": true,
     "isblockdetailsempty1": true,
@@ -2594,15 +2614,15 @@ export class EnrollassociationComponent implements OnInit {
                   "BLMgrName": (element['facility manager'] == undefined ? '': element['facility manager']),
                   "BLMgrMobile": (element['mobile number'] == undefined ? '': element['mobile number']),
                   "BLMgrEmail":(element['email id'] == undefined ? '': element['email id']),
-                  "ASMtType": "",
-                  "ASMtDimBs": "15",
-                  "ASMtFRate": "",
-                  "ASUniMsmt": "12",
-                  "ASBGnDate": "04/05/2020",
-                  "ASLPCType": "",
-                  "ASLPChrg": "",
-                  "ASLPSDate": "",
-                  "ASDPyDate": "04/05/2020"
+                  "ASMtType": element['Maintenance Type'],
+                  "ASMtDimBs": element['Maintenance value'],
+                  "ASMtFRate": element['Flat Rate value'],
+                  "ASUniMsmt": element['Unit Of Measurement'],
+                  "ASBGnDate": formatDate(element['Invoice Generation Date'], 'yyyy/MM/dd', 'en'),
+                  "ASLPCType": element['Late Payment Charge Type'],
+                  "ASLPChrg": element['Late Payment Charge'],
+                  "ASLPSDate": formatDate(element['Starts From'], 'yyyy/MM/dd', 'en'),
+                  "ASDPyDate": formatDate(element['Due Date'], 'yyyy/MM/dd', 'en'),
                 }
               ]
 
@@ -2796,13 +2816,13 @@ export class EnrollassociationComponent implements OnInit {
               }
             })
         }
-      },this.blocksArray.length * 3500)
+      },this.commonblockarray.length * 3500)
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
     }
   }
-  createblocksdetails1(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1) {
-    console.log(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1);
+  createblocksdetails1(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1,FlatRatevalue,Maintenancevalue,MaintenanceType,UnitOfMeasurement,InvoiceCreationFrequency,InvoiceGenerationDate,DueDate,LatePaymentChargeType,LatePaymentCharge,StartsFrom) {
+    console.log(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1,FlatRatevalue,Maintenancevalue,MaintenanceType,UnitOfMeasurement,InvoiceCreationFrequency,InvoiceGenerationDate,DueDate,LatePaymentChargeType,LatePaymentCharge,StartsFrom);
     console.log(this.blocksArray.length);
     let ipAddress = this.utilsService.createBlock();
     let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
@@ -2818,15 +2838,16 @@ export class EnrollassociationComponent implements OnInit {
           "BLMgrName": (fecilitymanagername == undefined ? '': fecilitymanagername), 
           "BLMgrMobile": (managermobileno == undefined ? '': managermobileno), 
           "BLMgrEmail": (manageremailid == undefined ? '': manageremailid),
-          "ASMtType": "",
-          "ASMtDimBs": "15",
-          "ASMtFRate": "",
-          "ASUniMsmt": "12",
-          "ASBGnDate": "04/05/2020",
-          "ASLPCType": "",
-          "ASLPChrg": "",
-          "ASLPSDate": "",
-          "ASDPyDate": "04/05/2020"
+          "ASMtType": MaintenanceType,
+          "ASMtDimBs": Maintenancevalue,
+          "ASMtFRate": FlatRatevalue,
+          "ASUniMsmt": UnitOfMeasurement,
+          "ASBGnDate": formatDate(InvoiceGenerationDate, 'yyyy/MM/dd', 'en'),
+          "ASLPCType": LatePaymentChargeType,
+          "ASLPChrg": LatePaymentCharge,
+          "ASLPSDate": formatDate(StartsFrom, 'yyyy/MM/dd', 'en'),
+          "ASDPyDate": formatDate(DueDate, 'yyyy/MM/dd', 'en'),
+          "BLMgrISDCode"  : "+91"
         }
       ]
 
@@ -3810,7 +3831,13 @@ export class EnrollassociationComponent implements OnInit {
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
             console.log('blockgroup[key].length > 1');
           }
         })
@@ -3955,7 +3982,13 @@ export class EnrollassociationComponent implements OnInit {
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -4099,7 +4132,13 @@ export class EnrollassociationComponent implements OnInit {
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -4227,7 +4266,13 @@ export class EnrollassociationComponent implements OnInit {
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -4430,7 +4475,13 @@ export class EnrollassociationComponent implements OnInit {
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -4557,7 +4608,13 @@ export class EnrollassociationComponent implements OnInit {
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -4583,13 +4640,12 @@ export class EnrollassociationComponent implements OnInit {
   }
   getASMtType(Id,eventvalue){
 console.log(eventvalue);
-console.log(eventvalue.value);
 this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
         console.log(eventvalue.value);
-        element['Maintenance Type'] = eventvalue.value;
+        element['Maintenance Type'] = eventvalue;
         if (element['Maintenance Type'] == "") {
           this.blockdetailInvalid = true;
           if (element['facility manager'] != "") {
@@ -4684,7 +4740,13 @@ this.canDoBlockLogicalOrder=true;
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -4811,7 +4873,13 @@ this.canDoBlockLogicalOrder=true;
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -4837,13 +4905,12 @@ this.canDoBlockLogicalOrder=true;
   }
   getInvoiceCreationFrequencyValue(Id,eventvalue){
     console.log(eventvalue);
-    console.log(eventvalue.value);
     this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        console.log(eventvalue.value);
-        element['Invoice Creation Frequency'] = eventvalue.value;
+        console.log(eventvalue);
+        element['Invoice Creation Frequency'] = eventvalue;
         if (element['Invoice Creation Frequency'] == "") {
           element['isNotvalidInvoiceCreationFrequency'] = true;
           this.blockdetailInvalid = true;
@@ -4940,7 +5007,13 @@ this.canDoBlockLogicalOrder=true;
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -5068,7 +5141,13 @@ this.canDoBlockLogicalOrder=true;
               })
             }
             else if (blockgroup[key].length > 1) {
-              this.isblockdetailsempty = true
+              this.blocksArray.forEach(itm2=>{
+                if (itm2.Id == Id) {
+                  console.log('Id',Id);
+                  itm2.isNotBlockCreated_NowValid=false;
+                }
+              })
+             this.isblockdetailsempty = true
             }
           })
         }
@@ -5196,7 +5275,13 @@ this.canDoBlockLogicalOrder=true;
              })
            }
            else if (blockgroup[key].length > 1) {
-             this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
            }
          })
        }
@@ -5222,13 +5307,12 @@ this.canDoBlockLogicalOrder=true;
   }
   getLatePymtChargeType(Id,eventvalue){
     console.log(eventvalue);
-    console.log(eventvalue.value);
     this.canDoBlockLogicalOrder=true;
     this.isblockdetailsempty = false;
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
-        console.log(eventvalue.value);
-        element['Late Payment Charge Type'] = eventvalue.value;
+        console.log(eventvalue);
+        element['Late Payment Charge Type'] = eventvalue;
         if (element['Late Payment Charge Type'] == "") {
           element['isNotvalidLatePaymentChargeType'] = true;
           this.blockdetailInvalid = true;
@@ -5325,7 +5409,13 @@ this.canDoBlockLogicalOrder=true;
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -5453,7 +5543,13 @@ this.canDoBlockLogicalOrder=true;
             })
           }
           else if (blockgroup[key].length > 1) {
-            this.isblockdetailsempty = true
+            this.blocksArray.forEach(itm2=>{
+              if (itm2.Id == Id) {
+                console.log('Id',Id);
+                itm2.isNotBlockCreated_NowValid=false;
+              }
+            })
+           this.isblockdetailsempty = true
           }
         })
       }
@@ -5581,6 +5677,12 @@ this.canDoBlockLogicalOrder=true;
              })
            }
            else if (blockgroup[key].length > 1) {
+              this.blocksArray.forEach(itm2=>{
+                if (itm2.Id == Id) {
+                  console.log('Id',Id);
+                  itm2.isNotBlockCreated_NowValid=false;
+                }
+              })
              this.isblockdetailsempty = true
            }
          })
