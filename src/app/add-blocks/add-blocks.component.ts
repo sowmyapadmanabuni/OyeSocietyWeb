@@ -273,9 +273,9 @@ ASMtType:any;
   managernamevalid:boolean;
   managermobilevalid:boolean;
   manageremailvalid:boolean;
-
-
-
+  flatratevalue:boolean;
+  maintenancevalue:boolean;
+  latePaymentchargevalid:boolean;
   validateblockname(ev, blockname) {
     if (blockname!= "" || undefined) {
       this.blockdetailsvalid = false;
@@ -309,6 +309,24 @@ ASMtType:any;
     }
 
   }
+  validateflatratevalue(ev,ASMtFRate){
+    if (ASMtFRate!= "" || undefined) {
+      this.flatratevalue = false;
+    }
+    else {
+      this.flatratevalue = true;
+    }
+
+  }
+  validatemaintenancevalue(ev,ASMtDimBs){
+    if (ASMtDimBs!= "" || undefined) {
+      this.maintenancevalue = false;
+    }
+    else {
+      this.maintenancevalue = true;
+    }
+
+  }
   validatemanagermobilenumber(ev,mobile){
     if (mobile!= "" || undefined) {
       this.managermobilevalid = false;
@@ -323,6 +341,14 @@ ASMtType:any;
     }
     else {
       this.manageremailvalid = true;
+    }
+  }
+  validatelatepayment(ev,latePymtCharge){
+    if (latePymtCharge!= "" || undefined) {
+      this.latePaymentchargevalid = false;
+    }
+    else {
+      this.latePaymentchargevalid = true;
     }
   }
   onDueDateValueChange(value: Date) {
@@ -568,12 +594,21 @@ ASMtType:any;
         console.log(result)
 
         if (result.value) {
-    
-          this.blockname='';
-          this.noofunits='';
-          this.mngName='';
-          this.mobile='';
-          this.manageremail='';
+
+          this.blockname = '';
+          this.noofunits = '';
+          this.mngName = '';
+          this.mobile = '';
+          this.manageremail = '';
+          this.ASMtFRate = '';
+          this.ASMtDimBs = '';
+          this.ASMtType = '';
+          this.ASIcRFreq = '';
+          this.billGenerationDate = null
+          this.dueDate = null;
+          this.latePymtChargeType = '';
+          this.latePymtCharge = '';
+          this.startsFrom = null;
         }
       })
 

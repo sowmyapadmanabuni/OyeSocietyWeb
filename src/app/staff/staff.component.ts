@@ -20,7 +20,6 @@ import { DataTable } from 'angular-6-datatable';
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.css']
 })
-
 export class StaffComponent implements OnInit {
   modalRef: BsModalRef;
   StartDate: any;
@@ -130,7 +129,6 @@ export class StaffComponent implements OnInit {
         //}
       })
   }
-
   ngOnInit() {
     this.staffs3=[];
     this.StaffList();
@@ -139,7 +137,6 @@ export class StaffComponent implements OnInit {
     this.condition = true;
     this.condition1 = false;
   }
-
   getStaffList() {
     this.staffs3 = [];
     this.condition = true;
@@ -150,31 +147,33 @@ export class StaffComponent implements OnInit {
       .set('Authorization', 'my-auth-token')
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
       .set('Content-Type', 'application/json');
-    this.http.get(`${ipAddress}oye247/api/v1/GetWorkerListByAssocIDAccountIDAndUnitID/${this.globalServiceService.getCurrentAssociationId()}/${this.globalServiceService.getacAccntID()}/${this.globalServiceService.getCurrentUnitId()}`, { headers: headers })
-      .subscribe(
+      this.viewStaffService.GetStaffList()   
+   .subscribe(
         (response) => {
           console.log(response);
           this.staffs = response['data']['worker'];
+          console.log(this.staffs);
           this.staffs3 = response['data']['worker'];
           this.staffs.forEach(item => {
-            if (item['workerstatuses'].length > 0) {
+           if (item['workerstatuses'].length > 0) {
               item['workerstatuses'].forEach(itm => {
                 if (itm['unUniName'] == this.globalServiceService.getCurrentUnitName()) {
                   if (itm['wkAprStat'] == "Approved") {
-                    this.staffs3.push(item);
+                    console.log(itm);
+                    this.staffs3.push(itm);
+                    
                   }
                 }
               })
-            }
+           }
           })
           console.log(this.staffs3);
         },
         (error) => {
           console.log(error);
         }
-      );
+     );
   }
-
   selectStaff(param, wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, wkrating, workerstatuses) {
     console.log(workerstatuses);
     this.work_id=wkid;
@@ -192,7 +191,6 @@ export class StaffComponent implements OnInit {
         }
       })
     }
-    
     this.wkrating = wkrating;
     this.enableviewDocuments = false;
     this.wkidtype = wkidtype;
@@ -453,7 +451,12 @@ export class StaffComponent implements OnInit {
               //this.wkhousecount = item['workerstatuses'].length;
               item['workerstatuses'].forEach(item1 => {
                 this.StaffDetailshouse.push(item1);
-                console.log(this.StaffDetailshouse);
+                 console.log(this.StaffDetailshouse);
+                // if(item1['wkAprStat']=="Approved"){
+                //   this.StaffDetailshouse.push(item1);
+                //   console.log(this.StaffDetailshouse);
+                // }
+                
               })
 
             }

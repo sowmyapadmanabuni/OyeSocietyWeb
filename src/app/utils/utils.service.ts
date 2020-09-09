@@ -9,7 +9,7 @@ export class UtilsService {
   url: string;
 
   constructor(private http: HttpClient) {
-    this.ipAddress = 'https://uatapi.scuarex.com/';
+  this.ipAddress = 'https://uatapi.scuarex.com/';
     //this.ipAddress = 'http://devapi.scuarex.com/';
    }
 
@@ -24,21 +24,27 @@ export class UtilsService {
   createUnit(){
     return this.ipAddress;
   }
+
   GetBlockListByAssocID() {
     return this.ipAddress;
   }
+
   GetPurchaseOrderListByAssocID(){
     return this.ipAddress;
   }
+
   getAssociationList() {
     return this.ipAddress;
   }
+
   prerequisitesAddUnit(){
     return this.ipAddress;
   }
+
   GetUnitListByBlockID() {
     return this.ipAddress;
   }
+
   createExpense(){
     return this.ipAddress;
   }
