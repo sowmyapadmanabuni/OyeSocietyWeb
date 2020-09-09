@@ -553,7 +553,7 @@
                                             <mat-form-field class="blockdetails-form">
                                                 <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Generation Date']!=undefined,'red-lbl':blocksArray[i]['Invoice Generation Date']==undefined}">INVOICE GENERATION DATE</mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" matInput placeholder="INVOICE GENERATION DATE" 
-                                                [(ngModel)]="blocksArray[i]['Invoice Generation Date']" (bsValueChange)="getInvoiceGenerationDate(blocksArray[i]['Id'],$event)" 
+                                                [(ngModel)]="blocksArray[i]['Invoice Generation Date']" (click)="getInvoiceGenerationDate(blocksArray[i]['Id'],$event)"
                                                 value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
                                             </mat-form-field>
                                            <p class="validation" *ngIf="blocksArray[i]['Invoice Generation Date']==undefined">Invoice Generation Date is required</p>
@@ -565,7 +565,7 @@
                                             <mat-form-field class="blockdetails-form">
                                                 <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Due Date']!=undefined,'red-lbl':blocksArray[i]['Due Date']==undefined}">DUE DATE</mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" matInput placeholder="DUE DATE" 
-                                                [(ngModel)]="blocksArray[i]['Due Date']" (bsValueChange)="getDueDate(blocksArray[i]['Id'],$event)"
+                                                [(ngModel)]="blocksArray[i]['Due Date']" (click)="getDueDate(blocksArray[i]['Id'],$event)"
                                                 value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
                                             </mat-form-field>
                                            <p class="validation" *ngIf="blocksArray[i]['Due Date']==undefined">Invalid Due Date</p>
@@ -599,7 +599,7 @@
                                             <mat-form-field class="blockdetails-form">
                                                 <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Starts From']!=undefined,'red-lbl':blocksArray[i]['Starts From']==undefined}">STARTS FROM</mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" matInput placeholder="STARTS FROM" 
-                                                [(ngModel)]="blocksArray[i]['Starts From']" (bsValueChange)="getStartsFromDate(blocksArray[i]['Id'],$event)"
+                                                [(ngModel)]="blocksArray[i]['Starts From']" (click)="getStartsFromDate(blocksArray[i]['Id'],$event)" 
                                                 value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
                                             </mat-form-field>
                                            <p class="validation" *ngIf="blocksArray[i]['Starts From']==undefined">Invalid Start Date</p>
