@@ -570,7 +570,7 @@ export class BlocksComponent implements OnInit {
     }
   }
 
-  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, blMgrName, blMgrMobile, blMgrEmail, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated) {
+  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, item, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated) {
     console.log('asbGnDate', asbGnDate);
     console.log('asdPyDate', asdPyDate);
     console.log('aslpsDate', aslpsDate);
@@ -578,9 +578,9 @@ export class BlocksComponent implements OnInit {
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
-    this.BLMgrName = blMgrName;
-    this.BLMgrMobile = blMgrMobile.includes("+91") ? blMgrMobile : '+91'+ blMgrMobile
-    this.BLMgrEmail = blMgrEmail;
+    this.BLMgrName = item.blMgrName;
+    this.BLMgrMobile = item.blMgrMobile;
+    this.BLMgrEmail = item.blMgrEmail;
     this.ASMtType = asMtType;
     this.ASMtFRate = asMtFRate;
     this.ASMtDimBs = asMtDimBs;

@@ -11,6 +11,9 @@
         <div>
             <mat-tab-group class="mainpage" [(selectedIndex)]="demo1TabIndex">
                 <mat-tab label="BLOCKS DETAILS">
+                    <div style="text-align: center; margin-top: 22px;">
+                        <span style="width: 263px;color:#e59400;text-transform: uppercase;">Blocks Details</span>
+                    </div>
                             <div class="panel-body">
                                 <div class="form-groupblocks">
                                   <mat-form-field class="blockdetails-form">
@@ -70,6 +73,15 @@
                                     <p class="validation" *ngIf="noofunitsvallid">No of units are required</p> 
                                     <!-- <p class="validation" *ngIf="blocksArray[i]['units']==undefined">No of units are required</p> -->
                                 </div>
+                            </div> 
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div style="text-align: center;">
+                                <span style="width: 263px;color:#e59400;text-transform: uppercase;">Facility Manager Details</span>
+                            </div>
+
+                            <div class="panel-body">
                                 <div class="form-groupblocks">
                                     <!-- <label id=label4>Manager Name <span class="red">*</span></label>
                                     <input type="text" name="mngName" id="input4" autocomplete='mngName' [(ngModel)]="mngName"
@@ -93,10 +105,6 @@
                                 <!-- <p class="validation" *ngIf="blocksArray[i]['managername']==undefined">Manager name is required</p> -->
                                
                                 </div> 
-                                
-                            </div> 
-                            <div class="panel-body">
-                               
                       
                                 <div class="form-groupblocks">
                 <!-- 
@@ -143,6 +151,16 @@
                                 <p class="validation" *ngIf="manageremailvalid">Manager email-id is required</p> 
                                <!-- <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p> -->
                                 </div>
+                            
+                            </div> 
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div style="text-align: center;">
+                                <span style="width: 263px;color:#e59400;text-transform: uppercase;">Maintenance Details</span>
+                            </div>
+                            <div class="panel-body">
+                              
                                 <div class="form-groupblocks">
                                     <mat-form-field class="blockdetails-form">
                                         <mat-label>FLAT RATE VALUE<span class="red">*</span></mat-label>
@@ -161,10 +179,6 @@
                                     </mat-form-field>
                                     <p class="validation" *ngIf="maintenancevalue">Invalid Maintenance Value</p>
                                 </div>
-                            </div> 
-                            <div class="panel-body">
-                              
-                            
                                 <div class="form-groupblocks">
                                     <mat-form-field class="blockdetails-form">
                                         <mat-label>MAINTENANCE TYPE<span class="red">*</span></mat-label>
@@ -175,28 +189,7 @@
                                     </mat-form-field>
                                     <!-- <p class="validation" *ngIf="managermobilevalid">Manager mobile is required</p> -->
                                 </div>
-                                <div class="form-groupblocks">
-                                    <mat-form-field class="blockdetails-form">
-                                        <mat-label>UNIT OF MEASUREMENT</mat-label>
-                                        <input matInput placeholder="MEASUREMENT TYPE" value="Sqft"readonly>
-                                    </mat-form-field>
-                                </div>
-                                <div class="form-groupblocks">
-                                    <mat-form-field class="blockdetails-form">
-                                        <mat-label>INVOICE CREATION FREQUENCY<span class="red">*</span></mat-label>
-                                        <mat-select [(value)]="ASIcRFreq"
-                                            placeholder="SELECT FREQUENCY">
-                                            <mat-option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">{{frequency['displayName']}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="form-groupblocks">
-                                    <label>INVOICE GENERATION DATE<span class="red">*</span></label>
-                                    <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
-                                      placeholder="INVOICE GENERATION DATE" [bsConfig]="bsConfig" [(ngModel)]="billGenerationDate" bsDatepicker required placement="top" />
-                                  </div>
+                             
                             </div> 
                             <!-- <div>
                                 <div class="form-group">
@@ -233,7 +226,30 @@
                                     </div>
                                 </div> -->
                                 <div class="panel-body">
-                              
+                                    <div class="form-groupblocks">
+                                        <mat-form-field class="blockdetails-form">
+                                            <mat-label>UNIT OF MEASUREMENT</mat-label>
+                                            <input matInput placeholder="MEASUREMENT TYPE" value="Sqft"readonly>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-groupblocks">
+                                        <mat-form-field class="blockdetails-form">
+                                            <mat-label>INVOICE CREATION FREQUENCY<span class="red">*</span></mat-label>
+                                            <mat-select [(value)]="ASIcRFreq"
+                                                placeholder="SELECT FREQUENCY">
+                                                <mat-option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">{{frequency['displayName']}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+    
+                                    <div class="form-groupblocks">
+                                        <label>INVOICE GENERATION DATE<span class="red">*</span></label>
+                                        <input type="text" class="form-control" name="billGenerationDate" #NextInvoiceGenDateControl='ngModel'
+                                          placeholder="INVOICE GENERATION DATE" [bsConfig]="bsConfig" [(ngModel)]="billGenerationDate" bsDatepicker required placement="top" />
+                                      </div>
+                                </div> 
+                                <div class="panel-body">
                                     <div class="form-groupblocks">
                                         <label>DUE DATE<span class="red">*</span></label>
                                         <input type="text" class="form-control" name="dueDate" #DueDateControl='ngModel' placeholder="DUE DATE"
@@ -285,9 +301,7 @@
                                           [(ngModel)]="startsFrom" bsDatepicker required
                                            placement="bottom" />
                                       </div>
-
-
-                                </div> 
+                                </div>
                   
                     <!-- <div class="form-group">
                     <label>Unit of Measurement <span class="red">*</span></label>

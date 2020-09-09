@@ -15,7 +15,9 @@
           <!-- <div class="panel-heading">
                                    <h3 class="panel-title">Association Details</h3>
                               </div> -->
-
+                              <div style="text-align: center; margin-top: 22px;">
+                                <span style="width: 263px;color:#e59400;text-transform: uppercase;">Unit Details</span>
+                            </div>
         <div class="panel-body">
             <div class="form-groupunits">
         
@@ -80,6 +82,7 @@
                           -->
             </div>
         </div>
+       
               <!-- <div class="form-groupunits">
                   <label class="control-label">Unit Dimension<span class="red">*</span></label>
                   <input maxlength="100" type="text" name="unitdimension" id="unitdimension"  #unitdimensionControl="ngModel" (keyup)="ValidateLessThanZeroValue()" required [(ngModel)]="unitdimension" class="form-control" placeholder="Unit Dimension" (keypress)="_keyPress($event)" pattern="[0-9]*" required/>
@@ -137,8 +140,15 @@
                     </div>
                 </div> -->
           </div>
+        
            <!-- OWNER INFORMATION-->
         <div *ngIf="ownerDetails">
+            <div class="col-sm-12">
+                <hr>
+            </div>
+            <div style="text-align: center;">
+                <span style="width: 263px;color:#e59400;text-transform: uppercase;">Owner Details</span>
+            </div>
             <div class="panel-body">
   
                 <div class="form-groupunits">
@@ -219,8 +229,15 @@
             </div>
            
           </div>
+      
           <!-- TANENT INFORMATION -->
           <div *ngIf="tenantDetails">
+            <div class="col-sm-12">
+                <hr>
+            </div>
+            <div style="text-align: center;">
+                <span style="width: 263px;color:#e59400;text-transform: uppercase;">Tenant Details</span>
+            </div>
               <div class="panel-body">
                 
                   <div class="form-groupunits">
