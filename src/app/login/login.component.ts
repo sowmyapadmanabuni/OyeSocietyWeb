@@ -202,7 +202,8 @@ export class LoginComponent implements OnInit {
         if (err['statusText'] == "Unknown Error") {
           Swal.fire({
             title: "Error",
-            text: "Check your Internet",
+            text: `Check your Internet
+                   No Response from Server`,
             type: "error",
             confirmButtonColor: "#f69321"
           })
