@@ -452,7 +452,11 @@
                                     <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                         <div>
                                             <mat-form-field class="blockdetails-form">
-                                                <mat-label>FACILITY MANAGER(OPTIONAL)</mat-label>
+                                                <mat-label
+                                                    [ngClass]="{'green-lbl':!blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty'],'red-lbl':blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty']}">
+                                                    FACILITY MANAGER(OPTIONAL)<span
+                                                        [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                </mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" class = "text" 
                                                 (keypress)="_keyPress2($event)"
                                                 matInput placeholder="FACILITY MANAGER" 
@@ -466,7 +470,11 @@
                                          </div>
                                          <div>
                                             <mat-form-field class="blockdetails-form">
-                                                <mat-label>MOBILE NUMBER(OPTIONAL)</mat-label>
+                                                <mat-label
+                                                    [ngClass]="{'green-lbl':!blocksArray[i]['facilitymanagervalid_but_mobilenumberempty'],'red-lbl':blocksArray[i]['facilitymanagervalid_but_mobilenumberempty']}">
+                                                    MOBILE NUMBER(OPTIONAL)<span
+                                                        [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                </mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" matInput placeholder="MOBILE NUMBER"
                                                 pattern="[0-9]*" 
                                                 (keypress)=_keyPress($event)
