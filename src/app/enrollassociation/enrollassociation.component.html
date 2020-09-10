@@ -452,7 +452,11 @@
                                     <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                         <div>
                                             <mat-form-field class="blockdetails-form">
-                                                <mat-label>FACILITY MANAGER(OPTIONAL)</mat-label>
+                                                <mat-label
+                                                    [ngClass]="{'green-lbl':!blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty'],'red-lbl':blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty']}">
+                                                    FACILITY MANAGER(OPTIONAL)<span
+                                                        [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                </mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" class = "text" 
                                                 (keypress)="_keyPress2($event)"
                                                 matInput placeholder="FACILITY MANAGER" 
@@ -466,7 +470,11 @@
                                          </div>
                                          <div>
                                             <mat-form-field class="blockdetails-form">
-                                                <mat-label>MOBILE NUMBER(OPTIONAL)</mat-label>
+                                                <mat-label
+                                                    [ngClass]="{'green-lbl':!blocksArray[i]['facilitymanagervalid_but_mobilenumberempty'],'red-lbl':blocksArray[i]['facilitymanagervalid_but_mobilenumberempty']}">
+                                                    MOBILE NUMBER(OPTIONAL)<span
+                                                        [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                </mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" matInput placeholder="MOBILE NUMBER"
                                                 pattern="[0-9]*" 
                                                 (keypress)=_keyPress($event)
@@ -1061,7 +1069,7 @@
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>UNIT DIMENSION<span class="red">*</span></mat-label>
                                                                 <input disabled="{{obj3.isUnitCreated}}" maxlength="100" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput
-                                                                    placeholder="UNIT DIMENSION" (keyup)="ValidateLessThanZeroValue(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit dimension'],blocknameforIteration)"
+                                                                    placeholder="UNIT DIMENSION" (keyup)="ValidateLessThanZeroValue(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit dimension'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])"
                                                                     [(ngModel)]="obj3['unit dimension']" [ngModelOptions]="{standalone:true}" value="">
                                                             </mat-form-field>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['InvalidUnitDimension']">Valid unitdimension is required</p>
@@ -1071,7 +1079,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>CALCULATION TYPE<span class="red">*</span></mat-label>
-                                                                <mat-select (selectionChange)="getCalculationType(unitlistjson[blocknameforIteration][i]['Id'],obj3['Unit Calculation Type'],blocknameforIteration)" [(value)]="obj3['Unit Calculation Type']">
+                                                                <mat-select (selectionChange)="getCalculationType(unitlistjson[blocknameforIteration][i]['Id'],obj3['Unit Calculation Type'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])" [(value)]="obj3['Unit Calculation Type']">
                                                                     <mat-option *ngFor="let cal of calculationTypes" [value]="cal['name']">{{cal['name']}}
                                                                     </mat-option>
                                                                 </mat-select>
@@ -1083,7 +1091,7 @@
                                                         <div>
                                                             <mat-form-field class="blockdetails-form">
                                                                 <mat-label>UNIT RATE<span class="red">*</span></mat-label>
-                                                                <input maxlength="100" (keyup)="getUnitrate(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit rate'],blocknameforIteration)" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput
+                                                                <input maxlength="100" (keyup)="getUnitrate(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit rate'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput
                                                                     placeholder="UNIT RATE" [(ngModel)]="obj3['unit rate']" [ngModelOptions]="{standalone:true}" value="">
                                                             </mat-form-field>
                                                             <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['InvalidUnitRate']">Valid unit rate is required</p>
@@ -1473,6 +1481,62 @@
                                                         <p class="validation"
                                                             *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantemaiid']==undefined||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit' && unitlistjson[blocknameforIteration][i]['tenantemaiid']==undefined">
                                                             Valid email-id is required</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12" style="display: flex">
+                                                    <div>
+                                                        <mat-form-field class="blockdetails-form">
+                                                            <mat-label
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unit dimension']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unit dimension']==undefined}">
+                                                                UNIT DIMENSION<span
+                                                                    [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                            </mat-label>
+                                                            <input disabled="{{obj['disableField']==true}}" maxlength="100" (keypress)="_keyPress($event)" pattern="[0-9]*"
+                                                                class="text" matInput placeholder="UNIT DIMENSION"
+                                                                (keyup)="ValidateLessThanZeroValue(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit dimension'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])"
+                                                                [(ngModel)]="obj['unit dimension']" [ngModelOptions]="{standalone:true}" value="">
+                                                        </mat-form-field>
+                                                        <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['InvalidUnitDimension']">Valid unitdimension
+                                                            is required</p>
+                                                        <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['unit dimension']==undefined">Valid
+                                                            unitdimension is required</p>
+                                                    </div>
+                                                
+                                                    <div>
+                                                        <mat-form-field class="blockdetails-form">
+                                                            <mat-label
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['Unit Calculation Type']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['Unit Calculation Type']==undefined}">
+                                                                CALCULATION TYPE<span
+                                                                    [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                            </mat-label>
+                                                            <mat-select disabled="{{obj['disableField']==true}}"
+                                                                (selectionChange)="getCalculationType(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['Unit Calculation Type'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])"
+                                                                [(value)]="obj['Unit Calculation Type']">
+                                                                <mat-option *ngFor="let cal of calculationTypes" [value]="cal['name']">{{cal['name']}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                        <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['Unit Calculation Type']==undefined">Valid
+                                                            Unit Calculationtype is
+                                                            required</p>
+                                                    </div>
+                                                
+                                                    <div>
+                                                        <mat-form-field class="blockdetails-form">
+                                                            <mat-label
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unit rate']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unit rate']==undefined}">
+                                                                UNIT RATE<span
+                                                                    [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                            </mat-label>
+                                                            <input maxlength="100"
+                                                                (keyup)="getUnitrate(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit rate'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])"
+                                                                (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput placeholder="UNIT RATE" disabled="{{obj['disableField']==true}}"
+                                                                [(ngModel)]="obj['unit rate']" [ngModelOptions]="{standalone:true}" value="">
+                                                        </mat-form-field>
+                                                        <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['InvalidUnitRate']">Valid unit rate is
+                                                            required</p>
+                                                        <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['unit rate']==undefined">Valid unit rate is
+                                                            required</p>
                                                     </div>
                                                 </div>
                                             </form>
