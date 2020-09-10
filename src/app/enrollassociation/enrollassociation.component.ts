@@ -892,6 +892,9 @@ export class EnrollassociationComponent implements OnInit {
         if (item.ownershipstatus == "Sold Owner Occupied Unit" || item.ownershipstatus == "Sold Vacant Unit") {
           if (item.flatno == "" || item.flatno == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.owneremaiid == "" || item.owneremaiid == undefined ||
             item.ownerfirstname == "" || item.ownerfirstname == undefined ||
             item.ownerlastname == "" || item.ownerlastname == undefined ||
@@ -904,6 +907,9 @@ export class EnrollassociationComponent implements OnInit {
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
+            item['unit dimension'] != "" && item['unit dimension'] != undefined &&
+            item['Unit Calculation Type'] != "" && item['Unit Calculation Type'] != undefined &&
+            item['unit rate'] != "" && item['unit rate'] != undefined &&
             item.owneremaiid != "" && item.owneremaiid != undefined &&
             item.ownerfirstname != "" && item.ownerfirstname != undefined &&
             item.ownerlastname != "" && item.ownerlastname != undefined &&
@@ -930,6 +936,9 @@ export class EnrollassociationComponent implements OnInit {
             item.ownerfirstname == "" || item.ownerfirstname == undefined ||
             item.ownermobilenumber == "" || item.ownermobilenumber == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.ownerlastname == "" || item.ownerlastname == undefined ||
             item.tenantfirstname == "" || item.tenantfirstname == undefined ||
             item.tenantlastname == "" || item.tenantlastname == undefined ||
@@ -946,6 +955,9 @@ export class EnrollassociationComponent implements OnInit {
             item.ownerfirstname != "" && item.ownerfirstname != undefined &&
             item.ownermobilenumber != "" && item.ownermobilenumber != undefined &&
             item.unittype != "" && item.unittype != undefined &&
+            item['unit dimension'] != "" && item['unit dimension'] != undefined &&
+            item['Unit Calculation Type'] != "" && item['Unit Calculation Type'] != undefined &&
+            item['unit rate'] != "" && item['unit rate'] != undefined &&
             item.ownerlastname != "" && item.ownerlastname != undefined &&
             item.tenantfirstname != "" && item.tenantfirstname != undefined &&
             item.tenantlastname != "" && item.tenantlastname != undefined &&
@@ -969,6 +981,9 @@ export class EnrollassociationComponent implements OnInit {
         else if (item.ownershipstatus == "UnSold Tenant Occupied Unit") {
           if (item.flatno == "" || item.flatno == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.tenantfirstname == "" || item.tenantfirstname == undefined ||
             item.tenantlastname == "" || item.tenantlastname == undefined ||
             item.tenantmobilenumber == "" || item.tenantmobilenumber == undefined ||
@@ -980,6 +995,9 @@ export class EnrollassociationComponent implements OnInit {
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
+            item['unit dimension'] != "" && item['unit dimension'] != undefined &&
+            item['Unit Calculation Type'] != "" && item['Unit Calculation Type'] != undefined &&
+            item['unit rate'] != "" && item['unit rate'] != undefined &&
             item.tenantfirstname != "" && item.tenantfirstname != undefined &&
             item.tenantlastname != "" && item.tenantlastname != undefined &&
             item.tenantmobilenumber != "" && item.tenantmobilenumber != undefined &&
@@ -1000,14 +1018,20 @@ export class EnrollassociationComponent implements OnInit {
         }
         else if (item.ownershipstatus == "UnSold Vacant Unit") {
           if (item.flatno == "" || item.flatno == undefined ||
-            item.unittype == "" || item.unittype == undefined) {
+            item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
             this.invalidUnitCount += 1;
             console.log(this.invalidUnitCount);
           }
           else if (item.flatno != "" && item.flatno != undefined &&
-            item.unittype != "" && item.unittype != undefined) {
+            item.unittype != "" && item.unittype != undefined &&
+            item['unit dimension'] != "" && item['unit dimension'] != undefined &&
+            item['Unit Calculation Type'] != "" && item['Unit Calculation Type'] != undefined &&
+            item['unit rate'] != "" && item['unit rate'] != undefined) {
             this.unitlistuniquejson.push(item);
             /* let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
              console.log(found);
@@ -1025,6 +1049,9 @@ export class EnrollassociationComponent implements OnInit {
         else if (item.ownershipstatus == "" || item.ownershipstatus == undefined) {
           if (item.flatno == "" || item.flatno == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.ownershipstatus == "" || item.ownershipstatus == undefined) {
             this.unitlistduplicatejson.push(item);
             this.invalidUnitCount += 1;
@@ -1095,9 +1122,9 @@ export class EnrollassociationComponent implements OnInit {
                 "UNOcSDate": "",
                 "UNOwnStat": "",
                 "UNSldDate": "",
-                "UNDimens": "",
-                "UNRate": "",
-                "UNCalType": "",
+                "UNDimens": unit['unit dimension'],
+                "UNRate": unit['unit rate'],
+                "UNCalType": unit['Unit Calculation Type'],
                 "FLFloorID": 14,
                 "BLBlockID": unit.blockid,
                 "Owner":
@@ -1535,9 +1562,9 @@ export class EnrollassociationComponent implements OnInit {
                 "UNOcSDate": "",
                 "UNOwnStat": "",
                 "UNSldDate": "",
-                "UNDimens": "",
-                "UNRate": "",
-                "UNCalType": "",
+                "UNDimens": unit['unit dimension'],
+                "UNRate": unit['unit rate'],
+                "UNCalType": unit['Unit Calculation Type'],
                 "FLFloorID": 14,
                 "BLBlockID": unit.blockid,
                 "Owner":
@@ -6025,6 +6052,9 @@ this.canDoBlockLogicalOrder=true;
 
                     unitonce.isnotvalidtenantmobilenumber = false,
                     unitonce.isnotvalidtenantemaiid = false;
+                    unitonce.InvalidUnitDimension = false;
+                    unitonce.InvalidUnitRate = false;
+
                   unitonce.isUnitCreated = false;
                   unitonce.isUnitNotCreated = true;
                   unitonce.isUnitNameModifiedForDuplicateRecord = 'No';
@@ -6149,7 +6179,7 @@ this.canDoBlockLogicalOrder=true;
       console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       this.arraylist1 = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.filelist = [];
-      console.log(this.filelist)
+      console.log(this.arraylist1)
       this.excelunitsuploaddata(this.arraylist1, UpdateBlockUnitCountTemplate)
     }
   }
