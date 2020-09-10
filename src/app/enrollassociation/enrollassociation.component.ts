@@ -95,6 +95,7 @@ export class EnrollassociationComponent implements OnInit {
   counter: any;
   counter1: any;
   counter3: any;
+  calculationTypes: { name: string; displayName: string; }[];
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -102,6 +103,10 @@ export class EnrollassociationComponent implements OnInit {
     private utilsService: UtilsService,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.calculationTypes = [
+        { "name": "FlatRateValue","displayName":"Flat Rate Value" },
+        { "name": "dimension","displayName":"Dimension Based"  }
+      ];
       this.counter =0 ;
       this.counter1 =0 ;
       this.counter3=0 ;
@@ -561,6 +566,9 @@ export class EnrollassociationComponent implements OnInit {
     "flatno": "",
     "unittype": "",
     "unitdimension": "",
+    "unit dimension": "",
+    "Unit Calculation Type": "",
+    "unit rate": "",
     "unitrate": "",
     "calculationtype": "",
     "ownershipstatus": "",
@@ -574,6 +582,8 @@ export class EnrollassociationComponent implements OnInit {
     "tenantemaiid": "",
     "isnotvalidflatno": false,
     "isnotvalidunittype": false,
+    "InvalidUnitDimension": false,
+    "InvalidUnitRate": false,
     "isnotvalidownershipstatus": false,
     "isnotvalidownerfirstname": false,
     "isnotvalidownerlastname": false,
@@ -733,6 +743,7 @@ export class EnrollassociationComponent implements OnInit {
       event.preventDefault();
     }
   }
+
   caltype = [
     "FlatRateValue",
     "dimension"
@@ -1687,11 +1698,14 @@ export class EnrollassociationComponent implements OnInit {
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
                 unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
                 unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined 
               ) {
                 this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
@@ -1740,6 +1754,9 @@ export class EnrollassociationComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownerlastname == "" || unit.ownerlastname == undefined ||
 
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
@@ -1790,7 +1807,9 @@ export class EnrollassociationComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
-
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
                 unit.tenantlastname == "" || unit.tenantlastname == undefined ||
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
@@ -1836,6 +1855,9 @@ export class EnrollassociationComponent implements OnInit {
             else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined
               ) {
@@ -1880,6 +1902,9 @@ export class EnrollassociationComponent implements OnInit {
             else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
                 this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
@@ -1930,6 +1955,9 @@ export class EnrollassociationComponent implements OnInit {
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
                 unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
@@ -1980,6 +2008,9 @@ export class EnrollassociationComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownerlastname == "" || unit.ownerlastname == undefined ||
 
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
@@ -2026,7 +2057,9 @@ export class EnrollassociationComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
-
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
                 unit.tenantlastname == "" || unit.tenantlastname == undefined ||
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
@@ -2068,6 +2101,9 @@ export class EnrollassociationComponent implements OnInit {
             else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined
               ) {
@@ -2108,6 +2144,9 @@ export class EnrollassociationComponent implements OnInit {
             else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
                 console.log('test0-ownershipstatus == " "')
                 this.isunitdetailsempty = false;
@@ -2169,6 +2208,9 @@ export class EnrollassociationComponent implements OnInit {
           if (itm2.ownershipstatus == "Sold Owner Occupied Unit" || itm2.ownershipstatus == "Sold Vacant Unit") {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
               itm2.owneremaiid == "" || itm2.owneremaiid == undefined ||
               itm2.ownerfirstname == "" || itm2.ownerfirstname == undefined ||
@@ -2185,6 +2227,9 @@ export class EnrollassociationComponent implements OnInit {
               itm2.ownermobilenumber == "" || itm2.ownermobilenumber == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownerlastname == "" || itm2.ownerlastname == undefined ||
               itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
               itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
@@ -2198,6 +2243,9 @@ export class EnrollassociationComponent implements OnInit {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
               itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
               itm2.tenantmobilenumber == "" || itm2.tenantmobilenumber == undefined ||
@@ -2208,6 +2256,9 @@ export class EnrollassociationComponent implements OnInit {
           else if (itm2.ownershipstatus == "UnSold Vacant Unit" || itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined
             ) {
               this.canDoUnitLogicalOrder = false;
@@ -2216,6 +2267,9 @@ export class EnrollassociationComponent implements OnInit {
           else if (itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
                 this.canDoUnitLogicalOrder = false;
             }
@@ -3333,6 +3387,138 @@ export class EnrollassociationComponent implements OnInit {
       })
     })
     this.validateUnitDetailsField(name, Id, flatno);
+  }
+  ValidateLessThanZeroValue(Id,unitdimension,name,flatno) {
+    console.log(unitdimension);
+    this.canDoUnitLogicalOrder = true;
+    this.numberofunitexistence = 0;
+    this.valueExcelUnitArr = [];
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          unit['unit dimension'] = unitdimension;
+          if (unit['unit dimension'] == "" || unit['unit dimension'] == undefined) {
+            unit['InvalidUnitDimension'] = true;
+          }
+          else {
+            if (Number(unit['unit dimension']) <= 0) {
+              unit['InvalidUnitDimension'] = true;
+            }
+            else{
+              unit['InvalidUnitDimension'] = false;
+            }
+          }
+          //
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                  console.log('this.numberofunitexistence == 1');
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                  console.log('this.numberofunitexistence > 1');
+                }
+              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name, Id, flatno); 
+  }
+  getCalculationType(Id, UnitCalculationType, name, flatno){
+    this.canDoUnitLogicalOrder = true;
+    console.log(Id, UnitCalculationType, name, flatno);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if(itm.flatno != undefined && flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
+              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name, Id, flatno);
+  }
+  getUnitrate(Id,unitrate,name,flatno){
+    console.log(unitrate);
+    this.canDoUnitLogicalOrder = true;
+    this.numberofunitexistence = 0;
+    this.valueExcelUnitArr = [];
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          unit['unit rate'] = unitrate;
+          if (unit['unit rate'] == "" || unit['unit rate'] == undefined) {
+            unit['InvalidUnitRate'] = true;
+          }
+          else {
+              unit['InvalidUnitRate'] = false;
+          }
+          //
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                  console.log('this.numberofunitexistence == 1');
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                  console.log('this.numberofunitexistence > 1');
+                }
+              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name, Id, flatno); 
   }
   /* getunittype(Id, unittype,name){
      Object.keys(this.unitlistjson).forEach(element=>{
