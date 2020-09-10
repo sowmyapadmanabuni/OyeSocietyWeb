@@ -393,7 +393,9 @@ export class StaffComponent implements OnInit {
           console.log(response);
           this.staffByDesignation = response['data']['workers'];
           console.log(this.staffByDesignation);
-
+          this.staffByDesignation.forEach(item => {
+           console.log(item['workerstatuses'].length);
+          })
           // this.staffByDesignation.forEach(item => {
           //   if (item['workerstatuses'].length > 0) {
           //    // thihouse
@@ -650,9 +652,9 @@ export class StaffComponent implements OnInit {
 
             // this.modalRef.hide();
             swal.fire({
-              title: "Staff Added Successfully",
-              text: "",
-              type: "success",
+              title: "Error",
+              text: `${response['data']['errorResponse']['message']}`,
+              type: "error",
               confirmButtonColor: "#f69321",
               confirmButtonText: "OK"
             })
