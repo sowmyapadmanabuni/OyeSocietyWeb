@@ -7,13 +7,13 @@ img{width: 100%;}
 .action{display: flex;    justify-content: space-between; padding: 6px 0px;}
 .bimage{width:500px;}
 .vehicles{display: flex;justify-content: space-around;flex-direction: column;background:#efefef;padding: 27px;
-    margin: 20px;}
+    border: 2px solid #fff;}
 .vehicles>p:first-child{text-align: right;padding: 5px 10px;}
 .vehicles>img{width: 150px;margin: 0px auto;}
 .veh-desc{padding: 10px 14px}
 .vehicle-name{color: #4c32af;font-weight: 500;}
 #list{box-shadow: 0px 0px 2px 2px #ededed;padding: 30px;}
-.vehicles-main{display: flex;align-items: center;}
+
 #myCarousel{width:100%}
 .orange{color:#f7b844}
 .form-group{margin-bottom: 15px;width: 40%;}
