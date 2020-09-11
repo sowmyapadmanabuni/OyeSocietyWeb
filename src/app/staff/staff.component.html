@@ -162,7 +162,10 @@
                                                     </td>
                                                     <td>
                                                         <a (click)="getStaffFullDetails(item['wkWorkID'],item['wkDesgn'])"><i tooltip="View Staff" class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                        <a (click)="AddStaff(item['wkWorkID'])"><i tooltip="Add Staff" class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                                        <a  *ngIf="item['workerstatuses'].length <=0" (click)="AddStaff(item['wkWorkID'])">
+                                                            <i  tooltip="Add Staff" class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                                            <span style="color: green !important;font-weight: 600;"  *ngIf="item['workerstatuses'].length >0">Added</span>
+                                                            
                                                     </td>
                                                 </ng-container>
                                             </tr>
