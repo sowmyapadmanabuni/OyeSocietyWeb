@@ -2624,6 +2624,7 @@ this.canDoBlockLogicalOrder=true;
                   "ASMtType": element['Maintenance Type'],
                   "ASMtDimBs": element['Maintenance value'],
                   "ASMtFRate": element['Flat Rate value'],
+                  "ASIcRFreq": element['Invoice Creation Frequency'],
                   "ASUniMsmt": element['Unit Of Measurement'],
                   "ASBGnDate": formatDate(element['Invoice Generation Date'], 'yyyy/MM/dd', 'en'),
                   "ASLPCType": element['Late Payment Charge Type'],

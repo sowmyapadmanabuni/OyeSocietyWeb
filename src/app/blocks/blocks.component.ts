@@ -97,13 +97,15 @@ export class BlocksComponent implements OnInit {
   formatDate: string;
   PaginatedValue: number;
   id: NodeJS.Timer;
-
+  ASMtTypes:any[];
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
     public globalService: GlobalServiceService,
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
+      this.ASMtTypes=['FlatRate','Dimension'];
+      this.ASMtType = '';
       this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
@@ -578,9 +580,9 @@ export class BlocksComponent implements OnInit {
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
-    this.BLMgrName = item.blMgrName;
-    this.BLMgrMobile = item.blMgrMobile;
-    this.BLMgrEmail = item.blMgrEmail;
+    this.BLMgrName = item.faciliyManager[0]['fmName'];
+    this.BLMgrMobile = item.faciliyManager[0]['acMobile'];
+    this.BLMgrEmail = item.faciliyManager[0]['emailID'];
     this.ASMtType = asMtType;
     this.ASMtFRate = asMtFRate;
     this.ASMtDimBs = asMtDimBs;

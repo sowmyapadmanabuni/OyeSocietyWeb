@@ -236,6 +236,9 @@
                             <div class="tab-content">
                                 <div [ngStyle]="{'display':obj.Id==obj.blockTmpid ? 'block' : 'none' }" *ngFor="let obj of blocksArray;let i= index" class="tab-pane">
                                     <div id="{{obj.Id}}" class="blockdetailsdata" style="display: flex;flex-direction: column;align-items: stretch;justify-content: space-evenly;margin-top: 20px;">
+                                        <div style="text-align: center;">
+                                            <span style="width: 263px;color:#e59400;text-transform: uppercase;">Blocks Details</span>
+                                        </div>
                                         <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                             <div>
                                                 <mat-form-field class="blockdetails-form">
@@ -284,6 +287,12 @@
                                             
                                             </div>
                                         </div>
+                                        <div class="col-sm-12">
+                                            <hr>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <span style="width: 263px;color:#e59400;text-transform: uppercase;">Facility Manager Details</span>
+                                        </div>
                                         <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                             <div>
                                                 <mat-form-field class="blockdetails-form">
@@ -328,6 +337,12 @@
                                                <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is required</p>
                                                <p class="validation" *ngIf="blocksArray[i]['manageremailid']==undefined">Manager email-id is required</p> -->
                                             </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <hr>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <span style="width: 263px;color:#e59400;text-transform: uppercase;">Maintenance Details</span>
                                         </div>
                                         <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                             <div>

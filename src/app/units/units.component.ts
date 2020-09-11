@@ -794,6 +794,7 @@ export class UnitsComponent implements OnInit {
  
       "UNUniName":this.unUniName,
       "UNUniType":this.unitTypeForEdit,
+      "UNRate": (this.UNRate==undefined? "":this.UNRate),
       "UNOpenBal":"12.3",
       "UNCurrBal":"25.12",
       "UNOcStat":this.occupencyInEditUnit,
