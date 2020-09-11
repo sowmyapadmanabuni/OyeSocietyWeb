@@ -2700,6 +2700,7 @@ export class EnrollassociationComponent implements OnInit {
                   "ASMtFRate": element['Flat Rate value'],
                   "ASUniMsmt": element['Unit Of Measurement'],
                   "ASBGnDate": formatDate(element['Invoice Generation Date'], 'yyyy/MM/dd', 'en'),
+                  "ASIcRFreq": element['Invoice Creation Frequency'],
                   "ASLPCType": element['Late Payment Charge Type'],
                   "ASLPChrg": element['Late Payment Charge'],
                   "ASLPSDate": formatDate(element['Starts From'], 'yyyy/MM/dd', 'en'),
@@ -2924,6 +2925,7 @@ export class EnrollassociationComponent implements OnInit {
           "ASMtFRate": FlatRatevalue,
           "ASUniMsmt": UnitOfMeasurement,
           "ASBGnDate": formatDate(InvoiceGenerationDate, 'yyyy/MM/dd', 'en'),
+          "ASIcRFreq": InvoiceCreationFrequency,
           "ASLPCType": LatePaymentChargeType,
           "ASLPChrg": LatePaymentCharge,
           "ASLPSDate": formatDate(StartsFrom, 'yyyy/MM/dd', 'en'),
@@ -4097,7 +4099,7 @@ export class EnrollassociationComponent implements OnInit {
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
         console.log('units',units);
-        element['units'] = units;
+          element['units'] = units;
         if (element['units'] == "") {
           element['isnotvalidunits'] = true;
           this.blockdetailInvalid = true;
