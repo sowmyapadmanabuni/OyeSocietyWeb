@@ -85,6 +85,7 @@ export class StaffComponent implements OnInit {
   StaffStartDateyes: Date;
   work_id: any;
   work_des: any;
+  Staffbydesigantion1: Staffbydesigantion;
   constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService: ViewUnitService,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.staffs3 = [];
@@ -394,18 +395,24 @@ export class StaffComponent implements OnInit {
           this.staffByDesignation = response['data']['workers'];
           console.log(this.staffByDesignation);
           this.staffByDesignation.forEach(item => {
-           console.log(item['workerstatuses'].length);
+            item.unUniNamematches=false;
+           //console.log(item['workerstatuses'].length);
+           item['workerstatuses'].forEach(item1 => {
+             //console.log(item1['unUniName']);
+            if (this.globalServiceService.getCurrentUnitName() == item1['unUniName'].trim()) {
+              item.unUniNamematches=true;
+              this.Staffbydesigantion1=new Staffbydesigantion(this.domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + item['idPrfImg']), item['wkfName'], item['wkDesgn'], item['wkStatus'], item['wkAvgRating'], item['wkWorkID'])
+            console.log(this.Staffbydesigantion1);
+            }
           })
+          })
+          console.log(this.staffByDesignation);
           // this.staffByDesignation.forEach(item => {
           //   if (item['workerstatuses'].length > 0) {
           //    // thihouse
           //     console.log(item['workerstatuses'].length);
           //     this.wkhousecount = item['workerstatuses'].length;
-          //     item['workerstatuses'].forEach(item1 => {
-          //       if (this.globalServiceService.getCurrentUnitName() == item1['unUniName']) {
-          //         this.Staffbydesigantion.push(new Staffbydesigantion(this.domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + item['idPrfImg']), item['wkfName'], item['wkDesgn'], item['wkStatus'], item1['wkRating']))
-          //       }
-          //     })
+              
 
           //   }
           // })
