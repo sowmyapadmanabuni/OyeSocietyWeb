@@ -155,10 +155,10 @@ export class StaffComponent implements OnInit {
           this.staffs = response['data']['worker'];
           console.log(this.staffs);
           this.staffs3 = response['data']['worker'];
-          this.staffs.forEach(item => {
+          this.staffs3.forEach(item => {
            if (item['workerstatuses'].length > 0) {
               item['workerstatuses'].forEach(itm => {
-                if (itm['unUniName'] == this.globalServiceService.getCurrentUnitName()) {
+                if (itm['unUniName'].trim() == this.globalServiceService.getCurrentUnitName()) {
                   if (itm['wkAprStat'] == "Approved") {
                     console.log(itm);
                     this.staffs3.push(itm);
@@ -695,73 +695,92 @@ export class StaffComponent implements OnInit {
   ////Delete Staff part
 
   DeleteStaff(wid2) {
-    console.log(wid2);
-    this.ViewUnitService.getUnitDetails(this.globalServiceService.getCurrentAssociationId()).subscribe(data => {
-      console.log(data);
-      console.log(this.globalServiceService.getCurrentUnitId());
-      this.currentblockid = data['data']['unit'].filter(item => {
-        return item['unUnitID'] == this.globalServiceService.getCurrentUnitId();
-        //console.log(this.currentblockid);
-      })
-      console.log(this.currentblockid);
-      this.blkId1 = this.currentblockid[0]['blBlockID'];
-      console.log(this.blkId1);
-      let ipAddress = this.UtilsService.getIPaddress()
-      const headers = new HttpHeaders()
-        .set('Authorization', 'my-auth-token')
-        .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
-        .set('Content-Type', 'application/json');
-      let deleteStaff =
-      {
-        "ActionType": "Delete",
-        "worker":
-        {
-          "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
-          "BLBlockID": this.blkId1,
-          "UNUnitID": this.globalServiceService.getCurrentUnitId(),
-          "WKWorkID": wid2
-        }
-      }
-      console.log(deleteStaff);
-      //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
-      this.http.post(`${ipAddress}oye247/api/v1/AddORDeleteWorkerToExistingList`, deleteStaff, { headers: headers })
-        .subscribe(
-          (response) => {
-            console.log(response);
-            // this.ngOnInit();
+    swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete Staff?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL",
+      allowOutsideClick:false
+    }).then(
+      (result) => {
+        console.log(result)
 
-            // this.modalRef.hide();
-            swal.fire({
-              title: "Staff Deleted Successfully",
-              text: "",
-              type: "success",
-              confirmButtonColor: "#f69321",
-              confirmButtonText: "OK"
+        if (result.value) {
+          this.ViewUnitService.getUnitDetails(this.globalServiceService.getCurrentAssociationId()).subscribe(data => {
+            console.log(data);
+            console.log(this.globalServiceService.getCurrentUnitId());
+            this.currentblockid = data['data']['unit'].filter(item => {
+              return item['unUnitID'] == this.globalServiceService.getCurrentUnitId();
+              //console.log(this.currentblockid);
             })
-              .then(
-                (result) => {
-                  if (result.value) {
-                    setTimeout(() => {
-
-                      this.getStaffList();
-                    }, 100);
-
-                  }
+            console.log(this.currentblockid);
+            this.blkId1 = this.currentblockid[0]['blBlockID'];
+            console.log(this.blkId1);
+            let ipAddress = this.UtilsService.getIPaddress()
+            const headers = new HttpHeaders()
+              .set('Authorization', 'my-auth-token')
+              .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+              .set('Content-Type', 'application/json');
+            let deleteStaff =
+            {
+              "ActionType": "Delete",
+              "worker":
+              {
+                "ASAssnID": this.globalServiceService.getCurrentAssociationId(),
+                "BLBlockID": this.blkId1,
+                "UNUnitID": this.globalServiceService.getCurrentUnitId(),
+                "WKWorkID": wid2
+              }
+            }
+            console.log(deleteStaff);
+            //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
+            this.http.post(`${ipAddress}oye247/api/v1/AddORDeleteWorkerToExistingList`, deleteStaff, { headers: headers })
+              .subscribe(
+                (response) => {
+                  console.log(response);
+                  // this.ngOnInit();
+      
+                  // this.modalRef.hide();
+                  
+                  swal.fire({
+                    title: "Staff Deleted Successfully",
+                    text: "",
+                    type: "success",
+                    confirmButtonColor: "#f69321",
+                    confirmButtonText: "OK"
+                  })
+                    .then(
+                      (result) => {
+                        if (result.value) {
+                          setTimeout(() => {
+      
+                            this.getStaffList();
+                          }, 100);
+      
+                        }
+                      }
+                    )
+      
+                },
+                (error) => {
+                  console.log(error);
                 }
-              )
-
+      
+              );
           },
-          (error) => {
-            console.log(error);
-          }
-
-        );
-    },
-      errr => {
-        console.log(errr);
-      }
-
-    )
+            errr => {
+              console.log(errr);
+            }
+      
+          )
+          //this.staffs; 
+        }
+      })
+   // console.log(wid2);
+    
 
   }
 

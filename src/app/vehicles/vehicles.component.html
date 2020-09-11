@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="row" *ngIf="VehicleDataNew.length!=0">
                                                 <div class="vehicles-main">
-                                                                <div class="vehicles" *ngFor="let item of VehicleCarousel">
+                                                                <div class="vehicles col-sm-3" *ngFor="let item of VehicleDataNew">
                                                                         <div class="action">
                                                                                 <p><strong>{{item['veType']==''? "Empty":item['veType']}}</strong></p>
                                                                                 <p><i aria-hidden="true" tooltip="Edit Vehicle" class="fa fa fa-pencil orange" (click)="openModal(editVehicle,item['veType'],item['veRegNo'],item['veMakeMdl'],item['veStickNo'],item['uplNum'],item['veid'])"></i>
