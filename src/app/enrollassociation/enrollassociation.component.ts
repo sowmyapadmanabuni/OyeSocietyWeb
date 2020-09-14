@@ -3058,9 +3058,19 @@ export class EnrollassociationComponent implements OnInit {
               elemnt.blockname = '';
               // elemnt.blocktype='';
               elemnt.units = '';
-              elemnt['facility manager'] = '';
-              elemnt['mobile number'] = '';
-              elemnt['email id'] = '';
+              delete elemnt['facility manager'];
+              delete elemnt['mobile number'];
+              delete elemnt['email id'];
+              delete elemnt['Flat Rate value'];
+              delete elemnt['Maintenance value'];
+              delete elemnt['Maintenance Type'];
+              delete elemnt['Unit Of Measurement'];
+              delete elemnt['Invoice Creation Frequency'];
+              delete elemnt['Invoice Generation Date'];
+              delete elemnt['Due Date'];
+              delete elemnt['Late Payment Charge Type'];
+              delete elemnt['Late Payment Charge'];
+              delete elemnt['Starts From'];
             }
           })
         }
@@ -3224,6 +3234,8 @@ export class EnrollassociationComponent implements OnInit {
   } */ 
    onFileChange(ev,blockprogressbartemplate: TemplateRef<any>) {
     this.blockprogressbartemplate = blockprogressbartemplate;
+    console.log($(".se-pre-con"))
+    //<span style="font-size: 20px;text-transform: uppercase;color:red;">Please wait don't navigate back or reload page</span> 
     $(".se-pre-con").show();
     this.isblockdetailsempty = false;
     this.blocksArray = [];
@@ -6260,6 +6272,17 @@ this.canDoBlockLogicalOrder=true;
               delete elemnt['facility manager'];
               delete elemnt['mobile number'];
               delete elemnt['email id'];
+              delete elemnt['Flat Rate value'];
+              delete elemnt['Maintenance value'];
+              delete elemnt['Maintenance Type'];
+              delete elemnt['Unit Of Measurement'];
+              delete elemnt['Invoice Creation Frequency'];
+              delete elemnt['Invoice Generation Date'];
+              delete elemnt['Due Date'];
+              delete elemnt['Late Payment Charge Type'];
+              delete elemnt['Late Payment Charge'];
+              delete elemnt['Starts From'];
+
             }
           })
           console.log(this.blocksArray);
@@ -6313,6 +6336,10 @@ this.canDoBlockLogicalOrder=true;
                 delete unit.tenantlastname;
                 delete unit.tenantmobilenumber;
                 delete unit.tenantemaiid;
+                delete unit['unit dimension'];
+                delete unit['Unit Calculation Type'];
+                delete unit['unit rate'];
+
               }
             })
           })
