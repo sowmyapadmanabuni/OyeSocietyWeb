@@ -446,7 +446,7 @@
                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
                                                 </mat-label>
                                                 <input disabled="{{obj['disableField']==true}}" matInput placeholder="NO OF UNITS" pattern="[0-9]*"
-                                                    (keypress)=_keyPress($event) (keyup)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)"
+                                                (keypress)=_keyPress($event)  (keyup)="getnoofunits(blocksArray[i]['Id'],blocksArray[i].units)"
                                                     [(ngModel)]="blocksArray[i].units" value="">
                                             </mat-form-field>
                                             <p class="validation" *ngIf="blocksArray[i]['isnotvalidunits']">No of units are required</p>
