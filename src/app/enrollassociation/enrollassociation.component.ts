@@ -6044,7 +6044,7 @@ this.canDoBlockLogicalOrder=true;
               if (element.blockname.toLowerCase() == blkname.toLowerCase()) {
                 _blkname = blkname;
                 let unitslength = Number(element.units)
-
+                console.log(unitslength)
                 if (exceldata.length <= unitslength) {
                   console.log(this.blockidtmp);
                   unitonce.blockid = this.blockidtmp[blkname];
