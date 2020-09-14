@@ -326,7 +326,9 @@ export class ExcelUnitUploadComponent implements OnInit {
                         unitonce.isnotvalidtenantlastname=false,
                     
                         unitonce.isnotvalidtenantmobilenumber=false,
-                        unitonce.isnotvalidtenantemaiid=false
+                        unitonce.isnotvalidtenantemaiid=false;
+                        unitonce.InvalidUnitDimension = false;
+                        unitonce.InvalidUnitRate = false;
                         unitonce.isUnitCreated=false;	
                         unitonce.isUnitNotCreated=true;
                         unitonce.isUnitNameModifiedForDuplicateRecord='No';
@@ -494,6 +496,9 @@ export class ExcelUnitUploadComponent implements OnInit {
         if (item.ownershipstatus == "Sold Owner Occupied Unit" || item.ownershipstatus == "Sold Vacant Unit") {
           if (item.flatno == "" || item.flatno == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.owneremaiid == "" || item.owneremaiid == undefined ||
             item.ownerfirstname == "" || item.ownerfirstname == undefined ||
             item.ownerlastname == "" || item.ownerlastname == undefined ||
@@ -505,6 +510,9 @@ export class ExcelUnitUploadComponent implements OnInit {
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
+            item['unit dimension'] != "" && item['unit dimension'] != undefined &&
+            item['Unit Calculation Type'] != "" && item['Unit Calculation Type'] != undefined &&
+            item['unit rate'] != "" && item['unit rate'] != undefined &&
             item.owneremaiid != "" && item.owneremaiid != undefined &&
             item.ownerfirstname != "" && item.ownerfirstname != undefined &&
             item.ownerlastname != "" && item.ownerlastname != undefined &&
@@ -532,6 +540,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             item.ownerfirstname == "" || item.ownerfirstname == undefined ||
             item.ownermobilenumber == "" || item.ownermobilenumber == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.ownerlastname == "" || item.ownerlastname == undefined ||
             item.tenantfirstname == "" || item.tenantfirstname == undefined ||
             item.tenantlastname == "" || item.tenantlastname == undefined ||
@@ -547,6 +558,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             item.ownerfirstname != "" && item.ownerfirstname != undefined &&
             item.ownermobilenumber != "" && item.ownermobilenumber != undefined &&
             item.unittype != "" && item.unittype != undefined &&
+            item['unit dimension'] != "" && item['unit dimension'] != undefined &&
+            item['Unit Calculation Type'] != "" && item['Unit Calculation Type'] != undefined &&
+            item['unit rate'] != "" && item['unit rate'] != undefined &&
             item.ownerlastname != "" && item.ownerlastname != undefined &&
             item.tenantfirstname != "" && item.tenantfirstname != undefined &&
             item.tenantlastname != "" && item.tenantlastname != undefined &&
@@ -571,6 +585,9 @@ export class ExcelUnitUploadComponent implements OnInit {
         else if (item.ownershipstatus == "UnSold Tenant Occupied Unit") {
           if (item.flatno == "" || item.flatno == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.tenantfirstname == "" || item.tenantfirstname == undefined ||
             item.tenantlastname == "" || item.tenantlastname == undefined ||
             item.tenantmobilenumber == "" || item.tenantmobilenumber == undefined ||
@@ -581,6 +598,9 @@ export class ExcelUnitUploadComponent implements OnInit {
           }
           else if (item.flatno != "" && item.flatno != undefined &&
             item.unittype != "" && item.unittype != undefined &&
+            item['unit dimension'] != "" && item['unit dimension'] != undefined &&
+            item['Unit Calculation Type'] != "" && item['Unit Calculation Type'] != undefined &&
+            item['unit rate'] != "" && item['unit rate'] != undefined &&
             item.tenantfirstname != "" && item.tenantfirstname != undefined &&
             item.tenantlastname != "" && item.tenantlastname != undefined &&
             item.tenantmobilenumber != "" && item.tenantmobilenumber != undefined &&
@@ -601,13 +621,19 @@ export class ExcelUnitUploadComponent implements OnInit {
         }
         else if (item.ownershipstatus == "UnSold Vacant Unit") {
           if (item.flatno == "" || item.flatno == undefined ||
-          item.unittype == "" || item.unittype == undefined) {
+          item.unittype == "" || item.unittype == undefined ||
+          item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+          item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+          item['unit rate'] == "" || item['unit rate'] == undefined) {
             this.unitlistduplicatejson.push(item);
             this.duplicateUnitrecordexist = true;
             this.invalidUnitCount += 1;
           }
           else if (item.flatno != "" && item.flatno != undefined &&
-            item.unittype != "" && item.unittype != undefined) {
+            item.unittype != "" && item.unittype != undefined  &&
+            item['unit dimension'] == "" && item['unit dimension'] == undefined &&
+            item['Unit Calculation Type'] == "" && item['Unit Calculation Type'] == undefined &&
+            item['unit rate'] == "" && item['unit rate'] == undefined) {
               this.unitlistuniquejson.push(item);
           
             //   let found = this.unitlistuniquejson.some(el => el.flatno.toLowerCase() == item.flatno.toLowerCase());
@@ -626,6 +652,9 @@ export class ExcelUnitUploadComponent implements OnInit {
         else if (item.ownershipstatus == "" || item.ownershipstatus == undefined) {
           if (item.flatno == "" || item.flatno == undefined ||
             item.unittype == "" || item.unittype == undefined ||
+            item['unit dimension'] == "" || item['unit dimension'] == undefined ||
+            item['Unit Calculation Type'] == "" || item['Unit Calculation Type'] == undefined ||
+            item['unit rate'] == "" || item['unit rate'] == undefined ||
             item.ownershipstatus == "" || item.ownershipstatus == undefined) {
               this.unitlistduplicatejson.push(item);
              this.invalidUnitCount += 1;
@@ -695,9 +724,9 @@ export class ExcelUnitUploadComponent implements OnInit {
                   "UNOcSDate": "",
                   "UNOwnStat": "",
                   "UNSldDate": "",
-                  "UNDimens": "",
-                  "UNRate": "",
-                  "UNCalType": "",
+                  "UNDimens": unit['unit dimension'],
+                  "UNRate": unit['unit rate'],
+                  "UNCalType": unit['Unit Calculation Type'],
                   "FLFloorID": 14,
                   "BLBlockID": this.currentSelectedBlockID,
                   "Owner":
@@ -1056,11 +1085,14 @@ export class ExcelUnitUploadComponent implements OnInit {
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
                 unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
                 unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
+                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined 
               ) {
                 this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
@@ -1109,6 +1141,9 @@ export class ExcelUnitUploadComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownerlastname == "" || unit.ownerlastname == undefined ||
 
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
@@ -1159,7 +1194,9 @@ export class ExcelUnitUploadComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
-
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
                 unit.tenantlastname == "" || unit.tenantlastname == undefined ||
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
@@ -1205,6 +1242,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined
               ) {
@@ -1249,6 +1289,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
                 this.isunitdetailsempty = false;
                 unit.isSingleUnitDataEmpty = true;
@@ -1299,6 +1342,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
                 unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
@@ -1349,6 +1395,9 @@ export class ExcelUnitUploadComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownerlastname == "" || unit.ownerlastname == undefined ||
 
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
@@ -1395,7 +1444,9 @@ export class ExcelUnitUploadComponent implements OnInit {
 
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
-
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
                 unit.tenantlastname == "" || unit.tenantlastname == undefined ||
                 unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
@@ -1437,6 +1488,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined
               ) {
@@ -1477,6 +1531,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
+                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
                 unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
                 console.log('test0-ownershipstatus == " "')
                 this.isunitdetailsempty = false;
@@ -1538,6 +1595,9 @@ export class ExcelUnitUploadComponent implements OnInit {
           if (itm2.ownershipstatus == "Sold Owner Occupied Unit" || itm2.ownershipstatus == "Sold Vacant Unit") {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
               itm2.owneremaiid == "" || itm2.owneremaiid == undefined ||
               itm2.ownerfirstname == "" || itm2.ownerfirstname == undefined ||
@@ -1554,6 +1614,9 @@ export class ExcelUnitUploadComponent implements OnInit {
               itm2.ownermobilenumber == "" || itm2.ownermobilenumber == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownerlastname == "" || itm2.ownerlastname == undefined ||
               itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
               itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
@@ -1567,6 +1630,9 @@ export class ExcelUnitUploadComponent implements OnInit {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.tenantfirstname == "" || itm2.tenantfirstname == undefined ||
               itm2.tenantlastname == "" || itm2.tenantlastname == undefined ||
               itm2.tenantmobilenumber == "" || itm2.tenantmobilenumber == undefined ||
@@ -1577,6 +1643,9 @@ export class ExcelUnitUploadComponent implements OnInit {
           else if (itm2.ownershipstatus == "UnSold Vacant Unit" || itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined
             ) {
               this.canDoUnitLogicalOrder = false;
@@ -1585,6 +1654,9 @@ export class ExcelUnitUploadComponent implements OnInit {
           else if (itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
             if (itm2.flatno == "" || itm2.flatno == undefined ||
               itm2.unittype == "" || itm2.unittype == undefined ||
+              itm2['unit dimension'] == "" || itm2['unit dimension'] == undefined ||
+              itm2['Unit Calculation Type'] == "" || itm2['Unit Calculation Type'] == undefined ||
+              itm2['unit rate'] == "" || itm2['unit rate'] == undefined ||
               itm2.ownershipstatus == "" || itm2.ownershipstatus == undefined) {
                 this.canDoUnitLogicalOrder = false;
             }
@@ -1971,7 +2043,6 @@ export class ExcelUnitUploadComponent implements OnInit {
 
   
 
-
   unitmatching: boolean;
   getUnitName(Id, flatno, name) {
     this.canDoUnitLogicalOrder = true;
@@ -2088,6 +2159,138 @@ export class ExcelUnitUploadComponent implements OnInit {
       })
     })
     this.validateUnitDetailsField(name, Id, flatno);
+  }
+  ValidateLessThanZeroValue(Id,unitdimension,name,flatno) {
+    console.log(unitdimension);
+    this.canDoUnitLogicalOrder = true;
+    this.numberofunitexistence = 0;
+    this.valueExcelUnitArr = [];
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          unit['unit dimension'] = unitdimension;
+          if (unit['unit dimension'] == "" || unit['unit dimension'] == undefined) {
+            unit['InvalidUnitDimension'] = true;
+          }
+          else {
+            if (Number(unit['unit dimension']) <= 0) {
+              unit['InvalidUnitDimension'] = true;
+            }
+            else{
+              unit['InvalidUnitDimension'] = false;
+            }
+          }
+          //
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                  console.log('this.numberofunitexistence == 1');
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                  console.log('this.numberofunitexistence > 1');
+                }
+              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name, Id, flatno); 
+  }
+  getCalculationType(Id, UnitCalculationType, name, flatno){
+    this.canDoUnitLogicalOrder = true;
+    console.log(Id, UnitCalculationType, name, flatno);
+    this.numberofunitexistence = 0;
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if(itm.flatno != undefined && flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
+              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name, Id, flatno);
+  }
+  getUnitrate(Id,unitrate,name,flatno){
+    console.log(unitrate);
+    this.canDoUnitLogicalOrder = true;
+    this.numberofunitexistence = 0;
+    this.valueExcelUnitArr = [];
+    Object.keys(this.unitlistjson).forEach(element => {
+      this.unitlistjson[element].forEach(unit => {
+        console.log(unit)
+        if (unit['Id'] == Id) {
+          console.log(unit);
+          unit['unit rate'] = unitrate;
+          if (unit['unit rate'] == "" || unit['unit rate'] == undefined) {
+            unit['InvalidUnitRate'] = true;
+          }
+          else {
+              unit['InvalidUnitRate'] = false;
+          }
+          //
+          console.log(this.unitlistjson[element]);
+          this.unitlistjson[element].forEach(itm => {
+            if(itm.flatno != undefined){
+              if (itm.flatno.toLowerCase() == flatno.toLowerCase()) {
+                this.numberofunitexistence += 1;
+                if (this.numberofunitexistence == 1) {
+                  unit.hasNoDuplicateUnitname = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                  this.isunitdetailsempty = true;
+                  console.log('this.numberofunitexistence == 1');
+                }
+                else {
+                  unit.hasNoDuplicateUnitname = false;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                  console.log('this.numberofunitexistence > 1');
+                }
+              }
+            }
+            else if(itm.flatno == undefined){
+              console.log('itm.flatno == undefined');
+              this.isunitdetailsempty = false;
+            }
+          })
+        }
+      })
+    })
+    this.validateUnitDetailsField(name, Id, flatno); 
   }
   /* getunittype(Id, unittype,name){
      Object.keys(this.unitlistjson).forEach(element=>{
