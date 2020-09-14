@@ -2764,6 +2764,14 @@ export class EnrollassociationComponent implements OnInit {
                 }
               }, error => {
                 console.log(error);
+                this.progressbarmodalRef.hide();
+                Swal.fire({
+                  title: "Error",
+                  text: error['error']['exceptionMessage'],
+                  type: "error",
+                  confirmButtonColor: "#f69321",
+                  allowOutsideClick:false
+                });
               });
             /* let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
              this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
