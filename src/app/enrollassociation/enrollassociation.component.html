@@ -383,10 +383,12 @@
 
                         <!--BlockBulkupload-->
                 <div id="showmanual" style="margin-top: 30px;" style="display:none">
+                    <a (click)="Clright()" class="go-right">Go Right</a> 
+                    <a (click)="Clleft()" class="go-left">Go left</a>
                     <p id="seperateblocks" style="text-align: right;font-weight: 700;" *ngIf="blocksArray.length > 11">scroll right to view more blocks <i class="fa fa-angle-right" aria-hidden="true"></i></p>
                     <div class="tab-pane" style="margin-top: 6px;">
                         
-                        <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;    height: 42px;">
+                        <ul class="nav nav-tabs overflow-hidden" style="display: flex;overflow-x: scroll;    height: 42px;">
                             <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
                                     href="#{{objct.Id}}" (click)="assignBlkarrTmpid(objct.Id)"
                                     data-toggle="tab" style="display: flex;width: auto;">{{objct.blockname|uppercase}}
@@ -733,16 +735,21 @@
                 <!--showmanualblockwithhorizantalview-->
                 <div id="showmanualblockwithhorizantalview" style="margin-top: 30px;">
                     <div class="tab-pane">
-                
-                        <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;    height: 42px;">
-                            <li *ngFor="let blkarr of blocksArray;let i= index" [ngClass]="{'active':blkarr.Id==blkarr.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
-                                    href="#{{blkarr.Id}}" (click)="assignBlkarrTmpid(blkarr.Id)"
-                                    data-toggle="tab" style="width: auto;display: flex;">{{blkarr.blockname==''?'Block':blkarr.blockname|uppercase}}
-                                    &nbsp;&nbsp;<span></span>
-                                    <i [hidden]="blkarr.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
-                                    <i [hidden]="blkarr.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
-                                </a></li>
-                        </ul>
+                        
+                        <a (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
+                        <a (click)="Clright()" class="go-right">Go Right</a> 
+                        <div class="overflow-hidden" style="width: 900px;height:100px;overflow: hidden;">
+                            <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;height: 42px;width: 2000px;">
+                                <li *ngFor="let blkarr of blocksArray;let i= index" [ngClass]="{'active':blkarr.Id==blkarr.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
+                                        href="#{{blkarr.Id}}" (click)="assignBlkarrTmpid(blkarr.Id)"
+                                        data-toggle="tab" style="width: auto;display: flex;">{{blkarr.blockname==''?'Block':blkarr.blockname|uppercase}}
+                                        &nbsp;&nbsp;<span></span>
+                                        <i [hidden]="blkarr.isBlockCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;
+                                        <i [hidden]="blkarr.isNotBlockCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
+                                    </a></li>
+                            </ul>
+                        </div>
+                       
                         <div class="tab-content">
                             <div [ngStyle]="{'display':obj.Id==obj.blockTmpid ? 'block' : 'none' }" *ngFor="let obj of blocksArray;let i= index" class="tab-pane">
                                 <div id="{{obj.Id}}" class="blockdetailsdata" style="display: flex;flex-direction: column;align-items: stretch;justify-content: space-evenly;margin-top: 20px;">
@@ -1041,14 +1048,20 @@
                     <div class="tab-content col-md-10">
                         <div *ngFor="let obj1 of blocksArray">
                             <div class="tab-pane" [ngClass]="{'active':obj1.Id==obj1.blockTmpid}" id="{{obj1.Id}}">
-                                <ul id="tabSet"  class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'flex' : 'none' }" style="display: flex !important;overflow-x: scroll;height: 42px;">
-                                    <li  *ngFor="let obj2 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj2.Id==obj2.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
-                                        <a href="#{{obj2.Id}}" (click)="assignUnitTmpid(obj2.Id,blocknameforIteration)" data-toggle="tab" style="display: flex;width: auto;">{{obj2.flatno==''?'Unit':obj2.flatno}}
-                                            &nbsp;&nbsp;<span></span>&nbsp;&nbsp;
-                                    <i [hidden]="obj2.isUnitCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;&nbsp;
-                                    <i [hidden]="obj2.isUnitNotCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
-                                        </a></li>
-                                </ul>
+                                    <a (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
+                                    <a (click)="Clright()" class="go-right">Go Right</a> 
+                                    <div class="overflow-hidden" style="width: 900px;height:100px;overflow: hidden;">
+                                            <ul id="tabSet"  class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll; height: 42px; width: 2000px;">
+                                                    <li  *ngFor="let obj2 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj2.Id==obj2.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
+                                                        <a href="#{{obj2.Id}}" (click)="assignUnitTmpid(obj2.Id,blocknameforIteration)" data-toggle="tab" style="display: flex;width: auto;">{{obj2.flatno==''?'Unit':obj2.flatno}}
+                                                            &nbsp;&nbsp;<span></span>&nbsp;&nbsp;
+                                                    <i [hidden]="obj2.isUnitCreated" class="fa fa-circle-thin" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                    <i [hidden]="obj2.isUnitNotCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
+                                                        </a></li>
+                                                </ul>
+                                    </div>
+                                
+
                                 <div [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'block' : 'none' }" class="tab-content">
                                     <div *ngFor="let obj3 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj3.Id==obj3.unitTmpid}" class="tab-pane">
                                         <div id="{{obj3.Id}}">

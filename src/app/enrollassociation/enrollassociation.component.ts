@@ -216,6 +216,7 @@ export class EnrollassociationComponent implements OnInit {
     "VACCANT PLOT"
   ]
   ngOnInit() {
+    
     // this.getAssociationList()
     this.createForm();
 
@@ -243,6 +244,22 @@ export class EnrollassociationComponent implements OnInit {
     return !this.form.get(field).valid && this.form.get(field).touched;
   }
 
+  Clright(){
+    console.log("right")
+   
+      var pos = $('div.overflow-hidden').scrollLeft() + 50;
+      $('div.overflow-hidden').scrollLeft(pos);
+  
+  
+  }
+
+  Clleft(){
+    console.log("left")
+
+      var pos1 = $('div.overflow-hidden').scrollLeft() - 50;
+      $('div.overflow-hidden').scrollLeft(pos1);
+  
+  }
   getRequiredErrorMessage(field) {
     return this.blocksdetailsform.get(field).hasError('required') ? 'You must enter a value' : '';
   }
@@ -6199,6 +6216,9 @@ this.canDoBlockLogicalOrder=true;
       this.excelunitsuploaddata(this.arraylist1, UpdateBlockUnitCountTemplate)
     }
   }
+  
+
+
   resetforduplicatesorinvalidblocks(ev,objId) {
     console.log('ev');
     console.log(this.blocksArray);
