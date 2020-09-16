@@ -29,6 +29,7 @@ export class StaffComponent implements OnInit {
   ropt2: any;
   ropt3: any;
   comment: any;
+  wid:any;
   wid1: any;
   wid2: any;
   wkhousecount: any;
@@ -76,7 +77,7 @@ export class StaffComponent implements OnInit {
   wkReview: any;
   yesterday_date: string;
   todayDate: string;
-  wid: any;
+
   showAll: boolean;
   currentblockid: any[];
   blkId: any;
@@ -459,12 +460,12 @@ export class StaffComponent implements OnInit {
               //console.log(item['workerstatuses'].length);
               //this.wkhousecount = item['workerstatuses'].length;
               item['workerstatuses'].forEach(item1 => {
-                this.StaffDetailshouse.push(item1);
-                 console.log(this.StaffDetailshouse);
-                // if(item1['wkAprStat']=="Approved"){
-                //   this.StaffDetailshouse.push(item1);
-                //   console.log(this.StaffDetailshouse);
-                // }
+                // this.StaffDetailshouse.push(item1);
+                //  console.log(this.StaffDetailshouse);
+                if(item1['wkAprStat']=="Approved" && item1['wkRating'] > 0){
+                  this.StaffDetailshouse.push(item1);
+                  console.log(this.StaffDetailshouse);
+                }
                 
               })
 
@@ -791,11 +792,12 @@ export class StaffComponent implements OnInit {
 
 
 
-  OpeneditReview(editReview: TemplateRef<any>, wid) {
+  OpeneditReview(editReview: TemplateRef<any>, wkid) {
     console.log(this.wkid);
     this.modalRef = this.modalService.show(editReview, Object.assign({}, { class: 'gray modal-md' }));
-    this.staffs1 = this.staffs;
-    this.staffs1 = this.staffs1.filter(item => {
+    this.staffs1 = this.staffs3;
+   // console.log(this.staffs1);
+    this.staffs1 = this.staffs3.filter(item => {
       return item['wkWorkID'] == this.wkid;
     })
 
