@@ -2809,10 +2809,8 @@ export class EnrollassociationComponent implements OnInit {
       setTimeout(() => {
         this.progressbarmodalRef.hide();
         document.getElementById('upload_excel').style.display = 'none'
-        // document.getElementById('blockdetailscancelbutton').style.display = 'none';
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
         document.getElementById('showmanual').style.display = 'block';
-        // document.getElementById('blockdetailsbuttons').style.display = 'block';
         this.commonblockarray.forEach(element => {
           element.hasNoDuplicateBlockname = true;
           element.disableField = true;
@@ -2869,7 +2867,6 @@ export class EnrollassociationComponent implements OnInit {
                     itm.disableField = true;
                     this.blocksArray.push(itm);
                   })
-                  //console.log(this.blocksArray.reverse());
                   this.blocksArray.forEach(iitm => {
                     if (iitm.markedasduplicate == 0) {
                       console.log(iitm);
@@ -2886,7 +2883,6 @@ export class EnrollassociationComponent implements OnInit {
                     }
                   })
                   this.blocksArray = _.sortBy(this.blocksArray, "markedasduplicate");
-                  //this.blocksArray.reverse();
                   console.log(this.blocksArray.length);
                   console.log(this.blocksArray);
                 }
@@ -2922,7 +2918,7 @@ export class EnrollassociationComponent implements OnInit {
                 }
               }
             })
-        }
+        } 
       },this.commonblockarray.length * 3500)
       //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
 
