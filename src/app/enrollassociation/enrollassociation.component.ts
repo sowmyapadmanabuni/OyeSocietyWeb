@@ -1123,7 +1123,7 @@ export class EnrollassociationComponent implements OnInit {
     //
     $(".se-pre-con").fadeOut("slow");
     this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate);
-    this.unitprogressvaluemax = Number(this.unitlistjson[name].length);
+    this.unitprogressvaluemax = Number(this.arraylist1.length);
     this.unitlistjson[name].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
@@ -2685,7 +2685,7 @@ export class EnrollassociationComponent implements OnInit {
   duplicateBlocknameExist;
   blockdetailsfinalcreation() {
     $(".se-pre-con").fadeOut("slow");
-    this.blockprogressvaluemax = this.commonblockarray.length;
+    this.blockprogressvaluemax = this.blocksArray.length;
     this.duplicateBlocknameExist = false;
     console.log(this.isblockdetailsempty);
     if (!this.isblockdetailsempty) {
@@ -3233,9 +3233,10 @@ export class EnrollassociationComponent implements OnInit {
    onFileChange(ev,blockprogressbartemplate: TemplateRef<any>) {
     this.blockprogressbartemplate = blockprogressbartemplate;
     console.log($(".se-pre-con"))
-    //<span style="font-size: 20px;text-transform: uppercase;color:red;">Please wait don't navigate back or reload page</span> 
+    $(".se-pre-con")[0].innerHTML = `<span style="position: absolute;top: 67%;left: 40%;">Please wait don't navigate back or reload page</span>`;
+
     $(".se-pre-con").show();
-    this.isblockdetailsempty = false;
+   this.isblockdetailsempty = false;
     this.blocksArray = [];
     this.file = ev.target.files[0];
     let fileReader = new FileReader();
@@ -3342,7 +3343,7 @@ export class EnrollassociationComponent implements OnInit {
         document.getElementById('upload_excel').style.display = 'block';
       }
 
-    }
+    } 
   } 
   uploadunits() {
     document.getElementById("file_unitupload_id").click();
@@ -6205,6 +6206,7 @@ this.canDoBlockLogicalOrder=true;
   blockunitcountmodalRef: BsModalRef;
 
   onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate,unitprogressbartemplate: TemplateRef<any>) {
+    $(".se-pre-con")[0].innerHTML = `<span style="position: absolute;top: 67%;left: 40%;">Please wait don't navigate back or reload page</span>`;
     $(".se-pre-con").show();
     this.unitsuccesscount = 0;
     this.unitprogressbartemplate = unitprogressbartemplate;
