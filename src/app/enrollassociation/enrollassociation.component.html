@@ -560,7 +560,7 @@
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="UNIT OF MEASUREMENT" 
                                             [(ngModel)]="blocksArray[i]['Unit Of Measurement']"
                                             (keyup)="getUnitOfMeasurement(blocksArray[i]['Id'],blocksArray[i]['Unit Of Measurement'])"
-                                            value="">
+                                            value="sqft" readonly>
                                         </mat-form-field>
                                        <p class="validation" *ngIf="blocksArray[i]['Unit Of Measurement']==undefined">Unit Of Measurement is required</p>
                                        <p class="validation" *ngIf="blocksArray[i]['isNotvalidUnitOfMeasurement']">Unit Of Measurement is required</p>
@@ -901,7 +901,7 @@
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="UNIT OF MEASUREMENT" 
                                             [(ngModel)]="blocksArray[i]['Unit Of Measurement']"
                                             (keyup)="getUnitOfMeasurement(blocksArray[i]['Id'],blocksArray[i]['Unit Of Measurement'])"
-                                            value="">
+                                            value="sqft" readonly>
                                         </mat-form-field>
                                        <p class="validation" *ngIf="blocksArray[i]['Unit Of Measurement']==undefined">Unit Of Measurement is required</p>
                                        <p class="validation" *ngIf="blocksArray[i]['isNotvalidUnitOfMeasurement']">Unit Of Measurement is required</p>
