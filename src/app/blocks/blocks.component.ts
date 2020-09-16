@@ -45,7 +45,7 @@ export class BlocksComponent implements OnInit {
   BLBlkType: string;
   BLNofUnit: number;
   BLMgrName: string;
-  BLMgrMobile: number;
+  BLMgrMobile: any;;
   BLMgrEmail: string;
   ASMtType: string;
   ASMtFRate: number;
@@ -704,6 +704,48 @@ export class BlocksComponent implements OnInit {
       )
 
     });
+
+  }
+  managernamevalid:boolean;
+  managermobilevalid:boolean;
+  validatemanagermobilenumber(ev,mobile){
+    if (mobile!= "" || undefined) {
+      this.managermobilevalid = false;
+      this.managernamevalid = true;
+
+      if(this.BLMgrName!= "" || undefined){
+      this.managernamevalid = false;
+      }
+    }
+    else {
+      if(this.BLMgrName!= "" || undefined){
+        this.managermobilevalid = true;
+        this.managernamevalid = false;
+      }
+      else if(mobile== "" || undefined){
+        this.managernamevalid = false;
+      }
+    }
+  }
+  validatemanagername(ev,mngName){
+    if (mngName!= "" || undefined) {
+      this.managernamevalid = false;
+      this.managermobilevalid = true;
+      if(this.BLMgrMobile!=""|| undefined){
+        this.managermobilevalid = false;
+      }
+    }
+    else {
+      // this.managernamevalid = true;
+      if(mngName == "" || undefined ){
+        this.managernamevalid = false;
+      }else if(mngName == "" || undefined && this.BLMgrMobile!= "" || undefined){
+        this.managernamevalid = true;
+
+      }
+      this.managermobilevalid = false;
+
+    }
 
   }
 

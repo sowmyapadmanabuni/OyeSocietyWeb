@@ -251,46 +251,34 @@
                         </div>
                         <div class="row" style="padding-left:15px;padding-right:15px;">
                             <div class="col-sm-4 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : managernameControl.invalid && managernameControl.touched}">
-                                    <label id=label4>Fecility Manager Name<span class="red">*</span></label>
-                                    <input type="text" name="BLMgrName" id="input4" autocomplete='BLMgrName'
-                                        [(ngModel)]="BLMgrName" #managernameControl="ngModel" class="form-control"
+                                <div class="form-group">
+                                    <label id=label4>Fecility Manager(optional)</label>
+                                    <input type="text" name="BLMgrName" id="input4" autocomplete='BLMgrName'(keyup)="validatemanagername($event,BLMgrName)"
+                                        [(ngModel)]="BLMgrName" class="form-control"
                                         placeholder="Manager Name" pattern="[a-zA-Z]*" required />
-                                    <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">
-                                        Fecility Managername is
+                                    <p class="alerts" *ngIf="managernamevalid">
+                                        Fecility Manager is
                                         required</p>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : managernumberControl.invalid && managernumberControl.touched}">
-                                    <label id=label5>Manager Mobile Number<span class="red">*</span></label>
+                                <div class="form-group">
+                                    <label id=label5>Mobile Number(optional)</label>
                                     <input type="text" name="BLMgrMobile" id="input5" autocomplete='BLMgrMobile'
-                                        [(ngModel)]="BLMgrMobile" #managernumberControl="ngModel" class="form-control"
-                                        placeholder="Manager Mobile Number" minlength=10 maxlength=13 pattern="^((0091)|(\+91)|0?)[0-9]{1}\d{9}$"
+                                        [(ngModel)]="BLMgrMobile" class="form-control"
+                                        (keyup)="validatemanagermobilenumber($event,BLMgrMobile)"
+                                        placeholder="Mobile Number" minlength=10 maxlength=13 pattern="^((0091)|(\+91)|0?)[0-9]{1}\d{9}$"
                                         required (keypress)=_keyPress($event) />
-                                    <p class="alerts"
-                                        *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager
-                                        mobile
-                                        number is
-                                        required</p>
+                                    <p class="alerts" *ngIf="managermobilevalid">Mobile Number is required</p>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : manageremailControl.invalid && manageremailControl.touched}">
-                                    <label id=label6>Manager Email Id<span class="red">*</span></label>
+                                <div class="form-group">
+                                    <label id=label6>Email Id(optional)</label>
                                     <input type="text" name="BLMgrEmail" id="input6" autocomplete='BLMgrEmail'
-                                        [(ngModel)]="BLMgrEmail" #manageremailControl="ngModel" class="form-control"
+                                        [(ngModel)]="BLMgrEmail"  class="form-control"
                                         placeholder="Manager Email Id"
-                                        pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-                                        required />
-                                    <p class="alerts"
-                                        *ngIf="manageremailControl.invalid && manageremailControl.touched">Manager
-                                        email-id is
-                                        required
-                                    </p>
+                                        pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"/>
                                 </div>
                             </div>
                         </div>
