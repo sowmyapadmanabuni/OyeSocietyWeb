@@ -303,9 +303,15 @@ ASMtType:any;
   validatemanagername(ev,mngName){
     if (mngName!= "" || undefined) {
       this.managernamevalid = false;
+      this.managermobilevalid = true;
+      if(this.mobile!=""|| undefined){
+        this.managermobilevalid = false;
+      }
     }
     else {
-      this.managernamevalid = true;
+      // this.managernamevalid = true;
+      this.managermobilevalid = false;
+
     }
 
   }
@@ -330,9 +336,18 @@ ASMtType:any;
   validatemanagermobilenumber(ev,mobile){
     if (mobile!= "" || undefined) {
       this.managermobilevalid = false;
+      this.managernamevalid = true;
+
+      if(this.mngName!= "" || undefined){
+      this.managernamevalid = false;
+      }
     }
     else {
-      this.managermobilevalid = true;
+      if(this.mngName!= "" || undefined){
+        this.managermobilevalid = true;
+        this.managernamevalid = false;
+        
+      }
     }
   }
   validatemanageremail(ev,manageremail){

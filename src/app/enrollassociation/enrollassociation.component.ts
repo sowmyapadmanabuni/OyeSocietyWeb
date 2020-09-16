@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { GlobalServiceService } from '../global-service.service';
 import { UtilsService } from '../../app/utils/utils.service';
+import { Router } from '@angular/router';
 // import { Observable } from 'rxjs/Observable';
 import { ViewAssociationService } from '../../services/view-association.service';
 import { ViewBlockService } from '../../services/view-block.service';
@@ -101,6 +102,7 @@ export class EnrollassociationComponent implements OnInit {
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
     private utilsService: UtilsService,
+    private router:Router,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
       this.calculationTypes = [
@@ -6567,10 +6569,13 @@ this.canDoBlockLogicalOrder=true;
         //  })
 
          Swal.fire({
-          title: "Association Created Please Click on OK to continue Create Blocks And Units",
+          title: "Association Created Successfully Please Continue to Create Blocks and Units.",
           type: "success",
           confirmButtonColor: '#f69321',
-          confirmButtonText: 'OK',
+          showCancelButton: true,
+          confirmButtonText: 'CONTINUE',
+          cancelButtonText: 'EXIT',
+          allowOutsideClick:false
         }).then(
           (result) => {
             console.log(result)
@@ -6598,6 +6603,11 @@ this.canDoBlockLogicalOrder=true;
       this.demo1TabIndex = this.demo1TabIndex + 1;
 
             }
+            else{
+              this.router.navigate(['home']);
+
+            }
+
           })
         //  for (var i = 0; i < res.data.association.asNofBlks; i++) {
         //   var data = JSON.parse(JSON.stringify(this.rowjson))
@@ -6605,6 +6615,7 @@ this.canDoBlockLogicalOrder=true;
         //   console.log(this.blocksArray)
 
         // }
+
 
       }, error => {
         console.log(error);
