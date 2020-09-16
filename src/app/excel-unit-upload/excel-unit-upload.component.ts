@@ -1705,7 +1705,10 @@ export class ExcelUnitUploadComponent implements OnInit {
                   unit.tenantfirstname = "",
                   unit.tenantlastname = "",
                   unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = ""
+                  unit.tenantemaiid = "",
+                  unit['unit dimension'] = "",
+                  unit['Unit Calculation Type'] = "",
+                  unit['unit rate'] = ""
               }
             })
           })
