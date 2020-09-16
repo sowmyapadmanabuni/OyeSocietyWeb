@@ -1347,7 +1347,7 @@
                                                 <div class="col-sm-12" style="display: flex">
                                                     <div>
                                                         <mat-form-field class="blockdetails-form1">
-                                                            <mat-label [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">UNIT NO/FLAT NO<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
+                                                            <mat-label [ngClass]="{'green-lbl':obj['isnotvalidflatno']==false,'red-lbl':obj['isnotvalidflatno']==true}">UNIT NO/FLAT NO<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
                                                             <input disabled="{{obj['disableField']==true}}" class = "text" matInput placeholder="UNIT NO/FLAT NO"
                                                              (keyup)="getUnitName(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['flatno'],blocknameforIteration)"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
                                                                 true}"  value="">
