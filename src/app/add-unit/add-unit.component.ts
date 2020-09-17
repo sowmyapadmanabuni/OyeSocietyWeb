@@ -392,6 +392,14 @@ export class AddUnitComponent implements OnInit {
         event.preventDefault();
     }
   }
+  _keyPressValidateUnitrate(event: any, Id) {
+    const pattern = /^[0-9]*\.?[0-9]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      console.log('pattern.test-false');
+      event.preventDefault();
+    }
+  }
   _keyPress4(event: any) {
     const pattern = /[\d*\.?\d?]/;
     //var RegExp = new RegExp(/^\d*\.?\d*$/); 

@@ -119,7 +119,7 @@
                                     <div class="form-groupunits">
                                         <mat-form-field class="blockdetails-form">
                                             <mat-label>UNIT RATE<span class="red">*</span></mat-label>
-                                            <input maxlength="100" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput
+                                            <input maxlength="100" (keypress)="_keyPressValidateUnitrate($event)" pattern="[0-9]*" class="text" matInput
                                                 placeholder="UNIT RATE" [(ngModel)]="UNRate" [ngModelOptions]="{standalone:true}" value="">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="InvalidUnitDimension">Valid unit rate is required</p>

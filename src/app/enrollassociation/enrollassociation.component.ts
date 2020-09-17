@@ -762,6 +762,14 @@ export class EnrollassociationComponent implements OnInit {
       event.preventDefault();
     }
   }
+  _keyPressValidateUnitrate(event: any, Id) {
+    const pattern = /^[0-9]*\.?[0-9]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      console.log('pattern.test-false');
+      event.preventDefault();
+    }
+  }
 
   caltype = [
     "FlatRateValue",
@@ -2698,7 +2706,6 @@ export class EnrollassociationComponent implements OnInit {
         ((index) => {
           setTimeout(() => {
 
-            // this.blockdetailsidvise(element);
             let ipAddress = this.utilsService.createBlock();
             let blockcreateurl = `${ipAddress}oyeliving/api/v1/Block/create`
 
@@ -2709,7 +2716,6 @@ export class EnrollassociationComponent implements OnInit {
                 {
                   "BLBlkName": element.blockname,
                   "BLBlkType": element.blocktype,
-                  //"BLBlkType": this.residentialorcommercialtype,
                   "BLNofUnit": element.units,
                   "BLMgrName": (element['facility manager'] == undefined ? '': element['facility manager']),
                   "BLMgrMobile": (element['mobile number'] == undefined ? '': element['mobile number']),
@@ -2717,7 +2723,7 @@ export class EnrollassociationComponent implements OnInit {
                   "ASMtType": element['Maintenance Type'],
                   "ASMtDimBs": element['Maintenance value'],
                   "ASMtFRate": element['Flat Rate value'],
-                  "ASUniMsmt": 'sqft',//element['Unit Of Measurement'],
+                  "ASUniMsmt": 'sqft',
                   "ASBGnDate": formatDate(element['Invoice Generation Date'], 'yyyy/MM/dd', 'en'),
                   "ASIcRFreq": element['Invoice Creation Frequency'],
                   "ASLPCType": element['Late Payment Charge Type'],
@@ -2741,13 +2747,6 @@ export class EnrollassociationComponent implements OnInit {
                   console.log(this.blockidtmp);
                   element.isNotBlockCreated = false;
                   element.isBlockCreated = true;
-                  //console.log(res['data']['data']['blockID']);
-                  //console.log(this.unitlistjson[element.blockname]);
-                  /* this.unitlistjson[element.blockname].forEach(obj => {
-                     obj.blockid = res.data.blockID
-                     console.log(obj.blockid);
-                     console.log(this.unitlistjson)
-                   }) */
                   let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
                   this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
                   this.finalblocknameTmp.push({ 'name': this.jsondata.blocks[0].BLBlkName, 'displaytext': 'Save And Continue' });
@@ -2756,7 +2755,6 @@ export class EnrollassociationComponent implements OnInit {
 
                     data.Id = this.jsondata.blocks[0].BLBlkName + i + 1;
                     data.unitTmpid = '';
-                    //data.blockid = res['data']['data']['blockID'];
                     data.blockid = res.data.blockID;
                     data.isUnitCreated = false;
                     data.isUnitNotCreated = true;
@@ -2771,7 +2769,6 @@ export class EnrollassociationComponent implements OnInit {
                   }
                 }
                 else if (res['data']['errorResponse']['message']) {
-                  //this.sameBlocknameExist=true;
                   console.log('sameBlocknameExist');
                   Swal.fire({
                     title: "Error",
@@ -2792,19 +2789,6 @@ export class EnrollassociationComponent implements OnInit {
                   allowOutsideClick:false
                 });
               });
-            /* let blockArraylength = (Number(this.jsondata.blocks[0].BLNofUnit))
-             this.finalblockname.push(this.jsondata.blocks[0].BLBlkName);
-            for (var i = 0; i < blockArraylength; i++) {
-             let data = JSON.parse(JSON.stringify(this.unitsrowjson))
-       
-             data.Id = this.jsondata.blocks[0].BLBlkName+i+1;
-             console.log(data.Id)
-           
-              if (!this.unitlistjson[this.jsondata.blocks[0].BLBlkName]) {
-                this.unitlistjson[this.jsondata.blocks[0].BLBlkName] = []
-              }
-              this.unitlistjson[this.jsondata.blocks[0].BLBlkName].push(data)
-            } */
           }, 3000 * index)
         })(index)
       })
@@ -2921,10 +2905,8 @@ export class EnrollassociationComponent implements OnInit {
               }
             })
         } 
-      },this.commonblockarray.length * 3500)
-      //document.getElementById("mat-tab-label-0-3").style.backgroundColor = "lightblue";
-
-    }
+      },this.commonblockarray.length * 3500) 
+    } 
   }
   createblocksdetails1(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1,FlatRatevalue,Maintenancevalue,MaintenanceType,UnitOfMeasurement,InvoiceCreationFrequency,InvoiceGenerationDate,DueDate,LatePaymentChargeType,LatePaymentCharge,StartsFrom) {
     console.log(blockname, blocktype, units, fecilitymanagername, managermobileno, manageremailid, objId, index1,FlatRatevalue,Maintenancevalue,MaintenanceType,UnitOfMeasurement,InvoiceCreationFrequency,InvoiceGenerationDate,DueDate,LatePaymentChargeType,LatePaymentCharge,StartsFrom);

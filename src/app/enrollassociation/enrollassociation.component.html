@@ -1143,7 +1143,7 @@
                                                             <div>
                                                                 <mat-form-field class="blockdetails-form">
                                                                     <mat-label>UNIT RATE<span class="red">*</span></mat-label>
-                                                                    <input maxlength="100" (keyup)="getUnitrate(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit rate'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput
+                                                                    <input maxlength="100" (keyup)="getUnitrate(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit rate'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])" (keypress)="_keyPressValidateUnitrate($event)" pattern="[0-9]*" class="text" matInput
                                                                         placeholder="UNIT RATE" [(ngModel)]="obj3['unit rate']" [ngModelOptions]="{standalone:true}" value="">
                                                                 </mat-form-field>
                                                                 <p class="validation" *ngIf="unitlistjson[blocknameforIteration][i]['InvalidUnitRate']">Valid unit rate is required</p>
