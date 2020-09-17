@@ -521,7 +521,7 @@ export class EnrollassociationComponent implements OnInit {
     "Flat Rate value": "",
     "Maintenance value": "",
     "Maintenance Type": "",
-    "Unit Of Measurement": "",
+    "Unit Of Measurement": "SQFT",
     "Invoice Creation Frequency": "",
     "Invoice Generation Date": "",
     "Due Date": "",
@@ -1740,7 +1740,7 @@ export class EnrollassociationComponent implements OnInit {
         if (unit.Id == Id) {
           console.log(unit);
           console.log(this.unitlistjson[element]);
-          if (this.isunitdetailsempty) {
+          console.log('this.isunitdetailsempty-',this.isunitdetailsempty);
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
@@ -1792,6 +1792,7 @@ export class EnrollassociationComponent implements OnInit {
               }
             }
             else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
+              console.log('inside-"Sold Tenant Occupied Unit1"');
               if (unit.flatno == "" || unit.flatno == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
@@ -1990,14 +1991,13 @@ export class EnrollassociationComponent implements OnInit {
                 })
               }
             }
-          }
         }
         /**/
         if (name.toLowerCase() == headername.toLowerCase()) {
           console.log(unit);
           console.log(flatno);
           console.log(this.unitlistjson[element]);
-          if (this.isunitdetailsempty) {
+          console.log('this.isunitdetailsempty-',this.isunitdetailsempty);
             if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
               if (unit.flatno == "" || unit.flatno == undefined ||
                 unit.unittype == "" || unit.unittype == undefined ||
@@ -2046,6 +2046,7 @@ export class EnrollassociationComponent implements OnInit {
               }
             }
             else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
+              console.log('inside-"Sold Tenant Occupied Unit2"');
               if (unit.flatno == "" || unit.flatno == undefined ||
                 // unit.blockname == "" || unit.blockname == undefined ||
                 unit.owneremaiid == "" || unit.owneremaiid == undefined ||
@@ -2228,7 +2229,6 @@ export class EnrollassociationComponent implements OnInit {
                 })
               }
             }
-          }
         }
         /**/
       })
