@@ -23,7 +23,7 @@
                                     data-toggle="dropdown">{{displayStaff}}
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu fullw fdrop" style="height: 200px !important;  overflow-x: scroll;">
-                                    <li *ngFor="let item of staffs3" (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'],item['workerstatuses'])">
+                                    <li *ngFor="let item of staffs4" (click)="selectStaff(item['wkfName'],item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['wkAvgRating'],item['workerstatuses'])">
                                         <a>{{item['wkfName']}}</a>
                                     </li>
 
@@ -463,16 +463,14 @@
                         <div style="margin-left: 17px;">
                             <p><strong>{{item['wkfName']}}</strong><br><span>{{item['wkDesgn']}}</span></p>
                             <p>Status:{{item['wkStatus']}}</p>
-
                         </div>
                         <div style="margin-left: 17px;">
-
                             <p>
                                 <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [step]="0.5" [size]="'medium'"
-                                    [staticColor]="'ok'" [rating]="item['wkAvgRating']" (onClick)="onClick($event)"
+                                    [staticColor]="'ok'" [rating]="itemwkrating" (onClick)="onClick($event)"
                                     (onRatingChange)="onRatingChange($event)"></star-rating-comp>
                             </p>
-                            <p>{{item['wkAvgRating']}}</p>
+                            <p>{{itemwkrating}}</p>
                         </div>
                     </div>
                 </div>

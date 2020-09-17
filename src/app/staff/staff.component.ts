@@ -87,6 +87,8 @@ export class StaffComponent implements OnInit {
   work_id: any;
   work_des: any;
   Staffbydesigantion1: Staffbydesigantion;
+  staffs4: any[];
+  itemwkrating: any;
   constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService: ViewUnitService,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.staffs3 = [];
@@ -105,6 +107,7 @@ export class StaffComponent implements OnInit {
     this.EndDate = '';
     this.StartDate = '';
     this.ropt1 = '';
+    this.staffs4=[];
     this.showAll = false;
     this.ropt2 = '';
     this.ropt3 = '';
@@ -133,6 +136,7 @@ export class StaffComponent implements OnInit {
   }
   ngOnInit() {
     this.staffs3=[];
+    this.staffs4=[];
     this.StaffList();
     this.getStaffList();
     this.workerImg = [];
@@ -140,6 +144,7 @@ export class StaffComponent implements OnInit {
     this.condition1 = false;
   }
   getStaffList() {
+    this.staffs4=[];
     this.staffs3 = [];
     this.condition = true;
     this.condition1 = false;
@@ -156,26 +161,28 @@ export class StaffComponent implements OnInit {
           this.staffs = response['data']['worker'];
           console.log(this.staffs);
           this.staffs3 = response['data']['worker'];
+         
           this.staffs3.forEach(item => {
            if (item['workerstatuses'].length > 0) {
               item['workerstatuses'].forEach(itm => {
                 if (itm['unUniName'].trim() == this.globalServiceService.getCurrentUnitName()) {
                   if (itm['wkAprStat'] == "Approved") {
                     console.log(itm);
-                    this.staffs3.push(itm);
+                    this.staffs4.push(item);
                     
                   }
                 }
               })
            }
           })
-          console.log(this.staffs3);
+          console.log(this.staffs4);
         },
         (error) => {
           console.log(error);
         }
      );
   }
+
   selectStaff(param, wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, wkrating, workerstatuses) {
     console.log(workerstatuses);
     this.work_id=wkid;
@@ -218,12 +225,23 @@ export class StaffComponent implements OnInit {
     this.condition = true;
     this.condition1 = false;
     this.enableviewDocuments = true;
+    
     if (this.wkidimage != "") {
+      let ab1=Object.keys(this.wkidimage)[0];
       console.log(this.wkidimage);
-      this.wkidimage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + this.wkidimage);
+      console.log(Object.keys(this.wkidimage));
+      if(ab1!="changingThisBreaksApplicationSecurity"){
+        console.log("enter")
+        this.wkidimage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + this.wkidimage);
+      }
+
     }
     else {
+      
+      console.log(this.wkidimage);
       this.wkidimage = "";
+    
+      
     }
     this.wkidtype = this.wkidtype;
     console.log(this.wkidimage);
@@ -559,7 +577,7 @@ export class StaffComponent implements OnInit {
   onClick = ($event: IStarRatingOnClickEvent) => {
     console.log('onClick $event: ', $event);
     this.onClickResult = $event;
-    this.wkrating1 = this.onClickResult.rating
+    this.itemwkrating = this.onClickResult.rating
   };
   onRatingChange = ($event: IStarRatingOnRatingChangeEven) => {
     console.log('onRatingUpdated $event: ', $event);
@@ -567,9 +585,9 @@ export class StaffComponent implements OnInit {
   };
 
   updateReview(param, coment) {
-    this.wkrating1;
+    this.itemwkrating;
     console.log(param);
-    console.log(this.wkrating1);
+    console.log(this.itemwkrating);
     console.log(coment);
     let ipAddress = this.UtilsService.getIPaddress()
     const headers = new HttpHeaders()
@@ -582,7 +600,7 @@ export class StaffComponent implements OnInit {
       "UNUnitID": Number(this.globalServiceService.getCurrentUnitId()),
       "WKWorkID": param,
       "ACAccntID": this.globalServiceService.getacAccntID(),
-      "WKRating": this.wkrating1,
+      "WKRating": this.itemwkrating,
       "WKReview": coment,
       "WKSmlyCnt": "4"
     }
@@ -606,8 +624,8 @@ export class StaffComponent implements OnInit {
               (result) => {
                 if (result.value) {
                   setTimeout(() => {
-
                     this.getStaffList();
+                    //this.selectStaff();
                   }, 2000);
 
                 }
@@ -795,12 +813,19 @@ export class StaffComponent implements OnInit {
 
 
   OpeneditReview(editReview: TemplateRef<any>, wkid) {
+    //this.staffs4=[];
     console.log(this.wkid);
     this.modalRef = this.modalService.show(editReview, Object.assign({}, { class: 'gray modal-md' }));
-    this.staffs1 = this.staffs;
-   // console.log(this.staffs1);
+    this.staffs1 = this.staffs4;
+   console.log(this.staffs1);
     this.staffs1 = this.staffs1.filter(item => {
       return item['wkWorkID'] == this.wkid;
+    })
+    this.staffs1.forEach(item => {
+    item['workerstatuses'].forEach(ittm1=>{
+      if(ittm1['unUniName']== this.globalServiceService.getCurrentUnitName())
+      this.itemwkrating= ittm1['wkRating'];
+    })
     })
 
     console.log(this.staffs1);
@@ -809,6 +834,11 @@ export class StaffComponent implements OnInit {
     // this.wkrating;
 
   }
+
+
+
+
+
   goToStaffs() {
     this.condition = true;
     this.condition1 = false;
