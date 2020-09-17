@@ -696,6 +696,7 @@ export class StaffComponent implements OnInit {
   ////Delete Staff part
 
   DeleteStaff(wid2) {
+
     swal.fire({
       title: "Are you sure?",
       text: "Do you really want to delete Staff?",
@@ -757,14 +758,15 @@ export class StaffComponent implements OnInit {
                       (result) => {
                         if (result.value) {
                           setTimeout(() => {
-      
-                            this.getStaffList();
-                          }, 100);
+                            this.staffs3=[];
+                            this.getStaffList()
+                          }, 1000);
       
                         }
                       }
                     )
-      
+                   
+
                 },
                 (error) => {
                   console.log(error);
@@ -795,9 +797,9 @@ export class StaffComponent implements OnInit {
   OpeneditReview(editReview: TemplateRef<any>, wkid) {
     console.log(this.wkid);
     this.modalRef = this.modalService.show(editReview, Object.assign({}, { class: 'gray modal-md' }));
-    this.staffs1 = this.staffs3;
+    this.staffs1 = this.staffs;
    // console.log(this.staffs1);
-    this.staffs1 = this.staffs3.filter(item => {
+    this.staffs1 = this.staffs1.filter(item => {
       return item['wkWorkID'] == this.wkid;
     })
 

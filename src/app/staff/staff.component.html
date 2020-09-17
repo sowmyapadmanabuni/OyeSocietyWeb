@@ -469,16 +469,12 @@
 
                             <p>
                                 <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [step]="0.5" [size]="'medium'"
-                                    [staticColor]="'ok'" [rating]="wkrating" (onClick)="onClick($event)"
+                                    [staticColor]="'ok'" [rating]="item['wkAvgRating']" (onClick)="onClick($event)"
                                     (onRatingChange)="onRatingChange($event)"></star-rating-comp>
                             </p>
-                            <p>{{wkrating}}</p>
+                            <p>{{item['wkAvgRating']}}</p>
                         </div>
-
-
                     </div>
-
-
                 </div>
                 <div>
                     <label>Comments:</label>
