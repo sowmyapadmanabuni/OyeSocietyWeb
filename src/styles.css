@@ -444,3 +444,7 @@ input[type=reset]{background-color: #a7a4a4 !important;}
             }
     }
 #country-listbox{width: 240px !important}
+
+.modal1{
+    top:42%;
+}

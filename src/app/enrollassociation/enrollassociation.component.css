@@ -364,3 +364,7 @@ a.MANUAL{
 .red-lbl{
     color: red;
 }
+.modal1{
+    display: flex !important;
+    align-items: center !important;
+}
