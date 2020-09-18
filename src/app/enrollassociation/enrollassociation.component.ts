@@ -3219,7 +3219,6 @@ export class EnrollassociationComponent implements OnInit {
 
     $(".se-pre-con").show();
    this.isblockdetailsempty = false;
-    this.blocksArray = [];
     this.file = ev.target.files[0];
     let fileReader = new FileReader();
     fileReader.readAsArrayBuffer(this.file);
@@ -3249,8 +3248,11 @@ export class EnrollassociationComponent implements OnInit {
             confirmButtonText: "OK",
             allowOutsideClick:false
           })
+            console.log(this.blocksArray);
+
         }
         else {
+          this.blocksArray = [];
           this.excelBlockList.forEach((list, i) => {
             console.log(list);
             list.Id = i + 1;
