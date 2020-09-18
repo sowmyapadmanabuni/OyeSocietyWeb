@@ -20,6 +20,7 @@ import { DataTable } from 'angular-6-datatable';
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.css']
 })
+
 export class StaffComponent implements OnInit {
   modalRef: BsModalRef;
   StartDate: any;
@@ -77,7 +78,6 @@ export class StaffComponent implements OnInit {
   wkReview: any;
   yesterday_date: string;
   todayDate: string;
-
   showAll: boolean;
   currentblockid: any[];
   blkId: any;
@@ -135,6 +135,8 @@ export class StaffComponent implements OnInit {
       })
   }
   ngOnInit() {
+    this.StaffStartDateyes=new Date(),'dd-MM-yyyy', 'en';
+    this.StaffEndDateyes=new Date(), 'dd-MM-yyyy', 'en';
     this.staffs3=[];
     this.staffs4=[];
     this.StaffList();
@@ -271,7 +273,9 @@ export class StaffComponent implements OnInit {
       this.StaffStartDate = this.yesterday_date;
       this.StaffEndDate = this.todayDate;
       this.StaffStartDateyes = yest1;
+     this.StaffStartDate = yest1
       this.StaffEndDateyes = yest1;
+      this.StaffEndDate = yest1;
     }
 
 
@@ -292,6 +296,7 @@ export class StaffComponent implements OnInit {
       this.StaffEndDate = this.todayDate;
       console.log(this.StaffStartDate);
       this.StaffStartDateyes = yest;
+      
       this.StaffEndDateyes = yest;
     }
 
@@ -311,13 +316,13 @@ export class StaffComponent implements OnInit {
       firstDay.setDate(firstDay.getDate() + 1);
       //firstDay1.setDate(firstDay.getDate() + 1);
       var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      this.todayDate = formatDate(new Date(date.getFullYear(), date.getMonth(), 1), 'MM-dd-yyyy', 'en');
+     // this.todayDate = today;
       // console.log(formatDate(yest, 'MM-dd-yyyy', 'en'));
       this.yesterday_date = formatDate(new Date(), 'MM-dd-yyyy', 'en');
       this.StaffStartDate = firstDay;
       //console.log(this.yesterday_date);
-      this.StaffEndDate = lastDay;
-      this.StaffStartDateyes = firstDay ;
+      this.StaffEndDate = today;
+      this.StaffStartDateyes = firstDay;
      this.StaffEndDateyes = today;
     }
 
@@ -329,6 +334,9 @@ export class StaffComponent implements OnInit {
 
   //Get Staff Report start
   getReports(id) {
+    this.StaffStartDateyes=this.StaffStartDateyes,'MM-dd-yyyy', 'en';
+    console.log(this.StaffStartDateyes);
+    this.StaffStartDateyes=this.StaffStartDateyes, 'MM-dd-yyyy', 'en';
      //console.log(today);
      this.enableviewDocuments=false;
      this.showOtherstaff = false;
