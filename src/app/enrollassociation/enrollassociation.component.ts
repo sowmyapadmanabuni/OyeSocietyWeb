@@ -2697,7 +2697,7 @@ export class EnrollassociationComponent implements OnInit {
     this.duplicateBlocknameExist = false;
     console.log(this.isblockdetailsempty);
     if (!this.isblockdetailsempty) {
-      this.progressbarmodalRef = this.modalService.show(this.blockprogressbartemplate);
+      this.progressbarmodalRef = this.modalService.show(this.blockprogressbartemplate,Object.assign({}, { class: 'modal1' }));
       this.isblockdetailsempty = true;
       this.sameBlocknameExist = false;
       this.commonblockarray1.push(this.commonblockarray);
