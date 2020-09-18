@@ -143,8 +143,10 @@ export class ExcelUnitUploadComponent implements OnInit {
     else{
       document.getElementById("file_upload_id").click();
     }
-   
   }
+  cancelbulkupload(ev){
+    this.router.navigate(['units']);
+     }
   getBlocks() {
     this.viewUniService.getBlocks(this.currentAssociationID).subscribe(res => {
       //console.log(JSON.stringify(res));

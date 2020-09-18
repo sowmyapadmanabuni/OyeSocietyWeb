@@ -176,6 +176,9 @@ export class ExcelBlockUploadComponent implements OnInit {
      event.preventDefault();
    }
  }
+ cancelbulkupload(ev){
+this.router.navigate(['blocks']);
+ }
  
  resetforduplicatesorinvalidblocks(ev,objId) {
   console.log('ev');

@@ -32,9 +32,13 @@
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                     style="display:none" #file>
                             </div>
+                            <div id="cancelbutton">
+                                <button mat-raised-button color="primary" (click)="cancelbulkupload($event)">Cancel</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
+                    
+                    <!-- <div class="row">
                             <div class="col-sm-8" style="border-radius: 18px;">
                                     <h4>Excel Upload Instructions & Format:</h4>
                                     
@@ -49,7 +53,7 @@
                                      </ul> 
     
                             </div>
-                    </div>
+                    </div> -->
                 </form>
                 <!--  -->
                 <!--  -->
