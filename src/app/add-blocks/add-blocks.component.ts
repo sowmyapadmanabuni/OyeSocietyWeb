@@ -346,7 +346,9 @@ ASMtType:any;
       if(this.mngName!= "" || undefined){
         this.managermobilevalid = true;
         this.managernamevalid = false;
-        
+      }
+      else{
+        this.managernamevalid = false;
       }
     }
   }

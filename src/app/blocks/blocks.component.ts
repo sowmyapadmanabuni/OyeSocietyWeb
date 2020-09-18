@@ -678,19 +678,19 @@ export class BlocksComponent implements OnInit {
       ASLPSDate: formatDate(aslpsdate, 'yyyy/MM/dd', 'en'),
       ASLPCType: this.ASLPCType,
       ASLPChrg: this.ASLPChrg,
-      BLBlockID: this.BLBlockID,
+      BLBlockID: this.BLBlockID, 
       ASAssnID: this.currentAssociationID,
       ASIcRFreq: this.ASIcRFreq
     };
 
     //console.log('editblockdata', editblockdata);
     this.viewBlkService.UpdateBlock(editblockdata).subscribe(res => {
-      //console.log("Done");
+      console.log("Done",res);
       //console.log(JSON.stringify(res));
       //console.log('editblockdata', editblockdata);
       this.modalRef.hide();
-      Swal.fire({
-        title: 'Block Updated Successfuly',
+      Swal.fire({ 
+        title: 'Block Updated Successfully',
       }).then(
         (result) => {
 
