@@ -126,7 +126,7 @@ export class EnrollassociationComponent implements OnInit {
       ];
       this.latePymtChrgTypes = [
         { "name": "Monthly", "displayName": "Monthly" },
-        { "name": "Quaterly", "displayName": "Quaterly" },
+        { "name": "Quarterly", "displayName": "Quarterly" },
         { "name": "Annually", "displayName": "Annually" }
       ];
       this.facilitymanagervalid_but_mobilenumberempty=false;
