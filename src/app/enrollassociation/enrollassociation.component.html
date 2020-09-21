@@ -1340,10 +1340,12 @@
                         <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units <i class="fa fa-angle-right" aria-hidden="true"></i></p>
                         <div *ngFor="let iitem of blocksArray;let i=index">
                             <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
-                                <!-- <a  (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
-                                    <a (click)="Clright()" class="go-right">Go Right</a>  -->
+                                <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
+                                    <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clright()" class="go-right">Go Right</a> 
+                                    <div [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" class="overflow-hidden" style="width: 900px;overflow: hidden;">
+
                                         <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }"
-                                            style="display: flex;overflow-x: scroll;    height: 42px;">
+                                            style="display: flex;overflow-x: scroll;    height: 42px;width: 3000px;">
                                             <li *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index"
                                                 [ngClass]="{'active':obj.Id==obj.unitTmpid}"
                                                 style="display: flex;justify-content: space-evenly;width: auto;">
@@ -1357,6 +1359,7 @@
                                                         aria-hidden="true"></i>
                                                 </a></li>
                                         </ul>
+                                    </div>
                               
                                 <div [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'block' : 'none' }" class="tab-content">
                                     <div *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index"

@@ -249,7 +249,7 @@ export class EnrollassociationComponent implements OnInit {
   Clright(){
     console.log("right")
    
-      var pos = $('div.overflow-hidden').scrollLeft() + 50;
+      let pos = $('div.overflow-hidden').scrollLeft() + 50;
       $('div.overflow-hidden').scrollLeft(pos);
   
   
@@ -258,8 +258,8 @@ export class EnrollassociationComponent implements OnInit {
   Clleft(){
     console.log("left")
 
-      var pos1 = $('div.overflow-hidden').scrollLeft() - 50;
-      $('div.overflow-hidden').scrollLeft(pos1);
+      let pos2 = $('div.overflow-hidden').scrollLeft() - 50;
+      $('div.overflow-hidden').scrollLeft(pos2);
   
   }
   getRequiredErrorMessage(field) {
