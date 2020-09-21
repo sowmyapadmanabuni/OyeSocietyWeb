@@ -194,7 +194,15 @@
                     <div class="col-sm-4">
                         <p><strong>Occupancy Status : </strong><span>{{viewUnitRow.occupencyStatus}}</span></p>
                     </div>
-
+                    <div class="col-sm-4">
+                        <p><strong>Unit Dimension : </strong><span>{{viewUnitRow.unDimens}}</span></p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p><strong>calculation Type: </strong><span>{{viewUnitRow.unCalType}}</span></p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p><strong>Unit Rate: </strong><span>{{viewUnitRow.unRate}}</span></p>
+                    </div>
                     <div *ngIf="viewUnitRow.occupencyStatus=='Sold Owner Occupied Unit'||viewUnitRow.occupencyStatus=='Sold Tenant Occupied Unit'||viewUnitRow.occupencyStatus=='Sold Vacant Unit'">
                        <div class="col-sm-4">
                         <p><strong>Owner FirstName : </strong><span>{{viewUnitRow.ownerfirstname}}</span></p>
