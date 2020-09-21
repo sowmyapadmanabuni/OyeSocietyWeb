@@ -1130,7 +1130,7 @@ export class EnrollassociationComponent implements OnInit {
     //}
     //
     $(".se-pre-con").fadeOut("slow");
-    this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate);
+    this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate,Object.assign({}, { class: 'modal1' }));
     this.unitprogressvaluemax = Number(this.arraylist1.length);
     this.unitlistjson[name].forEach((unit, index) => {
       console.log(unit);
@@ -6176,7 +6176,7 @@ this.canDoBlockLogicalOrder=true;
                 })
           },2000)
           //
-          this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate, Object.assign({}, { class: 'gray modal-sm' }));
+          this.blockunitcountmodalRef = this.modalService.show(UpdateBlockUnitCountTemplate,Object.assign({}, { class: 'modal1' }));
         }
         if (this.isValidUnitRecord) {
           this.gotonexttab1('', _blkname, this.iindex);
