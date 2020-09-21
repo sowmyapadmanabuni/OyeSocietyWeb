@@ -3044,13 +3044,14 @@ export class EnrollassociationComponent implements OnInit {
               elemnt['Flat Rate value']='';
               elemnt['Maintenance value']='';
               elemnt['Maintenance Type']='';
-              elemnt['Unit Of Measurement']='';
               elemnt['Invoice Creation Frequency']='';
               elemnt['Invoice Generation Date']= null;
               elemnt['Due Date']= null;
               elemnt['Late Payment Charge Type']='';
               elemnt['Late Payment Charge']='';
               elemnt['Starts From']= null;
+              elemnt['isblockdetailsempty1'] =true;
+              
             }
           })
         }
@@ -6250,7 +6251,7 @@ this.canDoBlockLogicalOrder=true;
               elemnt.hasNoDuplicateBlockname=false;
               // elemnt.units = '';
               // elemnt.fecilitymanagername = '';
-              // elemnt.managermobileno = '';
+              // elemnt.managermobileno = ''; 
               // elemnt.manageremailid = '';
               elemnt.units= '';
               elemnt['facility manager']= '';
@@ -6259,7 +6260,6 @@ this.canDoBlockLogicalOrder=true;
               elemnt['Flat Rate value']= '';
               elemnt['Maintenance value']= '';
               elemnt['Maintenance Type']= '';
-              elemnt['Unit Of Measurement']= '';
               elemnt['Invoice Creation Frequency']= '';
               elemnt['Invoice Generation Date']= null;
               elemnt['Due Date']= null;
