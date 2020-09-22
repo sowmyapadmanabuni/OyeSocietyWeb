@@ -126,7 +126,7 @@ export class EnrollassociationComponent implements OnInit {
       ];
       this.latePymtChrgTypes = [
         { "name": "Monthly", "displayName": "Monthly" },
-        { "name": "Quaterly", "displayName": "Quaterly" },
+        { "name": "Quarterly", "displayName": "Quarterly" },
         { "name": "Annually", "displayName": "Annually" }
       ];
       this.facilitymanagervalid_but_mobilenumberempty=false;
@@ -249,7 +249,7 @@ export class EnrollassociationComponent implements OnInit {
   Clright(){
     console.log("right")
    
-      var pos = $('div.overflow-hidden').scrollLeft() + 50;
+      let pos = $('div.overflow-hidden').scrollLeft() + 50;
       $('div.overflow-hidden').scrollLeft(pos);
   
   
@@ -258,8 +258,8 @@ export class EnrollassociationComponent implements OnInit {
   Clleft(){
     console.log("left")
 
-      var pos1 = $('div.overflow-hidden').scrollLeft() - 50;
-      $('div.overflow-hidden').scrollLeft(pos1);
+      let pos2 = $('div.overflow-hidden').scrollLeft() - 50;
+      $('div.overflow-hidden').scrollLeft(pos2);
   
   }
   getRequiredErrorMessage(field) {
@@ -3044,13 +3044,14 @@ export class EnrollassociationComponent implements OnInit {
               elemnt['Flat Rate value']='';
               elemnt['Maintenance value']='';
               elemnt['Maintenance Type']='';
-              elemnt['Unit Of Measurement']='';
               elemnt['Invoice Creation Frequency']='';
               elemnt['Invoice Generation Date']= null;
               elemnt['Due Date']= null;
               elemnt['Late Payment Charge Type']='';
               elemnt['Late Payment Charge']='';
               elemnt['Starts From']= null;
+              elemnt['isblockdetailsempty1'] =true;
+              
             }
           })
         }
@@ -6250,7 +6251,7 @@ this.canDoBlockLogicalOrder=true;
               elemnt.hasNoDuplicateBlockname=false;
               // elemnt.units = '';
               // elemnt.fecilitymanagername = '';
-              // elemnt.managermobileno = '';
+              // elemnt.managermobileno = ''; 
               // elemnt.manageremailid = '';
               elemnt.units= '';
               elemnt['facility manager']= '';
@@ -6259,7 +6260,6 @@ this.canDoBlockLogicalOrder=true;
               elemnt['Flat Rate value']= '';
               elemnt['Maintenance value']= '';
               elemnt['Maintenance Type']= '';
-              elemnt['Unit Of Measurement']= '';
               elemnt['Invoice Creation Frequency']= '';
               elemnt['Invoice Generation Date']= null;
               elemnt['Due Date']= null;

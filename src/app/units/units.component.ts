@@ -403,7 +403,9 @@ export class UnitsComponent implements OnInit {
         unitNo: repUnit.unUniName,
         unitType: repUnit.unUniType,
         occupencyStatus: repUnit.unOcStat,
-
+        unDimens:repUnit.unDimens,
+        unCalType:repUnit.unCalType,
+        unRate:repUnit.unRate,
         ownerfirstname: repUnit.owner[0].uofName,
         ownerlastname: repUnit.owner[0].uolName,
         ownermobilenumber: repUnit.owner[0].uoMobile,
@@ -415,7 +417,9 @@ export class UnitsComponent implements OnInit {
         unitNo: repUnit.unUniName,
         unitType: repUnit.unUniType,
         occupencyStatus: repUnit.unOcStat,
-
+        unDimens:repUnit.unDimens,
+        unCalType:repUnit.unCalType,
+        unRate:repUnit.unRate,
         ownerfirstname: repUnit.owner[0].uofName,
         ownerlastname: repUnit.owner[0].uolName,
         ownermobilenumber: repUnit.owner[0].uoMobile,
@@ -433,7 +437,9 @@ export class UnitsComponent implements OnInit {
         unitNo: repUnit.unUniName,
         unitType: repUnit.unUniType,
         occupencyStatus: repUnit.unOcStat,
-
+        unDimens:repUnit.unDimens,
+        unCalType:repUnit.unCalType,
+        unRate:repUnit.unRate,
         tenantFirtname: repUnit.tenant[0].utfName,
         tenantLastname: repUnit.tenant[0].utlName,
         tenantMobnumber: repUnit.tenant[0].utMobile,
@@ -444,6 +450,9 @@ export class UnitsComponent implements OnInit {
         unitNo: repUnit.unUniName,
         unitType: repUnit.unUniType,
         occupencyStatus: repUnit.unOcStat,
+        unDimens:repUnit.unDimens,
+        unCalType:repUnit.unCalType,
+        unRate:repUnit.unRate
       };
     }
   }
