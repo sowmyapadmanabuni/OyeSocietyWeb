@@ -162,7 +162,7 @@
                            
                             <div class="col-sm-12">
                                 <h5 style="color:#e59400;text-transform: uppercase;">Maintenance Details</h5>
-                                <div class="panel-body">
+                                <!-- <div class="panel-body">
                               
                                     <div class="form-groupblocks">
                                         <mat-form-field class="blockdetails-form">
@@ -190,10 +190,9 @@
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
-                                        <!-- <p class="validation" *ngIf="managermobilevalid">Manager mobile is required</p> -->
                                     </div>
                                  
-                                </div> 
+                                </div>  -->
                                 <!-- <div>
                                     <div class="form-group">
                                         <div class="col-sm-3">
@@ -367,7 +366,7 @@
                            
                             <div class="col-sm-12 pull-right" style="display: flex;justify-content: center;">
                                 <button class="btn btn-primary-purple nextBtn m-r" type="reset" (click)='resetStep1()'>RESET</button>
-                                <button [disabled]="blockname == '' || blocktype == '' || noofunits == '' || ASMtFRate == '' || ASMtDimBs == '' || ASMtType == '' || ASIcRFreq == '' || billGenerationDate == null || dueDate == null || latePymtChargeType == '' ||latePymtCharge == ''|| startsFrom == null" (click)='createBlock()' class="btn btn-primary-purple nextBtn m-r" type="submit">ADD BLOCK</button>
+                                <button [disabled]="blockname == '' || blocktype == '' || noofunits == '' || ASIcRFreq == '' || billGenerationDate == null || dueDate == null || latePymtChargeType == '' ||latePymtCharge == ''|| startsFrom == null" (click)='createBlock()' class="btn btn-primary-purple nextBtn m-r" type="submit">ADD BLOCK</button>
                             </div>
                        
                 

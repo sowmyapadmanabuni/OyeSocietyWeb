@@ -290,54 +290,6 @@
                         <div class="col-sm-12">
                             <h5 style="color:#e59400;">Maintenance details</h5>
                         </div> 
-                         <div class="row" style="padding-left:15px;padding-right:15px;">
-                            <div class="col-sm-4 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : flatRatevalueControl.invalid && flatRatevalueControl.touched}">
-                                    <label>Flat Rate Value<span class="red">*</span></label>
-                                    <input class="form-control" type="text" name="ASMtFRate" [(ngModel)]="ASMtFRate"
-                                        placeholder="Value" #flatRatevalueControl='ngModel'
-                                        pattern="^[+-]?((\.\d+)|(\d+(\.\d+)?))$" required>
-                                    <p class="alerts"
-                                        *ngIf="flatRatevalueControl.invalid && flatRatevalueControl.touched">Invalid
-                                        flat rate
-                                    </p>
-                                    <small>Amount to be charged</small>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-xs-12">
-                                <div class="form-group"
-                                    [ngClass]="{'was-validated' : maintenanceValueControl.invalid && maintenanceValueControl.touched}">
-                                    <label>Maintenance Value<span class="red">*</span></label>
-                                    <input class="form-control" type="text" name="ASMtDimBs"
-                                        #maintenanceValueControl='ngModel' [(ngModel)]="ASMtDimBs"
-                                        placeholder="Maintenance Value " required pattern="^[0-9]+(\.[0-9]{1,2})?$">
-                                    <p class="alerts"
-                                        *ngIf="maintenanceValueControl.invalid && maintenanceValueControl.touched">
-                                        Invalid
-                                        Maintenance Value
-                                    </p>
-                                    <small>Rate (SQFT / SQMTR) </small>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-xs-12">
-                            <div class="form-group">
-                                <label>Maintenance Type<span class="red">*</span></label>
-                                <input list="maintenencetype" class="form-control" name="ASMtType" [(ngModel)]="ASMtType"
-                                    #maitenanceTypeControl='ngModel' placeholder="Maintenance Type" required>
-                                <datalist id="maintenencetype">
-                                    <option disabled="true" value="">Select Maintenance Type</option>
-                                    <option *ngFor="let item of ASMtTypes" [value]="item">
-                                        {{item}}
-                                    </option>
-                                </datalist>
-                                <p class="alerts" *ngIf="maitenanceTypeControl.invalid && maitenanceTypeControl.touched">
-                                    Invalid Maintenance Type
-                                </p>
-                            </div>
-                            </div>
-                            
-                        </div> 
 
                          <div class="row" style="padding-left:15px;padding-right:15px;">
 
