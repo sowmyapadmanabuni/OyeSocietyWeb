@@ -71,6 +71,9 @@
     display: inline-flex;
 
 }
+.leftalighnmentblocks{
+    padding-right: 200px;
+}
 .blockdetails-form1{
     margin-top: 0px;
     display: flex;
@@ -221,7 +224,7 @@ p.panextext{
 
 }
 .blockdetailsdata{
-    overflow-x: auto;
+    /* overflow-x: auto; */
     display: inline-flex;
 
 }
