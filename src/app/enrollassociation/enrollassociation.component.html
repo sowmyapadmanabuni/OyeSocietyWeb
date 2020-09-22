@@ -178,6 +178,20 @@
                     </mat-form-field>
                 </form>
                 <form [formGroup]="uploadForm" class="association-form">
+                        
+
+                        <div class="file-upload">
+                                <label class="control-label" style="width: 100%;">Upload Association logo</label>
+                                <div class="file-select">
+                                  <div class="file-select-button" id="fileName">Choose File</div>
+                                  <div class="file-select-name" id="noFile">No file chosen...</div> 
+                                  <input type="file" name="chooseFile" id="chooseFile">
+                                </div>
+                              </div>
+                </form>
+               
+                <form [formGroup]="uploadForm" class="association-form">
+
                         <label class="control-label" style="width: 100%;">Upload Association logo</label>
 
                        <div style="width: 130px;">

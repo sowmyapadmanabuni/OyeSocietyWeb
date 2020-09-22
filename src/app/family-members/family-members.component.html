@@ -108,7 +108,7 @@
                                     <label class="control-label">First Name<span class="red">*</span></label>
                                     <input pattern="[a-zA-Z _]*" type="text" [(ngModel)]='FirstName' maxlength="30"
                                         #fnameControl="ngModel" name="FirstName"
-                                        class="form-control" placeholder="First Name" required/>
+                                        class="form-control" placeholder="First Name" required (keypress)=_keyPress1($event)/>
                                     <p class="alerts" *ngIf="fnameControl.invalid && fnameControl.touched"> Enter valid
                                        First Name</p>
                                 </div>
@@ -267,7 +267,7 @@
                 <div class="form-group">
                     <label><b>Family Member Name</b></label>
                 <input type="text" placeholder="First Name" [(ngModel)]='EditFirstName' maxlength="30"
-                    name="EditFirstName" class="form-control" #FirstNameControl="ngModel" style="margin-bottom: 10px;" required>
+                    name="EditFirstName" class="form-control" #FirstNameControl="ngModel" style="margin-bottom: 10px;" (keypress)=_keyPress1($event) required>
                     <p class="alerts" *ngIf="FirstNameControl.touched && FirstNameControl.invalid"> Enter family member name</p>
                 </div>
                 
