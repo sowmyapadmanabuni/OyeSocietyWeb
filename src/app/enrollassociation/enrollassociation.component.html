@@ -454,7 +454,7 @@
                                             <div>
                                                 <mat-form-field class="blockdetails-form">
                                                     <mat-label
-                                                        [ngClass]="{'green-lbl':blocksArray[i]['units']!=undefined,'red-lbl':blocksArray[i]['units']==undefined}">
+                                                        [ngClass]="{'green-lbl':blocksArray[i]['units']!=undefined,'red-lbl':blocksArray[i]['units']==undefined || blocksArray[i]['units']==''}">
                                                         NO OF UNITS<span
                                                             [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
                                                     </mat-label>
@@ -536,7 +536,7 @@
                                 <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Flat Rate value']!=undefined,'red-lbl':blocksArray[i]['Flat Rate value']==undefined}">FLAT RATE VALUE</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Flat Rate value']!=undefined,'red-lbl':blocksArray[i]['Flat Rate value']==undefined || blocksArray[i]['Flat Rate value']==''}">FLAT RATE VALUE</mat-label>
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="FLAT RATE" 
                                             [(ngModel)]="blocksArray[i]['Flat Rate value']"
                                             (keyup)="geFlatRatevalue(blocksArray[i]['Id'],blocksArray[i]['Flat Rate value'])"
@@ -547,7 +547,7 @@
                                     </div>
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance value']!=undefined,'red-lbl':blocksArray[i]['Maintenance value']==undefined}">MAINTENANCE VALUE</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance value']!=undefined,'red-lbl':blocksArray[i]['Maintenance value']==undefined || blocksArray[i]['Maintenance value']==''}">MAINTENANCE VALUE</mat-label>
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="MAINTENANCE VALUE" 
                                             [(ngModel)]="blocksArray[i]['Maintenance value']"
                                             (keyup)="getMaintenancevalue(blocksArray[i]['Id'],blocksArray[i]['Maintenance value'])"
@@ -558,7 +558,7 @@
                                     </div>
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance Type']!=undefined,'red-lbl':blocksArray[i]['Maintenance Type']==undefined}">MAINTENANCE TYPE</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance Type']!=undefined,'red-lbl':blocksArray[i]['Maintenance Type']==undefined || blocksArray[i]['Maintenance Type']==''}">MAINTENANCE TYPE</mat-label>
                                             <mat-select [disabled]="obj['disableField']==true" [(value)]="blocksArray[i]['Maintenance Type']" (selectionChange)="getASMtType(blocksArray[i]['Id'],$event.value)">
                                                 <mat-option *ngFor="let item of ASMtTypes" [value]="item">{{item}}
                                                 </mat-option>
@@ -570,7 +570,7 @@
                                 <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Unit Of Measurement']!=undefined,'red-lbl':blocksArray[i]['Unit Of Measurement']==undefined}">UNIT OF MEASUREMENT</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Unit Of Measurement']!=undefined,'red-lbl':blocksArray[i]['Unit Of Measurement']==undefined || blocksArray[i]['Unit Of Measurement']==''}">UNIT OF MEASUREMENT</mat-label>
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="UNIT OF MEASUREMENT" 
                                             [(ngModel)]="blocksArray[i]['Unit Of Measurement']"
                                             (keyup)="getUnitOfMeasurement(blocksArray[i]['Id'],blocksArray[i]['Unit Of Measurement'])"
@@ -581,7 +581,7 @@
                                     </div>
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Creation Frequency']!=undefined,'red-lbl':blocksArray[i]['Invoice Creation Frequency']==undefined}">INVOICE CREATION FREQUENCY</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Creation Frequency']!=undefined,'red-lbl':blocksArray[i]['Invoice Creation Frequency']==undefined || blocksArray[i]['Invoice Creation Frequency']==''}">INVOICE CREATION FREQUENCY</mat-label>
                                             <mat-select [disabled]="obj['disableField']==true" [(value)]="blocksArray[i]['Invoice Creation Frequency']" (selectionChange)="getInvoiceCreationFrequencyValue(blocksArray[i]['Id'],$event.value)">
                                                 <mat-option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">{{frequency['displayName']}}
                                                 </mat-option>
@@ -592,7 +592,7 @@
                                     </div>
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Generation Date']!=undefined,'red-lbl':blocksArray[i]['Invoice Generation Date']==undefined}">INVOICE GENERATION DATE</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Generation Date']!=undefined,'red-lbl':blocksArray[i]['Invoice Generation Date']==undefined || blocksArray[i]['Invoice Generation Date']==null}">INVOICE GENERATION DATE</mat-label>
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="INVOICE GENERATION DATE" 
                                             [(ngModel)]="blocksArray[i]['Invoice Generation Date']" (click)="getInvoiceGenerationDate(blocksArray[i]['Id'],$event)"
                                             value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
@@ -604,7 +604,7 @@
                                 <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Due Date']!=undefined,'red-lbl':blocksArray[i]['Due Date']==undefined}">DUE DATE</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Due Date']!=undefined,'red-lbl':blocksArray[i]['Due Date']==undefined || blocksArray[i]['Due Date']==null}">DUE DATE</mat-label>
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="DUE DATE" 
                                             [(ngModel)]="blocksArray[i]['Due Date']" (click)="getDueDate(blocksArray[i]['Id'],$event)"
                                             value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
@@ -614,7 +614,7 @@
                                       </div>
                                       <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge Type']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge Type']==undefined}">LATE PAYMENT CHARGE TYPE</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge Type']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge Type']==undefined || blocksArray[i]['Late Payment Charge Type']==''}">LATE PAYMENT CHARGE TYPE</mat-label>
                                             <mat-select [disabled]="obj['disableField']==true" [(value)]="blocksArray[i]['Late Payment Charge Type']" (selectionChange)="getLatePymtChargeType(blocksArray[i]['Id'],$event.value)">
                                                 <mat-option *ngFor="let lpct of latePymtChrgTypes" [value]="lpct['name']">{{lpct['name']}}
                                                 </mat-option>
@@ -625,7 +625,7 @@
                                       </div>
                                       <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge']==undefined}">LATE PAYMENT CHARGE</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge']==undefined || blocksArray[i]['Late Payment Charge']==''}">LATE PAYMENT CHARGE</mat-label>
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="LATE PAYMENT CHARGE" 
                                             [(ngModel)]="blocksArray[i]['Late Payment Charge']"
                                             (keyup)="getLatePaymentCharge(blocksArray[i]['Id'],blocksArray[i]['Late Payment Charge'])"
@@ -638,7 +638,7 @@
                                 <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                     <div>
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Starts From']!=undefined,'red-lbl':blocksArray[i]['Starts From']==undefined}">STARTS FROM</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Starts From']!=undefined,'red-lbl':blocksArray[i]['Starts From']==undefined || blocksArray[i]['Starts From']==''}">STARTS FROM</mat-label>
                                             <input disabled="{{obj['disableField']==true}}" matInput placeholder="STARTS FROM" 
                                             [(ngModel)]="blocksArray[i]['Starts From']" (click)="getStartsFromDate(blocksArray[i]['Id'],$event)" 
                                             value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
@@ -1407,7 +1407,7 @@
                                                     <div>
                                                         <mat-form-field class="blockdetails-form1">
                                                             <mat-label
-                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unittype']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unittype']==undefined}">
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unittype']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unittype']==undefined || unitlistjson[blocknameforIteration][i]['unittype']==''}">
                                                                 UNIT TYPE<span
                                                                     [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                             </mat-label>
@@ -1425,7 +1425,7 @@
                                                     <div>
                                                         <mat-form-field class="blockdetails-form1">
                                                             <mat-label
-                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownershipstatus']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownershipstatus']==undefined}">
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownershipstatus']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownershipstatus']==undefined || unitlistjson[blocknameforIteration][i]['ownershipstatus']==''}">
                                                                 OCCUPANCY & OWNERSHIP STATUS<span
                                                                     [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                             </mat-label>
@@ -1444,7 +1444,7 @@
                                                     <div>
                                                         <mat-form-field class="blockdetails-form">
                                                             <mat-label
-                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unit dimension']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unit dimension']==undefined}">
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unit dimension']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unit dimension']==undefined || unitlistjson[blocknameforIteration][i]['unit dimension']==''}">
                                                                 UNIT DIMENSION<span
                                                                     [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                             </mat-label>
@@ -1463,7 +1463,7 @@
                                                     <div>
                                                         <mat-form-field class="blockdetails-form">
                                                             <mat-label
-                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['Unit Calculation Type']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['Unit Calculation Type']==undefined}">
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['Unit Calculation Type']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['Unit Calculation Type']==undefined || unitlistjson[blocknameforIteration][i]['Unit Calculation Type']==''}">
                                                                 CALCULATION TYPE<span
                                                                     [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                             </mat-label>
@@ -1483,7 +1483,7 @@
                                                     <div>
                                                         <mat-form-field class="blockdetails-form">
                                                             <mat-label
-                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unit rate']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unit rate']==undefined}">
+                                                                [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['unit rate']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['unit rate']==undefined || unitlistjson[blocknameforIteration][i]['unit rate']==''}">
                                                                 UNIT RATE<span
                                                                     [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                             </mat-label>
@@ -1513,7 +1513,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownerfirstname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownerfirstname']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownerfirstname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownerfirstname']==undefined || unitlistjson[blocknameforIteration][i]['ownerfirstname']==''}">
                                                                     OWNER FIRST NAME<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>
@@ -1533,7 +1533,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownerlastname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownerlastname']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownerlastname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownerlastname']==undefined || unitlistjson[blocknameforIteration][i]['ownerlastname']==''}">
                                                                     OWNER LAST NAME<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>
@@ -1553,7 +1553,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownermobilenumber']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownermobilenumber']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['ownermobilenumber']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['ownermobilenumber']==undefined || unitlistjson[blocknameforIteration][i]['ownermobilenumber']==''}">
                                                                     OWNER MOBILE NUMBER<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>
@@ -1573,7 +1573,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['owneremaiid']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['owneremaiid']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['owneremaiid']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['owneremaiid']==undefined || unitlistjson[blocknameforIteration][i]['owneremaiid']==''}">
                                                                     OWNER EMAIL ID<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>
@@ -1601,7 +1601,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantfirstname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantfirstname']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantfirstname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantfirstname']==undefined || unitlistjson[blocknameforIteration][i]['tenantfirstname']==''}">
                                                                     TENANT FIRST NAME<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>
@@ -1621,7 +1621,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantlastname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantlastname']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantlastname']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantlastname']==undefined || unitlistjson[blocknameforIteration][i]['tenantlastname']==''}">
                                                                     TENANT LAST NAME<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>
@@ -1641,7 +1641,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantmobilenumber']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantmobilenumber']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantmobilenumber']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantmobilenumber']==undefined || unitlistjson[blocknameforIteration][i]['tenantmobilenumber']==''}">
                                                                     TENANT MOBILE NUMBER<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>
@@ -1661,7 +1661,7 @@
                                                             <mat-form-field class="blockdetails-form1"
                                                                 *ngIf="unitlistjson[blocknameforIteration][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blocknameforIteration][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                 <mat-label
-                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantemaiid']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantemaiid']==undefined}">
+                                                                    [ngClass]="{'green-lbl':unitlistjson[blocknameforIteration][i]['tenantemaiid']!=undefined,'red-lbl':unitlistjson[blocknameforIteration][i]['tenantemaiid']==undefined || unitlistjson[blocknameforIteration][i]['tenantemaiid']==''}">
                                                                     TENANT EMAIL ID<span
                                                                         [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                 </mat-label>

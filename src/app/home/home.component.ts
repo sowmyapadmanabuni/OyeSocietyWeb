@@ -245,6 +245,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['resident-invoice']);
   }
   getAssociation() {
+    $(".se-pre-con")[0].innerHTML = "";
     $(".se-pre-con").show();
     //console.log('this.accountID',this.accountID);
     this.dashBrdService.getAssociation(this.accountID).subscribe(res => {

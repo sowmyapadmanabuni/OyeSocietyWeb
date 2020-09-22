@@ -879,7 +879,7 @@ export class EnrollassociationComponent implements OnInit {
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
       $(".se-pre-con").show();
-      this.unitsuccesscount = 0;
+      //this.unitsuccesscount = 0;
       let tempArr = [];
       this.unitlistjson[name].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -1302,8 +1302,7 @@ export class EnrollassociationComponent implements OnInit {
         console.log('insidelasttab');
         if (!this.duplicateUnitrecordexist) {
           console.log('inlasttabNoduplicaterecordexist');
-          let mesg = `Your Association is Created Successfully
-                      Total Unit Created - ${this.totalUnitcount}`
+          let mesg = `Total Unit Created - ${this.totalUnitcount}`
           document.getElementById('unitupload_excel').style.display = 'none'
           document.getElementById('unitshowmanual').style.display = 'block';
           document.getElementById('unitsmanualnew').style.display = 'none';
@@ -2522,7 +2521,7 @@ export class EnrollassociationComponent implements OnInit {
          else{ */
     if (this.duplicateBlocknameExist) {
       $(".se-pre-con").show();
-      this.blocksuccesscount = 0;
+      //this.blocksuccesscount = 0;
       console.log('duplicateBlocknameExist');
       console.log(this.blocksArray);
       this.toggleEmptyBlockarray = true;
@@ -3216,7 +3215,8 @@ export class EnrollassociationComponent implements OnInit {
    onFileChange(ev,blockprogressbartemplate: TemplateRef<any>) {
     this.blockprogressbartemplate = blockprogressbartemplate;
     console.log($(".se-pre-con"))
-    $(".se-pre-con")[0].innerHTML = `<span style="position: absolute;top: 67%;left: 40%;">Please wait don't navigate back or reload page</span>`;
+    $(".se-pre-con")[0].innerHTML = `<span style="position: absolute;top: 67%;left: 42%;font-size: 22px;color: red;">Validating block records</span><br>
+    <span style="position: absolute;top: 74%;left: 34%;font-size: 22px;color: red;">please wait don't navigate back or reload page</span>`;
 
     $(".se-pre-con").show();
    this.isblockdetailsempty = false;
@@ -4124,18 +4124,18 @@ export class EnrollassociationComponent implements OnInit {
         if (element['units'] == "") {
           element['isnotvalidunits'] = true;
           this.blockdetailInvalid = true;
-          this.facilitymanagervalid_but_mobilenumberempty = false;
-          element.facilitymanagervalid_but_mobilenumberempty = false;
+          //this.facilitymanagervalid_but_mobilenumberempty = false;
+          //element.facilitymanagervalid_but_mobilenumberempty = false;
           if(element['mobile number'] !=''){
-            this.mobilenumbervalid_but_facilitymanagerempty = true;
-            element.mobilenumbervalid_but_facilitymanagerempty = true;
+            //this.mobilenumbervalid_but_facilitymanagerempty = true;
+            //element.mobilenumbervalid_but_facilitymanagerempty = true;
             element.isblockdetailsempty1 = true;
             this.isblockdetailsempty = true;
             console.log('4');
           }
           else{
-            this.mobilenumbervalid_but_facilitymanagerempty = false;
-            element.mobilenumbervalid_but_facilitymanagerempty = false;
+            //this.mobilenumbervalid_but_facilitymanagerempty = false;
+            //element.mobilenumbervalid_but_facilitymanagerempty = false;
             console.log('5');
           }
         }
@@ -4143,17 +4143,17 @@ export class EnrollassociationComponent implements OnInit {
           element['isnotvalidunits'] = false;
           console.log('mobile number',element['mobile number']);
           if(element['mobile number'] =='' || element['mobile number'] == undefined){
-            this.facilitymanagervalid_but_mobilenumberempty = true;
-            element.facilitymanagervalid_but_mobilenumberempty = true;
+            //this.facilitymanagervalid_but_mobilenumberempty = true;
+            //element.facilitymanagervalid_but_mobilenumberempty = true;
             element.isblockdetailsempty1 = true;
             this.isblockdetailsempty = true;
-            this.mobilenumbervalid_but_facilitymanagerempty = false;
-            element.mobilenumbervalid_but_facilitymanagerempty = false;
+            //this.mobilenumbervalid_but_facilitymanagerempty = false;
+            //element.mobilenumbervalid_but_facilitymanagerempty = false;
             console.log('6');
           }
           else{
-            this.mobilenumbervalid_but_facilitymanagerempty = false;
-            element.mobilenumbervalid_but_facilitymanagerempty = false;
+            //this.mobilenumbervalid_but_facilitymanagerempty = false;
+            //element.mobilenumbervalid_but_facilitymanagerempty = false;
             console.log('1');
             element.isblockdetailsempty1 = false;
             this.isblockdetailsempty = false;
@@ -6191,7 +6191,8 @@ this.canDoBlockLogicalOrder=true;
   blockunitcountmodalRef: BsModalRef;
 
   onFileunitdetailschange(ev, UpdateBlockUnitCountTemplate,unitprogressbartemplate: TemplateRef<any>) {
-    $(".se-pre-con")[0].innerHTML = `<span style="position: absolute;top: 67%;left: 40%;">Please wait don't navigate back or reload page</span>`;
+    $(".se-pre-con")[0].innerHTML = `<span style="position: absolute;top: 67%;left: 42%;font-size: 22px;color: red;">Validating unit records</span><br>
+    <span style="position: absolute;top: 74%;left: 34%;font-size: 22px;color: red;">please wait don't navigate back or reload page</span>`;
     $(".se-pre-con").show();
     this.unitsuccesscount = 0;
     this.unitprogressbartemplate = unitprogressbartemplate;
@@ -6249,6 +6250,7 @@ this.canDoBlockLogicalOrder=true;
               console.log(elemnt);
               elemnt.blockname = '';
               elemnt.hasNoDuplicateBlockname=false;
+              elemnt.isNotBlockCreated_NowValid=false;
               // elemnt.units = '';
               // elemnt.fecilitymanagername = '';
               // elemnt.managermobileno = ''; 
@@ -6296,6 +6298,7 @@ this.canDoBlockLogicalOrder=true;
                 unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
                 unit.hasNoDuplicateUnitname = false;
                 unit.flatno = "",
+                unit['isnotvalidflatno'] = true,
                   unit.blockname = "",
                   unit.owneremaiid = "",
                   unit.ownerfirstname = "",
