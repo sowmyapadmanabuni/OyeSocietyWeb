@@ -1337,11 +1337,13 @@
                         </li>
                     </ul>
                     <div class="tab-content col-md-10">
-                        <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units <i class="fa fa-angle-right" aria-hidden="true"></i></p>
+                        <!-- <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units <i class="fa fa-angle-right" aria-hidden="true"></i></p> -->
                         <div *ngFor="let iitem of blocksArray;let i=index">
                             <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
-                                <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
-                                    <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clright()" class="go-right">Go Right</a> 
+                                <div style="display: flex;">
+                                    <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
+                                    <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clright()" class="go-right">Go Right</a>
+                                </div> 
                                     <div [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" class="overflow-hidden" style="width: 900px;overflow: hidden;">
 
                                         <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }"
@@ -1473,7 +1475,7 @@
                                                             </mat-label>
                                                             <input maxlength="100"
                                                                 (keyup)="getUnitrate(unitlistjson[blocknameforIteration][i]['Id'],unitlistjson[blocknameforIteration][i]['unit rate'],blocknameforIteration,unitlistjson[blocknameforIteration][i]['flatno'])"
-                                                                (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput placeholder="UNIT RATE"
+                                                                (keypress)="_keyPressValidateUnitrate($event)" pattern="[0-9]*" class="text" matInput placeholder="UNIT RATE"
                                                                 disabled="{{obj['disableField']==true}}" [(ngModel)]="obj['unit rate']"
                                                                 [ngModelOptions]="{standalone:true}" value="">
                                                         </mat-form-field>
