@@ -92,6 +92,7 @@
     .panel {float: left;width: 100%;margin-bottom: 20px;background-color: #fff;border: 1px solid transparent;border-radius: 0px;box-shadow: 0px 0px 4px 3px #e5dfdf;padding: 43px 3px;border: none;}
     label{font-size:12px !important;font-weight: 500 !important}
     .panel-body{display: flex;justify-content: space-between;padding: 0px !important;align-items: flex-end;}
+    .addblocksleft{display: flex;padding: 0px !important;align-items: flex-end;}
     .content{margin-bottom: 40px}
     .c-active{border-right: 4px solid #5a51aa;}
     .join_ass_opt{font-size: 15px;font-weight: 700;margin: 0px 0px 52px 0px;padding: 0px 0px 30px 0px;color: #5a51aa;}
@@ -157,6 +158,7 @@
     .form-groupblocks{
         margin-bottom: 15px;
         margin-top: 15px;
+        padding-right: 150px;
     }
     ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
         background-color: #B51414 !important;
