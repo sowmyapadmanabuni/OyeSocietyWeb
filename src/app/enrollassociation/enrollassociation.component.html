@@ -423,9 +423,9 @@
                                             <div class="leftalighnmentblocks">
                                                 <mat-form-field class="blockdetails-form">
                                                     <mat-label
-                                                        [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">
+                                                        [ngClass]="{'green-lbl':obj['isnotvalidblockname']==false,'red-lbl':obj['isnotvalidblockname']==true}">
                                                         BLOCK NAME/NUMBER<span
-                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                            [ngClass]="{'green-lbl':obj['isnotvalidblockname']==false,'red-lbl':obj['isnotvalidblockname']==true}">*</span>
                                                     </mat-label>
                                                     <input disabled="{{obj['disableField']==true}}" matInput placeholder="BLOCK NAME/NUMBER"
                                                         pattern="[a-zA-Z0-9 _]*" (keyup)="getblocknameornumber(blocksArray[i]['Id'],blocksArray[i].blockname)"
