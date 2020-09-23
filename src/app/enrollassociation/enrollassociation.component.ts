@@ -3034,20 +3034,20 @@ export class EnrollassociationComponent implements OnInit {
           this.blocksArray.forEach(elemnt => {
             if (elemnt.Id == objId) {
               console.log('elemnt.Id==objId');
-              elemnt.blockname = '';
+              elemnt.blockname = null;
               // elemnt.blocktype='';
-              elemnt.units = '';
+              elemnt.units = null;
               elemnt['facility manager']='';
               elemnt['mobile number']='';
               elemnt['email id']='';
-              elemnt['Flat Rate value']='';
-              elemnt['Maintenance value']='';
-              elemnt['Maintenance Type']='';
-              elemnt['Invoice Creation Frequency']='';
+              elemnt['Flat Rate value']=null;
+              elemnt['Maintenance value']=null;
+              elemnt['Maintenance Type']=null;
+              elemnt['Invoice Creation Frequency']=null;
               elemnt['Invoice Generation Date']= null;
               elemnt['Due Date']= null;
-              elemnt['Late Payment Charge Type']='';
-              elemnt['Late Payment Charge']='';
+              elemnt['Late Payment Charge Type']=null;
+              elemnt['Late Payment Charge']=null;
               elemnt['Starts From']= null;
               elemnt['isblockdetailsempty1'] =true;
               
@@ -6300,21 +6300,19 @@ this.canDoBlockLogicalOrder=true;
                 unit.flatno = "",
                 unit['isnotvalidflatno'] = true,
                   unit.blockname = "",
-                  unit.owneremaiid = "",
-                  unit.ownerfirstname = "",
-                  unit.ownermobilenumber = "",
-                  unit.ownershipstatus = "",
-                  unit.unittype = "",
-                  unit.ownerlastname = "",
-                  unit.ownermobilenumber = "",
-                  unit.owneremaiid = "",
-                  unit.tenantfirstname = "",
-                  unit.tenantlastname = "",
-                  unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = ""
-                  unit['unit dimension'] = "";
-                  unit['Unit Calculation Type'] = "";
-                  unit['unit rate'] = "";
+                  unit.owneremaiid = null,
+                  unit.ownerfirstname = null,
+                  unit.ownermobilenumber = null,
+                  unit.ownershipstatus = null,
+                  unit.unittype = null,
+                  unit.ownerlastname = null,
+                  unit.tenantfirstname = null,
+                  unit.tenantlastname = null,
+                  unit.tenantmobilenumber = null,
+                  unit.tenantemaiid = null,
+                  unit['unit dimension'] = null;
+                  unit['Unit Calculation Type'] = null;
+                  unit['unit rate'] = null;
 
               }
             })
@@ -6818,23 +6816,21 @@ this.canDoBlockLogicalOrder=true;
             this.unitlistjson[element].forEach(unit => {
               if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
                 console.log(Id);
-                unit.flatno = "",
+                unit.flatno = null,
                   unit.blockname = "",
-                  unit.owneremaiid = "",
-                  unit.ownerfirstname = "",
-                  unit.ownermobilenumber = "",
-                  unit.ownershipstatus = "",
-                  unit.unittype = "",
-                  unit.ownerlastname = "",
-                  unit.ownermobilenumber = "",
-                  unit.owneremaiid = "",
-                  unit.tenantfirstname = "",
-                  unit.tenantlastname = "",
-                  unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = "",
-                  unit['unit dimension'] = "";
-                  unit['Unit Calculation Type'] = "";
-                  unit['unit rate'] = "";
+                  unit.owneremaiid = null,
+                  unit.ownerfirstname = null,
+                  unit.ownermobilenumber = null,
+                  unit.ownershipstatus = null,
+                  unit.unittype = null,
+                  unit.ownerlastname = null,
+                  unit.tenantfirstname = null,
+                  unit.tenantlastname = null,
+                  unit.tenantmobilenumber = null,
+                  unit.tenantemaiid = null,
+                  unit['unit dimension'] = null;
+                  unit['Unit Calculation Type'] = null;
+                  unit['unit rate'] = null;
               }
             })
           })
