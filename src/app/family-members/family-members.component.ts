@@ -300,7 +300,7 @@ updatefamilymember() {
 // UPDATE FAMILY MEMBER API CALL END
 
 _keyPress1(event1: any) {
-  const pattern1 = /[^A-Za-z]/;
+  const pattern1 = /^[A-Za-z]+$/;
   let inputChar1 = String.fromCharCode(event1.charCode);
   if (!pattern1.test(inputChar1)) {
       event.preventDefault();
