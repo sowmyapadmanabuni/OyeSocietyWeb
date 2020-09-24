@@ -2001,241 +2001,243 @@ export class EnrollassociationComponent implements OnInit {
         }
         /**/
         if (name.toLowerCase() == headername.toLowerCase()) {
-          console.log(unit);
-          console.log(flatno);
-          console.log(this.unitlistjson[element]);
-          console.log('this.isunitdetailsempty-',this.isunitdetailsempty);
-            if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
-                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
-                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
-                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
-                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
-              ) {
-                console.log('test0-Sold Owner Occupied Unit')
-                this.isunitdetailsempty = false;
-                unit.isSingleUnitDataEmpty = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-              }
-              else {
-                console.log('test1-Sold Owner Occupied Unit')
-                this.isunitdetailsempty = true;
-                unit.isSingleUnitDataEmpty = false;
-                let unit_group = this.unitlistjson[element].reduce((r, a) => {
-                  if(a.flatno != undefined){
-                    r[a.flatno] = [...r[a.flatno] || [], a];
-                  }
-                  return r;
-                }, {});
-                console.log("unit_group", unit_group);
-                Object.keys(unit_group).forEach(element => {
-                  if (unit_group[element].length > 1) {
-                    this.isunitdetailsempty = false;
-                    console.log(unit)
-                  }
-                  else if (unit_group[element].length == 1) {
-                    console.log(unit)
-                    unit_group[element].forEach(itm1=>{
-                      if(flatno != undefined){
-                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                          unit.hasNoDuplicateUnitname = true;
+          if(unit.isUnitCreated == false){
+            console.log(unit);
+            console.log(flatno);
+            console.log(this.unitlistjson[element]);
+            console.log('this.isunitdetailsempty-',this.isunitdetailsempty);
+              if (unit.ownershipstatus == "Sold Owner Occupied Unit" || unit.ownershipstatus == "Sold Vacant Unit") {
+                if (unit.flatno == "" || unit.flatno == undefined ||
+                  unit.unittype == "" || unit.unittype == undefined ||
+                  unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                  unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                  unit['unit rate'] == "" || unit['unit rate'] == undefined ||
+                  unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                  unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                  unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                  unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+                  unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined
+                ) {
+                  console.log('test0-Sold Owner Occupied Unit')
+                  this.isunitdetailsempty = false;
+                  unit.isSingleUnitDataEmpty = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
+                else {
+                  console.log('test1-Sold Owner Occupied Unit')
+                  //this.isunitdetailsempty = true;
+                  unit.isSingleUnitDataEmpty = false;
+                  let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                    if(a.flatno != undefined){
+                      r[a.flatno] = [...r[a.flatno] || [], a];
+                    }
+                    return r;
+                  }, {});
+                  console.log("unit_group", unit_group);
+                  Object.keys(unit_group).forEach(element => {
+                    if (unit_group[element].length > 1) {
+                      this.isunitdetailsempty = false;
+                      console.log(unit)
+                    }
+                    else if (unit_group[element].length == 1) {
+                      console.log(unit)
+                      unit_group[element].forEach(itm1=>{
+                        if(flatno != undefined){
+                          if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                            unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                            unit.hasNoDuplicateUnitname = true;
+                          }
                         }
-                      }
-                    })
-                  }
-                })
+                      })
+                    }
+                  })
+                }
               }
-            }
-            else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
-              console.log('inside-"Sold Tenant Occupied Unit2"');
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                // unit.blockname == "" || unit.blockname == undefined ||
-                unit.owneremaiid == "" || unit.owneremaiid == undefined ||
-                unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
-                unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined ||
-
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
-                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
-                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
-                unit.ownerlastname == "" || unit.ownerlastname == undefined ||
-
-                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
-                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
-                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
-                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
-                  console.log('test0-Sold Tenant Occupied Unit')
-                this.isunitdetailsempty = false;
-                unit.isSingleUnitDataEmpty = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-              }
-              else {
-                console.log('test1-Sold Tenant Occupied Unit')
-                this.isunitdetailsempty = true;
-                unit.isSingleUnitDataEmpty = false;
-                let unit_group = this.unitlistjson[element].reduce((r, a) => {
-                  if(a.flatno != undefined){
-                    r[a.flatno] = [...r[a.flatno] || [], a];
-                  }
-                  return r;
-                }, {});
-                console.log("unit_group", unit_group);
-                Object.keys(unit_group).forEach(element => {
-                  if (unit_group[element].length > 1) {
-                    this.isunitdetailsempty = false;
-                  }
-                  else if (unit_group[element].length == 1) {
-                    console.log(unit)
-                    unit_group[element].forEach(itm1=>{
-                      if(flatno != undefined){
-                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                          unit.hasNoDuplicateUnitname = true;
+              else if (unit.ownershipstatus == "Sold Tenant Occupied Unit") {
+                console.log('inside-"Sold Tenant Occupied Unit2"');
+                if (unit.flatno == "" || unit.flatno == undefined ||
+                  // unit.blockname == "" || unit.blockname == undefined ||
+                  unit.owneremaiid == "" || unit.owneremaiid == undefined ||
+                  unit.ownerfirstname == "" || unit.ownerfirstname == undefined ||
+                  unit.ownermobilenumber == "" || unit.ownermobilenumber == undefined ||
+  
+                  unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                  unit.unittype == "" || unit.unittype == undefined ||
+                  unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                  unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                  unit['unit rate'] == "" || unit['unit rate'] == undefined ||
+                  unit.ownerlastname == "" || unit.ownerlastname == undefined ||
+  
+                  unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                  unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                  unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                  unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                    console.log('test0-Sold Tenant Occupied Unit')
+                  this.isunitdetailsempty = false;
+                  unit.isSingleUnitDataEmpty = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
+                else {
+                  console.log('test1-Sold Tenant Occupied Unit')
+                  //this.isunitdetailsempty = true;
+                  unit.isSingleUnitDataEmpty = false;
+                  let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                    if(a.flatno != undefined){
+                      r[a.flatno] = [...r[a.flatno] || [], a];
+                    }
+                    return r;
+                  }, {});
+                  console.log("unit_group", unit_group);
+                  Object.keys(unit_group).forEach(element => {
+                    if (unit_group[element].length > 1) {
+                      this.isunitdetailsempty = false;
+                    }
+                    else if (unit_group[element].length == 1) {
+                      console.log(unit)
+                      unit_group[element].forEach(itm1=>{
+                        if(flatno != undefined){
+                          if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                            unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                            unit.hasNoDuplicateUnitname = true;
+                          }
                         }
-                      }
-                    })
-                  }
-                })
+                      })
+                    }
+                  })
+                }
               }
-            }
-            else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                // unit.blockname == "" || unit.blockname == undefined ||
-
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
-                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
-                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
-                unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
-                unit.tenantlastname == "" || unit.tenantlastname == undefined ||
-                unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
-                unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
-                  console.log('test0-UnSold Tenant Occupied Unit')
-                this.isunitdetailsempty = false;
-                unit.isSingleUnitDataEmpty = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-              }
-              else {
-                console.log('test1-UnSold Tenant Occupied Unit')
-                this.isunitdetailsempty = true;
-                unit.isSingleUnitDataEmpty = false;
-                let unit_group = this.unitlistjson[element].reduce((r, a) => {
-                  if(a.flatno != undefined){
-                    r[a.flatno] = [...r[a.flatno] || [], a];
-                  }
-                  return r;
-                }, {});
-                console.log("unit_group", unit_group);
-                Object.keys(unit_group).forEach(element => {
-                  if (unit_group[element].length > 1) {
-                    this.isunitdetailsempty = false;
-                  }
-                  else if (unit_group[element].length == 1) {
-                    console.log(unit)
-                    unit_group[element].forEach(itm1=>{
-                      if(flatno != undefined){
-                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                          unit.hasNoDuplicateUnitname = true;
+              else if (unit.ownershipstatus == "UnSold Tenant Occupied Unit") {
+                if (unit.flatno == "" || unit.flatno == undefined ||
+                  // unit.blockname == "" || unit.blockname == undefined ||
+  
+                  unit.ownershipstatus == "" || unit.ownershipstatus == undefined ||
+                  unit.unittype == "" || unit.unittype == undefined ||
+                  unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                  unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                  unit['unit rate'] == "" || unit['unit rate'] == undefined ||
+                  unit.tenantfirstname == "" || unit.tenantfirstname == undefined ||
+                  unit.tenantlastname == "" || unit.tenantlastname == undefined ||
+                  unit.tenantmobilenumber == "" || unit.tenantmobilenumber == undefined ||
+                  unit.tenantemaiid == "" || unit.tenantemaiid == undefined) {
+                    console.log('test0-UnSold Tenant Occupied Unit')
+                  this.isunitdetailsempty = false;
+                  unit.isSingleUnitDataEmpty = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
+                else {
+                  console.log('test1-UnSold Tenant Occupied Unit')
+                  //this.isunitdetailsempty = true;
+                  unit.isSingleUnitDataEmpty = false;
+                  let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                    if(a.flatno != undefined){
+                      r[a.flatno] = [...r[a.flatno] || [], a];
+                    }
+                    return r;
+                  }, {});
+                  console.log("unit_group", unit_group);
+                  Object.keys(unit_group).forEach(element => {
+                    if (unit_group[element].length > 1) {
+                      this.isunitdetailsempty = false;
+                    }
+                    else if (unit_group[element].length == 1) {
+                      console.log(unit)
+                      unit_group[element].forEach(itm1=>{
+                        if(flatno != undefined){
+                          if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                            unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                            unit.hasNoDuplicateUnitname = true;
+                          }
                         }
-                      }
-                    })
-                  }
-                })
+                      })
+                    }
+                  })
+                }
               }
-            }
-            else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
-                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
-                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
-                // unit.blockname == "" || unit.blockname == undefined ||
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined
-              ) {
-                console.log('test0-UnSold Vacant Unit')
-                this.isunitdetailsempty = false;
-                unit.isSingleUnitDataEmpty = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-              }
-              else {
-                console.log('test1-UnSold Vacant Unit')
-                this.isunitdetailsempty = true;
-                unit.isSingleUnitDataEmpty = false;
-                let unit_group = this.unitlistjson[element].reduce((r, a) => {
-                  if(a.flatno != undefined){
-                    r[a.flatno] = [...r[a.flatno] || [], a];
-                  }
-                  return r;
-                }, {});
-                console.log("unit_group", unit_group);
-                Object.keys(unit_group).forEach(element => {
-                  if (unit_group[element].length > 1) {
-                    this.isunitdetailsempty = false;
-                  }
-                  else if (unit_group[element].length == 1) {
-                    console.log(unit)
-                    unit_group[element].forEach(itm1=>{
-                      if(flatno != undefined){
-                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                          unit.hasNoDuplicateUnitname = true;
+              else if (unit.ownershipstatus == "UnSold Vacant Unit" || unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                if (unit.flatno == "" || unit.flatno == undefined ||
+                  unit.unittype == "" || unit.unittype == undefined ||
+                  unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                  unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                  unit['unit rate'] == "" || unit['unit rate'] == undefined ||
+                  // unit.blockname == "" || unit.blockname == undefined ||
+                  unit.ownershipstatus == "" || unit.ownershipstatus == undefined
+                ) {
+                  console.log('test0-UnSold Vacant Unit')
+                  this.isunitdetailsempty = false;
+                  unit.isSingleUnitDataEmpty = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
+                else {
+                  console.log('test1-UnSold Vacant Unit')
+                  //this.isunitdetailsempty = true;
+                  unit.isSingleUnitDataEmpty = false;
+                  let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                    if(a.flatno != undefined){
+                      r[a.flatno] = [...r[a.flatno] || [], a];
+                    }
+                    return r;
+                  }, {});
+                  console.log("unit_group", unit_group);
+                  Object.keys(unit_group).forEach(element => {
+                    if (unit_group[element].length > 1) {
+                      this.isunitdetailsempty = false;
+                    }
+                    else if (unit_group[element].length == 1) {
+                      console.log(unit)
+                      unit_group[element].forEach(itm1=>{
+                        if(flatno != undefined){
+                          if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                            unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                            unit.hasNoDuplicateUnitname = true;
+                          }
                         }
-                      }
-                    })
-                  }
-                })
+                      })
+                    }
+                  })
+                }
               }
-            }
-            else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
-              if (unit.flatno == "" || unit.flatno == undefined ||
-                unit.unittype == "" || unit.unittype == undefined ||
-                unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
-                unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
-                unit['unit rate'] == "" || unit['unit rate'] == undefined ||
-                unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
-                console.log('test0-ownershipstatus == " "')
-                this.isunitdetailsempty = false;
-                unit.isSingleUnitDataEmpty = true;
-                unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
-              }
-              else {
-                console.log('test1-ownershipstatus')
-                this.isunitdetailsempty = true;
-                unit.isSingleUnitDataEmpty = false;
-                let unit_group = this.unitlistjson[element].reduce((r, a) => {
-                  if(a.flatno != undefined){
-                    r[a.flatno] = [...r[a.flatno] || [], a];
-                  }
-                  return r;
-                }, {});
-                console.log("unit_group", unit_group);
-                Object.keys(unit_group).forEach(element => {
-                  if (unit_group[element].length > 1) {
-                    this.isunitdetailsempty = false;
-                  }
-                  else if (unit_group[element].length == 1) {
-                    console.log(unit)
-                    unit_group[element].forEach(itm1=>{
-                      if(flatno != undefined){
-                        if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
-                          unit.isUnitNameModifiedForDuplicateRecord = 'No';
-                          unit.hasNoDuplicateUnitname = true;
+              else if (unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                if (unit.flatno == "" || unit.flatno == undefined ||
+                  unit.unittype == "" || unit.unittype == undefined ||
+                  unit['unit dimension'] == "" || unit['unit dimension'] == undefined ||
+                  unit['Unit Calculation Type'] == "" || unit['Unit Calculation Type'] == undefined ||
+                  unit['unit rate'] == "" || unit['unit rate'] == undefined ||
+                  unit.ownershipstatus == "" || unit.ownershipstatus == undefined) {
+                  console.log('test0-ownershipstatus == " "')
+                  this.isunitdetailsempty = false;
+                  unit.isSingleUnitDataEmpty = true;
+                  unit.isUnitNameModifiedForDuplicateRecord = 'Yes';
+                }
+                else {
+                  console.log('test1-ownershipstatus')
+                  //this.isunitdetailsempty = true;
+                  unit.isSingleUnitDataEmpty = false;
+                  let unit_group = this.unitlistjson[element].reduce((r, a) => {
+                    if(a.flatno != undefined){
+                      r[a.flatno] = [...r[a.flatno] || [], a];
+                    }
+                    return r;
+                  }, {});
+                  console.log("unit_group", unit_group);
+                  Object.keys(unit_group).forEach(element => {
+                    if (unit_group[element].length > 1) {
+                      this.isunitdetailsempty = false;
+                    }
+                    else if (unit_group[element].length == 1) {
+                      console.log(unit)
+                      unit_group[element].forEach(itm1=>{
+                        if(flatno != undefined){
+                          if(itm1.flatno.toLowerCase()==flatno.toLowerCase()){
+                            unit.isUnitNameModifiedForDuplicateRecord = 'No';
+                            unit.hasNoDuplicateUnitname = true;
+                          }
                         }
-                      }
-                    })
-                  }
-                })
+                      })
+                    }
+                  })
+                }
               }
-            }
+          }
         }
         /**/
       })
@@ -2570,6 +2572,7 @@ export class EnrollassociationComponent implements OnInit {
       Object.keys(group).forEach(element => {
         if (group[element].length > 1) {
           group[element].forEach(item => {
+            console.log(item);
             this.duplicateBlockArr.push(item);
             this.duplicateBlockCount += 1;
           })
@@ -2630,6 +2633,7 @@ export class EnrollassociationComponent implements OnInit {
         console.log(this.commonblockarray);
       }
       else if(this.duplicateBlockArr.length > 0){
+        console.log('duplicateBlockArr.length > 0');
         $(".se-pre-con").fadeOut("slow");
         document.getElementById('upload_excel').style.display = 'none'
         document.getElementById('showmanualblockwithhorizantalview').style.display = 'none';
@@ -3034,20 +3038,20 @@ export class EnrollassociationComponent implements OnInit {
           this.blocksArray.forEach(elemnt => {
             if (elemnt.Id == objId) {
               console.log('elemnt.Id==objId');
-              elemnt.blockname = '';
+              elemnt.blockname = null;
               // elemnt.blocktype='';
-              elemnt.units = '';
+              elemnt.units = null;
               elemnt['facility manager']='';
               elemnt['mobile number']='';
               elemnt['email id']='';
-              elemnt['Flat Rate value']='';
-              elemnt['Maintenance value']='';
-              elemnt['Maintenance Type']='';
-              elemnt['Invoice Creation Frequency']='';
+              elemnt['Flat Rate value']=null;
+              elemnt['Maintenance value']=null;
+              elemnt['Maintenance Type']=null;
+              elemnt['Invoice Creation Frequency']=null;
               elemnt['Invoice Generation Date']= null;
               elemnt['Due Date']= null;
-              elemnt['Late Payment Charge Type']='';
-              elemnt['Late Payment Charge']='';
+              elemnt['Late Payment Charge Type']=null;
+              elemnt['Late Payment Charge']=null;
               elemnt['Starts From']= null;
               elemnt['isblockdetailsempty1'] =true;
               
@@ -4635,21 +4639,21 @@ export class EnrollassociationComponent implements OnInit {
           element['isNotvalidFlatratevalue'] = true;
           this.blockdetailInvalid = true;
           if (element['facility manager'] != "") {
-            this.facilitymanagervalid_but_mobilenumberempty = true;
-            element.facilitymanagervalid_but_mobilenumberempty = true;
+            //this.facilitymanagervalid_but_mobilenumberempty = true;
+            //element.facilitymanagervalid_but_mobilenumberempty = true;
             element.isblockdetailsempty1 = true;
             this.isblockdetailsempty = true;
           }
           else{
-            this.mobilenumbervalid_but_facilitymanagerempty = false;
-            element.mobilenumbervalid_but_facilitymanagerempty = false;
+            //this.mobilenumbervalid_but_facilitymanagerempty = false;
+            //element.mobilenumbervalid_but_facilitymanagerempty = false;
           }
         }
         else {
           element['isNotvalidFlatratevalue'] = false;
           if (element['facility manager'] != "") {
-            this.facilitymanagervalid_but_mobilenumberempty = false;
-            element.facilitymanagervalid_but_mobilenumberempty = false;
+            //this.facilitymanagervalid_but_mobilenumberempty = false;
+            //element.facilitymanagervalid_but_mobilenumberempty = false;
           }
 
         }
@@ -4768,21 +4772,21 @@ export class EnrollassociationComponent implements OnInit {
           element['isNotvalidMaintenancevalue'] = true;
           this.blockdetailInvalid = true;
           if (element['facility manager'] != "") {
-            this.facilitymanagervalid_but_mobilenumberempty = true;
-            element.facilitymanagervalid_but_mobilenumberempty = true;
+            //this.facilitymanagervalid_but_mobilenumberempty = true;
+            //element.facilitymanagervalid_but_mobilenumberempty = true;
             element.isblockdetailsempty1 = true;
             this.isblockdetailsempty = true;
           }
           else{
-            this.mobilenumbervalid_but_facilitymanagerempty = false;
-            element.mobilenumbervalid_but_facilitymanagerempty = false;
+            //this.mobilenumbervalid_but_facilitymanagerempty = false;
+            //element.mobilenumbervalid_but_facilitymanagerempty = false;
           }
         }
         else {
           element['isNotvalidMaintenancevalue'] = false;
           if (element['facility manager'] != "") {
-            this.facilitymanagervalid_but_mobilenumberempty = false;
-            element.facilitymanagervalid_but_mobilenumberempty = false;
+            //this.facilitymanagervalid_but_mobilenumberempty = false;
+            //element.facilitymanagervalid_but_mobilenumberempty = false;
           }
 
         }
@@ -5703,21 +5707,21 @@ this.canDoBlockLogicalOrder=true;
           element['isNotvalidLatePaymentCharge'] = true;
           this.blockdetailInvalid = true;
           if (element['facility manager'] != "") {
-            this.facilitymanagervalid_but_mobilenumberempty = true;
-            element.facilitymanagervalid_but_mobilenumberempty = true;
+            //this.facilitymanagervalid_but_mobilenumberempty = true;
+            //element.facilitymanagervalid_but_mobilenumberempty = true;
             element.isblockdetailsempty1 = true;
             this.isblockdetailsempty = true;
           }
           else{
-            this.mobilenumbervalid_but_facilitymanagerempty = false;
-            element.mobilenumbervalid_but_facilitymanagerempty = false;
+            //this.mobilenumbervalid_but_facilitymanagerempty = false;
+            //element.mobilenumbervalid_but_facilitymanagerempty = false;
           }
         }
         else {
           element['isNotvalidLatePaymentCharge'] = false;
           if (element['facility manager'] != "") {
-            this.facilitymanagervalid_but_mobilenumberempty = false;
-            element.facilitymanagervalid_but_mobilenumberempty = false;
+            //this.facilitymanagervalid_but_mobilenumberempty = false;
+            //element.facilitymanagervalid_but_mobilenumberempty = false;
           }
 
         }
@@ -6300,21 +6304,19 @@ this.canDoBlockLogicalOrder=true;
                 unit.flatno = "",
                 unit['isnotvalidflatno'] = true,
                   unit.blockname = "",
-                  unit.owneremaiid = "",
-                  unit.ownerfirstname = "",
-                  unit.ownermobilenumber = "",
-                  unit.ownershipstatus = "",
-                  unit.unittype = "",
-                  unit.ownerlastname = "",
-                  unit.ownermobilenumber = "",
-                  unit.owneremaiid = "",
-                  unit.tenantfirstname = "",
-                  unit.tenantlastname = "",
-                  unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = ""
-                  unit['unit dimension'] = "";
-                  unit['Unit Calculation Type'] = "";
-                  unit['unit rate'] = "";
+                  unit.owneremaiid = null,
+                  unit.ownerfirstname = null,
+                  unit.ownermobilenumber = null,
+                  unit.ownershipstatus = null,
+                  unit.unittype = null,
+                  unit.ownerlastname = null,
+                  unit.tenantfirstname = null,
+                  unit.tenantlastname = null,
+                  unit.tenantmobilenumber = null,
+                  unit.tenantemaiid = null,
+                  unit['unit dimension'] = null;
+                  unit['Unit Calculation Type'] = null;
+                  unit['unit rate'] = null;
 
               }
             })
@@ -6818,23 +6820,21 @@ this.canDoBlockLogicalOrder=true;
             this.unitlistjson[element].forEach(unit => {
               if (unit['Id'].toLowerCase() == Id.toLowerCase()) {
                 console.log(Id);
-                unit.flatno = "",
+                unit.flatno = null,
                   unit.blockname = "",
-                  unit.owneremaiid = "",
-                  unit.ownerfirstname = "",
-                  unit.ownermobilenumber = "",
-                  unit.ownershipstatus = "",
-                  unit.unittype = "",
-                  unit.ownerlastname = "",
-                  unit.ownermobilenumber = "",
-                  unit.owneremaiid = "",
-                  unit.tenantfirstname = "",
-                  unit.tenantlastname = "",
-                  unit.tenantmobilenumber = "",
-                  unit.tenantemaiid = "",
-                  unit['unit dimension'] = "";
-                  unit['Unit Calculation Type'] = "";
-                  unit['unit rate'] = "";
+                  unit.owneremaiid = null,
+                  unit.ownerfirstname = null,
+                  unit.ownermobilenumber = null,
+                  unit.ownershipstatus = null,
+                  unit.unittype = null,
+                  unit.ownerlastname = null,
+                  unit.tenantfirstname = null,
+                  unit.tenantlastname = null,
+                  unit.tenantmobilenumber = null,
+                  unit.tenantemaiid = null,
+                  unit['unit dimension'] = null;
+                  unit['Unit Calculation Type'] = null;
+                  unit['unit rate'] = null;
               }
             })
           })

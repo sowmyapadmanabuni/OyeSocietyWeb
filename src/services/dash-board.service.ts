@@ -11,13 +11,13 @@ export class DashBoardService {
   scriptIP:string;
   headers:HttpHeaders;
   mrmRoleID:number;
-  public httpOptions = {
+ /* public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'X-Champ-APIKey': this.scriptIP,
       'Access-Control-Allow-Origin': "*"
     })
-  };
+  }; */
   acfName: any;
   aclName: any;
   acMobile: any;
