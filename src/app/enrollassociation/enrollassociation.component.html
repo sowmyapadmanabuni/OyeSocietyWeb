@@ -177,28 +177,35 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <form [formGroup]="uploadForm" class="association-form">
-                        
-
+                <form *ngIf="fileName!='No file chosen...'" [formGroup]="uploadForm" class="association-form">
                         <div class="file-upload">
-                                <label class="control-label" style="width: 100%;">Upload Association logo</label>
-                                <div class="file-select">
-                                  <div class="file-select-button" id="fileName">Choose File</div>
-                                  <div class="file-select-name" id="noFile">No file chosen...</div> 
-                                  <input type="file" name="chooseFile" id="chooseFile">
+                            <label class="control-label" style="width: 100%;">Upload Association logo</label>
+                            <div class="file-select">
+                                <div class="file-select-button" (click)="openFileinput()" id="fileName">Choose File
                                 </div>
-                              </div>
+                                <div class="file-select-name" id="noFile"><a href="#" (click)="showImgOnPopUp($event,UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')">{{fileName}}</a></div>
+                                <input type="file" [ngStyle]="{'display':hidechooseFile1 ? 'none' : 'block' }" (change)="onFileSelect($event)" name="chooseFile1" id="chooseFile1">
+                            </div>
+                        </div>
                 </form>
                
-                <form [formGroup]="uploadForm" class="association-form">
-
+                <form *ngIf="fileName=='No file chosen...'" [formGroup]="uploadForm" class="association-form">
+                    <div class="file-upload">
                         <label class="control-label" style="width: 100%;">Upload Association logo</label>
-
-                       <div class="file-select">
+                        <div class="file-select">
+                            <div class="file-select-button" id="fileName">Choose File
+                            </div>
+                            <div class="file-select-name" id="noFile">{{fileName}}</div>
+                            <input type="file" (change)="onFileSelect($event)" name="chooseFile" id="chooseFile">
+                        </div>
+                    </div>
+                        <!-- <label class="control-label" style="width: 100%;">Upload Association logo</label>
+                        
+                        <div class="file-select">
                             <div class="file-select-button" id="fileName">Choose File</div>
-                            <div class="file-select-name" id="noFile">No file chosen...</div> 
+                            <div class="file-select-name" id="noFile">No file chosen...</div>
                             <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
-                       </div> 
+                        </div> -->
 
                         <div style="width: 130px;">
                             <!-- <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="assnuploadicon"aria-hidden="true" type="submit" (click)="processFile()"></i> -->
@@ -257,20 +264,46 @@
             <div id="pancardupload">
                 <!-- <mat-label class="control-label">Upload Scanned Pan Card</mat-label> -->
             
-                <label class="control-label">Upload Scanned Pan Card</label>
+                <!-- <label class="control-label">Upload Scanned Pan Card</label> -->
                 <!-- <input type="file" name="uploadPANCard" autocomplete='crtAss.uploadPANCard'
                           [(ngModel)]="crtAssn.uploadPANCard" #uploadPANCardControl="ngModel" class="form-control"
                           (change)='onFilSelected($event)' id="uploadPaninput" style="font-family: Quicksand"
                           pattern="(.*?)\.(png|jpeg|jpg)$" /> -->
                           <div>
-                            <form [formGroup]="uploadPanForm">
-                <input #fileInput3 type="file" id="uploadCaptureInputFile" name="panProfile" (change)="onPanFileSelect($event)" (click)="fileopen1($event,fileInput3)">
-
-                            <!-- <input type="file" name="panProfile" id="uploadCaptureInputFile" (change)="onPanFileSelect($event)" /> -->
-                            <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="panuploadicon" aria-hidden="true" type="submit" (click)="processPanFile()"></i>
-                            <!-- <button class="btn btn-primary-purple" style="margin: 5px 0px;" type="submit">Upload</button>  -->
-                            <img [hidden]="uploadPANCardThumbnail == undefined" id="pancardimg" (click)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
-                                src="{{uploadPANCardThumbnail}}" width="50px" height="50px" style="padding:4px" />
+                            <!-- <form [formGroup]="uploadPanForm">
+                                <input #fileInput3 type="file" id="uploadCaptureInputFile" name="panProfile" (change)="onPanFileSelect($event)"
+                                    (click)="fileopen1($event,fileInput3)">
+                            
+                                <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="panuploadicon" aria-hidden="true" type="submit"
+                                    (click)="processPanFile()"></i>
+                                <img [hidden]="uploadPANCardThumbnail == undefined" id="pancardimg"
+                                    (click)="showImgOnPopUp(UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')"
+                                    src="{{uploadPANCardThumbnail}}" width="50px" height="50px" style="padding:4px" />
+                            </form> -->
+                            <form *ngIf="PANfileName!='No file chosen...'" [formGroup]="uploadPanForm" class="association-form">
+                                <div class="file-upload">
+                                    <label class="control-label" style="width: 100%;">Upload Scanned Pan Card</label>
+                                    <div class="file-select">
+                                        <div class="file-select-button" (click)="openPANFileinput()" id="PANfileName">Choose File
+                                        </div>
+                                        <div class="file-select-name" id="noFile"><a href="#"
+                                                (click)="showImgOnPopUp($event,UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')">{{PANfileName}}</a>
+                                        </div>
+                                        <input type="file" [ngStyle]="{'display':hidePANchooseFile1 ? 'none' : 'block' }"
+                                            (change)="onPanFileSelect($event)" name="panProfile1" id="panProfile1">
+                                    </div>
+                                </div>
+                            </form>
+                            <form *ngIf="PANfileName=='No file chosen...'" [formGroup]="uploadPanForm" class="association-form">
+                                <div class="file-upload">
+                                    <label class="control-label" style="width: 100%;">Upload Scanned Pan Card</label>
+                                    <div class="file-select">
+                                        <div class="file-select-button" id="fileName">Choose File
+                                        </div>
+                                        <div class="file-select-name" id="noFile">{{PANfileName}}</div>
+                                        <input type="file" (change)="onPanFileSelect($event)" name="panProfile" id="panProfile">
+                                    </div>
+                                </div>
                             </form>
                           </div>
                 

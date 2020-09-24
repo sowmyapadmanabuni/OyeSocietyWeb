@@ -98,6 +98,10 @@ export class EnrollassociationComponent implements OnInit {
   counter1: any;
   counter3: any;
   calculationTypes: { name: string; displayName: string; }[];
+  fileName:any;
+  hidechooseFile1: boolean;
+  PANfileName: string;
+  hidePANchooseFile1: boolean;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -106,6 +110,10 @@ export class EnrollassociationComponent implements OnInit {
     private router:Router,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.fileName = "No file chosen...";
+      this.PANfileName ='No file chosen...';
+      this.hidechooseFile1=true;
+      this.hidePANchooseFile1=true;
       this.calculationTypes = [
         { "name": "FlatRateValue","displayName":"Flat Rate Value" },
         { "name": "dimension","displayName":"Dimension Based"  }
@@ -622,18 +630,22 @@ export class EnrollassociationComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       console.log(file);
+      console.log(file.name);
+      this.fileName = file.name;
       this.uploadForm.get('profile').setValue(file);
+      this.processFile();
     }
   }
   modalRef: BsModalRef;
   ImgForPopUp: any;
   UploadedImage: any;
-  showImgOnPopUp(UploadedImagetemplate, thumbnailASAsnLogo, displayText) {
-    if (thumbnailASAsnLogo != undefined) {
-      this.ImgForPopUp = thumbnailASAsnLogo;
-      this.UploadedImage = displayText;
-      this.modalRef = this.modalService.show(UploadedImagetemplate, Object.assign({}, { class: 'gray modal-lg' }));
-    }
+  showImgOnPopUp(ev, UploadedImagetemplate, thumbnailASAsnLogo, displayText) {
+    ev.preventDefault();
+    //if (thumbnailASAsnLogo != undefined) {
+    this.ImgForPopUp = thumbnailASAsnLogo;
+    this.UploadedImage = displayText;
+    this.modalRef = this.modalService.show(UploadedImagetemplate, Object.assign({}, { class: 'gray modal-lg' }));
+    //}
 
   }
   ASAsnLogo: any;
@@ -656,14 +668,25 @@ export class EnrollassociationComponent implements OnInit {
       };
     }
   }
+  openFileinput() {
+    console.log('openFileinput');
+    this.hidechooseFile1=false;
+    document.getElementById('chooseFile1').click();
+  }
+  openPANFileinput(){
+    console.log('openPANFileinput');
+    this.hidePANchooseFile1=false;
+    document.getElementById('panProfile1').click();
+  }
   imgfilename;
   onPanFileSelect(event) {
     if (event.target.files.length > 0) {
 
       const file = event.target.files[0];
       console.log(file);
-      this.imgfilename = file.name;
+      this.PANfileName = file.name;
       this.uploadPanForm.get('panProfile').setValue(file);
+      this.processPanFile();
     }
   }
   uploadPANCard: any;
@@ -6670,10 +6693,12 @@ this.canDoBlockLogicalOrder=true;
           console.log(ev)
           this.form.reset();
           this.thumbnailASAsnLogo = undefined;
+          this.ASAsnLogo = "";
           if (this.fileInputfinal) {
             this.fileopen(ev, this.fileInputfinal);
           }
           this.uploadForm.reset();
+          this.fileName='No file chosen...';
         }
       })
 
@@ -6698,13 +6723,15 @@ this.canDoBlockLogicalOrder=true;
 
           this.gstpanform.reset();
           this.uploadPANCardThumbnail = undefined;
+          this.uploadPANCard = "";
           if (this.fileInputfinal1) {
             this.fileopen1(ev, this.fileInputfinal1);
           }
           // this.pancardnameoriginal=false
           this.uploadPanForm.reset();
           this.imgfilename = '';
-          this.showImgOnPopUp(ev, undefined, '')
+          this.PANfileName='No file chosen...';
+          //this.showImgOnPopUp(ev, undefined, '')
         }
       })
 
