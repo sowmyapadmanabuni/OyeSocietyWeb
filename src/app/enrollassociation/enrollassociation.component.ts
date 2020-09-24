@@ -2572,6 +2572,7 @@ export class EnrollassociationComponent implements OnInit {
       Object.keys(group).forEach(element => {
         if (group[element].length > 1) {
           group[element].forEach(item => {
+            item.isnotvalidblockname = true;
             console.log(item);
             this.duplicateBlockArr.push(item);
             this.duplicateBlockCount += 1;
@@ -2848,6 +2849,7 @@ export class EnrollassociationComponent implements OnInit {
                   this.duplicateBlocknameExist = true;
                   this.blocksArray = [];
                   this.duplicateBlockArr.forEach(itm1 => {
+                    console.log(itm1);
                     itm1.markedasduplicate = 0;
                     this.blocksArray.push(itm1);
                   })
@@ -4054,6 +4056,7 @@ export class EnrollassociationComponent implements OnInit {
             else {
               element.hasNoDuplicateBlockname = false;
               element.isNotBlockCreated_NowValid=false;
+              element.isnotvalidblockname = true;
             }
           }
         })
@@ -4075,6 +4078,7 @@ export class EnrollassociationComponent implements OnInit {
                   if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2['Flat Rate value']!=undefined && itm2['Flat Rate value']!="" && itm2['Maintenance value']!=undefined && itm2['Maintenance value']!="" && itm2['Maintenance Type']!=undefined && itm2['Maintenance Type']!="" && itm2['Unit Of Measurement']!=undefined && itm2['Unit Of Measurement']!="" && itm2['Invoice Creation Frequency']!=undefined && itm2['Invoice Creation Frequency']!="" && itm2['Invoice Generation Date']!=undefined && itm2['Invoice Generation Date']!="" && itm2['Due Date']!=undefined && itm2['Due Date']!="" && itm2['Late Payment Charge Type']!=undefined && itm2['Late Payment Charge Type']!="" && itm2['Late Payment Charge']!=undefined && itm2['Late Payment Charge']!="" && itm2['Starts From']!=undefined && itm2['Starts From']!="" && ((itm2['facility manager'] != undefined && itm2['mobile number'] != undefined) && (itm2['facility manager'] != '' && itm2['mobile number'] != '')) || (itm2['facility manager'] == '' && itm2['mobile number'] == '') || (itm2['facility manager'] == undefined && itm2['mobile number'] == undefined)) {
                     itm2.hasNoDuplicateBlockname = true;
                     itm2.isNotBlockCreated_NowValid = true;
+                    itm2.isnotvalidblockname = false;
                     console.log('blockgroup[key].length == 1 this.isblockdetailsempty = false');
                   }
                   else{
@@ -6255,6 +6259,7 @@ this.canDoBlockLogicalOrder=true;
               elemnt.blockname = '';
               elemnt.hasNoDuplicateBlockname=false;
               elemnt.isNotBlockCreated_NowValid=false;
+              elemnt['isnotvalidblockname']=true;
               // elemnt.units = '';
               // elemnt.fecilitymanagername = '';
               // elemnt.managermobileno = ''; 
@@ -6272,6 +6277,7 @@ this.canDoBlockLogicalOrder=true;
               elemnt['Late Payment Charge Type']= '';
               elemnt['Late Payment Charge']= '';
               elemnt['Starts From']= null;
+              this.isblockdetailsempty = true;
 
             }
           })
