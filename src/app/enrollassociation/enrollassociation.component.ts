@@ -74,6 +74,7 @@ export class EnrollassociationComponent implements OnInit {
   indexToCheckValidBlockName:number;
   ValidBlockName:any;
   InvalidBlocknamePresent:boolean;
+  exitblocksbuttonshow:boolean;
   arraylist1:unknown[];
   progressbarmodalRef: BsModalRef;
   blockprogressbartemplate: TemplateRef<any>;
@@ -139,6 +140,7 @@ export class EnrollassociationComponent implements OnInit {
       this.unitsuccesscount=0;
       this.arraylist1=[];
       this.InvalidBlocknamePresent = false;
+      this.exitblocksbuttonshow = false;
       this.ValidBlockName='';
       this.indexToCheckValidBlockName=0;
       this.canDoBlockLogicalOrder=true;
@@ -2802,40 +2804,56 @@ export class EnrollassociationComponent implements OnInit {
         })
         if (!this.sameBlocknameExist) {
           let displaymessage;
+          let okaycontinuebutton;
           if (this.blockssuccessarray == 1) {
             displaymessage = 'Block Created Successfully';
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
+              okaycontinuebutton = "OK";
+
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
+              okaycontinuebutton = "OK";
+
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
+              okaycontinuebutton = "OK";
+
             }
           }
           else if (this.blockssuccessarray > 1) {
              if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
+              okaycontinuebutton = "OK";
+
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
+              okaycontinuebutton = "OK";
+              
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
+              okaycontinuebutton = "OK";
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+              this.exitblocksbuttonshow = true;
+              okaycontinuebutton = "CONTINUE";
             }
           }
           Swal.fire({
             title: displaymessage,
             text: "",
             type: "success",
+            showCancelButton: this.exitblocksbuttonshow,
             confirmButtonColor: "#f69321",
-            confirmButtonText: "OK",
+            confirmButtonText: okaycontinuebutton,
+            cancelButtonText: 'EXIT',
             allowOutsideClick:false
           }).then(
             (result) => {
@@ -2901,6 +2919,9 @@ export class EnrollassociationComponent implements OnInit {
                     this.demo1TabIndex = this.demo1TabIndex + 1;
                   }
                 }
+              }
+              else{
+                this.router.navigate(['home']);
               }
             })
         } 
@@ -6583,7 +6604,6 @@ this.canDoBlockLogicalOrder=true;
             }
             else{
               this.router.navigate(['home']);
-
             }
 
           })
