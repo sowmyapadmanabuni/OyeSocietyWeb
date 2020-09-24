@@ -194,9 +194,12 @@
 
                         <label class="control-label" style="width: 100%;">Upload Association logo</label>
 
-                       <div style="width: 130px;">
+                       <div class="file-select">
+                            <div class="file-select-button" id="fileName">Choose File</div>
+                            <div class="file-select-name" id="noFile">No file chosen...</div> 
                             <input #fileInput2 type="file" id="assnfile" (change)="onFileSelect($event)" (click)="fileopen($event,fileInput2)">
                        </div> 
+
                         <div style="width: 130px;">
                             <!-- <i class="fa fa-cloud-upload fa-2x" matTooltip="Upload" id="assnuploadicon"aria-hidden="true" type="submit" (click)="processFile()"></i> -->
         
