@@ -98,6 +98,10 @@ export class EnrollassociationComponent implements OnInit {
   counter1: any;
   counter3: any;
   calculationTypes: { name: string; displayName: string; }[];
+  fileName:any;
+  hidechooseFile1: boolean;
+  PANfileName: string;
+  hidePANchooseFile1: boolean;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -106,6 +110,10 @@ export class EnrollassociationComponent implements OnInit {
     private router:Router,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.fileName = "No file chosen...";
+      this.PANfileName ='No file chosen...';
+      this.hidechooseFile1=true;
+      this.hidePANchooseFile1=true;
       this.calculationTypes = [
         { "name": "FlatRateValue","displayName":"Flat Rate Value" },
         { "name": "dimension","displayName":"Dimension Based"  }
@@ -622,18 +630,22 @@ export class EnrollassociationComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       console.log(file);
+      console.log(file.name);
+      this.fileName = file.name;
       this.uploadForm.get('profile').setValue(file);
+      this.processFile();
     }
   }
   modalRef: BsModalRef;
   ImgForPopUp: any;
   UploadedImage: any;
-  showImgOnPopUp(UploadedImagetemplate, thumbnailASAsnLogo, displayText) {
-    if (thumbnailASAsnLogo != undefined) {
-      this.ImgForPopUp = thumbnailASAsnLogo;
-      this.UploadedImage = displayText;
-      this.modalRef = this.modalService.show(UploadedImagetemplate, Object.assign({}, { class: 'gray modal-lg' }));
-    }
+  showImgOnPopUp(ev, UploadedImagetemplate, thumbnailASAsnLogo, displayText) {
+    ev.preventDefault();
+    //if (thumbnailASAsnLogo != undefined) {
+    this.ImgForPopUp = thumbnailASAsnLogo;
+    this.UploadedImage = displayText;
+    this.modalRef = this.modalService.show(UploadedImagetemplate, Object.assign({}, { class: 'gray modal-lg' }));
+    //}
 
   }
   ASAsnLogo: any;
@@ -656,14 +668,25 @@ export class EnrollassociationComponent implements OnInit {
       };
     }
   }
+  openFileinput() {
+    console.log('openFileinput');
+    this.hidechooseFile1=false;
+    document.getElementById('chooseFile1').click();
+  }
+  openPANFileinput(){
+    console.log('openPANFileinput');
+    this.hidePANchooseFile1=false;
+    document.getElementById('panProfile1').click();
+  }
   imgfilename;
   onPanFileSelect(event) {
     if (event.target.files.length > 0) {
 
       const file = event.target.files[0];
       console.log(file);
-      this.imgfilename = file.name;
+      this.PANfileName = file.name;
       this.uploadPanForm.get('panProfile').setValue(file);
+      this.processPanFile();
     }
   }
   uploadPANCard: any;
@@ -2574,6 +2597,7 @@ export class EnrollassociationComponent implements OnInit {
       Object.keys(group).forEach(element => {
         if (group[element].length > 1) {
           group[element].forEach(item => {
+            item.isnotvalidblockname = true;
             console.log(item);
             this.duplicateBlockArr.push(item);
             this.duplicateBlockCount += 1;
@@ -2866,6 +2890,7 @@ export class EnrollassociationComponent implements OnInit {
                   this.duplicateBlocknameExist = true;
                   this.blocksArray = [];
                   this.duplicateBlockArr.forEach(itm1 => {
+                    console.log(itm1);
                     itm1.markedasduplicate = 0;
                     this.blocksArray.push(itm1);
                   })
@@ -4075,6 +4100,7 @@ export class EnrollassociationComponent implements OnInit {
             else {
               element.hasNoDuplicateBlockname = false;
               element.isNotBlockCreated_NowValid=false;
+              element.isnotvalidblockname = true;
             }
           }
         })
@@ -4096,6 +4122,7 @@ export class EnrollassociationComponent implements OnInit {
                   if (itm2.blockname != "" && itm2.blockname != undefined && itm2.blocktype != "" && itm2.blocktype != undefined && itm2.units != "" && itm2.units != undefined && itm2['Flat Rate value']!=undefined && itm2['Flat Rate value']!="" && itm2['Maintenance value']!=undefined && itm2['Maintenance value']!="" && itm2['Maintenance Type']!=undefined && itm2['Maintenance Type']!="" && itm2['Unit Of Measurement']!=undefined && itm2['Unit Of Measurement']!="" && itm2['Invoice Creation Frequency']!=undefined && itm2['Invoice Creation Frequency']!="" && itm2['Invoice Generation Date']!=undefined && itm2['Invoice Generation Date']!="" && itm2['Due Date']!=undefined && itm2['Due Date']!="" && itm2['Late Payment Charge Type']!=undefined && itm2['Late Payment Charge Type']!="" && itm2['Late Payment Charge']!=undefined && itm2['Late Payment Charge']!="" && itm2['Starts From']!=undefined && itm2['Starts From']!="" && ((itm2['facility manager'] != undefined && itm2['mobile number'] != undefined) && (itm2['facility manager'] != '' && itm2['mobile number'] != '')) || (itm2['facility manager'] == '' && itm2['mobile number'] == '') || (itm2['facility manager'] == undefined && itm2['mobile number'] == undefined)) {
                     itm2.hasNoDuplicateBlockname = true;
                     itm2.isNotBlockCreated_NowValid = true;
+                    itm2.isnotvalidblockname = false;
                     console.log('blockgroup[key].length == 1 this.isblockdetailsempty = false');
                   }
                   else{
@@ -6276,6 +6303,7 @@ this.canDoBlockLogicalOrder=true;
               elemnt.blockname = '';
               elemnt.hasNoDuplicateBlockname=false;
               elemnt.isNotBlockCreated_NowValid=false;
+              elemnt['isnotvalidblockname']=true;
               // elemnt.units = '';
               // elemnt.fecilitymanagername = '';
               // elemnt.managermobileno = ''; 
@@ -6293,6 +6321,7 @@ this.canDoBlockLogicalOrder=true;
               elemnt['Late Payment Charge Type']= '';
               elemnt['Late Payment Charge']= '';
               elemnt['Starts From']= null;
+              this.isblockdetailsempty = true;
 
             }
           })
@@ -6664,10 +6693,12 @@ this.canDoBlockLogicalOrder=true;
           console.log(ev)
           this.form.reset();
           this.thumbnailASAsnLogo = undefined;
+          this.ASAsnLogo = "";
           if (this.fileInputfinal) {
             this.fileopen(ev, this.fileInputfinal);
           }
           this.uploadForm.reset();
+          this.fileName='No file chosen...';
         }
       })
 
@@ -6692,13 +6723,15 @@ this.canDoBlockLogicalOrder=true;
 
           this.gstpanform.reset();
           this.uploadPANCardThumbnail = undefined;
+          this.uploadPANCard = "";
           if (this.fileInputfinal1) {
             this.fileopen1(ev, this.fileInputfinal1);
           }
           // this.pancardnameoriginal=false
           this.uploadPanForm.reset();
           this.imgfilename = '';
-          this.showImgOnPopUp(ev, undefined, '')
+          this.PANfileName='No file chosen...';
+          //this.showImgOnPopUp(ev, undefined, '')
         }
       })
 
