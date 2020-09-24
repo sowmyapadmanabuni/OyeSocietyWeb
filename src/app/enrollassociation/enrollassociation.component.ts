@@ -6317,6 +6317,7 @@ this.canDoBlockLogicalOrder=true;
                   unit['unit dimension'] = null;
                   unit['Unit Calculation Type'] = null;
                   unit['unit rate'] = null;
+                  this.isunitdetailsempty = false;
 
               }
             })
@@ -6835,6 +6836,7 @@ this.canDoBlockLogicalOrder=true;
                   unit['unit dimension'] = null;
                   unit['Unit Calculation Type'] = null;
                   unit['unit rate'] = null;
+                  unit.isSingleUnitDataEmpty = true;
               }
             })
           })
