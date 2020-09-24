@@ -19,13 +19,13 @@ export class ViewAssociationService {
   scriptIP:string;
   url:string;
   headers:HttpHeaders;
-  public httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'X-Champ-APIKey': this.scriptIP,
-      'Access-Control-Allow-Origin': "*"
-    })
-  };
+  // public httpOptions = {
+  //   headers: new HttpHeaders({
+  //     'Content-Type':  'application/json',
+  //     'X-Champ-APIKey': this.scriptIP,
+  //     'Access-Control-Allow-Origin': "*"
+  //   })
+  // };
   associationId:any;
   asNofBlks:any;
   asNofUnit:any;
@@ -36,6 +36,7 @@ export class ViewAssociationService {
   EditAssociationData:any;
   headerss: HttpHeaders;
   public dashboardredirect = new Subject();
+  addblockstoeditassn:any;
 
   onUpLoad(fd: FormData) {
     //let headers = this.getHttpheaders();

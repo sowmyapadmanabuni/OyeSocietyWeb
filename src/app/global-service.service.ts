@@ -41,6 +41,7 @@ export class GlobalServiceService {
    private CallGetFamilyMemberSubject = new Subject<any>();
    private SetResidentLevelInvoiceSubject = new Subject<any>();
    private CurrentAssociationIdForVisitorLogByDates = new Subject<any>();
+
    
    AssnDropDownHiddenByDefault:any;
    UnitDropDownHiddenByDefault:any;

@@ -25,6 +25,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import {UtilsService} from '../utils/utils.service';
 import { ViewBlockService } from '../../services/view-block.service';
+
 declare var $: any;
 
 
@@ -300,6 +301,7 @@ export class AssociationManagementComponent implements OnInit {
   BlocksList:any[];
   id: any;
   UnitsList:any[]=[];
+  openeditassn;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -335,6 +337,7 @@ export class AssociationManagementComponent implements OnInit {
     });
     //
     this.DisableDateOfOccupancyValidationMessage=true;
+   
 //this.crtAssn.state = 'Select the State';
     this.crtAssn.state = 'SELECT STATE';
     this.crtAssn.name = '';
@@ -573,6 +576,16 @@ export class AssociationManagementComponent implements OnInit {
   this.viewAssnService.dashboardredirect.subscribe(message=>{
     this.getAssociationDetails();
   })
+  // this.viewAssnService.addblockstoeditassn.subscribe(msg=>{
+  //   console.log(msg);
+  //   this.OpenModal(undefined,msg.asAsnName, msg.asCountry, msg.asAddress, msg.asCity, msg.asState, msg.asPinCode, msg.asPrpType,msg.asAsnLogo, msg.asPrpName, msg.aspanNum,msg.aspanDoc,msg.asgstNo,msg.asNofBlks, msg.asNofUnit, msg.amType, msg.noofAmenities, msg.baBName, msg.baIFSC, msg.baActNo, msg.baActType, msg.asAssnID, msg.BAActID, msg.AMID,msg.asWebURL,msg.asAsnEmail)
+  // })
+  if(this.openeditassn){
+    this.openeditassn = this.viewAssnService.addblockstoeditassn;
+    this.OpenModal(undefined,this.openeditassn.asAsnName, this.openeditassn.asCountry, this.openeditassn.asAddress, this.openeditassn.asCity, this.openeditassn.asState, this.openeditassn.asPinCode, this.openeditassn.asPrpType,this.openeditassn.asAsnLogo, this.openeditassn.asPrpName, this.openeditassn.aspanNum,this.openeditassn.aspanDoc,this.openeditassn.asgstNo,this.openeditassn.asNofBlks, this.openeditassn.asNofUnit, this.openeditassn.amType, this.openeditassn.noofAmenities, this.openeditassn.baBName, this.openeditassn.baIFSC, this.openeditassn.baActNo, this.openeditassn.baActType, this.openeditassn.asAssnID, this.openeditassn.BAActID, this.openeditassn.AMID,this.openeditassn.asWebURL,this.openeditassn.asAsnEmail)
+   
+  }
+
     //
     this.route.params.subscribe(data => {
       console.log(data['id']);
