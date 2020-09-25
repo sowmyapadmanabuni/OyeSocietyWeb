@@ -4128,6 +4128,7 @@ export class EnrollassociationComponent implements OnInit {
                   else{
                     itm2.hasNoDuplicateBlockname = false;
                     this.isblockdetailsempty = true
+                    itm2.isNotBlockCreated_NowValid = false;
                     console.log('blockgroup[key].length == 1 this.isblockdetailsempty = true');
                   }
                 }
