@@ -592,7 +592,7 @@ export class StaffComponent implements OnInit {
     this.onRatingChangeResult = $event;
   };
 
-  updateReview(param, coment) {
+  updateReview(param,coment,wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, WKRating, workerstatuses) {
     this.itemwkrating;
     console.log(param);
     console.log(this.itemwkrating);
@@ -632,8 +632,9 @@ export class StaffComponent implements OnInit {
               (result) => {
                 if (result.value) {
                   setTimeout(() => {
+                    this.selectStaff(param, wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, WKRating, workerstatuses);
+
                     this.getStaffList();
-                    //this.selectStaff();
                   }, 2000);
 
                 }
@@ -686,9 +687,9 @@ export class StaffComponent implements OnInit {
 
             // this.modalRef.hide();
             swal.fire({
-              title: "Error",
+              title: "",
               text: `${response['data']['errorResponse']['message']}`,
-              type: "error",
+              type: "success",
               confirmButtonColor: "#f69321",
               confirmButtonText: "OK"
             })

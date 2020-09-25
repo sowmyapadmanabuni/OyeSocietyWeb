@@ -762,6 +762,7 @@ export class HomeComponent implements OnInit {
   GoToJoinAssociation() {
     this.globalService.gotojoinassociation='id';
     this.router.navigate(['association']);
+    
   }
   goToBlocks() {
     this.router.navigate(['blocks']);

@@ -479,7 +479,7 @@
                     <textarea rows="5" cols="5" name="comment" [(ngModel)]="wkReview"
                         style="width: 100%">{{wkReview}}</textarea>
                 </div>
-                <button (click)="updateReview(item['wkWorkID'],comment)"
+                <button (click)="updateReview(item['wkWorkID'],comment,item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['workerstatuses'])"
                     class="btn btn-primary-purple nextBtn">Update</button>
 
             </div>
