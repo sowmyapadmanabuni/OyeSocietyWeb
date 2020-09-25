@@ -300,7 +300,7 @@
                                             <div style="display: flex; align-items: center;justify-content: space-evenly;">
                                                 <div>
                                                     <mat-form-field class="blockdetails-form">
-                                                        <mat-label>FACILITY MANAGER(OPTIONAL)</mat-label>
+                                                        <mat-label>FACILITY MANAGER</mat-label>
                                                         <input disabled="{{obj['disableField']==true}}" class = "text" 
                                                         (keypress)="_keyPress2($event)"
                                                         matInput placeholder="FACILITY MANAGER" 
@@ -315,7 +315,7 @@
                                                  </div>
                                                  <div>
                                                     <mat-form-field class="blockdetails-form">
-                                                        <mat-label>MOBILE NUMBER(OPTIONAL)</mat-label>
+                                                        <mat-label>MOBILE NUMBER</mat-label>
                                                         <input disabled="{{obj['disableField']==true}}" matInput placeholder="MOBILE NUMBER"
                                                         pattern="[0-9]*" 
                                                         (keypress)=_keyPress($event)
@@ -331,7 +331,7 @@
                                                 </div>
                                                 <div>
                                                     <mat-form-field class="blockdetails-form">
-                                                        <mat-label>EMAIL ID(OPTIONAL)</mat-label>
+                                                        <mat-label>EMAIL ID</mat-label>
                                                         <input disabled="{{obj['disableField']==true}}" matInput placeholder="MANAGER EMAIL ID" 
                                                         pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                                         [(ngModel)]="blocksArray[i]['email id']"

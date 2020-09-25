@@ -89,7 +89,7 @@
                                 <p class="alerts" *ngIf="managernameControl.invalid && managernameControl.touched">Manager name is required</p>-->
                            
                                 <mat-form-field class="blockdetails-form">
-                                    <mat-label>FACILITY MANAGER(OPTIONAL)</mat-label>
+                                    <mat-label>FACILITY MANAGER</mat-label>
                                     <input class = "text" 
                                     (keypress)="_keyPress2($event)"
                                     (keyup)="validatemanagername($event,mngName)"
@@ -115,7 +115,7 @@
                                 <p class="alerts" *ngIf="managernumberControl.invalid && managernumberControl.touched">Manager mobile number is required</p>
                            -->
                            <mat-form-field class="blockdetails-form">
-                            <mat-label>MOBILE NUMBER(OPTIONAL)</mat-label>
+                            <mat-label>MOBILE NUMBER</mat-label>
                             <input matInput placeholder="MANAGER MOBILE NUMBER"
                             pattern="[0-9]*" 
                             (keypress)=_keyPress($event)
@@ -141,7 +141,7 @@
                                -->
             
                                <mat-form-field class="blockdetails-form">
-                                <mat-label>EMAIL ID(OPTIONAL)</mat-label>
+                                <mat-label>EMAIL ID</mat-label>
                                 <input matInput placeholder="MANAGER EMAIL ID" 
                                 pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                 [(ngModel)]="manageremail"[ngModelOptions]="{standalone:true}"
