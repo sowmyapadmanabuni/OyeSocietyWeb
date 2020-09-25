@@ -427,6 +427,7 @@ export class AddUnitComponent implements OnInit {
     this.UNCalType = UNCalType;
     // this.UNCalTypeForEdit = UNCalType;
   }
+  
   createUnit() {
 
     let createUnitData =
@@ -500,9 +501,15 @@ export class AddUnitComponent implements OnInit {
 
     this.viewUniService.createUnit(createUnitData).subscribe((response) => {
       console.log(response);
+     var unitcount;
+      for(let obj of this.allBlocksLists){
+if(this.viewUniService.blockIDforUnitCreation == obj.blBlockID){
+   unitcount = obj.blNofUnit;
+}
+      }
       if(response['error']){
         Swal.fire({
-          title: response['error']['message'],
+          title: response['error']['message']+ " "+"For This Selected Block"+ " " + " " +"Current Units Count Is" + " " + unitcount +"," + " " + "To Increase The Count Toggle Switch to BLOCKS and Go To Particular Block and EDIT Block And Update It",
           type: 'error',
           showCancelButton: true,
           confirmButtonText: 'OK',
