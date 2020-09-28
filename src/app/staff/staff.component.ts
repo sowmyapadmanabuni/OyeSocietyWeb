@@ -146,6 +146,7 @@ export class StaffComponent implements OnInit {
     this.condition1 = false;
   }
   getStaffList() {
+    this.ngOnInit();
     this.staffs4=[];
     this.staffs3 = [];
     this.condition = true;
@@ -632,8 +633,6 @@ export class StaffComponent implements OnInit {
               (result) => {
                 if (result.value) {
                   setTimeout(() => {
-                    this.selectStaff(param, wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, WKRating, workerstatuses);
-
                     this.getStaffList();
                   }, 2000);
 
