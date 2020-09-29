@@ -326,6 +326,9 @@ a.MANUAL{
     top: 85px;
 }
 .text{
+    text-transform: capitalize;
+}
+.pantext1{
     text-transform: uppercase;
 }
 .fields{

@@ -26,8 +26,8 @@
                                                               <p class="alerts" *ngIf="unitnoControl.invalid && unitnoControl.touched"> Valid unit no is required</p>
                                                            -->
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label>UNIT NO/FLAT NO<span class="red">*</span></mat-label>
-                                            <input class="text" matInput placeholder="UNIT NO/FLAT NO" (keyup)="validateflatno($event,unitno)"
+                                            <mat-label>Unit No/Flat No<span class="red">*</span></mat-label>
+                                            <input class="text" matInput placeholder="Unit No/Flat No" (keyup)="validateflatno($event,unitno)"
                                                 [(ngModel)]="unitno" [ngModelOptions]="{standalone:
                                                                             true}" value="">
                                         </mat-form-field>
@@ -48,7 +48,7 @@
                                 
                                 
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label>UNIT TYPE<span class="red">*</span></mat-label>
+                                            <mat-label>Unit Type<span class="red">*</span></mat-label>
                                             <mat-select [(value)]="unitType">
                                                 <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
                                                 </mat-option>
@@ -71,7 +71,7 @@
                                                                 </ul>
                                                             </div> -->
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label>OCCUPANCY & OWNERSHIP STATUS<span class="red">*</span></mat-label>
+                                            <mat-label>Occupancy & Ownership Status<span class="red">*</span></mat-label>
                                             <mat-select [(value)]="occupency" (selectionChange)="tenantOwnerdiv($event.value)">
                                                 <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
                                                 </mat-option>
@@ -85,9 +85,9 @@
                                 <div class="addunitsleft">
                                     <div class="form-groupunits">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label>UNIT DIMENSION<span class="red">*</span></mat-label>
+                                            <mat-label>Unit Dimension<span class="red">*</span></mat-label>
                                             <input maxlength="100" (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput
-                                                placeholder="UNIT DIMENSION" (keyup)="ValidateLessThanZeroValue($event,unitdimension)"
+                                                placeholder="Unit Dimension" (keyup)="ValidateLessThanZeroValue($event,unitdimension)"
                                                 [(ngModel)]="unitdimension" [ngModelOptions]="{standalone:true}" value="">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="InvalidUnitDimension">Valid unitdimension is required</p>
@@ -96,7 +96,7 @@
                                 
                                     <div class="form-groupunits">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label>CALCULATION TYPE<span class="red">*</span></mat-label>
+                                            <mat-label>Calculation Type<span class="red">*</span></mat-label>
                                             <mat-select [(value)]="UNCalType">
                                                 <mat-option *ngFor="let cal of calculationTypes" [value]="cal['name']">{{cal['name']}}
                                                 </mat-option>
@@ -118,9 +118,9 @@
                                                 </div> -->
                                     <div class="form-groupunits">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label>UNIT RATE<span class="red">*</span></mat-label>
+                                            <mat-label>Unit Rate<span class="red">*</span></mat-label>
                                             <input maxlength="100" (keypress)="_keyPressValidateUnitrate($event)" pattern="[0-9]*" class="text" matInput
-                                                placeholder="UNIT RATE" [(ngModel)]="UNRate" [ngModelOptions]="{standalone:true}" value="">
+                                                placeholder="Unit Rate" [(ngModel)]="UNRate" [ngModelOptions]="{standalone:true}" value="">
                                         </mat-form-field>
                                         <p class="validation" *ngIf="InvalidUnitDimension">Valid unit rate is required</p>
                                 
@@ -162,8 +162,8 @@
                           <p class="alerts" *ngIf="ownerFirtnameControl.invalid && ownerFirtnameControl.touched"> Valid owner firstname is required</p>
                       -->
                       <mat-form-field class="blockdetails-form">
-                          <mat-label>OWNER FIRST NAME<span class="red">*</span></mat-label>
-                          <input  class = "text" matInput placeholder="OWNER FIRSTNAME" 
+                          <mat-label>Owner First Name<span class="red">*</span></mat-label>
+                          <input  class = "text" matInput placeholder="Owner First Name" 
                           pattern="[a-zA-Z _]*"
                           (keyup)="validateownerfirtname($event,ownerFirtname)"
                           [(ngModel)]="ownerFirtname"[ngModelOptions]="{standalone:
@@ -181,8 +181,8 @@
                        -->
       
                           <mat-form-field class="blockdetails-form">
-                              <mat-label>OWNER LAST NAME<span class="red">*</span></mat-label>
-                              <input class = "text" matInput placeholder="OWNER LASTNAME" 
+                              <mat-label>Owner Last Name<span class="red">*</span></mat-label>
+                              <input class = "text" matInput placeholder="Owner Last Name" 
                               (keyup)="validateownerlastname($event,ownerLastname)"
                               pattern="[a-zA-Z _]*"
                               [(ngModel)]="ownerLastname"
@@ -200,8 +200,8 @@
                           <p class="alerts" id="phonenum" type="tel" pattern="[0-9]+" *ngIf="ownerMobnumberControl.invalid && ownerMobnumberControl.touched"> Valid 10 digit mobile number is required</p>                  
                       -->
                           <mat-form-field class="blockdetails-form">
-                              <mat-label>OWNER MOBILE NUMBER<span class="red">*</span></mat-label>
-                              <input matInput placeholder="OWNER MOBILE NUMBER"
+                              <mat-label>Owner Mobile Number<span class="red">*</span></mat-label>
+                              <input matInput placeholder="Owner Mobile Number"
                               pattern="[0-9]*" 
                               (keyup)="validateownermobile($event,ownerMobnumber)"
                                minlength="10" maxlength="10"
@@ -221,7 +221,7 @@
                        -->
       
                       <mat-form-field class="blockdetails-form">
-                          <mat-label>OWNER EMAIL ID<span class="red">*</span></mat-label>
+                          <mat-label>Owner Email Id<span class="red">*</span></mat-label>
                           <input matInput placeholder="OWNER EMAIL-ID" (keyup)="validateowneremail($event,ownerEmail)"
                               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="ownerEmail"
                               [ngModelOptions]="{standalone:true}" value="">
@@ -252,8 +252,8 @@
                           <p class="alerts" *ngIf="tenantFirtnameControl.invalid && tenantFirtnameControl.touched"> Valid firstname is required</p>
                      -->
                      <mat-form-field class="blockdetails-form">
-                        <mat-label>TENANT FIRST NAME<span class="red">*</span></mat-label>
-                        <input class="text" matInput placeholder="TENANT FIRSTNAME" 
+                        <mat-label>Tenant First Name<span class="red">*</span></mat-label>
+                        <input class="text" matInput placeholder="Tenant First Name" 
                         pattern="[a-zA-Z _]*"
                         (keyup)="validatetenantfirstname($event,tenantFirtname)"
                         [(ngModel)]="tenantFirtname"
@@ -272,14 +272,14 @@
                        -->
                       
                           <mat-form-field class="blockdetails-form">
-                            <mat-label>TENANT LAST NAME<span class="red">*</span></mat-label>
-                            <input class = "text" matInput placeholder="TENANT LASTNAME" 
+                            <mat-label>Tenant Last Name<span class="red">*</span></mat-label>
+                            <input class = "text" matInput placeholder="Tenant Last Name" 
                             pattern="[a-zA-Z _]*"
                             (keyup)="validatetenantlastname($event,tenantLastname)"
                             [(ngModel)]="tenantLastname"
                             [ngModelOptions]="{standalone:true}" value="">
                         </mat-form-field>
-                       <p class="validation" *ngIf="tenantLastnamevalid"> Valid lastname is required</p>
+                       <p class="validation" *ngIf="tenantLastnamevalid">Valid lastname is required</p>
                         </div>
        
                     <div class="form-groupunits">
@@ -293,8 +293,8 @@
                       -->
     
                           <mat-form-field class="blockdetails-form">
-                          <mat-label>TENANT MOBILE NUMBER<span class="red">*</span></mat-label>
-                          <input matInput placeholder="TENANT MOBILE NUMBER" 
+                          <mat-label>Tenant Mobile Number<span class="red">*</span></mat-label>
+                          <input matInput placeholder="Tenant Mobile Number" 
                           pattern="[0-9]*"
                           (keyup)="validatetenantmobile($event,tenantMobnumber)"
     
@@ -317,8 +317,8 @@
                      
     
                     <mat-form-field class="blockdetails-form">
-                        <mat-label>TENANT EMAIL ID<span class="red">*</span></mat-label>
-                        <input matInput placeholder="TENANT EMAIL-ID" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                        <mat-label>Tenant Email Id<span class="red">*</span></mat-label>
+                        <input matInput placeholder="Tenant Email Id" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                             (keyup)="validatetenantemail($event,tenantEmail)" [(ngModel)]="tenantEmail" [ngModelOptions]="{standalone:true}"
                             value="">
                     </mat-form-field>

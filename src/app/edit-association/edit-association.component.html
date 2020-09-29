@@ -358,7 +358,7 @@
               <div class="page1">
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field class="association-full-width">
-                          <mat-label>ASSOCIATION NAME<span class="red">*</span></mat-label>
+                          <mat-label>Association Name<span class="red">*</span></mat-label>
                           <input matInput placeholder="Association Name" 
                           pattern="[A-Za-z\s]+"
                           autocomplete="viewAssnService.EditAssociationData['ASAsnName']"
@@ -373,7 +373,7 @@
               
                   <form [formGroup]="form" class="association-formcountry">
                     <mat-form-field>
-                      <mat-label>COUNTRY<span class="red">*</span></mat-label>
+                      <mat-label>Country<span class="red">*</span></mat-label>
                         <mat-select (selectionChange)="selectedcountryedit($event)" formControlName="cntryname" placeholder="COUNTRY">
                             <mat-option *ngFor="let country of countrieslist" [value]="country">{{country['coName']}}
                             </mat-option>
@@ -397,7 +397,7 @@
                   
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field>
-                          <mat-label>STATE<span class="red">*</span></mat-label>
+                          <mat-label>State<span class="red">*</span></mat-label>
                           <mat-select formControlName="statename" (selectionChange)="selectedstateeditassn($event)">
                               <mat-option *ngFor="let state of stateslist" [value]="state">{{state.stName}}
                               </mat-option>
@@ -410,7 +410,7 @@
                   
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field>
-                          <mat-label>CITY<span class="red">*</span></mat-label>
+                          <mat-label>City<span class="red">*</span></mat-label>
                           <mat-select formControlName="cityname" (selectionChange)="selectedcityeditassn($event)">
                               <mat-option *ngFor="let city of citylist" [value]="city">{{city.ctName}}
                               </mat-option>
@@ -424,8 +424,8 @@
                  
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field class="association-full-width">
-                          <mat-label>PIN/ZIP/POSTAL CODE<span class="red">*</span></mat-label>
-                          <input matInput placeholder="PIN/ZIP"pattern="[0-9]*" 
+                          <mat-label>Pin/Zip/Postal Code<span class="red">*</span></mat-label>
+                          <input matInput placeholder="Pin/Zip"pattern="[0-9]*" 
                            pattern="^\d{6,}$"
                            (keypress)=_keyPress($event)
                           minlength="5"
@@ -437,10 +437,23 @@
                           </mat-error>
                       </mat-form-field>
                   </form>
-                  
+                  <form [formGroup]="form" class="association-form">
+                    <mat-form-field class="association-full-width">
+                        <mat-label>Locality<span class="red">*</span></mat-label>
+                        <input matInput placeholder="Locality"class = "text" 
+                        pattern="[A-Za-z\s]+"
+                        maxlength="255"
+                        (keypress)="_keyPress2($event)"
+                        formControlName="locname" [(ngModel)]="viewAssnService.EditAssociationData['ASAddress']"
+                            value="{{viewAssnService.EditAssociationData['ASAddress']}}">
+                        <mat-error [displayError]="isFieldValid('locname')">
+                            {{ titleAlert }}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field>
-                        <mat-label>PROPERTY TYPE<span class="red">*</span></mat-label>
+                        <mat-label>Property Type<span class="red">*</span></mat-label>
                           <mat-select [(value)]="viewAssnService.EditAssociationData['ASPrpType']" formControlName="prprtytype">
                               <mat-option *ngFor="let property of propertyType" [value]="property">{{property}}
                               </mat-option>
@@ -453,8 +466,8 @@
                   
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field class="association-full-width">
-                          <mat-label>PROPERTY NAME<span class="red">*</span></mat-label>
-                          <input matInput placeholder="PROPERTY NAME"
+                          <mat-label>Property Name<span class="red">*</span></mat-label>
+                          <input matInput placeholder="Property Name"
                           pattern="[a-zA-Z\s]*"
                            class = "text"formControlName="prtyname"
                               [(ngModel)]="viewAssnService.EditAssociationData['ASPrpName']" value="{{viewAssnService.EditAssociationData['ASPrpName']}}">
@@ -464,25 +477,12 @@
                       </mat-form-field>
                   </form>
                  
-                  <form [formGroup]="form" class="association-form">
-                      <mat-form-field class="association-full-width">
-                          <mat-label>LOCALITY<span class="red">*</span></mat-label>
-                          <input matInput placeholder="LOCALITY"class = "text" 
-                          pattern="[A-Za-z\s]+"
-                          maxlength="255"
-                          (keypress)="_keyPress2($event)"
-                          formControlName="locname" [(ngModel)]="viewAssnService.EditAssociationData['ASAddress']"
-                              value="{{viewAssnService.EditAssociationData['ASAddress']}}">
-                          <mat-error [displayError]="isFieldValid('locname')">
-                              {{ titleAlert }}
-                          </mat-error>
-                      </mat-form-field>
-                  </form>
+                
                   <br>
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field class="association-full-width">
-                          <mat-label>ASSOCIATION EMAIL<span class="red">*</span></mat-label>
-                          <input matInput placeholder="ASSOCIATION EMAIL" 
+                          <mat-label>Association Email<span class="red">*</span></mat-label>
+                          <input matInput placeholder="Association Email" 
                           pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                           formControlName="assemail"
                               [(ngModel)]="viewAssnService.EditAssociationData['asAsnEmail']" value="{{viewAssnService.EditAssociationData['asAsnEmail']}}">
@@ -493,7 +493,7 @@
                   </form>
                   <form [formGroup]="form" class="association-form">
                       <mat-form-field class="association-full-width">
-                          <mat-label>ASSOCIATION WEBSITE URL</mat-label>
+                          <mat-label>Association Website Url</mat-label>
                           <input matInput placeholder="URL" 
                            pattern="^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$"
                           formControlName="urlset" [(ngModel)]="viewAssnService.EditAssociationData['asWebURL']" value="{{viewAssnService.EditAssociationData['asWebURL']}}">
@@ -528,8 +528,8 @@
           <mat-tab #tab [disabled]='!tab.isActive' label="GST & PAN DETAILS">
             <form [formGroup]="gstpanform" class="association-form3" style="padding-left: 125px;">
                 <mat-form-field class="association-full-width">
-                    <mat-label>GST NUMBER</mat-label>
-                     <input matInput placeholder="GST NUMBER"
+                    <mat-label>Gst Number</mat-label>
+                     <input matInput placeholder="Gst Number"
                      matTooltip="Please enter registered GST number of the association"
                     formControlName="gst"
                     (blur)="fillPANValue()"
@@ -545,9 +545,9 @@
             </form>
             <form [formGroup]="gstpanform" class="association-form3" style="padding-left:239px">
                 <mat-form-field class="association-full-width">
-                    <mat-label>PAN NUMBER<span class="red">*</span></mat-label>
-                    <input matInput placeholder="PAN NUMBER"
-                        matTooltip="Please enter registered pan number of the association" class="text"
+                    <mat-label>Pan Number<span class="red">*</span></mat-label>
+                    <input matInput placeholder="Pan Number"
+                        matTooltip="Please enter registered pan number of the association" class="pantext1"
                         [(ngModel)]="viewAssnService.EditAssociationData['ASPANNum']" value="{{viewAssnService.EditAssociationData['ASPANNum']}}"
                         formControlName="originalpan"
                         autocomplete='pannumber' 
@@ -595,8 +595,8 @@
           <mat-tab #tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">
-                    <mat-label>TOTAL NO OF BLOCKS<span class="red">*</span></mat-label>
-                    <input matInput placeholder="NO OF BLOCKS" 
+                    <mat-label>Total No Of Blocks<span class="red">*</span></mat-label>
+                    <input matInput placeholder="No Of Blocks" 
                     pattern="[1-9]{1}[0-9]*" 
                     formControlName="blockno" [(ngModel)]="viewAssnService.EditAssociationData['ASNofBlks']"
                         value="{{viewAssnService.EditAssociationData['ASNofBlks']}}">
@@ -607,8 +607,8 @@
             </form>
             <form [formGroup]="blockform" class="association-form3">
                 <mat-form-field class="association-full-width">
-                    <mat-label>TOTAL NO OF UNITS<span class="red">*</span></mat-label>
-                    <input matInput placeholder="NO OF UNITS"
+                    <mat-label>Total No Of Units<span class="red">*</span></mat-label>
+                    <input matInput placeholder="No Of Units"
                     pattern="[1-9]{1}[0-9]*" 
                     matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="viewAssnService.EditAssociationData['ASNofUnit']" value="{{viewAssnService.EditAssociationData['ASNofUnit']}}">
                     <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
