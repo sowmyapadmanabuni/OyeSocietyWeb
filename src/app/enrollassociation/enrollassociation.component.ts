@@ -102,6 +102,7 @@ export class EnrollassociationComponent implements OnInit {
   hidechooseFile1: boolean;
   PANfileName: string;
   hidePANchooseFile1: boolean;
+  okaycontinuebutton: string;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -110,6 +111,7 @@ export class EnrollassociationComponent implements OnInit {
     private router:Router,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.okaycontinuebutton='';
       this.fileName = "No file chosen...";
       this.PANfileName ='No file chosen...';
       this.hidechooseFile1=true;
@@ -2838,17 +2840,17 @@ export class EnrollassociationComponent implements OnInit {
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
 
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
 
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
 
             }
           }
@@ -2856,22 +2858,22 @@ export class EnrollassociationComponent implements OnInit {
              if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+                                this.okaycontinuebutton = "OK";
 
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
               
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
               this.exitblocksbuttonshow = true;
-              okaycontinuebutton = "CONTINUE";
+              this.okaycontinuebutton = "CONTINUE";
             }
           }
           Swal.fire({
@@ -2880,7 +2882,7 @@ export class EnrollassociationComponent implements OnInit {
             type: "success",
             showCancelButton: this.exitblocksbuttonshow,
             confirmButtonColor: "#f69321",
-            confirmButtonText: okaycontinuebutton,
+            confirmButtonText: 'OK',//this.okaycontinuebutton,
             cancelButtonText: 'EXIT',
             allowOutsideClick:false
           }).then(
@@ -2949,9 +2951,9 @@ export class EnrollassociationComponent implements OnInit {
                   }
                 }
               }
-              else{
-                this.router.navigate(['home']);
-              }
+              // else{
+              //   this.router.navigate(['home']);
+              // }
             })
         } 
       },this.commonblockarray.length * 3500) 
@@ -4071,7 +4073,7 @@ export class EnrollassociationComponent implements OnInit {
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
         console.log(blockname);
-        element.blockname = blockname;
+        element.blockname = blockname.toUpperCase();
         console.log(element.blockname);
         if (element.blockname == "") {
           element['isnotvalidblockname'] = true;
