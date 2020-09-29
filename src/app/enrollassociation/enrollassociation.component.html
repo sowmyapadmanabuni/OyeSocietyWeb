@@ -553,7 +553,6 @@
                                                     <input disabled="{{obj['disableField']==true}}" matInput placeholder="Email Id" 
                                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                                     [(ngModel)]="blocksArray[i]['email id']"
-                                                    (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i]['email id'])"
                                                     value="">
                                                 </mat-form-field>
                                                <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is required</p>
@@ -901,7 +900,7 @@
                                                     placeholder="Eamil Id"
                                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                                     [(ngModel)]="blocksArray[i]['email id']"
-                                                    (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i]['email id'])" value="">
+                                                     value="">
                                             </mat-form-field>
                                             <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is
                                                 required</p>
