@@ -4071,7 +4071,7 @@ export class EnrollassociationComponent implements OnInit {
     this.blocksArray.forEach(element => {
       if (element.Id == Id) {
         console.log(blockname);
-        element.blockname = blockname.toUpperCase();
+        element.blockname = blockname;
         console.log(element.blockname);
         if (element.blockname == "") {
           element['isnotvalidblockname'] = true;
