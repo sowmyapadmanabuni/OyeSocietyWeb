@@ -246,7 +246,7 @@
             <form [formGroup]="gstpanform" class="association-form3" style="padding-left:239px">
                 <mat-form-field class="association-full-width">
                     <mat-label>Pan Number<span class="red">*</span></mat-label>
-                    <input matInput placeholder="PAN NUMBER"
+                    <input matInput placeholder="Pan Number"
                         matTooltip="Please enter registered pan number of the association" class="pantext1"
                         [(ngModel)]="pannumber" value=""
                         formControlName="originalpan"
@@ -516,8 +516,7 @@
                                                 <mat-form-field class="blockdetails-form">
                                                     <mat-label
                                                         [ngClass]="{'green-lbl':!blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty'],'red-lbl':blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty']}">
-                                                        Facility Manager<span
-                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                        Facility Manager
                                                     </mat-label>
                                                     <input disabled="{{obj['disableField']==true}}" class = "text" 
                                                     (keypress)="_keyPress2($event)"
@@ -534,8 +533,7 @@
                                                 <mat-form-field class="blockdetails-form">
                                                     <mat-label
                                                         [ngClass]="{'green-lbl':!blocksArray[i]['facilitymanagervalid_but_mobilenumberempty'],'red-lbl':blocksArray[i]['facilitymanagervalid_but_mobilenumberempty']}">
-                                                        Mobile Number<span
-                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                        Mobile Number
                                                     </mat-label>
                                                     <input disabled="{{obj['disableField']==true}}" matInput placeholder="Mobile Number"
                                                     pattern="[0-9]*" 
