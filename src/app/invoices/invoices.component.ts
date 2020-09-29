@@ -1499,12 +1499,12 @@ export class InvoicesComponent implements OnInit {
       console.log(IsPaid);
       let paid = '';
       if (IsPaid) {
-        paid = 'UnPaid'; //Yes
+        paid = 'Yes'; //Yes
       }
       else {
         paid = 'No';
       }
-      if(paid == 'UnPaid' || paid == 'No'){
+      if(paid == 'Yes' || paid == 'No'){
         this.PaidUnpaidinvoiceLists = this.invoiceLists;
         this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
           return item['inPaid'] == paid;
