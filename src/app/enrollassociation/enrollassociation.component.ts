@@ -111,6 +111,7 @@ export class EnrollassociationComponent implements OnInit {
     private router:Router,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.isunitdetailsempty = true;
       this.okaycontinuebutton='';
       this.fileName = "No file chosen...";
       this.PANfileName ='No file chosen...';
@@ -1762,7 +1763,7 @@ export class EnrollassociationComponent implements OnInit {
   }
   validateUnitDetailsField(name, Id, flatno) {
     this.numberofunitexistence = 0;
-    this.isunitdetailsempty = true;
+    //this.isunitdetailsempty = true;
     Object.keys(this.unitlistjson).forEach(element => {
       console.log(this.unitlistjson[element])
 
