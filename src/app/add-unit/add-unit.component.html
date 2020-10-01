@@ -164,7 +164,7 @@
                       <mat-form-field class="blockdetails-form">
                           <mat-label>Owner First Name<span class="red">*</span></mat-label>
                           <input  class = "text" matInput placeholder="Owner First Name" 
-                          pattern="[a-zA-Z _]*"
+                          pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event)
                           (keyup)="validateownerfirtname($event,ownerFirtname)"
                           [(ngModel)]="ownerFirtname"[ngModelOptions]="{standalone:
                               true}" value="">
@@ -184,7 +184,7 @@
                               <mat-label>Owner Last Name<span class="red">*</span></mat-label>
                               <input class = "text" matInput placeholder="Owner Last Name" 
                               (keyup)="validateownerlastname($event,ownerLastname)"
-                              pattern="[a-zA-Z _]*"
+                              pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event)
                               [(ngModel)]="ownerLastname"
                               [ngModelOptions]="{standalone:true}" value="">
                           </mat-form-field>
@@ -254,7 +254,7 @@
                      <mat-form-field class="blockdetails-form">
                         <mat-label>Tenant First Name<span class="red">*</span></mat-label>
                         <input class="text" matInput placeholder="Tenant First Name" 
-                        pattern="[a-zA-Z _]*"
+                        pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event)
                         (keyup)="validatetenantfirstname($event,tenantFirtname)"
                         [(ngModel)]="tenantFirtname"
                         [ngModelOptions]="{standalone:true}" value="">
@@ -274,7 +274,7 @@
                           <mat-form-field class="blockdetails-form">
                             <mat-label>Tenant Last Name<span class="red">*</span></mat-label>
                             <input class = "text" matInput placeholder="Tenant Last Name" 
-                            pattern="[a-zA-Z _]*"
+                            pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event)
                             (keyup)="validatetenantlastname($event,tenantLastname)"
                             [(ngModel)]="tenantLastname"
                             [ngModelOptions]="{standalone:true}" value="">
