@@ -2883,7 +2883,7 @@ export class EnrollassociationComponent implements OnInit {
             type: "success",
             showCancelButton: this.exitblocksbuttonshow,
             confirmButtonColor: "#f69321",
-            confirmButtonText: 'OK',//this.okaycontinuebutton,
+            confirmButtonText: this.okaycontinuebutton,
             cancelButtonText: 'EXIT',
             allowOutsideClick:false
           }).then(
@@ -2952,9 +2952,9 @@ export class EnrollassociationComponent implements OnInit {
                   }
                 }
               }
-              // else{
-              //   this.router.navigate(['home']);
-              // }
+              else{
+                this.router.navigate(['home']);
+              }
             })
         } 
       },this.commonblockarray.length * 3500) 
