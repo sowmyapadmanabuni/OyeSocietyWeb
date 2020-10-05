@@ -270,9 +270,9 @@ input#file_upload_id {
     margin-top: 100px;
 }
 #cancelbutton{
-        position: relative;
-        top: 120px;
-        right: 110px;
+    position: relative;
+    right: 313px;
+    top: 133px;
 }
 #blockdetailscancelmanual{
     display: inline-block;
