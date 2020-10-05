@@ -463,7 +463,8 @@
             top: 85px;
         }
         .text{
-            text-transform: uppercase;
+         text-transform: capitalize;
+
         }
         .fields{
             position: fixed;
@@ -521,3 +522,6 @@
             text-align: right;
             font-weight: 600;
         }    
+        .leftalighnmentblocks{
+            padding-right: 200px;
+        }
