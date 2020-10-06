@@ -68,6 +68,10 @@
     display: inline-flex;
 
 }
+.modal1{
+    display: flex !important;
+    align-items: center !important;
+}
 #pancardupload{
     position: absolute;
     /* position: relative; */
@@ -296,7 +300,7 @@ a.MANUAL{
     top: 85px;
 }
 .text{
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 .fields{
     position: fixed;

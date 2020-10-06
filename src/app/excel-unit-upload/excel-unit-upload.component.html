@@ -442,119 +442,142 @@
                                                 [ngClass]="{'active':obj.Id==obj.unitTmpid}" class="tab-pane">
                                                 <div id="{{obj.Id}}">
                                                     <form class="blockdetails-form1" style="margin-top: 30px;display: flex;flex-direction: column;">
-                                                       
-                                                               
-                            <div style= "margin-top: 22px;" class="col-sm-12">
-                                <h5 style="color:#e59400;text-transform: uppercase;">Unit Details</h5>
-                                <div class="col-sm-12" style="display: flex">
-                                    <div>
-                                        <mat-form-field class="blockdetails-form1">
-                                            <mat-label [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">UNIT NO/FLAT NO<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
-                                            <input disabled="{{obj['disableField']==true}}" class = "text" matInput placeholder="UNIT NO/FLAT NO"
-                                             (keyup)="getUnitName(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['flatno'],blBlkName)"[(ngModel)]="obj.flatno"[ngModelOptions]="{standalone:
-                                                true}"  value="">
-                                        </mat-form-field>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['isnotvalidflatno']">Valid unit no is required</p>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['flatno']==undefined">Valid unit no is required</p>
-        
-                                     </div>
-        
-                                       <div>
-                                        <mat-form-field class="blockdetails-form1">
-                                         <mat-label [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['unittype']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['unittype']==undefined}">UNIT TYPE<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
-                                            <mat-select (selectionChange)="getUnittype(unitlistjson[blBlkName][i]['Id'],obj.unittype,blBlkName,unitlistjson[blBlkName][i]['flatno'])" disabled="{{obj['disableField']==true}}" [(value)]="obj.unittype">
-                                                <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['unittype']==undefined">Valid Unit Type is required</p>
-                                       </div>
-        
-                                     <div>
-                                        <mat-form-field class="blockdetails-form1">
-                                         <mat-label [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownershipstatus']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['ownershipstatus']==undefined}">OCCUPANCY & OWNERSHIP STATUS<span [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span></mat-label>
-                                            <mat-select (selectionChange)="getOwnerShipStatus(unitlistjson[blBlkName][i]['Id'],obj.ownershipstatus,blBlkName,unitlistjson[blBlkName][i]['flatno'])" disabled="{{obj['disableField']==true}}" [(value)]="obj.ownershipstatus">
-                                                <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']==undefined">Valid ownershipstatus is required</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12" style="display: flex">
-                                    <div>
-                                        <mat-form-field class="blockdetails-form1">
-                                            <mat-label
-                                                [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['unit dimension']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['unit dimension']==undefined}">
-                                                UNIT DIMENSION<span
-                                                    [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
-                                            </mat-label>
-                                            <input disabled="{{obj['disableField']==true}}" maxlength="100" (keypress)="_keyPress($event)" pattern="[0-9]*"
-                                                class="text" matInput placeholder="UNIT DIMENSION"
-                                                (keyup)="ValidateLessThanZeroValue(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['unit dimension'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
-                                                [(ngModel)]="obj['unit dimension']" [ngModelOptions]="{standalone:true}" value="">
-                                        </mat-form-field>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['InvalidUnitDimension']">Valid unitdimension
-                                            is required</p>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['unit dimension']==undefined">Valid
-                                            unitdimension is required</p>
-                                    </div>
-                                
-                                    <div>
-                                        <mat-form-field class="blockdetails-form1">
-                                            <mat-label
-                                                [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['Unit Calculation Type']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['Unit Calculation Type']==undefined}">
-                                                CALCULATION TYPE<span
-                                                    [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
-                                            </mat-label>
-                                            <mat-select disabled="{{obj['disableField']==true}}"
-                                                (selectionChange)="getCalculationType(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['Unit Calculation Type'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
-                                                [(value)]="obj['Unit Calculation Type']">
-                                                <mat-option *ngFor="let cal of calculationTypes" [value]="cal['name']">{{cal['name']}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['Unit Calculation Type']==undefined">Valid
-                                            Unit Calculationtype is
-                                            required</p>
-                                    </div>
-                                
-                                    <div>
-                                        <mat-form-field class="blockdetails-form1">
-                                            <mat-label
-                                                [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['unit rate']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['unit rate']==undefined}">
-                                                UNIT RATE<span
-                                                    [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
-                                            </mat-label>
-                                            <input maxlength="100"
-                                                (keyup)="getUnitrate(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['unit rate'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
-                                                (keypress)="_keyPress($event)" pattern="[0-9]*" class="text" matInput placeholder="UNIT RATE" disabled="{{obj['disableField']==true}}"
-                                                [(ngModel)]="obj['unit rate']" [ngModelOptions]="{standalone:true}" value="">
-                                        </mat-form-field>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['InvalidUnitRate']">Valid unit rate is
-                                            required</p>
-                                        <p class="validation" *ngIf="unitlistjson[blBlkName][i]['unit rate']==undefined">Valid unit rate is
-                                            required</p>
-                                    </div>
-                                </div>
-                            </div>
-                                                        
+                                                    <div class="col-sm-12">
+                                                        <h5 style="color:#e59400;text-transform: uppercase;margin-left:13px;font-weight: bold;">Unit Details</h5>
+                                                        <div class="col-sm-12" style="display: flex">
+                                                            <div>
+                                                                <mat-form-field class="blockdetails-form1">
+                                                                    <mat-label
+                                                                        [ngClass]="{'green-lbl':obj['isnotvalidflatno']==false,'red-lbl':obj['isnotvalidflatno']==true}">
+                                                                        Unit No/Flat No<span
+                                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                                    </mat-label>
+                                                                    <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="Unit No/Flat No"
+                                                                        (keyup)="getUnitName(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['flatno'],blBlkName)"
+                                                                        [(ngModel)]="obj.flatno" [ngModelOptions]="{standalone:
+                                                                                                    true}" value="">
+                                                                </mat-form-field>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['isnotvalidflatno']">Valid unit no is
+                                                                    required</p>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['flatno']==undefined">Valid unit no is
+                                                                    required</p>
+                                                    
+                                                            </div>
+                                                    
+                                                            <div>
+                                                                <mat-form-field class="blockdetails-form1">
+                                                                    <mat-label
+                                                                        [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['unittype']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['unittype']==null}">
+                                                                        Unit Type<span
+                                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                                    </mat-label>
+                                                                    <mat-select
+                                                                        (selectionChange)="getUnittype(unitlistjson[blBlkName][i]['Id'],obj.unittype,blBlkName,unitlistjson[blBlkName][i]['flatno'])"
+                                                                        disabled="{{obj['disableField']==true}}" [(value)]="obj.unittype">
+                                                                        <mat-option *ngFor="let country of unittypedata" [value]="country">{{country}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['unittype']==undefined">Valid Unit Type
+                                                                    is required</p>
+                                                            </div>
+                                                    
+                                                            <div>
+                                                                <mat-form-field class="blockdetails-form1">
+                                                                    <mat-label
+                                                                        [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownershipstatus']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['ownershipstatus']==null}">
+                                                                        Occupancy & Ownership Status<span
+                                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                                    </mat-label>
+                                                                    <mat-select
+                                                                        (selectionChange)="getOwnerShipStatus(unitlistjson[blBlkName][i]['Id'],obj.ownershipstatus,blBlkName,unitlistjson[blBlkName][i]['flatno'])"
+                                                                        disabled="{{obj['disableField']==true}}" [(value)]="obj.ownershipstatus">
+                                                                        <mat-option *ngFor="let status of occupancy" [value]="status">{{status}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']==undefined">Valid
+                                                                    ownershipstatus is required</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12" style="display: flex">
+                                                            <div>
+                                                                <mat-form-field class="blockdetails-form">
+                                                                    <mat-label
+                                                                        [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['unit dimension']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['unit dimension']==null}">
+                                                                        Unit Dimension<span
+                                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                                    </mat-label>
+                                                                    <input disabled="{{obj['disableField']==true}}" maxlength="100" (keypress)="_keyPress($event)"
+                                                                        pattern="[0-9]*" class="text" matInput placeholder="Unit Dimension"
+                                                                        (keyup)="ValidateLessThanZeroValue(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['unit dimension'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
+                                                                        [(ngModel)]="obj['unit dimension']" [ngModelOptions]="{standalone:true}" value="">
+                                                                </mat-form-field>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['InvalidUnitDimension']">Valid
+                                                                    unitdimension
+                                                                    is required</p>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['unit dimension']==undefined">Valid
+                                                                    unitdimension is required</p>
+                                                            </div>
+                                                    
+                                                            <div>
+                                                                <mat-form-field class="blockdetails-form">
+                                                                    <mat-label
+                                                                        [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['Unit Calculation Type']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['Unit Calculation Type']==null}">
+                                                                        Calculation Type<span
+                                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                                    </mat-label>
+                                                                    <mat-select disabled="{{obj['disableField']==true}}"
+                                                                        (selectionChange)="getCalculationType(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['Unit Calculation Type'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
+                                                                        [(value)]="obj['Unit Calculation Type']">
+                                                                        <mat-option *ngFor="let cal of calculationTypes" [value]="cal['name']">{{cal['name']}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['Unit Calculation Type']==undefined">
+                                                                    Valid
+                                                                    Unit Calculationtype is
+                                                                    required</p>
+                                                            </div>
+                                                    
+                                                            <div>
+                                                                <mat-form-field class="blockdetails-form">
+                                                                    <mat-label
+                                                                        [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['unit rate']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['unit rate']==null}">
+                                                                        Unit Rate<span
+                                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
+                                                                    </mat-label>
+                                                                    <input maxlength="100"
+                                                                        (keyup)="getUnitrate(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['unit rate'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
+                                                                        (keypress)="_keyPressValidateUnitrate($event)" pattern="[0-9]*" class="text" matInput placeholder="Unit Rate"
+                                                                        disabled="{{obj['disableField']==true}}" [(ngModel)]="obj['unit rate']"
+                                                                        [ngModelOptions]="{standalone:true}" value="">
+                                                                </mat-form-field>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['InvalidUnitRate']">Valid unit rate is
+                                                                    required</p>
+                                                                <p class="validation" *ngIf="unitlistjson[blBlkName][i]['unit rate']==undefined">Valid unit rate
+                                                                    is
+                                                                    required</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                         <div class="col-sm-12">
                                                             <hr>
                                                         </div>
-                                                       
+                                                        
                                                         <div class="col-sm-12" *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
-                                                            <h5 style="color:#e59400;text-transform: uppercase;">Owner Details</h5>
+        
+                                                            <h5 style="color:#e59400;text-transform: uppercase;margin-left:13px;font-weight: bold;">Owner Details</h5>
                                                             <div class="col-sm-12" style="display: flex">
                                                                 <div>
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownerfirstname']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['ownerfirstname']==undefined}">
-                                                                            OWNER FIRST NAME<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownerfirstname']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['ownerfirstname']==null}">
+                                                                            Owner First Name<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="OWNER FIRSTNAME"
+                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="Owner First Name"
                                                                             pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event)
                                                                             (keyup)="getownerfirstname(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['ownerfirstname'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             [(ngModel)]="obj.ownerfirstname" [ngModelOptions]="{standalone:
@@ -570,11 +593,11 @@
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownerlastname']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['ownerlastname']==undefined}">
-                                                                            OWNER LAST NAME<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownerlastname']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['ownerlastname']==null}">
+                                                                            Owner Last Name<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="OWNER LASTNAME"
+                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="Owner Last Name"
                                                                             (keyup)="getownerlastname(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['ownerlastname'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event) [(ngModel)]="obj.ownerlastname"
                                                                             [ngModelOptions]="{standalone:true}" value="">
@@ -590,11 +613,11 @@
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownermobilenumber']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['ownermobilenumber']==undefined}">
-                                                                            OWNER MOBILE NUMBER<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['ownermobilenumber']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['ownermobilenumber']==null}">
+                                                                            Owner Mobile Number<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="OWNER MOBILE NUMBER" pattern="[0-9]*"
+                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="Owner Mobile Number" pattern="[0-9]*"
                                                                             (keyup)="getownermobilenumber(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['ownermobilenumber'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             minlength="10" maxlength="10" (keypress)=_keyPress($event) [ngModelOptions]="{standalone:true}"
                                                                             [(ngModel)]="obj.ownermobilenumber" value="">
@@ -610,11 +633,11 @@
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Vacant Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Owner Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['owneremaiid']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['owneremaiid']==undefined}">
-                                                                            OWNER EMAIL ID<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['owneremaiid']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['owneremaiid']==null}">
+                                                                            Owner Email Id<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="OWNER EMAIL-ID"
+                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="Owner Email Id"
                                                                             (keyup)="getowneremaiid(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['owneremaiid'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="obj.owneremaiid"
                                                                             [ngModelOptions]="{standalone:true}" value="">
@@ -626,23 +649,23 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                     
+                                                        
                                                         <div class="col-sm-12">
                                                             <hr>
                                                         </div>
-                                                     
+                                                       
                                                         <div class="col-sm-12" *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
-                                                            <h5 style="color:#e59400;text-transform: uppercase;">Tenant Details</h5>
+                                                            <h5 style="color:#e59400;text-transform: uppercase;margin-left:13px;font-weight: bold;">Tenant Details</h5>
                                                             <div class="col-sm-12" style="display: flex">
                                                                 <div>
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantfirstname']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['tenantfirstname']==undefined}">
-                                                                            TENANT FIRST NAME<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantfirstname']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['tenantfirstname']==null}">
+                                                                            Tenant First Name<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="TENANT FIRSTNAME"
+                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="Tenant First Name"
                                                                             pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event) [(ngModel)]="obj.tenantfirstname"
                                                                             (keyup)="gettenantfirstname(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['tenantfirstname'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             [ngModelOptions]="{standalone:true}" value="">
@@ -658,11 +681,11 @@
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantlastname']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['tenantlastname']==undefined}">
-                                                                            TENANT LAST NAME<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantlastname']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['tenantlastname']==null}">
+                                                                            Tenant Last Name<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="TENANT LASTNAME"
+                                                                        <input disabled="{{obj['disableField']==true}}" class="text" matInput placeholder="Tenant Last Name"
                                                                             pattern="[a-zA-Z _]*" (keypress)=_keyPress2($event)
                                                                             (keyup)="gettenantlastname(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['tenantlastname'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             [(ngModel)]="obj.tenantlastname" [ngModelOptions]="{standalone:true}" value="">
@@ -678,11 +701,11 @@
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantmobilenumber']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['tenantmobilenumber']==undefined}">
-                                                                            TENANT MOBILE NUMBER<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantmobilenumber']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['tenantmobilenumber']==null}">
+                                                                            Tenant Mobile Number<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="TENANT MOBILE NUMBER" pattern="[0-9]*"
+                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="Tenant Mobile Number" pattern="[0-9]*"
                                                                             minlength="10" maxlength="10" (keypress)=_keyPress($event)
                                                                             (keyup)="gettenantmobilenumber(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['tenantmobilenumber'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             [(ngModel)]="obj.tenantmobilenumber" [ngModelOptions]="{standalone:true}" value="">
@@ -698,11 +721,11 @@
                                                                     <mat-form-field class="blockdetails-form1"
                                                                         *ngIf="unitlistjson[blBlkName][i]['ownershipstatus']=='UnSold Tenant Occupied Unit'||unitlistjson[blBlkName][i]['ownershipstatus']=='Sold Tenant Occupied Unit'">
                                                                         <mat-label
-                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantemaiid']!=undefined,'red-lbl':unitlistjson[blBlkName][i]['tenantemaiid']==undefined}">
-                                                                            TENANT EMAIL ID<span
+                                                                            [ngClass]="{'green-lbl':unitlistjson[blBlkName][i]['tenantemaiid']!=undefined,'red-lbl': unitlistjson[blBlkName][i]['tenantemaiid']==null}">
+                                                                            Tenant Email Id<span
                                                                                 [ngClass]="{'green-lbl':obj['hasNoDuplicateUnitname']==true,'red-lbl':obj['hasNoDuplicateUnitname']==false}">*</span>
                                                                         </mat-label>
-                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="TENANT EMAIL-ID"
+                                                                        <input disabled="{{obj['disableField']==true}}" matInput placeholder="Tenant Email Id"
                                                                             pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                                                                             (keyup)="gettenantemaiid(unitlistjson[blBlkName][i]['Id'],unitlistjson[blBlkName][i]['tenantemaiid'],blBlkName,unitlistjson[blBlkName][i]['flatno'])"
                                                                             [(ngModel)]="obj.tenantemaiid" [ngModelOptions]="{standalone:true}" value="">
@@ -715,7 +738,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                       
+                                                        
                                                     </form>
                                                 </div>
                                                 <div>

@@ -525,3 +525,7 @@
         .leftalighnmentblocks{
             padding-right: 200px;
         }
+        .modal1{
+            display: flex !important;
+            align-items: center !important;
+        }

@@ -40,7 +40,7 @@ export class ExcelUnitUploadComponent implements OnInit {
   duplicateUnitCount:number;
   invalidUnitCount:number;
   arraylist1:unknown[];
- 
+  calculationTypes: { name: string; displayName: string; }[];
   unitsuccesscount:number;
   unitprogressbartemplate:TemplateRef<any>;
   progressbarmodalRef: BsModalRef;
@@ -99,6 +99,10 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.blBlkName = 'Select Block Name';
     this.ACAccntID = this.globalService.getacAccntID();
     //units bulkupload
+    this.calculationTypes = [
+      { "name": "FlatRateValue","displayName":"Flat Rate Value" },
+      { "name": "dimension","displayName":"Dimension Based"  }
+    ];
     this.duplicateUnitCount=0;
       this.invalidUnitCount=0;
     this.InvalidBlocknamePresent = false;
@@ -162,7 +166,8 @@ export class ExcelUnitUploadComponent implements OnInit {
     this.getblockcount();
   }
   onFileChange(ev,UpdateBlockUnitCountTemplate,unitprogressbartemplate: TemplateRef<any>) {
-    console.log(this.finalblocknameTmp);
+    $(".se-pre-con")[0].innerHTML = `<span style="position: absolute;top: 67%;left: 42%;font-size: 22px;color: red;">Validating unit records</span><br>
+    <span style="position: absolute;top: 74%;left: 34%;font-size: 22px;color: red;">please wait don't navigate back or reload page</span>`;
     $(".se-pre-con").show();
     this.unitsuccesscount = 0;
     this.unitprogressbartemplate = unitprogressbartemplate;
@@ -465,7 +470,7 @@ export class ExcelUnitUploadComponent implements OnInit {
      else { */
     if (this.unitrecordDuplicateUnitnameModified) {
       $(".se-pre-con").show();
-      this.unitsuccesscount = 0;
+      // this.unitsuccesscount = 0;
       let tempArr = [];
       this.unitlistjson[this.blBlkName].forEach(iitm => {
         if (iitm.disableField == false) {
@@ -707,8 +712,8 @@ export class ExcelUnitUploadComponent implements OnInit {
       //}
       //
       $(".se-pre-con").fadeOut("slow");
-      this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate);
-      this.unitprogressvaluemax = Number(this.unitlistjson[this.blBlkName].length);
+    this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate,Object.assign({}, { class: 'modal1' }));
+    this.unitprogressvaluemax = Number(this.unitlistjson[this.blBlkName].length);
     this.unitlistjson[this.blBlkName].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
@@ -842,6 +847,7 @@ export class ExcelUnitUploadComponent implements OnInit {
             title: this.message,
             text: "",
             type: "success",
+            allowOutsideClick:false,
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK"
           }).then(
@@ -879,17 +885,18 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log('insidelasttab');
           if (!this.duplicateUnitrecordexist) {
             console.log('inlasttabNoduplicaterecordexist');
-            let mesg = this.totalUnitcount + '-' + 'Units Created Successfully'
+            let mesg = `Total Unit Created - ${this.totalUnitcount}`
             // document.getElementById('unitupload_excel').style.display = 'none'
             // document.getElementById('unitshowmanual').style.display = 'block';
             // document.getElementById('unitsmanualnew').style.display = 'none';
             // document.getElementById('unitsbulkold').style.display = 'block';
             Swal.fire({
-              title: (this.exceptionMessage1 == '' ? mesg : this.exceptionMessage1),
+              title: mesg,
               text: "",
-              type: (this.exceptionMessage1 == '' ? "success" : "error"),
+              type:"success",
               confirmButtonColor: "#f69321",
-              confirmButtonText: "OK"
+              confirmButtonText: "OK",
+              allowOutsideClick:false
             }).then(
               (result) => {
                 if (result.value) {
@@ -937,7 +944,8 @@ export class ExcelUnitUploadComponent implements OnInit {
               text: "",
               type: "success",
               confirmButtonColor: "#f69321",
-              confirmButtonText: "OK"
+              confirmButtonText: "OK",
+              allowOutsideClick:false
             }).then(
               (result) => {
                 if (result.value) {
@@ -978,7 +986,8 @@ export class ExcelUnitUploadComponent implements OnInit {
               text: "",
               type: "success",
               confirmButtonColor: "#f69321",
-              confirmButtonText: "OK"
+              confirmButtonText: "OK",
+              allowOutsideClick:false
             }).then(
               (result) => {
                 if (result.value) {
