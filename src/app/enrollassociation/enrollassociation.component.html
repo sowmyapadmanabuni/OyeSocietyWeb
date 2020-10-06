@@ -1033,7 +1033,8 @@
                             
                                 </div>
                                 <div id="blockdetailsbuttons1" class="save">
-                                    <a class="continue" (click)="resetManualBlockCreationFields($event,obj.Id)" mat-raised-button color="primary">RESET</a>
+                                    <button (click)="resetManualBlockCreationFields($event,obj.Id)" class="mat-raised-button mat-button-base mat-primary continue" [disabled]="obj.manualBlockResetDisabled" color="primary">RESET</button>
+                                    <!-- <a class="continue" (click)="resetManualBlockCreationFields($event,obj.Id)" mat-raised-button color="primary">RESET</a> -->
                                     <button class="continue mat-raised-button mat-button-base mat-primary" id="assdetailssave1" color="primary" [disabled]="obj.isblockdetailsempty1"
                                         [ngStyle]="{'opacity':obj.isblockdetailsempty1 ? '0.5' : '1' }"
                                         (click)="createblocksdetails1(obj.blockname,obj.blocktype,obj.units,obj['facility manager'],obj['mobile number'],obj['email id'],obj.Id,i,obj['Flat Rate value'],obj['Maintenance value'],obj['Maintenance Type'],obj['Unit Of Measurement'],obj['Invoice Creation Frequency'],obj['Invoice Generation Date'],obj['Due Date'],obj['Late Payment Charge Type'],obj['Late Payment Charge'],obj['Starts From'])">NEXT</button>
@@ -1411,7 +1412,8 @@
                                             </div>
                                            
                                             <div class="save">
-                                                <a class="resetmanualunits" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
+                                                <button class="resetmanualunits mat-raised-button mat-button-base mat-primary" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" [disabled]="obj3.manualUnitResetDisabled" color="primary">RESET</button>
+                                                <!-- <a class="resetmanualunits" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a> -->
                                                 <button id="manualunitssubmit" class="resetmanualunits mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
                                                     (click)="gotonexttab($event,blocknameforIteration,obj3.Id,i)">{{obj3.displayText}}</button>
                                             </div>
