@@ -576,13 +576,14 @@ export class BlocksComponent implements OnInit {
     console.log('asbGnDate', asbGnDate);
     console.log('asdPyDate', asdPyDate);
     console.log('aslpsDate', aslpsDate);
+    console.log('item', item);
     this.myDate =  bldCreated;
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
-    this.BLMgrName = item.faciliyManager[0]['fmName'];
-    this.BLMgrMobile = item.faciliyManager[0]['acMobile'];
-    this.BLMgrEmail = item.faciliyManager[0]['emailID'];
+    this.BLMgrName = (item.faciliyManager.length == 0 ? '' : item.faciliyManager[0]['fmName']);
+    this.BLMgrMobile = (item.faciliyManager.length == 0 ? '' :item.faciliyManager[0]['acMobile']);
+    this.BLMgrEmail = (item.faciliyManager.length == 0 ? '' :item.faciliyManager[0]['emailID']);
     this.ASMtType = asMtType;
     this.ASMtFRate = asMtFRate;
     this.ASMtDimBs = asMtDimBs;
