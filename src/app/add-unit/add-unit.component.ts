@@ -409,7 +409,14 @@ export class AddUnitComponent implements OnInit {
         event.preventDefault();
     }
   }
+  _keyPress2(event: any, Id) {
+    var ch = String.fromCharCode(event.keyCode);
+    var filter = /[a-zA-Z]/;
+    if (!filter.test(ch)) {
+      event.returnValue = false;
+    }
 
+  }
   addParking(){
     if(this.newParkingDetail.ParkingLotNumber !== "" && this.newParkingDetail.VehicleNumber !== ""){
       this.parkingDetails.push(new ParkingDetail(this.newParkingDetail.ParkingLotNumber,this.newParkingDetail.VehicleNumber));

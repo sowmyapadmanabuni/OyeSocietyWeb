@@ -150,15 +150,15 @@
         display: inline-flex;
     }
     p.validation {
-        margin-left: 40px;
+        /* margin-left: 40px; */
         margin-top: -18px;
         color: #B51414 !important;
         margin-bottom: 0px;
         margin-top: -18px;
-        width: 260px;
+        /* width: 260px; */
     }
     .form-groupunits{
-        margin-bottom: 15px;
+        /* margin-bottom: 15px; */
         margin-top: 15px;
         padding-right: 150px;
 

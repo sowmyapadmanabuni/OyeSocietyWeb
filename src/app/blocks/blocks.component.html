@@ -255,7 +255,7 @@
                                     <label id=label4>Fecility Manager</label>
                                     <input type="text" name="BLMgrName" id="input4" autocomplete='BLMgrName'(keyup)="validatemanagername($event,BLMgrName)"
                                         [(ngModel)]="BLMgrName" class="form-control"
-                                        placeholder="Manager Name" pattern="[a-zA-Z]*" required />
+                                        placeholder="Manager Name" />
                                     <p class="alerts" *ngIf="managernamevalid">
                                         Fecility Manager is
                                         required</p>
@@ -267,8 +267,8 @@
                                     <input type="text" name="BLMgrMobile" id="input5" autocomplete='BLMgrMobile'
                                         [(ngModel)]="BLMgrMobile" class="form-control"
                                         (keyup)="validatemanagermobilenumber($event,BLMgrMobile)"
-                                        placeholder="Mobile Number" minlength=10 maxlength=13 pattern="^((0091)|(\+91)|0?)[0-9]{1}\d{9}$"
-                                        required (keypress)=_keyPress($event) />
+                                        placeholder="Mobile Number"
+                                         (keypress)=_keyPress($event) />
                                     <p class="alerts" *ngIf="managermobilevalid">Mobile Number is required</p>
                                 </div>
                             </div>
@@ -278,7 +278,7 @@
                                     <input type="text" name="BLMgrEmail" id="input6" autocomplete='BLMgrEmail'
                                         [(ngModel)]="BLMgrEmail"  class="form-control"
                                         placeholder="Manager Email Id"
-                                        pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"/>
+                                        />
                                 </div>
                             </div>
                         </div>

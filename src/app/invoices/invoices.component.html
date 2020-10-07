@@ -131,7 +131,7 @@
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td class="amount">
-                                        <span *ngIf="item['inPaid'] == ''">
+                                        <span *ngIf="item['inPaid'] == 'No'">
                                                <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
                                                <a tooltip="Mail Invoice" (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)" style="cursor: pointer; font-size: 12px;">Send Reminder </a> | 
                                                <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)" style="cursor: pointer; font-size: 12px;">Adjustments</a> | 
@@ -151,7 +151,7 @@
                                                 Sorry, your browser does not support inline SVG.  
                                               </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
                                         </span> -->
-                                        <span *ngIf="item['inPaid'] == 'UnPaid'">
+                                        <span *ngIf="item['inPaid'] == 'Yes'">
                                             <button tooltip="View Invoice" class="smallBtn"
                                             (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">
                                                <a style="cursor: pointer; font-size: 12px;">View Invoice </a>

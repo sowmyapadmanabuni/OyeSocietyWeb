@@ -184,7 +184,7 @@
                                 <div class="file-select-button" (click)="openFileinput()" id="fileName">Choose File
                                 </div>
                                 <div class="file-select-name" id="noFile"><a href="#" (click)="showImgOnPopUp($event,UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')">{{fileName}}</a></div>
-                                <input type="file" [ngStyle]="{'display':hidechooseFile1 ? 'none' : 'block' }" (change)="onFileSelect($event)" name="chooseFile1" id="chooseFile1">
+                                <input style="cursor: pointer;" type="file" accept="image/*" [ngStyle]="{'display':hidechooseFile1 ? 'none' : 'block' }" (change)="onFileSelect($event)" name="chooseFile1" id="chooseFile1">
                             </div>
                         </div>
                 </form>
@@ -196,7 +196,7 @@
                             <div class="file-select-button" id="fileName">Choose File
                             </div>
                             <div class="file-select-name" id="noFile">{{fileName}}</div>
-                            <input type="file" (change)="onFileSelect($event)" name="chooseFile" id="chooseFile">
+                            <input style="cursor: pointer;" type="file" accept="image/*" (change)="onFileSelect($event)" name="chooseFile" id="chooseFile">
                         </div>
                     </div>
                         <!-- <label class="control-label" style="width: 100%;">Upload Association logo</label>
@@ -246,7 +246,7 @@
             <form [formGroup]="gstpanform" class="association-form3" style="padding-left:239px">
                 <mat-form-field class="association-full-width">
                     <mat-label>Pan Number<span class="red">*</span></mat-label>
-                    <input matInput placeholder="PAN NUMBER"
+                    <input matInput placeholder="Pan Number"
                         matTooltip="Please enter registered pan number of the association" class="pantext1"
                         [(ngModel)]="pannumber" value=""
                         formControlName="originalpan"
@@ -289,7 +289,7 @@
                                         <div class="file-select-name" id="noFile"><a href="#"
                                                 (click)="showImgOnPopUp($event,UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')">{{PANfileName}}</a>
                                         </div>
-                                        <input type="file" [ngStyle]="{'display':hidePANchooseFile1 ? 'none' : 'block' }"
+                                        <input style="cursor: pointer;" type="file" accept="image/*" [ngStyle]="{'display':hidePANchooseFile1 ? 'none' : 'block' }"
                                             (change)="onPanFileSelect($event)" name="panProfile1" id="panProfile1">
                                     </div>
                                 </div>
@@ -301,7 +301,7 @@
                                         <div class="file-select-button" id="fileName">Choose File
                                         </div>
                                         <div class="file-select-name" id="noFile">{{PANfileName}}</div>
-                                        <input type="file" (change)="onPanFileSelect($event)" name="panProfile" id="panProfile">
+                                        <input style="cursor: pointer;" type="file" accept="image/*" (change)="onPanFileSelect($event)" name="panProfile" id="panProfile">
                                     </div>
                                 </div>
                             </form>
@@ -516,8 +516,7 @@
                                                 <mat-form-field class="blockdetails-form">
                                                     <mat-label
                                                         [ngClass]="{'green-lbl':!blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty'],'red-lbl':blocksArray[i]['mobilenumbervalid_but_facilitymanagerempty']}">
-                                                        Facility Manager<span
-                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                        Facility Manager
                                                     </mat-label>
                                                     <input disabled="{{obj['disableField']==true}}" class = "text" 
                                                     (keypress)="_keyPress2($event)"
@@ -534,8 +533,7 @@
                                                 <mat-form-field class="blockdetails-form">
                                                     <mat-label
                                                         [ngClass]="{'green-lbl':!blocksArray[i]['facilitymanagervalid_but_mobilenumberempty'],'red-lbl':blocksArray[i]['facilitymanagervalid_but_mobilenumberempty']}">
-                                                        Mobile Number<span
-                                                            [ngClass]="{'green-lbl':obj['hasNoDuplicateBlockname']==true,'red-lbl':obj['hasNoDuplicateBlockname']==false}">*</span>
+                                                        Mobile Number
                                                     </mat-label>
                                                     <input disabled="{{obj['disableField']==true}}" matInput placeholder="Mobile Number"
                                                     pattern="[0-9]*" 
@@ -555,7 +553,6 @@
                                                     <input disabled="{{obj['disableField']==true}}" matInput placeholder="Email Id" 
                                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                                     [(ngModel)]="blocksArray[i]['email id']"
-                                                    (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i]['email id'])"
                                                     value="">
                                                 </mat-form-field>
                                                <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is required</p>
@@ -903,7 +900,7 @@
                                                     placeholder="Eamil Id"
                                                     pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
                                                     [(ngModel)]="blocksArray[i]['email id']"
-                                                    (keyup)="getmanageremailid(blocksArray[i]['Id'],blocksArray[i]['email id'])" value="">
+                                                     value="">
                                             </mat-form-field>
                                             <!-- <p class="validation" *ngIf="blocksArray[i]['isnotvalidmanageremailid']">Manager email-id is
                                                 required</p>
@@ -1036,7 +1033,8 @@
                             
                                 </div>
                                 <div id="blockdetailsbuttons1" class="save">
-                                    <a class="continue" (click)="resetManualBlockCreationFields($event,obj.Id)" mat-raised-button color="primary">RESET</a>
+                                    <button (click)="resetManualBlockCreationFields($event,obj.Id)" class="mat-raised-button mat-button-base mat-primary continue" [disabled]="obj.manualBlockResetDisabled" color="primary">RESET</button>
+                                    <!-- <a class="continue" (click)="resetManualBlockCreationFields($event,obj.Id)" mat-raised-button color="primary">RESET</a> -->
                                     <button class="continue mat-raised-button mat-button-base mat-primary" id="assdetailssave1" color="primary" [disabled]="obj.isblockdetailsempty1"
                                         [ngStyle]="{'opacity':obj.isblockdetailsempty1 ? '0.5' : '1' }"
                                         (click)="createblocksdetails1(obj.blockname,obj.blocktype,obj.units,obj['facility manager'],obj['mobile number'],obj['email id'],obj.Id,i,obj['Flat Rate value'],obj['Maintenance value'],obj['Maintenance Type'],obj['Unit Of Measurement'],obj['Invoice Creation Frequency'],obj['Invoice Generation Date'],obj['Due Date'],obj['Late Payment Charge Type'],obj['Late Payment Charge'],obj['Starts From'])">NEXT</button>
@@ -1101,7 +1099,8 @@
 
                  <div id="unitsmanualnew" class="container-fluid">
                     <div class="row">
-                    
+                    <a  (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
+                                    <a (click)="Clright()" class="go-right">Go Right</a> 
                     <ul class="nav col-md-2" id="leftTabs" style="margin-top: 48px;">
                         <li class="active" *ngFor="let obj of blocksArray" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
                         <a style="color: #fff !important;background: #5a51aa;" href="#{{obj.Id}}" (click)="assignTmpid(obj.Id,obj.blockname)" data-toggle="tab">
@@ -1118,7 +1117,7 @@
                                     <!-- <a  (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
                                     <a (click)="Clright()" class="go-right">Go Right</a>  -->
                                     <div class="overflow-hidden" style="width: 900px;overflow: hidden;">
-                                            <ul id="tabSet"  class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll; height: 42px; width: 2000px;">
+                                            <ul id="tabSet"  class="nav nav-tabs" [ngStyle]="{'display':obj1.Id==obj1.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll; height: 42px; width: 8000px;">
                                                     <li  *ngFor="let obj2 of unitlistjson[blocknameforIteration];let i= index" [ngClass]="{'active':obj2.Id==obj2.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
                                                         <a href="#{{obj2.Id}}" (click)="assignUnitTmpid(obj2.Id,blocknameforIteration)" data-toggle="tab" style="display: flex;width: auto;">{{obj2.flatno==''?'Unit':obj2.flatno}}
                                                             &nbsp;&nbsp;<span></span>&nbsp;&nbsp;
@@ -1414,7 +1413,8 @@
                                             </div>
                                            
                                             <div class="save">
-                                                <a class="resetmanualunits" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a>
+                                                <button class="resetmanualunits mat-raised-button mat-button-base mat-primary" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" [disabled]="obj3.manualUnitResetDisabled" color="primary">RESET</button>
+                                                <!-- <a class="resetmanualunits" (click)="resetStep5($event,blocknameforIteration,obj3.Id)" mat-raised-button color="primary">RESET</a> -->
                                                 <button id="manualunitssubmit" class="resetmanualunits mat-raised-button mat-button-base mat-primary" mat-raised-button color="primary" disabled={{obj3.isSingleUnitDataEmpty}}
                                                     (click)="gotonexttab($event,blocknameforIteration,obj3.Id,i)">{{obj3.displayText}}</button>
                                             </div>
@@ -1441,6 +1441,8 @@
                </div> 
                <div id="unitsbulkold" style="display: none">
                 <div class="row">
+                        <a (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
+                        <a (click)="Clright()" class="go-right">Go Right</a>
                     <ul class="nav col-md-2" id="leftTabs" style="margin-top: 48px;">
                         <li class="active" *ngFor="let item of blocksArray;let i=index" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
                         <a style="color: #fff !important;background: #5a51aa;" href="#{{item.Id}}" (click)="assignTmpid(item.Id,item.blockname)" data-toggle="tab">
@@ -1454,14 +1456,11 @@
                         <!-- <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units <i class="fa fa-angle-right" aria-hidden="true"></i></p> -->
                         <div *ngFor="let iitem of blocksArray;let i=index">
                             <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
-                                <div style="display: flex;">
-                                    <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
-                                    <a [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" (click)="Clright()" class="go-right">Go Right</a>
-                                </div> 
+            
                                     <div [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" class="overflow-hidden" style="width: 900px;overflow: hidden;">
 
                                         <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }"
-                                            style="display: flex;overflow-x: scroll;    height: 42px;width: 3000px;">
+                                            style="display: flex;overflow-x: scroll;    height: 42px;width: 8000px;">
                                             <li *ngFor="let obj of unitlistjson[blocknameforIteration];let i= index"
                                                 [ngClass]="{'active':obj.Id==obj.unitTmpid}"
                                                 style="display: flex;justify-content: space-evenly;width: auto;">

@@ -68,6 +68,10 @@
     display: inline-flex;
 
 }
+.modal1{
+    display: flex !important;
+    align-items: center !important;
+}
 #pancardupload{
     position: absolute;
     /* position: relative; */
@@ -218,7 +222,7 @@ p.panextext{
     display: inline-block;
     margin-top: 0px;
     top: 46px;
-    margin-left: 449px;
+    margin-left: 425px;
 }
 
 .resetforbulkunits{
@@ -270,9 +274,9 @@ input#file_upload_id {
     margin-top: 100px;
 }
 #cancelbutton{
-        position: relative;
-        top: 120px;
-        right: 110px;
+    position: relative;
+    right: 313px;
+    top: 133px;
 }
 #blockdetailscancelmanual{
     display: inline-block;
@@ -296,7 +300,7 @@ a.MANUAL{
     top: 85px;
 }
 .text{
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 .fields{
     position: fixed;

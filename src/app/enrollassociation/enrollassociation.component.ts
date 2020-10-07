@@ -101,6 +101,7 @@ export class EnrollassociationComponent implements OnInit {
   hidechooseFile1: boolean;
   PANfileName: string;
   hidePANchooseFile1: boolean;
+  okaycontinuebutton: string;
 
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
@@ -109,6 +110,8 @@ export class EnrollassociationComponent implements OnInit {
     private router:Router,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+      this.isunitdetailsempty = true;
+      this.okaycontinuebutton='';
       this.fileName = "No file chosen...";
       this.PANfileName ='No file chosen...';
       this.hidechooseFile1=true;
@@ -570,7 +573,8 @@ export class EnrollassociationComponent implements OnInit {
     "isUnitsCreatedUnderBlock1": true,
     "isblockdetailsempty1": true,
     "isNotBlockCreated": true,
-    "isBlockCreated": false
+    "isBlockCreated": false,
+    "manualBlockResetDisabled":true
   }
   //unitdetails variables
 
@@ -623,7 +627,8 @@ export class EnrollassociationComponent implements OnInit {
     "isnotvalidtenantemaiid": false,
     "isSingleUnitDataEmpty": true,
     "displayText": "Save & Continue",
-    "isUnitNameModifiedForDuplicateRecord": 'No'
+    "isUnitNameModifiedForDuplicateRecord": 'No',
+    "manualUnitResetDisabled":true
   }
   onFileSelect(event) {
     if (event.target.files.length > 0) {
@@ -1759,7 +1764,7 @@ export class EnrollassociationComponent implements OnInit {
   }
   validateUnitDetailsField(name, Id, flatno) {
     this.numberofunitexistence = 0;
-    this.isunitdetailsempty = true;
+    //this.isunitdetailsempty = true;
     Object.keys(this.unitlistjson).forEach(element => {
       console.log(this.unitlistjson[element])
 
@@ -2837,17 +2842,17 @@ export class EnrollassociationComponent implements OnInit {
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
 
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
 
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
 
             }
           }
@@ -2855,22 +2860,22 @@ export class EnrollassociationComponent implements OnInit {
              if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+                                this.okaycontinuebutton = "OK";
 
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
               
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
-              okaycontinuebutton = "OK";
+              this.okaycontinuebutton = "OK";
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
               this.exitblocksbuttonshow = true;
-              okaycontinuebutton = "CONTINUE";
+              this.okaycontinuebutton = "CONTINUE";
             }
           }
           Swal.fire({
@@ -2879,7 +2884,7 @@ export class EnrollassociationComponent implements OnInit {
             type: "success",
             showCancelButton: this.exitblocksbuttonshow,
             confirmButtonColor: "#f69321",
-            confirmButtonText: okaycontinuebutton,
+            confirmButtonText: this.okaycontinuebutton,
             cancelButtonText: 'EXIT',
             allowOutsideClick:false
           }).then(
@@ -3401,6 +3406,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidflatno'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
           //
           console.log(this.unitlistjson[element]);
@@ -3519,9 +3525,11 @@ export class EnrollassociationComponent implements OnInit {
           else {
             if (Number(unit['unit dimension']) <= 0) {
               unit['InvalidUnitDimension'] = true;
+              unit['manualUnitResetDisabled'] = true;
             }
             else{
               unit['InvalidUnitDimension'] = false;
+              unit['manualUnitResetDisabled'] = false;
             }
           }
           //
@@ -3604,6 +3612,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
               unit['InvalidUnitRate'] = false;
+              unit['manualUnitResetDisabled'] = false;
           }
           //
           console.log(this.unitlistjson[element]);
@@ -3687,6 +3696,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidownerfirstname'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -3735,6 +3745,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidownerlastname'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -3783,6 +3794,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidownermobilenumber'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -3831,6 +3843,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidowneremaiid'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -3879,6 +3892,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidtenantfirstname'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -3927,6 +3941,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidtenantlastname'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -3975,6 +3990,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidtenantmobilenumber'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -4023,6 +4039,7 @@ export class EnrollassociationComponent implements OnInit {
           }
           else {
             unit['isnotvalidtenantemaiid'] = false;
+            unit['manualUnitResetDisabled'] = false;
           }
         }
       })
@@ -4078,6 +4095,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else {
           element['isnotvalidblockname'] = false;
+          element['manualBlockResetDisabled'] = false;
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['Flat Rate value']==undefined || element['Flat Rate value']=="" || element['Maintenance value']==undefined || element['Maintenance value']=="" || element['Maintenance Type']==undefined || element['Maintenance Type']=="" || element['Unit Of Measurement']==undefined || element['Unit Of Measurement']=="" || element['Invoice Creation Frequency']==undefined || element['Invoice Creation Frequency']=="" || element['Invoice Generation Date']==undefined || element['Invoice Generation Date']=="" || element['Due Date']==undefined || element['Due Date']=="" || element['Late Payment Charge Type']==undefined || element['Late Payment Charge Type']=="" || element['Late Payment Charge']==undefined || element['Late Payment Charge']=="" || element['Starts From']==undefined || element['Starts From']=="") {
           element.isblockdetailsempty1 = true;
@@ -4193,6 +4211,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else {
           element['isnotvalidunits'] = false;
+          element['manualBlockResetDisabled'] = false;
           console.log('mobile number',element['mobile number']);
           if(element['mobile number'] =='' || element['mobile number'] == undefined){
             //this.facilitymanagervalid_but_mobilenumberempty = true;
@@ -4343,6 +4362,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else {
           element['isnotvalidfecilitymanagername'] = false;
+          element['manualBlockResetDisabled'] = false;
           console.log('mobile number',element['mobile number']);
           if(element['mobile number'] =='' || element['mobile number'] == undefined){
             this.facilitymanagervalid_but_mobilenumberempty = true;
@@ -4490,6 +4510,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else {
           element['isnotvalidmanagermobileno'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -4699,6 +4720,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else {
           element['isNotvalidFlatratevalue'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             //this.facilitymanagervalid_but_mobilenumberempty = false;
             //element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -4832,6 +4854,7 @@ export class EnrollassociationComponent implements OnInit {
         }
         else {
           element['isNotvalidMaintenancevalue'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             //this.facilitymanagervalid_but_mobilenumberempty = false;
             //element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -5097,6 +5120,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidUnitOfMeasurement'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -5231,6 +5255,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidInvoiceCreationFrequency'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -5633,6 +5658,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidLatePaymentChargeType'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -5767,6 +5793,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidLatePaymentCharge'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             //this.facilitymanagervalid_but_mobilenumberempty = false;
             //element.facilitymanagervalid_but_mobilenumberempty = false;

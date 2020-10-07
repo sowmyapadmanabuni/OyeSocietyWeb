@@ -34,9 +34,17 @@ export class EditAssociationComponent implements OnInit {
   toSelect;
   countryname;
   pannumber;
+  fileName:any;
+  hidechooseFile1: boolean;
+  hidePANchooseFile1: boolean;
+  PANfileName: string;
 
   constructor(public viewAssnService: ViewAssociationService,private http: HttpClient,private formBuilder: FormBuilder,private modalService: BsModalService,
     private router: Router) {
+    this.fileName='No file chosen...';
+    this.PANfileName ='No file chosen...';
+    this.hidechooseFile1=true;
+    this.hidePANchooseFile1=true;
     this.newamenities = [];
     console.log(this.viewAssnService.EditAssociationData);
 
@@ -143,7 +151,18 @@ export class EditAssociationComponent implements OnInit {
       const file = event.target.files[0];
       console.log(file);
       this.uploadForm.get('profile').setValue(file);
+      this.processFile();
     }
+  }
+  openFileinput() {
+    console.log('openFileinput');
+    this.hidechooseFile1=false;
+    document.getElementById('chooseFile1').click();
+  }
+  openPANFileinput(){
+    console.log('openPANFileinput');
+    this.hidePANchooseFile1=false;
+    document.getElementById('panProfile1').click();
   }
   modalRef: BsModalRef;
   ImgForPopUp:any;
@@ -631,6 +650,7 @@ export class EditAssociationComponent implements OnInit {
       console.log(file);
       this.imgfilename = file.name;
       this.uploadPanForm.get('panProfile').setValue(file);
+      this.processPanFile();
     }
   }
   uploadPANCard:any;
