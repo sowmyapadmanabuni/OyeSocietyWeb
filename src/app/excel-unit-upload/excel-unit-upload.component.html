@@ -944,10 +944,17 @@
     </div>
 
 </div>
-<ng-template #unitprogressbartemplate>
+<!-- <ng-template #unitprogressbartemplate>
     <div class="modal-body">
         <progressbar [animate]="false" [max]="unitprogressvaluemax" [value]="unitprogressvalue" type="success">
             <span class="text-nowrap">{{unitprogressvalue}} / {{unitprogressvaluemax}} complete</span>
         </progressbar>
+    </div>
+</ng-template> -->
+<ng-template #unitprogressbartemplate>
+    <div style="display: flex;align-items: flex-start;justify-content: space-between;" class="modal-body">
+        <progressbar style="margin-bottom: 0px;" [animate]="false" [max]="unitprogressvaluemax" [value]="unitprogressvalue" type="success">
+        </progressbar>
+        <span style="color: #000 !important;padding-left: 5px;font-weight: 500;" class="text-nowrap">{{unitprogressvalue}} / {{unitprogressvaluemax}} complete...</span>
     </div>
 </ng-template>

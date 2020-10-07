@@ -713,7 +713,8 @@ export class ExcelUnitUploadComponent implements OnInit {
       //
       $(".se-pre-con").fadeOut("slow");
     this.progressbarmodalRef=this.modalService.show(this.unitprogressbartemplate,Object.assign({}, { class: 'modal1' }));
-    this.unitprogressvaluemax = Number(this.unitlistjson[this.blBlkName].length);
+    this.unitprogressvaluemax = Number(this.arraylist1.length);
+    
     this.unitlistjson[this.blBlkName].forEach((unit, index) => {
       console.log(unit);
       ((index) => {
