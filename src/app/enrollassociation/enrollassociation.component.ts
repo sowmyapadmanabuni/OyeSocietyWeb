@@ -30,7 +30,6 @@ export class EnrollassociationComponent implements OnInit {
   form: FormGroup;
   form1: FormGroup;
   blockform: FormGroup;
-
   gstpanform: FormGroup;
   panform: FormGroup;
   blocksdetailsform: FormGroup;

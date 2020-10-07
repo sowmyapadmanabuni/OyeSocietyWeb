@@ -1497,8 +1497,7 @@ this.enblJoinAsnVew()
 
   ngOnInit() {
     //this.getBlockDetails();
-    
-    this.createForm();
+     this.createForm();
     if(this.globalService.gotojoinassociation=='id'){
       this.enblJoinAsnVew();
     }
