@@ -272,6 +272,7 @@ this.router.navigate(['blocks']);
         }
         else {
           element['isnotvalidblockname'] = false;
+          element['manualBlockResetDisabled'] = false;
         }
         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['Flat Rate value']==undefined || element['Flat Rate value']=="" || element['Maintenance value']==undefined || element['Maintenance value']=="" || element['Maintenance Type']==undefined || element['Maintenance Type']=="" || element['Unit Of Measurement']==undefined || element['Unit Of Measurement']=="" || element['Invoice Creation Frequency']==undefined || element['Invoice Creation Frequency']=="" || element['Invoice Generation Date']==undefined || element['Invoice Generation Date']=="" || element['Due Date']==undefined || element['Due Date']=="" || element['Late Payment Charge Type']==undefined || element['Late Payment Charge Type']=="" || element['Late Payment Charge']==undefined || element['Late Payment Charge']=="" || element['Starts From']==undefined || element['Starts From']=="") {
           element.isblockdetailsempty1 = true;
@@ -387,6 +388,7 @@ this.router.navigate(['blocks']);
         }
         else {
           element['isnotvalidunits'] = false;
+          element['manualBlockResetDisabled'] = false;
           console.log('mobile number',element['mobile number']);
           if(element['mobile number'] =='' || element['mobile number'] == undefined){
             //this.facilitymanagervalid_but_mobilenumberempty = true;
@@ -537,6 +539,7 @@ this.router.navigate(['blocks']);
         }
         else {
           element['isnotvalidfecilitymanagername'] = false;
+          element['manualBlockResetDisabled'] = false;
           console.log('mobile number',element['mobile number']);
           if(element['mobile number'] =='' || element['mobile number'] == undefined){
             this.facilitymanagervalid_but_mobilenumberempty = true;
@@ -684,6 +687,7 @@ this.router.navigate(['blocks']);
         }
         else {
           element['isnotvalidmanagermobileno'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -893,6 +897,7 @@ this.router.navigate(['blocks']);
         }
         else {
           element['isNotvalidFlatratevalue'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             //this.facilitymanagervalid_but_mobilenumberempty = false;
             //element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -1026,6 +1031,7 @@ this.router.navigate(['blocks']);
         }
         else {
           element['isNotvalidMaintenancevalue'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             //this.facilitymanagervalid_but_mobilenumberempty = false;
             //element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -1291,6 +1297,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidUnitOfMeasurement'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -1425,6 +1432,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidInvoiceCreationFrequency'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -1827,6 +1835,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidLatePaymentChargeType'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             this.facilitymanagervalid_but_mobilenumberempty = false;
             element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -1961,6 +1970,7 @@ this.canDoBlockLogicalOrder=true;
         }
         else {
           element['isNotvalidLatePaymentCharge'] = false;
+          element['manualBlockResetDisabled'] = false;
           if (element['facility manager'] != "") {
             //this.facilitymanagervalid_but_mobilenumberempty = false;
             //element.facilitymanagervalid_but_mobilenumberempty = false;
@@ -2417,7 +2427,8 @@ this.canDoBlockLogicalOrder=true;
     "isnotvalidtenantemaiid": false,
     "isSingleUnitDataEmpty": true,
     "displayText": "Save & Continue",
-    "isUnitNameModifiedForDuplicateRecord": 'No'
+    "isUnitNameModifiedForDuplicateRecord": 'No',
+    "manualUnitResetDisabled":true
   }
   unitdetails ={}
   blockssuccessarray;
@@ -2500,6 +2511,7 @@ this.canDoBlockLogicalOrder=true;
             Object.keys(group).forEach(element => {
               if (group[element].length > 1) {
                 group[element].forEach(item => {
+                  item.isnotvalidblockname = true;
                   this.duplicateBlockArr.push(item);
                   this.duplicateBlockCount += 1;
                 })
