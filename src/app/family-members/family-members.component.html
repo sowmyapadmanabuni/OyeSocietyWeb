@@ -256,7 +256,7 @@
 <!-- EDIT FAMILY MEMBER -->
 <ng-template #EditFamilyMemberModal>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Update Family Member</h4>
+        <h4 class="modal-title pull-left">Edit Family Member</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -283,6 +283,7 @@
 
                 <div class="form-group">
                 <label><b>Relation</b></label>
+               
                 <input type="text" placeholder="Relation" [(ngModel)]='EditRelation' maxlength="20" name="EditRelation"
                     class="form-control" #RelationControl="ngModel" style="margin-bottom: 10px;" required>
                     <p class="alerts" *ngIf="RelationControl.touched && RelationControl.invalid"> Enter relation</p>

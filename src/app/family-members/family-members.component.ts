@@ -478,6 +478,7 @@ deleteFamilyMember(fmid) {
       //console.log(this.ASAsnLogo.indexOf('64')+1);
       //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
       console.log(this.FMImgName);
+      this.AsImage=this.FMImgName;
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);

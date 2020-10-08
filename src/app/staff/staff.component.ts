@@ -89,6 +89,7 @@ export class StaffComponent implements OnInit {
   Staffbydesigantion1: Staffbydesigantion;
   staffs4: any[];
   itemwkrating: any;
+  staffs5: any;
   constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService: ViewUnitService,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
     this.staffs3 = [];
@@ -146,7 +147,7 @@ export class StaffComponent implements OnInit {
     this.condition1 = false;
   }
   getStaffList() {
-    this.ngOnInit();
+   
     this.staffs4=[];
     this.staffs3 = [];
     this.condition = true;
@@ -172,13 +173,14 @@ export class StaffComponent implements OnInit {
                   if (itm['wkAprStat'] == "Approved") {
                     console.log(itm);
                     this.staffs4.push(item);
-                    
+                    this.staffs5=(_.sortBy(this.staffs4, 'wkfName'));;
                   }
                 }
               })
            }
           })
           console.log(this.staffs4);
+          console.log(this.staffs5);
         },
         (error) => {
           console.log(error);
@@ -593,7 +595,7 @@ export class StaffComponent implements OnInit {
     this.onRatingChangeResult = $event;
   };
 
-  updateReview(param,coment,wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, WKRating, workerstatuses) {
+  updateReview(param,coment) {
     this.itemwkrating;
     console.log(param);
     console.log(this.itemwkrating);
