@@ -519,7 +519,7 @@
                       </form> -->
                       <form *ngIf="fileName!='No file chosen...'" [formGroup]="uploadForm" class="association-form">
                         <div class="file-upload">
-                          <label class="control-label" style="width: 100%;">Upload Association logo</label>
+                          <label class="control-label" style="width: 100%;text-align: center;">Upload Association logo</label>
                           <div class="file-select">
                             <div class="file-select-button" (click)="openFileinput()" id="fileName">Choose File
                             </div>
@@ -534,7 +534,7 @@
                       
                       <form *ngIf="fileName=='No file chosen...'" [formGroup]="uploadForm" class="association-form">
                         <div class="file-upload">
-                          <label class="control-label" style="width: 100%;">Upload Association logo</label>
+                          <label class="control-label" style="width: 100%;text-align: center;">Upload Association logo</label>
                           <div class="file-select">
                             <div class="file-select-button" id="fileName">Choose File
                             </div>
@@ -603,7 +603,7 @@
                     Resolution of 128*128</span> -->
                     <form *ngIf="PANfileName!='No file chosen...'" [formGroup]="uploadPanForm" class="association-form">
                       <div class="file-upload">
-                          <label class="control-label" style="width: 100%;">Upload Scanned Pan Card</label>
+                          <label class="control-label" style="width: 100%;text-align: center;">Upload Scanned Pan Card</label>
                           <div class="file-select">
                               <div class="file-select-button" (click)="openPANFileinput()" id="PANfileName">Choose File
                               </div>
@@ -617,7 +617,7 @@
                   </form>
                   <form *ngIf="PANfileName=='No file chosen...'" [formGroup]="uploadPanForm" class="association-form">
                       <div class="file-upload">
-                          <label class="control-label" style="width: 100%;">Upload Scanned Pan Card</label>
+                          <label class="control-label" style="width: 100%;text-align: center;">Upload Scanned Pan Card</label>
                           <div class="file-select">
                               <div class="file-select-button" id="fileName">Choose File
                               </div>
