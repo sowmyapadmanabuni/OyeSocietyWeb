@@ -737,34 +737,22 @@ export class ExcelUnitUploadComponent implements OnInit {
                   "UNCalType": unit['Unit Calculation Type'],
                   "FLFloorID": 14,
                   "BLBlockID": this.currentSelectedBlockID,
-                  "Owner":
-                    [{
-
+                  "Owner1":
+                    {
                       "UOFName": (unit.ownerfirstname == undefined ? '' : unit.ownerfirstname),
                       "UOLName": (unit.ownerlastname == undefined ? '' : unit.ownerlastname),
                       "UOMobile": (unit.ownermobilenumber == undefined ? '' : unit.ownermobilenumber),
                       "UOISDCode": "",
-                      "UOMobile1": "",
-                      "UOMobile2": "",
-                      "UOMobile3": "",
-                      "UOMobile4": "",
                       "UOEmail": (unit.owneremaiid == undefined ? '' : unit.owneremaiid),
-                      "UOEmail1": "sowmya_padmanabhuni@oyespace.com",
-                      "UOEmail2": "sowmya_padmanabhuni@oyespace.com",
-                      "UOEmail3": "sowmya_padmanabhuni@oyespace.com",
-                      "UOEmail4": "sowmya_padmanabhuni@oyespace.com",
                       "UOCDAmnt": "2000"
-
-                    }],
-                  "Tenant": [{
+                    },
+                  "Tenant1": {
                     "UTFName": (unit.tenantfirstname == undefined ? '' : unit.tenantfirstname),
                     "UTLName": (unit.tenantlastname == undefined ? '' : unit.tenantlastname),
                     "UTMobile": (unit.tenantmobilenumber == undefined ? '' : unit.tenantmobilenumber),
                     "UTISDCode": "+91",
-                    "UTMobile1": "+919398493298",
-                    "UTEmail": (unit.tenantemaiid == undefined ? '' : unit.tenantemaiid),
-                    "UTEmail1": "pl@gmail.com"
-                  }],
+                    "UTEmail": (unit.tenantemaiid == undefined ? '' : unit.tenantemaiid)
+                  },
                   "unitbankaccount":
                   {
                     "UBName": "SBI",
@@ -1853,6 +1841,14 @@ export class ExcelUnitUploadComponent implements OnInit {
     }
 
  }
+ _keyPressValidateUnitrate(event: any, Id) {
+  const pattern = /^[0-9]*\.?[0-9]*$/;
+  let inputChar = String.fromCharCode(event.charCode);
+  if (!pattern.test(inputChar)) {
+    console.log('pattern.test-false');
+    event.preventDefault();
+  }
+}
  _keyPress(event: any, Id) {
    const pattern = /[0-9]/;
    let inputChar = String.fromCharCode(event.charCode);

@@ -160,7 +160,6 @@ export class AddUnitComponent implements OnInit {
         //console.log('allUnitBYBlockID',data);
         this.allUnitBYBlockID = data['data'].unitsByBlockID;
       });
-
       this.showCreateUnitemplate=true;
   }
 
@@ -454,24 +453,16 @@ export class AddUnitComponent implements OnInit {
           "UNCalType": this.UNCalType,
           "FLFloorID": 14,
           "BLBlockID": this.viewUniService.blockIDforUnitCreation,
-          "Owner":
-          [{
+          "Owner1":
+          {
 
             "UOFName": this.ownerFirtname,
             "UOLName": this.ownerLastname,
             "UOMobile": this.ownerMobnumber,
             "UOISDCode": "+91",
-            "UOMobile1": "",
-            "UOMobile2": "",
-            "UOMobile3": "",
-            "UOMobile4": "",
             "UOEmail": this.ownerEmail,
-            "UOEmail1": "",
-            "UOEmail2": "",
-            "UOEmail3": "",
-            "UOEmail4": "",
             "UOCDAmnt": "2000"
-          }],
+          },
           "unitbankaccount":
           {
             "UBName": "SBI",
@@ -481,17 +472,14 @@ export class AddUnitComponent implements OnInit {
             "UBActBal": 12.3,
             "BLBlockID": this.viewUniService.blockIDforUnitCreation
           },
-        "Tenant":
-          [{
-
+        "Tenant1":
+          {
             "UTFName":this.tenantFirtname,
             "UTLName": this.tenantLastname,
             "UTMobile": this.tenantMobnumber,
             "UTISDCode": "+91",
-            "UTMobile1": "",
             "UTEmail": this.tenantEmail,
-            "UTEmail1": ""
-          }],
+          },
           "UnitParkingLot":
             [
               {
