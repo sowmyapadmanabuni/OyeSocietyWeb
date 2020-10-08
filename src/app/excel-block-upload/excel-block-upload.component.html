@@ -585,7 +585,10 @@
     </div>
 </ng-template> -->
 <ng-template #blockprogressbartemplate>
-    <div style="display: flex;align-items: flex-start;justify-content: space-between;" class="modal-body">
+    <div>
+        <span style="left: 38%;position: absolute;font-weight: bold;">Uploading Blocks</span>
+    </div>
+    <div style="display: flex;align-items: flex-start;justify-content: space-between;padding-top: 18px;" class="modal-body">
         <progressbar style="margin-bottom: 0px;"  [animate]="false" [max]="blockprogressvaluemax" [value]="blockprogressvalue" type="success">
         </progressbar>
         <span style="color: #000 !important;padding-left: 5px;font-weight: 500;" class="text-nowrap">{{blockprogressvalue}} / {{blockprogressvaluemax}} complete...</span>

@@ -1441,8 +1441,10 @@
                </div> 
                <div id="unitsbulkold" style="display: none">
                 <div class="row">
-                        <a (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
-                        <a (click)="Clright()" class="go-right">Go Right</a>
+                        <!-- <a (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
+                        <a (click)="Clright()" class="go-right">Go Right</a> -->
+                        &nbsp;&nbsp;
+                        <label style="font-weight: 700;position: absolute;left: 17%;">scroll right to view more units</label>
                     <ul class="nav col-md-2" id="leftTabs" style="margin-top: 48px;">
                         <li class="active" *ngFor="let item of blocksArray;let i=index" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
                         <a style="color: #fff !important;background: #5a51aa;" href="#{{item.Id}}" (click)="assignTmpid(item.Id,item.blockname)" data-toggle="tab">
@@ -2022,14 +2024,20 @@
 </ng-template>
 
 <ng-template #blockprogressbartemplate>
-    <div style="display: flex;align-items: flex-start;justify-content: space-between;" class="modal-body">
+    <div>
+        <span style="left: 38%;position: absolute;font-weight: bold;">Uploading Blocks</span>
+    </div>
+    <div style="display: flex;align-items: flex-start;justify-content: space-between;padding-top: 18px;" class="modal-body">
         <progressbar style="margin-bottom: 0px;"  [animate]="false" [max]="blockprogressvaluemax" [value]="blockprogressvalue" type="success">
         </progressbar>
         <span style="color: #000 !important;padding-left: 5px;font-weight: 500;" class="text-nowrap">{{blockprogressvalue}} / {{blockprogressvaluemax}} complete...</span>
     </div>
 </ng-template>
 <ng-template #unitprogressbartemplate>
-    <div style="display: flex;align-items: flex-start;justify-content: space-between;" class="modal-body">
+    <div>
+        <span style="left: 38%;position: absolute;font-weight: bold;">Uploading Units</span>
+    </div>
+    <div style="display: flex;align-items: flex-start;justify-content: space-between;padding-top: 18px;" class="modal-body">
         <progressbar style="margin-bottom: 0px;" [animate]="false" [max]="unitprogressvaluemax" [value]="unitprogressvalue" type="success">
         </progressbar>
         <span style="color: #000 !important;padding-left: 5px;font-weight: 500;" class="text-nowrap">{{unitprogressvalue}} / {{unitprogressvaluemax}} complete...</span>
