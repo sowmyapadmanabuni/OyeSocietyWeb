@@ -426,8 +426,8 @@
                                 </li>
                             </ul>
                             <div class="tab-content col-md-10">
-                                  <p id="seperateunits"*ngIf="unitlistjson[blBlkName].length > 10">scroll right to view more units</p> 
-                                <div *ngFor="let iitem of blocksArray;let i=index">
+                                &nbsp;&nbsp;
+                                <label style="font-weight: 700;position: absolute;left: 2%;top: 0%;">scroll right to view more units</label>                                <div *ngFor="let iitem of blocksArray;let i=index">
                                     <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
                                         <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll;    height: 54px;">
                                             <li  *ngFor="let obj of unitlistjson[blBlkName];let i= index" [ngClass]="{'active':obj.Id==obj.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
@@ -952,7 +952,10 @@
     </div>
 </ng-template> -->
 <ng-template #unitprogressbartemplate>
-    <div style="display: flex;align-items: flex-start;justify-content: space-between;" class="modal-body">
+    <div>
+        <span style="left: 38%;position: absolute;font-weight: bold;">Uploading Units</span>
+    </div>
+    <div style="display: flex;align-items: flex-start;justify-content: space-between;padding-top: 18px;" class="modal-body">
         <progressbar style="margin-bottom: 0px;" [animate]="false" [max]="unitprogressvaluemax" [value]="unitprogressvalue" type="success">
         </progressbar>
         <span style="color: #000 !important;padding-left: 5px;font-weight: 500;" class="text-nowrap">{{unitprogressvalue}} / {{unitprogressvaluemax}} complete...</span>
