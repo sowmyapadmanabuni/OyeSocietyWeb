@@ -5345,26 +5345,27 @@ this.canDoBlockLogicalOrder=true;
       this.blocksArray.forEach(element => {
         if (element.Id == Id) {
           console.log(InvoiceGenerationDate);
-          element['Invoice Generation Date'] = InvoiceGenerationDate;
+          console.log(InvoiceGenerationDate.target.value);
+          element['Invoice Generation Date'] = InvoiceGenerationDate.target.value;
           if (element['Invoice Generation Date'] == "") {
-            element['isNotvalidInvoiceGenerationDate'] = true;
+            //element['isNotvalidInvoiceGenerationDate'] = true;
             this.blockdetailInvalid = true;
             if (element['facility manager'] != "") {
-              this.facilitymanagervalid_but_mobilenumberempty = true;
-              element.facilitymanagervalid_but_mobilenumberempty = true;
+              //this.facilitymanagervalid_but_mobilenumberempty = true;
+              //element.facilitymanagervalid_but_mobilenumberempty = true;
               element.isblockdetailsempty1 = true;
               this.isblockdetailsempty = true;
             }
             else{
-              this.mobilenumbervalid_but_facilitymanagerempty = false;
-              element.mobilenumbervalid_but_facilitymanagerempty = false;
+              //this.mobilenumbervalid_but_facilitymanagerempty = false;
+              //element.mobilenumbervalid_but_facilitymanagerempty = false;
             }
           }
           else {
             element['isNotvalidInvoiceGenerationDate'] = false;
             if (element['facility manager'] != "") {
-              this.facilitymanagervalid_but_mobilenumberempty = false;
-              element.facilitymanagervalid_but_mobilenumberempty = false;
+              //this.facilitymanagervalid_but_mobilenumberempty = false;
+              //element.facilitymanagervalid_but_mobilenumberempty = false;
             }
   
           }
@@ -5479,26 +5480,26 @@ this.canDoBlockLogicalOrder=true;
      this.blocksArray.forEach(element => {
        if (element.Id == Id) {
          console.log(DueDate);
-         element['Due Date'] = DueDate;
+         element['Due Date'] = DueDate.target.value;
          if (element['Due Date'] == "") {
-           element['isNotvalidDueDate'] = true;
+           //element['isNotvalidDueDate'] = true;
            this.blockdetailInvalid = true;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = true;
-             element.facilitymanagervalid_but_mobilenumberempty = true;
+             //this.facilitymanagervalid_but_mobilenumberempty = true;
+             //element.facilitymanagervalid_but_mobilenumberempty = true;
              element.isblockdetailsempty1 = true;
              this.isblockdetailsempty = true;
            }
            else{
-             this.mobilenumbervalid_but_facilitymanagerempty = false;
-             element.mobilenumbervalid_but_facilitymanagerempty = false;
+             //this.mobilenumbervalid_but_facilitymanagerempty = false;
+             //element.mobilenumbervalid_but_facilitymanagerempty = false;
            }
          }
          else {
            element['isNotvalidDueDate'] = false;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = false;
-             element.facilitymanagervalid_but_mobilenumberempty = false;
+             //this.facilitymanagervalid_but_mobilenumberempty = false;
+             //element.facilitymanagervalid_but_mobilenumberempty = false;
            }
  
          }
@@ -5883,26 +5884,26 @@ this.canDoBlockLogicalOrder=true;
      this.blocksArray.forEach(element => {
        if (element.Id == Id) {
          console.log(StartsFrom);
-         element['Starts From'] = StartsFrom;
+         element['Starts From'] = StartsFrom.target.value;
          if (element['Starts From'] == "") {
-           element['isNotvalidStartdate'] = true;
+           //element['isNotvalidStartdate'] = true;
            this.blockdetailInvalid = true;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = true;
-             element.facilitymanagervalid_but_mobilenumberempty = true;
+             //this.facilitymanagervalid_but_mobilenumberempty = true;
+             //element.facilitymanagervalid_but_mobilenumberempty = true;
              element.isblockdetailsempty1 = true;
              this.isblockdetailsempty = true;
            }
            else{
-             this.mobilenumbervalid_but_facilitymanagerempty = false;
-             element.mobilenumbervalid_but_facilitymanagerempty = false;
+             //this.mobilenumbervalid_but_facilitymanagerempty = false;
+             //element.mobilenumbervalid_but_facilitymanagerempty = false;
            }
          }
          else {
            element['isNotvalidStartdate'] = false;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = false;
-             element.facilitymanagervalid_but_mobilenumberempty = false;
+             //this.facilitymanagervalid_but_mobilenumberempty = false;
+             //element.facilitymanagervalid_but_mobilenumberempty = false;
            }
  
          }
