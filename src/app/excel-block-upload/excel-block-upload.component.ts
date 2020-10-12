@@ -2480,7 +2480,7 @@ this.canDoBlockLogicalOrder=true;
               }
             })
             console.log(this.commonblockarray);
-            this.blockssuccessarray = this.commonblockarray.length;
+            this.blockssuccessarray = this.blocksArray.length;//this.commonblockarray.length;
             this.blockdetailsfinalcreation();
           }
           else{
