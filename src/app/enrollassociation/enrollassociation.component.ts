@@ -5344,7 +5344,6 @@ this.canDoBlockLogicalOrder=true;
       this.isblockdetailsempty = false;
       this.blocksArray.forEach(element => {
         if (element.Id == Id) {
-          console.log(InvoiceGenerationDate);
           console.log(InvoiceGenerationDate.target.value);
           element['Invoice Generation Date'] = InvoiceGenerationDate.target.value;
           if (element['Invoice Generation Date'] == "") {
@@ -5479,7 +5478,7 @@ this.canDoBlockLogicalOrder=true;
      this.isblockdetailsempty = false;
      this.blocksArray.forEach(element => {
        if (element.Id == Id) {
-         console.log(DueDate);
+         console.log(DueDate.target.value);
          element['Due Date'] = DueDate.target.value;
          if (element['Due Date'] == "") {
            //element['isNotvalidDueDate'] = true;
@@ -5883,7 +5882,7 @@ this.canDoBlockLogicalOrder=true;
      this.isblockdetailsempty = false;
      this.blocksArray.forEach(element => {
        if (element.Id == Id) {
-         console.log(StartsFrom);
+         console.log(StartsFrom.target.value);
          element['Starts From'] = StartsFrom.target.value;
          if (element['Starts From'] == "") {
            //element['isNotvalidStartdate'] = true;

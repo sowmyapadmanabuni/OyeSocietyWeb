@@ -666,7 +666,7 @@ export class InvoicesComponent implements OnInit {
           this.OwnerNameToShowOnInvoice = data['data']['unit'].owner[0].uofName;
           }
           else if(data['data']['unit']['tenant'].length>0){
-          this.OwnerNameToShowOnInvoice = data['data']['unit'].owner[0].utfName;
+          this.OwnerNameToShowOnInvoice = data['data']['unit'].tenant[0].utfName;
           }
           else{
           this.OwnerNameToShowOnInvoice = "Owner name is not updated";
@@ -704,8 +704,10 @@ export class InvoicesComponent implements OnInit {
       .subscribe(data => {
         this.InvoiceValue = 0;
         this._discountedValue=0;
-        console.log('invoiceDetails--', data['data']['invoiceDetails']);
-        data['data']['invoiceDetails'].forEach(item => {
+        console.log('data--', data);
+        console.log('invoiceDetails--', data['data']['invoice'][0]['invoiceDetails']);
+        this.InvoiceValue = data['data']['invoice'][0]['inTotVal'];
+        data['data']['invoice'][0]['invoiceDetails'].forEach(item => {
           if (item['idDesc'] != 'Discount Value') {
             this.InvoiceDescriptionListOne.push(new InvoiceDescriptionListOne(item['idDesc'], '-', item['idValue']))
           }
@@ -714,7 +716,7 @@ export class InvoicesComponent implements OnInit {
           }
         })
         this.invoiceDetails = data['data']['invoiceDetails'];
-        data['data']['invoiceDetails'].forEach(item => {
+        data['data']['invoice'][0]['invoiceDetails'].forEach(item => {
 
           /* if (item['idDesc'] == "Common Area Electric Bill") {
             this.commonareafee = item['idValue'];
@@ -786,7 +788,7 @@ export class InvoicesComponent implements OnInit {
             console.log(this._discountedValue);
           }
           else{
-            this.InvoiceValue += item['idValue'];
+            //this.InvoiceValue += item['idValue'];
           }
         })
         console.log(this._discountedValue);
