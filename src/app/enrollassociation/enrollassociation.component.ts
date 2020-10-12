@@ -1413,7 +1413,7 @@ export class EnrollassociationComponent implements OnInit {
       else {
         console.log('demo2TabIndex');
         if (!this.duplicateUnitrecordexist) {
-          let mesg = `${this.unitsuccessarray.length}-Unit Created Successfully`;
+         /* let mesg = `${this.unitsuccessarray.length}-Unit Created Successfully`;
           Swal.fire({
             title: mesg,
             text: "",
@@ -1423,7 +1423,7 @@ export class EnrollassociationComponent implements OnInit {
             allowOutsideClick:false
           }).then(
             (result) => {
-              if (result.value) {
+              if (result.value) { */
                 let tmpArr = [];
                 if (this.unitlistuniquejson1.length > 0) {
                   this.unitlistuniquejson1.forEach(itm1 => {
@@ -1445,14 +1445,8 @@ export class EnrollassociationComponent implements OnInit {
                 document.getElementById('unitshowmanual').style.display = 'block';
                 document.getElementById('unitsmanualnew').style.display = 'none';
                 document.getElementById('unitsbulkold').style.display = 'block';
-                //this.demo2TabIndex = this.demo2TabIndex + 1;
                 console.log(this.increasingBlockArrLength);
                 console.log(this.blockTabId);
-                //console.log(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-                //let arr = Array.from(document.querySelectorAll('.mat-tab-label-container')[1].children[0].childNodes[0].childNodes);
-                //console.log(arr);
-                //console.log((<HTMLElement> arr[this.blockTabId+1]).innerHTML);
-                //(<HTMLElement> arr[this.blockTabId+1]).innerHTML += '&nbsp;<i class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>';
                 this.blockTabId += 1;
                 this.blocksArray.forEach((itm, indx) => {
                   if (itm.blockname.toLowerCase() == name.toLowerCase()) {
@@ -1470,13 +1464,11 @@ export class EnrollassociationComponent implements OnInit {
                 this.isunitdetailsempty = false;
                 this.assignTmpid(this.nextBlckId, this.blocknameforIteration);
                 this.indexToCheckValidBlockName += 1;
-              }
-            })
+              //}
+            //})
         }
       }
-      //this.increasingBlockArrLength += 1;
     },Number(this.unitlistjson[name].length) * 3000)
-    //}
   }
   exceptionMessage = '';
   SubmitOrSaveAndContinue = 'SAVE AND CONTINUE';
@@ -2550,7 +2542,7 @@ export class EnrollassociationComponent implements OnInit {
         }
       })
       console.log(this.commonblockarray);
-      this.blockssuccessarray = this.commonblockarray.length;
+      this.blockssuccessarray = this.blocksArray.length;// this.commonblockarray.length;
       this.blockdetailsfinalcreation();
     }
     else {
@@ -5352,27 +5344,27 @@ this.canDoBlockLogicalOrder=true;
       this.isblockdetailsempty = false;
       this.blocksArray.forEach(element => {
         if (element.Id == Id) {
-          console.log(InvoiceGenerationDate);
-          element['Invoice Generation Date'] = InvoiceGenerationDate;
+          console.log(InvoiceGenerationDate.target.value);
+          element['Invoice Generation Date'] = InvoiceGenerationDate.target.value;
           if (element['Invoice Generation Date'] == "") {
-            element['isNotvalidInvoiceGenerationDate'] = true;
+            //element['isNotvalidInvoiceGenerationDate'] = true;
             this.blockdetailInvalid = true;
             if (element['facility manager'] != "") {
-              this.facilitymanagervalid_but_mobilenumberempty = true;
-              element.facilitymanagervalid_but_mobilenumberempty = true;
+              //this.facilitymanagervalid_but_mobilenumberempty = true;
+              //element.facilitymanagervalid_but_mobilenumberempty = true;
               element.isblockdetailsempty1 = true;
               this.isblockdetailsempty = true;
             }
             else{
-              this.mobilenumbervalid_but_facilitymanagerempty = false;
-              element.mobilenumbervalid_but_facilitymanagerempty = false;
+              //this.mobilenumbervalid_but_facilitymanagerempty = false;
+              //element.mobilenumbervalid_but_facilitymanagerempty = false;
             }
           }
           else {
             element['isNotvalidInvoiceGenerationDate'] = false;
             if (element['facility manager'] != "") {
-              this.facilitymanagervalid_but_mobilenumberempty = false;
-              element.facilitymanagervalid_but_mobilenumberempty = false;
+              //this.facilitymanagervalid_but_mobilenumberempty = false;
+              //element.facilitymanagervalid_but_mobilenumberempty = false;
             }
   
           }
@@ -5486,27 +5478,27 @@ this.canDoBlockLogicalOrder=true;
      this.isblockdetailsempty = false;
      this.blocksArray.forEach(element => {
        if (element.Id == Id) {
-         console.log(DueDate);
-         element['Due Date'] = DueDate;
+         console.log(DueDate.target.value);
+         element['Due Date'] = DueDate.target.value;
          if (element['Due Date'] == "") {
-           element['isNotvalidDueDate'] = true;
+           //element['isNotvalidDueDate'] = true;
            this.blockdetailInvalid = true;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = true;
-             element.facilitymanagervalid_but_mobilenumberempty = true;
+             //this.facilitymanagervalid_but_mobilenumberempty = true;
+             //element.facilitymanagervalid_but_mobilenumberempty = true;
              element.isblockdetailsempty1 = true;
              this.isblockdetailsempty = true;
            }
            else{
-             this.mobilenumbervalid_but_facilitymanagerempty = false;
-             element.mobilenumbervalid_but_facilitymanagerempty = false;
+             //this.mobilenumbervalid_but_facilitymanagerempty = false;
+             //element.mobilenumbervalid_but_facilitymanagerempty = false;
            }
          }
          else {
            element['isNotvalidDueDate'] = false;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = false;
-             element.facilitymanagervalid_but_mobilenumberempty = false;
+             //this.facilitymanagervalid_but_mobilenumberempty = false;
+             //element.facilitymanagervalid_but_mobilenumberempty = false;
            }
  
          }
@@ -5890,27 +5882,27 @@ this.canDoBlockLogicalOrder=true;
      this.isblockdetailsempty = false;
      this.blocksArray.forEach(element => {
        if (element.Id == Id) {
-         console.log(StartsFrom);
-         element['Starts From'] = StartsFrom;
+         console.log(StartsFrom.target.value);
+         element['Starts From'] = StartsFrom.target.value;
          if (element['Starts From'] == "") {
-           element['isNotvalidStartdate'] = true;
+           //element['isNotvalidStartdate'] = true;
            this.blockdetailInvalid = true;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = true;
-             element.facilitymanagervalid_but_mobilenumberempty = true;
+             //this.facilitymanagervalid_but_mobilenumberempty = true;
+             //element.facilitymanagervalid_but_mobilenumberempty = true;
              element.isblockdetailsempty1 = true;
              this.isblockdetailsempty = true;
            }
            else{
-             this.mobilenumbervalid_but_facilitymanagerempty = false;
-             element.mobilenumbervalid_but_facilitymanagerempty = false;
+             //this.mobilenumbervalid_but_facilitymanagerempty = false;
+             //element.mobilenumbervalid_but_facilitymanagerempty = false;
            }
          }
          else {
            element['isNotvalidStartdate'] = false;
            if (element['facility manager'] != "") {
-             this.facilitymanagervalid_but_mobilenumberempty = false;
-             element.facilitymanagervalid_but_mobilenumberempty = false;
+             //this.facilitymanagervalid_but_mobilenumberempty = false;
+             //element.facilitymanagervalid_but_mobilenumberempty = false;
            }
  
          }
