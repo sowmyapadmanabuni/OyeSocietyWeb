@@ -317,7 +317,7 @@ export class EnrollassociationComponent implements OnInit {
   blockandunitdetails() {
     this.blockform = this.formBuilder.group({
       'blockno': [null, Validators.required],
-      'unitno': [null, Validators.required]
+      'unitno': [null, [Validators.required,Validators.pattern(/^(?!0(\.0*)?$)\d+(\.?\d{0,2})?$/)]]
 
     });
 
