@@ -172,6 +172,8 @@ export class FamilyMembersComponent implements OnInit {
   }
 
   getFamilyMember(){
+    this.PaginatedValue=10;
+    this.p=1;
     this.FamilyMemberList=[];
     this.familymemberarray = [];
     this.asAssnID = this.globalService.getCurrentAssociationId();
@@ -420,6 +422,7 @@ deleteFamilyMember(fmid) {
         (result) => {
           if (result.value) {
             this.getFamilyMember();
+            this.PaginatedValue=10;
           }
         }
       )
