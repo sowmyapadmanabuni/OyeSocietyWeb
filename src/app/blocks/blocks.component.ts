@@ -663,6 +663,7 @@ export class BlocksComponent implements OnInit {
       aslpsdate = this.ASLPSDate;
       //alert(aslpsdate);
     }
+    
     let editblockdata = {
       BLBlkName: this.BLBlkName,
       BLBlkType: this.BLBlkType,
@@ -673,6 +674,7 @@ export class BlocksComponent implements OnInit {
       ASMtType: '',
       ASMtFRate: '',
       ASMtDimBs: '',
+      BLIsActive: "True",
       ASUniMsmt: this.ASUniMsmt,
       ASBGnDate: formatDate(asbgndate, 'yyyy/MM/dd', 'en'),
       ASDPyDate: formatDate(asdpydate, 'yyyy/MM/dd', 'en'),

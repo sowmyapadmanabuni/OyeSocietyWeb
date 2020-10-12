@@ -507,24 +507,16 @@ ASMtType:any;
                         "UNDimens": '',
                         "UNCalType": '',
                         "BLBlockID": data['data'].blockID,
-                        "Owner":
-                        [{
+                        "Owner1":
+                        {
               
                           "UOFName": '',
                           "UOLName": '',
                           "UOMobile": '',
                           "UOISDCode": '',
-                          "UOMobile1": '',
-                          "UOMobile2": '',
-                          "UOMobile3": '',
-                          "UOMobile4": '',
                           "UOEmail": '',
-                          "UOEmail1": '',
-                          "UOEmail2": '',
-                          "UOEmail3": '',
-                          "UOEmail4": '',
                           "UOCDAmnt": ''
-                        }],
+                        },
                         "unitbankaccount":
                         {
                           "UBName": '',
@@ -534,17 +526,15 @@ ASMtType:any;
                           "UBActBal": '',
                           "BLBlockID": data['data'].blockID
                         },
-                      "Tenant":
-                        [{
+                      "Tenant1":
+                        {
               
                           "UTFName":'',
                           "UTLName": '',
                           "UTMobile": '',
                           "UTISDCode": '',
-                          "UTMobile1": '',
-                          "UTEmail": '',
-                          "UTEmail1": ''
-                        }],
+                          "UTEmail": ''
+                        },
                         "UnitParkingLot":
                           [
                             {
