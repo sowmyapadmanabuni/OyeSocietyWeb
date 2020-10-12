@@ -55,6 +55,7 @@ export class AddUnitComponent implements OnInit {
   deleteAmenity:any;
   @Input() checkIsUnitCreated:EventEmitter<string>;
   InvalidUnitDimension:boolean;
+  InvalidUnitrate:boolean;
   InvalidUnitRate:boolean;
   @Output() EnableUnitListView:EventEmitter<string>;
   UNCalType:any;
@@ -127,7 +128,8 @@ export class AddUnitComponent implements OnInit {
     "Sold Vacant Unit" ,
     "UnSold Vacant Unit" ,
     "UnSold Tenant Occupied Unit" 
- ]/*[
+ ]
+ /*[
     "SOLD OWNER OCCUPIED UNIT",
     "SOLD TENANT OCCUPIED UNIT",
     "SOLD VACANT UNIT",
@@ -502,13 +504,13 @@ if(this.viewUniService.blockIDforUnitCreation == obj.blBlockID){
    unitcount = obj.blNofUnit;
 }
       }
-      if(response['error']){
+      if(response['data']['errorResponse']['message']== "Units Count Exceeded"){
         Swal.fire({
-          title: response['error']['message']+ " "+"For This Selected Block"+ " " + " " +"Current Units Count Is" + " " + unitcount +"," + " " + "To Increase The Count Toggle Switch to BLOCKS and Go To Particular Block and EDIT Block And Update It",
+          title: response['data']['errorResponse']['message']+ " "+"For This Selected Block"+ " " + " " +"Current Units Count Is" + " " + unitcount +"," + " " + "To Increase The Count Toggle Switch to BLOCKS and Go To Particular Block and EDIT Block And Update It",
           type: 'error',
           showCancelButton: true,
           confirmButtonText: 'OK',
-          cancelButtonText: "View Unit"
+          allowOutsideClick:false
         })
       }
       else{
@@ -517,7 +519,7 @@ if(this.viewUniService.blockIDforUnitCreation == obj.blBlockID){
           type: 'success',
           showCancelButton: true,
           confirmButtonText: 'OK',
-          cancelButtonText: "View Unit"
+          allowOutsideClick:false
         }).then(
          (result) => {
           //this.globalservice.IsUnitCreated=true;
@@ -570,6 +572,15 @@ if(this.viewUniService.blockIDforUnitCreation == obj.blBlockID){
     }
     else{
       this.InvalidUnitDimension = false;
+    }
+  }
+  ValidateLessThanZeroValueunitrate(ev,UNRate){
+    console.log(this.UNRate);
+    if (Number(this.UNRate) <= 0) {
+      this.InvalidUnitrate = true;
+    }
+    else{
+      this.InvalidUnitrate = false;
     }
   }
   ValidateUnitRateLessThanZeroValue(){
