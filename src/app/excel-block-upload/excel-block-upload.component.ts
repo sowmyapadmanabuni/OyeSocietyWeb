@@ -122,7 +122,7 @@ export class ExcelBlockUploadComponent implements OnInit {
     ];
     this.latePymtChrgTypes = [
       { "name": "Monthly", "displayName": "Monthly" },
-      { "name": "quaterly", "displayName": "Quaterly" },
+      { "name": "Quarterly", "displayName": "Quaterly" },
       { "name": "Annually", "displayName": "Annually" }
     ];
     
