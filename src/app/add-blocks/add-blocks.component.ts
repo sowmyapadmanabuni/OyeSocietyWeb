@@ -563,7 +563,7 @@ ASMtType:any;
           else if (data['data']['errorResponse']['message']){
             swal.fire({
               title: "Error",
-              text: data['data']['errorResponse']['message']+ " "+"For The"+ " " +this.currentassndata.data.association.asAsnName + " " +"Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " "+'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " +"Before Adding Please Click On OK to Increase The Units Count",
+              text: data['data']['errorResponse']['message']+ " "+"For The"+ " " +this.currentassndata.data.association.asAsnName + " " +"Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " "+'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " +"Before Adding Please Click On OK to Increase The Blocks/Units Count",
               type: "error",
               confirmButtonColor: "#f69321"
             }).then(

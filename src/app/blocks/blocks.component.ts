@@ -551,7 +551,7 @@ export class BlocksComponent implements OnInit {
     });
 
     Swal.fire({
-      title: 'Block Created Successfuly'
+      title: 'Block Created Successfully'
     })
   }//createBlock function ends
 
