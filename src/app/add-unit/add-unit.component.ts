@@ -511,7 +511,42 @@ if(this.viewUniService.blockIDforUnitCreation == obj.blBlockID){
           showCancelButton: true,
           confirmButtonText: 'OK',
           allowOutsideClick:false
-        })
+        }).then(
+          (result) => {
+           //this.globalservice.IsUnitCreated=true;
+           //this.router.navigate(['units']); 
+   
+            if (result.value) {
+              console.log('inside unit test');
+              //this.createunitForm.reset();
+              this.unitno='';
+              this.unitType='';
+              this.calculationtype='';
+              this.unitrate='';
+              this.unitdimension='';
+              this.occupency='';
+          
+              this.ownerFirtname='';
+              this.ownerLastname='';
+              this.ownerMobnumber='';
+              this.ownerAltnumber='';
+              this.ownerEmail='';
+              this.ownerAltemail='';
+              this.tenantFirtname='';
+              this.tenantLastname='';
+              this.tenantMobnumber='';
+              this.tenantEmail='';
+              //this.checkIsUnitCreated.emit('true');
+              this.viewUniService.addUnits=false;
+              this.viewUniService.unitList=true;
+              this.EnableUnitListView.emit('EnableUnitList');
+   
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+               this.router.navigate(['home/viewunit']);
+   
+            }
+          }
+        )
       }
       else{
         Swal.fire({
