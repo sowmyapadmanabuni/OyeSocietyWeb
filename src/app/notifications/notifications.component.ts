@@ -66,6 +66,7 @@ export class NotificationsComponent implements OnInit {
   image5:any;
   notificationListByAcctID:any[];
   allAdminAndResidentNotification:any[];
+  allAdminAndResidentNotificationTemp:any[];
   DateCurrent: any;
   id: any;
   storeNTIDforCollapsableDiv: any;
@@ -81,6 +82,7 @@ export class NotificationsComponent implements OnInit {
       // this.storeNTIDforCollapsableDiv='';
       this.notificationListByAcctID=[];
       this.allAdminAndResidentNotification=[];
+      this.allAdminAndResidentNotificationTemp=[];
       this.imagesArray=[];
       this.changeViewOfActionButton=true;
     this.ntJoinStatTmp2 = '';
@@ -143,6 +145,7 @@ export class NotificationsComponent implements OnInit {
       //this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
          this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
+         this.allAdminAndResidentNotificationTemp=data['data']['notificationListByAcctID'];
       }
     },
     err=>{
@@ -178,6 +181,7 @@ export class NotificationsComponent implements OnInit {
           this.GetNotificationListByAccntID();
           console.log(data);
           this.allAdminAndResidentNotification= data['data']['notificationListByAcctID'];
+          this.allAdminAndResidentNotificationTemp= data['data']['notificationListByAcctID'];
           console.log(this.allAdminAndResidentNotification);
         }
       })
@@ -332,10 +336,17 @@ export class NotificationsComponent implements OnInit {
     if (this.searchAdminVisitorText == '') {
       console.log('searchAdminVisitorText', this.searchAdminVisitorText);
       this.notificationListArray = this.notificationListArrayTemp;
+      this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTemp;
     }
     this.notificationListArray = this.notificationListArray.filter(item => {
       return (item['unUniName'].toLowerCase().indexOf(this.searchAdminVisitorText.toLowerCase()) > -1)
     })
+    this.allAdminAndResidentNotification = this.allAdminAndResidentNotification.filter(item => {
+      if(item['unit']!=null){
+        return (item['unit']['unUniName'].toLowerCase().indexOf(this.searchAdminVisitorText.toLowerCase()) > -1)
+      }
+    })
+    console.log(this.allAdminAndResidentNotification);
   }
   NotificationActiveStatusUpdate(event, ntid, param, vlApprdBy) {
     event.preventDefault();
