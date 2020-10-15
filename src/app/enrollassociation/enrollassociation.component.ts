@@ -5890,7 +5890,7 @@ this.canDoBlockLogicalOrder=true;
            if (element['facility manager'] != "") {
              //this.facilitymanagervalid_but_mobilenumberempty = true;
              //element.facilitymanagervalid_but_mobilenumberempty = true;
-             element.isblockdetailsempty1 = true;
+             //element.isblockdetailsempty1 = true;
              this.isblockdetailsempty = true;
            }
            else{
@@ -5906,7 +5906,7 @@ this.canDoBlockLogicalOrder=true;
            }
  
          }
-         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['Flat Rate value']==undefined || element['Flat Rate value']=="" || element['Maintenance value']==undefined || element['Maintenance value']=="" || element['Maintenance Type']==undefined || element['Maintenance Type']=="" || element['Unit Of Measurement']==undefined || element['Unit Of Measurement']=="" || element['Invoice Creation Frequency']==undefined || element['Invoice Creation Frequency']=="" || element['Invoice Generation Date']==undefined || element['Invoice Generation Date']=="" || element['Due Date']==undefined || element['Due Date']=="" || element['Late Payment Charge Type']==undefined || element['Late Payment Charge Type']=="" || element['Late Payment Charge']==undefined || element['Late Payment Charge']=="" || element['Starts From']==undefined || element['Starts From']=="") {
+         if (element.blockname == "" || element.blockname == undefined || element.blocktype == "" || element.blocktype == undefined || element.units == "" || element.units == undefined || element['Flat Rate value']==undefined || element['Flat Rate value']=="" || element['Maintenance value']==undefined || element['Maintenance value']=="" || element['Maintenance Type']==undefined || element['Maintenance Type']=="" || element['Unit Of Measurement']==undefined || element['Unit Of Measurement']=="" || element['Invoice Creation Frequency']==undefined || element['Invoice Creation Frequency']=="" || element['Invoice Generation Date']==undefined || element['Invoice Generation Date']=="" || element['Due Date']==undefined || element['Due Date']=="" || element['Late Payment Charge Type']==undefined || element['Late Payment Charge Type']=="" || element['Late Payment Charge']==undefined || element['Late Payment Charge']=="") {
            element.isblockdetailsempty1 = true;
          }
          else {
@@ -5952,7 +5952,7 @@ this.canDoBlockLogicalOrder=true;
          element.isNotBlockCreated_NowValid=false;
          this.isblockdetailsempty = true
        }
-       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element['Flat Rate value']!=undefined && element['Flat Rate value']!="" && element['Maintenance value']!=undefined && element['Maintenance value']!="" && element['Maintenance Type']!=undefined && element['Maintenance Type']!="" && element['Unit Of Measurement']!=undefined && element['Unit Of Measurement']!="" && element['Invoice Creation Frequency']!=undefined && element['Invoice Creation Frequency']!="" && element['Invoice Generation Date']!=undefined && element['Invoice Generation Date']!="" && element['Due Date']!=undefined && element['Due Date']!="" && element['Late Payment Charge Type']!=undefined && element['Late Payment Charge Type']!="" && element['Late Payment Charge']!=undefined && element['Late Payment Charge']!="" && element['Starts From']!=undefined && element['Starts From']!="" && ((element['facility manager'] != undefined && element['mobile number'] != undefined) && (element['facility manager'] != '' && element['mobile number'] != '')) || (element['facility manager'] == '' && element['mobile number'] == '') || (element['facility manager'] == undefined && element['mobile number'] == undefined)) {
+       else if (element.blockname != "" && element.blockname != undefined && element.blocktype != "" && element.blocktype != undefined && element.units != "" && element.units != undefined && element['Flat Rate value']!=undefined && element['Flat Rate value']!="" && element['Maintenance value']!=undefined && element['Maintenance value']!="" && element['Maintenance Type']!=undefined && element['Maintenance Type']!="" && element['Unit Of Measurement']!=undefined && element['Unit Of Measurement']!="" && element['Invoice Creation Frequency']!=undefined && element['Invoice Creation Frequency']!="" && element['Invoice Generation Date']!=undefined && element['Invoice Generation Date']!="" && element['Due Date']!=undefined && element['Due Date']!="" && element['Late Payment Charge Type']!=undefined && element['Late Payment Charge Type']!="" && element['Late Payment Charge']!=undefined && element['Late Payment Charge']!="" && ((element['facility manager'] != undefined && element['mobile number'] != undefined) && (element['facility manager'] != '' && element['mobile number'] != '')) || (element['facility manager'] == '' && element['mobile number'] == '') || (element['facility manager'] == undefined && element['mobile number'] == undefined)) {
          let blockgroup = this.blocksArray.reduce((r, a) => {
            r[a.blockname.toLowerCase()] = [...r[a.blockname.toLowerCase()] || [], a];
            return r;
@@ -5974,6 +5974,7 @@ this.canDoBlockLogicalOrder=true;
                  if (element.Id == Id) {
                    console.log('isNotBlockCreated_NowValid');
                    element.isNotBlockCreated_NowValid=true;
+                   element.isblockdetailsempty1=false;
                  }
                 
                })
