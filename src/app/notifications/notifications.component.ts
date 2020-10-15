@@ -121,13 +121,13 @@ export class NotificationsComponent implements OnInit {
       })
     });
     //
-    this.GetNotificationListByAccntID();
+    //this.GetNotificationListByAccntID();
 
 
     this.refreshNotificationArray();
-    this.id = setInterval(() => {
+    /* this.id = setInterval(() => {
       this.refreshNotificationArray(); 
-    }, 10000);
+    }, 10000); */
   }
 
   ngOnDestroy() {
@@ -136,6 +136,7 @@ export class NotificationsComponent implements OnInit {
     }
   }
   refreshNotificationArray() {
+    $(".se-pre-con").show();
     this.notificationService.NotificationDataRefresh();
     let ipAddress = this.utilsService.getIPaddress();
     return this.http.get(`${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/1`,
@@ -146,6 +147,18 @@ export class NotificationsComponent implements OnInit {
       if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
          this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
          this.allAdminAndResidentNotificationTemp=data['data']['notificationListByAcctID'];
+         setTimeout(()=>{
+          console.log($('.panel-default'));
+          let elemnt = $('.panel-default');
+          Array.from(elemnt).forEach(item=>{
+            if((<HTMLElement>item).children.length == 0){
+              console.log(item);
+              (<HTMLElement>item).style.display = 'none';
+            }
+          })
+          console.log('test1');
+          $(".se-pre-con").fadeOut("slow");
+         },4000)
       }
     },
     err=>{
@@ -334,9 +347,22 @@ export class NotificationsComponent implements OnInit {
     console.log(this.searchAdminVisitorText);
     console.log(this.ResidentNotificationListArrayTemp);
     if (this.searchAdminVisitorText == '') {
+      $(".se-pre-con").show();
       console.log('searchAdminVisitorText', this.searchAdminVisitorText);
       this.notificationListArray = this.notificationListArrayTemp;
       this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTemp;
+      setTimeout(()=>{
+        console.log($('.panel-default'));
+        let elemnt = $('.panel-default');
+        Array.from(elemnt).forEach(item=>{
+          if((<HTMLElement>item).children.length == 0){
+            console.log(item);
+            (<HTMLElement>item).style.display = 'none';
+          }
+        })
+        console.log('test1');
+        $(".se-pre-con").fadeOut("slow");
+       },2000)
     }
     this.notificationListArray = this.notificationListArray.filter(item => {
       return (item['unUniName'].toLowerCase().indexOf(this.searchAdminVisitorText.toLowerCase()) > -1)
