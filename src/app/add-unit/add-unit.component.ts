@@ -499,98 +499,100 @@ export class AddUnitComponent implements OnInit {
     this.viewUniService.createUnit(createUnitData).subscribe((response) => {
       console.log(response);
      var unitcount;
-      for(let obj of this.allBlocksLists){
-if(this.viewUniService.blockIDforUnitCreation == obj.blBlockID){
-   unitcount = obj.blNofUnit;
-}
+      for (let obj of this.allBlocksLists) {
+        if (this.viewUniService.blockIDforUnitCreation == obj.blBlockID) {
+          unitcount = obj.blNofUnit;
+        }
       }
-      if(response['data']['errorResponse']['message']== "Units Count Exceeded"){
-        Swal.fire({
-          title: response['data']['errorResponse']['message']+ " "+"For This Selected Block"+ " " + " " +"Current Units Count Is" + " " + unitcount +"," + " " + "To Increase The Count Toggle Switch to BLOCKS and Go To Particular Block and EDIT Block And Update It",
-          type: 'error',
-          showCancelButton: true,
-          confirmButtonText: 'OK',
-          allowOutsideClick:false
-        }).then(
-          (result) => {
-           //this.globalservice.IsUnitCreated=true;
-           //this.router.navigate(['units']); 
-   
-            if (result.value) {
-              console.log('inside unit test');
-              //this.createunitForm.reset();
-              this.unitno='';
-              this.unitType='';
-              this.calculationtype='';
-              this.unitrate='';
-              this.unitdimension='';
-              this.occupency='';
-          
-              this.ownerFirtname='';
-              this.ownerLastname='';
-              this.ownerMobnumber='';
-              this.ownerAltnumber='';
-              this.ownerEmail='';
-              this.ownerAltemail='';
-              this.tenantFirtname='';
-              this.tenantLastname='';
-              this.tenantMobnumber='';
-              this.tenantEmail='';
-              //this.checkIsUnitCreated.emit('true');
-              this.viewUniService.addUnits=false;
-              this.viewUniService.unitList=true;
-              this.EnableUnitListView.emit('EnableUnitList');
-   
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-               this.router.navigate(['home/viewunit']);
-   
+      if (response['error']) {
+        if (response['error']['message'] == "Units Count Exceeded") {
+          Swal.fire({
+            title: response['error']['message'] + " " + "For This Selected Block" + " " + " " + "Current Units Count Is" + " " + unitcount + "," + " " + "To Increase The Count Toggle Switch to BLOCKS and Go To Particular Block and EDIT Block And Update It",
+            type: 'error',
+            showCancelButton: true,
+            confirmButtonText: 'OK',
+            allowOutsideClick: false
+          }).then(
+            (result) => {
+              //this.globalservice.IsUnitCreated=true;
+              //this.router.navigate(['units']); 
+
+              if (result.value) {
+                console.log('inside unit test');
+                //this.createunitForm.reset();
+                this.unitno = '';
+                this.unitType = '';
+                this.calculationtype = '';
+                this.unitrate = '';
+                this.unitdimension = '';
+                this.occupency = '';
+
+                this.ownerFirtname = '';
+                this.ownerLastname = '';
+                this.ownerMobnumber = '';
+                this.ownerAltnumber = '';
+                this.ownerEmail = '';
+                this.ownerAltemail = '';
+                this.tenantFirtname = '';
+                this.tenantLastname = '';
+                this.tenantMobnumber = '';
+                this.tenantEmail = '';
+                //this.checkIsUnitCreated.emit('true');
+                this.viewUniService.addUnits = false;
+                this.viewUniService.unitList = true;
+                this.EnableUnitListView.emit('EnableUnitList');
+
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                this.router.navigate(['home/viewunit']);
+
+              }
             }
-          }
-        )
+          )
+        }
       }
-      else{
+      else {
         Swal.fire({
           title: 'Unit Created Successfuly',
           type: 'success',
           showCancelButton: true,
           confirmButtonText: 'OK',
-          allowOutsideClick:false
+          allowOutsideClick: false
         }).then(
-         (result) => {
-          //this.globalservice.IsUnitCreated=true;
-          //this.router.navigate(['units']); 
-  
-           if (result.value) {
-             console.log('inside unit test');
-             //this.createunitForm.reset();
-             this.unitno='';
-             this.unitType='';
-             this.calculationtype='';
-             this.unitrate='';
-             this.unitdimension='';
-             this.occupency='';
-         
-             this.ownerFirtname='';
-             this.ownerLastname='';
-             this.ownerMobnumber='';
-             this.ownerAltnumber='';
-             this.ownerEmail='';
-             this.ownerAltemail='';
-             this.tenantFirtname='';
-             this.tenantLastname='';
-             this.tenantMobnumber='';
-             this.tenantEmail='';
-             //this.checkIsUnitCreated.emit('true');
-             this.viewUniService.addUnits=false;
-             this.viewUniService.unitList=true;
-             this.EnableUnitListView.emit('EnableUnitList');
-  
-           } else if (result.dismiss === Swal.DismissReason.cancel) {
+          (result) => {
+            //this.globalservice.IsUnitCreated=true;
+            //this.router.navigate(['units']); 
+
+            if (result.value) {
+              console.log('inside unit test');
+              //this.createunitForm.reset();
+              this.unitno = '';
+              this.unitType = '';
+              this.calculationtype = '';
+              this.unitrate = '';
+              this.unitdimension = '';
+              this.occupency = '';
+
+              this.ownerFirtname = '';
+              this.ownerLastname = '';
+              this.ownerMobnumber = '';
+              this.ownerAltnumber = '';
+              this.ownerEmail = '';
+              this.ownerAltemail = '';
+              this.tenantFirtname = '';
+              this.tenantLastname = '';
+              this.tenantMobnumber = '';
+              this.tenantEmail = '';
+              //this.checkIsUnitCreated.emit('true');
+              this.viewUniService.addUnits = false;
+              this.viewUniService.unitList = true;
+              this.EnableUnitListView.emit('EnableUnitList');
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
               this.router.navigate(['home/viewunit']);
-  
-           }
-         }
-       )
+
+            }
+          }
+        )
       }
     },
       (response) => {
