@@ -176,6 +176,15 @@ export class NotificationsComponent implements OnInit {
   }
   AdminsButtonShow(admin) {
     this.role = admin;
+    setTimeout(()=>{
+      let elemnt = $('.panel-default');
+      Array.from(elemnt).forEach(item=>{
+        if((<HTMLElement>item).children.length == 0){
+          console.log(item);
+          (<HTMLElement>item).style.display = 'none';
+        }
+      })
+     },2000)
   }
   GetNotificationListByAccntID() {
     console.log(this.paginatedvalue);
