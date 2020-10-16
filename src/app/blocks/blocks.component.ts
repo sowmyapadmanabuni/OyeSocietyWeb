@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ViewBlockService } from '../../services/view-block.service';
 import { GlobalServiceService } from '../global-service.service';
 import Swal from 'sweetalert2';
@@ -44,6 +44,7 @@ export class BlocksComponent implements OnInit {
   BLBlkName: string;
   BLBlkType: string;
   BLNofUnit: number;
+  BLNofUnitTemp: number;
   BLMgrName: string;
   BLMgrMobile: any;;
   BLMgrEmail: string;
@@ -98,12 +99,15 @@ export class BlocksComponent implements OnInit {
   PaginatedValue: number;
   id: NodeJS.Timer;
   ASMtTypes:any[];
+  inValidUnitCount:boolean;
+
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
     public globalService: GlobalServiceService,
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
+      this.inValidUnitCount = false;
       this.ASMtTypes=['FlatRate','Dimension'];
       this.ASMtType = '';
       this.PaginatedValue=10;
@@ -571,7 +575,17 @@ export class BlocksComponent implements OnInit {
       event.preventDefault();
     }
   }
-
+  validateBLNofUnit(){
+    console.log(this.BLNofUnit);
+    if((Number(this.BLNofUnit)) < Number(this.BLNofUnitTemp)){
+      this.inValidUnitCount=true;
+      console.log('this.inValidUnitCount=true;')
+    }
+    else{
+      this.inValidUnitCount=false;
+      console.log('this.inValidUnitCount=false;')
+    }
+  }
   OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, item, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated) {
     console.log('asbGnDate', asbGnDate);
     console.log('asdPyDate', asdPyDate);
@@ -581,6 +595,7 @@ export class BlocksComponent implements OnInit {
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
+    this.BLNofUnitTemp = blNofUnit;
     this.BLMgrName = (item.faciliyManager.length == 0 ? '' : item.faciliyManager[0]['fmName']);
     this.BLMgrMobile = (item.faciliyManager.length == 0 ? '' :item.faciliyManager[0]['acMobile']);
     this.BLMgrEmail = (item.faciliyManager.length == 0 ? '' :item.faciliyManager[0]['emailID']);
