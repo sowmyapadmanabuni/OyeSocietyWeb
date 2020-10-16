@@ -722,7 +722,7 @@ export class EditAssociationComponent implements OnInit {
   }
   }
   UpdateAssociation(ev){
-    if (this.blockform.valid) {
+    //if (this.blockform.valid) {
       console.log(this.viewAssnService.EditAssociationData);
       let name =this.viewAssnService.EditAssociationData.ASAsnName;
       let totalname = name.toUpperCase();
@@ -764,10 +764,10 @@ export class EditAssociationComponent implements OnInit {
             });
         });
       
-    }
+   /* }
     else {
       this.validateAllBlockformFields(this.blockform); 
-    }
+    } */
   }
 
 }
