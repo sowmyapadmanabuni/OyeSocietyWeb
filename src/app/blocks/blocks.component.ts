@@ -108,6 +108,7 @@ export class BlocksComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService) {
       this.inValidUnitCount = false;
+      this.validblockname = false;
       this.ASMtTypes=['FlatRate','Dimension'];
       this.ASMtType = '';
       this.PaginatedValue=10;
@@ -226,6 +227,14 @@ export class BlocksComponent implements OnInit {
       if(data['data']['blocksByAssoc'].length > this.allBlocksLists.length){
         this.allBlocksLists = data['data'].blocksByAssoc;
       }
+      console.log('allBlocksLists', this.allBlocksLists);
+      this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
+      //asbGnDate
+    });
+  }
+  getBlockDetailsreload() {
+    this.viewBlkService.getBlockDetails(this.currentAssociationID).subscribe(data => {
+      this.allBlocksLists = data['data'].blocksByAssoc;
       console.log('allBlocksLists', this.allBlocksLists);
       this.availableNoOfBlocks = data['data'].blocksByAssoc.length;
       //asbGnDate
@@ -575,6 +584,20 @@ export class BlocksComponent implements OnInit {
       event.preventDefault();
     }
   }
+  validblockname: boolean;
+  validateblockname(ev, BLBlkName) {
+    this.validblockname = false;
+
+    this.allBlocksLists.forEach(element => {
+      console.log(element)
+      if(this.BLBlkNametemp[0].blBlkName.toUpperCase()!=element.blBlkName.toUpperCase()){
+        if (element.blBlkName.toUpperCase() == BLBlkName.toUpperCase()) {
+          this.validblockname = true;
+        }
+      }
+  
+    });
+  }
   validateBLNofUnit(){
     console.log(this.BLNofUnit);
     if((Number(this.BLNofUnit)) < Number(this.BLNofUnitTemp)){
@@ -586,11 +609,16 @@ export class BlocksComponent implements OnInit {
       console.log('this.inValidUnitCount=false;')
     }
   }
+  BLBlkNametemp=[]
   OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, item, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated) {
     console.log('asbGnDate', asbGnDate);
     console.log('asdPyDate', asdPyDate);
     console.log('aslpsDate', aslpsDate);
     console.log('item', item);
+    this.BLBlkNametemp = this.allBlocksLists.filter(item=>{
+      return item.blBlkName == blBlkName;
+    
+    })
     this.myDate =  bldCreated;
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
@@ -714,7 +742,7 @@ export class BlocksComponent implements OnInit {
 
           if (result.value) {
             //this.form.reset();
-            this.getBlockDetails();
+            this.getBlockDetailsreload();
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             this.router.navigate(['']);
           }

@@ -203,8 +203,12 @@
                                     [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
                                     <label id=label1>Block Name<span class="red">*</span> </label>
                                     <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
+                                    (keyup)="validateblockname($event,BLBlkName)" 
                                         [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
                                         placeholder="Block Name" pattern="[a-zA-Z0-9 _]*" required />
+                                        <p class="alerts" *ngIf="validblockname">Valid
+                                            blockname is required
+                                        </p>  
                                     <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
                                         name is required
                                     </p>
@@ -437,7 +441,7 @@
 
                         <div class="from-group">
                             <div class="form-group pull-right">
-                                <button type="submit" [disabled]='inValidUnitCount || editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
+                                <button type="submit" [disabled]='inValidUnitCount || validblockname || editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
                             </div>
                         </div>
                     </form>
