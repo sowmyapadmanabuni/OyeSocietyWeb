@@ -635,33 +635,45 @@
             </div>
         </mat-tab>
           <mat-tab #tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">
-            <form [formGroup]="blockform" class="association-form3">
+            <!-- <form [formGroup]="blockform" class="association-form3"> -->
+              <div class="association-form3">
                 <mat-form-field class="association-full-width">
-                    <mat-label>Total No Of Blocks<span class="red">*</span></mat-label>
-                    <input matInput placeholder="No Of Blocks" 
-                    pattern="[1-9]{1}[0-9]*" 
-                    formControlName="blockno" [(ngModel)]="viewAssnService.EditAssociationData['ASNofBlks']"
-                        value="{{viewAssnService.EditAssociationData['ASNofBlks']}}">
-                    <mat-error [displayError]="isFieldValidblockandunitdetails('blockno')">
-                        {{ titleAlert }}
-                    </mat-error>
+                  <mat-label>Total No Of Blocks<span class="red">*</span></mat-label>
+                  <input matInput placeholder="No Of Blocks" name="ASNofBlks" pattern="[1-9]{1}[0-9]*"
+                    [(ngModel)]="viewAssnService.EditAssociationData['ASNofBlks']"
+                    (keyup)="isFieldValidblockdetails(viewAssnService.EditAssociationData['ASNofBlks'],'blockno')"
+                    value="{{viewAssnService.EditAssociationData['ASNofBlks']}}">
+                  <!-- <mat-error class="red" *ngIf="invalidASNofBlksCount">
+                                                      {{ invalidASNofBlksCountAlert }}
+                                                    </mat-error> -->
+                  <p class="red" *ngIf="invalidASNofBlksCount" style="position: absolute;top: 29px !important;font-size: 12px !important;">
+                    {{ invalidASNofBlksCountAlert }}
+                  </p>
                 </mat-form-field>
-            </form>
-            <form [formGroup]="blockform" class="association-form3">
+              </div>
+            <!-- </form> -->
+            <!-- <form [formGroup]="blockform" class="association-form3"> -->
+              <div class="association-form3">
                 <mat-form-field class="association-full-width">
-                    <mat-label>Total No Of Units<span class="red">*</span></mat-label>
-                    <input matInput placeholder="No Of Units"
-                    pattern="[1-9]{1}[0-9]*" 
-                    matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"formControlName="unitno" [(ngModel)]="viewAssnService.EditAssociationData['ASNofUnit']" value="{{viewAssnService.EditAssociationData['ASNofUnit']}}">
-                    <mat-error [displayError]="isFieldValidblockandunitdetails('unitno')">
-                        {{ titleAlert }}
-                    </mat-error>
+                  <mat-label>Total No Of Units<span class="red">*</span></mat-label>
+                  <input matInput placeholder="No Of Units" pattern="[1-9]{1}[0-9]*"
+                    (keyup)="isFieldValidunitdetails(viewAssnService.EditAssociationData['ASNofUnit'])"
+                    matTooltip="This number should be the total of all the flats which are sold, unsold and vacant"
+                    [(ngModel)]="viewAssnService.EditAssociationData['ASNofUnit']" name="ASNofUnit"
+                    value="{{viewAssnService.EditAssociationData['ASNofUnit']}}">
+                  <!-- <mat-error class="red" *ngIf="invalidASNofUnitCount">
+                                      {{ invalidASNofUnitCountAlert }}
+                                    </mat-error> -->
+                  <p class="red" *ngIf="invalidASNofUnitCount" style="position: absolute;top: 29px !important;font-size: 12px !important;">
+                    {{ invalidASNofUnitCountAlert }}
+                  </p>
                 </mat-form-field>
-            </form>
+              </div>
+            <!-- </form> -->
             <div class="save">
                 <a class="continue" (click)="previouspage($event)"mat-raised-button color="primary">PREVIOUS</a>
                 <a class="continue" (click)="resetStep3($event)"mat-raised-button color="primary">RESET</a>
-                <a id="assdetailssave"mat-raised-button color="primary" [disabled]="!blockform.valid"(click)="UpdateAssociation($event)">UPDATE</a>
+                <a id="assdetailssave"mat-raised-button color="primary" [disabled]="disableBlockandUnitUpdatebutton"(click)="UpdateAssociation($event)">UPDATE</a>
             </div>
         </mat-tab>
           </div>

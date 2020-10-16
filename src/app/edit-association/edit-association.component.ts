@@ -25,6 +25,8 @@ export class EditAssociationComponent implements OnInit {
 
   uploadForm: FormGroup;
   titleAlert: string = 'This field is required';
+  invalidASNofBlksCountAlert: string = 'No of blocks should not be less than current block';
+  invalidASNofUnitCountAlert: string = 'No of units should not be less than current unit';
   countrieslist=[];
   stateslist=[];
   citylist=[];
@@ -38,9 +40,19 @@ export class EditAssociationComponent implements OnInit {
   hidechooseFile1: boolean;
   hidePANchooseFile1: boolean;
   PANfileName: string;
+  ASNofBlksTemp:number;
+  ASNofUnitTemp:number;
+  invalidASNofBlksCount:boolean;
+  invalidASNofUnitCount:boolean;
+  disableBlockandUnitUpdatebutton:boolean;
 
   constructor(public viewAssnService: ViewAssociationService,private http: HttpClient,private formBuilder: FormBuilder,private modalService: BsModalService,
     private router: Router) {
+      this.invalidASNofBlksCount = false;
+      this.invalidASNofUnitCount = false;
+      this.disableBlockandUnitUpdatebutton = true;
+    this.ASNofBlksTemp = Number(this.viewAssnService.EditAssociationData['ASNofBlks']);
+    this.ASNofUnitTemp = Number(this.viewAssnService.EditAssociationData['ASNofUnit']);
     this.fileName='No file chosen...';
     this.PANfileName ='No file chosen...';
     this.hidechooseFile1=true;
@@ -514,10 +526,45 @@ export class EditAssociationComponent implements OnInit {
       'unitno': [null, Validators.required]
 
     });
-
   }
   isFieldValidblockandunitdetails(field: string) {
     return !this.blockform.get(field).valid && this.blockform.get(field).touched;
+  }
+  isFieldValidblockdetails(ASNofBlks,field: string) {
+    console.log(ASNofBlks);
+    console.log(typeof ASNofBlks);
+    console.log(this.form);
+    console.log(this.form.controls);
+    console.log(this.form.invalid);
+    console.log(this.blockform.get(field).value)
+    if (Number(ASNofBlks) < this.ASNofBlksTemp) {
+      this.invalidASNofBlksCount = true;
+      this.disableBlockandUnitUpdatebutton = true;
+      console.log('this.invalidASNofBlksCount = true')
+    }
+    else {
+      this.invalidASNofBlksCount = false;
+      console.log('this.invalidASNofBlksCount = false')
+    }
+    if(!this.invalidASNofBlksCount && !this.invalidASNofUnitCount){
+      this.disableBlockandUnitUpdatebutton = false;
+    }
+  }
+  isFieldValidunitdetails(ASNofUnit){
+    console.log(ASNofUnit);
+    console.log(typeof ASNofUnit);
+    if (Number(ASNofUnit) < this.ASNofUnitTemp) {
+      this.invalidASNofUnitCount = true;
+      this.disableBlockandUnitUpdatebutton = true;
+      console.log('this.invalidASNofUnitCount = true;')
+    }
+    else {
+      this.invalidASNofUnitCount = false;
+      console.log('this.invalidASNofUnitCount = false;')
+    }
+    if(!this.invalidASNofBlksCount && !this.invalidASNofUnitCount){
+      this.disableBlockandUnitUpdatebutton = false;
+    }
   }
   isFieldValid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
