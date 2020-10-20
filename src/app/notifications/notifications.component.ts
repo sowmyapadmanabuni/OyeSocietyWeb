@@ -184,6 +184,7 @@ export class NotificationsComponent implements OnInit {
           (<HTMLElement>item).style.display = 'none';
         }
       })
+      $(".se-pre-con").fadeOut("slow");
      },2000)
   }
   GetNotificationListByAccntID() {

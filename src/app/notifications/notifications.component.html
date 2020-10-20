@@ -56,7 +56,7 @@
                             <h4 style="color: red;">Current Status</h4>
                             <p>Occupancy: <strong>{{itm['unit']['unOcStat']}}</strong></p>
                             <p>Occupied By: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? 'UnSold Vacant Unit' : 'Tenant') : 'Owner'}}</strong></p>
-                            <p>Owner Name: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</strong></p>
+                            <p>Owner Name: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</strong>&nbsp;<strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utlName']) : itm['unit']['owner'][0]['uolName']}}</strong></p>
                             <p>Mobile: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utMobile']) : itm['unit']['owner'][0]['uoMobile']}}</strong></p>
                           </div>
                           <div *ngIf="itm['ntJoinStat']==''">
