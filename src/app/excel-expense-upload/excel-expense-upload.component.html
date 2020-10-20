@@ -149,7 +149,7 @@
                                     <td colspan="19" align="center">No Data Found</td>
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
-                                    <td>{{item['S.No']}}</td>
+                                    <td>{{item['SNo']}}</td>
                                     <td [ngClass]="{'classRed':(item['ExpenseHead']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseHead']==undefined?true:false)}">{{(item['ExpenseHead']==undefined?'Please Enter Expense Head':item['ExpenseHead'])}}</span></td>
                                     <td [ngClass]="{'classRed':(item['ExpenseDescription']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseDescription']==undefined?true:false)}">{{(item['ExpenseDescription']==undefined?'Please Enter Expense Description':item['ExpenseDescription'])}}</span></td>
                                     <td [ngClass]="{'classRed':(item['ExpenseRecuranceType']==undefined?true:false)}"><span [ngClass]="{'classFontClr':(item['ExpenseRecuranceType']==undefined?true:false)}">{{(item['ExpenseRecuranceType']==undefined?'Invalid Expense Recurance Type':item['ExpenseRecuranceType'])}}</span></td>

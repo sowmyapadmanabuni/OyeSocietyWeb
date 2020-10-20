@@ -1,5 +1,6 @@
 export class ExcelExpenseList {
-    constructor(private AmountPaid,
+    constructor(private SNo,
+     private AmountPaid,
         private ApplicableToUnit,
         private Bank,
         private ChequeDate,

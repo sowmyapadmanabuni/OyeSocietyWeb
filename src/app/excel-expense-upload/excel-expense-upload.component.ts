@@ -278,7 +278,8 @@ export class ExcelExpenseUploadComponent implements OnInit {
         ddDateOneDateAdded = new Date(DemandDraftDate.setDate(DemandDraftDate.getDate() + 1));
         console.log(ddDateOneDateAdded);
       }
-      this.ExcelExpenseList.push(new ExcelExpenseList(item['Amount Paid'],
+      this.ExcelExpenseList.push(new ExcelExpenseList(item['S.No'],
+      item['Amount Paid'],
       item['Applicable To Unit'],
       item['Bank'],
       (item['Cheque Date']!=undefined?formatDate(chkDateOneDateAdded,'dd/MM/yyyy','en'):undefined),
