@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 import { ViewUnitService } from '../../services/view-unit.service';
 import { AddBlockService } from '../../services/add-block.service';
 import { Subscription } from 'rxjs';
+import { ViewAssociationService } from 'src/services/view-association.service';
 
 declare var $: any;
 
@@ -100,9 +101,11 @@ export class BlocksComponent implements OnInit {
   id: NodeJS.Timer;
   ASMtTypes:any[];
   inValidUnitCount:boolean;
-
+  totalunitcount:number;
+  unitcountgreaterthanassociationcount:boolean;
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
+    public viewAssnService: ViewAssociationService,
     public globalService: GlobalServiceService,
     public addblockservice: AddBlockService,
     private router: Router,
@@ -112,6 +115,7 @@ export class BlocksComponent implements OnInit {
       this.ASMtTypes=['FlatRate','Dimension'];
       this.ASMtType = '';
       this.PaginatedValue=10;
+      this.unitcountgreaterthanassociationcount =false;
       this.rowsToDisplay=[{'Display':'5','Row':5},
                           {'Display':'10','Row':10},
                           {'Display':'15','Row':15},
@@ -126,6 +130,14 @@ export class BlocksComponent implements OnInit {
           this.globalService.setCurrentAssociationId(msg['msg']);
           this.initialiseBlocks();
         })
+        
+        this.viewAssnService.getAssociationDetailsByAssociationid(this.globalService.getCurrentAssociationId()).subscribe(res => {
+          console.log(res);
+          this.totalunitcount = res['data']['association'].asNofUnit;
+        })
+          //console.log(res['data']['association']['amenities'][0].amType);
+          //console.log(res['data']['association']['amenities'][0].noofAmenities);
+        
     //pagination
     this.config = {
       itemsPerPage: 10,
@@ -598,19 +610,46 @@ export class BlocksComponent implements OnInit {
   
     });
   }
-  validateBLNofUnit(){
+  blocks = [];
+  actualtotalallunitscount:number = 0;
+  validateBLNofUnit(BLNofUnit) {
+    this.actualtotalallunitscount = 0
     console.log(this.BLNofUnit);
-    if((Number(this.BLNofUnit)) < Number(this.BLNofUnitTemp)){
-      this.inValidUnitCount=true;
+    this.allBlocksLists.forEach((element, i) => {
+      console.log(element.blNofUnit)
+      console.log(this.blockidforeddit)
+      console.log(element.blBlockID)
+
+      if (this.blockidforeddit != i) {
+        console.log("test")
+        this.actualtotalallunitscount += Number(element.blNofUnit)
+      }
+    });
+    console.log(this.actualtotalallunitscount)
+
+    this.actualtotalallunitscount += Number(this.BLNofUnit)
+
+    console.log(this.actualtotalallunitscount)
+    console.log(this.totalunitcount)
+    if (this.actualtotalallunitscount > this.totalunitcount) {
+      this.unitcountgreaterthanassociationcount = true;
+    }
+    else {
+      this.unitcountgreaterthanassociationcount = false;
+
+    }
+    if ((Number(this.BLNofUnit)) < Number(this.BLNofUnitTemp)) {
+      this.inValidUnitCount = true;
       console.log('this.inValidUnitCount=true;')
     }
-    else{
-      this.inValidUnitCount=false;
+    else {
+      this.inValidUnitCount = false;
       console.log('this.inValidUnitCount=false;')
     }
   }
   BLBlkNametemp=[]
-  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, item, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated) {
+  blockidforeddit:any;
+  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, item, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated,i) {
     console.log('asbGnDate', asbGnDate);
     console.log('asdPyDate', asdPyDate);
     console.log('aslpsDate', aslpsDate);
@@ -619,6 +658,7 @@ export class BlocksComponent implements OnInit {
       return item.blBlkName == blBlkName;
     
     })
+    this.blockidforeddit = i;
     this.myDate =  bldCreated;
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;

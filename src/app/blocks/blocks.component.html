@@ -90,7 +90,7 @@
                                             class="fa fa-eye" tooltip="View Block"></i>
                                             &nbsp;|&nbsp; --><i style="cursor: pointer;" data-toggle="modal"
                                             data-target="#editBlockDetails"
-                                            (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate,item['bldCreated'])"
+                                            (click)="OpenModal(editBlocktemplate,item.blBlkName,item.blBlkType,item.blNofUnit,item,item.asMtType,item.asMtFRate,item.asMtDimBs,item.asUniMsmt,item.asbGnDate,item.asdPyDate,item.bldUpdated,item.aslpcType,item.aslpChrg,item.blBlockID,item.asiCrFreq,item.aslpsDate,item['bldCreated'],i)"
                                             class="fa fa-pencil" tooltip="Edit Block"></i>
 
                                     </td>
@@ -239,13 +239,16 @@
                                     [ngClass]="{'was-validated' : noofunitsControl.invalid && noofunitsControl.touched}">
                                     <label id=label3>No of Units<span class="red">*</span></label>
                                     <input type="text" name="BLNofUnit" id="input3" autocomplete='BLNofUnit'
-                                        [(ngModel)]="BLNofUnit" (keyup)="validateBLNofUnit()" #noofunitsControl="ngModel" class="form-control"
+                                        [(ngModel)]="BLNofUnit" (keyup)="validateBLNofUnit(BLNofUnit)" #noofunitsControl="ngModel" class="form-control"
                                         placeholder="No Of Units" pattern="[0-9]*"/>
                                     <p class="alerts" *ngIf="noofunitsControl.invalid && noofunitsControl.touched">No of
                                         units are required
                                     </p>
                                     <p class="alerts" *ngIf="inValidUnitCount">No of
                                         units should not be less than current unit
+                                    </p>
+                                    <p class="alerts" *ngIf="unitcountgreaterthanassociationcount">No of
+                                        units should not be greater than current association units count
                                     </p>
                                 </div>
                             </div>
@@ -441,7 +444,7 @@
 
                         <div class="from-group">
                             <div class="form-group pull-right">
-                                <button type="submit" [disabled]='inValidUnitCount || validblockname || editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
+                                <button type="submit" [disabled]='inValidUnitCount || validblockname || unitcountgreaterthanassociationcount || editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
                             </div>
                         </div>
                     </form>
