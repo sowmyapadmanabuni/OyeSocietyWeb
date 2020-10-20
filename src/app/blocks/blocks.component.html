@@ -350,7 +350,7 @@
                                         [bsConfig]="bsConfig" [(ngModel)]="ASDPyDate" [minDate]="minDate"
                                         (bsValueChange)="onDueDateValueChange($event)" bsDatepicker placement="top" />
                                     <ng-container *ngIf='enableduedatevalidation'>
-                                        <p class="invalidFeedback">Due date should be greater than or equal to
+                                        <p class="red">Due date should be greater than or equal to
                                             invoice date
                                         </p>
                                     </ng-container>
@@ -430,7 +430,7 @@
                                         #startsFromDateCtrl='bsDatepicker' bsDatepicker placement="top" />
                                      <!-- <p class="invalid-feedback">Select Date</p>  -->
                                      <ng-container *ngIf='enablestartfromdatevalidation'>
-                                        <p class="invalidFeedback">Starts from date should be greater than or equal to
+                                        <p class="red">Starts from date should be greater than or equal to
                                             due date</p>
                                     </ng-container> 
                                 </div>
