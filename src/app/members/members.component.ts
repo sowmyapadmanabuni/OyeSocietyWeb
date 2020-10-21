@@ -145,13 +145,14 @@ export class MembersComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
        this.uoMobile = ((data['data']['unit']['owner'].length == 0) ? ((data['data']['unit']['tenant'].length == 0 ? '' : (data['data']['unit']['tenant'][0]['utMobile'].includes("+91", 3)) ? data['data']['unit']['tenant'][0]['utMobile'].slice(3) : data['data']['unit']['tenant'][0]['utMobile'])) : ((data['data']['unit']['owner'][0]['uoMobile'].includes("+91", 3)) ? data['data']['unit']['owner'][0]['uoMobile'].slice(3) : data['data']['unit']['owner'][0]['uoMobile']));
-       console.log(this.uoMobile);
+       console.log(this.uoMobile.indexOf('+91') != -1);
+       console.log(this.uoMobile.indexOf('+91'));
        //
        console.log(unUnitID, roleid, role);
        this.ChangeRole = role;
        this.SelectedUnitID = unUnitID;
        let toOwnertoAdmin = {
-         ACMobile: '+91'+this.uoMobile,
+         ACMobile: ((this.uoMobile.indexOf('+91') != -1)?this.uoMobile:'+91'+this.uoMobile),
          UNUnitID: unUnitID,
          MRMRoleID: roleid,
          ASAssnID: this.associationID

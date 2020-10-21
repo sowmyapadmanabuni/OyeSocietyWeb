@@ -1710,7 +1710,7 @@
                       <div class="form-group" [ngClass]="{'has-error' : paymentDateControl.invalid && paymentDateControl.touched}">
                           <label>Payment Date<span class="red">*</span></label>
                           <input type="text" class="form-control" name="paymentDate" #paymentDateControl='ngModel'
-                            placeholder="Payment Date" required [bsConfig]="bsConfig" [(ngModel)]="paymentDate" #PaymentDate='bsDatepicker'
+                            placeholder="Payment Date" placement="top" required [bsConfig]="bsConfig" [(ngModel)]="paymentDate" #PaymentDate='bsDatepicker'
                             bsDatepicker autocomplete="off" [minDate]="minPaymentDateDate" [maxDate]="maxPaymentDateDate"/>
                             <p class="alerts" *ngIf="paymentDateControl.invalid && paymentDateControl.touched"> Please Select Payment Date</p>
                       </div>
@@ -1727,7 +1727,7 @@
                 <div class="col-sm-6 col-xs-12">
                     <div class="form-group" [ngClass]="{'has-error' : demandDraftDateControl.invalid && demandDraftDateControl.touched}">
                         <label>Demand Draft Date <span class="red">*</span></label>
-                        <input type="text" class="form-control" name="receiptEXDDDate" #demandDraftDateControl='ngModel'
+                        <input type="text" class="form-control" placement="top" name="receiptEXDDDate" #demandDraftDateControl='ngModel'
                             placeholder="Demand Draft Date" required [bsConfig]="bsConfig" [(ngModel)]="receiptEXDDDate" #expdddate='bsDatepicker'
                             bsDatepicker [minDate]="minDemandDraftDate" />
                     
@@ -1749,7 +1749,7 @@
                       <div class="form-group" [ngClass]="{'has-error' : chequeDateControl.invalid && chequeDateControl.touched}">
                           <label>Cheque Date <span class="red"></span></label>
           
-                          <input type="text" class="form-control" name="receiptChequeDate" #chequeDateControl='ngModel'
+                          <input type="text" placement="top" class="form-control" name="receiptChequeDate" #chequeDateControl='ngModel'
                         placeholder="Chequedate" required [(ngModel)]="receiptChequeDate"
                         bsDatepicker [bsConfig]="bsConfig"/>
                       </div>

@@ -1309,16 +1309,15 @@ export class InvoicesComponent implements OnInit {
     }
     this.disableGenerateReceipt=true;
     let genReceipt = {
-      "PYAmtPaid": this.totalamountPaid,
+      "PYAmtPaid": Number(this.totalamountPaid),
       "INNumber": this.invoicenumber,
       "UNUnitID": this.receiptUnitID,
-      "ASAssnID": this.currentAssociationID,
+      "ASAssnID": Number(this.currentAssociationID),
       "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en'),
-    
       "MEMemID"  : "1",
       "PYRefNo"  : paymentRefNo,
       "PYBkDet"  : this.expensedataBABName,
-      "PYTax"    : "12.6",
+      "PYTax"    : "0",
       "PMID"     : this.expensedataPMID,//1,
       "PYAmtDue" : this.totalAmountDue,
       "PYDesc"   :paymentDesc,
@@ -1326,8 +1325,8 @@ export class InvoicesComponent implements OnInit {
       "PYChqNo" : this.receiptChequeNo,
       "PYChqDate" :formatDate((this.receiptChequeDate==''?new Date():this.receiptChequeDate),'yyyy/MM/dd', 'en'),
       "PYDDNo"   :this.receiptddNo,
-      "PYDDDate":formatDate((this.receiptEXDDDate==''?new Date():this.receiptEXDDDate),'yyyy/MM/dd', 'en')
-     
+      "PYDDDate":formatDate((this.receiptEXDDDate==''?new Date():this.receiptEXDDDate),'yyyy/MM/dd', 'en'),
+      "BLBlockID" : this.blockid
   }
  
     console.log(genReceipt);
