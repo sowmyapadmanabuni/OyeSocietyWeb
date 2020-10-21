@@ -1175,9 +1175,9 @@ export class EnrollassociationComponent implements OnInit {
                 "UNUniName": unit.flatno,
                 "UNUniType": unit.unittype,
                 "UNOcStat": unit.ownershipstatus,
-                "UNOcSDate": "",
+                "UNOcSDate": "2019-03-02",
                 "UNOwnStat": "",
-                "UNSldDate": "",
+                "UNSldDate": "2019-03-02",
                 "UNDimens": unit['unit dimension'],
                 "UNRate": unit['unit rate'],
                 "UNCalType": unit['Unit Calculation Type'],
@@ -1189,7 +1189,7 @@ export class EnrollassociationComponent implements OnInit {
                     "UOFName": (unit.ownerfirstname == undefined ? '' : unit.ownerfirstname),
                     "UOLName": (unit.ownerlastname == undefined ? '' : unit.ownerlastname),
                     "UOMobile": (unit.ownermobilenumber == undefined ? '' : unit.ownermobilenumber),
-                    "UOISDCode": "",
+                    "UOISDCode": "+91",
                     "UOEmail": (unit.owneremaiid == undefined ? '' : unit.owneremaiid),
                     "UOCDAmnt": "2000"
 
@@ -1610,7 +1610,7 @@ export class EnrollassociationComponent implements OnInit {
                     "UOFName": (unit.ownerfirstname == undefined ? '' : unit.ownerfirstname),
                     "UOLName": (unit.ownerlastname == undefined ? '' : unit.ownerlastname),
                     "UOMobile": (unit.ownermobilenumber == undefined ? '' : unit.ownermobilenumber),
-                    "UOISDCode": "",
+                    "UOISDCode": "+91",
                     "UOEmail": (unit.owneremaiid == undefined ? '' : unit.owneremaiid),
                     "UOCDAmnt": "2000"
 
@@ -2719,11 +2719,13 @@ export class EnrollassociationComponent implements OnInit {
               "ACAccntID": this.globalService.getacAccntID(),
               "blocks": [
                 {
+                  "ASAssnID": this.assid,
                   "BLBlkName": element.blockname,
                   "BLBlkType": element.blocktype,
                   "BLNofUnit": element.units,
                   "BLMgrName": (element['facility manager'] == undefined ? '': element['facility manager']),
                   "BLMgrMobile": (element['mobile number'] == undefined ? '': element['mobile number']),
+                  "BLMgrISDCode"  : "+91",
                   "BLMgrEmail":(element['email id'] == undefined ? '': element['email id']),
                   "ASMtType": element['Maintenance Type'],
                   "ASMtDimBs": element['Maintenance value'],
@@ -2735,6 +2737,7 @@ export class EnrollassociationComponent implements OnInit {
                   "ASLPChrg": element['Late Payment Charge'],
                   "ASLPSDate": formatDate(element['Starts From'], 'yyyy/MM/dd', 'en'),
                   "ASDPyDate": formatDate(element['Due Date'], 'yyyy/MM/dd', 'en'),
+                  "BankDetails": ""
                 }
               ]
 
