@@ -46,7 +46,7 @@
                                         tooltip="Have more num of Blocks?"></a>
                             
                                 <a id="unitsbulkupload4" href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width:60px" class="excel"
-                                        src="../../assets/images/download.png" tooltip="click to download demo excel format"></a>
+                                        src="../../assets/images/download.png" tooltip="click to download demo excel format for units"></a>
                             
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event,UpdateBlockUnitCountTemplate,unitprogressbartemplate)" multiple="false"
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -426,8 +426,9 @@
                                 </li>
                             </ul>
                             <div class="tab-content col-md-10">
-                                &nbsp;&nbsp;
-                                <label style="font-weight: 700;position: absolute;left: 2%;top: 0%;">scroll right to view more units</label>                                <div *ngFor="let iitem of blocksArray;let i=index">
+                                 &nbsp;&nbsp; 
+                                <!-- <label style="font-weight: 700;position: absolute;left: 2%;top: 0%;">scroll right to view more units</label>     -->
+                                    <div *ngFor="let iitem of blocksArray;let i=index"> 
                                     <div class="tab-pane" [ngClass]="{'active':iitem.Id==iitem.blockTmpid}" id="{{iitem.Id}}">
                                         <ul class="nav nav-tabs" [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'flex' : 'none' }" style="display: flex;overflow-x: scroll;    height: 54px;">
                                             <li  *ngFor="let obj of unitlistjson[blBlkName];let i= index" [ngClass]="{'active':obj.Id==obj.unitTmpid}" style="display: flex;justify-content: space-evenly;width: auto;">
@@ -437,6 +438,8 @@
                                             <i [hidden]="obj.isUnitNotCreated" class="fa fa-check-circle-o" style="color: #41ca41" aria-hidden="true"></i>
                                                 </a></li>
                                         </ul>
+                                <label style="font-family: system-ui;position: absolute;left: 2%;top: 17%;">Scroll Right To View More Units</label>                              
+
                                         <div [ngStyle]="{'display':iitem.Id==iitem.blockTmpid ? 'block' : 'none' }" class="tab-content">
                                             <div *ngFor="let obj of unitlistjson[blBlkName];let i= index"
                                                 [ngClass]="{'active':obj.Id==obj.unitTmpid}" class="tab-pane">

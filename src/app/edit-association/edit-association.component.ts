@@ -50,7 +50,7 @@ export class EditAssociationComponent implements OnInit {
     private router: Router) {
       this.invalidASNofBlksCount = false;
       this.invalidASNofUnitCount = false;
-      this.disableBlockandUnitUpdatebutton = true;
+      this.disableBlockandUnitUpdatebutton = false;
     this.ASNofBlksTemp = Number(this.viewAssnService.EditAssociationData['ASNofBlks']);
     this.ASNofUnitTemp = Number(this.viewAssnService.EditAssociationData['ASNofUnit']);
     this.fileName='No file chosen...';
@@ -723,46 +723,49 @@ export class EditAssociationComponent implements OnInit {
   }
   UpdateAssociation(ev){
     //if (this.blockform.valid) {
-      console.log(this.viewAssnService.EditAssociationData);
-      let name =this.viewAssnService.EditAssociationData.ASAsnName;
-      let totalname = name.toUpperCase();
-      this.viewAssnService.EditAssociationData.ASAsnName = totalname;
-      console.log(this.viewAssnService.EditAssociationData.ASAsnName)
-      this.viewAssnService.UpdateAssociation(this.viewAssnService.EditAssociationData).subscribe(res => {
-        console.log(res);
-        //console.log(JSON.stringify(res));
-        //alert("Association Created Successfully")
-        Swal.fire({
-          title: 'Association Updated Successfully',
-          text: "",
-          type: "success",
-          confirmButtonColor: "#f69321",
-          confirmButtonText: "OK"
-        }).then(
-          (result) => {
-            if (result.value) {
-              this.router.navigate(['association']);
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              this.router.navigate(['association']);
-            }
-          })
-      },
-        err => {
-          console.log(err);
+      if(!this.disableBlockandUnitUpdatebutton){
+        console.log(this.viewAssnService.EditAssociationData);
+        let name =this.viewAssnService.EditAssociationData.ASAsnName;
+        let totalname = name.toUpperCase();
+        this.viewAssnService.EditAssociationData.ASAsnName = totalname;
+        console.log(this.viewAssnService.EditAssociationData.ASAsnName)
+        this.viewAssnService.UpdateAssociation(this.viewAssnService.EditAssociationData).subscribe(res => {
+          console.log(res);
+          //console.log(JSON.stringify(res));
+          //alert("Association Created Successfully")
           Swal.fire({
-            title: "Error",
-            text: `${err['error']['exceptionMessage']}`,
-            type: "error",
-            confirmButtonColor: "#f69321"
+            title: 'Association Updated Successfully',
+            text: "",
+            type: "success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK"
           }).then(
             (result) => {
               if (result.value) {
                 this.router.navigate(['association']);
               } else if (result.dismiss === Swal.DismissReason.cancel) {
-  
+                this.router.navigate(['association']);
               }
-            });
-        });
+            })
+        },
+          err => {
+            console.log(err);
+            Swal.fire({
+              title: "Error",
+              text: `${err['error']['exceptionMessage']}`,
+              type: "error",
+              confirmButtonColor: "#f69321"
+            }).then(
+              (result) => {
+                if (result.value) {
+                  this.router.navigate(['association']);
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+    
+                }
+              });
+          });
+      }
+     
       
    /* }
     else {

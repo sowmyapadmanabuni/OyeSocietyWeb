@@ -404,7 +404,7 @@
                 <a id="blocksuploadid1"> <img style="width: 100px;" class="excel" (click)="uploadblocks()" src="../../assets/images/upload.png"
                     matTooltip="UPLOAD"></a>
                 <a id="blocksuploadid" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
-                        src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
+                        src="../../assets/images/download.png" matTooltip="click to download demo excel format for blocks"></a>
                 <input #fileInput1 type="file" id="file_upload_id" (click)="fileInput1.value = null"
                     (change)="onFileChange($event,blockprogressbartemplate)"
                     accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -435,7 +435,7 @@
                 <div id="showmanual" style="margin-top: 30px;" style="display:none">
                     <a (click)="Clright()" class="go-right">Go Right</a> 
                     <a (click)="Clleft()" class="go-left">Go left</a>
-                    <p id="seperateblocks" style="text-align: right;font-weight: 700;" *ngIf="blocksArray.length > 11">scroll right to view more blocks <i class="fa fa-angle-right" aria-hidden="true"></i></p>
+                    <!-- <p id="seperateblocks" style="text-align: right;font-weight: 700;" *ngIf="blocksArray.length > 11">scroll right to view more blocks <i class="fa fa-angle-right" aria-hidden="true"></i></p> -->
                     <div class="tab-pane" style="margin-top: 6px;">
                         
                         <ul class="nav nav-tabs overflow-hidden" style="display: flex;overflow-x: scroll;    height: 42px;">
@@ -450,6 +450,8 @@
                                     <i [hidden]="objct['hasNoDuplicateBlockname']==true" class="fa fa-circle-thin" style="color: #ff0505" aria-hidden="true"></i>
                                 </a></li>
                         </ul>
+                    <p id="seperateblocks" style="text-align: right;font-family: system-ui;" *ngIf="blocksArray.length > 11">Scroll Right To View More Blocks <i class="fa fa-angle-right" aria-hidden="true"></i></p>
+
                         <div class="tab-content">
                             <div [ngStyle]="{'display':obj.Id==obj.blockTmpid ? 'block' : 'none' }" *ngFor="let obj of blocksArray;let i= index" class="tab-pane">
                                 <div id="{{obj.Id}}" class="blockdetailsdata" style="display: flex;flex-direction: column;align-items: stretch;justify-content: space-evenly;margin-top: 20px;">
@@ -1083,7 +1085,7 @@
                     <a id="unitsuploadid1"> <img style="width: 100px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
                         matTooltip="UPLOAD" ></a>
                     <a id="unitsuploadid" href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
-                            src="../../assets/images/download.png" matTooltip="click to download demo excel format"></a>
+                            src="../../assets/images/download.png" matTooltip="click to download demo excel format for units"></a>
                     <input #fileInput type="file" id="file_unitupload_id" (click)="fileInput.value = null"
                         (change)="onFileunitdetailschange($event,UpdateBlockUnitCountTemplate,unitprogressbartemplate)"
                         accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -1444,7 +1446,6 @@
                         <!-- <a (click)="Clleft()" class="go-left">Go left</a>&nbsp;&nbsp;&nbsp;
                         <a (click)="Clright()" class="go-right">Go Right</a> -->
                         &nbsp;&nbsp;
-                        <label style="font-weight: 700;position: absolute;left: 17%;">scroll right to view more units</label>
                     <ul class="nav col-md-2" id="leftTabs" style="margin-top: 48px;">
                         <li class="active" *ngFor="let item of blocksArray;let i=index" style="background: #5a51aa;color: #fff !important;border-radius: 10px;display: flex;align-items: center;justify-content: space-around;    margin-bottom: 2px;">
                         <a style="color: #fff !important;background: #5a51aa;" href="#{{item.Id}}" (click)="assignTmpid(item.Id,item.blockname)" data-toggle="tab">
@@ -1454,6 +1455,8 @@
                         </a>
                         </li>
                     </ul>
+                    <label style="font-family: system-ui;position: absolute;left: 17%;top: 20%;">Scroll Right To View More Units</label>                              
+
                     <div class="tab-content col-md-10">
                         <!-- <p id="seperateblocks" style="text-align: right;font-weight: 700;">scroll right to view more units <i class="fa fa-angle-right" aria-hidden="true"></i></p> -->
                         <div *ngFor="let iitem of blocksArray;let i=index">

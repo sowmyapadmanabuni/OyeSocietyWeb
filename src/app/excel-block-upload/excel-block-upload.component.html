@@ -27,7 +27,7 @@
                                         tooltip="Have more num of Blocks?"></a>
                                 <a id="blocksuploadid3" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 60px;" class="excel"
                                         src="../../assets/images/download.png"
-                                        tooltip="click to download demo excel format"></a>
+                                        tooltip="click to download demo excel format for blocks"></a>
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event,blockprogressbartemplate)" multiple="false"
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                     style="display:none" #file>
@@ -213,7 +213,6 @@
                         </div>
                     </div> -->
                     <div id="showmanual" style="margin-top: 30px;">
-                        <p id="seperateblocks"*ngIf="blocksArray.length > 11">scroll right to view more blocks</p>
                         <div class="tab-pane">
                             <ul class="nav nav-tabs" style="display: flex;overflow-x: scroll;height:54px;">
                                 <li *ngFor="let objct of blocksArray;let i= index" [ngClass]="{'active':objct.Id==objct.blockTmpid}" style="display: flex;justify-content: space-evenly;width: auto;"><a
@@ -237,6 +236,8 @@
                                         <i [hidden]="objct['hasNoDuplicateBlockname']==true" class="fa fa-circle-thin" style="color: #ff0505" aria-hidden="true"></i>
                                     </a></li>
                             </ul> -->
+                        <p id="seperateblocks" style="text-align: right;font-family: system-ui;"*ngIf="blocksArray.length > 11">Scroll Right To View More Blocks</p>
+
                             <div class="tab-content">
                                 <div [ngStyle]="{'display':obj.Id==obj.blockTmpid ? 'block' : 'none' }" *ngFor="let obj of blocksArray;let i= index" class="tab-pane">
                                     <div id="{{obj.Id}}" class="blockdetailsdata" style="display: flex;flex-direction: column;align-items: stretch;justify-content: space-evenly;margin-top: 20px;">
