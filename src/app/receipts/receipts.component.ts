@@ -208,7 +208,7 @@ export class ReceiptsComponent implements OnInit {
     this.pyVoucherNo=pyVoucherNo;
     this.pyBkDet=pyBkDet;
     console.log(pmid);
-    switch (pmid) {
+   /* switch (pmid) {
       case '1':
         this.PaymentInstrument = "Cash";
         break;
@@ -218,7 +218,8 @@ export class ReceiptsComponent implements OnInit {
       case '3':
         this.PaymentInstrument = "Demand Draft";
         break;
-    }
+    } */
+    this.PaymentInstrument = pmid;
     this.modalRef = this.modalService.show(Receipts,Object.assign({}, { class: 'gray modal-md' }));
   }
   setRows(RowNum) {
