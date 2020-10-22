@@ -793,7 +793,7 @@ export class InvoicesComponent implements OnInit {
         })
         console.log(this._discountedValue);
         console.log(this.InvoiceValue - this._discountedValue);
-        this.InvoiceValue = (this.InvoiceValue - this._discountedValue);
+        //this.InvoiceValue = (this.InvoiceValue - this._discountedValue);
        //let finalValueWithDiscount = this.InvoiceValue - this._discountedValue;
         //console.log(finalValueWithDiscount);
         this.modalRef = this.modalService.show(invoicePop,Object.assign({}, { class: 'gray modal-lg' }));
@@ -1494,6 +1494,7 @@ export class InvoicesComponent implements OnInit {
 
     }
     else{
+      this.ShowRecords='abc';
       this.PaginatedValue=0;
       $(document).ready(()=> {
         let element=document.querySelector('.page-item.active');
