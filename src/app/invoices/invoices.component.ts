@@ -1124,6 +1124,7 @@ export class InvoicesComponent implements OnInit {
     // return value.toString(10)
   }
   discount(discount: TemplateRef<any>, inid, inNumber, inTotVal) {
+    this.CreditOrDebit='Credit';
     this.isInValidZeroAmount=true;
     this.ValidateInvdescription=true;
     this.modalRef = this.modalService.show(discount,
@@ -1286,6 +1287,18 @@ export class InvoicesComponent implements OnInit {
       }
     })
   }
+  getPaymentmode(expensedataPMID){
+    switch(expensedataPMID){
+      case 1:
+        return 'Cash';
+      case 2:
+        return 'Cheque';
+      case 3:
+        return 'Demand Draft';
+      case 4:
+        return 'Online';
+    }
+  }
   generateInvoiceReceipt(){
     let paymentDesc;
     let paymentRefNo;
@@ -1318,7 +1331,7 @@ export class InvoicesComponent implements OnInit {
       "PYRefNo"  : paymentRefNo,
       "PYBkDet"  : this.expensedataBABName,
       "PYTax"    : "0",
-      "PMID"     : this.expensedataPMID,//1,
+      "PMID"     : this.getPaymentmode(this.expensedataPMID),//1,
       "PYAmtDue" : this.totalAmountDue,
       "PYDesc"   :paymentDesc,
       "PYVoucherNo" : this.receiptVoucherNo,
