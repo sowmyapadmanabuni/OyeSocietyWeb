@@ -100,3 +100,6 @@ a, a:hover, li a:hover {border-radius: 30px !important;}
         justify-content: flex-end;
         margin-bottom: 0px;
         align-items: center;}
+     #cancelpopup{
+         margin-right: 6px;
+     }

@@ -166,3 +166,6 @@ a, a:hover, li a:hover {border-radius: 30px !important;}
         from {bottom: 210px; opacity: 1;}
         to {bottom: 0; opacity: 0;}
         }
+        button#cancelpopup {
+            margin-right: 11px;
+        }

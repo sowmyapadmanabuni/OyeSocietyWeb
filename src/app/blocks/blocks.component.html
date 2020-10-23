@@ -11,7 +11,7 @@
             <div class="col-md-12 m-t-30 dash">
                 <div class="enr-bt">
                         <div class="enroll">
-                                <span class="purple">Blocks Management for {{globalService.getCurrentAssociationName()}}</span>                      
+                                <span class="purple">Blocks Management for {{globalService.getCurrentAssociationName()}}</span>
                         </div>
                         <div class="tab-opt">
                                 <ul class="nav nav-pills">
@@ -20,12 +20,12 @@
                                 </ul>
                         </div>
                 </div>
-               
 
 
 
 
-                
+
+
 
 
 
@@ -203,12 +203,12 @@
                                     [ngClass]="{'was-validated' : blocknameControl.invalid && blocknameControl.touched}">
                                     <label id=label1>Block Name<span class="red">*</span> </label>
                                     <input type="text" name="BLBlkName" id="input1" autocomplete='BLBlkName'
-                                    (keyup)="validateblockname($event,BLBlkName)" 
+                                    (keyup)="validateblockname($event,BLBlkName)"
                                         [(ngModel)]="BLBlkName" #blocknameControl="ngModel" class="form-control"
                                         placeholder="Block Name" pattern="[a-zA-Z0-9 _]*" required />
                                         <p class="alerts" *ngIf="validblockname">Valid
                                             blockname is required
-                                        </p>  
+                                        </p>
                                     <p class="alerts" *ngIf="blocknameControl.invalid && blocknameControl.touched">Valid
                                         name is required
                                     </p>
@@ -295,11 +295,11 @@
                         <!-- from here onwards Maintanace details related code -->
                          <div class="col-sm-12">
                             <hr>
-                        </div> 
+                        </div>
 
                         <div class="col-sm-12">
                             <h5 style="color:#e59400;">Maintenance details</h5>
-                        </div> 
+                        </div>
 
                          <div class="row" style="padding-left:15px;padding-right:15px;">
 
@@ -332,7 +332,7 @@
                                     </p>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                          <div class="row" style="padding-left:15px;padding-right:15px;">
                             <div class="col-sm-6 col-xs-12">
@@ -359,7 +359,7 @@
                                     </ng-container>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="row" style="padding-left:15px;padding-right:15px;">
 
@@ -435,15 +435,17 @@
                                      <ng-container *ngIf='enablestartfromdatevalidation'>
                                         <p class="red">Starts from date should be greater than or equal to
                                             due date</p>
-                                    </ng-container> 
+                                    </ng-container>
                                 </div>
 
                             </div>
 
-                        </div>  
+                        </div>
 
                         <div class="from-group">
                             <div class="form-group pull-right">
+                                <button type="submit" id = "cancelpopup" class="btn btn-primary-purple nextBtn" (click)="Canceleditblock()">Cancel</button>
+                                <!-- <button type="button" id = "cancelpopup" class="close" data-dismiss="modal">Cancel</button> -->
                                 <button type="submit" [disabled]='inValidUnitCount || validblockname || unitcountgreaterthanassociationcount || editBlockForm.invalid' class="btn btn-primary-purple nextBtn" (click)="UpdateBlock()">Update</button>
                             </div>
                         </div>

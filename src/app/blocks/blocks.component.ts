@@ -102,7 +102,9 @@ export class BlocksComponent implements OnInit {
   ASMtTypes:any[];
   inValidUnitCount:boolean;
   totalunitcount:number;
+  totalblockscount:number;
   unitcountgreaterthanassociationcount:boolean;
+  currentassndata;
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
     public viewAssnService: ViewAssociationService,
@@ -133,6 +135,8 @@ export class BlocksComponent implements OnInit {
         
         this.viewAssnService.getAssociationDetailsByAssociationid(this.globalService.getCurrentAssociationId()).subscribe(res => {
           console.log(res);
+          this.currentassndata = res;
+          this.totalblockscount = res['data']['association'].asNofBlks;
           this.totalunitcount = res['data']['association'].asNofUnit;
         })
           //console.log(res['data']['association']['amenities'][0].amType);
@@ -263,8 +267,88 @@ export class BlocksComponent implements OnInit {
   }
   addBlocksShow() {
     this.toggleStepWizard();
-    this.enableAddBlocksView = true;
+if(this.totalblockscount == this.allBlocksLists.length){
+  console.log(this.totalblockscount)
+  Swal.fire({
+    title: "Error",
+    text: "Blocks Count Exceeded"+ " "+"For The"+ " " +this.currentassndata.data.association.asAsnName + " " +"Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " "+'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " +"Before Adding Please Click On OK to Increase The Blocks/Units Count",
+    type: "error",
+    confirmButtonColor: "#f69321"
+  }).then(
+    (result) => {
+      console.log(result)
+      if (result.value) {
+        let EditAssociationData = {}
+        EditAssociationData['ASAsnName'] = this.currentassndata.data.association.asAsnName;
+        EditAssociationData['ASCountry'] = this.currentassndata.data.association.asCountry;
+        EditAssociationData['ASAddress'] = this.currentassndata.data.association.asAddress;
+        EditAssociationData['ASCity'] = this.currentassndata.data.association.asCity;
+        EditAssociationData['ASState'] = this.currentassndata.data.association.asState;
+        EditAssociationData['ASPinCode'] = this.currentassndata.data.association.asPinCode;
+        EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
+        EditAssociationData['ASPrpName'] = this.currentassndata.data.association.asPrpName;
+        EditAssociationData['ASNofBlks'] = this.currentassndata.data.association.asNofBlks;
+        EditAssociationData['ASNofUnit'] = this.currentassndata.data.association.asNofUnit;
+        EditAssociationData['asAssnID'] = this.currentassndata.data.association.asAssnID;
+        EditAssociationData['BAActID'] = '';
+        EditAssociationData['AMID'] = '';
+        EditAssociationData['AMType'] = '';
+        EditAssociationData['NoofAmenities'] = '';
+        EditAssociationData['ASPANNum'] = this.currentassndata.data.association.aspanNum;
+        EditAssociationData['asWebURL'] = this.currentassndata.data.association.asWebURL;
+        EditAssociationData['asAsnEmail'] = this.currentassndata.data.association.asAsnEmail;
+        EditAssociationData['BABName'] = "SBI";
+        EditAssociationData['BAIFSC'] = "iciic89898989";
+        EditAssociationData['BAActNo'] = "7654324567890";
+        EditAssociationData['BAActType'] = "savings";
+        EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
+// this.viewassn.EditAssociationData = this.currentassndata.data.association;
+let editAssociationData = {
+"ASAddress": this.currentassndata.data.association.asAddress,
+"ASCountry": this.currentassndata.data.association.asCountry,
+"ASAsnName": this.currentassndata.data.association.asAsnName,
+"ASPANNum": this.currentassndata.data.association.aspanNum,
+"ASRegrNum": "",
+"ASCity": this.currentassndata.data.association.asCity,
+"ASState": this.currentassndata.data.association.asState,
+"ASPinCode": this.currentassndata.data.association.asPinCode,
+"ASPrpName": this.currentassndata.data.association.asPrpName,
+"ASPrpType": this.currentassndata.data.association.asPrpType,
+"ASNofBlks": this.currentassndata.data.association.asNofBlks,
+"ASNofUnit": this.currentassndata.data.association.asNofUnit,
+"ASAssnID": this.currentassndata.data.association.asAssnID,
+"asWebURL": this.currentassndata.data.association.asWebURL,
+"asAsnEmail": this.currentassndata.data.association.asAsnEmail,
+"Amenities":
+  [{
+    "AMType": "Club",
+    "NoofAmenities": 2,
+    "AMID": "1"
+  }],
+
+"BankDetails": [{
+  "BABName": "SBI",
+  "BAIFSC": "iciic89898989",
+  "BAActNo": "7654324567890",
+  "BAActType": "savings",
+  "BAActID": "1"
+}]
+}
+this.viewAssnService.EditAssociationData = editAssociationData;
+
+console.log(this.viewAssnService.EditAssociationData)
+this.router.navigate(['editassociation']);
+
+      
+      }
+    })
+
+}else{
+  this.enableAddBlocksView = true;
     this.enableBlockListView = false;
+}
+  
+
   }
   onPageChange(event) {
     //console.log(event);
@@ -847,6 +931,10 @@ export class BlocksComponent implements OnInit {
   // UPLOAD BLOCK DATA FROM EXCEL
   upLoad() {
     document.getElementById("file_upload_id").click();
+  }
+  Canceleditblock(){
+    this.modalRef.hide();
+    
   }
   // below code is for the Excel file upload
   onFileChange(ev) {

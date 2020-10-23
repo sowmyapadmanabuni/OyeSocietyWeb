@@ -9,6 +9,7 @@ import { GlobalServiceService } from '../global-service.service';
 import { OrderPipe } from 'ngx-order-pipe';
 import * as XLSX from 'xlsx';
 import { Subscription } from 'rxjs';
+import { ViewAssociationService } from 'src/services/view-association.service';
 
 
 @Component({
@@ -108,9 +109,15 @@ export class UnitsComponent implements OnInit {
   SelectUnitType: string;
   PaginatedValue: number;
   id: number;
-
+  totalblockscount:number;
+  totalunitcount:number;
+  currentassndata;
+  totalunitcountblockwise:number;
+  unitsno:number;
   constructor(private router:Router,private viewUniService: ViewUnitService,
     private globalService: GlobalServiceService,
+    public viewAssnService: ViewAssociationService,
+
     private orderpipe: OrderPipe,private modalService: BsModalService) {
       this.PaginatedValue=10;
       this.rowsToDisplay=[{'Display':'5','Row':5},
@@ -137,7 +144,14 @@ export class UnitsComponent implements OnInit {
     this.occupency='Select occupency an....';
     this.occupencyInEditUnit='Select occupency an....';
     this.unitTypeForEdit='Select Unit Type';
-
+    this.totalunitcountblockwise = 0;
+    this.unitsno = 0;
+    this.viewAssnService.getAssociationDetailsByAssociationid(this.globalService.getCurrentAssociationId()).subscribe(res => {
+      console.log(res);
+      this.currentassndata = res;
+      this.totalblockscount = res['data']['association'].asNofBlks;
+      this.totalunitcount = res['data']['association'].asNofUnit;
+    })
     this.accountTypes = [
       { "name": "Saving" },
       { "name": "Current" }
@@ -187,7 +201,10 @@ export class UnitsComponent implements OnInit {
      pageChanged(event) {
       this.config.currentPage = event;
     }
-
+    Canceleditunit(){
+      this.modalRef.hide();
+      
+    }
   OpenModal(editUnits: TemplateRef<any>, unUnitID,item,unUniType, unOcStat, unDimens, unCalType,unRate, blBlockID, asAssnID, acAccntID, unUniName, undCreated) {
     this.SelectOccupancyOwnershipStatus = 'Select Occupancy Ownership Status';
     this.SelectUnitType = 'Select Unit Type';
@@ -652,10 +669,98 @@ export class UnitsComponent implements OnInit {
         confirmButtonText: "OK"
       })
     }
-    else{
-    this.toggleStepWizard();
-    this.viewUniService.addUnits = true;
-    this.viewUniService.unitList = false;
+    else {
+      this.allBlocksLists.forEach(data => {
+        this.totalunitcountblockwise += data.blNofUnit;
+        if (data.blBlockID == this.blBlockID) {
+          this.unitsno = data.blNofUnit;
+
+        }
+      })
+      if (this.totalunitcount == this.totalunitcountblockwise) {
+        if (this.allUnitBYBlockID1.length == this.unitsno) {
+          Swal.fire({
+            title: "Error",
+            text: "Units Count Exceeded" + " " + "For The" + " " + this.currentassndata.data.association.asAsnName + " " + "Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " " + 'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " + "Before Adding Please Click On OK to Increase The Blocks/Units Count",
+            type: "error",
+            confirmButtonColor: "#f69321"
+          }).then(
+            (result) => {
+              console.log(result)
+              if (result.value) {
+                let EditAssociationData = {}
+                EditAssociationData['ASAsnName'] = this.currentassndata.data.association.asAsnName;
+                EditAssociationData['ASCountry'] = this.currentassndata.data.association.asCountry;
+                EditAssociationData['ASAddress'] = this.currentassndata.data.association.asAddress;
+                EditAssociationData['ASCity'] = this.currentassndata.data.association.asCity;
+                EditAssociationData['ASState'] = this.currentassndata.data.association.asState;
+                EditAssociationData['ASPinCode'] = this.currentassndata.data.association.asPinCode;
+                EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
+                EditAssociationData['ASPrpName'] = this.currentassndata.data.association.asPrpName;
+                EditAssociationData['ASNofBlks'] = this.currentassndata.data.association.asNofBlks;
+                EditAssociationData['ASNofUnit'] = this.currentassndata.data.association.asNofUnit;
+                EditAssociationData['asAssnID'] = this.currentassndata.data.association.asAssnID;
+                EditAssociationData['BAActID'] = '';
+                EditAssociationData['AMID'] = '';
+                EditAssociationData['AMType'] = '';
+                EditAssociationData['NoofAmenities'] = '';
+                EditAssociationData['ASPANNum'] = this.currentassndata.data.association.aspanNum;
+                EditAssociationData['asWebURL'] = this.currentassndata.data.association.asWebURL;
+                EditAssociationData['asAsnEmail'] = this.currentassndata.data.association.asAsnEmail;
+                EditAssociationData['BABName'] = "SBI";
+                EditAssociationData['BAIFSC'] = "iciic89898989";
+                EditAssociationData['BAActNo'] = "7654324567890";
+                EditAssociationData['BAActType'] = "savings";
+                EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
+                // this.viewassn.EditAssociationData = this.currentassndata.data.association;
+                let editAssociationData = {
+                  "ASAddress": this.currentassndata.data.association.asAddress,
+                  "ASCountry": this.currentassndata.data.association.asCountry,
+                  "ASAsnName": this.currentassndata.data.association.asAsnName,
+                  "ASPANNum": this.currentassndata.data.association.aspanNum,
+                  "ASRegrNum": "",
+                  "ASCity": this.currentassndata.data.association.asCity,
+                  "ASState": this.currentassndata.data.association.asState,
+                  "ASPinCode": this.currentassndata.data.association.asPinCode,
+                  "ASPrpName": this.currentassndata.data.association.asPrpName,
+                  "ASPrpType": this.currentassndata.data.association.asPrpType,
+                  "ASNofBlks": this.currentassndata.data.association.asNofBlks,
+                  "ASNofUnit": this.currentassndata.data.association.asNofUnit,
+                  "ASAssnID": this.currentassndata.data.association.asAssnID,
+                  "asWebURL": this.currentassndata.data.association.asWebURL,
+                  "asAsnEmail": this.currentassndata.data.association.asAsnEmail,
+                  "Amenities":
+                    [{
+                      "AMType": "Club",
+                      "NoofAmenities": 2,
+                      "AMID": "1"
+                    }],
+
+                  "BankDetails": [{
+                    "BABName": "SBI",
+                    "BAIFSC": "iciic89898989",
+                    "BAActNo": "7654324567890",
+                    "BAActType": "savings",
+                    "BAActID": "1"
+                  }]
+                }
+                this.viewAssnService.EditAssociationData = editAssociationData;
+
+                console.log(this.viewAssnService.EditAssociationData)
+                this.router.navigate(['editassociation']);
+
+
+              }
+            })
+        }
+
+
+      } else {
+        this.toggleStepWizard();
+        this.viewUniService.addUnits = true;
+        this.viewUniService.unitList = false;
+      }
+
     }
   }
 
