@@ -1290,12 +1290,18 @@ export class InvoicesComponent implements OnInit {
   getPaymentmode(expensedataPMID){
     switch(expensedataPMID){
       case 1:
+        this.receiptChequeDate='';
+        this.receiptEXDDDate='';
         return 'Cash';
       case 2:
+        this.receiptEXDDDate='';
         return 'Cheque';
       case 3:
+        this.receiptChequeDate='';
         return 'Demand Draft';
       case 4:
+        this.receiptChequeDate='';
+        this.receiptEXDDDate='';
         return 'Online';
     }
   }
@@ -1322,24 +1328,24 @@ export class InvoicesComponent implements OnInit {
     }
     this.disableGenerateReceipt=true;
     let genReceipt = {
-      "PYAmtPaid": Number(this.totalamountPaid),
+      "PYAmtPaid": this.totalamountPaid,
       "INNumber": this.invoicenumber,
       "UNUnitID": this.receiptUnitID,
       "ASAssnID": Number(this.currentAssociationID),
       "PYDate":formatDate(new Date(), 'yyyy/MM/dd', 'en'),
       "MEMemID"  : "1",
-      "PYRefNo"  : paymentRefNo,
+      "PYRefNo"  : "sfg54658",
       "PYBkDet"  : this.expensedataBABName,
       "PYTax"    : "0",
       "PMID"     : this.getPaymentmode(this.expensedataPMID),//1,
-      "PYAmtDue" : this.totalAmountDue,
-      "PYDesc"   :paymentDesc,
+      //"PYAmtDue" : this.totalAmountDue,
+      "PYDesc"   :"PaymentMade",
       "PYVoucherNo" : this.receiptVoucherNo,
       "PYChqNo" : this.receiptChequeNo,
-      "PYChqDate" :formatDate((this.receiptChequeDate==''?new Date():this.receiptChequeDate),'yyyy/MM/dd', 'en'),
+      "PYChqDate" :(this.receiptChequeDate !=''?formatDate(this.receiptChequeDate,'yyyy/MM/dd', 'en'):''),
       "PYDDNo"   :this.receiptddNo,
-      "PYDDDate":formatDate((this.receiptEXDDDate==''?new Date():this.receiptEXDDDate),'yyyy/MM/dd', 'en'),
-      "BLBlockID" : this.blockid
+      "PYDDDate":(this.receiptEXDDDate != ''?formatDate(this.receiptEXDDDate,'yyyy/MM/dd', 'en'):''),
+      "BLBlockID" : `${this.blockid}`
   }
  
     console.log(genReceipt);
@@ -1374,7 +1380,7 @@ export class InvoicesComponent implements OnInit {
         confirmButtonColor: "#f69321",
         confirmButtonText: "OK"
       })
-    })
+    }) 
 
   }
   getInvoiceListByDateRange(InvoiceEndDate){
