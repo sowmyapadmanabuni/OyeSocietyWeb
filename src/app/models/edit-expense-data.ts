@@ -17,4 +17,5 @@ export class EditExpenseData {
     inNumber:string;
     EXChqDate:Date;
     EXChqNo:string;
+    EXAddedBy:string;
 }

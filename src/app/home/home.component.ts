@@ -290,8 +290,8 @@ export class HomeComponent implements OnInit {
 
       // }
       this.amt = res['data']['payments'].filter(item => {
-        //console.log(item);
         if (item['pyStat'] == "Due") {
+          console.log(item);
           return item['pyAmtDue'];
         }
       })

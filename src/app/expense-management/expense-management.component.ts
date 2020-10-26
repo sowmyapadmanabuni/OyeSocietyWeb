@@ -648,7 +648,7 @@ export class ExpenseManagementComponent implements OnInit {
     //console.log('repexpense1-', repexpense1);
     //console.log('idx-', idx);
   }
-  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD,exDisType) {
+  openModal(editexpensetemplate: TemplateRef<any>, exid: number, exDesc: any, expAmnt: string, exApplTO, exHead, exType, pmid, inNumber, poid, exPyCopy, exRecurr, exdUpdated, blBlockID, unUniIden, exIsInvD,exDisType,exAddedBy) {
     console.log(exIsInvD);
     if (exIsInvD== false) {
       //console.log('purchaseOrders',this.purchaseOrders);
@@ -663,6 +663,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(exType);
       console.log(pmid);
       console.log(unUniIden);
+      console.log(exAddedBy);
       console.log(new Date(exdUpdated));
       console.log(new Date(exdUpdated).getDate());
       console.log(new Date(exdUpdated).getMonth());
@@ -691,6 +692,7 @@ export class ExpenseManagementComponent implements OnInit {
       this.editexpensedata.BLBlockID = blBlockID;
       this.editexpensedata.unUniIden = unUniIden;
       this.editexpensedata.EXDisType = exDisType;
+      this.editexpensedata.EXAddedBy = exAddedBy;
       console.log(this.editexpensedata);
       this.checkField="xyz";
       //this.editexpensedata.PMID = '';
