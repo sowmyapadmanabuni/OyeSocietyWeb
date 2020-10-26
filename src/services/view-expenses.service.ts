@@ -292,6 +292,16 @@ export class ViewExpensesService {
 
     return this.http.post(scopeIP + 'oyeliving/api/v1/Expense/ExpenseListByDatesAndID/', JSON.stringify(expenseList) , {headers:headers});
   }
+  DeleteExpense(exid){
+    let scopeIP=this.utilsService.getIPaddress();
+    let headers = this.getHttpheaders(); 
+    let exid_req_body = {
+      "EXID" :Number(exid)
+  }
+  console.log(exid_req_body);
+    return this.http.post('http://devapi.scuarex.com/oyeliving/api/v1/Expense/ExpenseIsActiveStatusUpdate', JSON.stringify(exid_req_body) , {headers:headers});
+    //return this.http.post(scopeIP + 'oyeliving/api/v1/Expense/ExpenseIsActiveStatusUpdate', JSON.stringify(exid_req_body) , {headers:headers});
+  }
   getHttpheaders(): HttpHeaders {
     const headers = new HttpHeaders()
       .set('Authorization', 'my-auth-token')

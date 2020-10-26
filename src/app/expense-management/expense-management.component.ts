@@ -1129,6 +1129,15 @@ export class ExpenseManagementComponent implements OnInit {
     //
     }
   }
+  DeleteExpense(exid) {
+    this.viewexpenseservice.DeleteExpense(exid)
+      .subscribe(res => {
+        console.log(res);
+      },
+        err => {
+          console.log(err);
+        })
+  }
   getExpenseListByDatesAndID() {
     //console.log(this.ExpSDate, this.ExpEDate);
     let expenseList = {
