@@ -363,10 +363,11 @@ export class ExcelUnitUploadComponent implements OnInit {
                         this.isExcelDataExceed=true;	
                         console.log('this.isExcelDataExceed=true');
                         Swal.fire({
-                          title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
+                          title: "Please Check uploaded no of units" + " " + exceldata.length + " "+ "should not more than given no of units for perticualar Block",
                           text: "",
                           confirmButtonColor: "#f69321",
-                          confirmButtonText: "OK"
+                          confirmButtonText: "OK",
+                          allowOutsideClick:false
                         })
                         //document.getElementById('uploadexcelscreen').style.display = 'block'
                        // document.getElementById('unitsbulkold').style.display = 'none'

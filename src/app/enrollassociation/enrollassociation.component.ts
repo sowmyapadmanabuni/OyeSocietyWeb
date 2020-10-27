@@ -110,6 +110,7 @@ export class EnrollassociationComponent implements OnInit {
     private router:Router,
     private modalService: BsModalService, private formBuilder: FormBuilder,
     private ViewBlockService: ViewBlockService) {
+    //this.countrylist();
       this.isunitdetailsempty = true;
       this.okaycontinuebutton='';
       this.fileName = "No file chosen...";
@@ -2855,11 +2856,11 @@ export class EnrollassociationComponent implements OnInit {
           }
           Swal.fire({
             title: displaymessage,
-            text: "",
             type: "success",
             showCancelButton: this.exitblocksbuttonshow,
             confirmButtonColor: "#f69321",
             confirmButtonText: this.okaycontinuebutton,
+            text:"OR",
             cancelButtonText: 'EXIT',
             allowOutsideClick:false
           }).then(
@@ -3348,7 +3349,7 @@ export class EnrollassociationComponent implements OnInit {
       else {
         $(".se-pre-con").fadeOut("slow");
         Swal.fire({
-          title: "Please Check uploaded no of blocks should not more than given no of blocks",
+          title: "Please Check uploaded no of blocks Count is" + " " + this.excelBlockList.length + " " + "should not more than given total no of blocks",
           text: "",
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK",
@@ -6174,7 +6175,7 @@ this.canDoBlockLogicalOrder=true;
                   this.isExcelDataExceed = true;
                   console.log('this.isExcelDataExceed=true');
                   Swal.fire({
-                    title: "Please Check uploaded no of units should not more than given no of units for perticualar Block",
+                    title: "Please Check uploaded no of units" + " " + exceldata.length + " "+ "should not more than given no of units for perticualar Block",
                     text: "",
                     confirmButtonColor: "#f69321",
                     confirmButtonText: "OK",
@@ -6608,6 +6609,7 @@ this.canDoBlockLogicalOrder=true;
           confirmButtonColor: '#f69321',
           showCancelButton: true,
           confirmButtonText: 'CONTINUE',
+          text:"OR",
           cancelButtonText: 'EXIT',
           allowOutsideClick:false
         }).then(

@@ -387,3 +387,12 @@ a.MANUAL{
     display: flex !important;
     align-items: center !important;
 }
+div#swal2-content {
+    position: relative;
+    top: 35px;
+    left: 13px;
+}
+button.swal2-cancel.swal2-styled {
+    position: relative;
+    left: 3px;
+}

@@ -2383,7 +2383,7 @@ this.canDoBlockLogicalOrder=true;
         $(".se-pre-con").fadeOut("slow");
 
         Swal.fire({
-          title: "Please Check uploaded no of blocks should not more than given no of blocks",
+          title: "Please Check uploaded no of blocks Count is" + " " + this.excelBlockList.length + " " + "should not more than given total no of blocks",
           text: "",
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK",
