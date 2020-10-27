@@ -1132,13 +1132,27 @@ export class ExpenseManagementComponent implements OnInit {
     }
   }
   DeleteExpense(exid) {
-    this.viewexpenseservice.DeleteExpense(exid)
-      .subscribe(res => {
-        console.log(res);
-      },
-        err => {
-          console.log(err);
-        })
+    swal.fire({
+      title: "Are you sure delete Expense?",
+      text: "",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "Yes",
+      cancelButtonText:"No",
+      showCancelButton: true,
+      cancelButtonColor: "#f69321"
+    }).then(
+      (result) => {
+        if (result.value) {
+          this.viewexpenseservice.DeleteExpense(exid)
+          .subscribe(res => {
+            console.log(res);
+            this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
+          },
+            err => {
+              console.log(err);
+            })
+        }
+      })
   }
   getExpenseListByDatesAndID() {
     //console.log(this.ExpSDate, this.ExpEDate);

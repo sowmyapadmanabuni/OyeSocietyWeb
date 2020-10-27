@@ -299,8 +299,8 @@ export class ViewExpensesService {
       "EXID" :Number(exid)
   }
   console.log(exid_req_body);
-    return this.http.post('http://devapi.scuarex.com/oyeliving/api/v1/Expense/ExpenseIsActiveStatusUpdate', JSON.stringify(exid_req_body) , {headers:headers});
-    //return this.http.post(scopeIP + 'oyeliving/api/v1/Expense/ExpenseIsActiveStatusUpdate', JSON.stringify(exid_req_body) , {headers:headers});
+    //return this.http.post('http://devapi.scuarex.com/oyeliving/api/v1/Expense/ExpenseDeleteUpdate', JSON.stringify(exid_req_body) , {headers:headers});
+    return this.http.post(scopeIP + 'oyeliving/api/v1/Expense/ExpenseDeleteUpdate', JSON.stringify(exid_req_body) , {headers:headers});
   }
   getHttpheaders(): HttpHeaders {
     const headers = new HttpHeaders()
