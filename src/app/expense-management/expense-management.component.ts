@@ -136,6 +136,7 @@ export class ExpenseManagementComponent implements OnInit {
   togglegenerateinvAll:boolean;
   checkedForGenerateInvoiceCount:number;
   filterExpenseHead:any;
+  isExpenseDeleted:boolean;
 
   constructor(public viewexpenseservice: ViewExpensesService,
     private modalService: BsModalService,
@@ -150,6 +151,7 @@ export class ExpenseManagementComponent implements OnInit {
     private utilsService:UtilsService,
     private http: HttpClient
   ) {
+    this.isExpenseDeleted= false;
     this.filterExpenseHead='Select Expense Head';
     this.togglegenerateinvAll=false;
     this.checkedForGenerateInvoiceCount=0;
@@ -460,7 +462,12 @@ export class ExpenseManagementComponent implements OnInit {
         console.log(this.expenseList);
         this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
         this._viewexpensesByBlockId=this.expenseList;
-        this.GetexpenseListByInvoiceID('id','All','abc');
+        if(this.isExpenseDeleted){
+          this.GetexpenseListByInvoiceID(false,'toggleNo','');
+        }
+        else{
+          this.GetexpenseListByInvoiceID('id','All','abc');
+        }
        })
 
     this.getAllUnitDetailsByBlockID();
@@ -1120,11 +1127,13 @@ export class ExpenseManagementComponent implements OnInit {
     //
       if (param == 'toggleYes') {
         this.toggleTd = false;
+        this.isExpenseDeleted= false;
       }
       else if (param == 'toggleNo') {
         this.toggleTd = true;
       }
       else if (param == 'All') {
+        this.isExpenseDeleted= false;
         this.toggleTd = false;
       }
       else if (param == 'AllExp') {
@@ -1148,6 +1157,7 @@ export class ExpenseManagementComponent implements OnInit {
           this.viewexpenseservice.DeleteExpense(exid)
           .subscribe(res => {
             console.log(res);
+            this.isExpenseDeleted = true;
             this.GetExpenseListByBlockID(this.viewexpenseservice.currentBlockId, this.viewexpenseservice.currentBlockName);
           },
             err => {
