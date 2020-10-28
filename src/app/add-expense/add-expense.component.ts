@@ -538,7 +538,7 @@ export class AddExpenseComponent implements OnInit {
           )
         },
         (err) => {
-          ////console.log(err);
+          console.log(err);
           swal.fire('Error', 'Something went wrong!', 'error')
         }
       );
@@ -546,6 +546,7 @@ export class AddExpenseComponent implements OnInit {
 
   showMethod(PMID: string,displayName) {
     ////console.log(displayName);
+    
     switch (displayName) {
       case 'Cash':
         this.expensedata.PMID = 1;
