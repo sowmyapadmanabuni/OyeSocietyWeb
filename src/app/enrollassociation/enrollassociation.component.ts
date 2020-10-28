@@ -2862,7 +2862,22 @@ export class EnrollassociationComponent implements OnInit {
             confirmButtonText: this.okaycontinuebutton,
             text:"OR",
             cancelButtonText: 'EXIT',
-            allowOutsideClick:false
+            allowOutsideClick:false,
+            customClass: {
+              container: 'container-class',
+              popup: 'popup-class',
+              header: 'header-class',
+              title: 'title-class',
+              closeButton: 'close-button-class',
+              icon: 'icon-class',
+              image: 'image-class',
+              content: 'content-class',
+              input: 'input-class',
+              actions: 'actions-class',
+              confirmButton: 'confirm-button-class',
+              cancelButton: 'cancel-button-class',
+              footer: 'footer-class'
+            }
           }).then(
             (result) => {
               if (result.value) {
@@ -6611,7 +6626,22 @@ this.canDoBlockLogicalOrder=true;
           confirmButtonText: 'CONTINUE',
           text:"OR",
           cancelButtonText: 'EXIT',
-          allowOutsideClick:false
+          allowOutsideClick:false,
+          customClass: {
+            container: 'container-class',
+            popup: 'popup-class',
+            header: 'header-class',
+            title: 'title-class',
+            closeButton: 'close-button-class',
+            icon: 'icon-class',
+            image: 'image-class',
+            content: 'content-class',
+            input: 'input-class',
+            actions: 'actions-class',
+            confirmButton: 'confirm-button-class',
+            cancelButton: 'cancel-button-class',
+            footer: 'footer-class'
+          }
         }).then(
           (result) => {
             console.log(result)
