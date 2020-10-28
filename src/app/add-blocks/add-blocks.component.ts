@@ -491,24 +491,24 @@ ASMtType:any;
               (result) => {
                 if (result.value) {
 
-                  // let createUnitData =
-                  // {
-                  //   "ASAssnID": this.currentAssociationID,
-                  //   "ACAccntID": this.currentaccountID,
-                  //   "units": [
-                  //     {
-                  //       "UNUniName": this.blockname + "-" + "Common",
-                  //       "UNUniType": '',
-                  //       "UNRate": '',
-                  //       "UNOcStat": '',
-                  //       "UNOcSDate": '',
-                  //       "UNOwnStat": '',
-                  //       "UNSldDate": '',
-                  //       "UNDimens": '',
-                  //       "UNCalType": '',
-                  //       "BLBlockID": data['data'].blockID,
-                  //       "Owner1":
-                  //       {
+                 /* let createUnitData =
+                  {
+                    "ASAssnID": this.currentAssociationID,
+                    "ACAccntID": this.currentaccountID,
+                    "units": [
+                      {
+                        "UNUniName": this.blockname + "-" + "Common",
+                        "UNUniType": '',
+                        "UNRate": '',
+                        "UNOcStat": '',
+                        "UNOcSDate": '',
+                        "UNOwnStat": '',
+                        "UNSldDate": '',
+                        "UNDimens": '',
+                        "UNCalType": '',
+                        "BLBlockID": data['data'].blockID,
+                        "Owner1":
+                        {
               
                   //         "UOFName": '',
                   //         "UOLName": '',
@@ -542,23 +542,19 @@ ASMtType:any;
                   //             "MEMemID": '',
                   //             "UPGPSPnt": ''
               
-                  //           }
-                  //         ]
-                  //     }
-                  //   ]
-                  // }
+                            }
+                          ]
+                      }
+                    ]
+                  }
 
-                  // this.viewUniService.createUnit(createUnitData).subscribe(data => {
-                  //   console.log(data);
-                  //   this.EnableBlockListView.emit('EnableBlockList');
-                  //   },
-                  //   err => {
-                  //     console.log(err);
-                  //   })
-
-                  //this.router.navigate(['home/viewBlocks']);
+                  this.viewUniService.createUnit(createUnitData).subscribe(data => {
+                    console.log(data);
                     this.EnableBlockListView.emit('EnableBlockList');
-
+                    },
+                    err => {
+                      console.log(err);
+                    }) */
                 }
               })
           }

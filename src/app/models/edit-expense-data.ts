@@ -14,7 +14,7 @@ export class EditExpenseData {
     EXPyCopy  : string;
     PMID      : string;
     POID:number;
-    inNumber:string;
+    INNumber:string;
     EXChqDate:Date;
     EXChqNo:string;
     EXAddedBy:string;
