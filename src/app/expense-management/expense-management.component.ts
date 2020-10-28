@@ -664,6 +664,7 @@ export class ExpenseManagementComponent implements OnInit {
       console.log(pmid);
       console.log(unUniIden);
       console.log(exAddedBy);
+      console.log(inNumber);
       console.log(new Date(exdUpdated));
       console.log(new Date(exdUpdated).getDate());
       console.log(new Date(exdUpdated).getMonth());
@@ -677,6 +678,7 @@ export class ExpenseManagementComponent implements OnInit {
       let formattedDate = new Date(new Date(exdUpdated).getFullYear(), new Date(exdUpdated).getMonth(), new Date(exdUpdated).getDate(), 12, 0, 0);
       console.log(formattedDate);
       console.log(formatDate(formattedDate, 'dd/MM/yyyy', 'en'));
+      this.editexpensedata.ASAssnID = Number(this.globalservice.getCurrentAssociationId());
       this.editexpensedata.EXID = exid;
       this.editexpensedata.EXDesc = exDesc;
       this.editexpensedata.EXPAmnt = expAmnt;
@@ -684,7 +686,7 @@ export class ExpenseManagementComponent implements OnInit {
       this.editexpensedata.EXHead = exHead;
       this.editexpensedata.EXType = exType;
       this.editexpensedata.PMID = pmid;
-      this.editexpensedata.inNumber = exid.toString();
+      this.editexpensedata.INNumber = inNumber;
       this.editexpensedata.POID = poid;
       this.editexpensedata.EXPyCopy = '';
       this.editexpensedata.EXRecurr = exRecurr;
