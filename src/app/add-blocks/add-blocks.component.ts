@@ -491,7 +491,7 @@ ASMtType:any;
               (result) => {
                 if (result.value) {
 
-                  let createUnitData =
+                 /* let createUnitData =
                   {
                     "ASAssnID": this.currentAssociationID,
                     "ACAccntID": this.currentaccountID,
@@ -554,9 +554,7 @@ ASMtType:any;
                     },
                     err => {
                       console.log(err);
-                    })
-
-                  //this.router.navigate(['home/viewBlocks']);
+                    }) */
                 }
               })
           }
