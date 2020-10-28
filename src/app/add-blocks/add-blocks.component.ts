@@ -491,72 +491,74 @@ ASMtType:any;
               (result) => {
                 if (result.value) {
 
-                  let createUnitData =
-                  {
-                    "ASAssnID": this.currentAssociationID,
-                    "ACAccntID": this.currentaccountID,
-                    "units": [
-                      {
-                        "UNUniName": this.blockname + "-" + "Common",
-                        "UNUniType": '',
-                        "UNRate": '',
-                        "UNOcStat": '',
-                        "UNOcSDate": '',
-                        "UNOwnStat": '',
-                        "UNSldDate": '',
-                        "UNDimens": '',
-                        "UNCalType": '',
-                        "BLBlockID": data['data'].blockID,
-                        "Owner1":
-                        {
+                  // let createUnitData =
+                  // {
+                  //   "ASAssnID": this.currentAssociationID,
+                  //   "ACAccntID": this.currentaccountID,
+                  //   "units": [
+                  //     {
+                  //       "UNUniName": this.blockname + "-" + "Common",
+                  //       "UNUniType": '',
+                  //       "UNRate": '',
+                  //       "UNOcStat": '',
+                  //       "UNOcSDate": '',
+                  //       "UNOwnStat": '',
+                  //       "UNSldDate": '',
+                  //       "UNDimens": '',
+                  //       "UNCalType": '',
+                  //       "BLBlockID": data['data'].blockID,
+                  //       "Owner1":
+                  //       {
               
-                          "UOFName": '',
-                          "UOLName": '',
-                          "UOMobile": '',
-                          "UOISDCode": '',
-                          "UOEmail": '',
-                          "UOCDAmnt": ''
-                        },
-                        "unitbankaccount":
-                        {
-                          "UBName": '',
-                          "UBIFSC": '',
-                          "UBActNo": '',
-                          "UBActType": '',
-                          "UBActBal": '',
-                          "BLBlockID": data['data'].blockID
-                        },
-                      "Tenant1":
-                        {
+                  //         "UOFName": '',
+                  //         "UOLName": '',
+                  //         "UOMobile": '',
+                  //         "UOISDCode": '',
+                  //         "UOEmail": '',
+                  //         "UOCDAmnt": ''
+                  //       },
+                  //       "unitbankaccount":
+                  //       {
+                  //         "UBName": '',
+                  //         "UBIFSC": '',
+                  //         "UBActNo": '',
+                  //         "UBActType": '',
+                  //         "UBActBal": '',
+                  //         "BLBlockID": data['data'].blockID
+                  //       },
+                  //     "Tenant1":
+                  //       {
               
-                          "UTFName":'',
-                          "UTLName": '',
-                          "UTMobile": '',
-                          "UTISDCode": '',
-                          "UTEmail": ''
-                        },
-                        "UnitParkingLot":
-                          [
-                            {
-                              "UPLNum": '',
-                              "MEMemID": '',
-                              "UPGPSPnt": ''
+                  //         "UTFName":'',
+                  //         "UTLName": '',
+                  //         "UTMobile": '',
+                  //         "UTISDCode": '',
+                  //         "UTEmail": ''
+                  //       },
+                  //       "UnitParkingLot":
+                  //         [
+                  //           {
+                  //             "UPLNum": '',
+                  //             "MEMemID": '',
+                  //             "UPGPSPnt": ''
               
-                            }
-                          ]
-                      }
-                    ]
-                  }
+                  //           }
+                  //         ]
+                  //     }
+                  //   ]
+                  // }
 
-                  this.viewUniService.createUnit(createUnitData).subscribe(data => {
-                    console.log(data);
-                    this.EnableBlockListView.emit('EnableBlockList');
-                    },
-                    err => {
-                      console.log(err);
-                    })
+                  // this.viewUniService.createUnit(createUnitData).subscribe(data => {
+                  //   console.log(data);
+                  //   this.EnableBlockListView.emit('EnableBlockList');
+                  //   },
+                  //   err => {
+                  //     console.log(err);
+                  //   })
 
                   //this.router.navigate(['home/viewBlocks']);
+                    this.EnableBlockListView.emit('EnableBlockList');
+
                 }
               })
           }
