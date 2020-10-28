@@ -281,7 +281,12 @@ button.swal2-confirm.swal2-styled {
 .swal2-popup.swal2-modal.swal2-show {
     width: 316px;
 }
-div#swal2-content {
+/* div#swal2-content {
+    position: relative;
+    top: 36px;
+    left: 14px;
+} */
+.content-class{
     position: relative;
     top: 36px;
     left: 14px;
