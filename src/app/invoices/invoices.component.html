@@ -137,6 +137,12 @@
                                                <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)" style="cursor: pointer; font-size: 12px;">Adjustments</a> | 
                                                <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
                                         </span> 
+                                        <span *ngIf="item['inPaid'] == 'UnPaid'">
+                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
+                                               <a tooltip="Mail Invoice" (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)" style="cursor: pointer; font-size: 12px;">Send Reminder </a> | 
+                                               <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)" style="cursor: pointer; font-size: 12px;">Adjustments</a> | 
+                                               <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
+                                        </span> 
                                         <!-- <span *ngIf="item['inPaid'] == 'No'">
                                            | <button tooltip="View Invoice" class="smallBtn"
                                             (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID)">

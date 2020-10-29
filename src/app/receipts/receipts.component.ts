@@ -119,7 +119,7 @@ export class ReceiptsComponent implements OnInit {
     this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
     .subscribe(data=>{
       console.log(data['data']['payments']);
-      this.viewPayments=data['data']['payments']
+      //this.viewPayments=data['data']['payments']
       this.viewPaymentList=data['data']['payments']
     });
     this.generatereceiptservice.GetBlockListByAssocID(this.currentAssociationID)
@@ -186,9 +186,20 @@ export class ReceiptsComponent implements OnInit {
     //   $('#example').DataTable();
     // });
   }
-  getCurrentBlockName(blBlkName) {
+  getCurrentBlockName(blBlkName,blBlockID) {
     this.currentBlockName = blBlkName;
     this.toggleUL=true;
+    this.viewPayments=[];
+    this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
+    .subscribe(data=>{
+      console.log(data['data']['payments']);
+      console.log(blBlockID);
+      this.viewPayments=data['data']['payments']
+      this.viewPayments = this.viewPayments.filter(item=>{
+        //console.log(item['blBlockID']);
+        return item['blBlockID'] == blBlockID;
+      })
+    });
   }
   gotoGenerateReceipt(){
     this.router.navigate(['home/generatereceipt']);
