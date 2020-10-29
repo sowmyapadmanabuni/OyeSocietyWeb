@@ -90,7 +90,7 @@
       <!--Details Panel-->
 
       <table class="table table-bordered"
-        [mfData]="allpaymentdetails | search:['unUnitID', 'pyDesc', 'pyDate','pyAmtDue']:searchTxt"
+        [mfData]="allpaymentdetails | search:['unUniName']:searchTxt"
         #mf="mfDataTable" (click)="onPageChange($event)" [mfRowsOnPage]="setnoofrows=='All Records'?allpaymentdetails.length:setnoofrows">
 
         <thead>
