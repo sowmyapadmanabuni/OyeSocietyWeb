@@ -45,7 +45,8 @@ export class EditAssociationComponent implements OnInit {
   invalidASNofBlksCount:boolean;
   invalidASNofUnitCount:boolean;
   disableBlockandUnitUpdatebutton:boolean;
-
+  filechosen:boolean;
+  filechosenpan:boolean;
   constructor(public viewAssnService: ViewAssociationService,private http: HttpClient,private formBuilder: FormBuilder,private modalService: BsModalService,
     private router: Router) {
       this.invalidASNofBlksCount = false;
@@ -55,11 +56,14 @@ export class EditAssociationComponent implements OnInit {
     this.ASNofUnitTemp = Number(this.viewAssnService.EditAssociationData['ASNofUnit']);
     this.fileName='No file chosen...';
     this.PANfileName ='No file chosen...';
+    console.log(viewAssnService.EditAssociationData['ASLogoName'])
     this.hidechooseFile1=true;
     this.hidePANchooseFile1=true;
     this.newamenities = [];
+    this.filechosen = false;
+    this.filechosenpan = false;
     console.log(this.viewAssnService.EditAssociationData);
-
+    this.thumbnailASAsnLogo = this.viewAssnService.EditAssociationData['ASAsnLogo']
    this.countryname="India"
      this.countries = [
       { "name": "Afghanistan" }, { "name": "Algeria" }, { "name": "Argentina" }, { "name": "Australia" }, { "name": "Austria" },
@@ -162,6 +166,7 @@ export class EditAssociationComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       console.log(file);
+      this.viewAssnService.EditAssociationData['ASLogoName'] = file.name;
       this.uploadForm.get('profile').setValue(file);
       this.processFile();
     }
@@ -179,12 +184,14 @@ export class EditAssociationComponent implements OnInit {
   modalRef: BsModalRef;
   ImgForPopUp:any;
   UploadedImage: any;
-  showImgOnPopUp(UploadedImagetemplate,thumbnailASAsnLogo,displayText){
-    if(thumbnailASAsnLogo!=undefined){
-    this.ImgForPopUp=thumbnailASAsnLogo;
-    this.UploadedImage=displayText;
-    this.modalRef = this.modalService.show(UploadedImagetemplate,Object.assign({}, { class: 'gray modal-lg' }));
-    }
+  showImgOnPopUp(ev, UploadedImagetemplate, thumbnailASAsnLogo, displayText) {
+    ev.preventDefault();
+    //if (thumbnailASAsnLogo != undefined) {
+    this.ImgForPopUp = thumbnailASAsnLogo;
+    this.UploadedImage = displayText;
+    this.modalRef = this.modalService.show(UploadedImagetemplate, Object.assign({}, { class: 'gray modal-lg' }));
+    //}
+
   }
   ngOnInit() {
     this.createForm();
@@ -594,6 +601,7 @@ export class EditAssociationComponent implements OnInit {
       this.thumbnailASAsnLogo = reader.result;
       this.ASAsnLogo = this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64') + 3);
          console.log(this.ASAsnLogo);
+    this.filechosen = true;
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
@@ -677,7 +685,7 @@ export class EditAssociationComponent implements OnInit {
     // this.pancardnameoriginal=false
     this.uploadPanForm.reset();
     this.imgfilename ='';
-    this.showImgOnPopUp(ev,undefined,'')
+    this.showImgOnPopUp(ev,undefined,'','')
         }
       })
 
@@ -692,10 +700,10 @@ export class EditAssociationComponent implements OnInit {
   imgfilename;
   onPanFileSelect(event) {
     if (event.target.files.length > 0) {
-
       const file = event.target.files[0];
+      this.viewAssnService.EditAssociationData['ASPDocName'] = file.name;
       console.log(file);
-      this.imgfilename = file.name;
+      // this.imgfilename = file.name;
       this.uploadPanForm.get('panProfile').setValue(file);
       this.processPanFile();
     }
@@ -715,6 +723,7 @@ export class EditAssociationComponent implements OnInit {
       //console.log(this.ASAsnLogo.indexOf('64')+1);
       //console.log((this.ASAsnLogo.substring(this.ASAsnLogo.indexOf('64')+3)));
       console.log(this.uploadPANCard);
+      this.filechosenpan = true;
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);

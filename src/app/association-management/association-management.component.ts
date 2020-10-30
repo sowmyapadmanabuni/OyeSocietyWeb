@@ -366,7 +366,7 @@ export class AssociationManagementComponent implements OnInit {
       { "name": "quaterly", "displayName": "Quaterly" },
       { "name": "Annually", "displayName": "Annually" }
     ];
-
+console.log(this.associations)
     this.frequencies = [
       { "name": "Monthly", "displayName": "Monthly" },
       { "name": "Quarterly", "displayName": "Quarterly" },
@@ -582,7 +582,7 @@ export class AssociationManagementComponent implements OnInit {
   // })
   if(this.openeditassn){
     this.openeditassn = this.viewAssnService.addblockstoeditassn;
-    this.OpenModal(undefined,this.openeditassn.asAsnName, this.openeditassn.asCountry, this.openeditassn.asAddress, this.openeditassn.asCity, this.openeditassn.asState, this.openeditassn.asPinCode, this.openeditassn.asPrpType,this.openeditassn.asAsnLogo, this.openeditassn.asPrpName, this.openeditassn.aspanNum,this.openeditassn.aspanDoc,this.openeditassn.asgstNo,this.openeditassn.asNofBlks, this.openeditassn.asNofUnit, this.openeditassn.amType, this.openeditassn.noofAmenities, this.openeditassn.baBName, this.openeditassn.baIFSC, this.openeditassn.baActNo, this.openeditassn.baActType, this.openeditassn.asAssnID, this.openeditassn.BAActID, this.openeditassn.AMID,this.openeditassn.asWebURL,this.openeditassn.asAsnEmail)
+    this.OpenModal(undefined,this.openeditassn.asAsnName, this.openeditassn.asCountry, this.openeditassn.asAddress, this.openeditassn.asCity, this.openeditassn.asState, this.openeditassn.asPinCode, this.openeditassn.asPrpType,this.openeditassn.asAsnLogo, this.openeditassn.asLogoName,this.openeditassn.aspDocName,this.openeditassn.asPrpName, this.openeditassn.aspanNum,this.openeditassn.aspanDoc,this.openeditassn.asgstNo,this.openeditassn.asNofBlks, this.openeditassn.asNofUnit, this.openeditassn.amType, this.openeditassn.noofAmenities, this.openeditassn.baBName, this.openeditassn.baIFSC, this.openeditassn.baActNo, this.openeditassn.baActType, this.openeditassn.asAssnID, this.openeditassn.BAActID, this.openeditassn.AMID,this.openeditassn.asWebURL,this.openeditassn.asAsnEmail)
    
   }
 
@@ -2920,7 +2920,7 @@ this.enblJoinAsnVew()
 
 
 
-  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType,asAsnLogo, asPrpName, aspanNum,aspanDoc,asgstNo,asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID,asWebURL,asAsnEmail) {
+  OpenModal(template: TemplateRef<any>, asAsnName: string, asCountry: string, asAddress: string, asCity: string, asState, asPinCode, asPrpType,asAsnLogo,asLogoName, aspDocName,asPrpName, aspanNum,aspanDoc,asgstNo,asNofBlks, asNofUnit, amType, noofAmenities, baBName, baIFSC, baActNo, baActType, asAssnID, BAActID, AMID,asWebURL,asAsnEmail) {
     //console.log('amType-', amType, 'noofAmenities-', noofAmenities);
     let EditAssociationData = {};
     this.ASAsnName = asAsnName;
@@ -2990,6 +2990,7 @@ this.enblJoinAsnVew()
       console.log(res['data']['association']['asPrpType']);
       this.ASPrpType = res['data']['association']['asPrpType'];
       //
+      console.log(asAsnLogo)
       EditAssociationData['ASAsnName'] = asAsnName;
       EditAssociationData['ASCountry'] = asCountry;
       EditAssociationData['ASAddress'] = asAddress;
@@ -3000,6 +3001,11 @@ this.enblJoinAsnVew()
       EditAssociationData['ASPrpName'] = asPrpName;
       EditAssociationData['ASNofBlks'] = asNofBlks;
       EditAssociationData['ASNofUnit'] = asNofUnit;
+      EditAssociationData['ASAsnLogo'] = asAsnLogo;
+      EditAssociationData['ASLogoName'] = asLogoName;
+      console.log(EditAssociationData['ASLogoName'])
+      EditAssociationData['ASPDocName'] = aspDocName;
+
       EditAssociationData['asAssnID'] = asAssnID;
       EditAssociationData['BAActID'] = BAActID;
       EditAssociationData['AMID'] = AMID;
@@ -3021,6 +3027,8 @@ this.enblJoinAsnVew()
         "ASState": asState,
         "ASPinCode": asPinCode,
         "ASPrpName": asPrpName,
+        "ASLogoName":asLogoName,
+        "ASPDocName":aspDocName,
         "ASPrpType": asPrpType,
         "ASNofBlks": asNofBlks,
         "ASNofUnit": asNofUnit,

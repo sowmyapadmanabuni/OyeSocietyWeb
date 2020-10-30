@@ -517,29 +517,39 @@
                           
                           
                       </form> -->
-                      <form *ngIf="fileName!='No file chosen...'" [formGroup]="uploadForm" class="association-form">
+                      <!-- <div class="col-sm-3 np" *ngIf="fileName!='No file chosen...'">
+                        <p class="view-head"><b>Uploaded File</b></p>
+                        <img id="icon" src="{{'data:image/png;base64,'+ fileName}}">
+                      </div> -->
+
+                      <form *ngIf="filechosen == false" [formGroup]="uploadForm" class="association-form">
                         <div class="file-upload">
                           <label class="control-label" style="width: 100%;text-align: center;">Upload Association logo</label>
                           <div class="file-select">
                             <div class="file-select-button" (click)="openFileinput()" id="fileName">Choose File
                             </div>
-                            <div class="file-select-name" id="noFile"><a href="#"
-                                (click)="showImgOnPopUp($event,UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')">{{fileName}}</a>
-                            </div>
+                            <!-- <div class="file-select-name" id="noFile"><a href="#"
+                                (click)="showImgOnPopUp($event,UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')">{{viewAssnService.EditAssociationData['ASLogoName']}}</a>
+                            </div> -->
+                             <div class="file-select-name" id="noFile">{{viewAssnService.EditAssociationData['ASLogoName']}}</div> 
+
                             <input type="file" [ngStyle]="{'display':hidechooseFile1 ? 'none' : 'block' }" (change)="onFileSelect($event)"
                               name="chooseFile1" id="chooseFile1">
                           </div>
                         </div>
-                      </form>
+                      </form> 
                       
-                      <form *ngIf="fileName=='No file chosen...'" [formGroup]="uploadForm" class="association-form">
+                      <form *ngIf="filechosen == true" [formGroup]="uploadForm" class="association-form">
                         <div class="file-upload">
                           <label class="control-label" style="width: 100%;text-align: center;">Upload Association logo</label>
                           <div class="file-select">
                             <div class="file-select-button" id="fileName">Choose File
                             </div>
-                            <div class="file-select-name" id="noFile">{{fileName}}</div>
-                            <input type="file" (change)="onFileSelect($event)" name="chooseFile" id="chooseFile">
+                            <div class="file-select-name" id="noFile"><a href="#"
+                              (click)="showImgOnPopUp($event,UploadedImagetemplate,thumbnailASAsnLogo,'Association Image')">{{viewAssnService.EditAssociationData['ASLogoName']}}</a>
+                          </div>
+                            <!-- <div class="file-select-name" id="noFile">{{viewAssnService.EditAssociationData['ASLogoName']}}</div> -->
+                            <!-- <input type="file" (change)="onFileSelect($event)" name="chooseFile" id="chooseFile"> -->
                           </div>
                         </div>
                       </form>
@@ -601,28 +611,32 @@
                 
                 <span class="note">Upload Logo of Max 2MB and formats allowed are: PNG,JPG and
                     Resolution of 128*128</span> -->
-                    <form *ngIf="PANfileName!='No file chosen...'" [formGroup]="uploadPanForm" class="association-form">
+                    <form *ngIf="filechosenpan == false" [formGroup]="uploadPanForm" class="association-form">
                       <div class="file-upload">
                           <label class="control-label" style="width: 100%;text-align: center;">Upload Scanned Pan Card</label>
                           <div class="file-select">
                               <div class="file-select-button" (click)="openPANFileinput()" id="PANfileName">Choose File
                               </div>
-                              <div class="file-select-name" id="noFile"><a href="#"
-                                      (click)="showImgOnPopUp($event,UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')">{{PANfileName}}</a>
-                              </div>
+                              <!-- <div class="file-select-name" id="noFile"><a href="#"
+                                      (click)="showImgOnPopUp($event,UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')">{{viewAssnService.EditAssociationData['ASPDocName']}}</a>
+                              </div> -->
+                              <div class="file-select-name" id="noFile">{{viewAssnService.EditAssociationData['ASPDocName']}}</div>
+
                               <input type="file" [ngStyle]="{'display':hidePANchooseFile1 ? 'none' : 'block' }"
                                   (change)="onPanFileSelect($event)" name="panProfile1" id="panProfile1">
                           </div>
                       </div>
                   </form>
-                  <form *ngIf="PANfileName=='No file chosen...'" [formGroup]="uploadPanForm" class="association-form">
+                  <form *ngIf="filechosenpan == true" [formGroup]="uploadPanForm" class="association-form">
                       <div class="file-upload">
                           <label class="control-label" style="width: 100%;text-align: center;">Upload Scanned Pan Card</label>
                           <div class="file-select">
                               <div class="file-select-button" id="fileName">Choose File
                               </div>
-                              <div class="file-select-name" id="noFile">{{PANfileName}}</div>
-                              <input type="file" (change)="onPanFileSelect($event)" name="panProfile" id="panProfile">
+                              <div class="file-select-name" id="noFile"><a href="#"
+                                (click)="showImgOnPopUp($event,UploadedImagetemplate,uploadPANCardThumbnail,'PAN Card Scanned Copy')">{{viewAssnService.EditAssociationData['ASPDocName']}}</a>
+                        </div>
+                              <!-- <input type="file" (change)="onPanFileSelect($event)" name="panProfile" id="panProfile"> -->
                           </div>
                       </div>
                   </form>
@@ -1068,7 +1082,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <img src="{{ImgForPopUp}}"/>
+      <img style="width: 100%;" src="{{ImgForPopUp}}"/>
     </div>
   </div>
 </ng-template>
