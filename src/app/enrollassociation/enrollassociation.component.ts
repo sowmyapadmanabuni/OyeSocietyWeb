@@ -6582,9 +6582,6 @@ this.canDoBlockLogicalOrder=true;
           "ASFaceDet": "True",
           "ASPANDoc": (this.uploadPANCard == undefined ? '' : this.uploadPANCard),
           "ASGSTNo": "",
-          "ASNofGuard": 2, // this is to capture no of guards under association
-          "ASPDocName": this.PANfileName,
-          "ASLogoName": this.fileName,
           "BankDetails": [
             {
               "BABName": "AXIS",
