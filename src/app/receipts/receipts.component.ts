@@ -11,6 +11,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { formatDate } from '@angular/common';
 import { AddExpenseService } from '../../services/add-expense.service';
+import * as _ from 'lodash';
 
 
 declare var $: any;
@@ -199,6 +200,7 @@ export class ReceiptsComponent implements OnInit {
         //console.log(item['blBlockID']);
         return item['blBlockID'] == blBlockID;
       })
+      this.viewPayments = _.sortBy(this.viewPayments,'pydCreated').reverse();
     });
   }
   gotoGenerateReceipt(){
