@@ -522,13 +522,13 @@ export class InvoicesComponent implements OnInit {
     this.viewinvoiceservice.getCurrentBlockDetails(blBlockID,this.globalservice.getCurrentAssociationId())
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
-        this.invoiceLists = _.sortBy(this.invoiceLists, e => e['inGenDate']).reverse();
+        this.invoiceLists = _.sortBy(this.invoiceLists, 'inGenDate').reverse();
         this.PaidUnpaidinvoiceLists=this.invoiceLists;
         console.log('invoiceLists?', this.invoiceLists);
         this.generatereceiptservice.ReceiptListArrayForComapreWithExcel=this.invoiceLists;
         //
-        this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
-        console.log(this.sortedCollection);
+        // this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
+        // console.log(this.sortedCollection);
         this.toggleUL=true;
       },
         err => {
