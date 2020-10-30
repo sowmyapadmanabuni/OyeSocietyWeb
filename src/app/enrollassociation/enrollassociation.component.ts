@@ -6564,8 +6564,8 @@ this.canDoBlockLogicalOrder=true;
           "ASPrpName": this.propertyname,
           "ASPrpType": this.propertytype,
           "ASNofGuard" : 2, // this is to capture no of guards under association
-          "ASPDocName" : this.PANfileName,
-          "ASLogoName" : this.fileName,
+          "ASPDocName" : (this.PANfileName == undefined ? '' : this.PANfileName),
+          "ASLogoName" : (this.fileName == undefined ? '' : this.fileName),
           "ASRegrNum": "367",
           "ASMtDimBs": 1.55,
           "ASWebURL": (this.url == undefined ? '' : this.url),
