@@ -124,21 +124,21 @@
                                 </ng-container>
                                 <ng-container *ngIf="item!=-1">
                                     <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
-                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">{{item['unit']['unUniName']}}</td>
-                                    <td class="txt-middle" style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">{{item['inNumber']}}</td>
-                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
-                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">
+                                    <td style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unUniName'])">{{item['unUniName']}}</td>
+                                    <td class="txt-middle" style="cursor: pointer;" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unUniName'])">{{item['inNumber']}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unUniName'])">{{item['inGenDate'] | date:"dd-MM-yyyy"}}</td>
+                                    <td style="cursor: pointer;" class="amount" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unUniName'])">
                                         <i class="fa fa-inr"></i> {{item['inTotVal']}}.00
                                     </td>
                                     <td class="amount">
                                         <span *ngIf="item['inPaid'] == 'No'">
-                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
+                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unUniName'])" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
                                                <a tooltip="Mail Invoice" (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)" style="cursor: pointer; font-size: 12px;">Send Reminder </a> | 
                                                <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)" style="cursor: pointer; font-size: 12px;">Adjustments</a> | 
                                                <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
                                         </span> 
                                         <span *ngIf="item['inPaid'] == 'UnPaid'">
-                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
+                                               <a tooltip="View Invoice" (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unUniName'])" style="cursor: pointer; font-size: 12px;">View Invoice</a> | 
                                                <a tooltip="Mail Invoice" (click)="sendInvoiceInMail(item.inid,item.unUnitID,item.ineSent,item.blBlockID)" style="cursor: pointer; font-size: 12px;">Send Reminder </a> | 
                                                <a tooltip="Discounts" (click)="discount(discountModal,item.inid,item.inNumber,item.inTotVal)" style="cursor: pointer; font-size: 12px;">Adjustments</a> | 
                                                <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer; font-size: 12px;">Generate Receipt</a>
@@ -159,7 +159,7 @@
                                         </span> -->
                                         <span *ngIf="item['inPaid'] == 'Yes'">
                                             <button tooltip="View Invoice" class="smallBtn"
-                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unit']['unUniName'])">
+                                            (click)="viewInvoice1($event,invoicePop,item.inid,item.inGenDate,item.inNumber,item.inDsCVal,item.unUnitID,item['unUniName'])">
                                                <a style="cursor: pointer; font-size: 12px;">View Invoice </a>
                                             </button> <!--|-->
                                             <!-- <a (click)="OpenViewReceiptModal(ViewReceiptTemplate, item['unUnitID'],item['inid'],item['inNumber'],item['inTotVal'],item['inPaid'],item['inDisType'],item['indCreated'])" tooltip="View Receipt" style="cursor: pointer; font-size: 12px;">View Receipt</a> -->
