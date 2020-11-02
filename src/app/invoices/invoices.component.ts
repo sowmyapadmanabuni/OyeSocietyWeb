@@ -523,7 +523,22 @@ export class InvoicesComponent implements OnInit {
       .subscribe(data => {
         this.invoiceLists = data['data'].invoices;
         this.invoiceLists = _.sortBy(this.invoiceLists, 'inGenDate').reverse();
-        this.PaidUnpaidinvoiceLists=this.invoiceLists;
+        //this.PaidUnpaidinvoiceLists=this.invoiceLists;
+        this.invoiceLists.forEach(item=>{
+          this.PaidUnpaidinvoiceLists.push({
+            'unUnitID':item['unUnitID'], 
+            'inNumber':item['inNumber'],
+             'inGenDate':item['inGenDate'],
+             'inTotVal':item['inTotVal'],
+             'unUniName':item['unit']['unUniName'],
+             'inid':item['inid'],
+             'inDsCVal':item['inDsCVal'],
+             'ineSent':item['ineSent'],
+             'blBlockID':item['blBlockID'],
+             'inAmtPaid':item['inAmtPaid'],
+             'inPaid':item['inPaid']
+          })
+        })
         console.log('invoiceLists?', this.invoiceLists);
         this.generatereceiptservice.ReceiptListArrayForComapreWithExcel=this.invoiceLists;
         //
@@ -1298,7 +1313,7 @@ export class InvoicesComponent implements OnInit {
         return 'Cheque';
       case 3:
         this.receiptChequeDate='';
-        return 'Demand Draft';
+        return 'DemandDraft';
       case 4:
         this.receiptChequeDate='';
         this.receiptEXDDDate='';
@@ -1663,15 +1678,19 @@ export class InvoicesComponent implements OnInit {
     switch (displayName) {
       case 'Cash':
         this.expensedataPMID = 1;
+        console.log(this.expensedataPMID);
         break;
       case 'Cheque':
         this.expensedataPMID = 2;
+        console.log(this.expensedataPMID);
         break;
-      case 'Demand Draft':
+      case 'DemandDraft':
         this.expensedataPMID = 3;
+        console.log(this.expensedataPMID);
         break;
       case 'OnlinePay':
         this.expensedataPMID = 4;
+        console.log(this.expensedataPMID);
         break;
     }
 

@@ -460,7 +460,7 @@ export class ExpenseManagementComponent implements OnInit {
         this.expenseList=data['data']['expenseByBlock'];
         this.expenseListTemp=data['data']['expenseByBlock'];
         console.log(this.expenseList);
-        this.expenseList = _.sortBy(this.expenseList, e => e['exdUpdated']).reverse();
+        this.expenseList = _.sortBy(this.expenseList,'exDate').reverse();
         this._viewexpensesByBlockId=this.expenseList;
         if(this.isExpenseDeleted){
           this.GetexpenseListByInvoiceID(false,'toggleNo','');
