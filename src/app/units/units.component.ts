@@ -661,47 +661,12 @@ export class UnitsComponent implements OnInit {
   }
   totalblockwisepresentedunits:number=0;
   currentBLockUnitCount:number=0;
-  addUnitsShow() {
-    if(this.blBlkName=='Select Block Name'){
-      Swal.fire({
-        title: "Please Select Block",
-        text: "",
-        type: "error",
-        confirmButtonColor: "#f69321",
-        confirmButtonText: "OK"
-      })
-    }
-    else {
-      //console.log(this.allUnitBYBlockID1.length);
-      console.log(this.unitsno);
-      console.log(this.blockID);
-        this.allBlocksLists.forEach((data,index) => {
-        ((index) => {
-          setTimeout(() => {
-            console.log(data.blBlockID);
-            console.log(data.blNofUnit);
-            this.viewUniService.GetUnitListByBlockID(data.blBlockID)
-            .subscribe(data1 => {
-              console.log(data1);
-              console.log(data1['data']);
-              console.log(data1['data']['unitsByBlockID']);
-                this.totalblockwisepresentedunits += Number(data1['data']['unitsByBlockID'].length);
-                this.totalunitcountblockwise += data.blNofUnit;
-                if (data.blBlockID == this.blockID) {
-                  this.currentBLockUnitCount = Number(data1['data']['unitsByBlockID'].length);
-                  this.unitsno = data.blNofUnit;
-                }
-          })
-          }, 1000 * index)
-        })(index)
-    })
-    setTimeout(() => {
-      console.log(this.totalblockwisepresentedunits);
-      //console.log(this.allUnitBYBlockID1.length);
+  checktoopenaddunits(){
+    console.log(this.totalblockwisepresentedunits);
       console.log(this.unitsno);
       console.log(this.totalunitcountblockwise);
       console.log(this.currentBLockUnitCount);
-        if (this.totalblockwisepresentedunits == this.totalunitcountblockwise) {
+        if ((this.totalblockwisepresentedunits == this.totalunitcountblockwise)&&(this.totalblockwisepresentedunits!=0)) {
           if (this.currentBLockUnitCount == this.unitsno) {
   
             Swal.fire({
@@ -737,7 +702,6 @@ export class UnitsComponent implements OnInit {
                   EditAssociationData['BAActNo'] = "7654324567890";
                   EditAssociationData['BAActType'] = "savings";
                   EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
-                  // this.viewassn.EditAssociationData = this.currentassndata.data.association;
                   let editAssociationData = {
                     "ASAddress": this.currentassndata.data.association.asAddress,
                     "ASCountry": this.currentassndata.data.association.asCountry,
@@ -779,7 +743,7 @@ export class UnitsComponent implements OnInit {
               })
           }
         } 
-        else if (this.currentBLockUnitCount == this.unitsno) {
+        else if ((this.currentBLockUnitCount == this.unitsno)&&(this.currentBLockUnitCount!=0)) {
           Swal.fire({
             title: "Error",
             text: "Units Count Exceeded" + " " + "For The" + " " + this.currentassndata.data.association.asAsnName + " " + "Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " " + 'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " + "Before Adding Please Click On OK to Increase The Blocks/Units Count",
@@ -813,7 +777,6 @@ export class UnitsComponent implements OnInit {
                 EditAssociationData['BAActNo'] = "7654324567890";
                 EditAssociationData['BAActType'] = "savings";
                 EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
-                // this.viewassn.EditAssociationData = this.currentassndata.data.association;
                 let editAssociationData = {
                   "ASAddress": this.currentassndata.data.association.asAddress,
                   "ASCountry": this.currentassndata.data.association.asCountry,
@@ -859,7 +822,56 @@ export class UnitsComponent implements OnInit {
           this.viewUniService.addUnits = true;
           this.viewUniService.unitList = false;
         }
-    }, this.allBlocksLists.length * 1500 );
+  }
+  addUnitsShow() {
+    if(this.blBlkName=='Select Block Name'){
+      Swal.fire({
+        title: "Please Select Block",
+        text: "",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        confirmButtonText: "OK"
+      })
+    }
+    else {
+      console.log(this.unitsno);
+      console.log(this.blockID); this.toggleStepWizard();
+      // this.viewUniService.addUnits = true;
+      // this.viewUniService.unitList = false;
+      this.allBlocksLists.forEach(data => {
+
+        console.log(data.blBlockID);
+        console.log(data.blNofUnit);
+        this.viewUniService.GetUnitListByBlockID(data.blBlockID)
+          .subscribe(data1 => {
+            console.log(data1);
+            console.log(data1['data']);
+            console.log(data1['data']['unitsByBlockID']);
+            this.totalblockwisepresentedunits += Number(data1['data']['unitsByBlockID'].length);
+            this.totalunitcountblockwise += data.blNofUnit;
+            if (data.blBlockID == this.blockID) {
+              this.currentBLockUnitCount = Number(data1['data']['unitsByBlockID'].length);
+              this.unitsno = data.blNofUnit;
+              this.checktoopenaddunits();
+
+            }
+
+          }, error => {
+            console.log(error);
+            this.toggleStepWizard();
+            this.viewUniService.addUnits = true;
+            this.viewUniService.unitList = false;
+          })
+          // if (data.blBlockID == this.blockID) {
+
+          //   this.toggleStepWizard();
+          //   this.viewUniService.addUnits = true;
+          //   this.viewUniService.unitList = false;
+          // }
+      })
+    // setTimeout(() => {
+  
+    // }, this.allBlocksLists.length * 1500 );
     }
   }
 

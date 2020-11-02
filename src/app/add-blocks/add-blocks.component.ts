@@ -555,6 +555,8 @@ ASMtType:any;
                     err => {
                       console.log(err);
                     }) */
+                    this.EnableBlockListView.emit('EnableBlockList');
+
                 }
               })
           }
