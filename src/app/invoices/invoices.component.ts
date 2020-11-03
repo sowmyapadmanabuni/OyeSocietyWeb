@@ -139,6 +139,7 @@ export class InvoicesComponent implements OnInit {
   allUnitBYBlockID:any[];
   chequeNo: string;
   PaidUnpaidinvoiceLists:any[];
+  PaidUnpaidinvoiceListsTemp:any[];
   residentInvoiceList:any[];
   toggle:any;
   invoicenumber:any;
@@ -267,6 +268,7 @@ export class InvoicesComponent implements OnInit {
     this.BankName = 'Bank';
     this.viewinvoiceservice.invoiceBlock = '';
     this.PaidUnpaidinvoiceLists=[];
+    this.PaidUnpaidinvoiceListsTemp=[];
     this.residentInvoiceList=[];
     this.toggle='All';
     this.paymentMethodType='Select Payment Method';
@@ -513,6 +515,7 @@ export class InvoicesComponent implements OnInit {
     this.p=1;
     this.toggleDrpdown=false;
     this.PaidUnpaidinvoiceLists=[];
+    this.PaidUnpaidinvoiceListsTemp=[];
     this.UnitName='';
     this.viewinvoiceservice.invoiceBlock = blBlkName;
     this.viewinvoiceservice.invoiceBlockId = blBlockID;
@@ -540,6 +543,7 @@ export class InvoicesComponent implements OnInit {
           })
         })
         console.log('invoiceLists?', this.invoiceLists);
+        this.PaidUnpaidinvoiceListsTemp = this.PaidUnpaidinvoiceLists;
         this.generatereceiptservice.ReceiptListArrayForComapreWithExcel=this.invoiceLists;
         //
         // this.sortedCollection = this.orderpipe.transform(this.invoiceLists, 'unUnitID');
@@ -1402,7 +1406,8 @@ export class InvoicesComponent implements OnInit {
     console.log(InvoiceEndDate);
     if (InvoiceEndDate != null) {
       console.log(this.invoiceLists);
-      this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      //this.PaidUnpaidinvoiceLists = this.invoiceLists;
+      this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceListsTemp;
       console.log(new Date(this.InvoiceStartDate).getTime());
       //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
       console.log(new Date(InvoiceEndDate).getTime());
@@ -1541,14 +1546,16 @@ export class InvoicesComponent implements OnInit {
         paid = 'No';
       }
       if(paid == 'Yes' || paid == 'No'){
-        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        //this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceListsTemp;
         this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
           return item['inPaid'] == paid;
         })
       console.log(this.PaidUnpaidinvoiceLists);
       }
       if(param == 'All'){
-        this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        //this.PaidUnpaidinvoiceLists = this.invoiceLists;
+        this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceListsTemp;
       }
     }
 
@@ -1757,7 +1764,8 @@ export class InvoicesComponent implements OnInit {
   getCurrentUnitDetails(unUnitID,unUniName){
     this.p=1;
       this.UnitName=unUniName;
-      this.PaidUnpaidinvoiceLists=this.invoiceLists;
+      //this.PaidUnpaidinvoiceLists=this.invoiceLists;
+      this.PaidUnpaidinvoiceLists=this.PaidUnpaidinvoiceListsTemp;
       this.PaidUnpaidinvoiceLists = this.PaidUnpaidinvoiceLists.filter(item => {
         return item['unUnitID'] == unUnitID;
       })
