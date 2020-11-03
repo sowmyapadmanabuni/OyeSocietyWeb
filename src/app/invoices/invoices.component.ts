@@ -511,6 +511,29 @@ export class InvoicesComponent implements OnInit {
       return false;
     }
   }
+  onPaidUnpaidinvoiceListsKeypressd(){
+    let element=null;
+    console.log(this.searchTxt);
+    if(this.searchTxt == ''){
+      this.p=1;
+      element = document.querySelector('.page-item.active');
+      element.click();
+    }
+    this.PaidUnpaidinvoiceLists.forEach(item=>{
+      if(item['unUniName'].toLowerCase()==this.searchTxt.toLowerCase()){
+        element = document.querySelector('.page-item.active');
+        console.log(element);
+        console.log(typeof element);
+        if(element == null){
+          this.p=1;
+        }
+      }
+    })
+    if(element != null){
+      console.log(element);
+      element.click();
+    }
+  }
   getCurrentBlockDetails(blBlockID, blBlkName) {
     this.p=1;
     this.toggleDrpdown=false;
