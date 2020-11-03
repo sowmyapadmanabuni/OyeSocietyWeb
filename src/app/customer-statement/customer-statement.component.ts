@@ -104,6 +104,7 @@ export class CustomerStatementComponent implements OnInit {
         return item['unUniName'] == this.UnitNameForDisplay;
       })
     }
+    this.p = 1;
   }
   getpaymentdetails() {
     this.viewreportservice.getpaymentdetails(this.currentAssociationID).subscribe((data) => {
