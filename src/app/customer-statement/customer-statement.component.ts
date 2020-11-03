@@ -192,9 +192,26 @@ export class CustomerStatementComponent implements OnInit {
     }
   }
   onAllpaymentdetailsKeypressd(){
+    let element=null;
     console.log(this.searchTxt);
     if(this.searchTxt == ''){
       this.p=1;
+      element = document.querySelector('.page-item.active');
+      element.click();
+    }
+    this.allpaymentdetails.forEach(item=>{
+      if(item['unUniName'].toLowerCase()==this.searchTxt.toLowerCase()){
+        element = document.querySelector('.page-item.active');
+        console.log(element);
+        console.log(typeof element);
+        if(element == null){
+          this.p=1;
+        }
+      }
+    })
+    if(element != null){
+      console.log(element);
+      element.click();
     }
   }
   viewCustDetail() {
@@ -275,30 +292,34 @@ export class CustomerStatementComponent implements OnInit {
             console.log(err);
           })
   }
-  getCurrentUnitDetails(unUnitID,unUniName){
-    this.allpaymentdetailsTemp =[];
-    this.UnitNameForDisplay=unUniName;
+  getCurrentUnitDetails(unUnitID, unUniName) {
+    this.allpaymentdetailsTemp = [];
+    this.UnitNameForDisplay = unUniName;
     console.log(this.displaypaymentdetails);
-    this.allpaymentdetails=this.displaypaymentdetails;
+    this.allpaymentdetails = this.displaypaymentdetails;
     this.allpaymentdetails = this.allpaymentdetails.filter(item => {
       return item['unUnitID'] == unUnitID;
     })
     this.allpaymentdetailsTemp = this.allpaymentdetails;
     console.log(this.allpaymentdetails)
-        //
-        if(this.PaymentStatus == 'Due'){
-          //this.allpaymentdetails = this.displaypaymentdetails
-          //this.allpaymentdetails=this.displaypaymentdetails;
-          this.allpaymentdetails = this.allpaymentdetails.filter(item => {
-            return item['pyStat'] == 'Due';
-          })
-        }
-        else if(this.PaymentStatus == 'Paid'){
-          //this.allpaymentdetails = this.displaypaymentdetails
-          //this.allpaymentdetails=this.displaypaymentdetails;
-          this.allpaymentdetails = this.allpaymentdetails.filter(item => {
-            return item['pyStat'] == 'Paid';
-          })
-        }
+    //
+    if (this.PaymentStatus == 'Due') {
+      //this.allpaymentdetails = this.displaypaymentdetails
+      //this.allpaymentdetails=this.displaypaymentdetails;
+      this.allpaymentdetails = this.allpaymentdetails.filter(item => {
+        return item['pyStat'] == 'Due';
+      })
+    }
+    else if (this.PaymentStatus == 'Paid') {
+      //this.allpaymentdetails = this.displaypaymentdetails
+      //this.allpaymentdetails=this.displaypaymentdetails;
+      this.allpaymentdetails = this.allpaymentdetails.filter(item => {
+        return item['pyStat'] == 'Paid';
+      })
+    }
+    let element = null;
+    this.p = 1;
+    // element = document.querySelector('.page-item.active');
+    // element.click();
   }
 }
