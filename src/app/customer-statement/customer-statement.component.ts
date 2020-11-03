@@ -4,7 +4,8 @@ import { GlobalServiceService } from '../global-service.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { DashBoardService } from '../../services/dash-board.service';
 import { Subscription } from 'rxjs';
-import {ViewInvoiceService} from '../../services/view-invoice.service'
+import {ViewInvoiceService} from '../../services/view-invoice.service';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -108,7 +109,7 @@ export class CustomerStatementComponent implements OnInit {
     this.viewreportservice.getpaymentdetails(this.currentAssociationID).subscribe((data) => {
       this.allpaymentdetails = data['data']['payments'];
       this.displaypaymentdetails = data['data']['payments'];
-      
+      this.allpaymentdetails = _.sortBy(this.allpaymentdetails,'pydCreated').reverse();
       console.log('allpaymentdetails', this.allpaymentdetails);
     })
   }
@@ -155,27 +156,27 @@ export class CustomerStatementComponent implements OnInit {
     //console.log(event);
     //console.log(this.p);
     //console.log(event['srcElement']['text']);
-    if(event['srcElement']['text'] == '1'){
-      this.p=1;
+    if (event['srcElement']['text'] == '1') {
+      this.p = 1;
     }
-    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
-        //console.log('test');
-        //console.log(Number(event['srcElement']['text']) == NaN);
-        //console.log(Number(event['srcElement']['text']));
-        let element=document.querySelector('.page-item.active');
-    //console.log(element.children[0]['text']);
-        this.p= Number(element.children[0]['text']);
+    if ((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)) {
+      //console.log('test');
+      //console.log(Number(event['srcElement']['text']) == NaN);
+      //console.log(Number(event['srcElement']['text']));
+      let element = document.querySelector('.page-item.active');
+      //console.log(element.children[0]['text']);
+      this.p = Number(element.children[0]['text']);
       //console.log(this.p);
-    } 
-    if(event['srcElement']['text'] == '«'){
+    }
+    if (event['srcElement']['text'] == '«') {
       //console.log(this.p);
-      this.p= 1;
+      this.p = 1;
     }
     //console.log(this.p);
-    let element=document.querySelector('.page-item.active');
+    let element = document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    if(element != null){
-      this.p=Number(element.children[0]['text']);
+    if (element != null) {
+      this.p = Number(element.children[0]['text']);
       console.log(this.p);
       if (this.ShowRecords != 'Show Records') {
         console.log('testtt');
@@ -185,10 +186,17 @@ export class CustomerStatementComponent implements OnInit {
         //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
         //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
         console.log(this.p);
-        this.PaginatedValue=(this.setnoofrows=='All Records'?this.allpaymentdetails.length:this.setnoofrows);
+        this.PaginatedValue = (this.setnoofrows == 'All Records' ? this.allpaymentdetails.length : this.setnoofrows);
         console.log(this.PaginatedValue);
       }
-    }  }
+    }
+  }
+  onAllpaymentdetailsKeypressd(){
+    console.log(this.searchTxt);
+    if(this.searchTxt == ''){
+      this.p=1;
+    }
+  }
   viewCustDetail() {
     this.custpanel = true;
     this.custtable = false;

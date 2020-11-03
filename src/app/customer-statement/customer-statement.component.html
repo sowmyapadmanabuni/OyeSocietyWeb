@@ -72,7 +72,7 @@
 
         <label>Search</label>
 
-        <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
+        <input type="text" (keyup)="onAllpaymentdetailsKeypressd()" [(ngModel)]="searchTxt" class="form-control" name="searchTxt"
           placeholder="Search by Unit Name, Payment Description or Amount">
 
       </div>
