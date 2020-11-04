@@ -320,7 +320,10 @@ export class CustomerStatementComponent implements OnInit {
     }
     let element = null;
     this.p = 1;
-    // element = document.querySelector('.page-item.active');
-    // element.click();
+    element = document.querySelector('.page-item.active');
+    console.log(element);
+    setTimeout(()=>{
+      element.click();
+    },2000)
   }
 }

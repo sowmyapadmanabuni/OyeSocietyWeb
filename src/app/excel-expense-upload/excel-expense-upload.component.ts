@@ -12,6 +12,7 @@ import {ExcelUploadExpenseErrorMessage} from '../../app/models/excel-upload-expe
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { formatDate } from '@angular/common';
 import {ExcelExpenseList} from '../models/excel-expense-list';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-excel-expense-upload',
@@ -300,6 +301,7 @@ export class ExcelExpenseUploadComponent implements OnInit {
       item['Voucher No']
       ))
     })
+    this.ExcelExpenseList = _.sortBy(this.ExcelExpenseList,'ExpenditureDate').reverse();
     console.log(this.ExcelExpenseList);
     //
     for(let item of this.excelExpenseList){
