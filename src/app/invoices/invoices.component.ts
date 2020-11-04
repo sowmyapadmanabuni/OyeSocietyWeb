@@ -420,6 +420,7 @@ export class InvoicesComponent implements OnInit {
           console.log(data);
           this.residentInvoiceList = data['data']['invoices'];
           this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+          this.PaidUnpaidinvoiceLists = _.sortBy(this.PaidUnpaidinvoiceLists,'inGenDate').reverse();
         },
           err => {
             console.log(err);
