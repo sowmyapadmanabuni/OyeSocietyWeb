@@ -12,13 +12,13 @@ export class ViewUnitService {
   scriptIP:string;
   headers:HttpHeaders;
   blockIDforUnitCreation: any;
-  public httpOptions = {
+  /* public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'X-Champ-APIKey': this.scriptIP,
       'Access-Control-Allow-Origin': "*"
     })
-  };
+  }; */
   addUnits:boolean;
   unitList:boolean;
 
