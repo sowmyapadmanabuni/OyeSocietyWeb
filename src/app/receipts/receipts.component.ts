@@ -139,6 +139,7 @@ export class ReceiptsComponent implements OnInit {
       .subscribe(data=>{
         console.log(data['data']['payments']);
         this.viewPayments=data['data']['payments']
+        this.viewPayments=_.sortBy(this.viewPayments,'pyDate').reverse();
       });
     }
   }
