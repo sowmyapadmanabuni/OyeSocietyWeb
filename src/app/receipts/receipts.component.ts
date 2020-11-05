@@ -134,6 +134,13 @@ export class ReceiptsComponent implements OnInit {
       this.allBlocksLists = item;
       console.log('allBlocksLists', this.allBlocksLists);
     });
+    if (this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2') {
+      this.viewreceiptservice.getpaymentlist(this.currentAssociationID)
+      .subscribe(data=>{
+        console.log(data['data']['payments']);
+        this.viewPayments=data['data']['payments']
+      });
+    }
   }
   initialiseReceipts(){
     this.viewPayments=[];
