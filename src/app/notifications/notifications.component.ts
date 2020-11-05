@@ -143,6 +143,7 @@ export class NotificationsComponent implements OnInit {
     { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
     .subscribe(data=>{
       console.log('NotiRefreshData',data);
+      console.log(this.allAdminAndResidentNotification)
       //this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
          this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
