@@ -207,7 +207,8 @@ export class InvoicesComponent implements OnInit {
     private generatereceiptservice: GenerateReceiptService,
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private ViewUnitService:ViewUnitService) {
     this.InvoiceDescriptionListOne=[];
     this.InvoiceDescriptionListTwo=[];
       this.CreditOrDebit='Credit';
@@ -415,21 +416,27 @@ export class InvoicesComponent implements OnInit {
       })
     //
     if (this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2') {
-      this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+      this.ViewUnitService.getUnitDetails(this.globalservice.getCurrentAssociationId())
         .subscribe(data => {
+          console.log(this.globalservice.getCurrentUnitId());
           console.log(data);
-          this.residentInvoiceList = data['data']['invoices'];
-          this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
-        },
-          err => {
-            console.log(err);
-            /* swal.fire({
-               title: "An error has occurred",
-               text: `${err['error']['error']['message']}`,
-               type: "error",
-               confirmButtonColor: "#f69321"
-             }); */
+          data['data']['unit'].forEach(item => {
+            if (item['unUnitID'] == this.globalservice.getCurrentUnitId()) {
+              this.viewinvoiceservice.getCurrentBlockDetails(item['blBlockID'], this.globalservice.getCurrentAssociationId())
+                .subscribe(data => {
+                  console.log(data);
+                  this.residentInvoiceList = data['data']['invoices'];
+                  this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+                  this.PaidUnpaidinvoiceLists = _.sortBy(this.PaidUnpaidinvoiceLists, 'inGenDate').reverse();
+                },
+                  err => {
+                    console.log(err);
+                  })
+            }
           })
+        }, err => {
+          console.log(err);
+        })
     }
     //
     this.GetAssnAddress();
@@ -521,6 +528,29 @@ export class InvoicesComponent implements OnInit {
     }
     this.PaidUnpaidinvoiceLists.forEach(item=>{
       if(item['unUniName'].toLowerCase()==this.searchTxt.toLowerCase()){
+        element = document.querySelector('.page-item.active');
+        console.log(element);
+        console.log(typeof element);
+        if(element == null){
+          this.p=1;
+        }
+      }
+    })
+    if(element != null){
+      console.log(element);
+      element.click();
+    }
+  }
+  onPaidUnpaidinvoiceListsKeypressdForResident(){
+    let element=null;
+    console.log(this.searchTxt);
+    if(this.searchTxt == ''){
+      this.p=1;
+      element = document.querySelector('.page-item.active');
+      element.click();
+    }
+    this.PaidUnpaidinvoiceLists.forEach(item=>{
+      if(item['inNumber'].toLowerCase()==this.searchTxt.toLowerCase()){
         element = document.querySelector('.page-item.active');
         console.log(element);
         console.log(typeof element);

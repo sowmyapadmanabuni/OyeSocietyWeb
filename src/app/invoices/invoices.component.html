@@ -265,7 +265,7 @@
                 </div>
                 <!-- Toggler switch-->
                 <div>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by invoice number">
+                    <input type="text" (keyup)="onPaidUnpaidinvoiceListsKeypressdForResident()" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by invoice number">
                 </div>
                 <div class="dropdown" style="width: 200px;">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
@@ -322,6 +322,17 @@
                                                 style="cursor: pointer;" class="fa fa-percent"></i>-->
                                         </span> 
                                         <span *ngIf="item['inPaid'] == 'No'">
+                                            |
+                                            <!-- <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
+                                            <!-- <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;">Generate Receipt</a> -->
+                                            
+                                                <svg height="15" width="20" class="blinking">
+                                                    <circle cx="10" cy="10" r="5" fill="orange" />
+                                                    Sorry, your browser does not support inline SVG.  
+                                                  </svg> <a (click)="payThroughICICIPGtest($event,item.inid,item.unUnitID)" tooltip="Pay now" style="cursor: pointer; font-size: 12px;">Pay now</a>
+                                       
+                                        </span>
+                                        <span *ngIf="item['inPaid'] == 'UnPaid'">
                                             |
                                             <!-- <i (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;" class="fa fa-newspaper-o"></i> -->
                                             <!-- <a (click)="OpenReceiptModal(Receipts,item['inNumber'],item['inTotVal'],item['inAmtPaid'],item['unUnitID'])" tooltip="Generate Receipt" style="cursor: pointer;">Generate Receipt</a> -->

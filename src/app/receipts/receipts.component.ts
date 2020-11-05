@@ -262,27 +262,27 @@ export class ReceiptsComponent implements OnInit {
     //console.log(event);
     //console.log(this.p);
     //console.log(event['srcElement']['text']);
-    if(event['srcElement']['text'] == '1'){
-      this.p=1;
+    if (event['srcElement']['text'] == '1') {
+      this.p = 1;
     }
-    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
-        //console.log('test');
-        //console.log(Number(event['srcElement']['text']) == NaN);
-        //console.log(Number(event['srcElement']['text']));
-        let element=document.querySelector('.page-item.active');
-    //console.log(element.children[0]['text']);
-        this.p= Number(element.children[0]['text']);
+    if ((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)) {
+      //console.log('test');
+      //console.log(Number(event['srcElement']['text']) == NaN);
+      //console.log(Number(event['srcElement']['text']));
+      let element = document.querySelector('.page-item.active');
+      //console.log(element.children[0]['text']);
+      this.p = Number(element.children[0]['text']);
       //console.log(this.p);
-    } 
-    if(event['srcElement']['text'] == '«'){
+    }
+    if (event['srcElement']['text'] == '«') {
       //console.log(this.p);
-      this.p= 1;
+      this.p = 1;
     }
     //console.log(this.p);
-    let element=document.querySelector('.page-item.active');
+    let element = document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    if(element != null){
-      this.p=Number(element.children[0]['text']);
+    if (element != null) {
+      this.p = Number(element.children[0]['text']);
       console.log(this.p);
       if (this.ShowRecords != 'Show Records') {
         console.log('testtt');
@@ -292,10 +292,11 @@ export class ReceiptsComponent implements OnInit {
         //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
         //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
         console.log(this.p);
-        this.PaginatedValue=(this.setnoofrows=='All Records'?this.viewPayments.length:this.setnoofrows);
+        this.PaginatedValue = (this.setnoofrows == 'All Records' ? this.viewPayments.length : this.setnoofrows);
         console.log(this.PaginatedValue);
       }
-    }  }
+    }
+  }
   getMembers() {
     this.associationTotalMembers = [];
     this.UnitNameForDisplay='';
