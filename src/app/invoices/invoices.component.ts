@@ -207,7 +207,8 @@ export class InvoicesComponent implements OnInit {
     private generatereceiptservice: GenerateReceiptService,
     private paymentService: PaymentService,
     private viewreceiptservice:ViewReceiptService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private ViewUnitService:ViewUnitService) {
     this.InvoiceDescriptionListOne=[];
     this.InvoiceDescriptionListTwo=[];
       this.CreditOrDebit='Credit';
@@ -415,22 +416,27 @@ export class InvoicesComponent implements OnInit {
       })
     //
     if (this.globalservice.mrmroleId != 1 || this.localMrmRoleId == '2') {
-      this.viewinvoiceservice.invoicelistByUnitID(this.globalservice.getCurrentUnitId())
+      this.ViewUnitService.getUnitDetails(this.globalservice.getCurrentAssociationId())
         .subscribe(data => {
+          console.log(this.globalservice.getCurrentUnitId());
           console.log(data);
-          this.residentInvoiceList = data['data']['invoices'];
-          this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
-          this.PaidUnpaidinvoiceLists = _.sortBy(this.PaidUnpaidinvoiceLists,'inGenDate').reverse();
-        },
-          err => {
-            console.log(err);
-            /* swal.fire({
-               title: "An error has occurred",
-               text: `${err['error']['error']['message']}`,
-               type: "error",
-               confirmButtonColor: "#f69321"
-             }); */
+          data['data']['unit'].forEach(item => {
+            if (item['unUnitID'] == this.globalservice.getCurrentUnitId()) {
+              this.viewinvoiceservice.getCurrentBlockDetails(item['blBlockID'], this.globalservice.getCurrentAssociationId())
+                .subscribe(data => {
+                  console.log(data);
+                  this.residentInvoiceList = data['data']['invoices'];
+                  this.PaidUnpaidinvoiceLists = this.residentInvoiceList;
+                  this.PaidUnpaidinvoiceLists = _.sortBy(this.PaidUnpaidinvoiceLists, 'inGenDate').reverse();
+                },
+                  err => {
+                    console.log(err);
+                  })
+            }
           })
+        }, err => {
+          console.log(err);
+        })
     }
     //
     this.GetAssnAddress();
