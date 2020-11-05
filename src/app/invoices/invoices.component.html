@@ -265,7 +265,7 @@
                 </div>
                 <!-- Toggler switch-->
                 <div>
-                    <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by invoice number">
+                    <input type="text" (keyup)="onPaidUnpaidinvoiceListsKeypressdForResident()" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search by invoice number">
                 </div>
                 <div class="dropdown" style="width: 200px;">
                     <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
