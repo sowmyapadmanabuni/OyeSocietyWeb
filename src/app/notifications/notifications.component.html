@@ -105,7 +105,7 @@
             <div class="dash-row">
 
               <div class="panel-group" id="accordion">
-                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList($event)" class="search" placeholder="search unit">
+                <input [(ngModel)]="searchVisitorText" (keyup)="searchVisitorList()" class="search" placeholder="search unit">
                 <div class="panel-default" *ngFor="let item of allAdminAndResidentNotification">
                  <a style="color: black !important;" (click)="NotificationActiveStatusUpdate($event,item['ntid'],'', item['visitorlog'].length>0? item['visitorlog'][0]['vlApprdBy']:'Vinay')" data-toggle="collapse" data-parent="#accordion" href="#{{item['ntid']}}">
                   <div *ngIf="item['ntType']=='Staff Registration' || item['visitorlog'].length>0">

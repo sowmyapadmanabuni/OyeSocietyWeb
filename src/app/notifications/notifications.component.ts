@@ -174,9 +174,11 @@ export class NotificationsComponent implements OnInit {
  
   AdminsUnitShow(resident) {
     this.role = resident;
+    console.log(this.allAdminAndResidentNotification);
   }
   AdminsButtonShow(admin) {
     this.role = admin;
+    this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTemp;
     setTimeout(()=>{
       let elemnt = $('.panel-default');
       Array.from(elemnt).forEach(item=>{
@@ -343,16 +345,26 @@ export class NotificationsComponent implements OnInit {
       .set('Content-Type', 'application/json');
     return headers;
   }
-  searchVisitorList(event) {
+  searchVisitorList() {
     console.log(this.searchVisitorText);
     console.log(this.ResidentNotificationListArrayTemp);
+    console.log(this.allAdminAndResidentNotification);
     if (this.searchVisitorText == '') {
       console.log('searchVisitorText', this.searchVisitorText);
       this.ResidentNotificationListArray = this.ResidentNotificationListArrayTemp;
+      this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTemp;
     }
-    this.ResidentNotificationListArray = this.ResidentNotificationListArray.filter(item => {
+    /* this.ResidentNotificationListArray = this.ResidentNotificationListArray.filter(item => {
       return (item['unUniName'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1 || item['vlVisType'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1 || item['residentNtdCreated'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1)
+    }) */
+    console.log(this.allAdminAndResidentNotification);
+    this.allAdminAndResidentNotification = this.allAdminAndResidentNotification.filter(item => {
+      if(item['visitorlog'].length!=0){
+        //console.log(item);
+        return (item['visitorlog'][0]['unUniName'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1)
+      }
     })
+    console.log(this.allAdminAndResidentNotification);
   }
   searchAdminVisitorList() {
     console.log(this.searchAdminVisitorText);
