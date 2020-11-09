@@ -16,11 +16,11 @@ export class ViewDeliveryService {
     let ipAddress = this.utilsService.getIPaddress();
     let url = `${ipAddress}oyesafe/api/v1/VisitorLog/GetVisitorLogByDatesAssocAndUnitID`
     var DeliveryData = {
-      "StartDate": "2020-01-03",//(date['StartDate']=='')? "2019-08-11" : date['StartDate'],
-      "EndDate": "2020-04-10",//(date['EndDate']=='')? "2019-15-11" : date['EndDate'],
-      "ASAssnID": 15143,//this.globalService.getCurrentAssociationId(),
-      "UNUnitID": 41382,//this.globalService.getCurrentUnitId(),
-      "ACAccntID": 16236//this.globalService.getacAccntID()      
+      "StartDate": date['StartDate']==''? "2019-08-11" : formatDate(date['StartDate'],'yyyy-MM-dd','en'),
+      "EndDate": date['EndDate']==''? formatDate(new Date(),'yyyy-MM-dd','en') : formatDate(date['EndDate'],'yyyy-MM-dd','en'),
+      "ASAssnID": this.globalService.getCurrentAssociationId(),
+      "UNUnitID": this.globalService.getCurrentUnitId(),
+      "ACAccntID": this.globalService.getacAccntID()      
     }
     console.log('req data',DeliveryData);
    return this.http.post(url, JSON.stringify(DeliveryData), { headers: headers })

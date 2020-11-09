@@ -127,6 +127,7 @@ export class AppComponent {
     else{
       this.uniqueAssociations=JSON.parse(localStorage.getItem("assnList"));
       console.log(this.uniqueAssociations);
+      
     }
     this.hideTitle=true;
     this.globalService.setAssnDropDownHiddenByDefault('false');
@@ -139,6 +140,7 @@ export class AppComponent {
       // console.log(typeof asnName);
       this.uniqueAssociations = msg['msg'];
       console.log(this.uniqueAssociations);
+      this.GetFamilyMemberVehicleCountByAssocAcntUnitID();
       //this.globalService.setCurrentAssociationName(msg['msg'][0]['asAsnName']);
       this.hideTitle = true;
       this.globalService.setAssnDropDownHiddenByDefault('false');
