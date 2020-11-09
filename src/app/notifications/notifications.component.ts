@@ -145,7 +145,7 @@ export class NotificationsComponent implements OnInit {
       console.log('NotiRefreshData',data);
       console.log(this.allAdminAndResidentNotification)
       //this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
-      if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
+      //if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
          this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
          this.allAdminAndResidentNotificationTemp=data['data']['notificationListByAcctID'];
          setTimeout(()=>{
@@ -160,7 +160,7 @@ export class NotificationsComponent implements OnInit {
           console.log('test1');
           $(".se-pre-con").fadeOut("slow");
          },4000)
-      }
+      //}
     },
     err=>{
       console.log(err);
@@ -690,7 +690,8 @@ export class NotificationsComponent implements OnInit {
             this.changeViewOfActionButton=false;
             this.updateFirebase(associationid);
             alert('Success');
-            this.GetNotificationListByAccntID();
+            //this.GetNotificationListByAccntID();
+            this.refreshNotificationArray();
             // this.router.navigate(['home']);
           },
             err => {
@@ -765,7 +766,8 @@ export class NotificationsComponent implements OnInit {
        .subscribe(data=>{
          console.log(data);
          alert('Registered');
-         this.GetNotificationListByAccntID();
+         //this.GetNotificationListByAccntID();
+         this.refreshNotificationArray();
        },
        err=>{
          console.log(err);
