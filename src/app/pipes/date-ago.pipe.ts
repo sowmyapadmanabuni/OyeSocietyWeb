@@ -11,19 +11,19 @@ export class DateAgoPipe implements PipeTransform {
     if (value) {
       //let inDate = moment().hours()
       let inDate = new Date().getTime();
-      console.log('inDate-', inDate);
+      // console.log('inDate-', inDate);
       //let enDate = moment(value).hours()
       let enDate = new Date(value).getTime()
-      console.log('enDate-', enDate);
+      // console.log('enDate-', enDate);
       let duration = Math.abs(inDate - enDate);
-      console.log('duration-', duration);
+      // console.log('duration-', duration);
       //let duration2=Math.ceil(duration / (1000 * 60 * 60 * 24));
       let days = Math.floor(duration / (1000 * 60 * 60 * 24));
       let hours = Math.floor(duration / (1000 * 60 * 60));
       let mins = Math.floor(duration / (1000 * 60));
-      console.log('days-', days);
-      console.log('hours-', hours);
-      console.log('mins-', mins);
+      // console.log('days-', days);
+      // console.log('hours-', hours);
+      // console.log('mins-', mins);
       // let valueDis = days > 1 ? moment(item.ntdCreated).format('DD MMM YYYY') : days == 1 ? "Yesterday" : mins >= 120 ? hours + " hours ago" : (mins < 120 && mins >= 60) ? hours + " hour ago"
       // : mins == 0 ? "Just now" : mins + " mins ago";
       valueDis = days > 1 ? moment(value).format('DD MMM YYYY') : days == 1 ? "Yesterday" : mins >= 120 ? hours + " hours ago" : (mins < 120 && mins >= 60) ? hours + " hour ago" : mins == 0 ? "Just now" : mins + " mins ago";

@@ -31,7 +31,7 @@
                         <a (click)="NotificationActiveStatusUpdate($event,itm['ntid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['ntid']}}" class="read"> 
                           <img *ngIf="itm['ntIsActive']==true" src="../../assets/images/notification_icons/mail.png"> 
                           <img *ngIf="itm['ntIsActive']==false" src="../../assets/images/notification_icons/mailopen.png"> 
-                          {{itm['ntIsActive']}}
+                        {{itm['ntIsActive']==false?'Read':'Unread'}} 
                         </a>
                         <span class="uni_name">{{itm['asAsnName']}}</span>
                         <span class="days">{{itm['ntdCreated'] | dateAgo}}</span>
@@ -115,7 +115,7 @@
                       <a (click)="NotificationActiveStatusUpdate($event,item['ntid'],'')" data-toggle="collapse" data-parent="#accordion" href="#{{item['ntid']}}"> 
                         <img *ngIf="item['ntIsActive']== true" src="../../assets/images/notification_icons/mail.png"> 
                         <img *ngIf="item['ntIsActive']== false" src="../../assets/images/notification_icons/mailopen.png"> 
-                        <!-- {{item['ntIsActive']==false?'Read':'Unread'}}  -->
+                        {{item['ntIsActive']==false?'Read':'Unread'}} 
                       </a>
                       <span>{{item['asAsnName']}}</span>
                       <span>{{item['ntdCreated'] | dateAgo}}</span>
@@ -183,7 +183,7 @@
                                                      
                                                       <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']}}</div>
                                                       <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']}}</div>
-                                                      <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
+                                                      <!-- <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div> -->
                                                     </div>
                                                   </div>
                                                   <!-- "Staff Manual Entry" template -->

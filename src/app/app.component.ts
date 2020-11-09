@@ -26,6 +26,7 @@ export class AppComponent {
   toggleName:any;
   ntType:any;
   VLApprStat:any;
+  id: NodeJS.Timer;
   sbMemID:any;
   accountID:number;
   associations:any= [];
@@ -182,6 +183,9 @@ export class AppComponent {
       //this.getAssociation();
       this.HideOrShowNotification=false;
     }
+    this.id = setInterval(() => {
+      this.GetFamilyMemberVehicleCountByAssocAcntUnitID();
+    },10000);
     //Start watching for user inactivity.
     this.userIdle.startWatching();
     
@@ -210,6 +214,11 @@ export class AppComponent {
   ngAfterViewInit(){
   
     
+  }
+  ngOnDestroy() {
+    if (this.id) {
+      clearInterval(this.id);
+    }
   }
   myFunction() {
     let x = document.getElementById("myTopnav");
