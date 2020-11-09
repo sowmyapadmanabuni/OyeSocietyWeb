@@ -4,6 +4,7 @@ import { GlobalServiceService } from '../global-service.service';
 import { ViewDeliveryService } from '../../services/view-delivery.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { formatDate } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -27,10 +28,12 @@ export class DeliveriesComponent implements OnInit {
   rowsToDisplay: any[];
   isDateFieldEmpty:boolean;
   maxDate: Date;
+  modalRef: BsModalRef;
 
   constructor(private globalService: GlobalServiceService, private deliveryService: ViewDeliveryService,
     private modalService: BsModalService,
-    private router: Router) {
+    private router: Router,
+    private domSanitizer:DomSanitizer) {
       $(".se-pre-con").show();
       this.maxDate = new Date();
       this.isDateFieldEmpty=false;
@@ -57,8 +60,16 @@ export class DeliveriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    let e='';
+    let e = '';
     this.getVisitorList(e);
+  }
+  getSafeUrl(url) {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + url);
+  }
+  DeliveryPersonImgForPopUp:any;
+  showDeliveryPersonImgInPopUp(DeliveryPersonImagetemplate, fmImgName) {
+    this.DeliveryPersonImgForPopUp = fmImgName;
+    this.modalRef = this.modalService.show(DeliveryPersonImagetemplate, Object.assign({}, { class: 'gray modal-lg' }));
   }
   goToStaffs() {
     this.router.navigate(['staffs']);
