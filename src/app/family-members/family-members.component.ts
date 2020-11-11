@@ -10,6 +10,7 @@ import {GlobalServiceService} from '../global-service.service';
 import swal from 'sweetalert2';
 import { FamilyMemberList } from '../models/family-member-list';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { EditprofileService } from 'src/services/editprofile.service';
 declare var $: any;
 
 @Component({
@@ -56,11 +57,14 @@ export class FamilyMembersComponent implements OnInit {
   page: number;
   p: number = 1;
   bsConfig: any;
+  Account:any[];
   
   constructor(private http: HttpClient, private router: Router,
     private modalService: BsModalService,private utilsService:UtilsService,
     private globalService:GlobalServiceService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private editprofileservice:EditprofileService) {
+      this.Account=[];
     this.FamilyMemberList=[];
     this.unitID='';
     this.PaginatedValue=10;
@@ -94,11 +98,18 @@ export class FamilyMembersComponent implements OnInit {
     this.memberList=true;
     this.addMember=false;
     this.Relation="Select Relation"
-    this.getFamilyMember();
     this.FamilyImgUploadForm = this.formBuilder.group({
       profile: ['']
     });
     this.GetUnitListByUnitID();
+    this.editprofileservice.getProfileDetails(this.globalService.getacAccntID())
+    .subscribe(res=>{
+      console.log(res);
+      var data: any = res;
+      this.Account = data.data.account;
+      console.log('account', this.Account);
+      this.getFamilyMember();
+    })
   }
   setRows(RowNum) {
     this.ShowRecords = 'abc';
@@ -192,9 +203,17 @@ export class FamilyMembersComponent implements OnInit {
           this.familymemberarray = data['data']['familyMembers'];
           if (this.familymemberarray.length > 0) {
             this.familymemberarray.forEach(item=>{
-              this.FamilyMemberList.push(new FamilyMemberList(item['fmName'],item['fmRltn'],item['fmMobile'],item['fmImgName'],item['asAssnID'],item['unUnitID'],item['fmid']))
+              this.FamilyMemberList.push(new FamilyMemberList(item['fmName'],item['fmRltn'],item['fmMobile'],item['fmImgName'],item['asAssnID'],item['unUnitID'],item['fmid'],true,item['pAccntID']))
             })
             this.loadchangedforassociation = true;
+            this.FamilyMemberList.forEach(item=>{
+              if(item['pAccntID']==this.Account[0]['acAccntID']){
+                console.log('NotsameAccID-',item['NotsameAccID'])
+                item['NotsameAccID']=false;
+                console.log('NotsameAccID--',item['NotsameAccID'])
+              }
+            })
+            console.log(this.FamilyMemberList);
           }
           else {
             //console.log(this.familymemberarray);

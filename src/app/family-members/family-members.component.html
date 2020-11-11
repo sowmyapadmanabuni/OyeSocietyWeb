@@ -49,7 +49,7 @@
                                     <td class="txt-middle">
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
                                             (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['fmImgName'],item['unUnitID'],item['fmid'])"
-                                            class="fa fa-pencil"></i><span>&nbsp;|&nbsp;</span><i data-toggle="modal"
+                                            class="fa fa-pencil"></i><span [hidden]="item['NotsameAccID']" >&nbsp;|&nbsp;</span><i [hidden]="item['NotsameAccID']" data-toggle="modal"
                                             data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])"
                                             class="fa fa-trash"></i>
                                     </td>
