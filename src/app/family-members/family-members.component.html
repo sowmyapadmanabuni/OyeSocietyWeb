@@ -281,12 +281,24 @@
                 </div>
 
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                 <label><b>Relation</b></label>
                
                 <input type="text" placeholder="Relation" [(ngModel)]='EditRelation' maxlength="20" name="EditRelation"
                     class="form-control" #RelationControl="ngModel" style="margin-bottom: 10px;" required>
                     <p class="alerts" *ngIf="RelationControl.touched && RelationControl.invalid"> Enter relation</p>
+                </div> -->
+                <div class="form-group">
+                    <label class="control-label">Relationship</label>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
+                            data-toggle="dropdown">{{EditRelation}}
+                            <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                        <ul class="dropdown-menu fullw">
+                            <li *ngFor='let relation of RelationsArray' (click)="setRelationType(relation)">
+                                <a>{{relation}}</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Upload</label>

@@ -454,6 +454,7 @@ deleteFamilyMember(fmid) {
 
   setRelationType(relation) {
     this.Relation = relation;
+    this.EditRelation = relation;
   }
   OpenFileUpload() {
     let _uploadFileinput = <HTMLInputElement>document.getElementById("uploadFileinput");
