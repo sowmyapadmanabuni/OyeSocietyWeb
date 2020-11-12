@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
   getProfileDetails(){
     console.log(this.accountID);
     this.editprofileservice.getProfileDetails(this.accountID).subscribe(res => {
-      console.log(JSON.stringify(res));
+      console.log(res);
       var data:any = res;
       this.allAccount = data.data.account;
       console.log('account',this.allAccount);

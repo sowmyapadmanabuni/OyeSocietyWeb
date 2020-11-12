@@ -95,7 +95,7 @@ export class LeftBarComponent implements OnInit {
   }
   getProfileDetails() {
     this.editprofileservice.getProfileDetails(this.globalService.getacAccntID()).subscribe(res => {
-      console.log(JSON.stringify(res));
+      console.log(res);
       var data: any = res;
       this.allAccount = data.data.account;
       console.log('account', this.allAccount);
