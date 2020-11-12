@@ -172,15 +172,9 @@ export class NotificationsComponent implements OnInit {
     this.modalRef = this.modalService.show(privacy, { class: 'modal-lg' });
   }
   getNtDescFirstname(ntDesc) {
-<<<<<<< HEAD
-    // console.log('ntDesc-', ntDesc);
-    let firstname = ntDesc.split(' ');
-    // console.log(firstname);
-=======
     //console.log('ntDesc-', ntDesc);
     let firstname = ntDesc.split(' ');
     //console.log(firstname);
->>>>>>> d53bf25dd4ecc24dad4a3913354cb531d0aa1eec
     return firstname[0];
   }
   AdminsUnitShow(resident) {
