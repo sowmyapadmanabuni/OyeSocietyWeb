@@ -18,7 +18,7 @@ import {NotificationService} from '../../services/notification.service';
 let config = {
   apiKey: "AIzaSyBaS0nRRwB5wU1D3C6CjR9b6CVOC3aHay4",
   authDomain: "jabm-fd8d9.firebaseapp.com",
-  databaseURL:"https://jabm-fd8d9-1ff50.firebaseio.com/",// "https://jabm-fd8d9-7adc4.firebaseio.com/",
+  databaseURL:"https://jabm-fd8d9-7adc4.firebaseio.com/",//"https://jabm-fd8d9-1ff50.firebaseio.com/",
   projectId: "jabm-fd8d9",
   storageBucket: "jabm-fd8d9.appspot.com",
   messagingSenderId: "1054539821176",
@@ -172,9 +172,9 @@ export class NotificationsComponent implements OnInit {
     this.modalRef = this.modalService.show(privacy, { class: 'modal-lg' });
   }
   getNtDescFirstname(ntDesc) {
-    console.log('ntDesc-', ntDesc);
+    //console.log('ntDesc-', ntDesc);
     let firstname = ntDesc.split(' ');
-    console.log(firstname);
+    //console.log(firstname);
     return firstname[0];
   }
   AdminsUnitShow(resident) {
