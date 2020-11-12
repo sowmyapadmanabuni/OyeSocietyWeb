@@ -32,6 +32,11 @@ p.registration {
   position: relative;
 top: -41px;
 } 
+.kidexit{
+  position: relative;
+  top: 16px;
+  text-align: center;
+}
 .exitnot-titlemobile{color: red;
   position: relative;
   left: 350px;

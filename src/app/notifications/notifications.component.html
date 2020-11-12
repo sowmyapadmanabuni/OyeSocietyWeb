@@ -150,8 +150,7 @@
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
-                          <p
-                            *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlMobile']">
+                          <p Class = "kidexit" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlMobile']">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest without Invitation'">
                             {{item['visitorlog'][0]['vlMobile']}}</p>
@@ -239,8 +238,8 @@
                                                   <!-- KID EXIT template -->
                                                   <div *ngIf="item['ntType']!='Staff Registration'">
                                                 <div *ngIf="item['visitorlog'][0]['vlVisType']=='Kid Exit'">
-                                                    <div><span class="exitnot-title">Descreptiion:&nbsp;</span>&nbsp;{{item['ntDesc']}}</div>
-                                                  <div *ngIf="item['ntdCreated']"><span class="exitnot-title">Exit triggered on:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
+                                                    <div *ngIf="item['visitorlog'][0]['vlApprStat'] != 'Entry Rejected'"><span class="exitnot-title">Descreptiion:&nbsp;</span>&nbsp;{{item['ntDesc']}}</div>
+                                                  <div *ngIf="item['ntdCreated'] && item['visitorlog'][0]['vlApprStat'] != 'Entry Rejected'"><span class="exitnot-title">Exit triggered on:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                   <div  *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated'] | date:'mediumDate'}}&nbsp;&nbsp;{{item['visitorlog'][0]['vlExitT'] | date:'shortTime'}} </div>
                                                   <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}</div>
                                                   <!-- <div *ngIf="item['visitorlog'][0]['vlMobile']" class="mobile_number">&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div> -->
