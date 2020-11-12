@@ -171,7 +171,12 @@ export class NotificationsComponent implements OnInit {
   openModal3(privacy: TemplateRef<any>) {
     this.modalRef = this.modalService.show(privacy, { class: 'modal-lg' });
   }
- 
+  getNtDescFirstname(ntDesc) {
+    console.log('ntDesc-', ntDesc);
+    let firstname = ntDesc.split(' ');
+    console.log(firstname);
+    return firstname[0];
+  }
   AdminsUnitShow(resident) {
     this.role = resident;
     console.log(this.allAdminAndResidentNotification);

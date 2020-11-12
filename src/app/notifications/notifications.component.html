@@ -45,9 +45,7 @@
                         
                         <span *ngIf="itm['unit']!=null" class="not-img">
                           <img [src]="'data:image/png;base64,'+itm['ntUsrImg']" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                          <!-- <p>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</p> -->
-                          <p *ngIf= "itm['unit']['owner'].length == 0 && itm['unit']['tenant'].length == 0">{{item['wkName']}}</p>
-  
+                          <p>{{getNtDescFirstname(itm['ntDesc'])}}</p>
                         </span>
                       </div>
   

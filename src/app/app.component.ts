@@ -389,19 +389,19 @@ export class AppComponent {
       })
   }
   GetFamilyMemberVehicleCountByAssocAcntUnitID() {
-    console.log(this.globalService.getCurrentAssociationId(),this.globalService.getacAccntID(),this.globalService.getCurrentUnitId());
+    //console.log(this.globalService.getCurrentAssociationId(),this.globalService.getacAccntID(),this.globalService.getCurrentUnitId());
     let scopeIP = this.utilsService.getIPaddress();
     let headers = new HttpHeaders()
       .append('Content-Type', 'application/json')
       .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
     this.http.get(scopeIP + `oyesafe/api/v1/GetFamilyMemberVehicleCountByAssocAcntUnitID/${Number(this.globalService.getCurrentAssociationId())}/${this.globalService.getacAccntID()}/${this.globalService.getCurrentUnitId()}`, { headers: headers })
     .subscribe(data=>{
-      console.log(data);
+      //console.log(data);
       this.globalService.AdminResidentActiveNotification=data['data']['totalBellCount'];
       this.globalService.BellNotification=data['data']['totalBellCount'];
       this.globalService.AdminActiveNotification=data['data']['adminNotificationCount'];
       this.globalService.ResidentActiveNotification=data['data']['myUnitNotificationCount'];
-      console.log(this.globalService.AdminResidentActiveNotification, this.globalService.AdminActiveNotification, this.globalService.ResidentActiveNotification);
+      //console.log(this.globalService.AdminResidentActiveNotification, this.globalService.AdminActiveNotification, this.globalService.ResidentActiveNotification);
     },
     err=>{
       console.log(err);
