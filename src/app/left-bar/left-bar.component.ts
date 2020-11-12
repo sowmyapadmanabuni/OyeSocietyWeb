@@ -5,6 +5,7 @@ import {Router, NavigationEnd} from '@angular/router';
 import {ViewBlockService} from '../../services/view-block.service';
 import { Subscription } from 'rxjs';
 import { EditprofileService } from 'src/services/editprofile.service';
+import { ViewUnitService } from 'src/services/view-unit.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class LeftBarComponent implements OnInit {
   value:any;
   max:any;
   CurrentAssociationIdForLeftBarComponent:Subscription;
+  subscription:Subscription;
   displayValue:any;
   allAccount: any;
   profileImg: string;
@@ -29,7 +31,8 @@ export class LeftBarComponent implements OnInit {
     private dashboardservice: DashBoardService,
     public viewBlkService: ViewBlockService,
     private router: Router,
-    private editprofileservice:EditprofileService) {
+    private editprofileservice:EditprofileService,
+    private viewUnitService:ViewUnitService) {
     this.acAccntID = this.globalService.getacAccntID();
     this.value = 66;
     this.max=100;
@@ -37,8 +40,17 @@ export class LeftBarComponent implements OnInit {
       .subscribe(msg => {
         this.globalService.setCurrentAssociationId(msg['msg']);
         console.log(msg);
+        this.getProfileDetails();
         this.getBlockDetails();
       })
+      this.subscription = this.globalService.getUnit()
+      .subscribe(msg => {
+        console.log(msg);
+        this.getProfileDetails();
+      },
+        err => {
+          console.log(err);
+        })
   }
 
   ngOnInit() {
@@ -93,13 +105,47 @@ export class LeftBarComponent implements OnInit {
         console.log(err);
       });
   }
+  myRole:any;
+  occupiedby:string='';
   getProfileDetails() {
     this.editprofileservice.getProfileDetails(this.globalService.getacAccntID()).subscribe(res => {
       console.log(res);
       var data: any = res;
       this.allAccount = data.data.account;
       console.log('account', this.allAccount);
+      console.log('CurrentUnitId-',this.globalService.getCurrentUnitId());
       this.profileImg = 'data:image/jpeg;base64,' + this.allAccount[0]['acImgName'];
+      this.viewUnitService.getUnitDetails(this.globalService.getCurrentAssociationId())
+      .subscribe(data => {
+        console.log(data);
+        data['data']['unit'].forEach(item => {
+          if (item['unUnitID'] == this.globalService.getCurrentUnitId()) {
+            console.log(item);
+            if (item['owner'].length !== 0) {
+              if (item['owner'][0].acAccntID == this.allAccount[0].acAccntID) {
+                this.myRole = item['owner'][0].uoRoleID
+              }
+            }
+            if (item['tenant'].length !== 0) {
+              if (item['tenant'][0].acAccntID == this.allAccount[0].acAccntID) {
+                this.myRole = 3
+              }
+            }
+          }
+        })
+        switch(this.myRole){
+          case 2:
+            this.occupiedby = 'Owner';
+            break;
+          case 3:
+            this.occupiedby = 'Tenant';
+            break;
+            default:
+              this.occupiedby = 'Family';
+        }
+      }, err => {
+        console.log(err);
+      })
     });
   }
 }
