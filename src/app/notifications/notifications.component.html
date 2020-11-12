@@ -39,10 +39,14 @@
                       <div class="alfl bg-grey">
                         <!-- <span *ngIf="itm['unit']['unUniName']!=''" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span> -->
                         <span *ngIf="itm['unit']!=null" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span>
-                        <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
+                        <!-- <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{(itm['ntMobile'] == "" ? (itm['unit']['owner'].length > 0 ? itm['unit']['owner'][0]['uoMobile']) : itm['unit']['tenant'].length > 0 ? itm['unit']['tenant'][0]['utMobile']: itm['ntMobile']) )}}</span> -->
+                        <span *ngIf = "itm['unit']['owner'].length > 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['owner'][0]['uoMobile'] : itm['ntMobile']}}</span>
+                        <span *ngIf = "itm['unit']['tenant'].length > 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['tenant'][0]['utMobile'] : itm['ntMobile']}}</span>
+                        
                         <span *ngIf="itm['unit']!=null" class="not-img">
                           <img [src]="'data:image/png;base64,'+itm['ntUsrImg']" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                          <p>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</p>
+                          <!-- <p>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</p> -->
+                          <p *ngIf= "itm['unit']['owner'].length == 0 && itm['unit']['tenant'].length == 0">{{item['wkName']}}</p>
   
                         </span>
                       </div>
@@ -55,7 +59,7 @@
                           <div>
                             <h4 style="color: red;">Current Status</h4>
                             <p>Occupancy: <strong>{{itm['unit']['unOcStat']}}</strong></p>
-                            <p>Occupied By: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? 'UnSold Vacant Unit' : 'Tenant') : 'Owner'}}</strong></p>
+                            <p>Occupied By: <strong>{{itm['unit']['unOcStat']}}</strong></p>
                             <p>Owner Name: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</strong>&nbsp;<strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utlName']) : itm['unit']['owner'][0]['uolName']}}</strong></p>
                             <p>Mobile: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utMobile']) : itm['unit']['owner'][0]['uoMobile']}}</strong></p>
                           </div>
@@ -130,20 +134,39 @@
                         <img *ngIf="item['ntUsrImg']" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['ntUsrImg'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
                         <p *ngIf="item['visitorlog'].length>0">{{item['visitorlog'][0]['vlfName']}}</p>
                         <p *ngIf="item['wkName']">{{item['wkName']}}</p>
+             
                       </span>
+                     
                     </div>
                   </div>
                   <div id="{{item['ntid']}}" class="panel-collapse collapse">
                     <div class="panel-body pb" style="margin-top: 20px;">
                       <div class="not-detail">
-
-
-                                                  <!-- "Staff Voisentry" template -->
-                                                  <div *ngIf="item['ntType']!='Staff Registration'">
-                                                    <div *ngIf="item['visitorlog'][0]['vlVisType']=='Staff Voisentry'">
-                                                      <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
-                                                      <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
-                                                    </div>
+                        <div class="exitnot-titlemobile">
+                          <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Staff Voisentry'">
+                            {{item['visitorlog'][0]['vlMobile']}}</p>
+                          <p class = "registration"*ngIf="item['ntType']=='Staff Registration' && item['ntMobile']">{{item['ntMobile']}}</p>
+                          <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
+                            {{item['visitorlog'][0]['vlMobile']}}</p>
+                          <p [ngClass] = "{'delivery':item['visitorlog'][0]['vlApprStat']=='Exited'}" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Delivery'">
+                            {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
+                          <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
+                            {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
+                          <p
+                            *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlMobile']">
+                            {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
+                          <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest without Invitation'">
+                            {{item['visitorlog'][0]['vlMobile']}}</p>
+                      
+                        </div>
+                      
+                        <!-- "Staff Voisentry" template -->
+                        <div *ngIf="item['ntType']!='Staff Registration'">
+                          <div *ngIf="item['visitorlog'][0]['vlVisType']=='Staff Voisentry'">
+                            <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span>
+                              &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span>
+                              &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
+                            <!-- <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div> -->                   </div>
                                                   </div>
                                            
                                                   <!-- "Staff Voisentry" template -->
@@ -155,7 +178,7 @@
                                                     <div *ngIf="item['ntJoinStat']!='Registration Pending'"><span class="exitnot-title">Registration Date:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span></div>
                                                     <div *ngIf="item['ntJoinStat']!='Registration Pending'"><span class="exitnot-title">Registration Approved by:&nbsp;</span> &nbsp;<span>{{item['approvedBy']==''?'':item['approvedBy']}}</span></div>
                                                     <div *ngIf="item['ntJoinStat']!='Registration Pending'"><span class="exitnot-title">Status:&nbsp;</span> &nbsp;<span>Staff &nbsp;{{item['ntJoinStat']}}</span></div>
-                                                    <div *ngIf="item['ntMobile']"><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['ntMobile']}}</div>
+                                                    <!-- <div *ngIf="item['ntMobile']"><span>Mobile:&nbsp;</span>&nbsp;{{item['ntMobile']}}</div> -->
                                                     </div>
                                                   <!-- "Staff registration approve/reject" template -->
                                                   
@@ -166,7 +189,7 @@
                                                       <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']}}</div>
                                                       <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']}}</div>
                                                       <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']}}</div>
-                                                      <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
+                                                      <!-- <div class="mobile_number">&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div> -->
                                                     </div>
                                                   </div>
                                                   <!-- "Staff Missed call Entry" template -->
@@ -198,7 +221,7 @@
                                                       <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']==''?'':item['visitorlog'][0]['vlApprdBy']}}</div>
                                                       <div *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'mediumDate'}}&nbsp; {{item['visitorlog'][0]['vlExitT']==''?'':item['visitorlog'][0]['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']==''?'':item['visitorlog'][0]['vlexgName']}} &nbsp;&nbsp;<br> <span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']==''?'':item['visitorlog'][0]['vlExAprdBy']}}</div>
                                                       <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']==''?'':item['visitorlog'][0]['vlApprStat']}}</div>
-                                                      <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>
+                                                      <!-- <div class="mobile_number">&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div> -->
                                                     </div>
                                                   </div>
 
@@ -209,7 +232,7 @@
                                                   <div *ngIf="item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
                                                     <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                     <div *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'mediumDate'}}&nbsp;{{item['visitorlog'][0]['vlExitT']==''?'':item['visitorlog'][0]['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']==''?'':item['visitorlog'][0]['vlexgName']}} &nbsp;&nbsp;<br> </div>
-                                                    <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>    
+                                                    <!-- <div class="mobile_number">&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>     -->
                                                   </div>
                                                   </div>
 
@@ -222,7 +245,7 @@
                                                   <div *ngIf="item['ntdCreated']"><span class="exitnot-title">Exit triggered on:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                   <div  *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated'] | date:'mediumDate'}}&nbsp;&nbsp;{{item['visitorlog'][0]['vlExitT'] | date:'shortTime'}} </div>
                                                   <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}</div>
-                                                  <div *ngIf="item['visitorlog'][0]['vlMobile']"><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div>
+                                                  <!-- <div *ngIf="item['visitorlog'][0]['vlMobile']" class="mobile_number">&nbsp;{{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</div> -->
                                                 </div>
                                                 </div>
                                                   <!-- KID EXIT template -->
@@ -234,7 +257,7 @@
                                                       <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']}}</div>
                                                       <div *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated'] | date:'mediumDate'}}&nbsp;&nbsp;{{item['visitorlog'][0]['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']}} &nbsp;&nbsp;</div>
                                                       <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']}}</div>
-                                                      <div><span class="exitnot-title">Mobile:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div>
+                                                      <!-- <div class="mobile_number">&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div> -->
                                                     </div>
                                                     </div>
                                                   <!-- Guest without Invitation template -->

@@ -23,6 +23,23 @@
 .approve{color: #09a409 !important;font-weight: 600;font-size: 16px}
 .reject{color: red !important;font-weight: 600;font-size: 16px}
 .exitnot-title{color: red;font-weight: 600;}
+p.registration {
+  position: relative;
+  top: -21px;
+  right: 40px;
+}
+.delivery{
+  position: relative;
+top: -41px;
+} 
+.exitnot-titlemobile{color: red;
+  position: relative;
+  left: 350px;
+  top: -52px;
+  font-weight: 600;
+  /* margin-top: 32px; */
+  z-index: 30;
+  text-align: center;}
 .app-rej{cursor: pointer;display: flex;align-items: center;justify-content: space-between;}
 .not-detail{margin-top: 60px;
   width: 100%;
@@ -380,3 +397,11 @@ outside color needs */
       position: absolute;
       margin-top: -10px;
       margin-left: -10px;}
+      
+
+      p.mobile_number {
+        position: absolute;
+        top: 89px;
+        right: 0px;
+        color: red;
+      }
