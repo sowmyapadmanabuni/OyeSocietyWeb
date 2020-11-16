@@ -153,6 +153,8 @@ export class LoginComponent implements OnInit {
 
     var timeLeft = 60;
     var elem = document.getElementById('some_div');
+    elem.style.display = 'block';
+    elem.innerHTML = '';
     var element = <HTMLInputElement>document.getElementById("myButton1");
     var disableInput = <HTMLInputElement>document.getElementById("mobnum");
 
@@ -164,6 +166,7 @@ export class LoginComponent implements OnInit {
         if(element.value != null){
           element.disabled=false;
           disableInput.disabled=false;
+          elem.style.display = 'none';
           // element.innerHTML = "Resend";
           }
         // doSomething();
@@ -178,6 +181,7 @@ export class LoginComponent implements OnInit {
           if(element.value != null){
             element.disabled=false;
             disableInput.disabled=false;
+            elem.style.display = 'none';
             // element.innerHTML = "Resend";
             }
         }
