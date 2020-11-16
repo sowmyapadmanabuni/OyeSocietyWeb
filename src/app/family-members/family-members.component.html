@@ -84,7 +84,7 @@
                                         <img id="imgthumbnail" class="profile-pic">
                                     </div>
                                     <!-- Image Section -->
-                                    <div class="p-image">
+                                    <div [ngClass]="{'fmy-img':ToggleGurdian=='abc'}" class="p-image">
                                         <i (click)="OpenFileUpload()" class="fa fa-camera upload-button"></i>
                                         <input class="file-upload" id="uploadFileinput" type="file" accept="image/*"
                                             (change)='onFileSelected($event)' />

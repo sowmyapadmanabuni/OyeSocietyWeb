@@ -455,6 +455,12 @@ deleteFamilyMember(fmid) {
   setRelationType(relation) {
     this.Relation = relation;
     this.EditRelation = relation;
+    if(relation == 'Childern'){
+      this.ToggleGurdian = 'abc';
+    }
+    else{
+      this.ToggleGurdian = 'xyz';
+    }
   }
   OpenFileUpload() {
     let _uploadFileinput = <HTMLInputElement>document.getElementById("uploadFileinput");
