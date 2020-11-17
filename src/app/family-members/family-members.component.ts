@@ -176,13 +176,14 @@ export class FamilyMembersComponent implements OnInit {
   // });
   }
 
-  addMemberShow(){
-    this.FMImgName='';
-    this.memberList=false;
-    this.addMember=true;
+  addMemberShow() {
+    this.FMImgName = '';
+    this.memberList = false;
+    this.addMember = true;
   }
-
-  getFamilyMember(){
+  hideAddFamilyMemberBtn: boolean = false;
+  getFamilyMember() {
+    this.hideAddFamilyMemberBtn=false;
     this.PaginatedValue=10;
     this.p=1;
     this.FamilyMemberList=[];
@@ -211,6 +212,9 @@ export class FamilyMembersComponent implements OnInit {
                 console.log('NotsameAccID-',item['NotsameAccID'])
                 item['NotsameAccID']=false;
                 console.log('NotsameAccID--',item['NotsameAccID'])
+              }
+              if(item['NotsameAccID']==true){
+                this.hideAddFamilyMemberBtn=true;
               }
             })
             console.log(this.FamilyMemberList);

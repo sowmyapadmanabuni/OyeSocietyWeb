@@ -8,7 +8,7 @@
             <div class="col-md-12 m-t-30 dash">
                 <div class="enroll" style="justify-content: space-between;align-items: baseline;margin-bottom: 0px;">
                 <h3 class="black">Family Members</h3>
-                <button class="btn-primary-purple" (click)="addMemberShow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Members</button>
+                <button [hidden]="hideAddFamilyMemberBtn" class="btn-primary-purple" (click)="addMemberShow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Members</button>
             </div>
                 <div class="dash-row" *ngIf='memberList'>
                     <table class="table table-bordered"
