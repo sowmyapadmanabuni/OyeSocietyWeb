@@ -519,6 +519,7 @@ export class NotificationsComponent implements OnInit {
                               .subscribe(data => {
                                 console.log('NotificationJoinStatusUpdate', data);
                                 alert("Accepted");
+                                this.refreshNotificationArray();
                                 for (let i = 0; i < this.notificationListArray.length; i++) {
                                   if (this.notificationListArray[i]['adminNtid'] == ntid) {
                                     this.notificationListArray[i]['ntJoinStatTmp'] = 'id';
