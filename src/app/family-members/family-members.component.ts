@@ -204,7 +204,7 @@ export class FamilyMembersComponent implements OnInit {
           this.familymemberarray = data['data']['familyMembers'];
           if (this.familymemberarray.length > 0) {
             this.familymemberarray.forEach(item=>{
-              this.FamilyMemberList.push(new FamilyMemberList(item['fmName'],item['fmRltn'],item['fmMobile'],item['fmImgName'],item['asAssnID'],item['unUnitID'],item['fmid'],true,item['pAccntID']))
+              this.FamilyMemberList.push(new FamilyMemberList(item['fmName'],item['fmRltn'],item['fmMobile'],item['fmImgName'],item['asAssnID'],item['unUnitID'],item['fmid'],true,item['pAccntID'],item['fmlName'],item['fmMinor'],item['fmGurName']))
             })
             this.loadchangedforassociation = true;
             this.FamilyMemberList.forEach(item=>{
@@ -259,6 +259,23 @@ OpenEditFamilyMemberModal(EditFamilyMemberModal: TemplateRef<any>,fmName,fmRltn,
   this.modalRef = this.modalService.show(EditFamilyMemberModal, Object.assign({}, { class: 'gray modal-md' }));
 }
 // EDIT FAMILY MEMBER MODEL POPUP END
+
+viewfmName:any='';
+viewfmRltn:any='';
+viewfmMobile:any='';
+viewfmlName:any='';
+viewfmMinor:any='';
+viewfmGurName:any='';
+ViewFamilyMemberModal(ViewFamilyMemberTemplate:TemplateRef<any>,fmName,fmRltn,fmMobile,fmlName,fmMinor,fmGurName){
+  console.log(fmName,fmRltn,fmMobile);
+  this.viewfmName=fmName;
+  this.viewfmRltn=fmRltn;
+  this.viewfmMobile=fmMobile;
+  this.viewfmlName=fmlName;
+  this.viewfmMinor=fmMinor;
+  this.viewfmGurName=fmGurName;
+  this.modalRef = this.modalService.show(ViewFamilyMemberTemplate, Object.assign({}, { class: 'gray modal-md' }));
+}
 
 // UPDATE FAMILY MEMBER API CALL
 updatefamilymember() {

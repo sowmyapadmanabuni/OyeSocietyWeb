@@ -47,11 +47,12 @@
                                     <td *ngIf="item['fmImgName']!=''"><img (click)="showFamilyMemImgInPopUp(FamilyMemberImagetemplate,item['fmImgName'])" src="{{'data:image/jpeg;base64,'+item['fmImgName']}}" width="50px" height="50px"/> </td>
                                     <td *ngIf="item['fmImgName']==''"><img src="../../assets/images/family.png" width="50px" height="50px"/> </td>
                                     <td class="txt-middle">
-                                        <i data-toggle="modal" data-target="#viewBlockDetailsTemplate"
+                                        <i data-toggle="modal" data-target="#viewBlockDetailsTemplate" [hidden]="item['NotsameAccID']"
                                             (click)="OpenEditFamilyMemberModal(EditFamilyMemberModal,item['fmName'],item['fmRltn'],item['fmMobile'],item['asAssnID'],item['fmImgName'],item['unUnitID'],item['fmid'])"
                                             class="fa fa-pencil"></i><span [hidden]="item['NotsameAccID']" >&nbsp;|&nbsp;</span><i [hidden]="item['NotsameAccID']" data-toggle="modal"
                                             data-target="#editBlockDetails" (click)="deleteFamilyMember(item['fmid'])"
                                             class="fa fa-trash"></i>
+                                            <i class="fa fa-eye" (click)="ViewFamilyMemberModal(ViewFamilyMemberTemplate,item['fmName'],item['fmRltn'],item['fmMobile'],item['fmlName'],item['fmMinor'],item['fmGurName'])" [hidden]="!item['NotsameAccID']" style="cursor: pointer;" tooltip="ViewFamilyMember"></i>
                                     </td>
                                 </ng-container>
                             </tr>
@@ -150,7 +151,7 @@
                                 <div class="form-group" *ngIf="ToggleGurdian=='abc'">
                                     <label class="control-label">Guardian's Mobile Number<span class="red">*</span></label>
                                     <input minlength=10 maxlength=10 pattern="[0-9]*" type="text" required="required" class="form-control"
-                                        placeholder="Mobile Number" (keypress)=_keyPress($event) required/>
+                                    name="MobileNumber" [(ngModel)]='MobileNumber' placeholder="Mobile Number" (keypress)=_keyPress($event) required/>
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -320,6 +321,47 @@
     </div>
 </ng-template>
 <!-- EDIT FAMILY MEMBER -->
+
+<!-- VIEW FAMILY MEMBER -->
+<ng-template #ViewFamilyMemberTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Family Details</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div>
+                <div class="form-group">
+                    <label><b>Relationship:</b></label>
+                    <span>{{viewfmRltn}}</span>
+                </div>
+                <div class="form-group">
+                    <label><b>Firstname:</b></label>
+                    <span>{{viewfmName}}</span>
+                </div>
+                <div class="form-group">
+                    <label><b>Lastname:</b></label>
+                    <span>{{viewfmlName}}</span>
+                </div>
+                <div *ngIf="viewfmMinor==false" class="form-group">
+                    <label><b>Mobile:</b></label>
+                    <span>{{viewfmMobile}}</span>
+                </div>
+                <div *ngIf="viewfmMinor" class="form-group">
+                    <label><b>Guardians Name:</b></label>
+                    <span>{{viewfmGurName}}</span>
+                </div>
+                <div *ngIf="viewfmMinor" class="form-group">
+                    <label><b>Guardians Number:</b></label>
+                    <span>{{viewfmMobile}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<!--VIEW FAMILY MEMBER -->
 
 <!---->
 <ng-template #FamilyMemberImagetemplate>

@@ -818,6 +818,7 @@ export class HomeComponent implements OnInit {
     let headers = this.getHttpheaders();
     this.http.get(IPAddress + `oyeliving/api/v1/Unit/GetUnitListByAssocID/${this.globalService.getCurrentAssociationId()}`, { headers: headers })
       .subscribe(data => {
+        console.log(data);
         console.log(data['data']['unit'].length);
         this.availableNoOfUnits=data['data']['unit'].length;
       },
