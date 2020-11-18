@@ -134,6 +134,9 @@ export class LeftBarComponent implements OnInit {
           }
         })
         switch(this.myRole){
+          case 1:
+            this.occupiedby = 'Owner';
+            break;
           case 2:
             this.occupiedby = 'Owner';
             break;
