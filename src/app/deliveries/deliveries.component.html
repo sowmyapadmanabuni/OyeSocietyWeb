@@ -11,7 +11,7 @@
                         <ul class="nav nav-pills">
                             <li><a (click)="goToGuests()">My Guests</a></li>
                             <li class="active"><a (click)="goToDelivery()">Deliveries</a></li>
-                            <li><a (click)="goToStaffs()">Staff</a></li>  
+                            <!-- <li><a (click)="goToStaffs()">Staff</a></li>   -->
                         </ul>
                     </div>
                     <div class="enroll">
@@ -78,14 +78,14 @@
                                             <td>{{item['vldCreated'] | date:'d/M/y'}}</td>
                                             <td>{{item['vlEntryT'] | date:'shortTime'}}</td>
                                             <td>{{item['vlExitT'] | date:'shortTime'}}</td>
-                                            <td>{{item['vlMobile'].includes("+91") ? item['inMobile'] : '+91'+ item['vlMobile']}}</td>
+                                            <td>{{item['vlMobile'].includes("+91") ? item['vlMobile'] : '+91'+ item['vlMobile']}}</td>
                                             <td style="display: flex;justify-content: center;"><img style="cursor: pointer;" (click)="showDeliveryPersonImgInPopUp(DeliveryPersonImagetemplate,item['vlEntryImg'])" [src]="getSafeUrl(item['vlEntryImg'])" width="50px" height="50px"/></td>
                                         </ng-container>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="7">
+                                        <td colspan="8">
                                             <mfBootstrapPaginator></mfBootstrapPaginator>
                                         </td>
                                     </tr>
