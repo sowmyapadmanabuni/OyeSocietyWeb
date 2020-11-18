@@ -124,5 +124,8 @@ label{font-size:12px !important;font-weight: 500 !important}
 .fmy-img{
   left: 213px;
 }
+.view-fmly{
+  display: flex;
+}
 
 
