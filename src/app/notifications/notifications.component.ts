@@ -113,7 +113,7 @@ export class NotificationsComponent implements OnInit {
 
 
 
-  ngOnInit() {
+   ngOnInit() {
     $(function () {
       $('#myTab a').click(function (e) {
         e.preventDefault();
@@ -123,11 +123,12 @@ export class NotificationsComponent implements OnInit {
     //
     //this.GetNotificationListByAccntID();
 
-
-    this.refreshNotificationArray();
-    /* this.id = setInterval(() => {
-      this.refreshNotificationArray(); 
-    }, 10000); */
+    $(".se-pre-con").show();
+     this.refreshNotificationArray();
+    this.id = setInterval(async () => {
+      $(".se-pre-con").fadeOut("slow");
+      await this.refreshNotificationArray(); 
+    }, 10000); 
   }
 
   ngOnDestroy() {
@@ -135,8 +136,8 @@ export class NotificationsComponent implements OnInit {
       clearInterval(this.id);
     }
   }
-  refreshNotificationArray() {
-    $(".se-pre-con").show();
+  async refreshNotificationArray() {
+    // $(".se-pre-con").show();
     this.notificationService.NotificationDataRefresh();
     let ipAddress = this.utilsService.getIPaddress();
     return this.http.get(`${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/1`,
@@ -403,6 +404,7 @@ export class NotificationsComponent implements OnInit {
     console.log(this.allAdminAndResidentNotification);
   }
   NotificationActiveStatusUpdate(event, ntid, param, vlApprdBy) {
+    clearInterval(this.id);
     event.preventDefault();
     console.log(ntid);
     this.storeNTIDforCollapsableDiv = ntid;
@@ -413,11 +415,16 @@ export class NotificationsComponent implements OnInit {
     this.http.get(url, { headers: headers })
       .subscribe(data => {
         console.log(data);
+        this.id = setInterval(async () => {
+          await this.refreshNotificationArray(); 
+        }, 10000); 
+
       },
         err => {
           console.log(err);
         })
         this.notificationService.NotificationDataRefresh();
+        
   }
   //
   // Accept the join request start here

@@ -477,7 +477,8 @@ export class UnitsComponent implements OnInit {
   commonunit: boolean;
    getAllUnitDetailsByBlockID(blBlockID, blBlkName) {
     this.blBlkName = blBlkName;
-    this.blockID = blBlockID;
+     this.blockID = blBlockID;
+     this.viewUniService.blockidselectedone = blBlockID;
     this.blBlkName = blBlkName;
     this.allUnitBYBlockID = []
     let Commonarray = []

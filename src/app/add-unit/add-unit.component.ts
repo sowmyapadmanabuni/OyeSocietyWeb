@@ -454,7 +454,7 @@ export class AddUnitComponent implements OnInit {
           "UNDimens": this.unitdimension,
           "UNCalType": this.UNCalType,
           "FLFloorID": 14,
-          "BLBlockID": this.viewUniService.blockIDforUnitCreation,
+          "BLBlockID": this.viewUniService.blockidselectedone,
           "Owner1":
           {
 
@@ -472,7 +472,7 @@ export class AddUnitComponent implements OnInit {
             "UBActNo": "LOP9090909",
             "UBActType": "Savings",
             "UBActBal": 12.3,
-            "BLBlockID": this.viewUniService.blockIDforUnitCreation
+            "BLBlockID": this.viewUniService.blockidselectedone
           },
         "Tenant1":
           {

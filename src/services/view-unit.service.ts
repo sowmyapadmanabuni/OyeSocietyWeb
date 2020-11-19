@@ -12,6 +12,7 @@ export class ViewUnitService {
   scriptIP:string;
   headers:HttpHeaders;
   blockIDforUnitCreation: any;
+  blockidselectedone:any;
   /* public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
