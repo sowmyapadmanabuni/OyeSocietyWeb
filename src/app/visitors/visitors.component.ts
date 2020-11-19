@@ -128,7 +128,11 @@ currentAssociationIdForUnit:Subscription;
     this.INPOfInv ,
     this.INVisCnt ,
     this.INSDate ,
-    this.INEDate )
+    this.INEDate ,
+    'mytime-',this.mytime,
+    'totime-',this.totime,
+    formatDate(this.INSDate,'MM/dd/yyyy','en')+' '+formatDate(this.mytime,'HH:mm','en'),
+    formatDate(this.INEDate,'MM/dd/yyyy','en')+' '+formatDate(this.totime,'HH:mm','en'))
     let visitorData = {
       "MeMemID": 1,
       "UnUnitID": this.globalService.getCurrentUnitId(),
@@ -139,8 +143,8 @@ currentAssociationIdForUnit:Subscription;
       "INVchlNo": this.INVchlNo,
       "INVisCnt": this.INVisCnt,
       "INPhoto": "SD",
-      "INSDate": formatDate(this.INSDate,'MM/dd/yyyy','en')+' '+formatDate(this.mytime,'hh:mm:ss','en'),
-      "INEDate": formatDate(this.INEDate,'MM/dd/yyyy','en')+' '+formatDate(this.totime,'hh:mm:ss','en'),
+      "INSDate": formatDate(this.INSDate,'MM/dd/yyyy','en')+' '+formatDate(this.mytime,'HH:mm','en'),
+      "INEDate": formatDate(this.INEDate,'MM/dd/yyyy','en')+' '+formatDate(this.totime,'HH:mm','en'),
       "INPOfInv": this.INPOfInv,
       "INMultiEy": this.MultipleVisitors,
       "ASAssnID": this.globalService.getCurrentAssociationId(),
