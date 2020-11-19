@@ -302,6 +302,7 @@ export class AssociationManagementComponent implements OnInit {
   id: any;
   UnitsList:any[]=[];
   openeditassn;
+  paramid:any;
 
   constructor(private modalService: BsModalService,
     private formBuilder: FormBuilder,
@@ -589,16 +590,16 @@ console.log(this.associations)
     //
     this.route.params.subscribe(data => {
       console.log(data['id']);
-      let id = data['id'];
-      if (id == '1') {
+      this.paramid = data['id'];
+      if (this.paramid == '1') {
         console.log('id-1');
         this.enblEnrlAsnVew();
       }
-      else if (id == '2') {
+      else if (this.paramid == '2') {
         console.log('id-2');
         this.enblJoinAsnVew();
       }
-      else if (id == '3') {
+      else if (this.paramid == '3') {
         console.log('id-3');
         this.viewAssnService.enrlAsnEnbled = false;
         this.viewAssnService.vewAsnEnbled = true;
@@ -1494,7 +1495,7 @@ this.enblJoinAsnVew()
 
 
   }
-
+  @ViewChild('reqdemo', { static: true }) reqdemo: TemplateRef<any>;
   ngOnInit() {
     //this.getBlockDetails();
      this.createForm();
@@ -1544,11 +1545,12 @@ this.enblJoinAsnVew()
       .subscribe(item => {
         //console.log('getAssociationAllDetails',item);
         this._associations = item['data']['associations'];
-        this.filteredAssociationCityWise=this._associations;
-
+        this.filteredAssociationCityWise = this._associations;
         //this.availableNoOfBlocks = item.length;
-        console.log('associations', this.associations);  
-
+        console.log('associations', this.associations);
+        if(this.paramid==undefined){
+          this.openModal6(this.reqdemo);
+        }
       })
 
       this.getAssociationDetails();
