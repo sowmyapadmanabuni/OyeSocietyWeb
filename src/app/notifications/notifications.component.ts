@@ -123,7 +123,7 @@ export class NotificationsComponent implements OnInit {
     //
     //this.GetNotificationListByAccntID();
 
-    $(".se-pre-con").show();
+   $(".se-pre-con").show();
      this.refreshNotificationArray();
     this.id = setInterval(async () => {
       $(".se-pre-con").fadeOut("slow");

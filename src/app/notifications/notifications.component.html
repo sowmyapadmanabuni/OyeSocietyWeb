@@ -150,7 +150,9 @@
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
-                          <p Class = "kidexit" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlMobile']">
+                          <p class = "kidexit" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlApprStat']!='Entry Rejected' && item['visitorlog'][0]['vlMobile']">
+                            {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
+                          <p class = "kidexitdeny" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlApprStat'] == 'Entry Rejected' && item['visitorlog'][0]['vlMobile']">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest without Invitation'">
                             {{item['visitorlog'][0]['vlMobile']}}</p>
@@ -250,10 +252,10 @@
                                                   <!-- Guest without Invitation template -->
                                                   <div *ngIf="item['ntType']!='Staff Registration'">
                                                     <div *ngIf="item['visitorlog'][0]['vlVisType']=='Guest without Invitation'">
-                                                      <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
-                                                      <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']}}</div>
-                                                      <div *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated'] | date:'mediumDate'}}&nbsp;&nbsp;{{item['visitorlog'][0]['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']}} &nbsp;&nbsp;</div>
-                                                      <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']}}</div>
+                                                      <div *ngIf="item['ntdCreated']"><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']==''?'':item['visitorlog'][0]['vlengName']}}</span></div>
+                                                      <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']==''?'':item['visitorlog'][0]['vlApprdBy']}}</div>
+                                                      <div *ngIf="item['visitorlog'][0]['vlApprStat']=='Exited'"><span class="exitnot-title">Exit on :&nbsp;</span>{{item['ntdCreated']==''?'':item['ntdCreated'] | date:'mediumDate'}}&nbsp; {{item['visitorlog'][0]['vlExitT']==''?'':item['visitorlog'][0]['vlExitT'] | date:'shortTime'}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']==''?'':item['visitorlog'][0]['vlexgName']}}&nbsp;&nbsp;</div>
+                                                      <div><span class="exitnot-title">Status:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprStat']==''?'':item['visitorlog'][0]['vlApprStat']}}</div>
                                                       <!-- <div class="mobile_number">&nbsp;{{item['visitorlog'][0]['vlMobile']}}</div> -->
                                                     </div>
                                                     </div>

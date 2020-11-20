@@ -37,6 +37,11 @@ top: -41px;
   top: 16px;
   text-align: center;
 }
+.kidexitdeny{
+  position: relative;
+  top: 30px;
+  text-align: center;
+}
 .exitnot-titlemobile{color: red;
   position: relative;
   left: 350px;
