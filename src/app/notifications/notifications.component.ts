@@ -143,14 +143,14 @@ export class NotificationsComponent implements OnInit {
     return this.http.get(`${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/1`,
     { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
     .subscribe(data=>{
-      console.log('NotiRefreshData',data);
-      console.log(this.allAdminAndResidentNotification)
+      //console.log('NotiRefreshData',data);
+      //console.log(this.allAdminAndResidentNotification)
       //this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       //if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
          this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
          this.allAdminAndResidentNotificationTemp=data['data']['notificationListByAcctID'];
          setTimeout(()=>{
-          console.log($('.panel-default'));
+          //console.log($('.panel-default'));
           let elemnt = $('.panel-default');
           Array.from(elemnt).forEach(item=>{
             if((<HTMLElement>item).children.length == 0){
@@ -158,7 +158,7 @@ export class NotificationsComponent implements OnInit {
               (<HTMLElement>item).style.display = 'none';
             }
           })
-          console.log('test1');
+          //console.log('test1');
           $(".se-pre-con").fadeOut("slow");
          },4000)
       //}

@@ -37,11 +37,14 @@
                         </ul>
                     </div>
                     <div class="dash-row">
-                            <table class="table table-bordered" [mfData]="deliveryList | search:['vlfName', 'vlComName']:searchTxt" (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="setnoofrows=='All Records'?deliveryList.length:setnoofrows">
+                            <table class="table table-bordered" [mfData]="deliveryList | search:['vlfName', 'vlComName','unUniName']:searchTxt" (click)="onPageChange($event)" #mf="mfDataTable" [mfRowsOnPage]="setnoofrows=='All Records'?deliveryList.length:setnoofrows">
                                 <thead>
                                     <tr>
                                         <th>
                                             Sl No
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
                                         </th>
                                         <th>
                                             <mfDefaultSorter by="vlfName">Delivery Person Name</mfDefaultSorter>
@@ -56,11 +59,14 @@
                                             <mfDefaultSorter by="vlEntryT">Entry Time</mfDefaultSorter>
                                         </th>
                                         <th>
-                                            <mfDefaultSorter by="vlExitT">Exit Time</mfDefaultSorter>
+                                            <mfDefaultSorter by="vlsActTm">Exit Time</mfDefaultSorter>
                                         </th>
                                         <th>
-                                            <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
+                                            <mfDefaultSorter by="vlengName">Entry Gate</mfDefaultSorter>
                                         </th>
+                                        <!-- <th>
+                                            <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
+                                        </th> -->
                                         <th>
                                             <mfDefaultSorter >Delivery Person Image</mfDefaultSorter>
                                         </th>
@@ -71,21 +77,23 @@
                                         <ng-container *ngIf="item == -1">
                                             <td colspan="7" align="center">No Data Found</td>
                                         </ng-container>
-                                        <ng-container *ngIf="item!=-1">
+                                        <ng-container *ngIf="item!=-1 && item['vlVisType']=='Delivery'">
                                             <td>{{(PaginatedValue * (p - 1) + i)+1}}</td>
+                                            <td>{{item['unUniName']}}</td>
                                             <td>{{item['vlfName']}}</td>
-                                            <td>{{item['vlComName']}}</td>
+                                            <td><span style="position: relative;left: 24px;">{{item['vlComName']}}</span></td>
                                             <td>{{item['vldCreated'] | date:'d/M/y'}}</td>
-                                            <td>{{item['vlEntryT'] | date:'shortTime'}}</td>
-                                            <td>{{item['vlExitT'] | date:'shortTime'}}</td>
-                                            <td>{{item['vlMobile'].includes("+91") ? item['vlMobile'] : '+91'+ item['vlMobile']}}</td>
+                                            <td><span style="position: relative;left: 24px;">{{item['vlEntryT'] | date:'shortTime'}}</span></td>
+                                            <td><span style="position: relative;left: 24px;">{{(item['vlApprStat']!="Exited"?'N.A.':(item['vlExitT'] | date:'shortTime'))}}</span></td>
+                                            <td><span style="position: relative;left: 24px;">{{item['vlengName']}}</span></td>
+                                            <!-- <td>{{item['vlMobile'].includes("+91") ? item['vlMobile'] : '+91'+ item['vlMobile']}}</td> -->
                                             <td style="display: flex;justify-content: center;"><img style="cursor: pointer;" (click)="showDeliveryPersonImgInPopUp(DeliveryPersonImagetemplate,item['vlEntryImg'])" [src]="getSafeUrl(item['vlEntryImg'])" width="50px" height="50px"/></td>
                                         </ng-container>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8">
+                                        <td colspan="9">
                                             <mfBootstrapPaginator></mfBootstrapPaginator>
                                         </td>
                                     </tr>
