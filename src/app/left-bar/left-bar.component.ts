@@ -136,15 +136,19 @@ export class LeftBarComponent implements OnInit {
         switch(this.myRole){
           case 1:
             this.occupiedby = 'Owner';
+            this.globalService.occupiedby = 'Owner';
             break;
           case 2:
             this.occupiedby = 'Owner';
+            this.globalService.occupiedby = 'Owner';
             break;
           case 3:
             this.occupiedby = 'Tenant';
+            this.globalService.occupiedby = 'Tenant';
             break;
             default:
               this.occupiedby = 'Family';
+              this.globalService.occupiedby = 'Family';
         }
       }, err => {
         console.log(err);

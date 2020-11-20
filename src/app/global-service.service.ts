@@ -67,9 +67,11 @@ export class GlobalServiceService {
   AdminActiveNotification:number;
   ResidentActiveNotification:number;
   noofblockscount;
- 
+  occupiedby;
+
   constructor() {
     this.gotojoinassociation='';
+    this.occupiedby='';
     this.IsUnitCreated=false;
     this.IsEnrollAssociationStarted=false;
     this.currentAssociationName = '';

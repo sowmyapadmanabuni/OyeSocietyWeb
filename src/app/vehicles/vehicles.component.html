@@ -9,12 +9,12 @@
                                 <div class="enroll" style="justify-content: space-between;">
                                         <h3 class="black">Vehicles</h3>
                                         <div>
-                                        <button class="btn-primary-purple" (click)="openModal(template,'veType','veRegNo','veMakeMdl','veStickNo','uplNum','veid')">
+                                        <button [hidden]="globalserviceservice.occupiedby == 'Family'" class="btn-primary-purple" (click)="openModal(template,'veType','veRegNo','veMakeMdl','veStickNo','uplNum','veid')">
                                         <i class="fa fa-plus" aria-hidden="true"></i> Add Vehicles</button>
                                         </div>
                                 </div>
                                 <div class="row" *ngIf="VehicleDataNew.length==0">
-                                        <div class="alert alert-info" role="alert">
+                                        <div [hidden]="globalserviceservice.occupiedby == 'Family'" class="alert alert-info" role="alert">
                                          No Vehicles Found! Please click on add Vehicles to add.                                             
                                         </div>
                                 </div>
