@@ -81,6 +81,8 @@ export class DeliveriesComponent implements OnInit {
     this.router.navigate(['deliveries']);
   }
   getVisitorList(e:any) {
+    this.deliveryList=[];
+    this.deliveryListTmp=[];
     //console.log(e);
     this.EndDate=e;
     let date = {
@@ -93,8 +95,12 @@ export class DeliveriesComponent implements OnInit {
         $(".se-pre-con").fadeOut("slow");
         console.log(data);
         this.deliveryList = data['data']['visitorlog'];
-        this.deliveryListTmp = data['data']['visitorlog'];
-        //console.log(this.deliveryList);
+        this.deliveryList = this.deliveryList.filter(item=>{
+          return item['vlVisType']=="Delivery";
+        })
+        this.deliveryListTmp = this.deliveryList;
+        console.log(this.deliveryList);
+        console.log(this.deliveryListTmp);
         if (this.deliveryList.length > 0) {
           $(".se-pre-con").fadeOut("slow");
           this.deliveryListLength = true;

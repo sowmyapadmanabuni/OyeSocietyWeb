@@ -64,6 +64,9 @@
                                         <th>
                                             <mfDefaultSorter by="vlengName">Entry Gate</mfDefaultSorter>
                                         </th>
+                                        <th>
+                                            <mfDefaultSorter by="vlexgName">Exit Gate</mfDefaultSorter>
+                                        </th>
                                         <!-- <th>
                                             <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
                                         </th> -->
@@ -77,7 +80,7 @@
                                         <ng-container *ngIf="item == -1">
                                             <td colspan="7" align="center">No Data Found</td>
                                         </ng-container>
-                                        <ng-container *ngIf="item!=-1 && item['vlVisType']=='Delivery'">
+                                        <ng-container *ngIf="item!=-1">
                                             <td>{{(PaginatedValue * (p - 1) + i)+1}}</td>
                                             <td>{{item['unUniName']}}</td>
                                             <td>{{item['vlfName']}}</td>
@@ -86,6 +89,7 @@
                                             <td><span style="position: relative;left: 24px;">{{item['vlEntryT'] | date:'shortTime'}}</span></td>
                                             <td><span style="position: relative;left: 24px;">{{(item['vlApprStat']!="Exited"?'N.A.':(item['vlExitT'] | date:'shortTime'))}}</span></td>
                                             <td><span style="position: relative;left: 24px;">{{item['vlengName']}}</span></td>
+                                            <td><span style="position: relative;left: 24px;">{{(item['vlApprStat']!="Exited"?'N.A.':item['vlexgName'])}}</span></td>
                                             <!-- <td>{{item['vlMobile'].includes("+91") ? item['vlMobile'] : '+91'+ item['vlMobile']}}</td> -->
                                             <td style="display: flex;justify-content: center;"><img style="cursor: pointer;" (click)="showDeliveryPersonImgInPopUp(DeliveryPersonImagetemplate,item['vlEntryImg'])" [src]="getSafeUrl(item['vlEntryImg'])" width="50px" height="50px"/></td>
                                         </ng-container>
