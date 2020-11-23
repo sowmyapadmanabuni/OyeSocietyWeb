@@ -96,8 +96,18 @@ top: -41px;
   
   .number{font-size: 18px;font-weight: 500;}
   
-  
-  
+  p.guestwithout {
+    position: absolute;
+    top: -49px;
+}
+p.guestwithexited {
+  position: absolute;
+  top: -6px;
+}
+p.guestwith{
+  position: absolute;
+  top: 12px;
+}
   .view-all{
   
   padding: 18px;
