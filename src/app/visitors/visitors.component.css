@@ -110,7 +110,8 @@ align-items: center;}
       width: 60px;
       height: 34px;
     }
-    
+    .switch1{display: flex;justify-content: flex-end;}
+
     .switch input { 
       opacity: 0;
       width: 0;

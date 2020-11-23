@@ -16,6 +16,16 @@
                         </ul>
                     </div>
                 </div>
+                <div style="display: flex;flex-direction:column">
+                    <div class="switch1">
+                        <ul class="nav1 nav-pills1">
+                          <li [ngClass]="{'active' : toggleVisitor == 'InvitationDetails'}"><a (click)="GetInvitationDetails('InvitationDetails')">Invitation Details</a>
+                          </li>
+                          <li [ngClass]="{'active' : toggleVisitor == 'Visited'}"><a
+                              (click)="GetVisitedDetails('Visited')">Visited</a></li>
+                        </ul>
+                      </div>
+                </div>
                 <div class="enroll" *ngIf="guestList" style="margin-bottom: 10px;">
                     <div class="invite-radio">
                         <!-- <div class="radio-item">
@@ -30,15 +40,30 @@
                     <button class="btn-primary-purple" (click)="addGuestShow()">
                         <i class="fa fa-plus" aria-hidden="true"></i> Invite Guests</button>
                 </div>
-                <div class="enroll" style="background: #f8f8f8;padding:10px;margin-bottom: 5px" *ngIf="guestList">
+                <div class="enroll" style="background: #f8f8f8;padding:10px;margin-bottom: 5px" *ngIf="guestList && hideGuestInvitation">
                     <div class="sea">
                         <input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
                     </div>
                     <div class="del-date cal"><input type="text" name="StartDate" #StartDateControl='ngModel' [(ngModel)]="StartDate" placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig"></div>
                     <div class="del-date cal"><input type="text" (bsValueChange)='getVisitorList($event)' name="ToDate" #ToDateControl='ngModel'  [(ngModel)]="ToDate" placeholder="To Date" class="date" bsDatepicker [bsConfig]="bsConfig"></div>
                 </div>
+                <!---->
+                <div class="enroll" style="background: #f8f8f8;padding:10px;margin-bottom: 5px" *ngIf="!guestList && hideGuestInvitation1">
+                    <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchTxt" name="searchTxt" placeholder="Search.." title="Type in a category">
+                    </div>
+                    <div class="del-date cal">From-<input type="text" class="date ng-pristine ng-valid ng-touched" #StartDateCtrl name="StartDate" #StartDateControl='ngModel'
+                              placeholder="Start Date"  [(ngModel)]="StartDate" (keyup)='validateDate($event,StartDateCtrl,EndDateCtrl)'
+                              bsDatepicker required [bsConfig]="bsConfig" [minDate]="todayDate" placement="side" (blur)="GetDeleveriesList()"/>
+                    </div>
+
+                    <div class="del-date cal">To-<input type="text" class="date ng-pristine ng-valid ng-touched" name="EndDate" #EndDateControl='ngModel' placeholder="End Date"
+                        [(ngModel)]="EndDate" #EndDateCtrl [bsConfig]="bsConfig" bsDatepicker required [maxDate]="maxDate" 
+                        placement="bottom" (bsValueChange)="getDeleveriesListByDateRange($event)" (keyup)='validateDate($event,StartDateCtrl,EndDateCtrl)' (blur)="GetDeleveriesList()"/>
+                    </div>                   
+                </div>
+                <!---->
 <!--  -->
-<div class="dash-row" *ngIf='guestList'>
+<div class="dash-row" *ngIf='guestList && hideGuestInvitation'>
     <table class="table table-bordered" [mfData]="invitationList | search:['infName', 'inpOfInv', 'insDate', 'ineDate', 'inVisCnt', 'inMobile']:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="30">
         <thead>
             <tr>
@@ -113,6 +138,72 @@
         </tfoot>
     </table>
 </div>
+<!---->
+<div class="dash-row" *ngIf='!guestList && hideGuestInvitation1'>
+    <table class="table table-bordered" [mfData]="deliveryList | search:['vlfName', 'vlComName','unUniName']:searchTxt" #mf="mfDataTable">
+        <thead>
+            <tr>
+                <th>
+                    Sl No
+                </th>
+                <th>
+                    <mfDefaultSorter by="unUniName">Unit Name</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="vlfName">Guest Name</mfDefaultSorter>
+                </th>
+                <!-- <th>
+                    <mfDefaultSorter by="vlComName">Delivery From</mfDefaultSorter>
+                </th> -->
+                <th>
+                    <mfDefaultSorter by="vldCreated">Visited On</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="vlEntryT">Entry Time</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="vlsActTm">Exit Time</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
+                </th>
+                <!-- <th>
+                    <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
+                </th> -->
+                <th>
+                    <mfDefaultSorter >Guest Image</mfDefaultSorter>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mf.data;let i=index">
+                <ng-container *ngIf="item == -1">
+                    <td colspan="7" align="center">No Data Found</td>
+                </ng-container>
+                <ng-container *ngIf="item!=-1">
+                    <td>{{i+1}}</td>
+                    <td>{{item['unUniName']}}</td>
+                    <td>{{item['vlfName']}}</td>
+                    <!-- <td><span style="position: relative;left: 24px;">{{item['vlComName']}}</span></td> -->
+                    <td>{{item['vldCreated'] | date:'d/M/y'}}</td>
+                    <td><span style="position: relative;left: 24px;">{{item['vlEntryT'] | date:'shortTime'}}</span></td>
+                    <td><span style="position: relative;left: 24px;">{{(item['vlApprStat']!="Exited"?'N.A.':(item['vlExitT'] | date:'shortTime'))}}</span></td>
+                    <td><span>{{item['vlMobile']}}</span></td>
+                    <!-- <td>{{item['vlMobile'].includes("+91") ? item['vlMobile'] : '+91'+ item['vlMobile']}}</td> -->
+                    <td style="display: flex;justify-content: center;"><img style="cursor: pointer;" (click)="showGuestImgInPopUp(PersonWithoutInvitationImagetemplate,item['vlEntryImg'])" [src]="getSafeUrl(item['vlEntryImg'])" width="50px" height="50px"/></td>
+                </ng-container>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="9">
+                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table> 
+</div>
+<!---->
 </div>
 
 <!--Dashboard icons end-->
@@ -236,6 +327,22 @@
                     <h3><b>Total Guests:</b> {{TotalGuest}}</h3>               
                     <a [href]="href" (click)="downloadImage()" download><button class="btn btn-primary-purple nextBtn" type="button">Download QR Code</button></a>
                 </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #PersonWithoutInvitationImagetemplate>
+        <div class="modal-content">
+      
+          <div class="modal-header">
+            
+            <h4 class="modal-title">Guest Image</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img width="850px" height="750px" [src]="getSafeUrl(GuestImgForPopUp)"/>
           </div>
         </div>
       </ng-template>

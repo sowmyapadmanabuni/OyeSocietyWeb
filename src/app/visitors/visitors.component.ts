@@ -10,6 +10,8 @@ import swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import { formatDate } from '@angular/common';
+import { ViewDeliveryService } from 'src/services/view-delivery.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 declare var $: any;
@@ -23,6 +25,8 @@ declare var $: any;
 export class VisitorsComponent implements OnInit {
 public searchTxt: any;
 guestList:boolean;
+hideGuestInvitation:boolean;
+hideGuestInvitation1:boolean;
 addGuest:boolean;
 mytime: Date = new Date();
 totime: Date = new Date();
@@ -50,11 +54,22 @@ INEDate: any;
 todayDate: Date;
 bsConfig:any;
 currentAssociationIdForUnit:Subscription;
+  isDateFieldEmpty: boolean;
+  EndDate:any;
+  deliveryListTmp:any[];
+  deliveryList:any[];
 // ADD VISITOR DATA/*/*/*/*/*/*
 
   constructor(private globalService: GlobalServiceService, private guestService: GuestService,
-    private modalService: BsModalService, private router:Router, private addvisitorservice: AddVisitorService) 
+    private modalService: BsModalService, private router:Router, 
+    private deliveryService: ViewDeliveryService,private addvisitorservice: AddVisitorService,
+    private domSanitizer:DomSanitizer) 
     {
+      this.EndDate = '';
+      this.deliveryListTmp=[];
+      this.deliveryList = [];
+      this.isDateFieldEmpty=false;
+      this.toggleVisitor='InvitationDetails';
       this.invitationList = [];
       this.invitationListLength=false;
       this.MultipleVisitors=false;
@@ -87,6 +102,8 @@ currentAssociationIdForUnit:Subscription;
 
   ngOnInit() {
     this.guestList=true;
+    this.hideGuestInvitation=true;
+    this.hideGuestInvitation1=false;
     this.addGuest=false;
     this.getVisitorList('');
     this.AssociationName = this.globalService.getCurrentAssociationName();
@@ -117,6 +134,89 @@ currentAssociationIdForUnit:Subscription;
       console.log(err);
     }
     )
+  }
+  toggleVisitor: any = '';
+  GetInvitationDetails(visitorparam) {
+    this.toggleVisitor = visitorparam;
+    this.guestList=true;
+    this.hideGuestInvitation1=false;
+    this.hideGuestInvitation=true;
+    this.addGuest=false;
+  }
+  GetVisitedDetails(visitorparam) {
+    this.toggleVisitor = visitorparam;
+    this.guestList=false;
+    this.addGuest=false;
+    this.hideGuestInvitation1=true;
+    this.hideGuestInvitation=false;
+    let e = '';
+    this.getVisitorList1(e);
+  }
+  validateDate(event, StartDate, EndDate) {
+    this.isDateFieldEmpty=false;
+    console.log(StartDate.value, EndDate.value);
+    if (event.keyCode == 8) {
+      if ((StartDate.value == '' || StartDate.value == null) && (EndDate.value == '' || EndDate.value == null)) {
+        console.log('test');
+        this.isDateFieldEmpty=true;
+        this.getVisitorList1('');
+      }
+    }
+  }
+  GetDeleveriesList(){
+    if(this.isDateFieldEmpty==true){
+      this.getVisitorList1('');
+    }
+  }
+  getVisitorList1(e:any) {
+    //console.log(e);
+    this.EndDate=e;
+    let date = {
+      "StartDate": this.StartDate,
+      "EndDate": this.EndDate
+    }
+    //console.log(date);
+    this.deliveryService.getVisitorList(date)
+      .subscribe(data => {
+        console.log(data);
+        this.deliveryList = data['data']['visitorlog'];
+        this.deliveryList = this.deliveryList.filter(item=>{
+          return item['vlVisType']=="Guest without Invitation";
+        })
+        this.deliveryListTmp = data['data']['visitorlog'];
+      },
+        err => {
+          console.log(err);
+        }
+      )
+  }
+  getDeleveriesListByDateRange(ExpenseEndDate) {
+    console.log(this.deliveryListTmp);
+    this.deliveryList = this.deliveryListTmp;
+    console.log(formatDate(new Date(this.StartDate),'dd/MM/yyyy','en'));
+    console.log(new Date(new Date(this.StartDate).getFullYear(),new Date(this.StartDate).getMonth()+1,new Date(this.StartDate).getDate()).getTime());
+    //console.log(formatDate(this.ExpenseEndDate, 'dd/MM/yyyy', 'en'));
+    //console.log(formatDate(new Date(ExpenseEndDate),'dd/MM/yyyy','en'));
+    console.log(new Date(new Date(ExpenseEndDate).getFullYear(),new Date(ExpenseEndDate).getMonth()+1,new Date(ExpenseEndDate).getDate()).getTime());
+    console.log(ExpenseEndDate);
+    this.deliveryList = this.deliveryList.filter(item=>{
+      console.log(new Date(item['vldCreated']),new Date(new Date(item['vldCreated']).getFullYear(),new Date(item['vldCreated']).getMonth()+1,new Date(item['vldCreated']).getDate()).getTime());
+      console.log(new Date(formatDate(this.StartDate,'MM/dd/yyyy','en')).getTime())
+      console.log(new Date(formatDate(item['vldCreated'],'MM/dd/yyyy','en')).getTime())
+      console.log(new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime())
+      console.log(new Date(formatDate(this.StartDate,'MM/dd/yyyy','en')).getTime() <= new Date(formatDate(item['vldCreated'],'MM/dd/yyyy','en')).getTime() && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime() >= new Date(formatDate(item['vldCreated'],'MM/dd/yyyy','en')).getTime())
+      //return new Date(formatDate(this.ExpenseStartDate,'MM/dd/yyyy','en')).getTime() <= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime() && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')).getTime() >= new Date(formatDate(item['exdUpdated'],'MM/dd/yyyy','en')).getTime();
+      return new Date(formatDate(this.StartDate,'MM/dd/yyyy','en')) <= new Date(formatDate(item['vldCreated'],'MM/dd/yyyy','en')) && new Date(formatDate(ExpenseEndDate,'MM/dd/yyyy','en')) >= new Date(formatDate(item['vldCreated'],'MM/dd/yyyy','en'));
+    })
+    console.log(this.deliveryList);
+  }
+  GuestImgForPopUp:any;
+  showGuestImgInPopUp(PersonWithoutInvitationImagetemplate, guestImgName) {
+    this.GuestImgForPopUp = guestImgName;
+    this.modalRef = this.modalService.show(PersonWithoutInvitationImagetemplate, Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  getSafeUrl(url) {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + url);
   }
   // ADD VISITOR START HERE
   addVisitor() {
