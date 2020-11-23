@@ -143,20 +143,19 @@
                         <div class="exitnot-titlemobile">
                           <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Staff Voisentry'">
                             {{item['visitorlog'][0]['vlMobile']}}</p>
-                          <p class = "registration"*ngIf="item['ntType']=='Staff Registration' && item['ntMobile']">{{item['ntMobile']}}</p>
+                          <p [ngClass]="{'registration': item['ntJoinStat'] != 'Registration Pending'}"*ngIf="item['ntType']=='Staff Registration' && item['ntMobile']">{{item['ntMobile']}}</p>
                           <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
                             {{item['visitorlog'][0]['vlMobile']}}</p>
                           <p [ngClass] = "{'delivery':item['visitorlog'][0]['vlApprStat']=='Exited'}" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Delivery'">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
-                          <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
+                          <p [ngClass] = "{'guestwith':item['visitorlog'][0]['vlApprStat'] != 'Exited','guestwithexited':item['visitorlog'][0]['vlApprStat']=='Exited'}" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p class = "kidexit" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlApprStat']!='Entry Rejected' && item['visitorlog'][0]['vlMobile']">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p class = "kidexitdeny" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlApprStat'] == 'Entry Rejected' && item['visitorlog'][0]['vlMobile']">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
-                          <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest without Invitation'">
+                          <p [ngClass] = "{'guestwithout':item['visitorlog'][0]['vlApprStat']=='Exited'}" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest without Invitation'">
                             {{item['visitorlog'][0]['vlMobile']}}</p>
-                      
                         </div>
                       
                         <!-- "Staff Voisentry" template -->
