@@ -622,7 +622,7 @@ console.log(this.associations)
 
   ngAfterViewInit() {
     this.toggleStepWizrd();
-    $(".se-pre-con").fadeOut("slow");
+    //$(".se-pre-con").fadeOut("slow");
   }
   setRows(RowNum) {
     this.ShowRecords = 'abc';
@@ -655,16 +655,12 @@ cities=[];
            console.log(response);
           this.cities=response['data']['joinAssociationCities'];
           console.log(this.cities);
+          $(".se-pre-con").fadeOut("slow");
+          this.modalRef = this.modalService.show(reqdemo, { class: 'modal-md' });
          },
          (error) => {
            console.log(error);
-         }
-       );
-
-
-
-    this.modalRef = this.modalService.show(reqdemo, { class: 'modal-md' });
-
+         });
   }
 
   getUnitType(unitTpname, _id) {
@@ -1497,6 +1493,7 @@ this.enblJoinAsnVew()
   }
   @ViewChild('reqdemo', { static: true }) reqdemo: TemplateRef<any>;
   ngOnInit() {
+    $(".se-pre-con").show();
     //this.getBlockDetails();
      this.createForm();
     if(this.globalService.gotojoinassociation=='id'){
@@ -1541,22 +1538,11 @@ this.enblJoinAsnVew()
     this.crtAssn.state = 'SELECT STATE';
     this.crtAssn.propertyType = 'SELECT PROPERTY TYPE';
     this.crtAssn.newBAActType = '';
-    this.viewAssnService.getAssociationAllDetails()
-      .subscribe(item => {
-        //console.log('getAssociationAllDetails',item);
-        this._associations = item['data']['associations'];
-        this.filteredAssociationCityWise = this._associations;
-        //this.availableNoOfBlocks = item.length;
-        console.log('associations', this.associations);
-        if(this.paramid==undefined){
-          this.openModal6(this.reqdemo);
-        }
-      })
 
-      this.getAssociationDetails();
+     /* this.getAssociationDetails();
       this.id = setInterval(() => {
         this.getAssociationDetails(); 
-      }, 7000)
+      }, 7000) */
 
 
 
@@ -1938,7 +1924,20 @@ this.enblJoinAsnVew()
       if(data.data.associationByAccount.length > this.associations.length){
         this.associations = data.data.associationByAccount;
       }
-      
+      this.viewAssnService.getAssociationAllDetails()
+      .subscribe(item => {
+        //console.log('getAssociationAllDetails',item);
+        this._associations = item['data']['associations'];
+        this.filteredAssociationCityWise = this._associations;
+        //this.availableNoOfBlocks = item.length;
+        console.log('associations', this.associations);
+        if(this.paramid==undefined){
+          this.openModal6(this.reqdemo);
+        }
+        else{
+          $(".se-pre-con").fadeOut("slow");
+        }
+      })
       //console.log(this.associations);
 
     });
