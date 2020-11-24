@@ -101,9 +101,12 @@ export class StaffComponent implements OnInit {
   orangeFour: boolean;
   greenFive: boolean;
   orangeFive: boolean;
+  workerstatuses:any[];
 
   constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService: ViewUnitService,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
+      this.workerstatuses = [];
+      this.wkimage='';
         this.greenOne = true;
         this.orangeOne = false;
         this.greenTwo = true;
@@ -212,6 +215,8 @@ export class StaffComponent implements OnInit {
 
   selectStaff(param, wkstaf, wkimage, wkstatus, wkid, wkidtype, wkidimage, wkrating, workerstatuses) {
     console.log(workerstatuses);
+    this.workerstatuses=workerstatuses;
+    this.wkimage=wkimage;
     this.work_id=wkid;
     this.work_des=wkstaf;
     if (workerstatuses.length > 0) {
@@ -645,7 +650,6 @@ export class StaffComponent implements OnInit {
         (response) => {
           console.log(response);
           // this.ngOnInit();
-
           this.modalRef.hide();
           swal.fire({
             title: "Review Updated Successfully",
@@ -657,19 +661,15 @@ export class StaffComponent implements OnInit {
             .then(
               (result) => {
                 if (result.value) {
-                  setTimeout(() => {
+                    this.wkrating1 = this.itemwkrating;
                     this.getStaffList();
-                  }, 2000);
-
                 }
               }
             )
-
         },
         (error) => {
           console.log(error);
         }
-
       );
   }
 
