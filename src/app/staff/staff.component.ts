@@ -15,6 +15,7 @@ import { Staffbydesigantion } from '../models/staffbydesigantion';
 import { IStarRatingOnClickEvent, IStarRatingOnRatingChangeEven } from "angular-star-rating/src/star-rating-struct";
 import { formatDate } from '@angular/common';
 import { DataTable } from 'angular-6-datatable';
+
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
@@ -90,9 +91,30 @@ export class StaffComponent implements OnInit {
   staffs4: any[];
   itemwkrating: any;
   staffs5: any;
+  greenOne: boolean;
+  orangeOne: boolean;
+  greenTwo: boolean;
+  orangeTwo: boolean;
+  greenThree: boolean;
+  orangeThree: boolean;
+  greenFour: boolean;
+  orangeFour: boolean;
+  greenFive: boolean;
+  orangeFive: boolean;
+
   constructor(private router: Router, private domSanitizer: DomSanitizer, private ViewUnitService: ViewUnitService,
     private http: HttpClient, private globalServiceService: GlobalServiceService, private UtilsService: UtilsService, private modalService: BsModalService, private viewStaffService: ViewStaffService) {
-    this.staffs3 = [];
+        this.greenOne = true;
+        this.orangeOne = false;
+        this.greenTwo = true;
+        this.orangeTwo = false;
+        this.greenThree = true;
+        this.orangeThree = false;
+        this.greenFour = true;
+        this.orangeFour = false;
+        this.greenFive = true;
+        this.orangeFive = false;
+      this.staffs3 = [];
     this.Staffbydesigantion = [];
     this.wkReview = '';
     this.StaffStartDate = '';
@@ -589,6 +611,7 @@ export class StaffComponent implements OnInit {
     console.log('onClick $event: ', $event);
     this.onClickResult = $event;
     this.itemwkrating = this.onClickResult.rating
+    this.toggleSmileys(this.itemwkrating);
   };
   onRatingChange = ($event: IStarRatingOnRatingChangeEven) => {
     console.log('onRatingUpdated $event: ', $event);
@@ -823,6 +846,16 @@ export class StaffComponent implements OnInit {
 
 
   OpeneditReview(editReview: TemplateRef<any>, wkid) {
+    this.greenOne = true;
+    this.orangeOne = false;
+    this.greenTwo = true;
+    this.orangeTwo = false;
+    this.greenThree = true;
+    this.orangeThree = false;
+    this.greenFour = true;
+    this.orangeFour = false;
+    this.greenFive = true;
+    this.orangeFive = false;
     //this.staffs4=[];
     console.log(this.wkid);
     this.modalRef = this.modalService.show(editReview, Object.assign({}, { class: 'gray modal-md' }));
@@ -839,13 +872,83 @@ export class StaffComponent implements OnInit {
     })
 
     console.log(this.staffs1);
-
+    console.log(this.itemwkrating);
+    console.log(typeof this.itemwkrating);
+    this.toggleSmileys(this.itemwkrating);
     // this.wkidimage;
     // this.wkrating;
 
   }
 
+toggleSmileys(itemwkrating){
+  switch (itemwkrating) {
+    case 1:
+      this.greenOne = false;
+      this.orangeOne = true;
 
+      this.greenFive = true;
+      this.greenThree = true;
+      this.greenTwo = true;
+      this.greenFour = true;
+      this.orangeFive = false;
+      this.orangeThree = false;
+      this.orangeTwo = false;
+      this.orangeFour = false;
+      break;
+    case 2:
+      this.greenTwo = false;
+      this.orangeTwo = true;
+
+      this.greenFive = true;
+      this.greenThree = true;
+      this.greenFour = true;
+      this.greenOne = true;
+      this.orangeFive = false;
+      this.orangeThree = false;
+      this.orangeFour = false;
+      this.orangeOne = false;
+      break;
+    case 3:
+      this.greenThree = false;
+      this.orangeThree = true;
+
+      this.greenFive = true;
+      this.greenFour = true;
+      this.greenTwo = true;
+      this.greenOne = true;
+      this.orangeFive = false;
+      this.orangeFour = false;
+      this.orangeTwo = false;
+      this.orangeOne = false;
+      break;
+    case 4:
+      this.greenFour = false;
+      this.orangeFour = true;
+
+      this.greenFive = true;
+      this.greenThree = true;
+      this.greenTwo = true;
+      this.greenOne = true;
+      this.orangeFive = false;
+      this.orangeThree = false;
+      this.orangeTwo = false;
+      this.orangeOne = false;
+      break;
+    case 5:
+      this.greenFive = false;
+      this.orangeFive = true;
+
+      this.greenFour = true;
+      this.greenThree = true;
+      this.greenTwo = true;
+      this.greenOne = true;
+      this.orangeFour = false;
+      this.orangeThree = false;
+      this.orangeTwo = false;
+      this.orangeOne = false;
+      break;
+  }
+}
 
 
 

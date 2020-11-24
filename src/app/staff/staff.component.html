@@ -453,6 +453,18 @@
     </div>
     <div class="modal-body">
         <form>
+            <div class="row" style="margin:0px 30px;display: flex;">
+            <img *ngIf="greenOne" style="width: 100px;" src="../../assets/images/smileys/green_smiley1.png">
+            <img *ngIf="orangeOne" style="width: 100px;" src="../../assets/images/smileys/orange_smiley1.png">
+            <img *ngIf="greenTwo" style="width: 100px;" src="../../assets/images/smileys/green_smiley2.png">
+            <img *ngIf="orangeTwo" style="width: 100px;" src="../../assets/images/smileys/orange_smiley2.png">
+            <img *ngIf="greenThree" style="width: 100px;" src="../../assets/images/smileys/green_smiley3.png">
+            <img *ngIf="orangeThree" style="width: 100px;" src="../../assets/images/smileys/orange_smiley3.png">
+            <img *ngIf="greenFour" style="width: 100px;" src="../../assets/images/smileys/green_smiley4.png">
+            <img *ngIf="orangeFour" style="width: 100px;" src="../../assets/images/smileys/orange_smiley4.png">
+            <img *ngIf="greenFive" src="../../assets/images/smileys/green_smiley5.png">
+            <img *ngIf="orangeFive" style="width: 100px;" src="../../assets/images/smileys/orange_smiley5.png">
+            </div>
             <div class="row" *ngFor="let item of staffs1" style="margin:0px 30px">
                 <h5>Staff Details</h5>
 
@@ -476,7 +488,7 @@
                 </div>
                 <div>
                     <label>Comments:</label>
-                    <textarea rows="5" cols="5" name="comment" [(ngModel)]="wkReview"
+                    <textarea rows="5" cols="5" name="comment" placeholder="Write Something..." [(ngModel)]="wkReview"
                         style="width: 100%">{{wkReview}}</textarea>
                 </div>
                 <button (click)="updateReview(item['wkWorkID'],comment,item['wkDesgn'],item['wkEntryImg'],item['wkStatus'],item['wkWorkID'],item['idPrfType'],item['idPrfImg'],item['workerstatuses'])"
