@@ -66,7 +66,9 @@ export class NotificationsComponent implements OnInit {
   image5:any;
   notificationListByAcctID:any[];
   allAdminAndResidentNotification:any[];
+  allAdminAndResidentNotification1:any[];
   allAdminAndResidentNotificationTemp:any[];
+  allAdminAndResidentNotificationTempresidant:any[];
   DateCurrent: any;
   id: any;
   storeNTIDforCollapsableDiv: any;
@@ -82,7 +84,10 @@ export class NotificationsComponent implements OnInit {
       // this.storeNTIDforCollapsableDiv='';
       this.notificationListByAcctID=[];
       this.allAdminAndResidentNotification=[];
+       this.allAdminAndResidentNotification1 = [];
+
       this.allAdminAndResidentNotificationTemp=[];
+      this.allAdminAndResidentNotificationTempresidant=[];
       this.imagesArray=[];
       this.changeViewOfActionButton=true;
     this.ntJoinStatTmp2 = '';
@@ -137,30 +142,31 @@ export class NotificationsComponent implements OnInit {
     }
   }
   async refreshNotificationArray() {
-    // $(".se-pre-con").show();
+    //  $(".se-pre-con").show();
     this.notificationService.NotificationDataRefresh();
     let ipAddress = this.utilsService.getIPaddress();
     return this.http.get(`${ipAddress}oyesafe/api/v1/Notification/GetNotificationListByAccntID/${this.globalService.getacAccntID()}/1`,
     { headers: { 'X-OYE247-APIKey': '7470AD35-D51C-42AC-BC21-F45685805BBE', 'Content-Type': 'application/json' } })
     .subscribe(data=>{
-      //console.log('NotiRefreshData',data);
+      console.log('NotiRefreshData',data);
       //console.log(this.allAdminAndResidentNotification)
       //this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
       //if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
          this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
-         this.allAdminAndResidentNotificationTemp=data['data']['notificationListByAcctID'];
-         setTimeout(()=>{
-          //console.log($('.panel-default'));
-          let elemnt = $('.panel-default');
-          Array.from(elemnt).forEach(item=>{
-            if((<HTMLElement>item).children.length == 0){
-              console.log(item);
-              (<HTMLElement>item).style.display = 'none';
-            }
-          })
-          //console.log('test1');
-          $(".se-pre-con").fadeOut("slow");
-         },4000)
+         this.allAdminAndResidentNotification1 = data['data']['notificationListByAcctID'].filter(item=>{
+           return item['ntType']=='Join';
+         });
+         this.allAdminAndResidentNotificationTemp=this.allAdminAndResidentNotification1
+         this.allAdminAndResidentNotificationTempresidant = data['data']['notificationListByAcctID'];
+        //  setTimeout(()=>{
+        //   let elemnt = $('.panel-default');
+        //   Array.from(elemnt).forEach(item=>{
+        //     if((<HTMLElement>item).children.length == 0){
+        //       (<HTMLElement>item).style.display = 'none';
+        //     }
+        //   })
+        //   $(".se-pre-con").fadeOut("slow");
+        //  },1000)
       //}
     },
     err=>{
@@ -184,17 +190,17 @@ export class NotificationsComponent implements OnInit {
   }
   AdminsButtonShow(admin) {
     this.role = admin;
-    this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTemp;
-    setTimeout(()=>{
-      let elemnt = $('.panel-default');
-      Array.from(elemnt).forEach(item=>{
-        if((<HTMLElement>item).children.length == 0){
-          console.log(item);
-          (<HTMLElement>item).style.display = 'none';
-        }
-      })
-      $(".se-pre-con").fadeOut("slow");
-     },2000)
+    this.allAdminAndResidentNotification1 = this.allAdminAndResidentNotificationTemp;
+    // setTimeout(()=>{
+    //   let elemnt = $('.panel-default');
+    //   Array.from(elemnt).forEach(item=>{
+    //     if((<HTMLElement>item).children.length == 0){
+    //       console.log(item);
+    //       (<HTMLElement>item).style.display = 'none';
+    //     }
+    //   })
+    //   $(".se-pre-con").fadeOut("slow");
+    //  },1000)
   }
   GetNotificationListByAccntID() {
     console.log(this.paginatedvalue);
@@ -213,6 +219,9 @@ export class NotificationsComponent implements OnInit {
           this.GetNotificationListByAccntID();
           console.log(data);
           this.allAdminAndResidentNotification= data['data']['notificationListByAcctID'];
+          this.allAdminAndResidentNotification1 = data['data']['notificationListByAcctID'].filter(item=>{
+            return item['ntType']=='Join';
+          });
           this.allAdminAndResidentNotificationTemp= data['data']['notificationListByAcctID'];
           console.log(this.allAdminAndResidentNotification);
         }
@@ -358,7 +367,7 @@ export class NotificationsComponent implements OnInit {
     if (this.searchVisitorText == '') {
       console.log('searchVisitorText', this.searchVisitorText);
       this.ResidentNotificationListArray = this.ResidentNotificationListArrayTemp;
-      this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTemp;
+      this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTempresidant;
     }
     /* this.ResidentNotificationListArray = this.ResidentNotificationListArray.filter(item => {
       return (item['unUniName'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1 || item['vlVisType'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1 || item['residentNtdCreated'].toLowerCase().indexOf(this.searchVisitorText.toLowerCase()) > -1)
@@ -379,29 +388,29 @@ export class NotificationsComponent implements OnInit {
       $(".se-pre-con").show();
       console.log('searchAdminVisitorText', this.searchAdminVisitorText);
       this.notificationListArray = this.notificationListArrayTemp;
-      this.allAdminAndResidentNotification = this.allAdminAndResidentNotificationTemp;
-      setTimeout(()=>{
-        console.log($('.panel-default'));
-        let elemnt = $('.panel-default');
-        Array.from(elemnt).forEach(item=>{
-          if((<HTMLElement>item).children.length == 0){
-            console.log(item);
-            (<HTMLElement>item).style.display = 'none';
-          }
-        })
-        console.log('test1');
-        $(".se-pre-con").fadeOut("slow");
-       },2000)
+      this.allAdminAndResidentNotification1 = this.allAdminAndResidentNotificationTemp;
+      // setTimeout(()=>{
+      //   console.log($('.panel-default'));
+      //   let elemnt = $('.panel-default');
+      //   Array.from(elemnt).forEach(item=>{
+      //     if((<HTMLElement>item).children.length == 0){
+      //       console.log(item);
+      //       (<HTMLElement>item).style.display = 'none';
+      //     }
+      //   })
+      //   console.log('test1');
+      //   $(".se-pre-con").fadeOut("slow");
+      //  },2000)
     }
     this.notificationListArray = this.notificationListArray.filter(item => {
       return (item['unUniName'].toLowerCase().indexOf(this.searchAdminVisitorText.toLowerCase()) > -1)
     })
-    this.allAdminAndResidentNotification = this.allAdminAndResidentNotification.filter(item => {
+    this.allAdminAndResidentNotification1 = this.allAdminAndResidentNotification1.filter(item => {
       if(item['unit']!=null){
         return (item['unit']['unUniName'].toLowerCase().indexOf(this.searchAdminVisitorText.toLowerCase()) > -1)
       }
     })
-    console.log(this.allAdminAndResidentNotification);
+    console.log(this.allAdminAndResidentNotification1);
   }
   NotificationActiveStatusUpdate(event, ntid, param, vlApprdBy) {
     clearInterval(this.id);
@@ -417,7 +426,7 @@ export class NotificationsComponent implements OnInit {
         console.log(data);
         this.id = setInterval(async () => {
           await this.refreshNotificationArray(); 
-        }, 10000); 
+        }, 15000); 
 
       },
         err => {
