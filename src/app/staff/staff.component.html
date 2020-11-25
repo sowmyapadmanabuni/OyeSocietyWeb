@@ -61,7 +61,7 @@
                         <div class="date-row" *ngIf="displayStaff!='Select Staff'">
                             <div class="del-date cal">
                                 <input type="text" #StaffStartDatee name="StaffStartDate"
-                                    #StaffStartDateControl='ngModel' [(ngModel)]="StaffStartDateyes"
+                                    #StaffStartDateControl='ngModel' (bsValueChange)="StaffStartDateyesChange($event)" [(ngModel)]="StaffStartDateyes"
                                     placeholder="From Date" class="date" bsDatepicker [bsConfig]="bsConfig">
                             </div>
                             <div class="del-date cal">
