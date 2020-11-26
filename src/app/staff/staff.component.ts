@@ -614,10 +614,10 @@ export class StaffComponent implements OnInit {
   onClickResult: IStarRatingOnClickEvent;
 
   onRatingChangeResult: IStarRatingOnRatingChangeEven;
-  onClick = ($event: IStarRatingOnClickEvent) => {
-    console.log('onClick $event: ', $event);
-    this.onClickResult = $event;
-    this.itemwkrating = this.onClickResult.rating
+  onClick (param){
+    console.log(param);
+    this.onClickResult = param;
+    this.itemwkrating = this.onClickResult;
     this.toggleSmileys(this.itemwkrating);
   };
   onRatingChange = ($event: IStarRatingOnRatingChangeEven) => {

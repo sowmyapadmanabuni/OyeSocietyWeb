@@ -454,15 +454,15 @@
     <div class="modal-body">
         <form>
             <div class="row" style="margin:0px 30px;display: flex;">
-            <img *ngIf="greenOne" style="width: 100px;" src="../../assets/images/smileys/green_smiley1.png">
+            <img (click)="onClick(1)" *ngIf="greenOne" style="width: 100px;cursor: pointer;" src="../../assets/images/smileys/green_smiley1.png">
             <img *ngIf="orangeOne" style="width: 100px;" src="../../assets/images/smileys/orange_smiley1.png">
-            <img *ngIf="greenTwo" style="width: 100px;" src="../../assets/images/smileys/green_smiley2.png">
+            <img (click)="onClick(2)" *ngIf="greenTwo" style="width: 100px;cursor: pointer;" src="../../assets/images/smileys/green_smiley2.png">
             <img *ngIf="orangeTwo" style="width: 100px;" src="../../assets/images/smileys/orange_smiley2.png">
-            <img *ngIf="greenThree" style="width: 100px;" src="../../assets/images/smileys/green_smiley3.png">
+            <img (click)="onClick(3)" *ngIf="greenThree" style="width: 100px;cursor: pointer;" src="../../assets/images/smileys/green_smiley3.png">
             <img *ngIf="orangeThree" style="width: 100px;" src="../../assets/images/smileys/orange_smiley3.png">
-            <img *ngIf="greenFour" style="width: 100px;" src="../../assets/images/smileys/green_smiley4.png">
+            <img (click)="onClick(4)" *ngIf="greenFour" style="width: 100px;cursor: pointer;" src="../../assets/images/smileys/green_smiley4.png">
             <img *ngIf="orangeFour" style="width: 100px;" src="../../assets/images/smileys/orange_smiley4.png">
-            <img *ngIf="greenFive" src="../../assets/images/smileys/green_smiley5.png">
+            <img (click)="onClick(5)" *ngIf="greenFive" style="cursor: pointer;" src="../../assets/images/smileys/green_smiley5.png">
             <img *ngIf="orangeFive" style="width: 100px;" src="../../assets/images/smileys/orange_smiley5.png">
             </div>
             <div class="row" *ngFor="let item of staffs1" style="margin:0px 30px">
@@ -478,9 +478,8 @@
                         </div>
                         <div style="margin-left: 17px;">
                             <p>
-                                <star-rating-comp [starType]="'svg'" [direction]="'ltr'" [step]="0.5" [size]="'medium'"
-                                    [staticColor]="'ok'" [rating]="itemwkrating" (onClick)="onClick($event)"
-                                    (onRatingChange)="onRatingChange($event)"></star-rating-comp>
+                                <star-rating-comp [readOnly]="true" [starType]="'svg'" [direction]="'ltr'" [step]="0.5" [size]="'medium'"
+                                    [staticColor]="'ok'" [rating]="itemwkrating"></star-rating-comp>
                             </p>
                             <p>{{itemwkrating}}</p>
                         </div>
