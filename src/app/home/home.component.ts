@@ -833,7 +833,7 @@ export class HomeComponent implements OnInit {
   }
   goToEnrollAssociation(){
     this.join_enroll=1;
-    this.router.navigate(['joinenroll',this.join_enroll]);
+    this.router.navigate(['association','1']);
   }
   goToJoinAssociation(){
     this.join_enroll=2;

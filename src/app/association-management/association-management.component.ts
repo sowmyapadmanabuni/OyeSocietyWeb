@@ -1937,10 +1937,17 @@ this.enblJoinAsnVew()
         }
         else{
           $(".se-pre-con").fadeOut("slow");
+          console.log('fadeOutslow');
         }
+      },
+      err=>{
+        $(".se-pre-con").fadeOut("slow");
       })
       //console.log(this.associations);
 
+    },
+    err1=>{
+      $(".se-pre-con").fadeOut("slow");
     });
   }
 
