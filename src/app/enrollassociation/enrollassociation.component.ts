@@ -102,7 +102,8 @@ export class EnrollassociationComponent implements OnInit {
   PANfileName: string;
   hidePANchooseFile1: boolean;
   okaycontinuebutton: string;
-
+  type:any;
+  popuptype:any;
   constructor(private http: HttpClient, private cdref: ChangeDetectorRef,
     public viewAssnService: ViewAssociationService,
     private globalService: GlobalServiceService,
@@ -1253,27 +1254,40 @@ export class EnrollassociationComponent implements OnInit {
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
           this.message = `${this.invalidUnitCount} Invalid
                           ${this.duplicateUnitCount} Duplicate`
+                          this.type = "error";
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
           this.message = `${this.invalidUnitCount} Invalid`
+          this.type = "error";
+
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
           this.message = `${this.duplicateUnitCount} Duplicate`
+          this.type = "error";
+
         }
       }
       else if (this.unitsuccessarray.length > 1) {
         if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
           this.message = `${this.invalidUnitCount} Invalid
                           ${this.duplicateUnitCount} Duplicate`
+                          this.type = "error";
+
         }
         else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
           this.message = `${this.invalidUnitCount} Invalid`
+          this.type = "error";
+
         }
         else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
           this.message = `${this.duplicateUnitCount} Duplicate`
+          this.type = "error";
+
         }
         else {
           this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+          this.type = "success";
+
         }
       }
       if (this.duplicateUnitrecordexist) {
@@ -1284,7 +1298,7 @@ export class EnrollassociationComponent implements OnInit {
         Swal.fire({
           title: this.message,
           text: "",
-          type: "success",
+          type: this.type,
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK",
           allowOutsideClick:false
@@ -1323,7 +1337,7 @@ export class EnrollassociationComponent implements OnInit {
         console.log('insidelasttab');
         if (!this.duplicateUnitrecordexist) {
           console.log('inlasttabNoduplicaterecordexist');
-          let mesg = `Total Unit Created - ${this.totalUnitcount}`
+          let mesg = `Total Units Created - ${this.totalUnitcount}`
           document.getElementById('unitupload_excel').style.display = 'none'
           document.getElementById('unitshowmanual').style.display = 'block';
           document.getElementById('unitsmanualnew').style.display = 'none';
@@ -1364,21 +1378,28 @@ export class EnrollassociationComponent implements OnInit {
             if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
               this.message = `${this.invalidUnitCount} Invalid
                               ${this.duplicateUnitCount} Duplicate`
+                            this.type = "error";
             }
             else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
               this.message = `${this.invalidUnitCount} Invalid`
+              this.type = "error";
+
             }
             else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
               this.message = `${this.duplicateUnitCount} Duplicate`
+              this.type = "error";
+
             }
           }
           else {
             this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+            this.type = "success";
+
           }
           Swal.fire({
             title: this.message,
             text: "",
-            type: "success",
+            type: this.type,
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK",
             allowOutsideClick:false
@@ -2646,17 +2667,22 @@ export class EnrollassociationComponent implements OnInit {
         if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
           displaymessage = `${this.invalidBlockCount} Invalid
                             ${this.duplicateBlockCount} Duplicate`;
+                            this.popuptype = "error";
         }
         else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
           displaymessage = `${this.invalidBlockCount} Invalid`;
+          this.popuptype = "error";
+
         }
         else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
           displaymessage = `${this.duplicateBlockCount} Duplicate`;
+          this.popuptype = "error";
+
         }
         Swal.fire({
           title: displaymessage,
           text: "",
-          type: "success",
+          type: this.popuptype,
           confirmButtonColor: "#f69321",
           confirmButtonText: "OK",
           allowOutsideClick:false
@@ -2820,16 +2846,21 @@ export class EnrollassociationComponent implements OnInit {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
               this.okaycontinuebutton = "OK";
+              this.popuptype = "error";
 
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
               this.okaycontinuebutton = "OK";
+              this.popuptype = "error";
+
 
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
               this.okaycontinuebutton = "OK";
+              this.popuptype = "error";
+
 
             }
           }
@@ -2838,26 +2869,33 @@ export class EnrollassociationComponent implements OnInit {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
                                 this.okaycontinuebutton = "OK";
+              this.popuptype = "error";
+
 
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
               this.okaycontinuebutton = "OK";
+              this.popuptype = "error";
               
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
               this.okaycontinuebutton = "OK";
+              this.popuptype = "error";
+
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
               this.exitblocksbuttonshow = true;
               this.okaycontinuebutton = "CONTINUE";
+              this.popuptype = "success";
+
             }
           }
           Swal.fire({
             title: displaymessage,
-            type: "success",
+            type: this.popuptype,
             showCancelButton: this.exitblocksbuttonshow,
             confirmButtonColor: "#f69321",
             confirmButtonText: this.okaycontinuebutton,

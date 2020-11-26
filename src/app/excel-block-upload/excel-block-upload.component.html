@@ -23,11 +23,11 @@
                     <div class="row">
                         <div style="display: flex;margin-bottom: 20px;align-items: flex-start;width: 50%;margin: auto;justify-content: space-around;">
                             <div class="upload_excel">
+                                <a id="blocksuploadid3" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 60px;" class="excel"
+                                    src="../../assets/images/download.png"
+                                    tooltip="click to download demo excel format for blocks"></a>
                                 <a id="blocksuploadid2"> <img style="width: 60px;" class="excel" (click)="upLoad()" src="../../assets/images/upload.png"
                                         tooltip="Have more num of Blocks?"></a>
-                                <a id="blocksuploadid3" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 60px;" class="excel"
-                                        src="../../assets/images/download.png"
-                                        tooltip="click to download demo excel format for blocks"></a>
                                 <input type="file" id="file_upload_id" (change)="onFileChange($event,blockprogressbartemplate)" multiple="false"
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                     style="display:none" #file>

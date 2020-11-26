@@ -401,10 +401,10 @@
             </div> -->
 
             <div id="upload_excel" style="display:none">
+                <a id="blocksuploadid" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
+                    src="../../assets/images/download.png" matTooltip="click to download demo excel format for blocks"></a>
                 <a id="blocksuploadid1"> <img style="width: 100px;" class="excel" (click)="uploadblocks()" src="../../assets/images/upload.png"
                     matTooltip="UPLOAD"></a>
-                <a id="blocksuploadid" href="../../assets/Excel/Demo_Block_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
-                        src="../../assets/images/download.png" matTooltip="click to download demo excel format for blocks"></a>
                 <input #fileInput1 type="file" id="file_upload_id" (click)="fileInput1.value = null"
                     (change)="onFileChange($event,blockprogressbartemplate)"
                     accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -1082,11 +1082,12 @@
                  <button id="button2" mat-raised-button color="primary" (click)="submitforbulkupload($event)">Bulk Upload</button> 
             </div> -->
                 <div id="unitupload_excel" style="display:none">
-                    <a id="unitsuploadid1"> <img style="width: 100px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
-                        matTooltip="UPLOAD" ></a>
+                   
                     <a id="unitsuploadid" href="../../assets/Excel/Demo_Unit_Detailstemplate_New.xlsx" download><img style="width: 100px;" class="excel"
                             src="../../assets/images/download.png" matTooltip="click to download demo excel format for units"></a>
-                    <input #fileInput type="file" id="file_unitupload_id" (click)="fileInput.value = null"
+                            <a id="unitsuploadid1"> <img style="width: 100px;" class="excel" (click)="uploadunits()" src="../../assets/images/upload.png"
+                                matTooltip="UPLOAD" ></a>
+                            <input #fileInput type="file" id="file_unitupload_id" (click)="fileInput.value = null"
                         (change)="onFileunitdetailschange($event,UpdateBlockUnitCountTemplate,unitprogressbartemplate)"
                         accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                     <div id="cancelbutton">

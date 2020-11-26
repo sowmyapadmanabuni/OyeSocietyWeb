@@ -46,6 +46,7 @@ export class ExcelUnitUploadComponent implements OnInit {
   progressbarmodalRef: BsModalRef;
   unitprogressvaluemax:number;
   unitprogressvalue:number;
+  unitpopuptype:any;
   occupancy = [
     "Sold Owner Occupied Unit",
     "Sold Tenant Occupied Unit",
@@ -805,27 +806,40 @@ export class ExcelUnitUploadComponent implements OnInit {
           if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
             this.message = `${this.invalidUnitCount} Invalid
                             ${this.duplicateUnitCount} Duplicate`
+                            this.unitpopuptype = "error";
           }
           else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
             this.message = `${this.invalidUnitCount} Invalid`
+            this.unitpopuptype = "error";
+
           }
           else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
             this.message = `${this.duplicateUnitCount} Duplicate`
+            this.unitpopuptype = "error";
+
           }
         }
         else if (this.unitsuccessarray.length > 1) {
           if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
             this.message = `${this.invalidUnitCount} Invalid
                             ${this.duplicateUnitCount} Duplicate`
+                            this.unitpopuptype = "error";
+
           }
           else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
             this.message = `${this.invalidUnitCount} Invalid`
+            this.unitpopuptype = "error";
+
           }
           else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
             this.message = `${this.duplicateUnitCount} Duplicate`
+            this.unitpopuptype = "error";
+
           }
           else {
             this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+            this.unitpopuptype = "success";
+
           }
         }
         if (this.duplicateUnitrecordexist) {
@@ -836,7 +850,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           Swal.fire({
             title: this.message,
             text: "",
-            type: "success",
+            type: this.unitpopuptype,
             allowOutsideClick:false,
             confirmButtonColor: "#f69321",
             confirmButtonText: "OK"
@@ -875,7 +889,7 @@ export class ExcelUnitUploadComponent implements OnInit {
           console.log('insidelasttab');
           if (!this.duplicateUnitrecordexist) {
             console.log('inlasttabNoduplicaterecordexist');
-            let mesg = `Total Unit Created - ${this.totalUnitcount}`
+            let mesg = `Total Units Created - ${this.totalUnitcount}`
             // document.getElementById('unitupload_excel').style.display = 'none'
             // document.getElementById('unitshowmanual').style.display = 'block';
             // document.getElementById('unitsmanualnew').style.display = 'none';
@@ -918,21 +932,29 @@ export class ExcelUnitUploadComponent implements OnInit {
               if (this.duplicateUnitCount > 0 && this.invalidUnitCount > 0) {
                 this.message = `${this.invalidUnitCount} Invalid
                                 ${this.duplicateUnitCount} Duplicate`
+                this.unitpopuptype = "error";
+
               }
               else if (this.duplicateUnitCount == 0 && this.invalidUnitCount > 0) {
                 this.message = `${this.invalidUnitCount} Invalid`
+                this.unitpopuptype = "error";
+
               }
               else if (this.duplicateUnitCount > 0 && this.invalidUnitCount == 0) {
                 this.message = `${this.duplicateUnitCount} Duplicate`
+                this.unitpopuptype = "error";
+
               }
             }
             else {
               this.message = this.unitsuccessarray.length + '-' + 'Units Created Successfully'
+              this.unitpopuptype = "success";
+
             }
             Swal.fire({
               title: this.message,
               text: "",
-              type: "success",
+              type: this.unitpopuptype,
               confirmButtonColor: "#f69321",
               confirmButtonText: "OK",
               allowOutsideClick:false
@@ -970,7 +992,7 @@ export class ExcelUnitUploadComponent implements OnInit {
         else {
           console.log('demo2TabIndex');
           if (!this.duplicateUnitrecordexist) {
-            let mesg = `${this.unitsuccessarray.length}-Unit Created Successfully`;
+            let mesg = `${this.unitsuccessarray.length}-Units Created Successfully`;
             Swal.fire({
               title: mesg,
               text: "",

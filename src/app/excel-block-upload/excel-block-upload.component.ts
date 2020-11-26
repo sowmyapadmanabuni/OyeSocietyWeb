@@ -44,7 +44,7 @@ export class ExcelBlockUploadComponent implements OnInit {
   valueExcelUnitArr:any[];
   numberofunitexistence:any;
   notValidBlockArr:any[];
- 
+  blockpopuptype:any;
   duplicateBlockCount:number;
   invalidBlockCount:number;
   canDoBlockLogicalOrder:boolean;
@@ -2583,17 +2583,22 @@ this.canDoBlockLogicalOrder=true;
               if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
                 displaymessage = `${this.invalidBlockCount} Invalid
                                   ${this.duplicateBlockCount} Duplicate`;
+                                  this.blockpopuptype = "error";
               }
               else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
                 displaymessage = `${this.invalidBlockCount} Invalid`;
+                this.blockpopuptype = "error";
+
               }
               else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
                 displaymessage = `${this.duplicateBlockCount} Duplicate`;
+                this.blockpopuptype = "error";
+
               }
               Swal.fire({
                 title: displaymessage,
                 text: "",
-                type: "success",
+                type: this.blockpopuptype,
                 confirmButtonColor: "#f69321",
                 confirmButtonText: "OK"
               }).then(
@@ -2840,27 +2845,41 @@ this.canDoBlockLogicalOrder=true;
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
+                this.blockpopuptype = "error";
+
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
+              this.blockpopuptype = "error";
+
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
+              this.blockpopuptype = "error";
+
             }
           }
           else if (this.blockssuccessarray > 1) {
             if (this.duplicateBlockCount > 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid
                                 ${this.duplicateBlockCount} Duplicate`;
+                this.blockpopuptype = "error";
+
             }
             else if (this.duplicateBlockCount == 0 && this.invalidBlockCount > 0) {
               displaymessage = `${this.invalidBlockCount} Invalid`;
+              this.blockpopuptype = "error";
+
             }
             else if (this.duplicateBlockCount > 0 && this.invalidBlockCount == 0) {
               displaymessage = `${this.duplicateBlockCount} Duplicate`;
+              this.blockpopuptype = "error";
+
             }
             else {
               displaymessage = this.blockssuccessarray + '-' + 'Blocks Created Successfully'
+              this.blockpopuptype = "success";
+
             }
           }
           Swal.fire({
