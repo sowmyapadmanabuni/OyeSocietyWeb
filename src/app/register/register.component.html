@@ -278,16 +278,16 @@
 							<form #registerFrm="ngForm">
 								<div class="form-group first-row">
 									<div class="user-wrapper">
-                                        <input  placeholder="First Name" name="firstName" #firstNameCtrl='ngModel' [(ngModel)]="firstName" type="text" pattern="[a-zA-Z _]*" required/>
-                                        <p style="color: red;" *ngIf="firstNameCtrl.invalid && firstNameCtrl.touched">Enter valid Firstname</p>
+                                        <input (keypress)="_keyPressfirstname($event,'first_name')" placeholder="First Name" name="firstName" [(ngModel)]="firstName" type="text"/>
+                                        <p style="color: red;" *ngIf="firstNameCtrl">Enter valid Firstname</p>
 									</div>
 									
                                 </div>
                                 <div class="form-group first-row">
 									
 									<div class="user-wrapper" style="width: 100%;">
-                                        <input placeholder="Last Name" name="lastName" #lastNameCtrl='ngModel' [(ngModel)]="lastName" type="text" pattern="[a-zA-Z _]*" required/>
-                                        <p style="color: red;" *ngIf="lastNameCtrl.invalid && lastNameCtrl.touched">Enter valid Lastname</p>
+                                        <input (keypress)="_keyPresslastname($event,'last_name')" placeholder="Last Name" name="lastName" [(ngModel)]="lastName" type="text"/>
+                                        <p style="color: red;" *ngIf="lastNameCtrl">Enter valid Lastname</p>
 									</div>
 								</div>
 								<div class="form-group first-row">
@@ -312,8 +312,8 @@
 									</div>
 								<div class="form-group first-row">
 									<div class="email-wrapper">
-                                        <input placeholder="Email Address" name="email" #emailCtrl='ngModel' [(ngModel)]="email" type="text" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
-                                        <p style="color: red;" *ngIf="emailCtrl.invalid && emailCtrl.touched">Enter valid email</p>
+                                        <input (keyup)="_keyUp1($event,'user_email')" placeholder="Email Address" name="email" [(ngModel)]="email" type="text"/>
+                                        <p style="color: red;" *ngIf="emailCtrl">Enter valid email</p>
 									</div>									
 								</div>
 								<div class="checkbox">
@@ -322,7 +322,7 @@
 
                                 <div class="col-lg-12 loginbttm">
 									<div class="col-lg-6 login-btm login-button">
-										<button type="submit" [disabled]="firstNameCtrl.errors.required || lastNameCtrl.errors.required || emailCtrl.invalid || terms2==''" (click)='register()' class="btn btn-primary1">Register</button>
+										<button type="submit" [disabled]="notValidDetails || terms2==''" (click)='register()' class="btn btn-primary1">Register</button>
 									</div>
 								</div>
 							</form>

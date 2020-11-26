@@ -14,9 +14,9 @@ import {GlobalServiceService} from '../global-service.service';
 export class RegisterComponent implements OnInit {
   termsConditionmodalRef: BsModalRef;
   refundPolicymodalRef: BsModalRef;
-  firstName : String;
-  lastName : String;
-  email : String;
+  firstName : string;
+  lastName : string;
+  email : string;
 
   code: string;
   title = 'mylogin';
@@ -69,6 +69,58 @@ export class RegisterComponent implements OnInit {
     }
     //console.log('event.target.validity.valueMissing',event.target.validity.valueMissing);
     event.target.setCustomValidity(event.target.validity.valueMissing ? "" : "");
+  }
+
+  firstNameCtrl:boolean;
+  lastNameCtrl:boolean;
+  emailCtrl:boolean;
+  notValidDetails:boolean;
+
+  _keyPressfirstname(event: any,param) {
+    this.firstNameCtrl=false;
+    this.notValidDetails=false;
+    if(param=='first_name'){
+      const pattern = /^[A-Za-z]+$/;
+      let inputChar = String.fromCharCode(event.charCode);
+      if (!pattern.test(inputChar)) {
+          //event.preventDefault();
+          console.log(event.charCode);
+          this.firstNameCtrl=true;
+          this.notValidDetails=true;
+      }
+    }
+  }
+  _keyPresslastname(event: any,param) {
+    this.lastNameCtrl=false;
+    this.notValidDetails=false;
+
+    if(param=='last_name'){
+      const pattern = /^[A-Za-z]+$/;
+      let inputChar = String.fromCharCode(event.charCode);
+      if (!pattern.test(inputChar)) {
+          //event.preventDefault();
+          console.log(event.charCode);
+          this.lastNameCtrl=true;
+          this.notValidDetails=true;
+      }
+    }
+  }
+
+  _keyUp1(event:any,param){
+    this.emailCtrl=false;
+    this.notValidDetails=false;
+    if(param=='user_email'){
+      //const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      const pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      //let inputChar = String.fromCharCode(event.charCode);
+      if (!pattern.test(this.email)) {
+          //event.preventDefault();
+          console.log(this.emailCtrl);
+          console.log(this.email);
+          this.emailCtrl=true;
+          this.notValidDetails=true;
+      }
+    }
   }
 
   getCountryData() {
