@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
 import { UnitListForRoleChange } from '../models/unit-list-for-role-change';
 import {Subscription} from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-members',
@@ -74,6 +75,7 @@ export class MembersComponent implements OnInit {
   ngAfterViewInit(){
     $(".se-pre-con").fadeOut("slow");
   }
+  
   GetMemberList(associationID) {
     this.allMemberByAccount = [];
     console.log(associationID);
@@ -83,7 +85,20 @@ export class MembersComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         console.log(data['data']['unit']);
-        this.allMemberByAccount = data['data']['unit'];
+        data['data']['unit'].forEach(item=>{
+          this.allMemberByAccount.push({
+            blBlkName:item['block'] == null || item['block'] == undefined ? '' : item['block']['blBlkName'],
+            unUniName:item['unUniName'],
+            occupiedBy:item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : item['tenant'][0]['utfName'] : item['owner'][0]['uofName'],
+            occupiedBynumber:item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91")) ? item['tenant'][0]['utMobile'] : '+91'+item['tenant'][0]['utMobile'] : (item['owner'][0]['uoMobile'].includes("+91")) ? item['owner'][0]['uoMobile'] : '+91'+ item['owner'][0]['uoMobile'],
+            unOcStat:item['unOcStat'],
+            role:item['owner'].length == 0 ? 'Tenant' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : (item['unOcStat']=='Sold Tenant Occupied Unit'?'Tenant':'Owner'),
+            unUnitID:item['unUnitID']
+          })
+        })
+        //this.allMemberByAccount = data['data']['unit'];
+        this.allMemberByAccount=_.sortBy(this.allMemberByAccount,'unUnitID');
+        //this.allMemberByAccount = this.allMemberByAccount.sort((a,b) => (a['block']['blBlkName'] > b['block']['blBlkName']) ? 1 : ((a['block']['blBlkName'] > b['block']['blBlkName']) ? -1 : 0)); 
        /* Array.from(data['data']['unit']).forEach(item=> {
               let headers = this.getHttpheaders();
               return this.http.get(IPAddress + 'oyeliving/api/v1/GetVehicleListByAssocUnitAndAcctID/'+item['asAssnID']+'/'+item['unUnitID']+'/'+item['acAccntID'], { headers: headers })

@@ -1931,7 +1931,8 @@ this.enblJoinAsnVew()
         this.filteredAssociationCityWise = this._associations;
         //this.availableNoOfBlocks = item.length;
         console.log('associations', this.associations);
-        if(this.paramid==undefined){
+        console.log(this.paramid);
+        if(this.paramid=='4'){
           this.openModal6(this.reqdemo);
         }
         else{

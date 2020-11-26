@@ -41,10 +41,10 @@
                                 <mfDefaultSorter (click)="removeColumnSort('Unit')" by="unUniName">Unit&nbsp;<i [hidden]="columnName=='Unit'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('Name')" by="uofName">Name&nbsp;<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Name')" by="occupiedBy">Name&nbsp;<i [hidden]="columnName=='Name'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('MobileNumber')" by="uoMobile">Mobile Number&nbsp;<i [hidden]="columnName=='MobileNumber'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('MobileNumber')" by="occupiedBynumber">Mobile Number&nbsp;<i [hidden]="columnName=='MobileNumber'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
                                 <mfDefaultSorter (click)="removeColumnSort('OccupancyStatus')" by="unOcStat">Occupancy Status&nbsp;<i [hidden]="columnName=='OccupancyStatus'" class="fa fa-sort"></i></mfDefaultSorter>
@@ -53,7 +53,7 @@
                                 <mfDefaultSorter (click)="removeColumnSort('Vehicles')" by="vehcleCount">Vehicles&nbsp;<i [hidden]="columnName=='Vehicles'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th> -->
                             <th>
-                                <mfDefaultSorter (click)="removeColumnSort('Role')" by="uoRoleID">Role&nbsp;<i [hidden]="columnName=='Role'" class="fa fa-sort"></i></mfDefaultSorter>
+                                <mfDefaultSorter (click)="removeColumnSort('Role')" by="role">Role&nbsp;<i [hidden]="columnName=='Role'" class="fa fa-sort"></i></mfDefaultSorter>
                             </th>
                             <th>
                                 <mfDefaultSorter>Change Role</mfDefaultSorter>
@@ -73,13 +73,13 @@
                             </ng-container>
                             <ng-container *ngIf="item['unOcStat']!='UnSold Vacant Unit'">
                                 <td class="txt-middle">{{ (PaginatedValue * (p - 1) + i)+1 }}</td>
-                                <td>{{item['block'] == null || item['block'] == undefined ? '' : item['block']['blBlkName']}}</td>
+                                <td>{{item['blBlkName']}}</td>
                                 <td>{{item['unUniName']}}</td>
-                                <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : item['tenant'][0]['utfName'] : item['owner'][0]['uofName']}}</td>
-                                <td>{{item['owner'].length == 0 ? item['tenant'].length == 0 ? '' : (item['tenant'][0]['utMobile'].includes("+91")) ? item['tenant'][0]['utMobile'] : '+91'+item['tenant'][0]['utMobile'] : (item['owner'][0]['uoMobile'].includes("+91")) ? item['owner'][0]['uoMobile'] : '+91'+ item['owner'][0]['uoMobile']}}</td>
+                                <td>{{item['occupiedBy']}}</td>
+                                <td>{{item['occupiedBynumber']}}</td>
                                 <td>{{item['unOcStat']}}</td>
                                 <!-- <td>{{item['owner'].length == 0 ? '' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td> -->
-                                <td>{{item['owner'].length == 0 ? 'Tenant' : item['owner'][0]['uoRoleID'] == 1 ? 'Admin' : 'Owner'}}</td>
+                                <td>{{item['role']}}</td>
                                 <td class="txt-middle">
                                     <div *ngIf="item['unOcStat']=='Sold Owner Occupied Unit'" class="dropdown search-dropd" style="margin-top:0px">
                                         <button class="btn btn-primary dropdown-toggle sdm br overh" type="button"

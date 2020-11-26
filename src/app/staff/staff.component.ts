@@ -643,7 +643,7 @@ export class StaffComponent implements OnInit {
       "ACAccntID": this.globalServiceService.getacAccntID(),
       "WKRating": this.itemwkrating,
       "WKReview": coment,
-      "WKSmlyCnt": "4"
+      "WKSmlyCnt": this.itemwkrating
     }
     console.log(upreview);
     //this.http.post('http://devapi.scuarex.com/oye247/api/v1/WorkerReviewRatingUpdate',upreview, { headers: headers })
@@ -664,7 +664,9 @@ export class StaffComponent implements OnInit {
               (result) => {
                 if (result.value) {
                     this.wkrating1 = this.itemwkrating;
-                    this.getStaffList();
+                    setTimeout(()=>{
+                      this.getStaffList();
+                    },1500)
                 }
               }
             )
