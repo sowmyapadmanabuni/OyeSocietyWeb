@@ -279,8 +279,8 @@
                                                 <td>{{item['vlfName']}}</td>
                                                 <td>{{item['vlengName']}}</td>
                                                 <td>{{item['vlEntryT']| date :'shortTime'}}</td>
-                                                <td>{{item['vlexgName']}}</td>
-                                                <td>{{item['vlExitT']| date :'shortTime'}} </td>
+                                                <td>{{(item['vlApprStat']!="Exited"?'N.A.':item['vlexgName'])}}</td>
+                                                <td>{{(item['vlApprStat']!="Exited"?'N.A.':item['vlExitT']| date :'shortTime')}} </td>
                                             </ng-container>
 
                                         </tr>

@@ -1941,13 +1941,26 @@ this.enblJoinAsnVew()
         }
       },
       err=>{
+        console.log(err);
         $(".se-pre-con").fadeOut("slow");
       })
       //console.log(this.associations);
 
     },
     err1=>{
-      $(".se-pre-con").fadeOut("slow");
+      console.log(err1);
+      if (this.paramid == '4') {
+        this.viewAssnService.getAssociationAllDetails()
+          .subscribe(item => {
+            //console.log('getAssociationAllDetails',item);
+            this._associations = item['data']['associations'];
+            this.filteredAssociationCityWise = this._associations;
+            //this.availableNoOfBlocks = item.length;
+            console.log('associations', this.associations);
+            $(".se-pre-con").fadeOut("slow");
+            this.openModal6(this.reqdemo);
+          })
+      }
     });
   }
 
