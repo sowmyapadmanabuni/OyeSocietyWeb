@@ -37,6 +37,15 @@ top: -41px;
   top: 16px;
   text-align: center;
 }
+.kidexit-exitapproved{
+  position: relative;
+  text-align: center;
+}
+.kidexit-exited{
+  position: relative;
+  text-align: center;
+  top: -19px;
+}
 .kidexitdeny{
   position: relative;
   top: 30px;

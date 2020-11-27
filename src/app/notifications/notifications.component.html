@@ -42,6 +42,7 @@
                         <!-- <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{(itm['ntMobile'] == "" ? (itm['unit']['owner'].length > 0 ? itm['unit']['owner'][0]['uoMobile']) : itm['unit']['tenant'].length > 0 ? itm['unit']['tenant'][0]['utMobile']: itm['ntMobile']) )}}</span> -->
                         <span *ngIf = "itm['unit']['owner'].length > 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['owner'][0]['uoMobile'] : itm['ntMobile']}}</span>
                         <span *ngIf = "itm['unit']['tenant'].length > 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['tenant'][0]['utMobile'] : itm['ntMobile']}}</span>
+                        <span *ngIf = "itm['unit']['tenant'].length == 0 && itm['unit']['owner'].length == 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                         
                         <span *ngIf="itm['unit']!=null" class="not-img">
                           <img [src]="'data:image/png;base64,'+itm['ntUsrImg']" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
@@ -150,7 +151,7 @@
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p [ngClass] = "{'guestwith':item['visitorlog'][0]['vlApprStat'] != 'Exited','guestwithexited':item['visitorlog'][0]['vlApprStat']=='Exited'}" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Guest with Invitation'">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
-                          <p class = "kidexit" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlApprStat']!='Entry Rejected' && item['visitorlog'][0]['vlMobile']">
+                          <p [ngClass]="{'kidexit':item['visitorlog'][0]['vlApprStat'] != 'Exit Approved','kidexit-exitapproved':item['visitorlog'][0]['vlApprStat'] == 'Exit Approved','kidexit-exited':item['visitorlog'][0]['vlApprStat'] == 'Exited'}" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlApprStat']!='Entry Rejected' && item['visitorlog'][0]['vlMobile']">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
                           <p class = "kidexitdeny" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Kid Exit' && item['visitorlog'][0]['vlApprStat'] == 'Entry Rejected' && item['visitorlog'][0]['vlMobile']">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>
