@@ -250,7 +250,13 @@ export class FamilyMembersComponent implements OnInit {
 OpenEditFamilyMemberModal(EditFamilyMemberModal: TemplateRef<any>,fmName,fmRltn,fmMobile,asAssnID,fmImgName,unUnitID,fmid){
   console.log(fmName,fmRltn,fmMobile,asAssnID,unUnitID,fmid);
   this.EditFirstName=fmName;
-  this.EditMobileNumber=fmMobile;
+  let splittedfmMobile=fmMobile.split('+91');
+  let splittedfmMobile1 = splittedfmMobile.filter(item => {
+     return item != '';
+   });
+   console.log(splittedfmMobile1);
+   console.log(fmMobile);
+  this.EditMobileNumber=splittedfmMobile1[0];
   this.EditRelation=fmRltn;
   this.fmid=fmid;
   this.AsImage=fmImgName;
