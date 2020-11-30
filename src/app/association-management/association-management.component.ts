@@ -1961,6 +1961,9 @@ this.enblJoinAsnVew()
             this.openModal6(this.reqdemo);
           })
       }
+      else if (this.paramid == '1') {
+        $(".se-pre-con").fadeOut("slow");
+      }
     });
   }
 
