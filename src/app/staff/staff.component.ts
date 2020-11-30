@@ -361,8 +361,12 @@ export class StaffComponent implements OnInit {
 
   StaffStartDateyesChange(event) {
     console.log(event);
+    this.StaffStartDate = event;
   }
-
+  StaffEndDateyesChange(event){
+    console.log(event);
+    this.StaffEndDate = event;
+  }
 
   //Get Staff Report start
   getReports(id) {
