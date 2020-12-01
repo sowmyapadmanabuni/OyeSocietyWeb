@@ -784,7 +784,7 @@ export class InvoicesComponent implements OnInit {
             this.InvoiceDescriptionListOne.push(new InvoiceDescriptionListOne(item['idDesc'], '-', item['idValue']))
           }
           if (item['idDesc'] == 'Discount Value') {
-            this.InvoiceDescriptionListTwo.push(new InvoiceDescriptionListTwo(item['idDesc'], '-', item['idValue']))
+            this.InvoiceDescriptionListTwo.push(new InvoiceDescriptionListTwo(item['idDesc'], '-', item['idValue'],(data['data']['invoice'][0]['inDisType']=='Debit'?'+':'-')))
           }
         })
         this.invoiceDetails = data['data']['invoiceDetails'];
