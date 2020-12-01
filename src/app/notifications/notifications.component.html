@@ -40,8 +40,8 @@
                         <!-- <span *ngIf="itm['unit']['unUniName']!=''" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span> -->
                         <span *ngIf="itm['unit']!=null" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span>
                         <!-- <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{(itm['ntMobile'] == "" ? (itm['unit']['owner'].length > 0 ? itm['unit']['owner'][0]['uoMobile']) : itm['unit']['tenant'].length > 0 ? itm['unit']['tenant'][0]['utMobile']: itm['ntMobile']) )}}</span> -->
-                        <span *ngIf = "itm['unit']['owner'].length > 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['owner'][0]['uoMobile'] : itm['ntMobile']}}</span>
-                        <span *ngIf = "itm['unit']['tenant'].length > 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['tenant'][0]['utMobile'] : itm['ntMobile']}}</span>
+                        <span *ngIf = "itm['unit']['owner'].length > 0 && itm['unit']['unOcStat'] != 'Sold Tenant Occupied Unit'" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['owner'][0]['uoMobile'] : itm['ntMobile']}}</span>
+                        <span *ngIf = "(itm['unit']['tenant'].length > 0) && (itm['unit']['unOcStat'] == 'Sold Tenant Occupied Unit'||itm['unit']['unOcStat'] == 'UnSold Tenant Occupied Unit')" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['tenant'][0]['utMobile'] : itm['ntMobile']}}</span>
                         <span *ngIf = "itm['unit']['tenant'].length == 0 && itm['unit']['owner'].length == 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                         
                         <span *ngIf="itm['unit']!=null" class="not-img">
@@ -145,7 +145,7 @@
                           <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Staff Voisentry'">
                             {{item['visitorlog'][0]['vlMobile']}}</p>
                           <p [ngClass]="{'registration': item['ntJoinStat'] != 'Registration Pending'}"*ngIf="item['ntType']=='Staff Registration' && item['ntMobile']">{{item['ntMobile']}}</p>
-                          <p *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
+                          <p [ngClass]="{'staffmissedcalexited':item['visitorlog'][0]['vlApprStat'] == 'Exited'}"*ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
                             {{item['visitorlog'][0]['vlMobile']}}</p>
                           <p [ngClass] = "{'delivery':item['visitorlog'][0]['vlApprStat']=='Exited'}" *ngIf="item['ntType']!='Staff Registration' && item['visitorlog'][0]['vlVisType']=='Delivery'">
                             {{item['visitorlog'][0]['vlMobile']==''?'':item['visitorlog'][0]['vlMobile']}}</p>

@@ -37,6 +37,12 @@ top: -41px;
   top: 16px;
   text-align: center;
 }
+.staffmissedcalexited{
+  position: relative;
+  text-align: center;
+  top: 17px;
+}
+
 .kidexit-exitapproved{
   position: relative;
   text-align: center;
