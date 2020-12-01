@@ -643,9 +643,12 @@
             </div>
 
             <div class="save">
-                <a class="previous" (click)="previouspage($event)"mat-raised-button color="primary">PREVIOUS</a>
-                <a class="continueforresetpan" (click)="resetStep2($event)"mat-raised-button color="primary">RESET</a>
-                <a id="pansubmit"mat-raised-button color="primary" [disabled]="!gstpanform.valid"(click)="submitpandetails($event)">SAVE & CONTINUE</a>
+                <!-- <a class="previous" (click)="previouspage($event)"mat-raised-button color="primary">PREVIOUS</a> -->
+                <button style="height: 37px;margin-top: 38px;" class="previous" (click)="previouspage($event)" mat-raised-button color="primary">PREVIOUS</button>
+                <!-- <a class="continueforresetpan" (click)="resetStep2($event)"mat-raised-button color="primary">RESET</a> -->
+                <button style="height: 37px;margin-left: 10px;" class="continueforresetpan" (click)="resetStep2($event)" mat-raised-button color="primary">RESET</button>
+                <!-- <a id="pansubmit" mat-raised-button color="primary" [disabled]="true"(click)="submitpandetails($event)">SAVE & CONTINUE</a> -->
+                <button style="height: 37px;margin-top: 38px;margin-left: 10px;" id="pansubmit" mat-raised-button color="primary" [disabled]="notvalidPAN" (click)="submitpandetails($event)">SAVE & CONTINUE</button>
             </div>
         </mat-tab>
           <mat-tab #tab [disabled]='!tab.isActive' label="BLOCK & UNIT DETAILS">

@@ -47,8 +47,16 @@ export class EditAssociationComponent implements OnInit {
   disableBlockandUnitUpdatebutton:boolean;
   filechosen:boolean;
   filechosenpan:boolean;
+  assonFirstnameFromPAN:string;
+  assonFirstname:string;
+  notvalidPAN: boolean;
+
   constructor(public viewAssnService: ViewAssociationService,private http: HttpClient,private formBuilder: FormBuilder,private modalService: BsModalService,
     private router: Router) {
+      this.notvalidPAN = true;
+      this.assonFirstnameFromPAN = this.viewAssnService.EditAssociationData['ASPANNum'].charAt(4).toLowerCase();
+      this.assonFirstname = this.viewAssnService.EditAssociationData['ASAsnName'].charAt(0).toLowerCase();
+      console.log('assonFirstnameFromPAN-',this.assonFirstnameFromPAN,'assonFirstname-',this.assonFirstname)
       this.invalidASNofBlksCount = false;
       this.invalidASNofUnitCount = false;
       this.disableBlockandUnitUpdatebutton = false;
@@ -397,9 +405,18 @@ export class EditAssociationComponent implements OnInit {
     }
     submitassociationdetails(event) {
       if (this.form.valid) {
-     
+        this.assonFirstnameFromPAN = this.viewAssnService.EditAssociationData['ASPANNum'].charAt(4).toLowerCase();
+        this.assonFirstname = this.viewAssnService.EditAssociationData['ASAsnName'].charAt(0).toLowerCase();
         // this.residentialorcommercialtype=this.propertytype;
         // console.log(this.residentialorcommercialtype);
+        if(this.assonFirstnameFromPAN.toLowerCase() == this.assonFirstname.toLowerCase()){
+          this.notvalidPAN = false;
+          console.log('notvalidPAN = false');
+        }
+        else{
+          this.notvalidPAN = true;
+          console.log('notvalidPAN = true');
+        }
         this.demo1TabIndex = this.demo1TabIndex + 1;
         
       }
@@ -636,8 +653,7 @@ export class EditAssociationComponent implements OnInit {
     });
   }
   isFieldValidPanDetails(field: string) {
-    return !this.gstpanform.get(field).valid && this.gstpanform.get(field).touched;
-
+      return !this.gstpanform.get(field).valid && this.gstpanform.get(field).touched;
   }
   pandetalis() {
     this.gstpanform = this.formBuilder.group({
@@ -652,16 +668,21 @@ export class EditAssociationComponent implements OnInit {
     this.pannumber = this.viewAssnService.EditAssociationData['ASPANNum'].toUpperCase()
     this.firstLetter = this.viewAssnService.EditAssociationData['ASAsnName'].charAt(0).toUpperCase();
     this.fifthLetter = this.pannumber.charAt(4).toUpperCase();
+    console.log('this.firstLetter-',this.firstLetter,'this.fifthLetter-',this.fifthLetter);
     if(this.firstLetter == this.fifthLetter){
       if (regpan.test(this.pannumber) == false) {
         console.log("PAN Number Not Valid.");
+        this.notvalidPAN = true;
         } else {
           console.log("PAN Number is Valid.");
-    
+          this.notvalidPAN = false;
         }
     }
- 
+    else{
+      this.notvalidPAN = true;
+    }
    }
+
   resetStep2(ev){
     Swal.fire({
       title: "Are you sure?",
