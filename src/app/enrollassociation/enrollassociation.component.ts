@@ -247,7 +247,7 @@ export class EnrollassociationComponent implements OnInit {
     });
     this.uploadPanForm = this.formBuilder.group({
       panProfile: [''],
-      gstnumber: [''],
+      //  gstnumber: [''],
       pannumber: ['']
     });
     this.unitsDetailsgenerateform();
@@ -326,7 +326,7 @@ export class EnrollassociationComponent implements OnInit {
   }
   pandetalis() {
     this.gstpanform = this.formBuilder.group({
-      'gst': [null],
+      // 'gst': [null],
       'originalpan': [null, Validators.required]
     });
   }
@@ -749,6 +749,22 @@ export class EnrollassociationComponent implements OnInit {
   // }
   pan_validate(ev) {
     var regpan = /^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/;
+    this.pannumber = this.pannumber.toUpperCase()
+    this.firstLetter = this.assname.charAt(0).toUpperCase();
+    this.fifthLetter = this.pannumber.charAt(4).toUpperCase();
+    if (this.firstLetter == this.fifthLetter) {
+      if (regpan.test(this.pannumber) == false) {
+        console.log("PAN Number Not Valid.");
+      } else {
+        console.log("PAN Number is Valid.");
+
+      }
+    }
+
+  }
+  gst_validate(ev) {
+    // var regpan = /^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/;
+    var regpan =   /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
     this.pannumber = this.pannumber.toUpperCase()
     this.firstLetter = this.assname.charAt(0).toUpperCase();
     this.fifthLetter = this.pannumber.charAt(4).toUpperCase();
@@ -6619,7 +6635,7 @@ this.canDoBlockLogicalOrder=true;
           "ASOMStat": "False",
           "ASFaceDet": "True",
           "ASPANDoc": (this.uploadPANCard == undefined ? '' : this.uploadPANCard),
-          "ASGSTNo": "",
+          "ASGSTNo": (this.gstnumber == undefined ? '' : this.gstnumber),
           "BankDetails": [
             {
               "BABName": "AXIS",
