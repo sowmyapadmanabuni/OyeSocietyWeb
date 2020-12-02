@@ -920,7 +920,8 @@
                                 <div style="display: flex; align-items: center;">
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Flat Rate value']!=undefined,'red-lbl':blocksArray[i]['Flat Rate value']==undefined || blocksArray[i]['Flat Rate value']==null}">Flat Rate Value</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Flat Rate value']!=undefined,'red-lbl':blocksArray[i]['Flat Rate value']==undefined || blocksArray[i]['Flat Rate value']==null}">Flat Rate Value<span
+                                                [ngClass]="{'green-lbl':blocksArray[i]['Flat Rate value']!=undefined,'red-lbl':blocksArray[i]['Flat Rate value']==undefined || blocksArray[i]['Flat Rate value']==null}">*</span></mat-label>
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="Flat Rate" 
                                             [(ngModel)]="blocksArray[i]['Flat Rate value']"
                                             (keyup)="geFlatRatevalue(blocksArray[i]['Id'],blocksArray[i]['Flat Rate value'])"
@@ -931,7 +932,8 @@
                                     </div>
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance value']!=undefined,'red-lbl':blocksArray[i]['Maintenance value']==undefined || blocksArray[i]['Maintenance value']==null}">Maintenance Value</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance value']!=undefined,'red-lbl':blocksArray[i]['Maintenance value']==undefined || blocksArray[i]['Maintenance value']==null}">Maintenance Value<span
+                                                [ngClass]="{'green-lbl':blocksArray[i]['Maintenance value']!=undefined,'red-lbl':blocksArray[i]['Maintenance value']==undefined || blocksArray[i]['Maintenance value']==null}">*</span></mat-label>
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="Maintenance Value" 
                                             [(ngModel)]="blocksArray[i]['Maintenance value']"
                                             (keyup)="getMaintenancevalue(blocksArray[i]['Id'],blocksArray[i]['Maintenance value'])"
@@ -942,7 +944,8 @@
                                     </div>
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance Type']!=undefined,'red-lbl':blocksArray[i]['Maintenance Type']==undefined || blocksArray[i]['Maintenance Type']==null}">Maintenance Type</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Maintenance Type']!=undefined,'red-lbl':blocksArray[i]['Maintenance Type']==undefined || blocksArray[i]['Maintenance Type']==null}">Maintenance Type<span
+                                                [ngClass]="{'green-lbl':blocksArray[i]['Maintenance Type']!=undefined,'red-lbl':blocksArray[i]['Maintenance Type']==undefined || blocksArray[i]['Maintenance Type']==null}">*</span></mat-label>
                                             <mat-select [disabled]="obj.isBlockCreated" [(value)]="blocksArray[i]['Maintenance Type']" (selectionChange)="getASMtType(blocksArray[i]['Id'],$event.value)">
                                                 <mat-option *ngFor="let item of ASMtTypes" [value]="item">{{item}}
                                                 </mat-option>
@@ -954,7 +957,7 @@
                                 <div style="display: flex; align-items: center;">
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label class="green-lbl">Unit Of Measurement</mat-label>
+                                            <mat-label class="green-lbl">Unit Of Measurement<span class="green-lbl">*</span></mat-label>
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="Unit Of Measurement" 
                                             [(ngModel)]="blocksArray[i]['Unit Of Measurement']"
                                             (keyup)="getUnitOfMeasurement(blocksArray[i]['Id'],blocksArray[i]['Unit Of Measurement'])"
@@ -965,7 +968,7 @@
                                     </div>
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Creation Frequency']!=undefined,'red-lbl':blocksArray[i]['Invoice Creation Frequency']==undefined || blocksArray[i]['Invoice Creation Frequency']==null}">Invoice Creation Frequency</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Creation Frequency']!=undefined,'red-lbl':blocksArray[i]['Invoice Creation Frequency']==undefined || blocksArray[i]['Invoice Creation Frequency']==null}">Invoice Creation Frequency<span class="green-lbl">*</span></mat-label>
                                             <mat-select [disabled]="obj.isBlockCreated" [(value)]="blocksArray[i]['Invoice Creation Frequency']" (selectionChange)="getInvoiceCreationFrequencyValue(blocksArray[i]['Id'],$event.value)">
                                                 <mat-option *ngFor="let frequency of frequencies" [value]="frequency['displayName']">{{frequency['displayName']}}
                                                 </mat-option>
@@ -976,7 +979,7 @@
                                     </div>
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Generation Date']!=undefined,'red-lbl':blocksArray[i]['Invoice Generation Date']==undefined || blocksArray[i]['Invoice Generation Date']==null}">Invoice Generation Date</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Invoice Generation Date']!=undefined,'red-lbl':blocksArray[i]['Invoice Generation Date']==undefined || blocksArray[i]['Invoice Generation Date']==null}">Invoice Generation Date<span class="green-lbl">*</span></mat-label>
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="Invoice Generation Date" 
                                             [(ngModel)]="blocksArray[i]['Invoice Generation Date']" (click)="getInvoiceGenerationDate(blocksArray[i]['Id'],$event)"
                                             value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
@@ -988,7 +991,7 @@
                                 <div style="display: flex; align-items: center;">
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Due Date']!=undefined,'red-lbl':blocksArray[i]['Due Date']==undefined || blocksArray[i]['Due Date']==null}">Due Date</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Due Date']!=undefined,'red-lbl':blocksArray[i]['Due Date']==undefined || blocksArray[i]['Due Date']==null}">Due Date<span class="green-lbl">*</span></mat-label>
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="Due Date" 
                                             [(ngModel)]="blocksArray[i]['Due Date']" (click)="getDueDate(blocksArray[i]['Id'],$event)"
                                             value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
@@ -998,7 +1001,7 @@
                                       </div>
                                       <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge Type']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge Type']==undefined || blocksArray[i]['Late Payment Charge Type']==null}">Late Payment Charge Type</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge Type']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge Type']==undefined || blocksArray[i]['Late Payment Charge Type']==null}">Late Payment Charge Type<span class="green-lbl">*</span></mat-label>
                                             <mat-select [disabled]="obj.isBlockCreated" [(value)]="blocksArray[i]['Late Payment Charge Type']" (selectionChange)="getLatePymtChargeType(blocksArray[i]['Id'],$event.value)">
                                                 <mat-option *ngFor="let lpct of latePymtChrgTypes" [value]="lpct['name']">{{lpct['name']}}
                                                 </mat-option>
@@ -1009,7 +1012,7 @@
                                       </div>
                                       <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge']==undefined || blocksArray[i]['Late Payment Charge']==null}">Late Payment Charge</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Late Payment Charge']!=undefined,'red-lbl':blocksArray[i]['Late Payment Charge']==undefined || blocksArray[i]['Late Payment Charge']==null}">Late Payment Charge<span class="green-lbl">*</span></mat-label>
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="Late Payment Charge" 
                                             [(ngModel)]="blocksArray[i]['Late Payment Charge']"
                                             (keyup)="getLatePaymentCharge(blocksArray[i]['Id'],blocksArray[i]['Late Payment Charge'])"
@@ -1022,7 +1025,7 @@
                                 <div style="display: flex; align-items: center;">
                                     <div class="leftalighnmentblocks">
                                         <mat-form-field class="blockdetails-form">
-                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Starts From']!=undefined,'red-lbl':blocksArray[i]['Starts From']==undefined || blocksArray[i]['Starts From']==null}">Starts From</mat-label>
+                                            <mat-label [ngClass]="{'green-lbl':blocksArray[i]['Starts From']!=undefined,'red-lbl':blocksArray[i]['Starts From']==undefined || blocksArray[i]['Starts From']==null}">Starts From<span class="green-lbl">*</span></mat-label>
                                             <input disabled="{{obj.isBlockCreated}}" matInput placeholder="Starts From" 
                                             [(ngModel)]="blocksArray[i]['Starts From']" (click)="getStartsFromDate(blocksArray[i]['Id'],$event)" 
                                             value="" [bsConfig]="bsConfig" bsDatepicker placement="top">
