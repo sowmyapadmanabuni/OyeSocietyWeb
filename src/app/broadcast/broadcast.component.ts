@@ -4,6 +4,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GlobalServiceService } from '../global-service.service';
 import {UtilsService} from '../utils/utils.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -56,12 +59,24 @@ export class BroadcastComponent implements OnInit {
   blobUrl;
   BroadCastImg:any;
   BroadCastImgList:any[];
+  Recipients: string;
+  toggleFaCircleO: boolean;
+  toggleFaCircle2: boolean;
+  toggleFaCircle1: boolean;
+  RecipientType: string;
+  toggleSendAncmntBtn: boolean;
 
   constructor(private audioRecordingService: AudioRecordingService, 
     private sanitizer: DomSanitizer,
     private http: HttpClient,public globalService: GlobalServiceService,
-    private UtilsService:UtilsService) {
-
+    private UtilsService:UtilsService,private router:Router) {
+      this.toggleSendAncmntBtn = true;
+      this.RecipientType='';
+      this.toggleFaCircle1 = false;
+      this.toggleFaCircleO = false;
+      this.toggleFaCircle2 = false;
+      this.AnnouncementMessage='';
+      this.Recipients='';
     this.audioRecordingService.recordingFailed().subscribe(() => {
       this.isRecording = false;
     });
@@ -95,6 +110,7 @@ export class BroadcastComponent implements OnInit {
     if (this.isRecording) {
       this.audioRecordingService.stopRecording();
       this.isRecording = false;
+      this.toggleFaCircleO = true;
     }
   }
 
@@ -122,20 +138,41 @@ export class BroadcastComponent implements OnInit {
       // "ASAssnID"  : this.globalService.getCurrentAssociationId(),
       "ACAccntID": this.globalService.getacAccntID(), //2
       "ASAssnID": this.globalService.getCurrentAssociationId(),//2
-      "ANVoice": `${this.blobUrl}`,
-      "ANRecipient": "All Owners"
+      "ANVoice": '',//`${this.blobUrl}`,
+      "ANRecipient": this.Recipients
     }
     console.log(MessageBody);
     let ipAddress = this.UtilsService.getIPaddress();
     this.http.post(ipAddress + 'oyesafe/api/v1/Announcement/Announcementcreate', JSON.stringify(MessageBody), { headers: headers })
       .subscribe(data => {
         console.log(data);
+        if(data['success']){
+          Swal.fire({
+            title: "Announcement sent successfully",
+            text: "",
+            type:"success",
+            confirmButtonColor: "#f69321",
+            confirmButtonText: "OK",
+            allowOutsideClick:false
+          }).then(
+            (result) => {
+              if (result.value) {
+                this.router.navigate(['home']);
+              }
+            })
+        }
       },
         err => {
           console.log(err);
         })
   }
-
+  getRecipients(Recipients) {
+    this.Recipients = Recipients;
+    this.RecipientType = Recipients;
+    if(this.toggleFaCircleO && this.toggleFaCircle1 && this.toggleFaCircle2){
+      this.toggleSendAncmntBtn = false;
+    }
+  }
   onFileSelectForBroadcast(event) {
     if (event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
@@ -155,9 +192,17 @@ export class BroadcastComponent implements OnInit {
           console.log('Error: ', error);
         };
       }
+      this.toggleFaCircle2=true;
     }
   }
-
+  validateAnnouncementMessage(){
+    if(this.AnnouncementMessage != ''){
+      this.toggleFaCircle1 = true;
+    }
+    else{
+      this.toggleFaCircle1 = false;
+    }
+  }
 
 
 

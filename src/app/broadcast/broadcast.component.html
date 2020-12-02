@@ -2,7 +2,7 @@
   <!-- <h3>Announcements</h3> -->
 
   <div class="col-sm-3 np">
-    <p class="join_ass_opt c-active"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
+    <p class="join_ass_opt c-active"><i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircle2,'fa-circle-o' : !toggleFaCircle2}" aria-hidden="true"></i>
       Upload Photo</p>
     <p class="join_ass_opt c-active"><i class="fa" [ngClass]="{'fa-check-circle-o' : toggleFaCircleO,'fa-circle-o' : !toggleFaCircleO}" aria-hidden="true"></i>
       Record</p>
@@ -48,18 +48,18 @@
     <div class="content">
       <div class="col-sm-12 np">
         <div class="form-group">
-          <textarea class="form-control" rows="10" cols="5" id="comment" [(ngModel)]="AnnouncementMessage" name="AnnouncementMessage"></textarea>
+          <textarea class="form-control" rows="10" cols="5" id="comment" (keyup)="validateAnnouncementMessage()" [(ngModel)]="AnnouncementMessage" name="AnnouncementMessage"></textarea>
         </div>
       </div>
       <div class="col-sm-12">
-          <div class="dropdown" style="margin: 0px 0px;">
+          <div class="dropdown" style="margin: 0px 0px;width: 143px;">
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
-                data-toggle="dropdown">Select Recipients
-                <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
+                data-toggle="dropdown">{{RecipientType==''?'Select Recipient':RecipientType}}
+                <i aria-hidden="true" style="padding-left: 10px;" class="fa fa-angle-down fa-1x"></i></button>
               <ul class="dropdown-menu fullw fdrop">
-                <li><a>All Admins</a></li>
-                <li><a>All Owners</a></li>
-                <li><a>All Tenants</a></li>
+                <li (click)="getRecipients('All Admins')"><a>All Admins</a></li>
+                <li (click)="getRecipients('All Owners')"><a>All Owners</a></li>
+                <li (click)="getRecipients('All Tenants')"><a>All Tenants</a></li>
 
               </ul>
             </div>
@@ -68,7 +68,7 @@
   </form>
   </div>
   <div class="col-sm-12">
-    <button class="btn btn-primary-purple nextBtn pull-right" type="button" (click)="sendBroadcast()">Send</button>
+    <button class="btn btn-primary-purple nextBtn pull-right" type="button" [disabled]="toggleSendAncmntBtn" (click)="sendBroadcast()">Send</button>
     <input class="btn btn-primary-purple pull-right"  style="margin-right: 12px;" type="button" value="Reset">
   </div>
 </div>
