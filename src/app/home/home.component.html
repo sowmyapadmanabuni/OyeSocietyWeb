@@ -394,6 +394,7 @@
                                                                 <span class="percent">{{occpydPerc+'%'}}</span>
                                                  <canvas  baseChart
                                                                 [data]="pieChartData"
+                                                                [options]="chartOption"
                                                                 [colors]="doughnutChartColors"
                                                                 [chartType]="pieChartType"
                                                                 (chartHover)="chartHovered($event)"
@@ -408,6 +409,7 @@
                                                         <span class="green percent">{{vacantPerc+'%'}}</span>
                                                  <canvas  baseChart
                                                                 [data]="pieChartData1"
+                                                                [options]="chartOption1"
                                                                 [colors]="doughnutChartColors1"
                                                                 [chartType]="pieChartType"
                                                                 (chartHover)="chartHovered($event)"

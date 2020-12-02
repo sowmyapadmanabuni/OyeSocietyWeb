@@ -104,6 +104,27 @@ export class HomeComponent implements OnInit {
   _vacantCount: any;
   totalStaffs1: any;
 
+  public chartOption = {
+    tooltips: {
+      callbacks: {
+          label: function() {
+                 let Occupied= 'Occupied';          
+                 return Occupied;
+              }
+            }  
+         }        
+      }
+  public chartOption1 = {
+    tooltips: {
+      callbacks: {
+          label: function() {
+                 let Vaccant= 'Vaccant';          
+                 return Vaccant;
+              }
+            }  
+         }        
+      }
+
   constructor(private dashBrdService: DashBoardService, private appComponent: AppComponent,
     public globalService: GlobalServiceService,
     private loginandregisterservice: LoginAndregisterService,
@@ -212,6 +233,11 @@ export class HomeComponent implements OnInit {
     cnvs1.fillStyle = 'black';
     cnvs1.fillText("abc", cnvsx, cnvsy); */
   }
+
+  chartHovered(event:any) {
+    console.log(event);
+  }
+
   occpydPerc;
   vacantPerc;
   GetUnitTotalOccupancyVacantCountDetails(){
