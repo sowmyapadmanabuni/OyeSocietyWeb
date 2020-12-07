@@ -6,6 +6,7 @@ import { GlobalServiceService } from '../global-service.service';
 import {UtilsService} from '../utils/utils.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 
 
@@ -65,16 +66,20 @@ export class BroadcastComponent implements OnInit {
   toggleFaCircle1: boolean;
   RecipientType: string;
   toggleSendAncmntBtn: boolean;
+  ifFileSelected: boolean;
+  disabledIfAnnouncementEmpty: boolean;
 
   constructor(private audioRecordingService: AudioRecordingService, 
     private sanitizer: DomSanitizer,
     private http: HttpClient,public globalService: GlobalServiceService,
     private UtilsService:UtilsService,private router:Router) {
+      this.disabledIfAnnouncementEmpty = true;
       this.toggleSendAncmntBtn = true;
       this.RecipientType='';
       this.toggleFaCircle1 = false;
       this.toggleFaCircleO = false;
       this.toggleFaCircle2 = false;
+      this.ifFileSelected = false;
       this.AnnouncementMessage='';
       this.Recipients='';
     this.audioRecordingService.recordingFailed().subscribe(() => {
@@ -139,7 +144,7 @@ export class BroadcastComponent implements OnInit {
       "ACAccntID": this.globalService.getacAccntID(), //2
       "ASAssnID": this.globalService.getCurrentAssociationId(),//2
       "ANVoice": '',//`${this.blobUrl}`,
-      "ANRecipient": this.Recipients
+      "ANRecipient": ''//this.Recipients
     }
     console.log(MessageBody);
     let ipAddress = this.UtilsService.getIPaddress();
@@ -169,7 +174,7 @@ export class BroadcastComponent implements OnInit {
   getRecipients(Recipients) {
     this.Recipients = Recipients;
     this.RecipientType = Recipients;
-    if(this.toggleFaCircleO && this.toggleFaCircle1 && this.toggleFaCircle2){
+    if(this.toggleFaCircle1 && this.toggleFaCircle2){
       this.toggleSendAncmntBtn = false;
     }
   }
@@ -193,6 +198,8 @@ export class BroadcastComponent implements OnInit {
         };
       }
       this.toggleFaCircle2=true;
+      this.ifFileSelected = true;
+      this.disabledIfAnnouncementEmpty = false;
     }
   }
   validateAnnouncementMessage(){
@@ -201,7 +208,35 @@ export class BroadcastComponent implements OnInit {
     }
     else{
       this.toggleFaCircle1 = false;
+      this.toggleSendAncmntBtn = true;
     }
+    if(this.toggleFaCircle1 && this.toggleFaCircle2){
+      this.toggleSendAncmntBtn = false;
+    }
+  }
+
+  resetAnnouncement(){
+    swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to reset?",
+      type: "warning",
+      confirmButtonColor: "#f69321",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "CANCEL"
+    }).then(
+      (result) => {
+        console.log(result)
+        if (result.value) {
+          this.BroadCastImgList=[];
+          this.AnnouncementMessage = '';
+          this.disabledIfAnnouncementEmpty = true;
+          this.toggleFaCircle1=false;
+          this.toggleFaCircle2=false;
+          this.ifFileSelected=false;
+          this.toggleSendAncmntBtn=true;
+        }
+      })
   }
 
 

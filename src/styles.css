@@ -469,3 +469,6 @@ input[type=reset]{background-color: #a7a4a4 !important;}
 .modal1{
     top:42%;
 }
+.increaseMargn{
+    margin-top: 130px !important;
+}
