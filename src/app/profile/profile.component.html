@@ -47,7 +47,7 @@
                                     <i (click)="OpenFileUpload()" class="fa fa-camera upload-button"></i>
                                      <input class="file-upload" id="uploadFileinput" type="file" accept="image/*" (change)='onFileSelected($event)'/>
                             </div>
-                            <form action="" style="margin: 0px auto;width: fit-content;    margin-top: 40px;margin-bottom: 40px;">
+                            <form action="" style="margin: 0px auto;display: table;    margin-top: 40px;margin-bottom: 40px;">
                                 <div class="form-group">
                                   <label>First Name <span class="red">*</span></label>
                                   <input type="text" class="form-control" name="acfName" [(ngModel)]="ACFName" #firstnameControl='ngModel' pattern="[a-zA-Z\s]*" required />
