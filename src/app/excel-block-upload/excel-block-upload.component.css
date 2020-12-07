@@ -529,3 +529,21 @@
             display: flex !important;
             align-items: center !important;
         }
+        p#demoexceldownload {
+            position: absolute;
+            text-align: center;
+            top: 112px;
+            left: 314px;
+        }
+        p#demoexceldownload1 {
+            position: absolute;
+            text-align: center;
+            top: 127px;
+            left: 349px;
+        }
+        p#demoexceldownload2 {
+            position: absolute;
+            text-align: center;
+            top: 112px;
+            left: 561px;
+        }

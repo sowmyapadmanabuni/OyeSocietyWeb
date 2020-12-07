@@ -55,8 +55,8 @@
                     <div id="{{itm['ntid']}}" class="panel-collapse collapse">
                       <div class="panel-body pb">
                         <div class="not-detail">
-                          <div>
-                            <h4 style="color: red;">Current Status</h4>
+                          <div class="not-detail1">
+                            <h4 style="color:#B51414">Current Status</h4>
                             <p>Occupancy: <strong>{{itm['unit']['unOcStat']}}</strong></p>
                             <p>Occupied By: <strong>{{itm['unit']['unOcStat']}}</strong></p>
                             <p>Owner Name: <strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utfName']) : itm['unit']['owner'][0]['uofName']}}</strong>&nbsp;<strong>{{itm['unit']['owner'].length == 0 ? (itm['unit']['tenant'].length == 0 ? '' : itm['unit']['tenant'][0]['utlName']) : itm['unit']['owner'][0]['uolName']}}</strong></p>
@@ -68,11 +68,13 @@
                           <div *ngIf="itm['ntJoinStat']==''">
                              <span (click)="rejectJoinRequest(itm['ntid'], itm['sbRoleID'], itm['sbSubID'], itm['asAssnID'], itm['mrRolName'], itm['asAsnName'], itm['sbUnitID'], itm['sbMemID'], itm['ntdCreated'], itm['unOcSDate'], itm['acAccntID'], itm['acNotifyID'])" class="reject app-rej"><i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;Reject</span>
                           </div>
-                          <div *ngIf="itm['ntJoinStat']=='Accepted'">
-                            <span class="approve">Request Approved</span>
-                          </div>
+                        <div *ngIf="itm['ntJoinStat']=='Accepted'">
+                            <p class="approve1">Request Approved</p>
+                        </div>
                           <div *ngIf="itm['ntJoinStat']=='Rejected'">
-                            <span class="reject">Request Rejected</span>
+                            <p class="approve1">Request Rejected</p>
+
+                            <!-- <span class="reject">Request Rejected</span> -->
                           </div>
                         </div>
                       </div>
@@ -400,7 +402,7 @@
           <div class="panel-body pb">
             <div class="not-detail">
               <div>
-                <h4 style="color: red;">Current Status</h4>
+                <h4 style="color:#B51414;">Current Status</h4>
                 <p>Occupancy: <strong>{{itm['unOcStat']}}</strong></p>
                 <p>Occupied By: <strong>{{itm['occupiedBy']}}</strong></p>
                 <p>Owner Name: <strong>{{itm['ownername']}}</strong></p>

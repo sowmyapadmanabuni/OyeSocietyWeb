@@ -224,7 +224,24 @@ p.panextext{
     top: 46px;
     margin-left: 425px;
 }
-
+p#demoexceldownload {
+    position: absolute;
+    text-align: center;
+    top: 150px;
+    left: 314px;
+}
+p#demoexceldownload1 {
+    position: absolute;
+    text-align: center;
+    top: 164px;
+    left: 349px;
+}
+p#demoexceldownload2 {
+    position: absolute;
+    text-align: center;
+    top: 149px;
+    left: 561px;
+}
 .resetforbulkunits{
     margin: 10px;
     color: #ffffff !important;
