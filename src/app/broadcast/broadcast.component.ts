@@ -215,7 +215,7 @@ export class BroadcastComponent implements OnInit {
     }
   }
 
-  resetAnnouncement(){
+  resetAnnouncement(AnnouncementInput:HTMLInputElement){
     swal.fire({
       title: "Are you sure?",
       text: "Do you really want to reset?",
@@ -235,6 +235,7 @@ export class BroadcastComponent implements OnInit {
           this.toggleFaCircle2=false;
           this.ifFileSelected=false;
           this.toggleSendAncmntBtn=true;
+          AnnouncementInput.value=null;
         }
       })
   }
