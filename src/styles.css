@@ -472,3 +472,8 @@ input[type=reset]{background-color: #a7a4a4 !important;}
 .increaseMargn{
     margin-top: 130px !important;
 }
+.announcementDiv{
+    color: #5a51aa !important;
+    font-weight: 600;
+    font-family: 'Quicksand', sans-serif !important;
+}

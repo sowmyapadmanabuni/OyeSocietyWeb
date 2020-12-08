@@ -1,0 +1,16 @@
+<div class="container panel" style="padding: 40px;margin-top:140px;float: none">
+<div style="display: flex;font-size: 15px;justify-content: center;margin-bottom: 10px;" class="announcementDiv">Announcements</div>
+<div class="enroll">
+    <div class="sea"><input type="text" id="mySearch" [(ngModel)]="searchAnnounceTxt" name="searchAnnounceTxt" placeholder="Search.." title="Type in a category">
+    </div>
+    <div class="del-date cal">From<input type="text" class="date ng-pristine ng-valid ng-touched" #AnnounceStartDateCtrl name="AnnounceStartDate" #AnnounceStartDateCtrl='ngModel'
+              placeholder="Start Date"  [(ngModel)]="AnnounceStartDate" (keyup)='validateAnnounceDate($event,AnnounceStartDateCtrl,AnnounceEndDateControl)'
+              bsDatepicker required [bsConfig]="bsConfig" [minDate]="todayDate" placement="bottom"/>
+    </div>
+
+    <div class="del-date cal">To<input type="text" class="date ng-pristine ng-valid ng-touched" name="AnnounceEndDate" #AnnounceEndDateControl='ngModel' placeholder="End Date"
+        [(ngModel)]="AnnounceEndDate" #AnnounceEndDateControl [bsConfig]="bsConfig" bsDatepicker required [maxDate]="maxDate" 
+        placement="bottom" (bsValueChange)="getAnnounceByDateRange($event)" (keyup)='validateAnnounceDate($event,AnnounceStartDateCtrl,AnnounceEndDateControl)'/>
+    </div>                   
+</div>
+</div>

@@ -120,6 +120,7 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { FilterVisitorPipe } from './pipes/filter-visitor.pipe';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { GoogleChartComponent } from './google-chart/google-chart.component';
+import { MyUnitAnnouncementComponent } from './my-unit-announcement/my-unit-announcement.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -196,7 +197,8 @@ import { GoogleChartComponent } from './google-chart/google-chart.component';
     NotificationsComponent,
     FilterVisitorPipe,
     DateAgoPipe,
-    GoogleChartComponent
+    GoogleChartComponent,
+    MyUnitAnnouncementComponent
     ],
   imports: [
     ReactiveFormsModule,

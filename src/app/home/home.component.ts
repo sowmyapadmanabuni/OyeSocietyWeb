@@ -865,6 +865,12 @@ export class HomeComponent implements OnInit {
     this.join_enroll=2;
     this.router.navigate(['joinenroll',this.join_enroll]);
   }
+  goToAdminAnnouncement(){
+    this.router.navigate(['broadcast']);
+  }
+  goToMyUnitAnnouncement(){
+    this.router.navigate(['residentannouncement']);
+  }
   GetFamilyMemberVehicleCountByAssocAcntUnitID(acAccntID, AssociationId, unUnitID) {
     console.log(acAccntID, AssociationId, unUnitID);
     this.dashBrdService.GetFamilyMemberVehicleCountByAssocAcntUnitID(acAccntID, AssociationId, unUnitID)

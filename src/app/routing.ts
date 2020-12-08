@@ -56,6 +56,7 @@ import {AdminDeleveryScreenComponent} from './admin-delevery-screen/admin-deleve
 import {AdminStaffScreenComponent} from './admin-staff-screen/admin-staff-screen.component';
 import { CareersComponent } from './careers/careers.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { MyUnitAnnouncementComponent } from './my-unit-announcement/my-unit-announcement.component';
 
 
 const routes: Routes = [
@@ -118,6 +119,7 @@ const routes: Routes = [
     { path: 'termsandcondition', component:TermsAndConditionsComponent},
     { path: 'privacypolicy', component:PrivacyPolicyComponent},
     { path: 'broadcast', component:BroadcastComponent},
+    { path: 'residentannouncement', component:MyUnitAnnouncementComponent},
     { path: 'editassociation', component:EditAssociationComponent, canActivate: [AuthGuard]},
     { path: 'admindeleveryscreen', component:AdminDeleveryScreenComponent, canActivate: [AuthGuard]},
     { path: 'adminstaffscreen', component:AdminStaffScreenComponent, canActivate: [AuthGuard]}

@@ -68,6 +68,7 @@ export class BroadcastComponent implements OnInit {
   toggleSendAncmntBtn: boolean;
   ifFileSelected: boolean;
   disabledIfAnnouncementEmpty: boolean;
+  BroadCastImges: string;
 
   constructor(private audioRecordingService: AudioRecordingService, 
     private sanitizer: DomSanitizer,
@@ -137,7 +138,7 @@ export class BroadcastComponent implements OnInit {
       .set('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE');
     let MessageBody =
     {
-      "ANImages": this.BroadCastImgList,
+      "ANImages": this.BroadCastImges,
       "ANCmnts": this.AnnouncementMessage,
       // "ACAccntID" : this.globalService.getacAccntID(),
       // "ASAssnID"  : this.globalService.getCurrentAssociationId(),
@@ -179,6 +180,7 @@ export class BroadcastComponent implements OnInit {
     }
   }
   onFileSelectForBroadcast(event) {
+    this.BroadCastImges='';
     if (event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
         this.BroadCastImg='';
@@ -190,8 +192,11 @@ export class BroadcastComponent implements OnInit {
           this.BroadCastImg = reader.result;
           this.BroadCastImg = this.BroadCastImg.substring(this.BroadCastImg.indexOf('64') + 3);
           console.log(this.BroadCastImg);
+          this.BroadCastImges = this.BroadCastImg;
+          this.BroadCastImges += (','+this.BroadCastImg);
           this.BroadCastImgList.push(this.BroadCastImg);
           console.log(this.BroadCastImgList);
+          console.log(this.BroadCastImges);
         };
         reader.onerror = function (error) {
           console.log('Error: ', error);
