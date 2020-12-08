@@ -95,3 +95,6 @@ div .stepwizard-step li{
 .cal::after{content: "\f073";font-family: FontAwesome;font-style: normal;font-weight: normal;text-decoration: inherit;color: #f7b844;font-size: 18px;
     padding-right: 0.5em;position: relative;top: 3px;right: 17px;}
 #mySearch{padding: 10px;outline: 0;border-width: 0 0 1px;border-color: #b5b5b9;width:300px;background: #f8f8f8;}
+.NoAnnouncementsDiv{
+    display: flex;justify-content: center;box-shadow: 0px 0px 5px 0px #e5dfdf !important;height: 50px;padding-top: 14px;
+}
