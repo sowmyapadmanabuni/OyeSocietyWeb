@@ -38,10 +38,10 @@
                       </h4>
                       <div class="alfl bg-grey">
                         <!-- <span *ngIf="itm['unit']['unUniName']!=''" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span> -->
-                        <span *ngIf="itm['unit']!=null" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span>
+                        <span *ngIf="itm['unit']!=null" class="uni_name"><a class="green">Unit</a> {{itm['unit']['unUniName']}}</span>        
                         <!-- <span class="mob"><img src="../../assets/images/notification_icons/call.png">{{(itm['ntMobile'] == "" ? (itm['unit']['owner'].length > 0 ? itm['unit']['owner'][0]['uoMobile']) : itm['unit']['tenant'].length > 0 ? itm['unit']['tenant'][0]['utMobile']: itm['ntMobile']) )}}</span> -->
-                        <span *ngIf = "itm['unit']['owner'].length > 0 && itm['unit']['unOcStat'] != 'Sold Tenant Occupied Unit'" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['owner'][0]['uoMobile'] : itm['ntMobile']}}</span>
-                        <span *ngIf = "(itm['unit']['tenant'].length > 0) && (itm['unit']['unOcStat'] == 'Sold Tenant Occupied Unit'||itm['unit']['unOcStat'] == 'UnSold Tenant Occupied Unit')" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['tenant'][0]['utMobile'] : itm['ntMobile']}}</span>
+                        <span *ngIf = "itm['unit']['owner'].length > 0 && itm['unit']['unOcStat'] != 'Sold Tenant Occupied Unit'" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['owner'][0]['uoMobile'].includes("+91") ? itm['unit']['owner'][0]['uoMobile'] : '+91'+ itm['unit']['owner'][0]['uoMobile'] : itm['ntMobile'].includes("+91")? itm['ntMobile'] : '+91'+ item[ntMobile]}}</span>
+                        <span *ngIf = "(itm['unit']['tenant'].length > 0) && (itm['unit']['unOcStat'] == 'Sold Tenant Occupied Unit'||itm['unit']['unOcStat'] == 'UnSold Tenant Occupied Unit')" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile'] == "" ? itm['unit']['tenant'][0]['utMobile'].includes("+91") ? itm['unit']['tenant'][0]['utMobile'] : '+91'+ itm['unit']['tenant'][0]['utMobile'] : itm['ntMobile'].includes("+91")? itm['ntMobile'] : '+91'+ item[ntMobile]}}</span>
                         <span *ngIf = "itm['unit']['tenant'].length == 0 && itm['unit']['owner'].length == 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                         
                         <span *ngIf="itm['unit']!=null" class="not-img">
