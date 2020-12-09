@@ -19,7 +19,7 @@
                 (keyup)='validateAnnounceDate($event,AnnounceStartDateCtrl,AnnounceEndDateControl)' />
         </div>
     </div>
-    <div class="NoAnnouncementsDiv">
+    <div *ngIf="announcementList.length==0" class="NoAnnouncementsDiv">
         No Announcements
     </div>
 </div>

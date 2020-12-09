@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyUnitAnnouncementComponent implements OnInit {
   bsConfig: { dateInputFormat: string; showWeekNumbers: boolean; isAnimated: boolean; };
+  announcementList: any[];
 
   constructor() {
     this.bsConfig = Object.assign({}, {
@@ -14,6 +15,7 @@ export class MyUnitAnnouncementComponent implements OnInit {
       showWeekNumbers: false,
       isAnimated: true
       });
+      this.announcementList=['abc'];
    }
 
   ngOnInit() {
@@ -28,7 +30,10 @@ export class MyUnitAnnouncementComponent implements OnInit {
     }
   }
   getAnnounceByDateRange(AnnounceEndDate) {
-    console.log(AnnounceEndDate);
+    if(AnnounceEndDate != null){
+      console.log(AnnounceEndDate);
+      this.announcementList=[];
+    }
   }
 
 }
