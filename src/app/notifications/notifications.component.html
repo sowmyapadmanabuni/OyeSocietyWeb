@@ -314,7 +314,7 @@
                 </div>
               </div>
               </a>
-                <div *ngIf="item['ntType']=='Announcement'" class="panel panel-default">
+                <!-- <div *ngIf="item['ntType']=='Announcement'" class="panel panel-default">
                   <div class="panel-heading">
                     <h4 class="panel-title alfl">
                       <a data-toggle="collapse" data-parent="#accordion" href="#{{item['ntid']}}" (click)="announcementData(item['asAssnID'],item['acNotifyID'])"> <img
@@ -330,7 +330,6 @@
                           <div *ngFor="let item of imagesArray" style="height: 100px;background-color: aliceblue;">
 
                               <img *ngIf="item['anImages']" src="{{'data:image/png;base64,' + item['anImages']}}" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                              <!-- <img *ngIf="item['anImages']" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['anImages'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" /> -->
                         
                           </div>
                           message
@@ -341,7 +340,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 </div>
               </div>
 
