@@ -181,7 +181,7 @@ currentAssociationIdForUnit:Subscription;
         console.log(data);
         this.deliveryList = data['data']['visitorlog'];
         this.deliveryList = this.deliveryList.filter(item=>{
-          return item['vlVisType']=="Guest without Invitation";
+          return item['vlVisType']=="Guest with Invitation";
         })
         console.log(this.deliveryList);
         this.deliveryListTmp = this.deliveryList;

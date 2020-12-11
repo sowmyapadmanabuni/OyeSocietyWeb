@@ -165,20 +165,29 @@
                     <mfDefaultSorter by="vlsActTm">Exit Time</mfDefaultSorter>
                 </th>
                 <th>
+                    <mfDefaultSorter by="vlengName">Entry Gate</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="vlexgName">Exit Gate</mfDefaultSorter>
+                </th>
+                <th>
                     <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
                 </th>
                 <!-- <th>
                     <mfDefaultSorter by="vlMobile">Mobile Number</mfDefaultSorter>
                 </th> -->
                 <th>
-                    <mfDefaultSorter >Guest Image</mfDefaultSorter>
+                    <mfDefaultSorter by="vlpOfVis">Purpose Of Visit</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="vlVisCnt">Total Guests</mfDefaultSorter>
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of mf.data;let i=index">
                 <ng-container *ngIf="item == -1">
-                    <td colspan="7" align="center">No Data Found</td>
+                    <td colspan="11" align="center">No Data Found</td>
                 </ng-container>
                 <ng-container *ngIf="item!=-1">
                     <td>{{i+1}}</td>
@@ -188,15 +197,19 @@
                     <td>{{item['vldCreated'] | date:'d/M/y'}}</td>
                     <td><span style="position: relative;left: 24px;">{{item['vlEntryT'] | date:'shortTime'}}</span></td>
                     <td><span style="position: relative;left: 24px;">{{(item['vlApprStat']!="Exited"?'N.A.':(item['vlExitT'] | date:'shortTime'))}}</span></td>
+                    <td><span style="position: relative;left: 24px;">{{item['vlengName']}}</span></td>
+                    <td><span style="position: relative;left: 24px;">{{item['vlexgName']}}</span></td>
                     <td><span>{{item['vlMobile']}}</span></td>
                     <!-- <td>{{item['vlMobile'].includes("+91") ? item['vlMobile'] : '+91'+ item['vlMobile']}}</td> -->
-                    <td style="display: flex;justify-content: center;"><img style="cursor: pointer;" (click)="showGuestImgInPopUp(PersonWithoutInvitationImagetemplate,item['vlEntryImg'])" [src]="getSafeUrl(item['vlEntryImg'])" width="50px" height="50px"/></td>
+                    <!-- <td style="display: flex;justify-content: center;"><img style="cursor: pointer;" (click)="showGuestImgInPopUp(PersonWithoutInvitationImagetemplate,item['vlEntryImg'])" [src]="getSafeUrl(item['vlEntryImg'])" width="50px" height="50px"/></td> -->
+                    <td><span>{{item['vlpOfVis']}}</span></td>
+                    <td><span style="position: relative;left: 50px;">{{item['vlVisCnt']}}</span></td>
                 </ng-container>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="9">
+                <td colspan="11">
                     <mfBootstrapPaginator></mfBootstrapPaginator>
                 </td>
             </tr>
