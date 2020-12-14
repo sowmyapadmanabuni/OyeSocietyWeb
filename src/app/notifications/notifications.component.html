@@ -188,7 +188,7 @@
                                                   
                                                   <!-- "Staff Missed call Entry" template -->
                                                   <div *ngIf="item['ntType']!='Staff Registration'">
-                                                    <div *ngIf="item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
+                                                    <div [ngClass] = "{'Exitedstaffentry':item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'&&item['visitorlog'][0]['vlApprStat']=='Exited'}"*ngIf="item['visitorlog'][0]['vlVisType']=='Staff Missed call Entry'">
                                                       <div><span class="exitnot-title">Entry On:&nbsp;</span> &nbsp;<span>{{item['ntdCreated'] | date:'medium'}}</span> &nbsp;&nbsp;<span class="exitnot-title">From:&nbsp;</span> &nbsp;<span>{{item['visitorlog'][0]['vlengName']}}</span></div>
                                                       <div *ngIf="item['visitorlog'][0]['vlApprdBy']"><span class="exitnot-title">Entry Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlApprdBy']}}</div>
                                                       <div *ngIf="item['visitorlog'][0]['vlExAprdBy']"><span class="exitnot-title">Exit Approved by:&nbsp;</span>&nbsp;{{item['visitorlog'][0]['vlExAprdBy']}}&nbsp;&nbsp;<span class="exitnot-title">From :</span>{{item['visitorlog'][0]['vlexgName']}}</div>
