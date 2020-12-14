@@ -24,7 +24,7 @@
                 <div class="panel-group" id="accordion">
                   <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
                   <div class="panel panel-default" *ngFor="let itm of allAdminAndResidentNotification1">
-                      <div *ngIf="itm['ntType']=='Join_Status'">
+                      <div *ngIf="itm['ntType']=='Join'">
                       <a (click)="NotificationActiveStatusUpdate($event,itm['ntid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['ntid']}}"> 
                     <div class="panel-heading">
                       <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
