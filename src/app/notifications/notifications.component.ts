@@ -154,10 +154,11 @@ export class NotificationsComponent implements OnInit {
       //if(data['data']['notificationListByAcctID'].length>this.allAdminAndResidentNotification.length){
          this.allAdminAndResidentNotification=data['data']['notificationListByAcctID'];
          this.allAdminAndResidentNotification1 = data['data']['notificationListByAcctID'].filter(item=>{
-           return item['ntType']=='Join';
+           return item['ntType']=='Join_Status';
          });
          this.allAdminAndResidentNotificationTemp=this.allAdminAndResidentNotification1
          this.allAdminAndResidentNotificationTempresidant = data['data']['notificationListByAcctID'];
+         console.log(this.allAdminAndResidentNotificationTemp);
         //  setTimeout(()=>{
         //   let elemnt = $('.panel-default');
         //   Array.from(elemnt).forEach(item=>{
@@ -183,7 +184,8 @@ export class NotificationsComponent implements OnInit {
     }
   }
   getSafeUrl(url) {
-    if(url==''){
+    console.log('url-',url);
+    if(url=='' || 'userImage'){
       return '../../assets/images/notification_icons/user-default.png';
     }
     else{
@@ -235,7 +237,7 @@ export class NotificationsComponent implements OnInit {
           console.log(data);
           this.allAdminAndResidentNotification= data['data']['notificationListByAcctID'];
           this.allAdminAndResidentNotification1 = data['data']['notificationListByAcctID'].filter(item=>{
-            return item['ntType']=='Join';
+            return item['ntType']=='Join_Status';
           });
           this.allAdminAndResidentNotificationTemp= data['data']['notificationListByAcctID'];
           console.log(this.allAdminAndResidentNotification);

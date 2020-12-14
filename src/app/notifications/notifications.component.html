@@ -24,7 +24,7 @@
                 <div class="panel-group" id="accordion">
                   <input [(ngModel)]="searchAdminVisitorText" (keyup)="searchAdminVisitorList()" class="search" placeholder="search unit">
                   <div class="panel panel-default" *ngFor="let itm of allAdminAndResidentNotification1">
-                      <div *ngIf="itm['ntType']=='Join'">
+                      <div *ngIf="itm['ntType']=='Join_Status'">
                       <a (click)="NotificationActiveStatusUpdate($event,itm['ntid'],'Join')" data-toggle="collapse" data-parent="#accordion" href="#{{itm['ntid']}}"> 
                     <div class="panel-heading">
                       <h4 class="panel-title alfl" style="border-bottom: 1px solid #e3e0e0;">
@@ -48,7 +48,7 @@
                         <span *ngIf = "itm['unit']['tenant'].length == 0 && itm['unit']['owner'].length == 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                         
                         <span *ngIf="itm['unit']!=null" class="not-img">
-                          <img [src]="getSafeUrl(item['ntUsrImg'])" width="70px" height="70px"/>
+                          <img [src]="getSafeUrl(itm['ntUsrImg'])" width="70px" height="70px"/>
                           <p>{{getNtDescFirstname(itm['ntDesc'])}}</p>
                         </span>
                       </div>
