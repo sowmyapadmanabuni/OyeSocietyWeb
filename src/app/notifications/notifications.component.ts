@@ -184,7 +184,7 @@ export class NotificationsComponent implements OnInit {
     }
   }
   getSafeUrl(url) {
-    console.log('url-',url);
+    //console.log('url-',url);
     if(url=='' || 'userImage'){
       return '../../assets/images/notification_icons/user-default.png';
     }
