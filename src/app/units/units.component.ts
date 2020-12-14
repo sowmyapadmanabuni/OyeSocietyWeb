@@ -674,7 +674,10 @@ export class UnitsComponent implements OnInit {
               title: "Error",
               text: "Units Count Exceeded" + " " + "For The" + " " + this.currentassndata.data.association.asAsnName + " " + "Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " " + 'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " + "Before Adding Please Click On OK to Increase The Blocks/Units Count",
               type: "error",
-              confirmButtonColor: "#f69321"
+              confirmButtonColor: "#f69321",
+              showCancelButton: true,
+              cancelButtonText: "CANCEL",
+              allowOutsideClick:false
             }).then(
               (result) => {
                 console.log(result)
