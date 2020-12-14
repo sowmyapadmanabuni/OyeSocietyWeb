@@ -48,7 +48,7 @@
                         <span *ngIf = "itm['unit']['tenant'].length == 0 && itm['unit']['owner'].length == 0" class="mob"><img src="../../assets/images/notification_icons/call.png">{{itm['ntMobile']}}</span>
                         
                         <span *ngIf="itm['unit']!=null" class="not-img">
-                          <img [src]="'data:image/png;base64,'+itm['ntUsrImg']" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                          <img [src]="getSafeUrl(item['ntUsrImg'])" width="70px" height="70px"/>
                           <p>{{getNtDescFirstname(itm['ntDesc'])}}</p>
                         </span>
                       </div>
@@ -134,8 +134,8 @@
                       <span *ngIf="item['ntType']=='Staff Registration'">Staff: <a class="green">{{item['wkDesgn']}}</a></span>
                       <span *ngIf="item['unUniName']">Registration <a class="green">{{item['unUniName']}}</a></span>
                       <span class="not-img">
-                        <img *ngIf="item['visitorlog'].length>0" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['visitorlog'][0]['vlEntryImg'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
-                        <img *ngIf="item['ntUsrImg']" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + item['ntUsrImg'])" width="70px" height="70px" onerror="this.src='../../assets/images/notification_icons/user-default.png';" />
+                        <img *ngIf="item['visitorlog'].length>0" [src]="getSafeUrlFromVisitorlog(item['visitorlog'][0]['vlEntryImg'])" width="70px" height="70px" />
+                        <img *ngIf="item['ntUsrImg']" [src]="getSafeUrl(item['ntUsrImg'])" width="70px" height="70px"/>
                         <p *ngIf="item['visitorlog'].length>0">{{item['visitorlog'][0]['vlfName']}}</p>
                         <p *ngIf="item['wkName']">{{item['wkName']}}</p>
              

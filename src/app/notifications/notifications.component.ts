@@ -174,7 +174,22 @@ export class NotificationsComponent implements OnInit {
     })
    
   }
-
+  getSafeUrlFromVisitorlog(url) {
+    if(url==''){
+      return '../../assets/images/notification_icons/user-default.png';
+    }
+    else{
+      return this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + url);
+    }
+  }
+  getSafeUrl(url) {
+    if(url==''){
+      return '../../assets/images/notification_icons/user-default.png';
+    }
+    else{
+      return this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + url);
+    }
+  }
   openModal3(privacy: TemplateRef<any>) {
     this.modalRef = this.modalService.show(privacy, { class: 'modal-lg' });
   }
