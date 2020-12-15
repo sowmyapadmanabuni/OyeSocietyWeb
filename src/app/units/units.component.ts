@@ -206,6 +206,7 @@ export class UnitsComponent implements OnInit {
       
     }
   OpenModal(editUnits: TemplateRef<any>, unUnitID,item,unUniType, unOcStat, unDimens, unCalType,unRate, blBlockID, asAssnID, acAccntID, unUniName, undCreated) {
+    console.log(item);
     this.SelectOccupancyOwnershipStatus = 'Select Occupancy Ownership Status';
     this.SelectUnitType = 'Select Unit Type';
     this.unUniName = unUniName,
@@ -233,10 +234,10 @@ export class UnitsComponent implements OnInit {
        
       }
       else if(this.occupencyInEditUnit=="UnSold Tenant Occupied Unit"){
-        this.tenantFirtname=item.tenant[0].utfName;
-        this.tenantLastname=item.tenant[0].utlName;
-        this.tenantMobnumber= item.tenant[0].utMobile.includes("+91") ? item.tenant[0].utMobile : '+91'+ item.tenant[0].utMobile;
-        this.tenantEmail=item.tenant[0].utEmail;
+        this.tenantFirtname=item.tenant.length==0?'':item.tenant[0].utfName;
+        this.tenantLastname=item.tenant.length==0?'':item.tenant[0].utlName;
+        this.tenantMobnumber= item.tenant.length==0?'':item.tenant[0].utMobile.includes("+91") ? item.tenant[0].utMobile : '+91'+ item.tenant[0].utMobile;
+        this.tenantEmail=item.tenant.length==0?'':item.tenant[0].utEmail;
       }
      else{
        console.log(this.occupencyInEditUnit)
