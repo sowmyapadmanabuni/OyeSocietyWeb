@@ -952,7 +952,7 @@
               <button class="btn btn-primary dropdown-toggle sdm br form-control" type="button"
                 data-toggle="dropdown" style="width: 267px;">{{UniNameForJoinAssn}}
                 <i aria-hidden="true" class="fa fa-angle-down fa-1x"></i></button>
-              <ul class="dropdown-menu fullw" style="width: 267px;">
+              <ul class="dropdown-menu fullw unitsList" style="width: 267px;">
                 <li (click)="getUnitDetails(item['unUnitID'],item['unUniName'])" #spanCtrl
                 *ngFor='let item of allUnitBlockID'>
                   <a>{{item['unUniName']+'('+item['unOcStat']+')'}}</a></li>
