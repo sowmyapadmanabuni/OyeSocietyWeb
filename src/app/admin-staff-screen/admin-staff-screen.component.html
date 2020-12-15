@@ -115,13 +115,13 @@
                                     </ng-container>
                                     <ng-container *ngIf="item!=-1">
                                         <td>{{(PaginatedValue * (p - 1) + i)+1}}</td>
-                                        <td>{{item['unUniName']}}</td>
-                                        <td>{{item['vlfName']}}</td>
-                                        <td>{{item['vlComName']}}</td>
-                                        <td>{{item['vldCreated'] | date:'dd/MM/yyyy'}}</td>
-                                        <td>{{item['vlEntryT'] | date:'shortTime'}}</td>
-                                        <td>{{item['vlExitT'] | date:'shortTime'}}</td>
-                                        <td>{{item['vlMobile']}}</td>
+                                        <td style="text-align: center;">{{item['unUniName']}}</td>
+                                        <td style="text-align: center;">{{item['vlfName']}}</td>
+                                        <td style="text-align: center;">{{item['vlComName']}}</td>
+                                        <td style="text-align: center;">{{item['vldCreated'] | date:'dd/MM/yyyy'}}</td>
+                                        <td style="text-align: center;">{{item['vlEntryT'] | date:'shortTime'}}</td>
+                                        <td style="text-align: center;">{{item['vlExitT'] | date:'shortTime'}}</td>
+                                        <td style="text-align: center;">{{item['vlMobile']}}</td>
                                     </ng-container>
                                 </tr>
                             </tbody>
