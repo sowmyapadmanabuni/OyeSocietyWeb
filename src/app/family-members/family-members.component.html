@@ -44,7 +44,7 @@
                                     <td>{{item['fmName']}}</td>
                                     <td>{{item['fmRltn']}}</td>
                                     <td>{{item['fmMobile']}}</td>
-                                    <td *ngIf="item['fmImgName']!=''"><img (click)="showFamilyMemImgInPopUp(FamilyMemberImagetemplate,item['fmImgName'])" src="{{'data:image/jpeg;base64,'+item['fmImgName']}}" width="50px" height="50px"/> </td>
+                                    <td *ngIf="item['fmImgName']!=''"><img style="cursor: pointer;" (click)="showFamilyMemImgInPopUp(FamilyMemberImagetemplate,item['fmImgName'])" src="{{'data:image/jpeg;base64,'+item['fmImgName']}}" width="50px" height="50px"/> </td>
                                     <td *ngIf="item['fmImgName']==''"><img src="../../assets/images/family.png" width="50px" height="50px"/> </td>
                                     <td class="txt-middle">
                                         <i data-toggle="modal" data-target="#viewBlockDetailsTemplate" [hidden]="item['NotsameAccID']"
