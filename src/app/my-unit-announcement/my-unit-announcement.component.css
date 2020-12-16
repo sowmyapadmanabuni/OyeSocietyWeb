@@ -98,3 +98,10 @@ div .stepwizard-step li{
 .NoAnnouncementsDiv{
     display: flex;justify-content: center;box-shadow: 0px 0px 5px 0px #e5dfdf !important;height: 50px;padding-top: 14px;
 }
+.b-l{border-left: 2px solid rgb(242, 238, 238)}
+@media only screen and (min-width: 230px) and (max-width: 992px)  {
+    .profile{flex-direction: row;justify-content: space-evenly;}
+    .b-l{border:none !important}
+    .bg{ background-size: cover;}
+    
+    }
