@@ -41,7 +41,7 @@ export class BlocksComponent implements OnInit {
   allBlocksList: object;
 
   modalRef: BsModalRef;
-   myDate : any;
+  myDate: any;
   BLBlkName: string;
   BLBlkType: string;
   BLNofUnit: number;
@@ -91,19 +91,19 @@ export class BlocksComponent implements OnInit {
   enableBlockListView: boolean;
   rate: any;
   rate1: any;
-  CurrentAssociationIdForBlocks:Subscription;
-  setnoofrows:any;
-  rowsToDisplay:any[];
-  ShowRecords:any;
+  CurrentAssociationIdForBlocks: Subscription;
+  setnoofrows: any;
+  rowsToDisplay: any[];
+  ShowRecords: any;
   columnName: any;
   formatDate: string;
   PaginatedValue: number;
   id: NodeJS.Timer;
-  ASMtTypes:any[];
-  inValidUnitCount:boolean;
-  totalunitcount:number;
-  totalblockscount:number;
-  unitcountgreaterthanassociationcount:boolean;
+  ASMtTypes: any[];
+  inValidUnitCount: boolean;
+  totalunitcount: number;
+  totalblockscount: number;
+  unitcountgreaterthanassociationcount: boolean;
   currentassndata;
   constructor(private viewBlkService: ViewBlockService,
     public viewUnitService: ViewUnitService,
@@ -112,36 +112,36 @@ export class BlocksComponent implements OnInit {
     public addblockservice: AddBlockService,
     private router: Router,
     private modalService: BsModalService) {
-      this.inValidUnitCount = false;
-      this.validblockname = false;
-      this.ASMtTypes=['FlatRate','Dimension'];
-      this.ASMtType = '';
-      this.PaginatedValue=10;
-      this.unitcountgreaterthanassociationcount =false;
-      this.rowsToDisplay=[{'Display':'5','Row':5},
-                          {'Display':'10','Row':10},
-                          {'Display':'15','Row':15},
-                          {'Display':'50','Row':50},
-                          {'Display':'100','Row':100},
-                          {'Display':'Show All Records','Row':'All'}];
-      this.setnoofrows=10;
-      this.ShowRecords='Show Records';
-      this.CurrentAssociationIdForBlocks=this.globalService.getCurrentAssociationIdForBlocks()
-        .subscribe(msg => {
-          console.log(msg);
-          this.globalService.setCurrentAssociationId(msg['msg']);
-          this.initialiseBlocks();
-        })
-        
-        this.viewAssnService.getAssociationDetailsByAssociationid(this.globalService.getCurrentAssociationId()).subscribe(res => {
-          console.log(res);
-          this.currentassndata = res;
-          this.totalblockscount = res['data']['association'].asNofBlks;
-          this.totalunitcount = res['data']['association'].asNofUnit;
-        })
-          //console.log(res['data']['association']['amenities'][0].amType);
-          //console.log(res['data']['association']['amenities'][0].noofAmenities);
-        
+    this.inValidUnitCount = false;
+    this.validblockname = false;
+    this.ASMtTypes = ['FlatRate', 'Dimension'];
+    this.ASMtType = '';
+    this.PaginatedValue = 10;
+    this.unitcountgreaterthanassociationcount = false;
+    this.rowsToDisplay = [{ 'Display': '5', 'Row': 5 },
+    { 'Display': '10', 'Row': 10 },
+    { 'Display': '15', 'Row': 15 },
+    { 'Display': '50', 'Row': 50 },
+    { 'Display': '100', 'Row': 100 },
+    { 'Display': 'Show All Records', 'Row': 'All' }];
+    this.setnoofrows = 10;
+    this.ShowRecords = 'Show Records';
+    this.CurrentAssociationIdForBlocks = this.globalService.getCurrentAssociationIdForBlocks()
+      .subscribe(msg => {
+        console.log(msg);
+        this.globalService.setCurrentAssociationId(msg['msg']);
+        this.initialiseBlocks();
+      })
+
+    this.viewAssnService.getAssociationDetailsByAssociationid(this.globalService.getCurrentAssociationId()).subscribe(res => {
+      console.log(res);
+      this.currentassndata = res;
+      this.totalblockscount = res['data']['association'].asNofBlks;
+      this.totalunitcount = res['data']['association'].asNofUnit;
+    })
+    //console.log(res['data']['association']['amenities'][0].amType);
+    //console.log(res['data']['association']['amenities'][0].noofAmenities);
+
     //pagination
     this.config = {
       itemsPerPage: 10,
@@ -175,7 +175,7 @@ export class BlocksComponent implements OnInit {
     this.enablestartfromdatevalidation = false;
     this.enableAddBlocksView = false;
     this.enableBlockListView = true;
-    localStorage.setItem('Component','BlocksManagent');
+    localStorage.setItem('Component', 'BlocksManagent');
   }
 
 
@@ -184,17 +184,17 @@ export class BlocksComponent implements OnInit {
   }
   setRows(RowNum) {
     this.ShowRecords = 'abc';
-    this.setnoofrows = (RowNum == 'All' ?'All Records': RowNum);
-    $(document).ready(()=> {
-      let element=document.querySelector('.page-item.active');
+    this.setnoofrows = (RowNum == 'All' ? 'All Records' : RowNum);
+    $(document).ready(() => {
+      let element = document.querySelector('.page-item.active');
       console.log(element);
       console.log(element);
-      if(element != null){
-      (element.children[0] as HTMLElement).click();
-      console.log(element.children[0]['text']);
+      if (element != null) {
+        (element.children[0] as HTMLElement).click();
+        console.log(element.children[0]['text']);
       }
       else if (element == null) {
-        this.PaginatedValue=0;
+        this.PaginatedValue = 0;
       }
     });
   }
@@ -209,7 +209,7 @@ export class BlocksComponent implements OnInit {
     this.getBlockDetails();
     this.id = setInterval(() => {
       this.getBlockDetails();
-    },5000);
+    }, 5000);
 
     this.viewBlkService.getassociationlist(this.currentAssociationID)
       .subscribe(data => {
@@ -240,7 +240,7 @@ export class BlocksComponent implements OnInit {
 
   getBlockDetails() {
     this.viewBlkService.getBlockDetails(this.currentAssociationID).subscribe(data => {
-      if(data['data']['blocksByAssoc'].length > this.allBlocksLists.length){
+      if (data['data']['blocksByAssoc'].length > this.allBlocksLists.length) {
         this.allBlocksLists = data['data'].blocksByAssoc;
       }
       console.log('allBlocksLists', this.allBlocksLists);
@@ -256,8 +256,8 @@ export class BlocksComponent implements OnInit {
       //asbGnDate
     });
   }
-  initialiseBlocks(){
-    this.allBlocksLists=[];
+  initialiseBlocks() {
+    this.allBlocksLists = [];
     this.viewBlkService.getBlockDetails(this.globalService.getCurrentAssociationId()).subscribe(data => {
       this.allBlocksLists = data['data'].blocksByAssoc;
       //console.log('allBlocksLists', this.allBlocksLists);
@@ -267,117 +267,117 @@ export class BlocksComponent implements OnInit {
   }
   addBlocksShow() {
     this.toggleStepWizard();
-if(this.totalblockscount == this.allBlocksLists.length){
-  console.log(this.totalblockscount)
-  Swal.fire({
-    title: "Error",
-    text: "Blocks Count Exceeded"+ " "+"For The"+ " " +this.currentassndata.data.association.asAsnName + " " +"Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " "+'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " +"Before Adding Please Click On OK to Increase The Blocks/Units Count",
-    type: "error",
-    confirmButtonColor: "#f69321",
-    showCancelButton: true,
-    cancelButtonText: "CANCEL",
-    allowOutsideClick:false
-  }).then(
-    (result) => {
-      console.log(result)
-      if (result.value) {
-        let EditAssociationData = {}
-        EditAssociationData['ASAsnName'] = this.currentassndata.data.association.asAsnName;
-        EditAssociationData['ASCountry'] = this.currentassndata.data.association.asCountry;
-        EditAssociationData['ASAddress'] = this.currentassndata.data.association.asAddress;
-        EditAssociationData['ASCity'] = this.currentassndata.data.association.asCity;
-        EditAssociationData['ASState'] = this.currentassndata.data.association.asState;
-        EditAssociationData['ASPinCode'] = this.currentassndata.data.association.asPinCode;
-        EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
-        EditAssociationData['ASPrpName'] = this.currentassndata.data.association.asPrpName;
-        EditAssociationData['ASNofBlks'] = this.currentassndata.data.association.asNofBlks;
-        EditAssociationData['ASNofUnit'] = this.currentassndata.data.association.asNofUnit;
-        EditAssociationData['asAssnID'] = this.currentassndata.data.association.asAssnID;
-        EditAssociationData['BAActID'] = '';
-        EditAssociationData['AMID'] = '';
-        EditAssociationData['AMType'] = '';
-        EditAssociationData['NoofAmenities'] = '';
-        EditAssociationData['ASPANNum'] = this.currentassndata.data.association.aspanNum;
-        EditAssociationData['asWebURL'] = this.currentassndata.data.association.asWebURL;
-        EditAssociationData['asAsnEmail'] = this.currentassndata.data.association.asAsnEmail;
-        EditAssociationData['BABName'] = "SBI";
-        EditAssociationData['BAIFSC'] = "iciic89898989";
-        EditAssociationData['BAActNo'] = "7654324567890";
-        EditAssociationData['BAActType'] = "savings";
-        EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
-// this.viewassn.EditAssociationData = this.currentassndata.data.association;
-let editAssociationData = {
-"ASAddress": this.currentassndata.data.association.asAddress,
-"ASCountry": this.currentassndata.data.association.asCountry,
-"ASAsnName": this.currentassndata.data.association.asAsnName,
-"ASPANNum": this.currentassndata.data.association.aspanNum,
-"ASRegrNum": "",
-"ASCity": this.currentassndata.data.association.asCity,
-"ASState": this.currentassndata.data.association.asState,
-"ASPinCode": this.currentassndata.data.association.asPinCode,
-"ASPrpName": this.currentassndata.data.association.asPrpName,
-"ASPrpType": this.currentassndata.data.association.asPrpType,
-"ASNofBlks": this.currentassndata.data.association.asNofBlks,
-"ASNofUnit": this.currentassndata.data.association.asNofUnit,
-"ASAssnID": this.currentassndata.data.association.asAssnID,
-"asWebURL": this.currentassndata.data.association.asWebURL,
-"asAsnEmail": this.currentassndata.data.association.asAsnEmail,
-"Amenities":
-  [{
-    "AMType": "Club",
-    "NoofAmenities": 2,
-    "AMID": "1"
-  }],
+    if (this.totalblockscount == this.allBlocksLists.length) {
+      console.log(this.totalblockscount)
+      Swal.fire({
+        title: "Error",
+        text: "Blocks Count Exceeded" + " " + "For The" + " " + this.currentassndata.data.association.asAsnName + " " + "Current Count Is" + " " + this.currentassndata.data.association.asNofBlks + "-Blocks" + " " + 'And' + " " + this.currentassndata.data.association.asNofUnit + " " + "-Units" + " " + "Before Adding Please Click On OK to Increase The Blocks/Units Count",
+        type: "error",
+        confirmButtonColor: "#f69321",
+        showCancelButton: true,
+        cancelButtonText: "CANCEL",
+        allowOutsideClick: false
+      }).then(
+        (result) => {
+          console.log(result)
+          if (result.value) {
+            let EditAssociationData = {}
+            EditAssociationData['ASAsnName'] = this.currentassndata.data.association.asAsnName;
+            EditAssociationData['ASCountry'] = this.currentassndata.data.association.asCountry;
+            EditAssociationData['ASAddress'] = this.currentassndata.data.association.asAddress;
+            EditAssociationData['ASCity'] = this.currentassndata.data.association.asCity;
+            EditAssociationData['ASState'] = this.currentassndata.data.association.asState;
+            EditAssociationData['ASPinCode'] = this.currentassndata.data.association.asPinCode;
+            EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
+            EditAssociationData['ASPrpName'] = this.currentassndata.data.association.asPrpName;
+            EditAssociationData['ASNofBlks'] = this.currentassndata.data.association.asNofBlks;
+            EditAssociationData['ASNofUnit'] = this.currentassndata.data.association.asNofUnit;
+            EditAssociationData['asAssnID'] = this.currentassndata.data.association.asAssnID;
+            EditAssociationData['BAActID'] = '';
+            EditAssociationData['AMID'] = '';
+            EditAssociationData['AMType'] = '';
+            EditAssociationData['NoofAmenities'] = '';
+            EditAssociationData['ASPANNum'] = this.currentassndata.data.association.aspanNum;
+            EditAssociationData['asWebURL'] = this.currentassndata.data.association.asWebURL;
+            EditAssociationData['asAsnEmail'] = this.currentassndata.data.association.asAsnEmail;
+            EditAssociationData['BABName'] = "SBI";
+            EditAssociationData['BAIFSC'] = "iciic89898989";
+            EditAssociationData['BAActNo'] = "7654324567890";
+            EditAssociationData['BAActType'] = "savings";
+            EditAssociationData['ASPrpType'] = this.currentassndata.data.association.asPrpType;
+            // this.viewassn.EditAssociationData = this.currentassndata.data.association;
+            let editAssociationData = {
+              "ASAddress": this.currentassndata.data.association.asAddress,
+              "ASCountry": this.currentassndata.data.association.asCountry,
+              "ASAsnName": this.currentassndata.data.association.asAsnName,
+              "ASPANNum": this.currentassndata.data.association.aspanNum,
+              "ASRegrNum": "",
+              "ASCity": this.currentassndata.data.association.asCity,
+              "ASState": this.currentassndata.data.association.asState,
+              "ASPinCode": this.currentassndata.data.association.asPinCode,
+              "ASPrpName": this.currentassndata.data.association.asPrpName,
+              "ASPrpType": this.currentassndata.data.association.asPrpType,
+              "ASNofBlks": this.currentassndata.data.association.asNofBlks,
+              "ASNofUnit": this.currentassndata.data.association.asNofUnit,
+              "ASAssnID": this.currentassndata.data.association.asAssnID,
+              "asWebURL": this.currentassndata.data.association.asWebURL,
+              "asAsnEmail": this.currentassndata.data.association.asAsnEmail,
+              "Amenities":
+                [{
+                  "AMType": "Club",
+                  "NoofAmenities": 2,
+                  "AMID": "1"
+                }],
 
-"BankDetails": [{
-  "BABName": "SBI",
-  "BAIFSC": "iciic89898989",
-  "BAActNo": "7654324567890",
-  "BAActType": "savings",
-  "BAActID": "1"
-}]
-}
-this.viewAssnService.EditAssociationData = editAssociationData;
+              "BankDetails": [{
+                "BABName": "SBI",
+                "BAIFSC": "iciic89898989",
+                "BAActNo": "7654324567890",
+                "BAActType": "savings",
+                "BAActID": "1"
+              }]
+            }
+            this.viewAssnService.EditAssociationData = editAssociationData;
 
-console.log(this.viewAssnService.EditAssociationData)
-this.router.navigate(['editassociation']);
+            console.log(this.viewAssnService.EditAssociationData)
+            this.router.navigate(['editassociation']);
 
-      
-      }
-    })
 
-}else{
-  this.enableAddBlocksView = true;
-    this.enableBlockListView = false;
-}
-  
+          }
+        })
+
+    } else {
+      this.enableAddBlocksView = true;
+      this.enableBlockListView = false;
+    }
+
 
   }
   onPageChange(event) {
     //console.log(event);
     //console.log(this.p);
     //console.log(event['srcElement']['text']);
-    if(event['srcElement']['text'] == '1'){
-      this.p=1;
+    if (event['srcElement']['text'] == '1') {
+      this.p = 1;
     }
-    if((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)){
-        //console.log('test');
-        //console.log(Number(event['srcElement']['text']) == NaN);
-        //console.log(Number(event['srcElement']['text']));
-        let element=document.querySelector('.page-item.active');
-    //console.log(element.children[0]['text']);
-        this.p= Number(element.children[0]['text']);
+    if ((event['srcElement']['text'] != undefined) && (event['srcElement']['text'] != '»') && (event['srcElement']['text'] != '1') && (Number(event['srcElement']['text']) == NaN)) {
+      //console.log('test');
+      //console.log(Number(event['srcElement']['text']) == NaN);
+      //console.log(Number(event['srcElement']['text']));
+      let element = document.querySelector('.page-item.active');
+      //console.log(element.children[0]['text']);
+      this.p = Number(element.children[0]['text']);
       //console.log(this.p);
-    } 
-    if(event['srcElement']['text'] == '«'){
+    }
+    if (event['srcElement']['text'] == '«') {
       //console.log(this.p);
-      this.p= 1;
+      this.p = 1;
     }
     //console.log(this.p);
-    let element=document.querySelector('.page-item.active');
+    let element = document.querySelector('.page-item.active');
     //console.log(element.children[0]['text']);
-    if(element != null){
-      this.p=Number(element.children[0]['text']);
+    if (element != null) {
+      this.p = Number(element.children[0]['text']);
       console.log(this.p);
       if (this.ShowRecords != 'Show Records') {
         console.log('testtt');
@@ -387,7 +387,7 @@ this.router.navigate(['editassociation']);
         //console.log(PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows));
         //this.PaginatedValue=PminusOne*(this.setnoofrows=='All Records'?this.expenseList.length:this.setnoofrows);
         console.log(this.p);
-        this.PaginatedValue=(this.setnoofrows=='All Records'?this.allBlocksLists.length:this.setnoofrows);
+        this.PaginatedValue = (this.setnoofrows == 'All Records' ? this.allBlocksLists.length : this.setnoofrows);
         console.log(this.PaginatedValue);
       }
     }
@@ -415,23 +415,23 @@ this.router.navigate(['editassociation']);
       //   $childitem.find('input:eq(0)').focus();
       // })
 
-     /* navListItems.click(function (e) {
-        e.preventDefault();
-        var $target = $($(this).attr('href')),
-          $item = $(this),
-          $divTgt = $(this).parent();
-        anchorDivs.removeClass('step-active');
-        $item.addClass('btn-success');
-        $divTgt.addClass('step-active');
-        allWells.hide();
-        $target.show();
-        $target.find('input:eq(0)').focus();
-
-        if (!$item.hasClass('disabled')) {
-          navListItems.removeClass('btn-success').addClass('btn-default');
-          navListItems.removeClass('active').addClass('disabled');
-        }
-      }); */
+      /* navListItems.click(function (e) {
+         e.preventDefault();
+         var $target = $($(this).attr('href')),
+           $item = $(this),
+           $divTgt = $(this).parent();
+         anchorDivs.removeClass('step-active');
+         $item.addClass('btn-success');
+         $divTgt.addClass('step-active');
+         allWells.hide();
+         $target.show();
+         $target.find('input:eq(0)').focus();
+ 
+         if (!$item.hasClass('disabled')) {
+           navListItems.removeClass('btn-success').addClass('btn-default');
+           navListItems.removeClass('active').addClass('disabled');
+         }
+       }); */
 
       //
       navListItems.click(function (e) {
@@ -454,13 +454,13 @@ this.router.navigate(['editassociation']);
         }
       })
       //
-      
+
       allNextBtn.click(function () {
         var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
           curInputs = curStep.find("input[type='text']"),
-          curAnchorBtn=$('div.setup-panel div a[href="#' + curStepBtn + '"]'),
+          curAnchorBtn = $('div.setup-panel div a[href="#' + curStepBtn + '"]'),
           isValid = true;
 
         $(".form-group").removeClass("has-error");
@@ -586,10 +586,10 @@ this.router.navigate(['editassociation']);
   }
   EnableBlockListView(event) {
     console.log(event);
-    if(event == 'EnableBlockList'){
+    if (event == 'EnableBlockList') {
       this.getBlockDetails();
-      this.enableBlockListView=true;
-      this.enableAddBlocksView=false;
+      this.enableBlockListView = true;
+      this.enableAddBlocksView = false;
     }
   }
   onStartsFromDateValueChange(value: Date) {
@@ -689,16 +689,16 @@ this.router.navigate(['editassociation']);
 
     this.allBlocksLists.forEach(element => {
       console.log(element)
-      if(this.BLBlkNametemp[0].blBlkName.toUpperCase()!=element.blBlkName.toUpperCase()){
+      if (this.BLBlkNametemp[0].blBlkName.toUpperCase() != element.blBlkName.toUpperCase()) {
         if (element.blBlkName.toUpperCase() == BLBlkName.toUpperCase()) {
           this.validblockname = true;
         }
       }
-  
+
     });
   }
   blocks = [];
-  actualtotalallunitscount:number = 0;
+  actualtotalallunitscount: number = 0;
   validateBLNofUnit(BLNofUnit) {
     this.actualtotalallunitscount = 0
     console.log(this.BLNofUnit);
@@ -734,26 +734,26 @@ this.router.navigate(['editassociation']);
       console.log('this.inValidUnitCount=false;')
     }
   }
-  BLBlkNametemp=[]
-  blockidforeddit:any;
-  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, item, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated,i) {
+  BLBlkNametemp = []
+  blockidforeddit: any;
+  OpenModal(editBlocktemplate: TemplateRef<any>, blBlkName, blBlkType, blNofUnit, item, asMtType, asMtFRate, asMtDimBs, asUniMsmt, asbGnDate, asdPyDate, bldUpdated, aslpcType, aslpChrg, blBlockID, asiCrFreq, aslpsDate, bldCreated, i) {
     console.log('asbGnDate', asbGnDate);
     console.log('asdPyDate', asdPyDate);
     console.log('aslpsDate', aslpsDate);
     console.log('item', item);
-    this.BLBlkNametemp = this.allBlocksLists.filter(item=>{
+    this.BLBlkNametemp = this.allBlocksLists.filter(item => {
       return item.blBlkName == blBlkName;
-    
+
     })
     this.blockidforeddit = i;
-    this.myDate =  bldCreated;
+    this.myDate = bldCreated;
     this.BLBlkName = blBlkName;
     this.BLBlkType = blBlkType;
     this.BLNofUnit = blNofUnit;
     this.BLNofUnitTemp = blNofUnit;
     this.BLMgrName = (item.faciliyManager.length == 0 ? '' : item.faciliyManager[0]['fmName']);
-    this.BLMgrMobile = (item.faciliyManager.length == 0 ? '' :item.faciliyManager[0]['acMobile']);
-    this.BLMgrEmail = (item.faciliyManager.length == 0 ? '' :item.faciliyManager[0]['emailID']);
+    this.BLMgrMobile = (item.faciliyManager.length == 0 ? '' : item.faciliyManager[0]['acMobile']);
+    this.BLMgrEmail = (item.faciliyManager.length == 0 ? '' : item.faciliyManager[0]['emailID']);
     this.ASMtType = asMtType;
     this.ASMtFRate = asMtFRate;
     this.ASMtDimBs = asMtDimBs;
@@ -779,7 +779,7 @@ this.router.navigate(['editassociation']);
     //console.log(this.BLNofUnit);
     //console.log(this.BLMgrEmail);
     //console.log(this.ASUniMsmt);
-    console.log('ASDPyDate',this.ASDPyDate);
+    console.log('ASDPyDate', this.ASDPyDate);
     //console.log(this.ASLPChrg);
     console.log(this.ASLPSDate);
     console.log(this.ASBGnDate);
@@ -833,7 +833,7 @@ this.router.navigate(['editassociation']);
       aslpsdate = this.ASLPSDate;
       //alert(aslpsdate);
     }
-    
+
     let editblockdata = {
       BLBlkName: this.BLBlkName,
       BLBlkType: this.BLBlkType,
@@ -851,18 +851,18 @@ this.router.navigate(['editassociation']);
       ASLPSDate: formatDate(aslpsdate, 'yyyy/MM/dd', 'en'),
       ASLPCType: this.ASLPCType,
       ASLPChrg: this.ASLPChrg,
-      BLBlockID: this.BLBlockID, 
+      BLBlockID: this.BLBlockID,
       ASAssnID: this.currentAssociationID,
       ASIcRFreq: this.ASIcRFreq
     };
 
     //console.log('editblockdata', editblockdata);
     this.viewBlkService.UpdateBlock(editblockdata).subscribe(res => {
-      console.log("Done",res);
+      console.log("Done", res);
       //console.log(JSON.stringify(res));
       //console.log('editblockdata', editblockdata);
       this.modalRef.hide();
-      Swal.fire({ 
+      Swal.fire({
         title: 'Block Updated Successfully',
       }).then(
         (result) => {
@@ -879,40 +879,40 @@ this.router.navigate(['editassociation']);
     });
 
   }
-  managernamevalid:boolean;
-  managermobilevalid:boolean;
-  validatemanagermobilenumber(ev,mobile){
-    if (mobile!= "" || undefined) {
+  managernamevalid: boolean;
+  managermobilevalid: boolean;
+  validatemanagermobilenumber(ev, mobile) {
+    if (mobile != "" || undefined) {
       this.managermobilevalid = false;
       this.managernamevalid = true;
 
-      if(this.BLMgrName!= "" || undefined){
-      this.managernamevalid = false;
+      if (this.BLMgrName != "" || undefined) {
+        this.managernamevalid = false;
       }
     }
     else {
-      if(this.BLMgrName!= "" || undefined){
+      if (this.BLMgrName != "" || undefined) {
         this.managermobilevalid = true;
         this.managernamevalid = false;
       }
-      else if(mobile== "" || undefined){
+      else if (mobile == "" || undefined) {
         this.managernamevalid = false;
       }
     }
   }
-  validatemanagername(ev,mngName){
-    if (mngName!= "" || undefined) {
+  validatemanagername(ev, mngName) {
+    if (mngName != "" || undefined) {
       this.managernamevalid = false;
       this.managermobilevalid = true;
-      if(this.BLMgrMobile!=""|| undefined){
+      if (this.BLMgrMobile != "" || undefined) {
         this.managermobilevalid = false;
       }
     }
     else {
       // this.managernamevalid = true;
-      if(mngName == "" || undefined ){
+      if (mngName == "" || undefined) {
         this.managernamevalid = false;
-      }else if(mngName == "" || undefined && this.BLMgrMobile!= "" || undefined){
+      } else if (mngName == "" || undefined && this.BLMgrMobile != "" || undefined) {
         this.managernamevalid = true;
 
       }
@@ -935,9 +935,9 @@ this.router.navigate(['editassociation']);
   upLoad() {
     document.getElementById("file_upload_id").click();
   }
-  Canceleditblock(){
+  Canceleditblock() {
     this.modalRef.hide();
-    
+
   }
   // below code is for the Excel file upload
   onFileChange(ev) {
@@ -955,13 +955,13 @@ this.router.navigate(['editassociation']);
       }, {});
       //const dataString = JSON.stringify(jsonData);
       console.log(jsonData['Sheet1']);
-      
+
     }
     reader.readAsBinaryString(file);
   }
- 
+
   // CREATE BLOCK FROM EXCEL END HERE
-  NavigateToBulkUpload(){
+  NavigateToBulkUpload() {
     this.router.navigate(['excelblock']);
   }
 }
