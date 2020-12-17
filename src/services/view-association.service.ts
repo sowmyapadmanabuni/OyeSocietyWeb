@@ -48,19 +48,19 @@ export class ViewAssociationService {
   }
 
   constructor(private http:HttpClient, private modalService: BsModalService,
-    private utilsService:UtilsService) {
-    this.scopeIP="http://apidev.oyespace.com/";
+    private utilsService: UtilsService) {
+    this.scopeIP = "http://apidev.oyespace.com/";
     //this.scopeIP = "https://apidemo.oyespace.com/";
-    this.scriptIP="1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1";
+    this.scriptIP = "1FDF86AF-94D7-4EA9-8800-5FBCCFF8E5C1";
     this.headers = new HttpHeaders().append('Content-Type', 'application/json')
-    .append('X-Champ-APIKey', this.scriptIP)
-    .append('Access-Control-Allow-Origin', '*');
+      .append('X-Champ-APIKey', this.scriptIP)
+      .append('Access-Control-Allow-Origin', '*');
     //
     this.headerss = new HttpHeaders()
- .append('Content-Type', 'application/json')
- .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
- .append('Access-Control-Allow-Origin', '*');
-   }
+      .append('Content-Type', 'application/json')
+      .append('X-OYE247-APIKey', '7470AD35-D51C-42AC-BC21-F45685805BBE')
+      .append('Access-Control-Allow-Origin', '*');
+  }
 
 
 
@@ -82,7 +82,7 @@ export class ViewAssociationService {
 
   privacyPolicyModel(viewreceiptmodal: TemplateRef<any>) {
     this.modalRef = this.modalService.show(viewreceiptmodal, Object.assign({}, { class: 'gray modal-lg' }));
-}
+  }
 getAssociationDetail(asAssnID){
   let scopeIP=this.utilsService.getAssociationDetail();
   return this.http.get(scopeIP + 'oyeliving/api/v1/association/getAssociationList/'+ asAssnID , {headers:this.headers});
