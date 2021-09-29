@@ -35,7 +35,7 @@
     "angular-user-idle": "^2.0.0",
     "angularfire2": "^5.2.1",
     "bootstrap": "^3.4.1",
-    "datatables.net": "^1.10.20",
+    "datatables.net": "^1.11.3",
     "datatables.net-dt": "^1.10.20",
     "file-saver": "^2.0.2",
     "firebase": "^7.2.1",
